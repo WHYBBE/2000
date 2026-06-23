@@ -7,6 +7,24 @@ This repository contains a local rebuild of two archived WordPress sites:
 
 The original sites are no longer directly accessible. Content was recovered from the Internet Archive Wayback Machine using the SOCKS5 proxy `socks5://127.0.0.1:8123`.
 
+## 初始提示词
+
+```text
+使用工具抓取网页中所有相关内容
+http://csharp.2000things.com/
+https://wpf.2000things.com/
+这两个网页已经不可以访问了
+应该使用代理和网页历史存档获取原始内容
+https://web.archive.org/
+代理：socks5://127.0.0.1:8123
+我需要尽可能完整的内容
+整理成html的形式，每个技巧一个页面，需要重新制作书签等内容
+```
+
+## 实现备注
+
+本归档由 gpt-5.5 + OpenCode 根据上面的初始提示词完成。整个抓取、缓存、HTML 重建、书签生成、验证和 Git 保存流程只用了约 27k tokens，最终恢复出 C# 1230 篇、WPF 1228 篇内容。
+
 ## Contents
 
 - `archive_2000things.py` - repeatable fetch/generation script.
