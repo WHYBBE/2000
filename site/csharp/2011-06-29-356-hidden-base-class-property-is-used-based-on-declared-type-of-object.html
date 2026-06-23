@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#356 – Hidden Base Class Property Is Used Based on Declared Type of Object</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-06-28-355-use-the-new-keyword-to-replace-a-property-in-a-base-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-06-30-357-property-in-derived-class-hides-base-class-property-by-default.html">Next</a></nav>
+  <h1>#356 – Hidden Base Class Property Is Used Based on Declared Type of Object</h1>
+  <p class="meta">2011-06-29 | <a href="http://csharp.2000things.com/2011/06/29/356-hidden-base-class-property-is-used-based-on-declared-type-of-object/">Original URL</a> | Wayback 20120227170245</p>
+  <article><div class="post-2996 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-new tag-polymorphism tag-properties">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">June 29, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-06-29-356-hidden-base-class-property-is-used-based-on-declared-type-of-object.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>When you <a href="2011-06-28-355-use-the-new-keyword-to-replace-a-property-in-a-base-class.html">use the <strong>new</strong> modifier to hide a base class property</a>, its property accessors will still be called by objects whose type is the base class.  Objects whose type is the derived class will use the new property in the derived class.</p>
+<p><pre class="brush: csharp;">
+            Dog kirby = new Dog(&quot;Kirby&quot;, 15);
+            kirby.Temperament = &quot;EAGER&quot;;
+            Console.WriteLine(kirby.Temperament);  // Kirby is eager
+
+            Terrier jack = new Terrier(&quot;Jack&quot;, 15);
+            jack.Temperament = &quot;CraZY&quot;;
+            Console.WriteLine(jack.Temperament);  // Terrier Jack is CRAZY
+</pre></p>
+<p>We could also <a href="2011-05-31-335-accessing-a-derived-class-using-a-base-class-variable.html">use a variable of type </a><strong><a href="2011-05-31-335-accessing-a-derived-class-using-a-base-class-variable.html">Dog</a> </strong>(the base class) to refer to an instance of a <strong>Terrier</strong> (the derived class).  If we then reference the <strong>Temperament </strong>property using this base class variable<strong></strong>, the <strong>Temperament </strong>property in the base class is used, even though we&#8217;re working with an instance of the derived class.</p>
+<p><pre class="brush: csharp;">
+            Dog kirby = new Dog(&quot;Kirby&quot;, 15);
+            kirby.Temperament = &quot;EAGER&quot;;      // Uses Dog.Temperament
+
+            Dog jack = new Terrier(&quot;Jack&quot;, 15);
+            jack.Temperament = &quot;CraZY&quot;;       // Also uses Dog.Temperament
+</pre></p>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/06/29/356-hidden-base-class-property-is-used-based-on-declared-type-of-object/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2996"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/06/29/356-hidden-base-class-property-is-used-based-on-declared-type-of-object/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/06/29/356-hidden-base-class-property-is-used-based-on-declared-type-of-object/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, new, Polymorphism, Properties</p>
+  <nav class="pager"><a href="2011-06-28-355-use-the-new-keyword-to-replace-a-property-in-a-base-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-06-30-357-property-in-derived-class-hides-base-class-property-by-default.html">Next</a></nav>
+</main>
+
+</body>
+</html>

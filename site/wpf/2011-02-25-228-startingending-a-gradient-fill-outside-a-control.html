@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#228 – Starting/Ending a Gradient Fill Outside a Control</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-02-24-227-you-can-specify-gradient-fills-in-absolute-coordinates.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-26-229-using-a-gradient-brush-for-a-windows-border.html">Next</a></nav>
+  <h1>#228 – Starting/Ending a Gradient Fill Outside a Control</h1>
+  <p class="meta">2011-02-25 | <a href="http://wpf.2000things.com/2011/02/25/228-startingending-a-gradient-fill-outside-a-control/">Original URL</a> | Wayback 20110303132617</p>
+  <article><div class="post-1898 post type-post status-publish format-standard hentry category-graphics tag-wpf tag-lineargradientbrush tag-linear-gradient tag-startpoint tag-endpoint">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">February 25, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-02-25-228-startingending-a-gradient-fill-outside-a-control.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>If you specify start and end points for a linear gradient that are <a href="2011-02-11-214-startingending-a-gradient-fill-inside-a-control.html">inside the control</a> (i.e. between 0 and 1), the start/stop colors are extended to the edge of the control based on the value of the <strong>SpreadMethod</strong> property.</p>
+<p>You can also specify <strong>StartPoint</strong> and <strong>EndPoint</strong> positions that are outside the control, i.e. by using X/Y values that are less than 0.0 or greater than 1.0.</p>
+<p>When you specify start/stop positions outside of a control, the control will be filled with that portion of the larger gradient that corresponds to the control&#8217;s position within the gradient.</p>
+<p>Here&#8217;s an example with a red-blue fill that starts and finishes outside of the control.  Notice that the control is filled with a subset of the full red-blue gradient, so ends up being shades of magenta.</p>
+<pre class="brush: xml;">
+		&lt;Rectangle Width=&quot;200&quot; Height=&quot;100&quot; Margin=&quot;30&quot;&gt;
+			&lt;Rectangle.Fill&gt;
+				&lt;LinearGradientBrush StartPoint=&quot;-1,-1&quot; EndPoint=&quot;1.5,1.5&quot;&gt;
+				    &lt;GradientStop Color=&quot;Red&quot; Offset=&quot;0.0&quot;/&gt;
+				    &lt;GradientStop Color=&quot;Blue&quot; Offset=&quot;1.0&quot;/&gt;
+				&lt;/LinearGradientBrush&gt;
+			&lt;/Rectangle.Fill&gt;
+		&lt;/Rectangle&gt;
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/gradientline1.png"><img class="alignnone size-full wp-image-1901" title="GradientLine" src="https://web.archive.org/web/20110303132617id_/http://2000thingswpf.files.wordpress.com/2011/02/gradientline1.png?w=539&amp;h=327" alt="" width="539" height="327" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/02/25/228-startingending-a-gradient-fill-outside-a-control/"
+    dc:identifier="http://wpf.2000things.com/2011/02/25/228-startingending-a-gradient-fill-outside-a-control/"
+    dc:title="#228 &#8211; Starting/Ending a Gradient Fill Outside a&nbsp;Control"
+    trackback:ping="http://wpf.2000things.com/2011/02/25/228-startingending-a-gradient-fill-outside-a-control/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/graphics/" title="View all posts in Graphics" rel="category tag">Graphics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a>, <a href="http://en.wordpress.com/tag/lineargradientbrush/" rel="tag">LinearGradientBrush</a>, <a href="http://en.wordpress.com/tag/linear-gradient/" rel="tag">Linear Gradient</a>, <a href="http://en.wordpress.com/tag/startpoint/" rel="tag">StartPoint</a>, <a href="http://en.wordpress.com/tag/endpoint/" rel="tag">EndPoint</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Graphics | Tags: WPF, LinearGradientBrush, Linear Gradient, StartPoint, EndPoint</p>
+  <nav class="pager"><a href="2011-02-24-227-you-can-specify-gradient-fills-in-absolute-coordinates.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-26-229-using-a-gradient-brush-for-a-windows-border.html">Next</a></nav>
+</main>
+
+</body>
+</html>

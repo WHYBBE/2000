@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,206 – Changing Color of Custom Circular Progress</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">Next</a></nav>
+  <h1>#1,206 – Changing Color of Custom Circular Progress</h1>
+  <p class="meta">2017-04-28 | <a href="http://wpf.2000things.com/2017/04/28/1206-changing-color-of-custom-circular-progress/">Original URL</a> | Wayback 20170430022214</p>
+  <article><div class="post-9648 post type-post status-publish format-standard hentry category-graphics tag-datatrigger tag-graphics tag-progress tag-shape tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">April 28, 2017</span>
+																						<span class="post-comments"><a href="2017-04-28-1206-changing-color-of-custom-circular-progress.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>A couple of earlier posts (<a href="2014-09-10-1155-a-circular-progress-indicator.html">#1,155</a> and <a href="2014-09-11-1156-changing-circular-progress-control-to-be-only-an-arc.html">#1,156</a>) demonstrated how to create a simple custom control that displays progress in a circular fashion. A reader of the blog asked how you would change the color of the progress indicator when it got to a certain value. The example below shows how to do that.</p>
+<p>Below is the code for the indicator itself. This matches post #1,156 except that we&#8217;ve removed the static constructor that overrides the stroke and fill color of the indicator.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class CircularProgress : Shape
+    {
+        // Value (0-100)
+        public double Value
+        {
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        // DependencyProperty - Value (0 - 100)
+        private static FrameworkPropertyMetadata valueMetadata =
+                new FrameworkPropertyMetadata(
+                    0.0,     // Default value
+                    FrameworkPropertyMetadataOptions.AffectsRender,
+                    null,    // Property changed callback
+                    new CoerceValueCallback(CoerceValue));   // Coerce value callback
+
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(&quot;Value&quot;, typeof(double), typeof(CircularProgress), valueMetadata);
+
+        private static object CoerceValue(DependencyObject depObj, object baseVal)
+        {
+            double val = (double)baseVal;
+            val = Math.Min(val, 99.999);
+            val = Math.Max(val, 0.0);
+            return val;
+        }
+
+        protected override Geometry DefiningGeometry
+        {
+            get
+            {
+                double startAngle = 90.0;
+                double endAngle = 90.0 - ((Value / 100.0) * 360.0);
+
+                double maxWidth = Math.Max(0.0, RenderSize.Width - StrokeThickness);
+                double maxHeight = Math.Max(0.0, RenderSize.Height - StrokeThickness);
+
+                double xStart = maxWidth / 2.0 * Math.Cos(startAngle * Math.PI / 180.0);
+                double yStart = maxHeight / 2.0 * Math.Sin(startAngle * Math.PI / 180.0);
+
+                double xEnd = maxWidth / 2.0 * Math.Cos(endAngle * Math.PI / 180.0);
+                double yEnd = maxHeight / 2.0 * Math.Sin(endAngle * Math.PI / 180.0);
+
+                StreamGeometry geom = new StreamGeometry();
+                using (StreamGeometryContext ctx = geom.Open())
+                {
+                    ctx.BeginFigure(
+                        new Point((RenderSize.Width / 2.0) + xStart,
+                                  (RenderSize.Height / 2.0) - yStart),
+                        true,   // Filled
+                        true);  // Closed
+                    ctx.ArcTo(
+                        new Point((RenderSize.Width / 2.0) + xEnd,
+                                  (RenderSize.Height / 2.0) - yEnd),
+                        new Size(maxWidth / 2.0, maxHeight / 2),
+                        0.0,     // rotationAngle
+                        (startAngle - endAngle) &gt; 180,   // greater than 180 deg?
+                        SweepDirection.Clockwise,
+                        true,    // isStroked
+                        false);
+                    ctx.LineTo(new Point((RenderSize.Width / 2.0), (RenderSize.Height / 2.0)), true, false);
+                }
+
+                return geom;
+            }
+        }
+    }
+</pre>
+<p>Next is a snippet from the code-behind for a main window. This is just a click handler for a button that updates a property. (Note the use of SetProp method from post <a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">#1,205</a>)</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private double _pctComplete = 0.0;
+        public double PctComplete
+        {
+            get { return _pctComplete; }
+            set { SetProp(ref _pctComplete, value); }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            PctComplete = 0.0;
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += (s, ea) =&gt;
+            {
+                PctComplete += 1.0;
+                if (PctComplete &gt;= 100.0)
+                    timer.Stop();
+            };
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 150);  
+            timer.Start();
+        }
+</pre>
+<p>We then have a XAML fragment, where we define an instance of the progress indicator. We also set up a data trigger to set the Stroke and Fill properties to change color when they reach a certain level.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;Window.Resources&gt;
+        &lt;loc:GreaterThanConverter x:Key=&quot;greaterThanConverter&quot;/&gt;
+        
+        &lt;Style x:Key=&quot;progChangeColor&quot; TargetType=&quot;loc:CircularProgress&quot;&gt;
+            &lt;Setter Property=&quot;Stroke&quot; Value=&quot;Red&quot;/&gt;
+            &lt;Setter Property=&quot;Fill&quot; Value=&quot;Red&quot;/&gt;
+            &lt;Style.Triggers&gt;
+                &lt;DataTrigger Binding=&quot;{Binding PctComplete, Converter={StaticResource greaterThanConverter}, ConverterParameter=75}&quot; Value=&quot;True&quot;&gt;
+                    &lt;Setter Property=&quot;Stroke&quot; Value=&quot;Green&quot;/&gt;
+                    &lt;Setter Property=&quot;Fill&quot; Value=&quot;Green&quot;/&gt;
+                &lt;/DataTrigger&gt;
+            &lt;/Style.Triggers&gt;
+        &lt;/Style&gt;
+    &lt;/Window.Resources&gt;
+    
+    &lt;StackPanel&gt;
+        &lt;loc:CircularProgress
+            Style=&quot;{StaticResource progChangeColor}&quot;
+             Height=&quot;100&quot; Width=&quot;100&quot; Margin=&quot;5&quot;
+             Value=&quot;{Binding PctComplete}&quot;
+             HorizontalAlignment=&quot;Center&quot;/&gt;
+        &lt;ProgressBar Maximum=&quot;100&quot;
+                 Value=&quot;{Binding PctComplete}&quot;
+                 Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
+        &lt;Button Content=&quot;Start Timer&quot; Click=&quot;Button_Click&quot;
+            HorizontalAlignment=&quot;Center&quot;
+            Padding=&quot;12,7&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre>
+<p>Note that we&#8217;re making use of a value converter that takes a value in (e.g. PctComplete) and outputs True when that value passes a certain point (e.g. 75). Here&#8217;s the code for that converter:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class GreaterThanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((double)value) &gt; double.Parse(parameter as string);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+</pre>
+<p>When everything is wired up and we run this, we see that the indicator starts out red.</p>
+<p><a href="https://wpf.2000things.com/?attachment_id=9652" rel="attachment wp-att-9652"><img data-attachment-id="9652" data-permalink="https://wpf.2000things.com/2017/04/28/1206-changing-color-of-custom-circular-progress/1206_1/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg?w=630" data-orig-size="549,364" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1206_1" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg?w=630?w=549" src="https://web.archive.org/web/20170430022214id_/https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg?w=630" alt=""   class="alignnone size-full wp-image-9652" srcset="https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg 549w, https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/04/1206_1.jpg?w=300 300w" sizes="(max-width: 549px) 100vw, 549px" /></a></p>
+<p>And it then turns green when progress gets past 75%.</p>
+<p><a href="https://wpf.2000things.com/?attachment_id=9653" rel="attachment wp-att-9653"><img data-attachment-id="9653" data-permalink="https://wpf.2000things.com/2017/04/28/1206-changing-color-of-custom-circular-progress/1206_2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg?w=630" data-orig-size="545,357" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1206_2" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg?w=630?w=545" src="https://web.archive.org/web/20170430022214id_/https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg?w=630" alt=""   class="alignnone size-full wp-image-9653" srcset="https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg 545w, https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/04/1206_2.jpg?w=300 300w" sizes="(max-width: 545px) 100vw, 545px" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9648-59054a5d23a19' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9648&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9648-59054a5d23a19' data-name='like-post-frame-14605478-9648-59054a5d23a19'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Graphics | Tags: DataTrigger, Graphics, Progress, Shape, WPF</p>
+  <nav class="pager"><a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#609 – Perform Initialization in Window.Loaded Handler</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-07-23-608-class-handlers-are-invoked-before-instance-handlers.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-25-610-application-event-sequence.html">Next</a></nav>
+  <h1>#609 – Perform Initialization in Window.Loaded Handler</h1>
+  <p class="meta">2012-07-24 | <a href="http://wpf.2000things.com/2012/07/24/609-perform-initialization-in-window-loaded-handler/">Original URL</a> | Wayback 20120728071646</p>
+  <article><div class="post-5337 post type-post status-publish format-standard hentry category-events tag-events tag-window-loaded tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 24, 2012</span>
+																						<span class="post-comments"><a href="2012-07-24-609-perform-initialization-in-window-loaded-handler.html" title="Comment on #609 &#8211; Perform Initialization in Window.Loaded&nbsp;Handler">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Quite often you will want to perform some sort of initialization when your application first starts up.  You could add code to do this in the constructor for your main <strong>Window</strong> object.  For example:</p>
+<p><pre class="brush: xml;">
+&lt;StackPanel&gt;
+    &lt;Label Name=&quot;lblToday&quot; Content=&quot;Today is XXX&quot;/&gt;
+&lt;/StackPanel&gt;
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+        public MainWindow()
+        {
+            this.InitializeComponent();
+
+            lblToday.Content = string.Format(&quot;Today is {0}&quot;, DateTime.Now.ToShortDateString());
+        }
+</pre></p>
+<p>A better method, however, is to do this initialization in a handler for the <strong>Window.Loaded </strong>event.</p>
+<p><pre class="brush: csharp;">
+        public MainWindow()
+        {
+            this.InitializeComponent();
+
+            this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblToday.Content = string.Format(&quot;Today is {0}&quot;, DateTime.Now.ToShortDateString());
+        }
+</pre></p>
+<p>An exception that originates from the window&#8217;s constructor will be thrown as a <strong>XamlParseException </strong>(with the original exception in the <strong>InnerException</strong>). If, however, the exception originates from an event handler, it will not be wrapped in another exception.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5337" class="wpl-button "><a href='2012-07-24-609-perform-initialization-in-window-loaded-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, Window.Loaded, WPF</p>
+  <nav class="pager"><a href="2012-07-23-608-class-handlers-are-invoked-before-instance-handlers.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-25-610-application-event-sequence.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,939 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#1,207 &#8211; Data Binding Can Fail Quietly in Production Code | 2,000 Things You Should Know About WPF</title>
+	<link rel="pingback" href="https://wpf.2000things.com/xmlrpc.php" />
+			<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=wpf.2000things.com&amp;id=14605478&amp;t=1494478825&amp;back=https%3A%2F%2Fwpf.2000things.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//2000thingswpf.wordpress.com' />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Feed" href="https://wpf.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Comments Feed" href="https://wpf.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; #1,207 &#8211; Data Binding Can Fail Quietly in Production&nbsp;Code Comments Feed" href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1488818651h&ver=4.7.4"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJx9kdFOwzAMRX+IYBUQqA+Ib0lTL/OW1Fbsatrf426AxkB5iXyte3LtBE4SEi+Gi0Fdg5Q106JwksQ1aKWC5zv1mFQf4H+s0BEVDmgS0zFcVM/esETDOQir3akelrih96tE2xwVZ4pYsLqth1V5/aa2cu8jdmOuW0+TNFQNflZaa7C9B/3lrm2QdQKX2KSRIqidC3YzaM7ouxvL1yvcIAQLGzmlP0XvrowcCqdoxMsvEXYlUut/xFQ4e5nBXTdygz7q+/AyDuPz09swHj4BDN7TWg==' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-1-1' href='https://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s2.wp.com/_static/??/wp-content/mu-plugins/actionbar/actionbar.css,/wp-content/themes/h4/global.css?m=1490786585j' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj9EKwjAMRX/IrE4m7kX8ltnFktqmtWkd+vV2oA/qUAiE3JxcbtQUgVi7MqIoW+tSMN2erbGyUr8A8GTSkLHxxC9YB87IeWZ9OJJDKIJpMFWrRqewwMUg2aNIhRa275GIr4TTX8xijoM+Q0Kh+5erLxBdMcSiErr6wAhzho+pXh38vu363aZvt93aPgArrnBz'></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://2000thingswpf.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#1,206 &#8211; Changing Color of Custom Circular&nbsp;Progress' href='https://wpf.2000things.com/2017/04/28/1206-changing-color-of-custom-circular-progress/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/" />
+<link rel='shortlink' href='http://wp.me/pZhye-2vM' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Fwpf.2000things.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Fwpf.2000things.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="#1,207 &#8211; Data Binding Can Fail Quietly in Production Code" />
+<meta property="og:url" content="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/" />
+<meta property="og:description" content="By default, if there&#8217;s a problem in how you set up data binding in WPF, the user of the application will never see the binding errors. An exception occurs internally for the binding error, bu…" />
+<meta property="article:published_time" content="2017-05-09T01:01:22+00:00" />
+<meta property="article:modified_time" content="2017-05-08T13:08:54+00:00" />
+<meta property="og:site_name" content="2,000 Things You Should Know About WPF" />
+<meta property="og:image" content="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg" />
+<meta property="og:image:width" content="870" />
+<meta property="og:image:height" content="327" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@2kthingswpf" />
+<meta name="twitter:image" content="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@2kthingswpf" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://2000thingswpf.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://2000thingswpf.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://wpf.2000things.com/osd.xml" title="2,000 Things You Should Know About WPF" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<meta name="application-name" content="2,000 Things You Should Know About WPF" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a WPF Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://wpf.2000things.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="#1,207 &#8211; Data Binding Can Fail Quietly in Production&nbsp;Code | 2,000 Things You Should Know About WPF on WordPress.com" />
+<meta name="description" content="By default, if there&#039;s a problem in how you set up data binding in WPF, the user of the application will never see the binding errors. An exception occurs internally for the binding error, but the WPF application won&#039;t crash or report the exception. Let&#039;s say that we have that we have an application the includes the following properties&hellip;" />
+		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+<link rel="amphtml" href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="post-template-default single single-post postid-9658 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+
+<div id="header">
+	<div class="header-left">
+					<h4><a href="https://wpf.2000things.com/">2,000 Things You Should Know About WPF</a></h4>
+				<p id="description">Everything a WPF Developer Needs to Know, in Bite-Sized Chunks</p>
+	</div>
+	<div class="header-right">
+		<form method="get" id="searchform" action="https://wpf.2000things.com/" >
+			<div><label class="hidden" for="s">Search:</label>
+			<input type="text" value="" name="s" id="s" />
+			<input type="submit" id="searchsubmit" value="Go" /></div>
+		</form>
+	</div>
+</div>
+<div id="access">
+	<div id="nav">
+		<div id="supernav" class="navleft nav">
+			<div class="menu"><ul>
+<li ><a href="https://wpf.2000things.com/">Home</a></li><li class="page_item page-item-2"><a href="https://wpf.2000things.com/about/">About Me</a></li>
+<li class="page_item page-item-17"><a href="https://wpf.2000things.com/index/">Index</a></li>
+</ul></div>
+		</div>
+		<div class="navright">
+			<a class="rsslink" rel="nofollow" href="https://wpf.2000things.com/feed/">Posts</a>
+			<a class="rsslink" rel="nofollow" href="https://wpf.2000things.com/comments/feed/">Comments</a>
+		</div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-100823"><a href="https://wpf.2000things.com/category/controls/" >Controls</a>
+</li>
+	<li class="cat-item cat-item-26060"><a href="https://wpf.2000things.com/category/layout/" >Layout</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="https://wpf.2000things.com/category/events/" >Events</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="https://wpf.2000things.com/category/basics/" >Basics</a>
+</li>
+	<li class="cat-item cat-item-20948"><a href="https://wpf.2000things.com/category/blend/" >Blend</a>
+</li>
+	<li class="cat-item cat-item-658"><a href="https://wpf.2000things.com/category/graphics/" >Graphics</a>
+</li>
+	<li class="cat-item cat-item-103962"><a href="https://wpf.2000things.com/category/xaml/" >XAML</a>
+</li>
+	<li class="cat-item cat-item-875"><a href="https://wpf.2000things.com/category/miscellaneous/" >Miscellaneous</a>
+</li>
+	<li class="cat-item cat-item-4859017"><a href="https://wpf.2000things.com/category/dependency-properties/" >Dependency Properties</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="https://wpf.2000things.com/category/visual-studio/" >Visual Studio</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="https://wpf.2000things.com/2017/04/28/1206-changing-color-of-custom-circular-progress/" rel="prev"><span class="meta-nav">&larr;</span> #1,206 &#8211; Changing Color of Custom Circular&nbsp;Progress</a></div>
+				<div class="nav-next"></div>
+			</div>
+
+			<div class="post-9658 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-wpf">
+
+				<div class="entry">
+
+					<h1>#1,207 &#8211; Data Binding Can Fail Quietly in Production&nbsp;Code</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 8, 2017</span>
+																						<span class="post-comments"><a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#comments">6 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>By default, if there&#8217;s a problem in how you set up data binding in WPF, the user of the application will never see the binding errors. An exception occurs internally for the binding error, but the WPF application won&#8217;t crash or report the exception.</p>
+<p>Let&#8217;s say that we have that we have an application the includes the following properties in an object that we bind to (i.e. the object that we set the DataContext of a window to). (Using <strong>SetProp</strong> from <a href="https://wpf.2000things.com/2017/04/24/1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner/">post #1,205</a>).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private string _yourText;
+        public string YourText
+        {
+            get { return _yourText; }
+            set
+            {
+                if (SetProp(ref _yourText, value))
+                {
+                    RaisePropertyChanged(&quot;TextLength&quot;);
+                }
+            }
+        }
+
+        private int _textLength;
+        public int TextLength
+        {
+            get { return string.IsNullOrWhiteSpace(_yourText) ? 0 : _yourText.Length; }
+        }
+</pre>
+<p>Now let&#8217;s say that we have the following XAML fragment (assume in a <strong>Window</strong> whose <strong>DataContext</strong> is set to a class containing the properties shown above).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;TextBlock Text=&quot;Enter text:&quot;/&gt;
+        &lt;TextBox Grid.Column=&quot;1&quot; Margin=&quot;10,0&quot; Text=&quot;{Binding YourText, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+
+        &lt;TextBlock Grid.Row=&quot;1&quot; Margin=&quot;0,10&quot; Text=&quot;Length:&quot;/&gt;
+        &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Margin=&quot;0,10&quot; Text=&quot;{Binding TextLenth}&quot;/&gt;
+</pre>
+<p>Note the error&#8211;we spelled the <b>TextLength</b> property incorrectly, so binding for this <b>TextBlock</b> will fail.</p>
+<p>If we just build and run the application, we won&#8217;t get an exception and the application will run fine. It just won&#8217;t bind to <b>TextLength</b>.<br />
+<a href="https://wpf.2000things.com/?attachment_id=9669" rel="attachment wp-att-9669"><img data-attachment-id="9669" data-permalink="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/1207_1-2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630" data-orig-size="347,157" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1207_1" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630?w=347" src="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630" alt=""   class="alignnone size-full wp-image-9669" srcset="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg 347w, https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=300 300w" sizes="(max-width: 347px) 100vw, 347px" /></a></p>
+<p>If you run the application in the Visual Studio debugger and pay attention to the Output window, you&#8217;ll see the error reported there. But WPF swallows this error and the application runs fine.<br />
+<a href="https://wpf.2000things.com/?attachment_id=9667" rel="attachment wp-att-9667"><img data-attachment-id="9667" data-permalink="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/1207_2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237" data-orig-size="870,327" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1207_2" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237?w=630" src="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237" alt="" width="630" height="237" class="alignnone size-full wp-image-9667" srcset="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&amp;h=237 630w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=150&amp;h=56 150w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=300&amp;h=113 300w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=768&amp;h=289 768w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg 870w" sizes="(max-width: 630px) 100vw, 630px" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9658-5913efe91e5f4' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9658&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9658-5913efe91e5f4' data-name='like-post-frame-14605478-9658-5913efe91e5f4'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/"
+    dc:identifier="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/"
+    dc:title="#1,207 &#8211; Data Binding Can Fail Quietly in Production&nbsp;Code"
+    trackback:ping="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="https://wpf.2000things.com/category/data-binding/" rel="category tag">Data Binding</a></span>
+						<span class="tags">Tagged with <a href="https://wpf.2000things.com/tag/data-binding/" rel="tag">Data Binding</a>, <a href="https://wpf.2000things.com/tag/wpf/" rel="tag">WPF</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='https://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&#038;d=identicon&#038;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+	<h3 id="comments-title">6 Responses to <em>#1,207 &#8211; Data Binding Can Fail Quietly in Production&nbsp;Code</em>	</h3>
+
+	<ol class="commentlist snap_preview">
+				<li class="comment byuser comment-author-gregsdennis even thread-even depth-1 highlander-comment" id="li-comment-56511">
+		<div id="comment-56511">
+		<div class="comment-author vcard">
+			<img alt='' src='https://1.gravatar.com/avatar/17bdb11f4288601d4ea139a33b268a4d?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />			<cite class="fn"><a href='http://codingforsmarties.wordpress.com' rel='external nofollow' class='url'>gregsdennis</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#comment-56511">May 9, 2017 at 12:04 am</a></div>
+
+		<div class="comment-body"><p>Pro tip: get the VS Color Output plugin.  It&#8217;ll highlight those errors (and any others) in red text for you.</p>
+</div>
+
+		<div class="reply">
+			<a rel='nofollow' class='comment-reply-link' href='https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/?replytocom=56511#respond' onclick='return addComment.moveForm( "comment-56511", "56511", "respond", "9658" )' aria-label='Reply to gregsdennis'>Reply</a>		</div>
+	</div>
+
+	</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-56513">
+		<div id="comment-56513">
+		<div class="comment-author vcard">
+			<img alt='' src='https://0.gravatar.com/avatar/69d5a7bfabad8a4183f61c9da45b3149?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />			<cite class="fn">Andrew</cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#comment-56513">May 9, 2017 at 12:53 am</a></div>
+
+		<div class="comment-body"><p>Perhaps you could follow up with how to use a BindingErrorTraceListener added to PresentationTraceSources.DataBindingSource.Listeners to capture errors in an application at runtime.</p>
+</div>
+
+		<div class="reply">
+			<a rel='nofollow' class='comment-reply-link' href='https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/?replytocom=56513#respond' onclick='return addComment.moveForm( "comment-56513", "56513", "respond", "9658" )' aria-label='Reply to Andrew'>Reply</a>		</div>
+	</div>
+
+	<ul class="children">
+		<li class="comment byuser comment-author-spsexton bypostauthor even depth-2 highlander-comment" id="li-comment-56531">
+		<div id="comment-56531">
+		<div class="comment-author vcard">
+			<img alt='' src='https://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />			<cite class="fn"><a href='http://www.seans.com' rel='external nofollow' class='url'>Sean</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#comment-56531">May 9, 2017 at 12:14 pm</a></div>
+
+		<div class="comment-body"><p>Yup, stay tuned. That was going to be the next post.</p>
+</div>
+
+		<div class="reply">
+			<a rel='nofollow' class='comment-reply-link' href='https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/?replytocom=56531#respond' onclick='return addComment.moveForm( "comment-56531", "56531", "respond", "9658" )' aria-label='Reply to Sean'>Reply</a>		</div>
+	</div>
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		<li class="post pingback">
+		<p>Pingback: <a href='https://www.alvinashcraft.com/2017/05/09/dew-drop-may-9-2017-2475/' rel='external nofollow' class='url'>Dew Drop - May 9, 2017 (#2475) - Morning Dew</a></p>
+	</li><!-- #comment-## -->
+		<li class="comment byuser comment-author-bniemyjski odd alt thread-even depth-1 highlander-comment" id="li-comment-56528">
+		<div id="comment-56528">
+		<div class="comment-author vcard">
+			<img alt='' src='https://2.gravatar.com/avatar/89b10deee628535a5510db131f983541?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />			<cite class="fn">Blake Niemyjski</cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#comment-56528">May 9, 2017 at 9:57 am</a></div>
+
+		<div class="comment-body"><p>Did you find a way to log these exceptions? I&#8217;m curious if our exceptionless wpf client would catch these.</p>
+</div>
+
+		<div class="reply">
+			<a rel='nofollow' class='comment-reply-link' href='https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/?replytocom=56528#respond' onclick='return addComment.moveForm( "comment-56528", "56528", "respond", "9658" )' aria-label='Reply to Blake Niemyjski'>Reply</a>		</div>
+	</div>
+
+	<ul class="children">
+		<li class="comment byuser comment-author-spsexton bypostauthor even depth-2 highlander-comment" id="li-comment-56532">
+		<div id="comment-56532">
+		<div class="comment-author vcard">
+			<img alt='' src='https://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />			<cite class="fn"><a href='http://www.seans.com' rel='external nofollow' class='url'>Sean</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#comment-56532">May 9, 2017 at 12:14 pm</a></div>
+
+		<div class="comment-body"><p>Yes, next post will talk about that.</p>
+</div>
+
+		<div class="reply">
+			<a rel='nofollow' class='comment-reply-link' href='https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/?replytocom=56532#respond' onclick='return addComment.moveForm( "comment-56532", "56532", "respond", "9658" )' aria-label='Reply to Sean'>Reply</a>		</div>
+	</div>
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	</ol>
+
+
+	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://wpf.2000things.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="80f7046680" /><input type="hidden" name="_wp_http_referer" value="/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='9658' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="655c665b30" /></p>
+<input type="hidden" name="genseq" value="1494478825" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="201"/></p>			</form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='https://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=64&#038;d=identicon&#038;r=G' class='avatar avatar-64 grav-widget-none' height='64' width='64' /></p>
+</div><div id="text-4" class="widget widget_text"><h4>Xceed controls for WPF</h4>			<div class="textwidget"><p>Are you using WPF but the standard controls included with WPF are missing a feature, or a control that you need is not there? Check out <a href="https://xceed.com/xceed-toolkit-plus-for-wpf">Xceed Toolkit Plus for WPF</a>. For $499.95 you can add nearly 100 controls, panels and themes to your arsenal. Check it out!</p>
+<p><b>Bonus for January 2017, use coupon <a href="https://xceed.com/2000things">2000things</a> and get 50% off!</b></p>
+<p><a href="https://xceed.com/xceed-toolkit-plus-for-wpf"><img src="https://2000thingswpf.files.wordpress.com/2017/01/xceed_toolkit-plus_for-wpf_h-tiny.png"></a></p>
+</div>
+		</div>		<div id="recent-posts-3" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+					<li>
+				<a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/">#1,207 &#8211; Data Binding Can Fail Quietly in Production&nbsp;Code</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/04/28/1206-changing-color-of-custom-circular-progress/">#1,206 &#8211; Changing Color of Custom Circular&nbsp;Progress</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/04/24/1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner/">#1,205 &#8211; Use CallerMemberName Attribute to Make INotifyPropertyChanged Implementation&nbsp;Cleaner</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/04/06/1204-using-a-datatrigger-to-change-content-in-a-contentpresenter/">#1,204 &#8211; Using a DataTrigger to Change Content in a ContentPresenter</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/03/31/1203-create-a-reusable-group-of-elements-with-a-contentpresenter/">#1,203 &#8211; Create a Reusable Group of Elements with a ContentPresenter</a>
+						</li>
+				</ul>
+		</div>		<div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://csharp.2000things.com/" title="Everything a C# Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About C#</a></li>
+<li><a href="http://www.britannicageek.com" title="Reading Britannica 2010, One Article at a Time" target="_blank">Britannica Geek</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar">
+	<caption>May 2017</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="https://wpf.2000things.com/2017/04/">&laquo; Apr</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="1" class="pad">&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+	</tr>
+	<tr>
+		<td>7</td><td><a href="https://wpf.2000things.com/2017/05/08/" aria-label="Posts published on May 8, 2017">8</a></td><td>9</td><td id="today">10</td><td>11</td><td>12</td><td>13</td>
+	</tr>
+	<tr>
+		<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+	</tr>
+	<tr>
+		<td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td>
+	</tr>
+	<tr>
+		<td>28</td><td>29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="3">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="top-posts-2" class="widget widget_top-posts"><h4>Top Posts</h4><ul>				<li>
+										<a href="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/" class="bump-view" data-bump-view="tp">
+						#1,207 - Data Binding Can Fail Quietly in Production Code					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/02/17/220-using-the-predefined-colors/" class="bump-view" data-bump-view="tp">
+						#220 - Using the Predefined Colors					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/02/07/210-specifying-colors-in-xaml-as-rgb-values/" class="bump-view" data-bump-view="tp">
+						#210 - Specifying Colors in XAML As RGB Values					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/07/27/351-binding-a-checkboxs-ischecked-property-to-a-boolean-variable/" class="bump-view" data-bump-view="tp">
+						#351 - Binding a CheckBox&#039;s IsChecked Property to a Boolean Variable					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/index/" class="bump-view" data-bump-view="tp">
+						Index					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2013/06/17/843-text-justification-in-a-textblock/" class="bump-view" data-bump-view="tp">
+						#843 - Text Justification in a TextBlock					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2013/05/27/828-listview-and-gridview-data-binding-example/" class="bump-view" data-bump-view="tp">
+						#828 - ListView and GridView Data Binding Example 					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2014/02/25/1016-displaying-a-collection-of-items-in-a-wrappanel/" class="bump-view" data-bump-view="tp">
+						#1,016 - Displaying a Collection of Items in a WrapPanel					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/10/04/400-using-a-wrappanel-as-the-items-panel-for-a-listbox/" class="bump-view" data-bump-view="tp">
+						#400 - Using a WrapPanel as the Items Panel for a ListBox					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2013/03/18/778-animating-a-scale-transform/" class="bump-view" data-bump-view="tp">
+						#778 - Animating a Scale Transform					</a>
+									</li>
+			</ul></div><div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='https://wpf.2000things.com/tag/application/' class='tag-link-3370 tag-link-position-1' title='12 topics' style='font-size: 9.0566037735849pt;'>Application</a>
+<a href='https://wpf.2000things.com/tag/background/' class='tag-link-10955 tag-link-position-2' title='8 topics' style='font-size: 8pt;'>Background</a>
+<a href='https://wpf.2000things.com/tag/basics/' class='tag-link-8516 tag-link-position-3' title='10 topics' style='font-size: 8.5943396226415pt;'>Basics</a>
+<a href='https://wpf.2000things.com/tag/binding/' class='tag-link-296829 tag-link-position-4' title='10 topics' style='font-size: 8.5943396226415pt;'>Binding</a>
+<a href='https://wpf.2000things.com/tag/blend/' class='tag-link-20948 tag-link-position-5' title='73 topics' style='font-size: 14.075471698113pt;'>Blend</a>
+<a href='https://wpf.2000things.com/tag/border/' class='tag-link-75704 tag-link-position-6' title='14 topics' style='font-size: 9.5188679245283pt;'>Border</a>
+<a href='https://wpf.2000things.com/tag/brush/' class='tag-link-324237 tag-link-position-7' title='10 topics' style='font-size: 8.5943396226415pt;'>Brush</a>
+<a href='https://wpf.2000things.com/tag/button/' class='tag-link-94913 tag-link-position-8' title='11 topics' style='font-size: 8.8584905660377pt;'>Button</a>
+<a href='https://wpf.2000things.com/tag/calendar/' class='tag-link-7155 tag-link-position-9' title='9 topics' style='font-size: 8.3301886792453pt;'>Calendar</a>
+<a href='https://wpf.2000things.com/tag/canvas/' class='tag-link-53176 tag-link-position-10' title='18 topics' style='font-size: 10.179245283019pt;'>Canvas</a>
+<a href='https://wpf.2000things.com/tag/checkbox/' class='tag-link-760947 tag-link-position-11' title='13 topics' style='font-size: 9.3207547169811pt;'>CheckBox</a>
+<a href='https://wpf.2000things.com/tag/color/' class='tag-link-11835 tag-link-position-12' title='8 topics' style='font-size: 8pt;'>Color</a>
+<a href='https://wpf.2000things.com/tag/colors/' class='tag-link-6915 tag-link-position-13' title='11 topics' style='font-size: 8.8584905660377pt;'>Colors</a>
+<a href='https://wpf.2000things.com/tag/combobox/' class='tag-link-603206 tag-link-position-14' title='10 topics' style='font-size: 8.5943396226415pt;'>ComboBox</a>
+<a href='https://wpf.2000things.com/tag/commands/' class='tag-link-319 tag-link-position-15' title='29 topics' style='font-size: 11.5pt;'>Commands</a>
+<a href='https://wpf.2000things.com/tag/contentcontrol/' class='tag-link-6435769 tag-link-position-16' title='11 topics' style='font-size: 8.8584905660377pt;'>ContentControl</a>
+<a href='https://wpf.2000things.com/tag/controls/' class='tag-link-100823 tag-link-position-17' title='372 topics' style='font-size: 18.698113207547pt;'>Controls</a>
+<a href='https://wpf.2000things.com/tag/cursor/' class='tag-link-113618 tag-link-position-18' title='12 topics' style='font-size: 9.0566037735849pt;'>Cursor</a>
+<a href='https://wpf.2000things.com/tag/data-binding/' class='tag-link-725408 tag-link-position-19' title='41 topics' style='font-size: 12.424528301887pt;'>Data Binding</a>
+<a href='https://wpf.2000things.com/tag/dependency-properties/' class='tag-link-4859017 tag-link-position-20' title='50 topics' style='font-size: 13.018867924528pt;'>Dependency Properties</a>
+<a href='https://wpf.2000things.com/tag/dependency-property/' class='tag-link-12411431 tag-link-position-21' title='8 topics' style='font-size: 8pt;'>Dependency property</a>
+<a href='https://wpf.2000things.com/tag/dockpanel/' class='tag-link-4486568 tag-link-position-22' title='9 topics' style='font-size: 8.3301886792453pt;'>DockPanel</a>
+<a href='https://wpf.2000things.com/tag/drag-and-drop/' class='tag-link-330193 tag-link-position-23' title='22 topics' style='font-size: 10.707547169811pt;'>Drag-and-Drop</a>
+<a href='https://wpf.2000things.com/tag/events/' class='tag-link-924 tag-link-position-24' title='150 topics' style='font-size: 16.122641509434pt;'>Events</a>
+<a href='https://wpf.2000things.com/tag/expander/' class='tag-link-1193284 tag-link-position-25' title='8 topics' style='font-size: 8pt;'>Expander</a>
+<a href='https://wpf.2000things.com/tag/flowdocument/' class='tag-link-27472306 tag-link-position-26' title='11 topics' style='font-size: 8.8584905660377pt;'>FlowDocument</a>
+<a href='https://wpf.2000things.com/tag/focus/' class='tag-link-630 tag-link-position-27' title='11 topics' style='font-size: 8.8584905660377pt;'>Focus</a>
+<a href='https://wpf.2000things.com/tag/fonts/' class='tag-link-24938 tag-link-position-28' title='23 topics' style='font-size: 10.839622641509pt;'>Fonts</a>
+<a href='https://wpf.2000things.com/tag/frameworkelement/' class='tag-link-23671364 tag-link-position-29' title='12 topics' style='font-size: 9.0566037735849pt;'>FrameworkElement</a>
+<a href='https://wpf.2000things.com/tag/gradient/' class='tag-link-751135 tag-link-position-30' title='9 topics' style='font-size: 8.3301886792453pt;'>Gradient</a>
+<a href='https://wpf.2000things.com/tag/graphics/' class='tag-link-658 tag-link-position-31' title='38 topics' style='font-size: 12.22641509434pt;'>Graphics</a>
+<a href='https://wpf.2000things.com/tag/grid/' class='tag-link-11403 tag-link-position-32' title='43 topics' style='font-size: 12.556603773585pt;'>Grid</a>
+<a href='https://wpf.2000things.com/tag/gridsplitter/' class='tag-link-13631504 tag-link-position-33' title='13 topics' style='font-size: 9.3207547169811pt;'>GridSplitter</a>
+<a href='https://wpf.2000things.com/tag/groupbox/' class='tag-link-2150176 tag-link-position-34' title='10 topics' style='font-size: 8.5943396226415pt;'>GroupBox</a>
+<a href='https://wpf.2000things.com/tag/horizontalalignment/' class='tag-link-13467514 tag-link-position-35' title='8 topics' style='font-size: 8pt;'>HorizontalAlignment</a>
+<a href='https://wpf.2000things.com/tag/image/' class='tag-link-686 tag-link-position-36' title='23 topics' style='font-size: 10.839622641509pt;'>Image</a>
+<a href='https://wpf.2000things.com/tag/inkcanvas/' class='tag-link-6285586 tag-link-position-37' title='9 topics' style='font-size: 8.3301886792453pt;'>InkCanvas</a>
+<a href='https://wpf.2000things.com/tag/input/' class='tag-link-105671 tag-link-position-38' title='15 topics' style='font-size: 9.6509433962264pt;'>Input</a>
+<a href='https://wpf.2000things.com/tag/itemscontrol/' class='tag-link-5805353 tag-link-position-39' title='15 topics' style='font-size: 9.6509433962264pt;'>ItemsControl</a>
+<a href='https://wpf.2000things.com/tag/keyboard/' class='tag-link-105984 tag-link-position-40' title='10 topics' style='font-size: 8.5943396226415pt;'>Keyboard</a>
+<a href='https://wpf.2000things.com/tag/keyboard-focus/' class='tag-link-57663219 tag-link-position-41' title='9 topics' style='font-size: 8.3301886792453pt;'>Keyboard Focus</a>
+<a href='https://wpf.2000things.com/tag/keydown/' class='tag-link-3029119 tag-link-position-42' title='13 topics' style='font-size: 9.3207547169811pt;'>KeyDown</a>
+<a href='https://wpf.2000things.com/tag/keyup/' class='tag-link-24148038 tag-link-position-43' title='8 topics' style='font-size: 8pt;'>KeyUp</a>
+<a href='https://wpf.2000things.com/tag/layout/' class='tag-link-26060 tag-link-position-44' title='187 topics' style='font-size: 16.716981132075pt;'>Layout</a>
+<a href='https://wpf.2000things.com/tag/lineargradientbrush/' class='tag-link-28580558 tag-link-position-45' title='8 topics' style='font-size: 8pt;'>LinearGradientBrush</a>
+<a href='https://wpf.2000things.com/tag/listbox/' class='tag-link-475641 tag-link-position-46' title='50 topics' style='font-size: 13.018867924528pt;'>ListBox</a>
+<a href='https://wpf.2000things.com/tag/localization/' class='tag-link-37184 tag-link-position-47' title='26 topics' style='font-size: 11.169811320755pt;'>Localization</a>
+<a href='https://wpf.2000things.com/tag/manipulation/' class='tag-link-71456 tag-link-position-48' title='13 topics' style='font-size: 9.3207547169811pt;'>Manipulation</a>
+<a href='https://wpf.2000things.com/tag/margin/' class='tag-link-162270 tag-link-position-49' title='14 topics' style='font-size: 9.5188679245283pt;'>Margin</a>
+<a href='https://wpf.2000things.com/tag/measure/' class='tag-link-307466 tag-link-position-50' title='9 topics' style='font-size: 8.3301886792453pt;'>Measure</a>
+<a href='https://wpf.2000things.com/tag/miscellaneous/' class='tag-link-875 tag-link-position-51' title='40 topics' style='font-size: 12.358490566038pt;'>Miscellaneous</a>
+<a href='https://wpf.2000things.com/tag/mouse/' class='tag-link-2786 tag-link-position-52' title='26 topics' style='font-size: 11.169811320755pt;'>Mouse</a>
+<a href='https://wpf.2000things.com/tag/panel/' class='tag-link-6950 tag-link-position-53' title='15 topics' style='font-size: 9.6509433962264pt;'>Panel</a>
+<a href='https://wpf.2000things.com/tag/popup/' class='tag-link-401421 tag-link-position-54' title='17 topics' style='font-size: 10.047169811321pt;'>Popup</a>
+<a href='https://wpf.2000things.com/tag/radial-gradient/' class='tag-link-11753633 tag-link-position-55' title='8 topics' style='font-size: 8pt;'>Radial Gradient</a>
+<a href='https://wpf.2000things.com/tag/resources/' class='tag-link-1784 tag-link-position-56' title='11 topics' style='font-size: 8.8584905660377pt;'>Resources</a>
+<a href='https://wpf.2000things.com/tag/routed-events/' class='tag-link-4814299 tag-link-position-57' title='25 topics' style='font-size: 11.037735849057pt;'>Routed Events</a>
+<a href='https://wpf.2000things.com/tag/scrollviewer/' class='tag-link-6817193 tag-link-position-58' title='15 topics' style='font-size: 9.6509433962264pt;'>ScrollViewer</a>
+<a href='https://wpf.2000things.com/tag/shape/' class='tag-link-173283 tag-link-position-59' title='9 topics' style='font-size: 8.3301886792453pt;'>Shape</a>
+<a href='https://wpf.2000things.com/tag/slider/' class='tag-link-268522 tag-link-position-60' title='11 topics' style='font-size: 8.8584905660377pt;'>Slider</a>
+<a href='https://wpf.2000things.com/tag/stackpanel/' class='tag-link-25056137 tag-link-position-61' title='10 topics' style='font-size: 8.5943396226415pt;'>StackPanel</a>
+<a href='https://wpf.2000things.com/tag/tabcontrol/' class='tag-link-4676462 tag-link-position-62' title='17 topics' style='font-size: 10.047169811321pt;'>TabControl</a>
+<a href='https://wpf.2000things.com/tag/text/' class='tag-link-5117 tag-link-position-63' title='9 topics' style='font-size: 8.3301886792453pt;'>Text</a>
+<a href='https://wpf.2000things.com/tag/textblock/' class='tag-link-3128675 tag-link-position-64' title='10 topics' style='font-size: 8.5943396226415pt;'>TextBlock</a>
+<a href='https://wpf.2000things.com/tag/textbox/' class='tag-link-1988483 tag-link-position-65' title='42 topics' style='font-size: 12.490566037736pt;'>TextBox</a>
+<a href='https://wpf.2000things.com/tag/tooltip/' class='tag-link-796127 tag-link-position-66' title='17 topics' style='font-size: 10.047169811321pt;'>Tooltip</a>
+<a href='https://wpf.2000things.com/tag/touch-input/' class='tag-link-1439944 tag-link-position-67' title='15 topics' style='font-size: 9.6509433962264pt;'>Touch Input</a>
+<a href='https://wpf.2000things.com/tag/transforms/' class='tag-link-2333232 tag-link-position-68' title='25 topics' style='font-size: 11.037735849057pt;'>Transforms</a>
+<a href='https://wpf.2000things.com/tag/uielement/' class='tag-link-23200278 tag-link-position-69' title='8 topics' style='font-size: 8pt;'>UIElement</a>
+<a href='https://wpf.2000things.com/tag/visual-studio/' class='tag-link-6678 tag-link-position-70' title='25 topics' style='font-size: 11.037735849057pt;'>Visual Studio</a>
+<a href='https://wpf.2000things.com/tag/window/' class='tag-link-43058 tag-link-position-71' title='14 topics' style='font-size: 9.5188679245283pt;'>Window</a>
+<a href='https://wpf.2000things.com/tag/windows/' class='tag-link-800 tag-link-position-72' title='10 topics' style='font-size: 8.5943396226415pt;'>Windows</a>
+<a href='https://wpf.2000things.com/tag/wpf/' class='tag-link-46652 tag-link-position-73' title='1,168 topics' style='font-size: 22pt;'>WPF</a>
+<a href='https://wpf.2000things.com/tag/wrappanel/' class='tag-link-4321068 tag-link-position-74' title='10 topics' style='font-size: 8.5943396226415pt;'>WrapPanel</a>
+<a href='https://wpf.2000things.com/tag/xaml/' class='tag-link-103962 tag-link-position-75' title='52 topics' style='font-size: 13.084905660377pt;'>XAML</a></div></div><div id="blog-stats-2" class="widget widget_blog-stats"><h4>Blog Stats</h4>		<ul>
+			<li>2,861,531 hits</li>
+		</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a></p>
+    </div>
+    <div class="footerright">
+	        </div>
+</div>
+
+</div>
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201719y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	<div class="grofile-hash-map-17bdb11f4288601d4ea139a33b268a4d">
+	</div>
+	<div class="grofile-hash-map-69d5a7bfabad8a4183f61c9da45b3149">
+	</div>
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	<div class="grofile-hash-map-89b10deee628535a5510db131f983541">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/2000thingswpf.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?action=logout&_wpnonce=595afdb6c7","homeURL":"https:\/\/wpf.2000things.com\/","postID":"9658","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1479964158j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="14605478" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://wpf.2000things.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="2,000 Things You Should Know About WPF" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="965ebb394c" /><input type="hidden" name="_wp_http_referer" value="/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431h'></script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKioFmheckVhUQE0TI3JzgMbZ59oamhgZGZsYGRqbZAEA0pBf0Q=='></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+
+// Infinite scroll support
+jQuery( function( $ ) {
+	$( document.body ).on( 'post-load', function() {
+		SyntaxHighlighter.highlight();
+	} );
+} );
+</script>
+<link rel='stylesheet' id='all-css-0-3' href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1481571546h' type='text/css' media='all' />
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"14605478","siteName":"2,000 Things You Should Know About WPF","siteURL":"https:\/\/wpf.2000things.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/enterprise","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fwpf.2000things.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F","themeURL":"","xhrURL":"https:\/\/wpf.2000things.com\/wp-admin\/admin-ajax.php","nonce":"4178011346","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"593035063e\" \/>","referer":"https:\/\/wpf.2000things.com\/2017\/05\/08\/1207-data-binding-can-fail-quietly-in-production-code\/","canFollow":"1","statusMessage":"","customizeLink":"https:\/\/2000thingswpf.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2F2000thingswpf.wordpress.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F","postID":"9658","shortlink":"http:\/\/wp.me\/pZhye-2vM","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/wpf.2000things.com\/9658","statsLink":"https:\/\/wordpress.com\/stats\/post\/9658\/wpf.2000things.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Enterprise","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in the Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 450 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fwpf.2000things.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/wpf.2000things.com\/wp-admin\/admin-ajax.php","nonce":"ecbaf98918","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fwpf.2000things.com%2F2017%2F05%2F08%2F1207-data-binding-can-fail-quietly-in-production-code%2F","blog_id":"14605478","local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=14605478&v=wpcom&tz=-5&user_id=0&subd=2000thingswpf","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJx9j90OgjAMhV/IUSBG44XxWebW6Mb+7DaUt3ckgrsgXLU55/RrC+/AhHcJXQIdQeKoBIZPo+MBKstmFkx+KBfBqAEjvDJmfHInDdISVk6YLItZQMJbWwYZYTBTY5XbIXJZfHbnBJbHhFQ65kckUjNs1fYIIinvZsLabR0Vw/+OWtflG5p+palTG7sEJ58jGtCYAhcDW4Qyc7PX7njp2/bU9Wf9BZDvgdc='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20170206#ver=20170206' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.defer = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			<p class="robots-nocontent"><img src="https://sb.scorecardresearch.com/p?c1=2&c2=7518284&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1" alt="" style="display:none;" width="1" height="1" /></p>
+		</noscript><script src="//stats.wp.com/w.js?56" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'14605478','blog_tz':'-5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'14605478','v':'wpcom','tz':'-5','user_id':'0','post':'9658','subd':'2000thingswpf'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dQb1FCdkNUTz8zaVtDbH5BLGw3dGdoRnZSdDIwUHJ3PVFibjRFcldJcXd1VUdjSGhfREtjRmR4Lyx4bU0lRysuLHJFRXo/NS1PNmR6RVErMUVpcVNRYzhYclclJk9qMjYwa3dSYVtiLUw1dk1CVUclLnRnVUY2R0U1RVoxXV8uP0JtTDUuc2hdTEE0T3hMQ1B4OG5mTjNobFclTk0tNSxtV1piSUlIZX5QUmVzTlZ+eVBya0FjXU1kT1kuclR2cXIsdU9BZWxMdmRxOVt3Tl1mVS5OQnVbYz9bcnIreF1Qb1AuW09YTl0vW003NU1LeXpYTnho'}]);
+_stq.push([ 'clickTrackerInit', '14605478', '9658' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

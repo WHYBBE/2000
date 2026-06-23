@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,210 – Exceptions in Property Accessors Can Be Ignored in Production Code</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-05-20-1209-catching-data-binding-errors-part-2.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-06-18-1211-catching-exceptions-originating-in-property-accessors.html">Next</a></nav>
+  <h1>#1,210 – Exceptions in Property Accessors Can Be Ignored in Production Code</h1>
+  <p class="meta">2017-06-05 | <a href="http://wpf.2000things.com/2017/06/05/1210-exceptions-in-property-accessors-can-be-ignored-in-production-code/">Original URL</a> | Wayback 20170705203515</p>
+  <article><div class="post-9685 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-exception tag-getter tag-setter tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">June 5, 2017</span>
+																						<span class="post-comments"><a href="2017-06-05-1210-exceptions-in-property-accessors-can-be-ignored-in-production-code.html">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>In the same way that <a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">binding errors are quietly swallowed in production code</a>, exceptions originating in property getters or setters invoked as a result of WPF data binding can also be quietly ignored in production code.</p>
+<p>Assume that we bind a <strong>TextBox.Text</strong> property to a string-based property in a ViewModel, as below. Note that when the data binding engine tries to set a property value of &#8220;Bob&#8221;, we&#8217;ll get a <strong>NullReferenceException.</strong></p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private BobNotify _bobNotify;
+
+        private string _yourText;
+        public string YourText
+        {
+            get { return _yourText; }
+            set
+            {
+                if (SetProp(ref _yourText, value))
+                {
+                    // E-mail Bob if someone types his name
+                    // (but we forgot to initialize BobNotify object, so will get NullRefException here).
+                    if (_yourText == &quot;Bob&quot;)
+                        _bobNotify.SendEmail(_yourText);
+
+                    RaisePropertyChanged(&quot;TextLength&quot;);
+                }
+            }
+        }
+
+        public int TextLength
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(_yourText) ? 0 : _yourText.Length;
+            }
+        }
+</pre>
+<p>If we include this code in a release build and do nothing special to listen for binding errors, the exception will be quietly swallowed. The only hint that something went wrong is that the <strong>TextBlock</strong> that we bind <strong>TextLength</strong> to doesn&#8217;t get updated once we type the second &#8220;b&#8221; in &#8220;Bob&#8221;.</p>
+<p><a href="https://wpf.2000things.com/2017/06/05/1210-exceptions-in-property-accessors-can-be-ignored-in-production-code/1210_001/" rel="attachment wp-att-9687"><img data-attachment-id="9687" data-permalink="https://wpf.2000things.com/2017/06/05/1210-exceptions-in-property-accessors-can-be-ignored-in-production-code/1210_001/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630" data-orig-size="295,127" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1210_001" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630?w=295" data-large-file="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630?w=295" class="alignnone size-full wp-image-9687" src="https://web.archive.org/web/20170705203515id_/https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png 295w, https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=150 150w" sizes="(max-width: 295px) 100vw, 295px"   /></a></p>
+<p>We can handle these sorts of errors in the same way that we did for other types of binding errors, by <a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">adding a binding error trace listener</a>.</p>
+<p>&nbsp;</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9685-595d4d83c0384' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9685&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9685-595d4d83c0384' data-name='like-post-frame-14605478-9685-595d4d83c0384'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, Exception, Getter, Setter, WPF</p>
+  <nav class="pager"><a href="2017-05-20-1209-catching-data-binding-errors-part-2.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-06-18-1211-catching-exceptions-originating-in-property-accessors.html">Next</a></nav>
+</main>
+
+</body>
+</html>

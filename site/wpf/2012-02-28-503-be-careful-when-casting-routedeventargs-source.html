@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#503 – Be Careful When Casting RoutedEventArgs.Source</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-02-27-502-sender-vs-routedeventargs-source.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-02-29-504-groupbox-basics.html">Next</a></nav>
+  <h1>#503 – Be Careful When Casting RoutedEventArgs.Source</h1>
+  <p class="meta">2012-02-28 | <a href="http://wpf.2000things.com/2012/02/28/503-be-careful-when-casting-routedeventargs-source/">Original URL</a> | Wayback 20120305160003</p>
+  <article><div class="post-4277 post type-post status-publish format-standard hentry category-events tag-events tag-routedeventargs-source tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">February 28, 2012</span>
+                        	                        	<span class="post-comments"><a href="2012-02-28-503-be-careful-when-casting-routedeventargs-source.html">7 Comments</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>In an event handler, you&#8217;ll often cast the<strong> RoutedEventsArgs.Source</strong> property to a particular type.  When you have an event handler attached to a panel that can contain controls of various types, this can lead to problems.</p>
+<p>In the example below, we&#8217;re assuming that the originator of the <strong>Click</strong> event is a <strong>Button</strong>.</p>
+<p><pre class="brush: csharp;">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = e.Source as Button;
+            MessageBox.Show(string.Format(&quot;You clicked on {0} button, sender is of type {1}&quot;,
+                b.Content, sender.GetType().ToString()));
+        }
+</pre></p>
+<p>If we have a panel that contains some <strong>Buttons</strong>, but also a <strong>ToggleButton </strong>control&#8211;which has a <strong>Click</strong> event but is not a <strong>Button&#8211;</strong>we get a crash when clicking on the <strong>ToggleButton</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/02/503-001.png"><img class="alignnone size-full wp-image-4280" title="503-001" src="https://web.archive.org/web/20120305160003id_/http://2000thingswpf.files.wordpress.com/2012/02/503-001.png?w=630" alt=""   /></a></p>
+<p>A better solution is to check the type of the originator.</p>
+<p><pre class="brush: csharp;">
+            if (e.Source is Button)
+            {
+                Button b = e.Source as Button;
+                MessageBox.Show(string.Format(&quot;You clicked on {0} button, sender is of type {1}&quot;,
+                    b.Content, sender.GetType().ToString()));
+            }
+</pre></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2012-02-28-503-be-careful-when-casting-routedeventargs-source.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, RoutedEventArgs.Source, WPF</p>
+  <nav class="pager"><a href="2012-02-27-502-sender-vs-routedeventargs-source.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-02-29-504-groupbox-basics.html">Next</a></nav>
+</main>
+
+</body>
+</html>

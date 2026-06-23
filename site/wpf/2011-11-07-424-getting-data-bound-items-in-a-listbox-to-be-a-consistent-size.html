@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#424 – Getting Data-Bound Items in a ListBox to Be a Consistent Size</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-11-04-423-setting-maximum-height-and-width-for-rows-and-columns-in-a-grid.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-08-425-sharedsizegroup-allows-sharing-column-sizes-across-different-grids.html">Next</a></nav>
+  <h1>#424 – Getting Data-Bound Items in a ListBox to Be a Consistent Size</h1>
+  <p class="meta">2011-11-07 | <a href="http://wpf.2000things.com/2011/11/07/424-getting-data-bound-items-in-a-listbox-to-be-a-consistent-size/">Original URL</a> | Wayback 20120621233129</p>
+  <article><div class="post-3536 post type-post status-publish format-standard hentry category-layout tag-data-binding tag-issharedsizescope tag-layout tag-sharedsizegroup tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 7, 2011</span>
+																						<span class="post-comments"><a href="2011-11-07-424-getting-data-bound-items-in-a-listbox-to-be-a-consistent-size.html" title="Comment on #424 &#8211; Getting Data-Bound Items in a ListBox to Be a Consistent&nbsp;Size">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>I demonstrated earlier how to add some <a href="2011-09-29-397-rich-listbox-content-using-data-binding-part-iii.html">rich content to a <strong>ListBox</strong> using data binding</a>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/11/424-001.png"><img class="alignnone size-full wp-image-3537" title="424-001" src="https://web.archive.org/web/20120621233129id_/http://2000thingswpf.files.wordpress.com/2011/11/424-001.png?w=630" alt=""   /></a></p>
+<p>The problem with this is that the items don&#8217;t line up vertically.  We use several <strong>StackPanel</strong> elements in the data template, which autosize to fit their content.  We&#8217;d like them to autosize, but to use that same size across all rows, for each column.</p>
+<p>We can share sizes between entries using the <strong>Grid.IsSharedSizeScope</strong> and <strong>SharedSizeGroup</strong> properties.</p>
+<p><pre class="brush: xml;">
+        &lt;ListBox ItemsSource=&quot;{Binding MovieList}&quot; SnapsToDevicePixels=&quot;True&quot;
+                 Grid.IsSharedSizeScope=&quot;True&quot;&gt;
+            &lt;ListBox.ItemTemplate&gt;
+                &lt;DataTemplate&gt;
+                    &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;0,0,0,5&quot;&gt;
+                        &lt;Grid&gt;
+                            &lt;Grid.ColumnDefinitions&gt;
+                                &lt;ColumnDefinition SharedSizeGroup=&quot;Col1&quot;/&gt;
+                            &lt;/Grid.ColumnDefinitions&gt;
+                            &lt;Image Source=&quot;{Binding Image}&quot; /&gt;
+                        &lt;/Grid&gt;
+                        &lt;Grid&gt;
+                            &lt;Grid.ColumnDefinitions&gt;
+                                &lt;ColumnDefinition SharedSizeGroup=&quot;Col2&quot;/&gt;
+                            &lt;/Grid.ColumnDefinitions&gt;
+                            &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
+                                &lt;Label Content=&quot;{Binding Title}&quot; FontWeight=&quot;Bold&quot;/&gt;
+                                &lt;Label Content=&quot;{Binding Year}&quot;/&gt;
+                            &lt;/StackPanel&gt;
+                        &lt;/Grid&gt;
+
+                        &lt;Border BorderBrush=&quot;Black&quot; BorderThickness=&quot;0.5&quot;/&gt;
+
+                        &lt;Grid&gt;
+                            &lt;Grid.ColumnDefinitions&gt;
+                                &lt;ColumnDefinition SharedSizeGroup=&quot;Col3&quot;/&gt;
+                            &lt;/Grid.ColumnDefinitions&gt;
+                            &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
+                                &lt;Label Content=&quot;Actors:&quot;/&gt;
+                                &lt;Label Content=&quot;{Binding ActorLead}&quot; Margin=&quot;10,0&quot;/&gt;
+                                &lt;Label Content=&quot;{Binding ActressLead}&quot; Margin=&quot;10,0&quot;/&gt;
+                            &lt;/StackPanel&gt;
+                        &lt;/Grid&gt;
+
+                        &lt;Border BorderBrush=&quot;Black&quot; BorderThickness=&quot;0.5&quot;/&gt;
+
+                        &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
+                            &lt;Label Content=&quot;Director:&quot;/&gt;
+                            &lt;Label Content=&quot;{Binding Director}&quot; Margin=&quot;10,0&quot;/&gt;
+                        &lt;/StackPanel&gt;
+                    &lt;/StackPanel&gt;
+                &lt;/DataTemplate&gt;
+            &lt;/ListBox.ItemTemplate&gt;
+        &lt;/ListBox&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/11/424-002.png"><img class="alignnone size-full wp-image-3539" title="424-002" src="https://web.archive.org/web/20120621233129id_/http://2000thingswpf.files.wordpress.com/2011/11/424-002.png?w=630" alt=""   /></a></pre>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-3536" class="wpl-button "><a href='2011-11-07-424-getting-data-bound-items-in-a-listbox-to-be-a-consistent-size.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Layout | Tags: Data Binding, IsSharedSizeScope, Layout, SharedSizeGroup, WPF</p>
+  <nav class="pager"><a href="2011-11-04-423-setting-maximum-height-and-width-for-rows-and-columns-in-a-grid.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-08-425-sharedsizegroup-allows-sharing-column-sizes-across-different-grids.html">Next</a></nav>
+</main>
+
+</body>
+</html>

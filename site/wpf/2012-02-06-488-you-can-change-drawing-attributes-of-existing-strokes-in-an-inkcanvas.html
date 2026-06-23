@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#488 – You Can Change Drawing Attributes of Existing Strokes in an InkCanvas</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-02-03-487-specify-drawingattributes-when-drawing-to-an-inkcanvas.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-02-07-489-using-the-inkcanvas-to-recognize-gestures-part-i.html">Next</a></nav>
+  <h1>#488 – You Can Change Drawing Attributes of Existing Strokes in an InkCanvas</h1>
+  <p class="meta">2012-02-06 | <a href="http://wpf.2000things.com/2012/02/06/488-you-can-change-drawing-attributes-of-existing-strokes-in-an-inkcanvas/">Original URL</a> | Wayback 20120208180246</p>
+  <article><div class="post-4125 post type-post status-publish format-standard hentry category-controls tag-controls tag-drawingattributes tag-inkcanvas tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">February 6, 2012</span>
+                        	                        	<span class="post-comments"><a href="2012-02-06-488-you-can-change-drawing-attributes-of-existing-strokes-in-an-inkcanvas.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You can <a href="2012-02-03-487-specify-drawingattributes-when-drawing-to-an-inkcanvas.html">change the drawing attributes for new strokes</a> added to an <strong>InkCanvas</strong> by setting the <strong>DefaultDrawingAttributes</strong> property.  You can also change the drawing attributes of strokes already present in the <strong>InkCanvas</strong>.</p>
+<p>Existing strokes are stored in the <strong>Strokes</strong> property of the <strong>InkCanvas</strong>, which is of type <strong>StrokeCollection</strong> (in <strong>System.Windows.Ink</strong>).  This collection contains instances of <strong>Stroke</strong> objects, each of which has a <strong>DrawingAttributes</strong> property, which references an instance of the <strong>DrawingAttributes</strong> class.</p>
+<p>In the example below, we can click on the <strong>Fatten</strong> button to thicken existing strokes.</p>
+<p>Before clicking on <strong>Fatten</strong>:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/02/488-001.png"><img class="alignnone size-full wp-image-4126" title="488-001" src="https://web.archive.org/web/20120208180246id_/http://2000thingswpf.files.wordpress.com/2012/02/488-001.png?w=630" alt=""   /></a></p>
+<p>After clicking on <strong>Fatten</strong>:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/02/488-002.png"><img class="alignnone size-full wp-image-4127" title="488-002" src="https://web.archive.org/web/20120208180246id_/http://2000thingswpf.files.wordpress.com/2012/02/488-002.png?w=630" alt=""   /></a></p>
+<p>And again:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/02/488-003.png"><img class="alignnone size-full wp-image-4128" title="488-003" src="https://web.archive.org/web/20120208180246id_/http://2000thingswpf.files.wordpress.com/2012/02/488-003.png?w=630" alt=""   /></a></p>
+<p>Here&#8217;s the code for the <strong>Button.Click </strong>event, which increases the <strong>Width</strong> of each <strong>Stroke</strong> already on the <strong>InkCanvas</strong>.</p>
+<p><pre class="brush: csharp;">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Stroke s in ink.Strokes)
+                s.DrawingAttributes.Width = s.DrawingAttributes.Width + 3;
+        }
+</pre></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2012-02-06-488-you-can-change-drawing-attributes-of-existing-strokes-in-an-inkcanvas.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, DrawingAttributes, InkCanvas, WPF</p>
+  <nav class="pager"><a href="2012-02-03-487-specify-drawingattributes-when-drawing-to-an-inkcanvas.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-02-07-489-using-the-inkcanvas-to-recognize-gestures-part-i.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,187 – Using an ItemContainerStyle to Change Items in an ItemsControl</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-23-1186-default-itemcontainerstyle-for-a-listbox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-27-1188-using-an-itemcontainerstyle-to-animate-items-in-an-itemscontrol.html">Next</a></nav>
+  <h1>#1,187 – Using an ItemContainerStyle to Change Items in an ItemsControl</h1>
+  <p class="meta">2014-10-24 | <a href="http://wpf.2000things.com/2014/10/24/1187-using-an-itemcontainerstyle-to-change-items-in-an-itemscontrol/">Original URL</a> | Wayback 20141025122931</p>
+  <article><div class="post-9473 post type-post status-publish format-standard hentry category-controls tag-controls tag-itemcontainerstyle tag-itemscontrol tag-trigger tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 24, 2014</span>
+																						<span class="post-comments"><a href="2014-10-24-1187-using-an-itemcontainerstyle-to-change-items-in-an-itemscontrol.html" title="Comment on #1,187 &#8211; Using an ItemContainerStyle to Change Items in an&nbsp;ItemsControl">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>One common use when defining a new <strong>ItemContainerStyle</strong> for an <strong>ItemsControl</strong> is to do something special with either the currently selected item or the item that the mouse is currently over.  The <a href="2014-10-23-1186-default-itemcontainerstyle-for-a-listbox.html">default template</a> used as an <strong>ItemContainerStyle</strong> for a <strong>ListBox</strong>, for example, changes the background and border for both the selected item and the item that the mouse is currently over.</p>
+<p>Below is an example where we change the <strong>FontWeight</strong> for the currently selected item (to <strong>SemiBold</strong>) and make the item larger, using a transform.  This method uses a trigger to change several properties.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;Style x:Key=&quot;FocusVisual&quot;&gt;
+            &lt;Setter Property=&quot;Control.Template&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;ControlTemplate&gt;
+                        &lt;Rectangle Margin=&quot;2&quot; SnapsToDevicePixels=&quot;true&quot; Stroke=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot; StrokeThickness=&quot;1&quot; StrokeDashArray=&quot;1 2&quot;/&gt;
+                    &lt;/ControlTemplate&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Background&quot; Color=&quot;#1F26A0DA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Border&quot; Color=&quot;#a826A0Da&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Background&quot; Color=&quot;#3DDADADA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Border&quot; Color=&quot;#FFDADADA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Background&quot; Color=&quot;#3D26A0DA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Border&quot; Color=&quot;#FF26A0DA&quot;/&gt;
+        
+        &lt;Style x:Key=&quot;lbDefaultItemContainerStyle&quot; TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+            &lt;Setter Property=&quot;SnapsToDevicePixels&quot; Value=&quot;True&quot;/&gt;
+            &lt;Setter Property=&quot;Padding&quot; Value=&quot;4,1&quot;/&gt;
+            &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
+            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
+            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
+            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Transparent&quot;/&gt;
+            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
+            &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{StaticResource FocusVisual}&quot;/&gt;
+            &lt;Setter Property=&quot;Template&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;ControlTemplate TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+                        &lt;Border x:Name=&quot;Bd&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
+                            &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
+                        &lt;/Border&gt;
+                        &lt;ControlTemplate.Triggers&gt;
+                            &lt;MultiTrigger&gt;
+                                &lt;MultiTrigger.Conditions&gt;
+                                    &lt;Condition Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;/&gt;
+                                &lt;/MultiTrigger.Conditions&gt;
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Background}&quot;/&gt;
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Border}&quot;/&gt;
+                                &lt;Setter Property=&quot;LayoutTransform&quot;&gt;
+                                    &lt;Setter.Value&gt;
+                                        &lt;ScaleTransform ScaleX=&quot;1.5&quot; ScaleY=&quot;1.5&quot;/&gt;
+                                    &lt;/Setter.Value&gt;
+                                &lt;/Setter&gt;
+                                &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;SemiBold&quot;/&gt;
+                            &lt;/MultiTrigger&gt;
+                            &lt;MultiTrigger&gt;
+                                &lt;MultiTrigger.Conditions&gt;
+                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;False&quot;/&gt;
+                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
+                                &lt;/MultiTrigger.Conditions&gt;
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Background}&quot;/&gt;
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Border}&quot;/&gt;
+                            &lt;/MultiTrigger&gt;
+                            &lt;MultiTrigger&gt;
+                                &lt;MultiTrigger.Conditions&gt;
+                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;True&quot;/&gt;
+                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
+                                &lt;/MultiTrigger.Conditions&gt;
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Background}&quot;/&gt;
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Border}&quot;/&gt;
+                            &lt;/MultiTrigger&gt;
+                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
+                                &lt;Setter Property=&quot;TextElement.Foreground&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
+                            &lt;/Trigger&gt;
+                        &lt;/ControlTemplate.Triggers&gt;
+                    &lt;/ControlTemplate&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+    &lt;/Window.Resources&gt;
+</pre>
+<p>The resulting behavior looks like this:<br />
+<a href="https://2000thingswpf.files.wordpress.com/2014/10/1187-001.png"><img class="alignnone size-full wp-image-9474" src="https://web.archive.org/web/20141025122931id_/https://2000thingswpf.files.wordpress.com/2014/10/1187-001.png?w=630" alt="1187-001"   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9473-544b96fcbfbfb' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9473&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9473-544b96fcbfbfb' data-name='like-post-frame-14605478-9473-544b96fcbfbfb'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, ItemContainerStyle, ItemsControl, Trigger, WPF</p>
+  <nav class="pager"><a href="2014-10-23-1186-default-itemcontainerstyle-for-a-listbox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-27-1188-using-an-itemcontainerstyle-to-animate-items-in-an-itemscontrol.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#674 – Mapping Mouse Position to Color, part II</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-22-673-mapping-mouse-position-to-color.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-24-675-handling-the-previewmousewheel-and-mousewheel-events.html">Next</a></nav>
+  <h1>#674 – Mapping Mouse Position to Color, part II</h1>
+  <p class="meta">2012-10-23 | <a href="http://wpf.2000things.com/2012/10/23/674-mapping-mouse-position-to-color-part-ii/">Original URL</a> | Wayback 20121029035346</p>
+  <article><div class="post-5830 post type-post status-publish format-standard hentry category-miscellaneous tag-color tag-color-wheel tag-hsv tag-miscellaneous tag-mouse-position tag-rgb tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 23, 2012</span>
+																						<span class="post-comments"><a href="2012-10-23-674-mapping-mouse-position-to-color-part-ii.html" title="Comment on #674 &#8211; Mapping Mouse Position to Color, part&nbsp;II">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In the <a href="http://wp.me/pZhye-1vQ">previous post</a>, we used the mouse position to map to the Hue and Saturation portions of an HSV color value and then set the background color of a window based on the mouse position.</p>
+<p>This post adds to the example, by using the mouse wheel to control the Value portion of the color (which ranges from 0.0 to 1.0).</p>
+<p>Here&#8217;s the updated XAML:</p>
+<p><pre class="brush: xml;">
+&lt;Window Name=&quot;win1&quot; x:Class=&quot;WpfApplication1.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;Color from Mouse Position&quot;
+        SizeToContent=&quot;WidthAndHeight&quot;
+        MouseMove=&quot;win1_MouseMove_1&quot; MouseWheel=&quot;win1_MouseWheel_1&quot;&gt;
+
+    &lt;Canvas x:Name=&quot;canv1&quot; Width=&quot;400&quot; Height=&quot;400&quot;&gt;
+        &lt;Label x:Name=&quot;lblInfo&quot; Content=&quot;{Binding RGBInfo}&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+        &lt;Ellipse x:Name=&quot;ellipseCenter&quot; Stroke=&quot;Black&quot; Width=&quot;2&quot; Height=&quot;2&quot; Fill=&quot;Black&quot; Canvas.Left=&quot;199&quot; Canvas.Top=&quot;199&quot;/&gt;
+    &lt;/Canvas&gt;
+&lt;/Window&gt;</pre></p>
+<p>And the updated code-behind:</p>
+<p><pre class="brush: csharp;">
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        SolidColorBrush backBrush = new SolidColorBrush();
+        double value = 1.0;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            this.DataContext = this;
+            win1.Background = backBrush;
+        }
+
+        private string rgbInfo;
+        public string RGBInfo
+        {
+            get { return rgbInfo; }
+            set
+            {
+                if (value != rgbInfo)
+                {
+                    rgbInfo = value;
+                    RaisePropertyChanged(&quot;RGBInfo&quot;);
+                }
+            }
+        }
+
+        private void win1_MouseMove_1(object sender, MouseEventArgs e)
+        {
+            RecalcColor(e.GetPosition(canv1));
+        }
+
+        private void win1_MouseWheel_1(object sender, MouseWheelEventArgs e)
+        {
+            if ((e.Delta &gt; 0) &amp;&amp; (value &lt; 1.0))
+                value += 0.1;
+            else if ((e.Delta &lt; 0) &amp;&amp; (value &gt; 0.0))
+                value -= 0.1;
+
+            RecalcColor(Mouse.GetPosition(canv1));
+        }
+
+        private void RecalcColor(Point mousePos)
+        {
+            double radius = (canv1.ActualWidth / 2);
+
+            double hue;
+            double saturation;
+            Color c = ColorFromMousePosition(mousePos, radius, out hue, out saturation);
+            backBrush.Color = c;
+            RGBInfo = string.Format(&quot;R={0}, G={1}, B={2}.  H={3:F1}, S={4:F1}, V={5:F1}&quot;,
+                c.R, c.G, c.B,
+                hue, saturation, value);
+
+            if (value &lt; 0.5)
+            {
+                lblInfo.Foreground = Brushes.White;
+                ellipseCenter.Stroke = Brushes.White;
+            }
+            else
+            {
+                lblInfo.Foreground = Brushes.Black;
+                ellipseCenter.Stroke = Brushes.Black;
+            }
+        }
+
+        private Color ColorFromMousePosition(Point mousePos, double radius, out double hue, out double saturation)
+        {
+            // Position relative to center of canvas
+            double xRel = mousePos.X - radius;
+            double yRel = mousePos.Y - radius;
+
+            // Hue is angle in deg, 0-360
+            double angleRadians = Math.Atan2(yRel, xRel);
+            hue = angleRadians * (180 / Math.PI);
+            if (hue &lt; 0)
+                hue = 360 + hue;
+
+            // Saturation is distance from center
+            saturation = Math.Min(Math.Sqrt(xRel * xRel + yRel * yRel) / radius, 1.0);
+
+            byte r, g, b;
+            ColorUtil.HsvToRgb(hue, saturation, value, out r, out g, out b);
+            return Color.FromRgb(r, g, b);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+</pre></p>
+<p>(See the <a href="http://wp.me/pZhye-1vQ">earlier post</a> for the <strong>ColorUtil</strong> code).<br />
+We can now roll the mouse wheel down to reduce the value, making the colors darker.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/10/673-0011.png"><img class="alignnone size-full wp-image-5832" title="673-001" alt="" src="https://web.archive.org/web/20121029035346id_/http://2000thingswpf.files.wordpress.com/2012/10/673-0011.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: Color, Color Wheel, HSV, Miscellaneous, Mouse Position, RGB, WPF</p>
+  <nav class="pager"><a href="2012-10-22-673-mapping-mouse-position-to-color.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-24-675-handling-the-previewmousewheel-and-mousewheel-events.html">Next</a></nav>
+</main>
+
+</body>
+</html>

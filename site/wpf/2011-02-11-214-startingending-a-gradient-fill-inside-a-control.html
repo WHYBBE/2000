@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#214 – Starting/Ending a Gradient Fill Inside a Control</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-02-10-213-changing-the-gradient-line-in-a-linear-gradient-brush.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-12-215-other-choices-for-gradient-spreads-outside-the-fill-area.html">Next</a></nav>
+  <h1>#214 – Starting/Ending a Gradient Fill Inside a Control</h1>
+  <p class="meta">2011-02-11 | <a href="http://wpf.2000things.com/2011/02/11/214-startingending-a-gradient-fill-inside-a-control/">Original URL</a> | Wayback 20110307051654</p>
+  <article><div class="post-1801 post type-post status-publish format-standard hentry category-graphics tag-brush tag-gradient tag-linear-gradient tag-lineargradientbrush tag-pad tag-spreadmethod tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">February 11, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-02-11-214-startingending-a-gradient-fill-inside-a-control.html">2 Comments</a></span> </p>
+                    </div>
+
+                    <p>You typically set the <strong>StartPoint</strong> and <strong>EndPoint</strong> of a gradient fill at the control&#8217;s boundary.  For example, a red-blue gradient might start at the left edge of the control and end at the right edge.  This is done with a <strong>StartPoint</strong> of (0,0.5) and an <strong>EndPoint</strong> of (1,0.5).</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/001-default1.png"><img class="alignnone size-full wp-image-1802" title="001-Default" src="https://web.archive.org/web/20110307051654id_/http://2000thingswpf.files.wordpress.com/2011/02/001-default1.png?w=345&amp;h=193" alt="" width="345" height="193" /></a></p>
+<p>You can also specify start and end points that are in the interior of the control.  If we specify (0.33,0.5) as the <strong>StartPoint</strong> and (0.67,0.5) as the <strong>EndPoint</strong>, we get the following.  (Gradient line drawn, for reference).</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/002-gradientinside.png"><img class="alignnone size-full wp-image-1803" title="002-GradientInside" src="https://web.archive.org/web/20110307051654id_/http://2000thingswpf.files.wordpress.com/2011/02/002-gradientinside.png?w=370&amp;h=211" alt="" width="370" height="211" /></a></p>
+<p>We still have a red-to-blue gradient, but the gradient starts 1/3 of the way into the rectangle and finishes 2/3 of the way into the rectangle.</p>
+<p>The fill behavior outside the specified gradient line depends on the value of the <strong>GradientBrush.SpreadMethod</strong>.  The default for this property, <strong>GradientSpreadMethod.Pad</strong>, specifies that the color at the edge of the gradient should just be extended to the edge of the control.</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/02/11/214-startingending-a-gradient-fill-inside-a-control/"
+    dc:identifier="http://wpf.2000things.com/2011/02/11/214-startingending-a-gradient-fill-inside-a-control/"
+    dc:title="#214 &#8211; Starting/Ending a Gradient Fill Inside a&nbsp;Control"
+    trackback:ping="http://wpf.2000things.com/2011/02/11/214-startingending-a-gradient-fill-inside-a-control/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/graphics/" title="View all posts in Graphics" rel="category tag">Graphics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/brush/" rel="tag">Brush</a>, <a href="http://en.wordpress.com/tag/gradient/" rel="tag">Gradient</a>, <a href="http://en.wordpress.com/tag/linear-gradient/" rel="tag">Linear Gradient</a>, <a href="http://en.wordpress.com/tag/lineargradientbrush/" rel="tag">LinearGradientBrush</a>, <a href="http://en.wordpress.com/tag/pad/" rel="tag">Pad</a>, <a href="http://en.wordpress.com/tag/spreadmethod/" rel="tag">SpreadMethod</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Graphics | Tags: Brush, Gradient, Linear Gradient, LinearGradientBrush, Pad, SpreadMethod, WPF</p>
+  <nav class="pager"><a href="2011-02-10-213-changing-the-gradient-line-in-a-linear-gradient-brush.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-12-215-other-choices-for-gradient-spreads-outside-the-fill-area.html">Next</a></nav>
+</main>
+
+</body>
+</html>

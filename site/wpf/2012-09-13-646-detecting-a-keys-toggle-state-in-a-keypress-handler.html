@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#646 – Detecting a Key’s Toggle State in a Keypress Handler</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-09-12-645-checking-for-the-presence-of-modifier-keys.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-14-647-you-can-treat-any-key-as-a-toggle-key.html">Next</a></nav>
+  <h1>#646 – Detecting a Key’s Toggle State in a Keypress Handler</h1>
+  <p class="meta">2012-09-13 | <a href="http://wpf.2000things.com/2012/09/13/646-detecting-a-keys-toggle-state-in-a-keypress-handler/">Original URL</a> | Wayback 20121015033216</p>
+  <article><div class="post-5597 post type-post status-publish format-standard hentry category-events tag-caps-lock tag-events tag-istoggled tag-keyboard tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 13, 2012</span>
+																						<span class="post-comments"><a href="2012-09-13-646-detecting-a-keys-toggle-state-in-a-keypress-handler.html" title="Comment on #646 &#8211; Detecting a Key&#8217;s Toggle State in a Keypress&nbsp;Handler">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>There are several keys on the keyboard that typically act as toggles&#8211;when you first press the key, it is considered <em>toggled</em>, or on&#8211;and when you press it again, it is considered untoggled, or off.</p>
+<p>The keys that are typically used as toggle keys are: Caps Lock, Scroll Lock and Num Lock.  (Note&#8211;the normal Shift key is not typically used as a toggle key).</p>
+<p>When a key is pressed, you can determine whether it is entering the toggled state or the untoggled state by checking the <strong>KeyEventArgs.IsToggled</strong> property in one of the keypress event handlers.</p>
+<p><pre class="brush: csharp;">
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            Trace.WriteLine(string.Format(&quot;----- PreviewKeyDown for key {0}, toggled = {1}&quot;, e.Key, e.IsToggled));
+        }
+</pre></p>
+<p>For example, if I press the Caps Lock four times, I&#8217;ll see the following output:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/09/646-001.png"><img class="alignnone size-full wp-image-5600" title="646-001" src="https://web.archive.org/web/20121015033216id_/http://2000thingswpf.files.wordpress.com/2012/09/646-001.png?w=630" alt=""   /></a></p>
+<p>The Caps Lock key is <em>toggling</em> on and off.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5597" class="wpl-button "><a href='2012-09-13-646-detecting-a-keys-toggle-state-in-a-keypress-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Events | Tags: Caps Lock, Events, IsToggled, Keyboard, WPF</p>
+  <nav class="pager"><a href="2012-09-12-645-checking-for-the-presence-of-modifier-keys.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-14-647-you-can-treat-any-key-as-a-toggle-key.html">Next</a></nav>
+</main>
+
+</body>
+</html>

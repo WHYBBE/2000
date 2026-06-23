@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#627 – Detecting Whether The Ctrl Key Is Pressed In a KeyDown Event Handler</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-08-16-626-key-updown-sequence-when-using-ctrl-key.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-20-628-key-updown-sequence-when-using-alt-key.html">Next</a></nav>
+  <h1>#627 – Detecting Whether The Ctrl Key Is Pressed In a KeyDown Event Handler</h1>
+  <p class="meta">2012-08-17 | <a href="http://wpf.2000things.com/2012/08/17/627-detecting-whether-the-ctrl-key-is-pressed-in-a-keydown-event-handler/">Original URL</a> | Wayback 20120821033410</p>
+  <article><div class="post-5451 post type-post status-publish format-standard hentry category-events tag-ctrl-key tag-events tag-keydown tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 17, 2012</span>
+																						<span class="post-comments"><a href="2012-08-17-627-detecting-whether-the-ctrl-key-is-pressed-in-a-keydown-event-handler.html" title="Comment on #627 &#8211; Detecting Whether The Ctrl Key Is Pressed In a KeyDown Event&nbsp;Handler">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you press a Ctrl-key combination (e.g. Ctrl+G) and you are monitoring <strong>KeyDown</strong> (or <strong>KeyUp</strong>) events, you&#8217;ll see two separate <strong>KeyDown</strong> events&#8211;one for the Ctrl key and one for the key pressed with it.</p>
+<p>If you want to respond to a Ctrl-key combination within a <strong>KeyDown</strong> event handler, you can do the following :</p>
+<ul>
+<li>Use the <strong>KeyEventArgs.Key</strong> property to see whether the event is being fired because the combination key (e.g. &#8216;G&#8217;) is being pressed</li>
+<li>Use the <strong>Keyboard.IsKeyDown</strong> method to check whether the Ctrl key is also currently down</li>
+</ul>
+<p><pre class="brush: csharp;">
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.G) &amp;&amp;
+                (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+                MessageBox.Show(&quot;You pressed Ctrl+G !&quot;);
+        }
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5451" class="wpl-button "><a href='2012-08-17-627-detecting-whether-the-ctrl-key-is-pressed-in-a-keydown-event-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/lesleycarter" title="lesleycarter" class="wpl-liker" rel="nofollow"><img src='http://1.gravatar.com/avatar/4fa9e9d40d90ed2c8c4cc5c0594da739?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='lesleycarter' width='30' height='30' /></a></li></ul></div></div></article>
+  <p class="meta">Categories: Events | Tags: Ctrl Key, Events, KeyDown, WPF</p>
+  <nav class="pager"><a href="2012-08-16-626-key-updown-sequence-when-using-ctrl-key.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-20-628-key-updown-sequence-when-using-alt-key.html">Next</a></nav>
+</main>
+
+</body>
+</html>

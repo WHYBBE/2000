@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#318 &#8211; You Can&#8217;t Use the static Modifier On a Constant &laquo; 2,000 Things You Should Know About C#</title>
+
+<link rel="stylesheet" href="http://s2.wp.com/wp-content/themes/pub/enterprise/style.css?m=1306528550g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1306557867&amp;back=csharp.2000things.com%2F2011%2F05%2F05%2F318-you-cant-use-the-static-modifier-on-a-constant%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #318 &#8211; You Can&#8217;t Use the static Modifier On a&nbsp;Constant Comments Feed" href="http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1297799136g" type="text/css" />
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/l10n.js?m=1295648996g&amp;ver=20101110'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/jquery/jquery.js?m=1305825971g&amp;ver=1.6.1'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/comment-reply.js?m=1286131762g&amp;ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='2,000 Things You Should Know About C#' href='http://csharp.2000things.com/' />
+<link rel='prev' title='#317 &#8211; Constants Can Be Class&nbsp;Members' href='http://csharp.2000things.com/2011/05/04/317-constants-can-be-class-members/' />
+<link rel='next' title='#319 &#8211; You Initialize a Constant Using an&nbsp;Expression' href='http://csharp.2000things.com/2011/05/06/319-you-initialize-a-constant-using-an-expression/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/' />
+<link rel='shortlink' href='http://wp.me/pXTis-HJ' />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=158" />
+	<style type="text/css">
+	/* <![CDATA[ */
+				div#likes { margin-top: 15px; }
+		.like-button { border: 1px solid #eee; padding: 2px 6px; font-size: 13px; font-family: arial, tahoma, sans-serif; }
+		#wpl-likebox { clear: left; font-size: 11px; font-family: arial, tahoma, verdana, sans-serif !important; min-height: 30px; margin: 10px 0 !important; padding: 5px 0 10px 0 !important; }
+		#wpl-button { float: left; background: url( http://s2.wp.com/i/buttonbg.png ) top left repeat-x; margin-right: 7px; border: 1px solid #d4d4d4; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-button a { border-bottom: none !important; color: #666 !important; line-height: 130% !important; text-decoration: none !important; outline: none; float: left; padding: 3px 6px 2px 24px !important; font-size: 11px !important; background: url( http://s1.wp.com/i/likestar.png ) 6px 49.8% no-repeat; }
+		#wpl-button a:hover { border-bottom: none !important; }
+		#wpl-button.liked { background: #feffce; border: 1px solid #f3e389; }
+		#wpl-button.liked a { color: #ba871b !important; }
+		#wpl-likebox #wpl-count { min-height: 25px; line-height: 130% !important; float: left; padding-top: 4px; }
+		#wpl-likebox #wpl-avatars { clear: left; max-height: 98px; overflow: hidden; margin-top: 15px; line-height: 130% !important; }
+		#wpl-likebox #wpl-avatars img { border: none !important; }
+		#wpl-likebox #wpl-mustlogin { line-height: 14px !important; font-size: 11px; clear: left; margin-top: 5px; background: #f0f0f0; padding: 10px; width: 65%; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-likebox #wpl-mustlogin a { color: #888; text-decoration: underline; }
+		#wpl-likebox #wpl-mustlogin p { margin: 5px 0; padding: 0 }
+		#wpl-likebox #wpl-mustlogin input.input { padding: 2px; background: #fff; font-size: 11px; font-family: inherit; border: 1px solid #ccc; -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin input#wp-submit { border: 1px solid #ccc; font-size: 11px; background: #fafafa; repeat-x; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 2px 4px !important; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin label { position: relative; cursor: text; }
+		#wpl-likebox #wpl-mustlogin label span { position: absolute; top: 0px; left: 5px; padding: 0 !important; }
+		#wpl-likebox #wpl-mustlogin label span { top /*\**/: -10px\9; }
+	/* ]]> */
+	</style>
+	<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+	<script type="text/javascript" charset="utf-8">
+		try{
+			var id = location.hash.match( /\#\!\/entry\/(\d+)/ )[1];
+			if ( id ) {
+				window.location = "http://csharp.2000things.com?p=" + id;
+			};
+		}catch( error ){
+		}
+	</script>		
+<style type="text/css">
+#header {
+	background: #FFFFFF url() no-repeat;
+}
+#header h1, #header h1 a, #header h1 a:visited, #header h4, #header h4 a, #header h4 a:visited, .header-left {
+	color: #333333;
+}
+</style>
+<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+</head>
+
+<body class="single single-post postid-2711 single-format-standard">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+         
+        <p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>  
+    </div>
+    <div class="header-right">   
+        <form method="get" id="searchform" action="http://csharp.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/" title="About&nbsp;Me">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/" title="Index">Index</a></li></ul></div>
+	
+	    </div>  
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+	
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-492889"><a href="http://csharp.2000things.com/category/assemblies/" title="View all posts filed under Assemblies">Assemblies</a>
+</li>
+	<li class="cat-item cat-item-4349673"><a href="http://csharp.2000things.com/category/inputoutput/" title="View all posts filed under Input/Output">Input/Output</a>
+</li>
+	<li class="cat-item cat-item-70886"><a href="http://csharp.2000things.com/category/debugging/" title="View all posts filed under Debugging">Debugging</a>
+</li>
+		</ul>
+	</div>
+	
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+        
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2011/05/04/317-constants-can-be-class-members/" rel="prev"><span class="meta-nav">&larr;</span> #317 &#8211; Constants Can Be Class&nbsp;Members</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2011/05/06/319-you-initialize-a-constant-using-an-expression/" rel="next">#319 &#8211; You Initialize a Constant Using an&nbsp;Expression <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+            <div class="post-2711 post type-post status-publish format-standard hentry category-data-types tag-c tag-constants tag-data-types tag-static">
+
+           		<div class="entry">
+
+                    <h1>#318 &#8211; You Can&#8217;t Use the static Modifier On a&nbsp;Constant</h1>
+
+                    <div class="post-info">
+                        <p><span class="time">May 5, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/#respond">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>Although <a href="http://csharp.2000things.com/2011/05/04/317-constants-can-be-class-members/">constants can be treated as static member variables</a>, you cannot include the <strong>static</strong> keyword when declaring a constant.  A constant is always effectively static, so the <strong>static</strong> keyword would be redundant.  The compiler will generate an error if you include it.</p>
+<pre class="brush: csharp;">
+        // This is ok
+        const string Demeanor = &quot;friendly&quot;;
+
+        // !! Compiler error - constant cannot be marked static
+        static const int TheAnswer = 42;
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/"
+    dc:identifier="http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/"
+    dc:title="#318 &#8211; You Can&#8217;t Use the static Modifier On a&nbsp;Constant"
+    trackback:ping="http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/data-types/" title="View all posts in Data Types" rel="category tag">Data Types</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/constants/" rel="tag">Constants</a>, <a href="http://en.wordpress.com/tag/data-types/" rel="tag">Data Types</a>, <a href="http://en.wordpress.com/tag/static/" rel="tag">Static</a></span>                    </p>
+                </div>
+
+            </div>
+
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+            
+                        <p></p>
+
+            <div id="wpl-likebox"><div id="wpl-button"><a href='http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/?like=1&amp;_wpnonce=4716db99ae' title='I like this post' class='like needs-login' rel='nofollow'><span>Like</span></a></div><div id="wpl-count">Be the first to like this post.</div></div><div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='2711' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1306557867" />
+<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts via email.</label></p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f2835dd914" /></p>					</form>
+							</div><!-- #respond -->
+						
+</div><!-- #comments -->
+    </div>
+
+<div id="sidebar">
+    	
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://csharp.2000things.com/2011/05/27/334-a-base-class-variable-can-refer-to-instances-of-derived-classes/" title="#334 &#8211; A Base Class Variable Can Refer to Instances of Derived&nbsp;Classes">#334 &#8211; A Base Class Variable Can Refer to Instances of Derived&nbsp;Classes</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/26/333-class-inheritance-leads-to-a-hierarchy-of-classes/" title="#333 &#8211; Class Inheritance Leads to a Hierarchy of&nbsp;Classes">#333 &#8211; Class Inheritance Leads to a Hierarchy of&nbsp;Classes</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/25/332-every-class-inherits-from-exactly-one-class/" title="#332 &#8211; Every Class Inherits from Exactly One&nbsp;Class">#332 &#8211; Every Class Inherits from Exactly One&nbsp;Class</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/" title="#331 &#8211; Calling a Base Class Constructor Implicitly vs.&nbsp;Explicitly">#331 &#8211; Calling a Base Class Constructor Implicitly vs.&nbsp;Explicitly</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/23/330-derived-classes-do-not-inherit-constructors/" title="#330 &#8211; Derived Classes Do Not Inherit&nbsp;Constructors">#330 &#8211; Derived Classes Do Not Inherit&nbsp;Constructors</a></li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar" summary="Calendar">
+	<caption>May 2011</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2011/04/" title="View posts for April 2011">&laquo; Apr</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr><td>1</td><td><a href="http://csharp.2000things.com/2011/05/02/" title="#315 &#8211; Accessibility of Static Methods and&nbsp;Properties">2</a></td><td><a href="http://csharp.2000things.com/2011/05/03/" title="#316 &#8211; Declaring and Using&nbsp;Constants">3</a></td><td><a href="http://csharp.2000things.com/2011/05/04/" title="#317 &#8211; Constants Can Be Class&nbsp;Members">4</a></td><td><a href="http://csharp.2000things.com/2011/05/05/" title="#318 &#8211; You Can&#8217;t Use the static Modifier On a&nbsp;Constant">5</a></td><td><a href="http://csharp.2000things.com/2011/05/06/" title="#319 &#8211; You Initialize a Constant Using an&nbsp;Expression">6</a></td><td>7</td>
+	</tr>
+	<tr>
+		<td>8</td><td><a href="http://csharp.2000things.com/2011/05/09/" title="#320 &#8211; The Constant Expression for a Reference-Typed Constant Must Be&nbsp;Null">9</a></td><td><a href="http://csharp.2000things.com/2011/05/10/" title="#321 &#8211; Accessibility of&nbsp;Constants">10</a></td><td><a href="http://csharp.2000things.com/2011/05/11/" title="#322 &#8211; Class&nbsp;Accessibility">11</a></td><td><a href="http://csharp.2000things.com/2011/05/12/" title="#323 &#8211; A Generic Class is a Template for a&nbsp;Class">12</a></td><td><a href="http://csharp.2000things.com/2011/05/13/" title="#324 &#8211; A Generic Class Can Have More than One Type&nbsp;Parameter">13</a></td><td>14</td>
+	</tr>
+	<tr>
+		<td>15</td><td><a href="http://csharp.2000things.com/2011/05/16/" title="#325 &#8211; Intellisense Understands Generic&nbsp;Classes">16</a></td><td><a href="http://csharp.2000things.com/2011/05/17/" title="#326 &#8211; Generic Type vs. Constructed&nbsp;Type">17</a></td><td><a href="http://csharp.2000things.com/2011/05/18/" title="#327 &#8211; Assigning a struct to a New Variable Makes a&nbsp;Copy">18</a></td><td><a href="http://csharp.2000things.com/2011/05/19/" title="#328 &#8211; Copying a struct Will Not Copy Underlying Reference&nbsp;Types">19</a></td><td><a href="http://csharp.2000things.com/2011/05/20/" title="#329 &#8211; A Class Can Inherit Data and Behavior from Another&nbsp;Class">20</a></td><td>21</td>
+	</tr>
+	<tr>
+		<td>22</td><td><a href="http://csharp.2000things.com/2011/05/23/" title="#330 &#8211; Derived Classes Do Not Inherit&nbsp;Constructors">23</a></td><td><a href="http://csharp.2000things.com/2011/05/24/" title="#331 &#8211; Calling a Base Class Constructor Implicitly vs.&nbsp;Explicitly">24</a></td><td><a href="http://csharp.2000things.com/2011/05/25/" title="#332 &#8211; Every Class Inherits from Exactly One&nbsp;Class">25</a></td><td><a href="http://csharp.2000things.com/2011/05/26/" title="#333 &#8211; Class Inheritance Leads to a Hierarchy of&nbsp;Classes">26</a></td><td id="today"><a href="http://csharp.2000things.com/2011/05/27/" title="#334 &#8211; A Base Class Variable Can Refer to Instances of Derived&nbsp;Classes">27</a></td><td>28</td>
+	</tr>
+	<tr>
+		<td>29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="4">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://csharp.2000things.com/2010/06/30/specify-command-line-arguments-in-visual-studio-2010/'>#13 - Specify Command Line Arguments in Visual Studio 2010</a></li><li><a href='http://csharp.2000things.com/about/'>About Me</a></li><li><a href='http://csharp.2000things.com/2010/06/28/examine-il-using-ildasm-exe/'>#11 - Examine IL Using Ildasm.exe</a></li><li><a href='http://csharp.2000things.com/2010/06/20/who-designed-c/'>#3 - Who Designed C#?</a></li><li><a href='http://csharp.2000things.com/2010/06/19/the-smallest-possible-c-program/'>#2 - The Smallest Possible C# Program</a></li><li><a href='http://csharp.2000things.com/2011/02/19/247-implementing-a-write-only-property/'>#247 - Implementing a Write-Only Property</a></li><li><a href='http://csharp.2000things.com/2011/05/17/326-generic-type-vs-constructed-type/'>#326 - Generic Type vs. Constructed Type</a></li><li><a href='http://csharp.2000things.com/2011/05/10/321-accessibility-of-constants/'>#321 - Accessibility of Constants</a></li><li><a href='http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/'>#331 - Calling a Base Class Constructor Implicitly vs. Explicitly</a></li><li><a href='http://csharp.2000things.com/2011/04/08/295-when-is-a-static-constructor-called/'>#295 - When Is a Static Constructor Called?</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='6 topics' style='font-size: 9.1602209944751pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='10 topics' style='font-size: 10.629834254144pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/arguments/' class='tag-link-12589' title='4 topics' style='font-size: 8pt;'>Arguments</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='6 topics' style='font-size: 9.1602209944751pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='29 topics' style='font-size: 14.033149171271pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='321 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='12 topics' style='font-size: 11.171270718232pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='44 topics' style='font-size: 15.348066298343pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/clone/' class='tag-link-317782' title='4 topics' style='font-size: 8pt;'>Clone</a>
+<a href='http://csharp.2000things.com/tag/composite-format-strings/' class='tag-link-38359641' title='4 topics' style='font-size: 8pt;'>Composite Format Strings</a>
+<a href='http://csharp.2000things.com/tag/composite-formatting/' class='tag-link-38359644' title='4 topics' style='font-size: 8pt;'>Composite Formatting</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='9 topics' style='font-size: 10.32044198895pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='7 topics' style='font-size: 9.5469613259669pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='13 topics' style='font-size: 11.480662983425pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='14 topics' style='font-size: 11.71270718232pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/deep-copy/' class='tag-link-11859575' title='6 topics' style='font-size: 9.1602209944751pt;'>Deep Copy</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='9 topics' style='font-size: 10.32044198895pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/flags/' class='tag-link-67489' title='5 topics' style='font-size: 8.6187845303867pt;'>Flags</a>
+<a href='http://csharp.2000things.com/tag/format-strings/' class='tag-link-38359643' title='4 topics' style='font-size: 8pt;'>Format Strings</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='8 topics' style='font-size: 9.9337016574586pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/inheritance/' class='tag-link-84839' title='6 topics' style='font-size: 9.1602209944751pt;'>Inheritance</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='5 topics' style='font-size: 8.6187845303867pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/jagged-arrays/' class='tag-link-41890510' title='4 topics' style='font-size: 8pt;'>Jagged Arrays</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 9.1602209944751pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='6 topics' style='font-size: 9.1602209944751pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='25 topics' style='font-size: 13.491712707182pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='8 topics' style='font-size: 9.9337016574586pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/object/' class='tag-link-15792' title='4 topics' style='font-size: 8pt;'>Object</a>
+<a href='http://csharp.2000things.com/tag/objects/' class='tag-link-28270' title='4 topics' style='font-size: 8pt;'>Objects</a>
+<a href='http://csharp.2000things.com/tag/out/' class='tag-link-98840' title='5 topics' style='font-size: 8.6187845303867pt;'>Out</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='9 topics' style='font-size: 10.32044198895pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/private/' class='tag-link-19' title='5 topics' style='font-size: 8.6187845303867pt;'>Private</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='14 topics' style='font-size: 11.71270718232pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/public/' class='tag-link-9085' title='5 topics' style='font-size: 8.6187845303867pt;'>Public</a>
+<a href='http://csharp.2000things.com/tag/ref/' class='tag-link-128683' title='5 topics' style='font-size: 8.6187845303867pt;'>Ref</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='13 topics' style='font-size: 11.480662983425pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/sorting/' class='tag-link-286523' title='5 topics' style='font-size: 8.6187845303867pt;'>Sorting</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='6 topics' style='font-size: 9.1602209944751pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/static-data/' class='tag-link-6211721' title='4 topics' style='font-size: 8pt;'>Static Data</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='12 topics' style='font-size: 11.171270718232pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='9 topics' style='font-size: 10.32044198895pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/switch/' class='tag-link-21233' title='6 topics' style='font-size: 9.1602209944751pt;'>Switch</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='6 topics' style='font-size: 9.1602209944751pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='4 topics' style='font-size: 8pt;'>Visual Studio</a>
+<a href='http://csharp.2000things.com/tag/while/' class='tag-link-391504' title='4 topics' style='font-size: 8pt;'>While</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>12,559 hits</li>
+			</ul>
+		</div>		
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a rel="designer" href="http://www.studiopress.com/">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery( function() {
+			
+			jQuery('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				jQuery('#wpl-mustlogin').remove();
+
+				jQuery.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=dc3251a818; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+				
+				jQuery('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="http://2000thingscsharp.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://csharp.2000things.com/2011/05/05/318-you-cant-use-the-static-modifier-on-a-constant/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="dc3251a818" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+				
+				jQuery('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			jQuery('#wpl-mustlogin input.input').live( 'focus', function() {
+				jQuery(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( jQuery(this).val() == '' )
+					jQuery(this).prev().show();
+			});
+			
+			jQuery('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				jQuery.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					jQuery('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			jQuery('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = jQuery(this).attr('href');
+				
+				jQuery.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript">_qoptions={qacct:'p-18-mFEk4J448M',labels:'language.en,type.wpcom,posttag.c,posttag.constants,posttag.data-types,posttag.static'};</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript><p><img class="robots-nocontent" src="http://pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cposttag.c%2Cposttag.constants%2Cposttag.data-types%2Cposttag.static" style="display:none" height="1" width="1" alt="" /></p></noscript>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?v&#038;ver=MU'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {
+	my_hash: ""
+};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1298424233g&amp;ver=MU'></script>
+	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type="text/javascript" src="http://b.scorecardresearch.com/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script type='text/javascript' src='http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js?m=1286131786g&#038;ver=2.1.364b'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1286131786g&#038;ver=2.1.364b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1286131782g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s1.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1286131786g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script src="http://s.stats.wordpress.com/w.js?19" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','user_id':'0','post':'2711','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1oVEcmQyVLQXJDYWRsdW1Ycy55SXZNSzk0YUd0dklXeV82UT12MENoPzl5LmN+aFdlfk1KQk9IL3x6KyU0bndSdnNIbHgrUnJ2RWNycFZMNV1sJn4yaC45VlgueS5yT2FNdGF6V19IaUt4ZTYvLy4wQT0yeVtdYnM5akh8M3VmSm4/W3p0eWU5LC0xN3VOP2EzP0hadF1VTldWY1VoYnp+U3gwRGpHdXhxJV0yeXJNflZaaVlRTTY9ZCVzUWpkQQ=='});
+addLoadEvent(function(){linktracker_init('14273916',2711);});
+	</script>
+
+</body>
+</html>

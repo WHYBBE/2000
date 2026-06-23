@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#703 – Indicating Formats that Are Allowed to be Dropped</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-30-702-dragging-an-image-within-a-wpf-application.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-04-704-escape-key-cancels-drag-and-drop-behavior.html">Next</a></nav>
+  <h1>#703 – Indicating Formats that Are Allowed to be Dropped</h1>
+  <p class="meta">2012-12-03 | <a href="http://wpf.2000things.com/2012/12/03/703-indicating-formats-that-are-allowed-to-be-dropped/">Original URL</a> | Wayback 20121210181712</p>
+  <article><div class="post-6096 post type-post status-publish format-standard hentry category-events tag-drag-and-drop tag-dragenter tag-dragover tag-events tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 3, 2012</span>
+																						<span class="post-comments"><a href="2012-12-03-703-indicating-formats-that-are-allowed-to-be-dropped.html" title="Comment on #703 &#8211; Indicating Formats that Are Allowed to be&nbsp;Dropped">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>A control becomes a drop target by setting its <strong>AllowDrop</strong> property to true and handling its <strong>Drop </strong>event, where you retrieve the dragged data.  You could also verify in the <strong>Drop</strong> event whether the data being dropped is a format that the control can handle.  But at that point, the data has already been dropped.</p>
+<p>The preferred method for a control to indicate which types of data it can handle is to handle the <strong>DragEnter </strong>and <strong>DragOver </strong>events and set the <strong>DragEventArgs.Effects</strong> property to indicate that the operation is not allowed.  This will result in the mouse cursor indicating that the drop operation is not allowed.  The <strong>Drop</strong> event will also not fire.</p>
+<p><pre class="brush: csharp;">
+        private void Image_DragEnter(object sender, DragEventArgs e)
+        {
+
+            if (e.Data.GetDataPresent(DataFormats.Bitmap))
+                e.Effects = DragDropEffects.Copy;
+            else
+                e.Effects = DragDropEffects.None;
+
+            e.Handled = true;
+        }
+
+        private void Image_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Bitmap))
+                e.Effects = DragDropEffects.Copy;
+            else
+                e.Effects = DragDropEffects.None;
+
+            e.Handled = true;
+        }
+</pre></p>
+<p><a href="http://wpf.2000things.com/?attachment_id=6112" rel="attachment wp-att-6112"><img class="alignnone size-full wp-image-6112" alt="" src="https://web.archive.org/web/20121210181712id_/http://2000thingswpf.files.wordpress.com/2012/12/703-001.png?w=630"   /></a></pre>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Drag-and-Drop, DragEnter, DragOver, Events, WPF</p>
+  <nav class="pager"><a href="2012-11-30-702-dragging-an-image-within-a-wpf-application.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-04-704-escape-key-cancels-drag-and-drop-behavior.html">Next</a></nav>
+</main>
+
+</body>
+</html>

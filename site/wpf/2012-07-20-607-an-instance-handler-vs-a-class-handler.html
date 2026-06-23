@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#607 – An Instance Handler vs. A Class Handler</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-07-19-606-reusing-an-existing-routed-event-in-your-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-23-608-class-handlers-are-invoked-before-instance-handlers.html">Next</a></nav>
+  <h1>#607 – An Instance Handler vs. A Class Handler</h1>
+  <p class="meta">2012-07-20 | <a href="http://wpf.2000things.com/2012/07/20/607-an-instance-handler-vs-a-class-handler/">Original URL</a> | Wayback 20120731062207</p>
+  <article><div class="post-5322 post type-post status-publish format-standard hentry category-events tag-class-handler tag-events tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 20, 2012</span>
+																						<span class="post-comments"><a href="2012-07-20-607-an-instance-handler-vs-a-class-handler.html" title="Comment on #607 &#8211; An Instance Handler vs. A Class&nbsp;Handler">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>In WPF, when you define an event handler, the event handler is typically an <em>instance handler</em>&#8211;i.e. an event handler associated with a specific instance of a control.  In the XAML below, we&#8217;ve defined an event handler for one particular <strong>Button</strong>.</p>
+<p><pre class="brush: xml;">
+&lt;Button Content=&quot;Like&quot; Click=&quot;btnLike_Click&quot;/&gt;
+</pre></p>
+<p>You can also define a <em>class handler</em>&#8211;an event handler that is associated with all instances of a particular type, rather than one instance.  It will be called whenever the event in question passes through any instance of the specified type.</p>
+<p>For example, we can define a handler that will be called when the user clicks on <em>any</em> <strong>Button </strong>control.</p>
+<p><pre class="brush: csharp;">
+        public MainWindow()
+        {
+            this.InitializeComponent();
+
+            // Call when user clicks on any Button
+            EventManager.RegisterClassHandler(
+                typeof(Button),
+                ButtonBase.ClickEvent,
+                new RoutedEventHandler(HandleAllButtons));
+        }
+
+        private void HandleAllButtons(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)e.Source;
+            Trace.WriteLine(string.Format(&quot;* You clicked on [{0}] button&quot;, b.Content));
+        }
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5322" class="wpl-button "><a href='2012-07-20-607-an-instance-handler-vs-a-class-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count"><span class="wpl-count-number">2</span> bloggers like this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/travelagos" title="Lago" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/fd1dbb855bcd8941e24277fbddc58550?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='Lago' width='30' height='30' /></a></li><li><a href="http://gravatar.com/urbanwallart" title="urbanwallart" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/9fd1b129b3b50e332ed1eef81a034bfc?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='urbanwallart' width='30' height='30' /></a></li></ul></div></div></article>
+  <p class="meta">Categories: Events | Tags: Class Handler, Events, WPF</p>
+  <nav class="pager"><a href="2012-07-19-606-reusing-an-existing-routed-event-in-your-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-23-608-class-handlers-are-invoked-before-instance-handlers.html">Next</a></nav>
+</main>
+
+</body>
+</html>

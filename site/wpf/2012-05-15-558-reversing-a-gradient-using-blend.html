@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#558 – Reversing a Gradient Using Blend</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-05-14-557-using-an-image-as-an-opacity-mask.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-16-559-drawing-a-masked-gradient-in-blend.html">Next</a></nav>
+  <h1>#558 – Reversing a Gradient Using Blend</h1>
+  <p class="meta">2012-05-15 | <a href="http://wpf.2000things.com/2012/05/15/558-reversing-a-gradient-using-blend/">Original URL</a> | Wayback 20120522033225</p>
+  <article><div class="post-4854 post type-post status-publish format-standard hentry category-blend tag-blend tag-gradient-fill tag-gradient-stop tag-gradientstop tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 15, 2012</span>
+																						<span class="post-comments"><a href="2012-05-15-558-reversing-a-gradient-using-blend.html" title="Comment on #558 &#8211; Reversing a Gradient Using&nbsp;Blend">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When <a href="2012-04-05-530-creating-a-linear-gradient-in-blend.html">defining a gradient fill</a> in Blend, the <strong>Offset</strong> property of each gradient stop indicates the location of the gradient stop along the gradient line, from <strong>StartPoint</strong> to <strong>EndPoint</strong>.</p>
+<p>In the example below, the gradient runs from white at the top of the control to blue at the bottom.</p>
+<p><pre class="brush: xml;">
+		&lt;Button Content=&quot;Gradient Fill&quot; HorizontalAlignment=&quot;Center&quot;
+		        Padding=&quot;15,10&quot; Margin=&quot;20&quot;&gt;
+			&lt;Button.Background&gt;
+				&lt;LinearGradientBrush StartPoint=&quot;0,0&quot; EndPoint=&quot;0,1&quot; &gt;
+					&lt;GradientStop Color=&quot;White&quot; Offset=&quot;0&quot;/&gt;
+					&lt;GradientStop Color=&quot;Pink&quot; Offset=&quot;0.75&quot;/&gt;
+					&lt;GradientStop Color=&quot;Blue&quot; Offset=&quot;1&quot;/&gt;
+				&lt;/LinearGradientBrush&gt;
+			&lt;/Button.Background&gt;
+		&lt;/Button&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/558-001.png"><img class="alignnone size-full wp-image-4857" title="558-001" src="https://web.archive.org/web/20120522033225id_/http://2000thingswpf.files.wordpress.com/2012/05/558-001.png?w=630" alt=""   /></a><br />
+You can easily reverse the order of the gradient stops by clicking on a button in Blend. The button is located on the color editing panel.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/05/558-002.png"><img class="alignnone size-full wp-image-4858" title="558-002" src="https://web.archive.org/web/20120522033225id_/http://2000thingswpf.files.wordpress.com/2012/05/558-002.png?w=630" alt=""   /></a><br />
+If we reverse the gradient stops for the example above, the offsets are reversed and the gradient flips upside down.</p>
+<p><pre class="brush: xml;">
+		&lt;Button Content=&quot;Gradient Fill&quot; HorizontalAlignment=&quot;Center&quot;
+		        Padding=&quot;15,10&quot; Margin=&quot;20&quot;&gt;
+			&lt;Button.Background&gt;
+				&lt;LinearGradientBrush StartPoint=&quot;0,0&quot; EndPoint=&quot;0,1&quot; &gt;
+					&lt;GradientStop Color=&quot;White&quot; Offset=&quot;1&quot;/&gt;
+					&lt;GradientStop Color=&quot;Pink&quot; Offset=&quot;0.25&quot;/&gt;
+					&lt;GradientStop Color=&quot;Blue&quot;/&gt;
+				&lt;/LinearGradientBrush&gt;
+			&lt;/Button.Background&gt;
+		&lt;/Button&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/558-003.png"><img class="alignnone size-full wp-image-4862" title="558-003" src="https://web.archive.org/web/20120522033225id_/http://2000thingswpf.files.wordpress.com/2012/05/558-003.png?w=630" alt=""   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-4854" class="wpl-button "><a href='2012-05-15-558-reversing-a-gradient-using-blend.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Blend | Tags: Blend, Gradient Fill, Gradient Stop, GradientStop, WPF</p>
+  <nav class="pager"><a href="2012-05-14-557-using-an-image-as-an-opacity-mask.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-16-559-drawing-a-masked-gradient-in-blend.html">Next</a></nav>
+</main>
+
+</body>
+</html>

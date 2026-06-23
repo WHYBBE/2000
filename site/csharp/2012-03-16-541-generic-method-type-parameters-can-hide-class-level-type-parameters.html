@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#541 – Generic Method Type Parameters Can Hide Class-Level Type Parameters</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-03-15-540-non-generic-methods-in-a-generic-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-03-19-542-conventions-for-naming-type-parameters.html">Next</a></nav>
+  <h1>#541 – Generic Method Type Parameters Can Hide Class-Level Type Parameters</h1>
+  <p class="meta">2012-03-16 | <a href="http://csharp.2000things.com/2012/03/16/541-generic-method-type-parameters-can-hide-class-level-type-parameters/">Original URL</a> | Wayback 20120322022240</p>
+  <article><div class="post-4559 post type-post status-publish format-standard hentry category-methods tag-c tag-generics tag-methods">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">March 16, 2012</span>
+                        	                        	<span class="post-comments"><a href="2012-03-16-541-generic-method-type-parameters-can-hide-class-level-type-parameters.html">2 Comments</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>When you have generic methods within a generic class, if the name of a type parameter in the generic method matches the name of a type parameter for the class, the parameter in the method takes precedence.</p>
+<p>In the example below, both the <strong>Dog</strong> class and the <strong>BuryThing</strong> method declare a type parameter named <strong>T</strong>.  Within the body of the <strong>BuryThing</strong> method, the method&#8217;s type parameter is used, rather than the class-level type parameter of the same name.</p>
+<p><pre class="brush: csharp;">
+    public class Dog&lt;T&gt;
+    {
+        // This method's type parameter hides the class-level type parameter
+        public void BuryThing&lt;T&gt;(T thing)
+        {
+            Console.WriteLine(&quot;T's type is {0}&quot;, typeof(T).ToString());
+        }
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+            Dog&lt;Cow&gt; d = new Dog&lt;Cow&gt;(&quot;Buster&quot;, 5);
+            d.BuryThing(new Bone(&quot;Rawhide&quot;));
+</pre></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/03/541-001.png"><img class="alignnone size-full wp-image-4563" title="541-001" src="https://web.archive.org/web/20120322022240id_/http://2000thingscsharp.files.wordpress.com/2012/03/541-001.png?w=630" alt=""   /></a></p>
+<p>To avoid this confusion, you should give your type parameters meaningful names, e.g. <strong>TDogThing</strong> and <strong>TThingToBury</strong>.</p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Methods | Tags: C#, Generics, Methods</p>
+  <nav class="pager"><a href="2012-03-15-540-non-generic-methods-in-a-generic-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-03-19-542-conventions-for-naming-type-parameters.html">Next</a></nav>
+</main>
+
+</body>
+</html>

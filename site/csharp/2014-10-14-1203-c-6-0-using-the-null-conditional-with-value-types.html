@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,203 – C# 6.0 – Using the Null-Conditional with Value Types</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-13-1202-c-6-0-null-conditional-operator.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-15-1204-c-6-0-using-null-conditional-with-indexer.html">Next</a></nav>
+  <h1>#1,203 – C# 6.0 – Using the Null-Conditional with Value Types</h1>
+  <p class="meta">2014-10-14 | <a href="http://csharp.2000things.com/2014/10/14/1203-c-6-0-using-the-null-conditional-with-value-types/">Original URL</a> | Wayback 20141018031258</p>
+  <article><div class="post-9195 post type-post status-publish format-standard hentry category-miscellaneous tag-c tag-c-6-0 tag-miscellaneous tag-null-conditional">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 14, 2014</span>
+																						<span class="post-comments"><a href="2014-10-14-1203-c-6-0-using-the-null-conditional-with-value-types.html" title="Comment on #1,203 &#8211; C# 6.0 &#8211; Using the Null-Conditional with Value&nbsp;Types">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>The new null-conditional allows checking for null and de-referencing a reference-typed variable in a single step.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            string sLeft = sTest?.Substring(0, 1);
+</pre>
+<p>If the variable being checked for null (e.g. <strong>sTest</strong>) is null, the result of the expression is null.  This works as expected if the result of the expression is being assigned to a reference-typed variable (e.g. <strong>sLeft</strong>).  If the method or property being invoked, however, is a value type, then the result of the expression must be a nullable type.</p>
+<p>For example, we might do the following in C# 5.0:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            int sLen;
+            if (sTest != null)
+                sLen = sTest.Length;
+</pre>
+<p>If <strong>sTest</strong> is null, the assignment isn&#8217;t done and <strong>sLen</strong> retains its value.</p>
+<p>In C# 6.0, you can do this assignment using the null-conditional.  The variable being assigned to must be a nullable type whose base type matches the type of the expression.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            int? sLen = sTest?.Length;
+</pre>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2014/10/14/1203-c-6-0-using-the-null-conditional-with-value-types/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-9195"><span>Twitter</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2014/10/14/1203-c-6-0-using-the-null-conditional-with-value-types/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: C#, C# 6.0, Miscellaneous, Null-Conditional</p>
+  <nav class="pager"><a href="2014-10-13-1202-c-6-0-null-conditional-operator.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-15-1204-c-6-0-using-null-conditional-with-indexer.html">Next</a></nav>
+</main>
+
+</body>
+</html>

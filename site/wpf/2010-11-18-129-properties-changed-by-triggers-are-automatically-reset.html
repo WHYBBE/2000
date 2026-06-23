@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#129 – Properties Changed by Triggers Are Automatically Reset</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-17-128-using-code-snippets-to-implement-a-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-19-130-wpf-supports-three-types-of-triggers.html">Next</a></nav>
+  <h1>#129 – Properties Changed by Triggers Are Automatically Reset</h1>
+  <p class="meta">2010-11-18 | <a href="http://wpf.2000things.com/2010/11/18/129-properties-changed-by-triggers-are-automatically-reset/">Original URL</a> | Wayback 20120706162615</p>
+  <article><div class="post-1108 post type-post status-publish format-standard hentry category-basics tag-property-trigger tag-triggers tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 18, 2010</span>
+																						<span class="post-comments"><a href="2010-11-18-129-properties-changed-by-triggers-are-automatically-reset.html" title="Comment on #129 &#8211; Properties Changed by Triggers Are Automatically&nbsp;Reset">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you change a property value using a property trigger, the original value of the property will be restored once the conditions of the trigger are no longer true.</p>
+<p>For example, you could create a style that applies a drop shadow to a button whenever the user hovers over it, then apply the style to several buttons, as follows:</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;Style x:Key=&quot;hoverStyle&quot; TargetType=&quot;Button&quot;&gt;
+            &lt;Style.Triggers&gt;
+                &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;true&quot;&gt;
+                    &lt;Setter Property=&quot;Button.Effect&quot;&gt;
+                        &lt;Setter.Value&gt;
+                            &lt;DropShadowEffect/&gt;
+                        &lt;/Setter.Value&gt;
+                    &lt;/Setter&gt;
+                &lt;/Trigger&gt;
+            &lt;/Style.Triggers&gt;
+        &lt;/Style&gt;
+    &lt;/Window.Resources&gt;
+    &lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
+        &lt;Button Content=&quot;Run&quot; Height=&quot;23&quot; Width=&quot;75&quot; Style=&quot;{StaticResource hoverStyle}&quot;/&gt;
+        &lt;Button Content=&quot;Skip&quot; Height=&quot;23&quot; Width=&quot;75&quot; Style=&quot;{StaticResource hoverStyle}&quot;/&gt;
+        &lt;Button Content=&quot;Jump&quot; Height=&quot;23&quot; Width=&quot;75&quot; Style=&quot;{StaticResource hoverStyle}&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>As you hover over a button, it gets a drop shadow.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2010/11/dropshadow.png"><img class="alignnone size-full wp-image-1111" title="DropShadow" src="https://web.archive.org/web/20120706162615id_/http://2000thingswpf.files.wordpress.com/2010/11/dropshadow.png?w=630" alt=""   /></a><br />
+Notice, however, that as you move on to the next button, the value of <strong>IsMouseOver</strong> for the first button becomes false and the original value of the <strong>Button.Effect </strong>property is restored&#8211;i.e. the drop shadow is automatically removed.</p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Basics | Tags: Property Trigger, Triggers, WPF</p>
+  <nav class="pager"><a href="2010-11-17-128-using-code-snippets-to-implement-a-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-19-130-wpf-supports-three-types-of-triggers.html">Next</a></nav>
+</main>
+
+</body>
+</html>

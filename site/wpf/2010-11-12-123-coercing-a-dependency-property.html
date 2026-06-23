@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#123 – Coercing a Dependency Property</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-11-122-validating-a-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-13-124-one-example-of-wpfs-use-of-dependency-property-callbacks.html">Next</a></nav>
+  <h1>#123 – Coercing a Dependency Property</h1>
+  <p class="meta">2010-11-12 | <a href="http://wpf.2000things.com/2010/11/12/123-coercing-a-dependency-property/">Original URL</a> | Wayback 20110123055000</p>
+  <article><div class="post-1069 post type-post status-publish format-standard hentry category-basics tag-coercion-callback tag-dependency-properties tag-wpf">
+				
+           		<div class="entry">
+                                                
+                    
+                        
+                    <div class="post-info">
+                        <p><span class="time">November 12, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-11-12-123-coercing-a-dependency-property.html">1 Comment</a></span> </p> 
+                    </div>
+               
+                    <p>A class that implements a dependency property can optionally provide a <em>coercion callback</em>,  which it specifies when registering the property.  A coercion callback is called when a property is about to get a new value and gives the class a chance to <em>coerce</em> the property value to a different value.</p>
+<p>You specify a validation callback when registering a dependency property, using the <strong>CoerceValueCallback</strong> delegate.</p>
+<pre class="brush: csharp;">
+            PropertyMetadata ageMetadata =
+                new PropertyMetadata(
+                    18,     // Default value
+                    new PropertyChangedCallback(OnAgeChanged),
+                    new CoerceValueCallback(OnAgeCoerceValue));    // ** allow class to coerce value
+
+            // Register the property
+            AgeProperty =
+                DependencyProperty.Register(
+                    &quot;Age&quot;,                 // Property's name
+                    typeof(int),           // Property's type
+                    typeof(Person),        // Defining class' type
+                    ageMetadata,           // Defines default value &amp; changed/coercion callbacks  (optional)
+                    new ValidateValueCallback(OnAgeValidateValue));   // validation (optional)
+</pre>
+<p>You might use coercion to enforce minimum and maximum values for a property.</p>
+<pre class="brush: csharp;">
+        private static object OnAgeCoerceValue
+            (DependencyObject depObj, object baseValue)
+        {
+            int coercedValue = (int)baseValue;
+
+            if ((int)baseValue &gt; 120)
+                coercedValue = 120;
+
+            if ((int)baseValue &lt; 1)
+                coercedValue = 1;
+
+            return coercedValue;
+        }
+</pre>
+<div class="clear"></div>
+                                                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/11/12/123-coercing-a-dependency-property/"
+    dc:identifier="http://wpf.2000things.com/2010/11/12/123-coercing-a-dependency-property/"
+    dc:title="#123 &#8211; Coercing a Dependency&nbsp;Property"
+    trackback:ping="http://wpf.2000things.com/2010/11/12/123-coercing-a-dependency-property/trackback/" />
+</rdf:RDF>                    -->
+                
+                </div>
+                    
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/basics/" title="View all posts in Basics" rel="category tag">Basics</a></span>  
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/coercion-callback/" rel="tag">Coercion Callback</a>, <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+                                
+            </div></article>
+  <p class="meta">Categories: Basics | Tags: Coercion Callback, Dependency Properties, WPF</p>
+  <nav class="pager"><a href="2010-11-11-122-validating-a-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-13-124-one-example-of-wpfs-use-of-dependency-property-callbacks.html">Next</a></nav>
+</main>
+
+</body>
+</html>

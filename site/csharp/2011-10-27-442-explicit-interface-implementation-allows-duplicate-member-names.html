@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#442 – Explicit Interface Implementation Allows Duplicate Member Names</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-26-441-implementing-interface-members-explicitly.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-28-443-an-interface-cannot-contain-fields.html">Next</a></nav>
+  <h1>#442 – Explicit Interface Implementation Allows Duplicate Member Names</h1>
+  <p class="meta">2011-10-27 | <a href="http://csharp.2000things.com/2011/10/27/442-explicit-interface-implementation-allows-duplicate-member-names/">Original URL</a> | Wayback 20121225220749</p>
+  <article><div class="post-3736 post type-post status-publish format-standard hentry category-interfaces tag-c tag-interfaces">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 27, 2011</span>
+																						<span class="post-comments"><a href="2011-10-27-442-explicit-interface-implementation-allows-duplicate-member-names.html" title="Comment on #442 &#8211; Explicit Interface Implementation Allows Duplicate Member&nbsp;Names">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Let&#8217;s assume that a class implements more than one interface and there is a particular member that exists in both interfaces.  For example, let&#8217;s say that the <strong>Cow</strong> class implements both the <strong>IMoo</strong> and <strong>IMakeMilk</strong> interfaces and they each contain a property named <strong>Motto</strong> whose type is <strong>string</strong>.</p>
+<p>To provide implementations for both <strong>IMoo.Motto</strong> and <strong>IMakeMilk.Motto</strong>, the <strong>Cow</strong> class must implement the interfaces explicitly, to distinguish between the two properties.</p>
+<p><pre class="brush: csharp;">
+    public class Cow : IMoo, IMakeMilk
+    {
+        string IMoo.Motto
+        {
+            get { return &quot;I moo because I want attention&quot;; }
+        }
+
+        string IMakeMilk.Motto
+        {
+            get { return &quot;Everyone should drink a little milk every day&quot;; }
+        }
+
+        // Other Cow stuff
+    }
+</pre></p>
+<p>We now must access these properties through their corresponding interfaces.</p>
+<p><pre class="brush: csharp;">
+            Cow bossie = new Cow(&quot;Bossie&quot;, 12);
+
+            // NOTE: bossie.Motto does not exist
+
+            IMoo mooing = bossie;
+            Console.WriteLine(mooing.Motto);
+
+            IMakeMilk milking = bossie;
+            Console.WriteLine(milking.Motto);
+</pre></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/10/001.png"><img class="alignnone size-full wp-image-3741" title="001" src="https://web.archive.org/web/20121225220749id_/http://2000thingscsharp.files.wordpress.com/2011/10/001.png?w=630" alt=""   /></a></pre>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Interfaces | Tags: C#, Interfaces</p>
+  <nav class="pager"><a href="2011-10-26-441-implementing-interface-members-explicitly.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-28-443-an-interface-cannot-contain-fields.html">Next</a></nav>
+</main>
+
+</body>
+</html>

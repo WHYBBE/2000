@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#277 – Images May Have Embedded DpiX and DpiY Information</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-04-14-276-change-image-sizing-using-the-stretch-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-04-16-278-allow-an-image-to-get-bigger-but-not-smaller-or-vice-versa.html">Next</a></nav>
+  <h1>#277 – Images May Have Embedded DpiX and DpiY Information</h1>
+  <p class="meta">2011-04-15 | <a href="http://wpf.2000things.com/2011/04/15/277-images-may-have-embedded-dpix-and-dpiy-information/">Original URL</a> | Wayback 20110423204106</p>
+  <article><div class="post-2289 post type-post status-publish format-standard hentry category-controls tag-controls tag-dpi tag-image tag-resolution tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">April 15, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-04-15-277-images-may-have-embedded-dpix-and-dpiy-information.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>Even when you specify <strong>Stretch=None</strong> for an <strong>Image</strong> control, you may notice that the image does not appear at the expected number of pixels wide/high.  This can happen if the image&#8217;s resolution (DPI) doesn&#8217;t match your current system DPI.</p>
+<p>An image file (e.g. .png or .jpg) contains an image that is a certain number of pixels wide/high.  An image file may also contain embedded DpiX and DpiY (resolution) information.  This resolution information is not present in all image files.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/04/001-dpisettings.png"><img class="alignnone size-full wp-image-2292" title="001-DPISettings" src="https://web.archive.org/web/20110423204106id_/http://2000thingswpf.files.wordpress.com/2011/04/001-dpisettings.png?w=373&amp;h=517" alt="" width="373" height="517" /></a></p>
+<p>WPF uses this resolution information to calculate the image size in WPF Units as:</p>
+<ul>
+<li>Width (in WPF Units) = (96 * ImageWidth) / ImageHorizontalDPI</li>
+<li>Height (in WPF Units) = (96 * ImageHeight) / ImageVerticalDPI</li>
+</ul>
+<p>If there is no resolution information in the file, WPF defaults to 96 dpi.</p>
+<p>WPF then calculates the image size in pixels as:</p>
+<ul>
+<li>Width (pixels) = Width (WPF Units) * (SystemDPI / 96)</li>
+<li>Height (pixels) = Height (WPF Units) * (SystemDPI / 96)</li>
+</ul>
+<p>&nbsp;</p>
+<div class="tppha">
+						<span class="tpphah">
+							On the PopPressed Radar
+						</span><a href="http://poppressed.com/?post_type=tp_pp_features&amp;p=1884" class="tpphat" rel="tppcpop_C_videogames_technology" target="_top">
+									<img src="https://web.archive.org/web/20110423204106id_/http://s.wordpress.com/imgpress?resize=140,140&amp;url=http%3A%2F%2Fwww.plastiquepeople.com%2Fblogg%2Fprint_party.jpg" alt="" />
+									<span><i>Print Magazine's</i> New Visual Artists</span>
+								</a><a href="http://poppressed.com/?post_type=tp_pp_features&amp;p=1875" class="tpphat" rel="tppcpop_C_videogames_technology" target="_top">
+									<img src="https://web.archive.org/web/20110423204106id_/http://poppressed.files.wordpress.com/2011/04/inhabitat1.jpeg?w=140&amp;h=140&amp;crop=true" alt="" />
+									<span>Saint Petersburg Unveils Primorskiy Zoological Park with Geodesic Domes  </span>
+								</a><a href="http://poppressed.com/?post_type=tp_pp_features&amp;p=1863" class="tpphat" rel="tppcpop_C_videogames_technology" target="_top">
+									<img src="https://web.archive.org/web/20110423204106id_/http://poppressed.files.wordpress.com/2011/04/picture-17.png?w=140&amp;h=140&amp;crop=true" alt="" />
+									<span>What One Does In Paris if One is a Carter or Knowles</span>
+								</a><div style="clear: both;"></div>
+						</div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, DPI, Image, Resolution, WPF</p>
+  <nav class="pager"><a href="2011-04-14-276-change-image-sizing-using-the-stretch-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-04-16-278-allow-an-image-to-get-bigger-but-not-smaller-or-vice-versa.html">Next</a></nav>
+</main>
+
+</body>
+</html>

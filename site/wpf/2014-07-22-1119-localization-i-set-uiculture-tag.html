@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,119 – Localization I – Set UICulture Tag</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-07-21-1118-an-example-of-input-that-obeys-currentculture.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-07-23-1120-getting-a-list-of-all-supported-cultures.html">Next</a></nav>
+  <h1>#1,119 – Localization I – Set UICulture Tag</h1>
+  <p class="meta">2014-07-22 | <a href="http://wpf.2000things.com/2014/07/22/1119-localization-i-set-uiculture-tag/">Original URL</a> | Wayback 20150316194640</p>
+  <article><div class="post-9038 post type-post status-publish format-standard hentry category-localization tag-localization tag-uiculture tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 22, 2014</span>
+																						<span class="post-comments"><a href="2014-07-22-1119-localization-i-set-uiculture-tag.html" title="Comment on #1,119 &#8211; Localization I &#8211; Set UICulture&nbsp;Tag">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>The first step in localizing an application is to add a <strong>UICulture</strong> tag to your project file, as shown below.  This tells the compiler that you&#8217;ll be localizing your application and specifies a default culture to use.</p>
+<p>To make this change:</p>
+<ul>
+<li>Open your project file (e.g. .csproj) in a text editor</li>
+<li>Add the following tag within the first <strong>PropertyGroup</strong>:
+<ul>
+<li><strong>&lt;UICulture&gt;en-US&lt;/UICulture&gt;</strong></li>
+</ul>
+</li>
+<li>Save your change</li>
+<li>Open the project in Visual Studio</li>
+<li>Rebuild the project</li>
+</ul>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1119-002.png"><img class="alignnone size-full wp-image-9039" src="https://web.archive.org/web/20150316194640id_/http://2000thingswpf.files.wordpress.com/2014/07/1119-002.png?w=630" alt="1119-002"   /></a></p>
+<p>The application will run as it did before, but the compiled versions of your XAML files (BAML) are now located in a separate DLL&#8211;a <em>satellite assembly</em>.  We can see this by comparing the contents of the \bin directory before and after the change.</p>
+<p>Before making the change, we just had an .exe file.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1119-001.png"><img class="alignnone size-full wp-image-9041" src="https://web.archive.org/web/20150316194640id_/http://2000thingswpf.files.wordpress.com/2014/07/1119-001.png?w=630" alt="1119-001"   /></a></p>
+<p>After the change, the main directory contains the .exe file and a new <strong>en-US</strong> sub-directory.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1119-003.png"><img class="alignnone size-full wp-image-9042" src="https://web.archive.org/web/20150316194640id_/http://2000thingswpf.files.wordpress.com/2014/07/1119-003.png?w=630" alt="1119-003"   /></a></p>
+<p>In the <strong>en-US </strong>folder is a DLL containing the BAML.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1119-004.png"><img class="alignnone size-full wp-image-9043" src="https://web.archive.org/web/20150316194640id_/http://2000thingswpf.files.wordpress.com/2014/07/1119-004.png?w=630" alt="1119-004"   /></a></p>
+<p>&nbsp;</p>
+<hr />
+<p><em><strong>Note: </strong></em>You&#8217;ll also need to <a href="http://wp.me/pZhye-2n0">set the <strong>NeutralResourcesLanguage</strong> attribute</a> in AssemblyInfo.cs.</p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/07/22/1119-localization-i-set-uiculture-tag/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "uiculture");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/07/22/1119-localization-i-set-uiculture-tag/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Localization | Tags: Localization, UICulture, WPF</p>
+  <nav class="pager"><a href="2014-07-21-1118-an-example-of-input-that-obeys-currentculture.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-07-23-1120-getting-a-list-of-all-supported-cultures.html">Next</a></nav>
+</main>
+
+</body>
+</html>

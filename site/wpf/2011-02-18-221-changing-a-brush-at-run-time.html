@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#221 – Changing a Brush at Run-Time</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-02-17-220-using-the-predefined-colors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-19-222-example-changing-a-color-using-rgb-sliders.html">Next</a></nav>
+  <h1>#221 – Changing a Brush at Run-Time</h1>
+  <p class="meta">2011-02-18 | <a href="http://wpf.2000things.com/2011/02/18/221-changing-a-brush-at-run-time/">Original URL</a> | Wayback 20120706161425</p>
+  <article><div class="post-1849 post type-post status-publish format-standard hentry category-graphics tag-brush tag-changed-event tag-freezable tag-solidcolorbrush tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">February 18, 2011</span>
+																						<span class="post-comments"><a href="2011-02-18-221-changing-a-brush-at-run-time.html" title="Comment on #221 &#8211; Changing a Brush at&nbsp;Run-Time">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can change aspects of a <strong>Brush</strong>, such as its color, at run-time and any objects that use that brush will automatically be redrawn.</p>
+<p>Let&#8217;s say that we have several controls in a window that make use of a <strong>SolidColorBrush</strong>:</p>
+<p><pre class="brush: xml;">
+	&lt;Window.Resources&gt;
+		&lt;SolidColorBrush x:Key=&quot;magicBrush&quot; Color=&quot;Red&quot;/&gt;
+	&lt;/Window.Resources&gt;
+
+	&lt;StackPanel&gt;
+		&lt;Button Content=&quot;Don't Push Me&quot; Background=&quot;{StaticResource magicBrush}&quot; Width=&quot;120&quot; Margin=&quot;10&quot;/&gt;
+		&lt;Label Content=&quot;Pull my finger!&quot; Foreground=&quot;{StaticResource magicBrush}&quot; HorizontalAlignment=&quot;Center&quot;/&gt;
+		&lt;Ellipse Height=&quot;100&quot; Width=&quot;200&quot; Fill=&quot;{StaticResource magicBrush}&quot; Margin=&quot;10&quot;/&gt;
+	&lt;/StackPanel&gt;
+</pre></p>
+<p>.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/02/001-controls.png"><img class="alignnone size-full wp-image-1850" title="001-Controls" src="https://web.archive.org/web/20120706161425id_/http://2000thingswpf.files.wordpress.com/2011/02/001-controls.png?w=630" alt=""   /></a></p>
+<p>Now assume that we change the <strong>Color</strong> property of the brush at run-time:</p>
+<p><pre class="brush: csharp;">
+    SolidColorBrush magicBrush = (SolidColorBrush)this.Resources[&quot;magicBrush&quot;];
+    magicBrush.Color = Colors.Purple;
+</pre></p>
+<p>When you do this, you&#8217;ll notice that the color in all of the controls changes as soon as this code executes.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/02/002-purple.png"><img class="alignnone size-full wp-image-1852" title="002-Purple" src="https://web.archive.org/web/20120706161425id_/http://2000thingswpf.files.wordpress.com/2011/02/002-purple.png?w=630" alt=""   /></a></p>
+<p>All of the controls update immediately because <strong>SolidColorBrush</strong> derives from <strong>Freezable</strong>, which supports the <strong>Changed</strong> event.  The <strong>Changed</strong> event fires when the color changes and the controls handle that event and redraw themselves.</p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Graphics | Tags: Brush, Changed Event, Freezable, SolidColorBrush, WPF</p>
+  <nav class="pager"><a href="2011-02-17-220-using-the-predefined-colors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-19-222-example-changing-a-color-using-rgb-sliders.html">Next</a></nav>
+</main>
+
+</body>
+</html>

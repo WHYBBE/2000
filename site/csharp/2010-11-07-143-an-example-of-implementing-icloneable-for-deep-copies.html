@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#143 – An Example of Implementing ICloneable for Deep Copies</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-06-142-implement-icloneable-all-the-way-down-for-deep-copies.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-08-144-using-serialization-to-implement-deep-copying.html">Next</a></nav>
+  <h1>#143 – An Example of Implementing ICloneable for Deep Copies</h1>
+  <p class="meta">2010-11-07 | <a href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/">Original URL</a> | Wayback 20111022014014</p>
+  <article><div class="post-1396 post type-post status-publish format-standard hentry category-classes tag-c tag-clone tag-deep-copy tag-icloneable">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">November 7, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2010-11-07-143-an-example-of-implementing-icloneable-for-deep-copies.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>Here&#8217;s an example of implementing <strong>ICloneable</strong> in two custom classes so that you can use the <strong>Clone</strong> method to do a deep copy.</p>
+<p>To do a deep copy of the <strong>Person</strong> class, we need to copy its members that are value types and then create a new instance of <strong>Address</strong> by calling its <strong>Clone</strong> method.</p>
+<pre class="brush: csharp;">
+        public class Person : ICloneable
+        {
+            public string LastName { get; set; }
+            public string FirstName { get; set; }
+            public Address PersonAddress { get; set; }
+
+            public object Clone()
+            {
+                Person newPerson = (Person)this.MemberwiseClone();
+                newPerson.PersonAddress = (Address)this.PersonAddress.Clone();
+
+                return newPerson;
+            }
+        }
+</pre>
+<p>The <strong>Address</strong> class uses <strong>MemberwiseClone</strong> to make a copy of itself.</p>
+<pre class="brush: csharp;">
+        public class Address : ICloneable
+        {
+            public int HouseNumber { get; set; }
+            public string StreetName { get; set; }
+
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
+        }
+</pre>
+<p>Cloning a <strong>Person</strong>:</p>
+<pre class="brush: csharp;">
+            Person herClone = (Person)emilyBronte.Clone();
+</pre>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Clone, Deep Copy, ICloneable</p>
+  <nav class="pager"><a href="2010-11-06-142-implement-icloneable-all-the-way-down-for-deep-copies.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-08-144-using-serialization-to-implement-deep-copying.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#565 – Workaround for Inability to Scroll ScrollViewer in Design Mode in Blend</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-05-23-564-other-places-to-get-third-party-effects.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-25-566-setting-properties-of-an-effect-in-blend.html">Next</a></nav>
+  <h1>#565 – Workaround for Inability to Scroll ScrollViewer in Design Mode in Blend</h1>
+  <p class="meta">2012-05-24 | <a href="http://wpf.2000things.com/2012/05/24/565-workaround-for-inability-to-scroll-scrollviewer-in-design-mode-in-blend/">Original URL</a> | Wayback 20121029123646</p>
+  <article><div class="post-4936 post type-post status-publish format-standard hentry category-blend tag-artboard tag-blend tag-scrollviewer tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 24, 2012</span>
+																						<span class="post-comments"><a href="2012-05-24-565-workaround-for-inability-to-scroll-scrollviewer-in-design-mode-in-blend.html" title="Comment on #565 &#8211; Workaround for Inability to Scroll ScrollViewer in Design Mode in&nbsp;Blend">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you&#8217;re working in Blend and have some scrollable content in a <strong>ScrollViewer</strong>, you won&#8217;t be able to see all of the content at design time because Blend doesn&#8217;t let you scroll the <strong>ScrollViewer</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-001.png"><img class="alignnone size-full wp-image-4937" title="565-001" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-001.png?w=630&amp;h=378" alt="" width="630" height="378" /></a></p>
+<p>This can be frustrating, since you want to see your content at design time.  In the example above, I have a series of <strong>Image</strong> controls in a vertical <strong>StackPanel</strong>, but I can only see the first couple.</p>
+<p>The trick to working around this limitation is to put your content into a <strong>UserControl</strong> and then put that <strong>UserControl</strong> into the <strong>ScrollViewer</strong>.  You can then scroll the contents of the <strong>UserControl</strong> on the artboard.</p>
+<p>Create a <strong>UserControl</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-002.png"><img class="alignnone size-full wp-image-4938" title="565-002" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-002.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-003.png"><img class="alignnone size-full wp-image-4939" title="565-003" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-003.png?w=630" alt=""   /></a></p>
+<p>Move your content into the new <strong>UserControl</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-004.png"><img class="alignnone size-full wp-image-4940" title="565-004" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-004.png?w=630" alt=""   /></a></p>
+<p>Remove design-time width and height.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-005.png"><img class="alignnone size-full wp-image-4941" title="565-005" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-005.png?w=630" alt=""   /></a></p>
+<p>Go back to the window that contains your <strong>ScrollViewer</strong>.  Find the <strong>UserControl</strong> in the <strong>Assets</strong> panel and drag it into the <strong>ScrollViewer</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-006.png"><img class="alignnone size-full wp-image-4942" title="565-006" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-006.png?w=630" alt=""   /></a></p>
+<p>You can now scroll at design time.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/565-007.png"><img class="alignnone size-full wp-image-4945" title="565-007" src="https://web.archive.org/web/20121029123646id_/http://2000thingswpf.files.wordpress.com/2012/05/565-007.png?w=630&amp;h=728" alt="" width="630" height="728" /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Blend | Tags: Artboard, Blend, ScrollViewer, WPF</p>
+  <nav class="pager"><a href="2012-05-23-564-other-places-to-get-third-party-effects.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-25-566-setting-properties-of-an-effect-in-blend.html">Next</a></nav>
+</main>
+
+</body>
+</html>

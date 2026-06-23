@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#230 – Changing a Radial Gradient as Mouse Moves Over a Control</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-02-26-229-using-a-gradient-brush-for-a-windows-border.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-28-231-you-can-use-a-brush-for-a-controls-foreground.html">Next</a></nav>
+  <h1>#230 – Changing a Radial Gradient as Mouse Moves Over a Control</h1>
+  <p class="meta">2011-02-27 | <a href="http://wpf.2000things.com/2011/02/27/230-changing-a-radial-gradient-as-mouse-moves-over-a-control/">Original URL</a> | Wayback 20110303132636</p>
+  <article><div class="post-1911 post type-post status-publish format-standard hentry category-graphics tag-graphics tag-mousemove tag-radial-gradient tag-radialgradientbrush tag-wpg">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">February 27, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-02-27-230-changing-a-radial-gradient-as-mouse-moves-over-a-control.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>Here&#8217;s an example of one way to change a radial gradient at runtime, based on mouse movements.</p>
+<p>The radial gradient is defined in the XAML:</p>
+<pre class="brush: xml;">
+		&lt;Button x:Name=&quot;btnActiveGradient&quot; Content=&quot;Click Me&quot; Width=&quot;120&quot; Height=&quot;30&quot; Margin=&quot;30&quot;
+			MouseMove=&quot;btnActiveGradient_MouseMove&quot;
+			MouseLeave=&quot;btnActiveGradient_MouseLeave&quot;
+			Style=&quot;{DynamicResource ButtonStyle1}&quot; &gt;
+			&lt;Button.Background&gt;
+				&lt;RadialGradientBrush x:Name=&quot;gradRadial&quot; RadiusX=&quot;0.25&quot;&gt;
+					&lt;GradientStop Color=&quot;AliceBlue&quot; Offset=&quot;0.0&quot;/&gt;
+					&lt;GradientStop Color=&quot;LightSteelBlue&quot; Offset=&quot;1.0&quot;/&gt;
+				&lt;/RadialGradientBrush&gt;
+			&lt;/Button.Background&gt;
+		&lt;/Button&gt;
+</pre>
+<p>We also need to disable the default rendering of the button while the mouse is over it.  We can do this by changing the <strong>RenderMouseOver</strong> property of the <strong>ButtonChrome</strong> object&#8211;found in the button&#8217;s control template&#8211;to <strong>False</strong>.</p>
+<p>Finally, we add some code to the button&#8217;s <strong>MouseMove </strong>and <strong>MouseLeave</strong> events, to change the gradient&#8217;s origin and center as we move the mouse.</p>
+<pre class="brush: csharp;">
+        private void btnActiveGradient_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Point pt = Mouse.GetPosition(btnActiveGradient);
+            gradRadial.GradientOrigin = new Point(pt.X / btnActiveGradient.Width, pt.Y / btnActiveGradient.Height);
+            gradRadial.Center = gradRadial.GradientOrigin;
+        }
+
+        private void btnActiveGradient_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            gradRadial.GradientOrigin = new Point(0.5, 0.5);   // Default
+            gradRadial.Center = gradRadial.GradientOrigin;
+        }
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/001-one.png"><img class="alignnone size-full wp-image-1917" title="001-One" src="https://web.archive.org/web/20110303132636id_/http://2000thingswpf.files.wordpress.com/2011/02/001-one.png?w=199&amp;h=68" alt="" width="199" height="68" /></a><a href="http://2000thingswpf.files.wordpress.com/2011/02/002-two.png"><img class="alignnone size-full wp-image-1918" title="002-Two" src="https://web.archive.org/web/20110303132636id_/http://2000thingswpf.files.wordpress.com/2011/02/002-two.png?w=156&amp;h=58" alt="" width="156" height="58" /></a><a href="http://2000thingswpf.files.wordpress.com/2011/02/003-three.png"><img class="alignnone size-full wp-image-1919" title="003-Three" src="https://web.archive.org/web/20110303132636id_/http://2000thingswpf.files.wordpress.com/2011/02/003-three.png?w=170&amp;h=60" alt="" width="170" height="60" /></a></p>
+<div style="margin-top: 1em" class="possibly-related"><hr /><p><strong>Possibly related posts: (automatically generated)</strong></p><ul><li><a rel='related' href='2010-10-04-84-store-reusable-objects-in-a-resource-dictionary.html' style='font-weight:bold'>#84 – Store Reusable Objects in a Resource Dictionary</a></li><li><a rel='related nofollow' href='http://zamjad.wordpress.com/2010/02/24/apply-gradient-to-border/'>Apply Gradient to Border</a></li></ul></div><div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/02/27/230-changing-a-radial-gradient-as-mouse-moves-over-a-control/"
+    dc:identifier="http://wpf.2000things.com/2011/02/27/230-changing-a-radial-gradient-as-mouse-moves-over-a-control/"
+    dc:title="#230 &#8211; Changing a Radial Gradient as Mouse Moves Over a&nbsp;Control"
+    trackback:ping="http://wpf.2000things.com/2011/02/27/230-changing-a-radial-gradient-as-mouse-moves-over-a-control/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/graphics/" title="View all posts in Graphics" rel="category tag">Graphics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/graphics/" rel="tag">Graphics</a>, <a href="http://en.wordpress.com/tag/mousemove/" rel="tag">MouseMove</a>, <a href="http://en.wordpress.com/tag/radial-gradient/" rel="tag">Radial Gradient</a>, <a href="http://en.wordpress.com/tag/radialgradientbrush/" rel="tag">RadialGradientBrush</a>, <a href="http://en.wordpress.com/tag/wpg/" rel="tag">WPG</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Graphics | Tags: Graphics, MouseMove, Radial Gradient, RadialGradientBrush, WPG</p>
+  <nav class="pager"><a href="2011-02-26-229-using-a-gradient-brush-for-a-windows-border.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-28-231-you-can-use-a-brush-for-a-controls-foreground.html">Next</a></nav>
+</main>
+
+</body>
+</html>

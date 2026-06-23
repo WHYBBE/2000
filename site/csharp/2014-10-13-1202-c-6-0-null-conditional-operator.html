@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,202 – C# 6.0 – Null-Conditional Operator</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-10-1201-writing-conditional-logical-operators-as-conditionals.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-14-1203-c-6-0-using-the-null-conditional-with-value-types.html">Next</a></nav>
+  <h1>#1,202 – C# 6.0 – Null-Conditional Operator</h1>
+  <p class="meta">2014-10-13 | <a href="http://csharp.2000things.com/2014/10/13/1202-c-6-0-null-conditional-operator/">Original URL</a> | Wayback 20150317034122</p>
+  <article><div class="post-9187 post type-post status-publish format-standard hentry category-miscellaneous tag-c tag-c-6-0 tag-miscellaneous">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 13, 2014</span>
+																						<span class="post-comments"><a href="2014-10-13-1202-c-6-0-null-conditional-operator.html" title="Comment on #1,202 &#8211; C# 6.0 &#8211; Null-Conditional Operator">3 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>One of the new features coming in C# 6.0 is the null-conditional operator.</p>
+<p>If you have a reference-typed variable, it can have a null value or can refer to instance of the appropriate type.  You&#8217;ll often see the following pattern, checking for null before invoking a method on the object, to avoid a <strong>NullReferenceException</strong>.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            string sTest = DateTime.Now.Hour == 5 ? &quot;Five&quot; : null;
+
+            // OLD: Check for null to avoid NullReferenceException
+            string sLeft;
+            if (sTest != null)
+                sLeft = sTest.Substring(0, 1);
+</pre>
+<p>The null-conditional operator allows us to do the same check for null, but in a more concise manner.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            // NEW: Null-Conditional operator
+            sLeft = sTest?.Substring(0, 1);
+</pre>
+<p>If <strong>sTest</strong> is non-null, the <strong>Substring</strong> method is called and the result is assigned to <strong>sLeft</strong>.  If <strong>sTest</strong> is null, the expression returns null, so a null value is assigned to <strong>sLeft</strong>.</p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("PageURL", "http://csharp.2000things.com/2014/10/13/1202-c-6-0-null-conditional-operator/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "gadgets");
+GA_googleAddAttr("Tag", "miscellaneous");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "c-6-0");
+GA_googleAddAttr("Tag", "miscellaneous");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2014/10/13/1202-c-6-0-null-conditional-operator/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: C#, C# 6.0, Miscellaneous</p>
+  <nav class="pager"><a href="2014-10-10-1201-writing-conditional-logical-operators-as-conditionals.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-14-1203-c-6-0-using-the-null-conditional-with-value-types.html">Next</a></nav>
+</main>
+
+</body>
+</html>

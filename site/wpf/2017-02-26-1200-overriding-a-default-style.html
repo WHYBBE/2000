@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,200 – Overriding a Default Style</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-02-04-1199-complete-wpf-command-example.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-03-04-1201-how-to-share-star-sized-column-sizes.html">Next</a></nav>
+  <h1>#1,200 – Overriding a Default Style</h1>
+  <p class="meta">2017-02-26 | <a href="http://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/">Original URL</a> | Wayback 20170227101343</p>
+  <article><div class="post-9579 post type-post status-publish format-standard hentry category-styles tag-default tag-null tag-styles tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">February 26, 2017</span>
+																						<span class="post-comments"><a href="2017-02-26-1200-overriding-a-default-style.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In WPF, you often set up <a href="2010-11-27-138-dependency-property-value-sources-4-implicit-style.html">default styles</a> to set a series of properties on all instances of a certain type of element. Below, we set a default style that applies to all <strong>TextBlock</strong> elements, using the <strong>TargetType</strong> attribute. All properties in the style will be set for all instances of the <strong>TextBlock</strong> element.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window.Resources&gt;
+    &lt;ResourceDictionary&gt;
+        &lt;Style TargetType=&quot;TextBlock&quot;&gt;
+            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Purple&quot;/&gt;
+            &lt;Setter Property=&quot;FontStyle&quot; Value=&quot;Italic&quot;/&gt;
+        &lt;/Style&gt;
+    &lt;/ResourceDictionary&gt;
+&lt;/Window.Resources&gt;
+
+&lt;StackPanel Margin=&quot;10&quot;&gt;
+    &lt;TextBlock Text=&quot;Fafnir&quot;/&gt;
+    &lt;TextBlock Text=&quot;Siegfried&quot;/&gt;
+    &lt;TextBlock Text=&quot;Brynhildr&quot;/&gt;
+&lt;/StackPanel&gt;
+</pre>
+<p><a href="https://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/1200_01/" rel="attachment wp-att-9582"><img data-attachment-id="9582" data-permalink="https://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/1200_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_01.png?w=630" data-orig-size="224,131" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1200_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_01.png?w=630?w=224" data-large-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_01.png?w=630?w=224" class="alignnone size-full wp-image-9582" src="https://web.archive.org/web/20170227101343id_/https://2000thingswpf.files.wordpress.com/2017/02/1200_01.png?w=630" alt="1200_01" srcset="https://2000thingswpf.files.wordpress.com/2017/02/1200_01.png 224w, https://2000thingswpf.files.wordpress.com/2017/02/1200_01.png?w=150 150w" sizes="(max-width: 224px) 100vw, 224px"   /></a></p>
+<p>Sometimes you&#8217;ll be working in an environment where these default styles have been defined for you, but you want to override them.</p>
+<p>The first way to override a default style is to define one of your own. Below, we define a named style and use it on the second <strong>TextBlock</strong>. (The style is added to the ResourceDictionary that we showed above).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Style x:Key=&quot;BlueBig&quot; TargetType=&quot;TextBlock&quot;&gt;
+   &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Blue&quot;/&gt;
+   &lt;Setter Property=&quot;FontSize&quot; Value=&quot;20&quot;/&gt;
+&lt;/Style&gt;
+</pre>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;TextBlock Text=&quot;Siegfried&quot; Style=&quot;{StaticResource BlueBig}&quot;/&gt;
+</pre>
+<p><a href="https://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/1200_02/" rel="attachment wp-att-9591"><img data-attachment-id="9591" data-permalink="https://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/1200_02/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_02.png?w=630" data-orig-size="187,141" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1200_02" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_02.png?w=630?w=187" data-large-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_02.png?w=630?w=187" src="https://web.archive.org/web/20170227101343id_/https://2000thingswpf.files.wordpress.com/2017/02/1200_02.png?w=630" alt="1200_02"   class="alignnone size-full wp-image-9591" srcset="https://2000thingswpf.files.wordpress.com/2017/02/1200_02.png 187w, https://2000thingswpf.files.wordpress.com/2017/02/1200_02.png?w=150 150w" sizes="(max-width: 187px) 100vw, 187px" /></a><br />
+The second way to override a default style is to revert the element to having no style at all using the <strong>x:Null</strong> markup extension. Below, the default style exists in our application but the first and third elements indicate that that they don&#8217;t want to use it. Notice that these <strong>TextBlocks</strong> appear normally.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;TextBlock Text=&quot;Fafnir&quot; Style=&quot;{x:Null}&quot;/&gt;
+&lt;TextBlock Text=&quot;Siegfried&quot; Style=&quot;{StaticResource BlueBig}&quot;/&gt;
+&lt;TextBlock Text=&quot;Brynhildr&quot; Style=&quot;{x:Null}&quot;/&gt;
+</pre>
+<p><a href="https://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/1200_03/" rel="attachment wp-att-9592"><img data-attachment-id="9592" data-permalink="https://wpf.2000things.com/2017/02/26/1200-overriding-a-default-style/1200_03/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_03.png?w=630" data-orig-size="167,135" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1200_03" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_03.png?w=630?w=167" data-large-file="https://2000thingswpf.files.wordpress.com/2017/02/1200_03.png?w=630?w=167" src="https://web.archive.org/web/20170227101343id_/https://2000thingswpf.files.wordpress.com/2017/02/1200_03.png?w=630" alt="1200_03"   class="alignnone size-full wp-image-9592" srcset="https://2000thingswpf.files.wordpress.com/2017/02/1200_03.png 167w, https://2000thingswpf.files.wordpress.com/2017/02/1200_03.png?w=150 150w" sizes="(max-width: 167px) 100vw, 167px" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9579-58b3fbd8db6c6' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9579&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9579-58b3fbd8db6c6' data-name='like-post-frame-14605478-9579-58b3fbd8db6c6'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Styles | Tags: Default, Null, Styles, WPF</p>
+  <nav class="pager"><a href="2017-02-04-1199-complete-wpf-command-example.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-03-04-1201-how-to-share-star-sized-column-sizes.html">Next</a></nav>
+</main>
+
+</body>
+</html>

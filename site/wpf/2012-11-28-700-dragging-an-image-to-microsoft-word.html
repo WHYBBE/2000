@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#700 – Dragging an Image to Microsoft Word</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-27-699-converting-an-image-control-to-a-bitmap.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-29-701-dragging-an-image-between-wpf-applications.html">Next</a></nav>
+  <h1>#700 – Dragging an Image to Microsoft Word</h1>
+  <p class="meta">2012-11-28 | <a href="http://wpf.2000things.com/2012/11/28/700-dragging-an-image-to-microsoft-word/">Original URL</a> | Wayback 20121205042930</p>
+  <article><div class="post-6076 post type-post status-publish format-standard hentry category-events tag-bitmap tag-drag-and-drop tag-events tag-image tag-metafile tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 28, 2012</span>
+																						<span class="post-comments"><a href="2012-11-28-700-dragging-an-image-to-microsoft-word.html" title="Comment on #700 &#8211; Dragging an Image to Microsoft&nbsp;Word">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the drag and drop functionality in WPF to drag an Image control out of the application.  You can drop this image onto a Word document if you convert the image to an enhanced metafile format.</p>
+<p>Here&#8217;s the code that initiates the drag operation.</p>
+<p><pre class="brush: csharp;">
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Bitmap bitmap = ImageToBitmap(e.Source as System.Windows.Controls.Image);
+
+            DataObject data = new DataObject(DataFormats.EnhancedMetafile, MakeMetafileStream(bitmap));
+
+            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+        }
+</pre></p>
+<p>This makes use of a utility function to convert the <strong>Image</strong> to a <strong>Bitmap:<br />
+</strong></p>
+<p><pre class="brush: csharp;">
+        private Bitmap ImageToBitmap(System.Windows.Controls.Image image)
+        {
+            RenderTargetBitmap rtBmp = new RenderTargetBitmap((int)image.ActualWidth, (int)image.ActualHeight,
+                96.0, 96.0, PixelFormats.Pbgra32);
+
+            image.Measure(new System.Windows.Size((int)image.ActualWidth, (int)image.ActualHeight));
+            image.Arrange(new Rect(new System.Windows.Size((int)image.ActualWidth, (int)image.ActualHeight)));
+
+            rtBmp.Render(image);
+
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            MemoryStream stream = new MemoryStream();
+            encoder.Frames.Add(BitmapFrame.Create(rtBmp));
+
+            // Save to memory stream and create Bitamp from stream
+            encoder.Save(stream);
+
+            return new System.Drawing.Bitmap(stream);
+        }
+</pre></p>
+<p>This also requires a utility function that converts a <strong>Bitmap</strong> to a stream containing a <strong>Metafile</strong>, taken from <a href="http://stackoverflow.com/questions/5270763/convert-an-image-into-wmf-with-net">Stack Overflow</a>.</p>
+<p><pre class="brush: csharp;">
+        // From http://stackoverflow.com/questions/5270763/convert-an-image-into-wmf-with-net
+        private MemoryStream MakeMetafileStream(Bitmap image)
+        {
+            Graphics graphics = null;
+            Metafile metafile = null;
+            var stream = new MemoryStream();
+            try
+            {
+                using (graphics = Graphics.FromImage(image))
+                {
+                    var hdc = graphics.GetHdc();
+                    metafile = new Metafile(stream, hdc);
+                    graphics.ReleaseHdc(hdc);
+                }
+                using (graphics = Graphics.FromImage(metafile))
+                { graphics.DrawImage(image, 0, 0); }
+            }
+            finally
+            {
+                if (graphics != null)
+                { graphics.Dispose(); }
+                if (metafile != null)
+                { metafile.Dispose(); }
+            }
+            return stream;
+        }
+</pre></p>
+<p>Here&#8217;s the code in action:<br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/11/700-001.png"><img class="alignnone size-full wp-image-6083" title="700-001" alt="" src="https://web.archive.org/web/20121205042930id_/http://2000thingswpf.files.wordpress.com/2012/11/700-001.png?w=630&amp;h=479" height="479" width="630" /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/11/700-002.png"><img class="alignnone size-full wp-image-6084" title="700-002" alt="" src="https://web.archive.org/web/20121205042930id_/http://2000thingswpf.files.wordpress.com/2012/11/700-002.png?w=630&amp;h=479" height="479" width="630" /></a></pre>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Bitmap, Drag-and-Drop, Events, Image, Metafile, WPF</p>
+  <nav class="pager"><a href="2012-11-27-699-converting-an-image-control-to-a-bitmap.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-29-701-dragging-an-image-between-wpf-applications.html">Next</a></nav>
+</main>
+
+</body>
+</html>

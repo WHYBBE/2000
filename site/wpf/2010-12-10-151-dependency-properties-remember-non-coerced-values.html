@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#151 – Dependency Properties Remember Non-Coerced Values</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-09-150-an-example-of-using-propertychanged-and-coercevalue-callbacks.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-11-152-use-readlocalvalue-to-find-the-local-value-of-a-dependency-property.html">Next</a></nav>
+  <h1>#151 – Dependency Properties Remember Non-Coerced Values</h1>
+  <p class="meta">2010-12-10 | <a href="http://wpf.2000things.com/2010/12/10/151-dependency-properties-remember-non-coerced-values/">Original URL</a> | Wayback 20120706165337</p>
+  <article><div class="post-1276 post type-post status-publish format-standard hentry category-dependency-properties tag-coercevaluecallback tag-coercion tag-dependency-properties tag-dependency-property tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 10, 2010</span>
+																						<span class="post-comments"><a href="2010-12-10-151-dependency-properties-remember-non-coerced-values.html" title="Comment on #151 &#8211; Dependency Properties Remember Non-Coerced&nbsp;Values">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you set a dependency property to some value and it is coerced, the original base value that you set is remembered.  If you remove the conditions that led to the coercion, the property will take on the non-coerced value that you originally set.</p>
+<p>Suppose we have a <strong>Person</strong> class with an <strong>Age</strong> property and a boolean <strong>SuperOld</strong> property.  Assume that <strong>Age </strong>is coerced to a value of 999 if <strong>SuperOld</strong> is true.</p>
+<p>If you set <strong>Age </strong>to some local value and <strong>SuperOld</strong> is true, <strong>Age </strong>will get coerced to 999.  But if you later set <strong>SuperOld</strong> to false, the <strong>Age</strong> property will revert to the last local value that you tried to set.</p>
+<p><pre class="brush: csharp;">
+            Person p = new Person(&quot;Methuselah&quot;);
+
+            p.Age = 28;
+            p.SuperOld = true;    // Age coerced to 999
+
+            p.Age = 56;           // Age still 999
+            p.SuperOld = false;   // Age now becomes 56
+</pre></p>
+<p>This assumes that the <strong>PropertyChanged</strong> callback for <strong>SuperOld</strong> calls <strong>CoerceValue</strong> on the <strong>Age </strong>property.  (Likely true).</p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: CoerceValueCallback, Coercion, Dependency Properties, Dependency property, WPF</p>
+  <nav class="pager"><a href="2010-12-09-150-an-example-of-using-propertychanged-and-coercevalue-callbacks.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-11-152-use-readlocalvalue-to-find-the-local-value-of-a-dependency-property.html">Next</a></nav>
+</main>
+
+</body>
+</html>

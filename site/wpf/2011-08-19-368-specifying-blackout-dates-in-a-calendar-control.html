@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#368 – Specifying Blackout Dates in a Calendar Control</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-18-367-you-cant-bind-to-a-calendar-controls-selecteddates-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-22-369-binding-a-labels-content-to-the-current-date-and-time.html">Next</a></nav>
+  <h1>#368 – Specifying Blackout Dates in a Calendar Control</h1>
+  <p class="meta">2011-08-19 | <a href="http://wpf.2000things.com/2011/08/19/368-specifying-blackout-dates-in-a-calendar-control/">Original URL</a> | Wayback 20120425222552</p>
+  <article><div class="post-3006 post type-post status-publish format-standard hentry category-controls tag-blackoutdates tag-calendar tag-controls tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 19, 2011</span>
+																						<span class="post-comments"><a href="2011-08-19-368-specifying-blackout-dates-in-a-calendar-control.html" title="Comment on #368 &#8211; Specifying Blackout Dates in a Calendar&nbsp;Control">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <strong>BlackoutDates</strong> property of a <strong>Calendar</strong> control to specify dates that a user cannot select.</p>
+<p>The <strong>BlackoutDates</strong> property is of type <strong>CalendarBlackoutDatesCollection</strong>, which is an observable collection of <strong>CalendarDateRange</strong> objects.  You can specify a set of blackout dates for a <strong>Calendar</strong> control in XAML by defining a series of <strong>CalendarDateRange</strong> instances.</p>
+<p><pre class="brush: xml;">
+        &lt;Calendar Name=&quot;calMuseum&quot; SelectionMode=&quot;SingleDate&quot;&gt;
+            &lt;Calendar.BlackoutDates&gt;
+                &lt;CalendarDateRange Start=&quot;8/6/11&quot; End=&quot;8/7/11&quot;/&gt;
+                &lt;CalendarDateRange Start=&quot;8/20/11&quot; End=&quot;8/20/11&quot;/&gt;
+                &lt;CalendarDateRange Start=&quot;8/28/11&quot; End=&quot;8/30/11&quot;/&gt;
+            &lt;/Calendar.BlackoutDates&gt;
+        &lt;/Calendar&gt;
+        &lt;Label Content=&quot;Choose a day to visit the museum.&quot; HorizontalContentAlignment=&quot;Center&quot; /&gt;
+</pre></p>
+<p>The dates specified as blackout dates are not selectable by a user and will appear <strong>x</strong>&#8216;d out on the calendar.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/08/001-blackoutdates.png"><img class="alignnone size-full wp-image-3008" title="001-BlackoutDates" src="https://web.archive.org/web/20120425222552id_/http://2000thingswpf.files.wordpress.com/2011/08/001-blackoutdates.png?w=630" alt=""   /></a></p>
+<p>You can also add specific blackout dates from code-behind.</p>
+<p><pre class="brush: csharp;">
+            // Blackout holidays
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,1,17)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,2,21)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,5,30)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,7,4)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,9,5)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,10,10)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,11,11)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,11,24)));
+            calMuseum.BlackoutDates.Add(new CalendarDateRange(new DateTime(2011,12,26)));
+</pre></p>
+<div class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-3006" class="wpl-button "><a href='2011-08-19-368-specifying-blackout-dates-in-a-calendar-control.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: BlackoutDates, Calendar, Controls, WPF</p>
+  <nav class="pager"><a href="2011-08-18-367-you-cant-bind-to-a-calendar-controls-selecteddates-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-22-369-binding-a-labels-content-to-the-current-date-and-time.html">Next</a></nav>
+</main>
+
+</body>
+</html>

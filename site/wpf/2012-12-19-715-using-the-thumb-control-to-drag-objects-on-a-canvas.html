@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#715 – Using the Thumb Control to Drag Objects on a Canvas</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-12-18-714-setting-the-cursor-to-render-some-text-while-dragging.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-20-716-using-a-border-as-a-visual-indication-that-a-control-can-be-dragged.html">Next</a></nav>
+  <h1>#715 – Using the Thumb Control to Drag Objects on a Canvas</h1>
+  <p class="meta">2012-12-19 | <a href="http://wpf.2000things.com/2012/12/19/715-using-the-thumb-control-to-drag-objects-on-a-canvas/">Original URL</a> | Wayback 20121223161923</p>
+  <article><div class="post-6226 post type-post status-publish format-standard hentry category-controls tag-controls tag-dragging tag-thumb tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 19, 2012</span>
+																						<span class="post-comments"><a href="2012-12-19-715-using-the-thumb-control-to-drag-objects-on-a-canvas.html" title="Comment on #715 &#8211; Using the Thumb Control to Drag Objects on a&nbsp;Canvas">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <strong>Thumb</strong> control for simple dragging of objects on a <strong>Canvas</strong>.  You set the <strong>Template</strong> of the <strong>Thumb</strong> control to contain the actual element to be dragged and then handle the thumb&#8217;s <strong>DragDelta</strong> event.</p>
+<p>Below is a <strong>Canvas</strong> containing three controls, each wrapped in a <strong>Thumb</strong> and therefore draggable.</p>
+<p><pre class="brush: xml;">
+    &lt;Canvas&gt;
+        &lt;Thumb Canvas.Left=&quot;10&quot; Canvas.Top=&quot;20&quot; Canvas.ZIndex=&quot;99&quot;  DragDelta=&quot;Thumb_DragDelta&quot;&gt;
+            &lt;Thumb.Template&gt;
+                &lt;ControlTemplate&gt;
+                    &lt;Image Width=&quot;60&quot; Height=&quot;60&quot; Source=&quot;Crown.jpg&quot;/&gt;
+                &lt;/ControlTemplate&gt;
+            &lt;/Thumb.Template&gt;
+        &lt;/Thumb&gt;
+        &lt;Thumb Canvas.Left=&quot;100&quot; Canvas.Top=&quot;60&quot; DragDelta=&quot;Thumb_DragDelta&quot;&gt;
+            &lt;Thumb.Template&gt;
+                &lt;ControlTemplate&gt;
+                    &lt;Image Width=&quot;80&quot; Height=&quot;100&quot; Source=&quot;HenryII.jpg&quot;/&gt;
+                &lt;/ControlTemplate&gt;
+            &lt;/Thumb.Template&gt;
+        &lt;/Thumb&gt;
+        &lt;Thumb Canvas.Left=&quot;30&quot; Canvas.Top=&quot;180&quot; DragDelta=&quot;Thumb_DragDelta&quot;&gt;
+            &lt;Thumb.Template&gt;
+                &lt;ControlTemplate&gt;
+                    &lt;Label Content=&quot;Westminster, 19-Dec-1154&quot;/&gt;
+                &lt;/ControlTemplate&gt;
+            &lt;/Thumb.Template&gt;
+        &lt;/Thumb&gt;
+    &lt;/Canvas&gt;
+</pre></p>
+<p>In the event handler for each of the <strong>Thumb</strong> controls, we simply adjust the thumb&#8217;s position on the <strong>Canvas</strong>.</p>
+<p><pre class="brush: csharp;">
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            UIElement thumb = e.Source as UIElement;
+
+            Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+        }
+</pre></p>
+<p><a href="http://wpf.2000things.com/2012/01/19/715-using-the-thumb-control-to-drag-objects-on-a-canvas/715-001/" rel="attachment wp-att-6231"><img class="alignnone size-full wp-image-6231" alt="715-001" src="https://web.archive.org/web/20121223161923id_/http://2000thingswpf.files.wordpress.com/2012/12/715-001.png?w=630"   /></a><br />
+<a href="http://wpf.2000things.com/2012/01/19/715-using-the-thumb-control-to-drag-objects-on-a-canvas/715-002/" rel="attachment wp-att-6232"><img class="alignnone size-full wp-image-6232" alt="715-002" src="https://web.archive.org/web/20121223161923id_/http://2000thingswpf.files.wordpress.com/2012/12/715-002.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Dragging, Thumb, WPF</p>
+  <nav class="pager"><a href="2012-12-18-714-setting-the-cursor-to-render-some-text-while-dragging.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-20-716-using-a-border-as-a-visual-indication-that-a-control-can-be-dragged.html">Next</a></nav>
+</main>
+
+</body>
+</html>

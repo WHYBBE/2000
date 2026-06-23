@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#379 – Using a Tooltip As a Magnifier</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-09-02-378-positioning-tooltips.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-06-380-the-frame-control-can-host-web-content.html">Next</a></nav>
+  <h1>#379 – Using a Tooltip As a Magnifier</h1>
+  <p class="meta">2011-09-05 | <a href="http://wpf.2000things.com/2011/09/05/379-using-a-tooltip-as-a-magnifier/">Original URL</a> | Wayback 20120422033939</p>
+  <article><div class="post-3124 post type-post status-publish format-standard hentry category-controls tag-controls tag-magnifier tag-tooltip tag-visualbrush tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 5, 2011</span>
+																						<span class="post-comments"><a href="2011-09-05-379-using-a-tooltip-as-a-magnifier.html" title="Comment on #379 &#8211; Using a Tooltip As a&nbsp;Magnifier">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use a tooltip as a magnifier, so that when you hover over a control, it shows an enlarged view of the control.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/09/001-gui.png"><img class="alignnone size-full wp-image-3125" title="001-GUI" src="https://web.archive.org/web/20120422033939id_/http://2000thingswpf.files.wordpress.com/2011/09/001-gui.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/09/002-magnified.png"><img class="alignnone size-full wp-image-3126" title="002-Magnified" src="https://web.archive.org/web/20120422033939id_/http://2000thingswpf.files.wordpress.com/2011/09/002-magnified.png?w=630" alt=""   /></a></p>
+<p>We define a tooltip to contain a <strong>Rectangle</strong> that is exactly twice the size of the associated control (using data binding and a value converter).  We then fill the <strong>Rectangle</strong> with a <strong>VisualBrush</strong> and bind the <strong>Visual</strong> property of the <strong>VisualBrush</strong> to the element that is hosting the tooltip.</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;loc:DoubleIntConverter x:Key=&quot;doubleIntConverter&quot;/&gt;
+
+        &lt;ToolTip x:Key=&quot;reflectingTooltip&quot; DataContext=&quot;{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}&quot;
+                 Placement=&quot;Center&quot;&gt;
+            &lt;Rectangle Width=&quot;{Binding ActualWidth, Converter={StaticResource doubleIntConverter}}&quot;
+                       Height=&quot;{Binding ActualHeight, Converter={StaticResource doubleIntConverter}}&quot;&gt;
+                &lt;Rectangle.Fill&gt;
+                    &lt;VisualBrush Visual=&quot;{Binding}&quot;/&gt;
+                &lt;/Rectangle.Fill&gt;
+            &lt;/Rectangle&gt;
+        &lt;/ToolTip&gt;
+    &lt;/Window.Resources&gt;
+</pre></p>
+<p>Using the tooltip:</p>
+<p><pre class="brush: xml;">
+        &lt;Label Content=&quot;Can you read me now?&quot; ToolTip=&quot;{StaticResource reflectingTooltip}&quot;
+               HorizontalAlignment=&quot;Center&quot;/&gt;
+</pre></p>
+<p>The implementation of the value converter is left as an exercise.</p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-09-05-379-using-a-tooltip-as-a-magnifier.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Magnifier, Tooltip, VisualBrush, WPF</p>
+  <nav class="pager"><a href="2011-09-02-378-positioning-tooltips.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-06-380-the-frame-control-can-host-web-content.html">Next</a></nav>
+</main>
+
+</body>
+</html>

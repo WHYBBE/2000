@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#393 – Implement a Helper Method to Raise an Event</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-18-392-reversing-a-string-using-the-reverse-method.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-22-394-raising-an-event-in-a-thread-safe-manner.html">Next</a></nav>
+  <h1>#393 – Implement a Helper Method to Raise an Event</h1>
+  <p class="meta">2011-08-19 | <a href="http://csharp.2000things.com/2011/08/19/393-implement-a-helper-method-to-raise-an-event/">Original URL</a> | Wayback 20130115123304</p>
+  <article><div class="post-3316 post type-post status-publish format-standard hentry category-events tag-c tag-events">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 19, 2011</span>
+																						<span class="post-comments"><a href="2011-08-19-393-implement-a-helper-method-to-raise-an-event.html" title="Comment on #393 &#8211; Implement a Helper Method to Raise an&nbsp;Event">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You typically raise an event from within a class by first <a href="2011-08-15-389-check-for-null-before-raising-an-exception.html">checking to see if the event is null</a>, i.e. if there are any handlers defined for the event.</p>
+<p><pre class="brush: csharp;">
+        public void Bark(string barkSound)
+        {
+            Console.WriteLine(&quot;{0} says {1}&quot;, Name, barkSound);
+
+            if (Barked != null)
+                Barked(this, new BarkEventArgs(Name, barkSound));
+        }
+</pre></p>
+<p>It&#8217;s common practice, however, to define a helper method in your class that actually raises the event.  This method encapsulates the logic of raising the event, including the check for null.  If you also define this method as <strong>protected virtual</strong>, future subclasses of your class can override the helper method to override the behavior of raising the event.</p>
+<p><pre class="brush: csharp;">
+        public void Bark(string barkSound)
+        {
+            Console.WriteLine(&quot;{0} says {1}&quot;, Name, barkSound);
+            OnBarked(barkSound);
+        }
+
+        protected virtual void OnBarked(string barkSound)
+        {
+            if (Barked != null)
+                Barked(this, new BarkEventArgs(Name, barkSound));
+        }
+</pre></p>
+		<div class="wpcnt" style="text-align: center;">
+			<div class="wpadvert wpalt" style="text-align: center; position: relative; margin: 10px auto; overflow: hidden; display: inline-block;">
+				<a class="wpadvert-about" style="position: absolute; padding: 0 1px; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<script type='text/javascript'>
+					GA_googleFillSlot("Wordads_MIS_Mrec_Below_adsafe");
+
+				</script>
+				<style type='text/css'>
+				div.wpadvert>div { margin-top: 1em; }
+				body.highlander-light .wpadvert>a { color: #222; }
+				body.highlander-dark .wpadvert>a { color: #ddd; }
+				</style>
+			</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: C#, Events</p>
+  <nav class="pager"><a href="2011-08-18-392-reversing-a-string-using-the-reverse-method.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-22-394-raising-an-event-in-a-thread-safe-manner.html">Next</a></nav>
+</main>
+
+</body>
+</html>

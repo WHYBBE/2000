@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#173 – You Can Put Freezable Objects Into a Read-Only State</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-02-174-predefined-brushes-are-already-frozen.html">Next</a></nav>
+  <h1>#173 – You Can Put Freezable Objects Into a Read-Only State</h1>
+  <p class="meta">2011-01-01 | <a href="http://wpf.2000things.com/2011/01/01/173-you-can-put-freezable-objects-into-a-read-only-state/">Original URL</a> | Wayback 20120706161341</p>
+  <article><div class="post-1427 post type-post status-publish format-standard hentry category-basics tag-freezable tag-freeze tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 1, 2011</span>
+																						<span class="post-comments"><a href="2011-01-01-173-you-can-put-freezable-objects-into-a-read-only-state.html" title="Comment on #173 &#8211; You Can Put Freezable Objects Into a Read-Only&nbsp;State">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>The idea of an object deriving from <strong>Freezable</strong> is that it normally is in a read/write state, but can be explicitly put into a read-only state using the <strong>Freeze</strong> method.  A frozen object can be used more efficiently in WPF because it doesn&#8217;t need to notify consumers of the object that its value has changed.</p>
+<p>Graphical objects in WPF like brushes and 3D geometries derive from <strong>Freezable</strong>.  Initially unfrozen, a change to one of these objects results in <a href="2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html">consumers of the objects being notified of the change</a>.</p>
+<p>If you have an object deriving from <strong>Freezable</strong> that you don&#8217;t plan to change, you can make the object read-only using the <strong>Freeze</strong> method.</p>
+<p><pre class="brush: csharp;">
+            // Freeze this object, making it read-only (since we don't plan on changing it)
+            if (theBrush.CanFreeze)
+                theBrush.Freeze();
+</pre></p>
+<p>After freezing the object, if you try modifying it, you&#8217;ll get an <strong>InvalidOperationException</strong>.  But WPF will be more efficient in its use of the object.</p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Basics | Tags: Freezable, Freeze, WPF</p>
+  <nav class="pager"><a href="2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-02-174-predefined-brushes-are-already-frozen.html">Next</a></nav>
+</main>
+
+</body>
+</html>

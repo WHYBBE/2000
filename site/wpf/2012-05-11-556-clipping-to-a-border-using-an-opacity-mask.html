@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#556 – Clipping to a Border Using an Opacity Mask</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-05-10-555-creating-a-radial-opacity-mask.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-14-557-using-an-image-as-an-opacity-mask.html">Next</a></nav>
+  <h1>#556 – Clipping to a Border Using an Opacity Mask</h1>
+  <p class="meta">2012-05-11 | <a href="http://wpf.2000things.com/2012/05/11/556-clipping-to-a-border-using-an-opacity-mask/">Original URL</a> | Wayback 20120519064949</p>
+  <article><div class="post-4830 post type-post status-publish format-standard hentry category-brushes tag-wpf tag-brushes tag-border tag-clipping tag-opacitymask">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 11, 2012</span>
+																						<span class="post-comments"><a href="2012-05-11-556-clipping-to-a-border-using-an-opacity-mask.html" title="Comment on #556 &#8211; Clipping to a Border Using an Opacity&nbsp;Mask">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you specify a border radius for a <strong>Border</strong> element, the content within the <strong>Border</strong> is not automatically clipped to the new rounded interior.</p>
+<p><pre class="brush: xml;">
+&lt;Border BorderBrush=&quot;Black&quot; BorderThickness=&quot;3&quot; Margin=&quot;10&quot;
+        Width=&quot;400&quot; Height=&quot;267&quot; CornerRadius=&quot;40&quot; &gt;
+    &lt;Image Source=&quot;Images\Rocks2Small.jpg&quot;/&gt;
+&lt;/Border&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/556-001.png"><img class="alignnone size-full wp-image-4832" title="556-001" src="https://web.archive.org/web/20120519064949id_/http://2000thingswpf.files.wordpress.com/2012/05/556-001.png?w=630" alt=""   /></a><br />
+If you want to clip against the <strong>Border</strong>, you can specify an opacity mask that is a visual brush bound to the visual of a second <strong>Border</strong> element that overlays the <strong>Image</strong> control.  This will cause any portion of the <strong>Image</strong> control that falls outside the boundaries of the <strong></strong>inner<strong> Border</strong> to use an opacity of 0.0.</p>
+<p><pre class="brush: xml;">
+&lt;Border BorderBrush=&quot;Black&quot; BorderThickness=&quot;3&quot; Margin=&quot;10&quot; Width=&quot;400&quot; Height=&quot;267&quot;
+	CornerRadius=&quot;40&quot; &gt;
+    &lt;Grid&gt;
+        &lt;Border	Name=&quot;myBorder&quot; CornerRadius=&quot;40&quot; Background=&quot;White&quot; Margin=&quot;1&quot;/&gt;
+	&lt;Image Source=&quot;Images\Rocks2Small.jpg&quot; Margin=&quot;1&quot;&gt;
+	    &lt;Image.OpacityMask&gt;
+	        &lt;VisualBrush Visual=&quot;{Binding ElementName=myBorder}&quot;/&gt;
+	    &lt;/Image.OpacityMask&gt;
+	&lt;/Image&gt;
+    &lt;/Grid&gt;
+&lt;/Border&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/556-002.png"><img class="alignnone size-full wp-image-4836" title="556-002" src="https://web.archive.org/web/20120519064949id_/http://2000thingswpf.files.wordpress.com/2012/05/556-002.png?w=630" alt=""   /></a><br />
+Thanks to fellow Minnesotan, <a href="http://chriscavanagh.wordpress.com/">Chris Cavanagh</a>, for an explanation of how to do this!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-4830" class="wpl-button "><a href='2012-05-11-556-clipping-to-a-border-using-an-opacity-mask.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Brushes | Tags: WPF, Brushes, Border, Clipping, OpacityMask</p>
+  <nav class="pager"><a href="2012-05-10-555-creating-a-radial-opacity-mask.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-14-557-using-an-image-as-an-opacity-mask.html">Next</a></nav>
+</main>
+
+</body>
+</html>

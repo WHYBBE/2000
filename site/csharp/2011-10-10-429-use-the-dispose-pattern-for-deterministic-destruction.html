@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#429 – Use the Dispose Pattern for Deterministic Destruction</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-07-428-a-finalizer-should-always-call-the-finalizer-of-its-base-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-11-430-a-dispose-pattern-example.html">Next</a></nav>
+  <h1>#429 – Use the Dispose Pattern for Deterministic Destruction</h1>
+  <p class="meta">2011-10-10 | <a href="http://csharp.2000things.com/2011/10/10/429-use-the-dispose-pattern-for-deterministic-destruction/">Original URL</a> | Wayback 20111015082422</p>
+  <article><div class="post-3628 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-deterministic-destruction tag-dispose tag-dispose-pattern tag-idisposable">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 10, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-10-10-429-use-the-dispose-pattern-for-deterministic-destruction.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>You can <a href="http://wp.me/pXTis-Wf">implement a finalizer</a> in a class to explicitly release unmanaged resources before an object&#8217;s memory is freed.  Drawbacks of this approach include:</p>
+<ul>
+<li>You don&#8217;t control when the object&#8217;s resources are cleaned up</li>
+<li>A finalizer can&#8217;t make use of any other managed objects  (they may have already been finalized)</li>
+</ul>
+<p>Another pattern for releasing unmanaged resources is for a class to implement the <strong>IDisposable</strong> interface by providing a <strong>Dispose</strong> method.  <strong>Dispose</strong> is meant to clean up the object&#8217;s resources when it&#8217;s called.  A client of the class can decide exactly when it wants to release the object&#8217;s resources (deterministic destruction).  Benefits of this pattern include:</p>
+<ul>
+<li>Can release resources earlier, not waiting for finalization</li>
+<li>Dispose logic can make use of other managed resources</li>
+</ul>
+<pre class="brush: csharp;">
+    public class Dog : IDisposable
+    {
+        public void Dispose()
+        {
+            // Release unmanaged resources here
+
+            // Note: need logic to prevent double disposal, etc.
+        }
+</pre>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/10/10/429-use-the-dispose-pattern-for-deterministic-destruction/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/10/10/429-use-the-dispose-pattern-for-deterministic-destruction/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/10/10/429-use-the-dispose-pattern-for-deterministic-destruction/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#, Deterministic Destruction, Dispose, Dispose Pattern, IDisposable</p>
+  <nav class="pager"><a href="2011-10-07-428-a-finalizer-should-always-call-the-finalizer-of-its-base-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-11-430-a-dispose-pattern-example.html">Next</a></nav>
+</main>
+
+</body>
+</html>

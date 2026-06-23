@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#149 – Use PropertyChanged and Coercion Callbacks to Force Dependencies Between Properties</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-07-148-property-values-set-using-expressions-overwrite-the-base-value.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-09-150-an-example-of-using-propertychanged-and-coercevalue-callbacks.html">Next</a></nav>
+  <h1>#149 – Use PropertyChanged and Coercion Callbacks to Force Dependencies Between Properties</h1>
+  <p class="meta">2010-12-08 | <a href="http://wpf.2000things.com/2010/12/08/149-use-propertychanged-and-coercion-callbacks-to-force-dependencies-between-properties/">Original URL</a> | Wayback 20110203070351</p>
+  <article><div class="post-1262 post type-post status-publish format-standard hentry category-dependency-properties tag-coercevaluecallback tag-dependency-properties tag-propertychangedcallback tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">December 8, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-12-08-149-use-propertychanged-and-coercion-callbacks-to-force-dependencies-between-properties.html">2 Comments</a></span> </p>
+                    </div>
+
+                    <p>When implementing dependency properties, you typically use the <strong>CoerceValueCallback</strong> and <strong>PropertyChangedCallbacks </strong>to enforce relationships between properties.</p>
+<p>For example, assume we have a <strong>Person</strong> class with <strong>BirthYear</strong>, <strong>DeathYear</strong> and <strong>MarriageYear</strong> properties.  We want to ensure that <strong>MarriageYear</strong> is never earlier than <strong>BirthYear</strong> or later than <strong>DeathYear</strong>.  We want these checks done any time that we change any of the three properties.</p>
+<p>The basic plan is:</p>
+<ul>
+<li>Allow setting <strong>BirthYear</strong> to anything</li>
+<li>When setting <strong>DeathYear</strong>, don&#8217;t let it be earlier than <strong>BirthYear</strong></li>
+<li>When setting <strong>MarriageYear</strong>, don&#8217;t let it be earlier than birth or later than death</li>
+</ul>
+<p>When registering the dependency properties, we therefore do the following:</p>
+<ul>
+<li><strong>BirthYear</strong>
+<ul>
+<li>In <strong>PropertyChangedCallback</strong>, force coercion of <strong>DeathYear</strong> and <strong>MarriageYear</strong></li>
+</ul>
+</li>
+<li><strong>DeathYear</strong>
+<ul>
+<li>In <strong>PropertyChangedCallback</strong>, force coercion of <strong>MarriageYear</strong></li>
+<li>In <strong>CoerceValueCallback</strong>, if value earlier than birth, set to <strong>BirthYear</strong></li>
+</ul>
+</li>
+<li><strong>MarriageYear</strong>
+<ul>
+<li>In <strong>CoerceValueCallback</strong>, if marriage earlier than birth, set to birth year; if later than death, set to death year</li>
+</ul>
+</li>
+</ul>
+<p>Here&#8217;s an <a href="2010-12-09-150-an-example-of-using-propertychanged-and-coercevalue-callbacks.html">example</a>.</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/12/08/149-use-propertychanged-and-coercion-callbacks-to-force-dependencies-between-properties/"
+    dc:identifier="http://wpf.2000things.com/2010/12/08/149-use-propertychanged-and-coercion-callbacks-to-force-dependencies-between-properties/"
+    dc:title="#149 &#8211; Use PropertyChanged and Coercion Callbacks to Force Dependencies Between&nbsp;Properties"
+    trackback:ping="http://wpf.2000things.com/2010/12/08/149-use-propertychanged-and-coercion-callbacks-to-force-dependencies-between-properties/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/coercevaluecallback/" rel="tag">CoerceValueCallback</a>, <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/propertychangedcallback/" rel="tag">PropertyChangedCallback</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: CoerceValueCallback, Dependency Properties, PropertyChangedCallback, WPF</p>
+  <nav class="pager"><a href="2010-12-07-148-property-values-set-using-expressions-overwrite-the-base-value.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-09-150-an-example-of-using-propertychanged-and-coercevalue-callbacks.html">Next</a></nav>
+</main>
+
+</body>
+</html>

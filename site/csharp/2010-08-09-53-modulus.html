@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#53 – Modulus</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-08-08-52-arithmetic-operators.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-08-10-54-increment-and-decrement-operators.html">Next</a></nav>
+  <h1>#53 – Modulus</h1>
+  <p class="meta">2010-08-09 | <a href="http://csharp.2000things.com/2010/08/09/53-modulus/">Original URL</a> | Wayback 20130817201507</p>
+  <article><div class="post-513 post type-post status-publish format-standard hentry category-basics tag-c tag-modulo tag-modulus">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 9, 2010</span>
+																						<span class="post-comments"><a href="2010-08-09-53-modulus.html" title="Comment on #53 &#8211;&nbsp;Modulus">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>The <strong>modulus</strong> operator <strong>%</strong>, used as a binary operator</p>
+<p style="padding-left:30px;">a % b</p>
+<p>is defined as the remainder of <strong>a</strong> (dividend) divided by <strong>b </strong>(divisor).  Also known as &#8220;<a href="http://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo</a>&#8220;.</p>
+<p>The idea is to determine the maximum integer that you can multiply <strong>b</strong> by to get a result &lt;=<strong>a. </strong>Let&#8217;s call this integer <strong>n</strong>.  Then the remainder is just <strong>a &#8211; (b * n)</strong>.</p>
+<p>Examples:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+ int n1 = 5 % 2;    // 1  [5-(2*2)]
+ int n2 = 39 % 5;   // 4  [39-(5*7)]
+ int n3 = 10 % 2;   // 0  [10-(2*5)]
+</pre>
+<p>If <strong>a </strong>is equal to <strong>b</strong>, the remainder is always 0.</p>
+<p>If <strong>a</strong> is less than <strong>b</strong>, the remainder is always equal to <strong>a</strong>.</p>
+<p>If either <strong>a</strong> or <strong>b </strong>is negative, the result always matches the sign of <strong>a</strong>.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+ int n5 = -5 % 2;   // -1
+ int n6 = 5 % -2;   //  1
+ int n7 = -5 % -2;  // -1
+</pre>
+<p>C# also supports the use of the modulus operator for floating point numbers:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+ double d1 = 42.5 % 12.2;  // ~5.9 [42.5-(12.2*3)]
+</pre>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Tag", "basics");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "modulo");
+GA_googleAddAttr("Tag", "modulus");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2010/08/09/53-modulus/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/08/09/53-modulus/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-513"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/08/09/53-modulus/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/08/09/53-modulus/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Basics | Tags: C#, Modulo, Modulus</p>
+  <nav class="pager"><a href="2010-08-08-52-arithmetic-operators.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-08-10-54-increment-and-decrement-operators.html">Next</a></nav>
+</main>
+
+</body>
+</html>

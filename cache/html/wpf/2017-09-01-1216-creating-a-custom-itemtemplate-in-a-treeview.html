@@ -1,0 +1,829 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#1,216 &#8211; Creating a Custom ItemTemplate in a TreeView | 2,000 Things You Should Know About WPF</title>
+	<link rel="pingback" href="https://wpf.2000things.com/xmlrpc.php" />
+			<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=wpf.2000things.com&amp;id=14605478&amp;t=1504586693&amp;back=https%3A%2F%2Fwpf.2000things.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//2000thingswpf.wordpress.com' />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Feed" href="https://wpf.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Comments Feed" href="https://wpf.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; #1,216 &#8211; Creating a Custom ItemTemplate in a&nbsp;TreeView Comments Feed" href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1496863874h&ver=4.8.1-RC2-41203"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJyNkd1OwzAMhV8IExWmAReIZ0lTL/OW1FbsquztSddNaANFu4l8nPPFP3GzQODRcDSXJ5A0RRrVzRI4g2ZKeLpTz0H1yf2PJTqiugOa+HCEs2rZCyZvOICw2p1qYYEL1nwWb4sj40AeE+Zqa2EzDRFrnWq5xGD43USybK+FlnBfp2p2ti6q76WgKtQz05TB9rW3v9yadjL1rkosUkjRqZ0SPjKGsVwW9zCiHMgnoGq5FStMbmRbL69B69WIDImDN+LxRsAueSrtj+8TxxrG82/8ygX6yp/d5uPt5b3rXrvDD9V1/eI=' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-1-1' href='https://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s2.wp.com/_static/??/wp-content/mu-plugins/actionbar/actionbar.css,/wp-content/themes/h4/global.css?m=1490786585j' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj90KwjAMhV/IrAw6xQvxWWoXS2r/bNoNfXo70At1KARCTr4cTsScgIJ2dUQWttW1Yr49W2d5I34B4MlkVbDzFF6wjqFgKAvr44kcQmXMyjStGZ3jCpciF4/MDVrZvkeiMBHOfzGLJSl9gYxM9y9XXyG5aiiwyOjaAyMsGT6mdnX0h17uh36Qcre1DyuucHk='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://2000thingswpf.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#1,215 &#8211; Binding a TreeView to a Hierarchical Data&nbsp;Source' href='https://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/" />
+<link rel='shortlink' href='http://wp.me/pZhye-2xi' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fwpf.2000things.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fwpf.2000things.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="#1,216 &#8211; Creating a Custom ItemTemplate in a TreeView" />
+<meta property="og:url" content="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/" />
+<meta property="og:description" content="If we just want each node in a TreeView control to contain text, we can use a single TreeViewItem in the HierarchicalDataTemplate and bind its Header property to the text that we want displayed. Ho…" />
+<meta property="article:published_time" content="2017-09-01T12:35:58+00:00" />
+<meta property="article:modified_time" content="2017-09-01T12:36:04+00:00" />
+<meta property="og:site_name" content="2,000 Things You Should Know About WPF" />
+<meta property="og:image" content="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg" />
+<meta property="og:image:width" content="277" />
+<meta property="og:image:height" content="600" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@2kthingswpf" />
+<meta name="twitter:text:title" content="#1,216 &#8211; Creating a Custom ItemTemplate in a&nbsp;TreeView" />
+<meta name="twitter:image" content="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@2kthingswpf" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://2000thingswpf.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://2000thingswpf.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://wpf.2000things.com/osd.xml" title="2,000 Things You Should Know About WPF" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<meta name="application-name" content="2,000 Things You Should Know About WPF" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a WPF Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://wpf.2000things.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="#1,216 &#8211; Creating a Custom ItemTemplate in a&nbsp;TreeView | 2,000 Things You Should Know About WPF on WordPress.com" />
+<meta name="description" content="If we just want each node in a TreeView control to contain text, we can use a single TreeViewItem in the HierarchicalDataTemplate and bind its Header property to the text that we want displayed. However, we can use an Panel we like in the data template. The example below builds on our last post, but using a Grid in a Border for&hellip;" />
+		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+<link rel="amphtml" href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="post-template-default single single-post postid-9752 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+
+<div id="header">
+	<div class="header-left">
+					<h4><a href="https://wpf.2000things.com/">2,000 Things You Should Know About WPF</a></h4>
+				<p id="description">Everything a WPF Developer Needs to Know, in Bite-Sized Chunks</p>
+	</div>
+	<div class="header-right">
+		<form method="get" id="searchform" action="https://wpf.2000things.com/" >
+			<div><label class="hidden" for="s">Search:</label>
+			<input type="text" value="" name="s" id="s" />
+			<input type="submit" id="searchsubmit" value="Go" /></div>
+		</form>
+	</div>
+</div>
+<div id="access">
+	<div id="nav">
+		<div id="supernav" class="navleft nav">
+			<div class="menu"><ul>
+<li ><a href="https://wpf.2000things.com/">Home</a></li><li class="page_item page-item-2"><a href="https://wpf.2000things.com/about/">About Me</a></li>
+<li class="page_item page-item-17"><a href="https://wpf.2000things.com/index/">Index</a></li>
+</ul></div>
+		</div>
+		<div class="navright">
+			<a class="rsslink" rel="nofollow" href="https://wpf.2000things.com/feed/">Posts</a>
+			<a class="rsslink" rel="nofollow" href="https://wpf.2000things.com/comments/feed/">Comments</a>
+		</div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-100823"><a href="https://wpf.2000things.com/category/controls/" >Controls</a>
+</li>
+	<li class="cat-item cat-item-26060"><a href="https://wpf.2000things.com/category/layout/" >Layout</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="https://wpf.2000things.com/category/events/" >Events</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="https://wpf.2000things.com/category/basics/" >Basics</a>
+</li>
+	<li class="cat-item cat-item-20948"><a href="https://wpf.2000things.com/category/blend/" >Blend</a>
+</li>
+	<li class="cat-item cat-item-658"><a href="https://wpf.2000things.com/category/graphics/" >Graphics</a>
+</li>
+	<li class="cat-item cat-item-103962"><a href="https://wpf.2000things.com/category/xaml/" >XAML</a>
+</li>
+	<li class="cat-item cat-item-875"><a href="https://wpf.2000things.com/category/miscellaneous/" >Miscellaneous</a>
+</li>
+	<li class="cat-item cat-item-4859017"><a href="https://wpf.2000things.com/category/dependency-properties/" >Dependency Properties</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="https://wpf.2000things.com/category/visual-studio/" >Visual Studio</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="https://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/" rel="prev"><span class="meta-nav">&larr;</span> #1,215 &#8211; Binding a TreeView to a Hierarchical Data&nbsp;Source</a></div>
+				<div class="nav-next"></div>
+			</div>
+
+			<div class="post-9752 post type-post status-publish format-standard hentry category-controls tag-controls tag-treeview tag-wpf">
+
+				<div class="entry">
+
+					<h1>#1,216 &#8211; Creating a Custom ItemTemplate in a&nbsp;TreeView</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 1, 2017</span>
+																						<span class="post-comments"><a href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/#respond">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>If we just want each node in a <strong>TreeView</strong> control to contain text, we can use a single <strong>TreeViewItem</strong> in the <strong>HierarchicalDataTemplate</strong> and bind its <strong>Header</strong> property to the text that we want displayed. However, we can use an <strong>Panel</strong> we like in the data template.</p>
+<p>The example below builds on our last <a href="https://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/">post</a>, but using a <strong>Grid</strong> in a <strong>Border</strong> for each person in the tree.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; ItemsSource=&quot;{Binding Royal}&quot;&gt;
+    &lt;TreeView.ItemTemplate&gt;
+        &lt;HierarchicalDataTemplate ItemsSource=&quot;{Binding Children}&quot;&gt;
+            &lt;Border Background=&quot;AliceBlue&quot; Margin=&quot;0,2,0,0&quot; Padding=&quot;4,2,8,2&quot; 
+                    BorderBrush=&quot;DimGray&quot; BorderThickness=&quot;1&quot;
+                    CornerRadius=&quot;3&quot;&gt;
+                &lt;Grid&gt;
+                    &lt;Grid.RowDefinitions&gt;
+                        &lt;RowDefinition/&gt;
+                        &lt;RowDefinition/&gt;
+                    &lt;/Grid.RowDefinitions&gt;
+                    &lt;Grid.ColumnDefinitions&gt;
+                        &lt;ColumnDefinition/&gt;
+                        &lt;ColumnDefinition/&gt;
+                    &lt;/Grid.ColumnDefinitions&gt;
+
+                    &lt;TextBlock Grid.Row=&quot;0&quot; Grid.Column=&quot;0&quot; FontWeight=&quot;Bold&quot;
+                               Text=&quot;{Binding Name}&quot;/&gt;
+                    &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;0&quot; FontStyle=&quot;Italic&quot;
+                               Text=&quot;{Binding BirthDeath}&quot; Margin=&quot;5,0,0,0&quot;/&gt;
+                    &lt;Image Grid.RowSpan=&quot;2&quot; Grid.Column=&quot;2&quot;
+                           Height=&quot;20&quot; Width=&quot;20&quot; Margin=&quot;5,0&quot;
+                           Source=&quot;Crown.png&quot;
+                           Visibility=&quot;{Binding KingOrQueen, Converter={StaticResource BooleanToVisibilityConverter}}&quot;/&gt;
+                &lt;/Grid&gt;
+            &lt;/Border&gt;
+        &lt;/HierarchicalDataTemplate&gt;
+    &lt;/TreeView.ItemTemplate&gt;
+&lt;/TreeView&gt;
+</pre>
+<p>Here&#8217;s what the final result looks like (after I expand a few of the <strong>TreeView</strong> nodes:</p>
+<p><a href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/1216-01-2/" rel="attachment wp-att-9793"><img data-attachment-id="9793" data-permalink="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/1216-01-2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg?w=630" data-orig-size="277,600" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1216-01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg?w=630?w=139" data-large-file="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg?w=630?w=277" class="alignnone size-full wp-image-9793" src="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg?w=630" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg 277w, https://2000thingswpf.files.wordpress.com/2017/09/1216-01.jpg?w=69 69w" sizes="(max-width: 277px) 100vw, 277px"   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9752-59ae2bc51d414' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9752&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9752-59ae2bc51d414' data-name='like-post-frame-14605478-9752-59ae2bc51d414'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/"
+    dc:identifier="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/"
+    dc:title="#1,216 &#8211; Creating a Custom ItemTemplate in a&nbsp;TreeView"
+    trackback:ping="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="https://wpf.2000things.com/category/controls/" rel="category tag">Controls</a></span>
+						<span class="tags">Tagged with <a href="https://wpf.2000things.com/tag/controls/" rel="tag">Controls</a>, <a href="https://wpf.2000things.com/tag/treeview/" rel="tag">TreeView</a>, <a href="https://wpf.2000things.com/tag/wpf/" rel="tag">WPF</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='https://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&#038;d=identicon&#038;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+
+
+
+	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://wpf.2000things.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="1877858554" /><input type="hidden" name="_wp_http_referer" value="/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='9752' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="05b59ba7f4" /></p>
+<input type="hidden" name="genseq" value="1504586693" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="55"/></p>			</form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='https://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=64&#038;d=identicon&#038;r=G' class='avatar avatar-64 grav-widget-none' height='64' width='64' /></p>
+</div><div id="text-4" class="widget widget_text"><h4>Xceed controls for WPF</h4>			<div class="textwidget"><p>Are you using WPF but the standard controls included with WPF are missing a feature, or a control that you need is not there? Check out <a href="https://xceed.com/xceed-toolkit-plus-for-wpf">Xceed Toolkit Plus for WPF</a>. For $499.95 you can add nearly 100 controls, panels and themes to your arsenal. Check it out!</p>
+<p><b>Bonus for January 2017, use coupon <a href="https://xceed.com/2000things">2000things</a> and get 50% off!</b></p>
+<p><a href="https://xceed.com/xceed-toolkit-plus-for-wpf"><img src="https://2000thingswpf.files.wordpress.com/2017/01/xceed_toolkit-plus_for-wpf_h-tiny.png"></a></p>
+</div>
+		</div>		<div id="recent-posts-3" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+					<li>
+				<a href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/">#1,216 &#8211; Creating a Custom ItemTemplate in a&nbsp;TreeView</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/">#1,215 &#8211; Binding a TreeView to a Hierarchical Data&nbsp;Source</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/07/25/1214-naming-scheme-for-xaml-elements/">#1,214 &#8211; Naming Scheme for XAML&nbsp;Elements</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/07/16/1213-why-you-may-want-to-name-xaml-elements/">#1,213 &#8211; Why You May Want to Name XAML&nbsp;Elements</a>
+						</li>
+					<li>
+				<a href="https://wpf.2000things.com/2017/06/29/1212-viewing-wpf-trace-output-outside-of-visual-studio/">#1,212 &#8211; Viewing WPF Trace Output Outside of Visual&nbsp;Studio</a>
+						</li>
+				</ul>
+		</div>		<div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://csharp.2000things.com/" title="Everything a C# Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About C#</a></li>
+<li><a href="http://www.britannicageek.com" title="Reading Britannica 2010, One Article at a Time" target="_blank">Britannica Geek</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar">
+	<caption>September 2017</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="https://wpf.2000things.com/2017/08/">&laquo; Aug</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="5" class="pad">&nbsp;</td><td><a href="https://wpf.2000things.com/2017/09/01/" aria-label="Posts published on September 1, 2017">1</a></td><td>2</td>
+	</tr>
+	<tr>
+		<td>3</td><td id="today">4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+	</tr>
+	<tr>
+		<td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td>
+	</tr>
+	<tr>
+		<td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+	</tr>
+	<tr>
+		<td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="top-posts-2" class="widget widget_top-posts"><h4>Top Posts</h4><ul>				<li>
+										<a href="https://wpf.2000things.com/2011/02/17/220-using-the-predefined-colors/" class="bump-view" data-bump-view="tp">
+						#220 - Using the Predefined Colors					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/index/" class="bump-view" data-bump-view="tp">
+						Index					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/07/27/351-binding-a-checkboxs-ischecked-property-to-a-boolean-variable/" class="bump-view" data-bump-view="tp">
+						#351 - Binding a CheckBox&#039;s IsChecked Property to a Boolean Variable					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/02/07/210-specifying-colors-in-xaml-as-rgb-values/" class="bump-view" data-bump-view="tp">
+						#210 - Specifying Colors in XAML As RGB Values					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/" class="bump-view" data-bump-view="tp">
+						#1,216 - Creating a Custom ItemTemplate in a TreeView					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/" class="bump-view" data-bump-view="tp">
+						#1,215 - Binding a TreeView to a Hierarchical Data Source					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2011/08/30/375-binding-something-in-a-tooltip-to-a-property-on-the-parent-control/" class="bump-view" data-bump-view="tp">
+						#375 - Binding Something in a Tooltip to a Property on the Parent Control					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2010/10/18/98-how-attached-properties-work-in-wpf/" class="bump-view" data-bump-view="tp">
+						#98 - How Attached Properties Work in WPF					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2010/10/19/99-creating-custom-objects-in-xaml/" class="bump-view" data-bump-view="tp">
+						#99 - Creating Custom Objects in XAML					</a>
+									</li>
+							<li>
+										<a href="https://wpf.2000things.com/2010/10/21/101-what-visual-studio-does-with-your-xaml/" class="bump-view" data-bump-view="tp">
+						#101 - What Visual Studio Does with Your XAML					</a>
+									</li>
+			</ul></div><div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href="https://wpf.2000things.com/tag/application/" class="tag-cloud-link tag-link-3370 tag-link-position-1" style="font-size: 9.0566037735849pt;" aria-label="Application (12 items)">Application</a>
+<a href="https://wpf.2000things.com/tag/background/" class="tag-cloud-link tag-link-10955 tag-link-position-2" style="font-size: 8pt;" aria-label="Background (8 items)">Background</a>
+<a href="https://wpf.2000things.com/tag/basics/" class="tag-cloud-link tag-link-8516 tag-link-position-3" style="font-size: 8.5943396226415pt;" aria-label="Basics (10 items)">Basics</a>
+<a href="https://wpf.2000things.com/tag/binding/" class="tag-cloud-link tag-link-296829 tag-link-position-4" style="font-size: 8.5943396226415pt;" aria-label="Binding (10 items)">Binding</a>
+<a href="https://wpf.2000things.com/tag/blend/" class="tag-cloud-link tag-link-20948 tag-link-position-5" style="font-size: 14.075471698113pt;" aria-label="Blend (73 items)">Blend</a>
+<a href="https://wpf.2000things.com/tag/border/" class="tag-cloud-link tag-link-75704 tag-link-position-6" style="font-size: 9.5188679245283pt;" aria-label="Border (14 items)">Border</a>
+<a href="https://wpf.2000things.com/tag/brush/" class="tag-cloud-link tag-link-324237 tag-link-position-7" style="font-size: 8.5943396226415pt;" aria-label="Brush (10 items)">Brush</a>
+<a href="https://wpf.2000things.com/tag/button/" class="tag-cloud-link tag-link-94913 tag-link-position-8" style="font-size: 8.8584905660377pt;" aria-label="Button (11 items)">Button</a>
+<a href="https://wpf.2000things.com/tag/calendar/" class="tag-cloud-link tag-link-7155 tag-link-position-9" style="font-size: 8.3301886792453pt;" aria-label="Calendar (9 items)">Calendar</a>
+<a href="https://wpf.2000things.com/tag/canvas/" class="tag-cloud-link tag-link-53176 tag-link-position-10" style="font-size: 10.179245283019pt;" aria-label="Canvas (18 items)">Canvas</a>
+<a href="https://wpf.2000things.com/tag/checkbox/" class="tag-cloud-link tag-link-760947 tag-link-position-11" style="font-size: 9.3207547169811pt;" aria-label="CheckBox (13 items)">CheckBox</a>
+<a href="https://wpf.2000things.com/tag/color/" class="tag-cloud-link tag-link-11835 tag-link-position-12" style="font-size: 8pt;" aria-label="Color (8 items)">Color</a>
+<a href="https://wpf.2000things.com/tag/colors/" class="tag-cloud-link tag-link-6915 tag-link-position-13" style="font-size: 8.8584905660377pt;" aria-label="Colors (11 items)">Colors</a>
+<a href="https://wpf.2000things.com/tag/combobox/" class="tag-cloud-link tag-link-603206 tag-link-position-14" style="font-size: 8.5943396226415pt;" aria-label="ComboBox (10 items)">ComboBox</a>
+<a href="https://wpf.2000things.com/tag/commands/" class="tag-cloud-link tag-link-319 tag-link-position-15" style="font-size: 11.5pt;" aria-label="Commands (29 items)">Commands</a>
+<a href="https://wpf.2000things.com/tag/contentcontrol/" class="tag-cloud-link tag-link-6435769 tag-link-position-16" style="font-size: 8.8584905660377pt;" aria-label="ContentControl (11 items)">ContentControl</a>
+<a href="https://wpf.2000things.com/tag/controls/" class="tag-cloud-link tag-link-100823 tag-link-position-17" style="font-size: 18.698113207547pt;" aria-label="Controls (374 items)">Controls</a>
+<a href="https://wpf.2000things.com/tag/cursor/" class="tag-cloud-link tag-link-113618 tag-link-position-18" style="font-size: 9.0566037735849pt;" aria-label="Cursor (12 items)">Cursor</a>
+<a href="https://wpf.2000things.com/tag/data-binding/" class="tag-cloud-link tag-link-725408 tag-link-position-19" style="font-size: 12.688679245283pt;" aria-label="Data Binding (45 items)">Data Binding</a>
+<a href="https://wpf.2000things.com/tag/dependency-properties/" class="tag-cloud-link tag-link-4859017 tag-link-position-20" style="font-size: 13.018867924528pt;" aria-label="Dependency Properties (50 items)">Dependency Properties</a>
+<a href="https://wpf.2000things.com/tag/dependency-property/" class="tag-cloud-link tag-link-12411431 tag-link-position-21" style="font-size: 8pt;" aria-label="Dependency property (8 items)">Dependency property</a>
+<a href="https://wpf.2000things.com/tag/dockpanel/" class="tag-cloud-link tag-link-4486568 tag-link-position-22" style="font-size: 8.3301886792453pt;" aria-label="DockPanel (9 items)">DockPanel</a>
+<a href="https://wpf.2000things.com/tag/drag-and-drop/" class="tag-cloud-link tag-link-330193 tag-link-position-23" style="font-size: 10.707547169811pt;" aria-label="Drag-and-Drop (22 items)">Drag-and-Drop</a>
+<a href="https://wpf.2000things.com/tag/events/" class="tag-cloud-link tag-link-924 tag-link-position-24" style="font-size: 16.122641509434pt;" aria-label="Events (150 items)">Events</a>
+<a href="https://wpf.2000things.com/tag/expander/" class="tag-cloud-link tag-link-1193284 tag-link-position-25" style="font-size: 8pt;" aria-label="Expander (8 items)">Expander</a>
+<a href="https://wpf.2000things.com/tag/flowdocument/" class="tag-cloud-link tag-link-27472306 tag-link-position-26" style="font-size: 8.8584905660377pt;" aria-label="FlowDocument (11 items)">FlowDocument</a>
+<a href="https://wpf.2000things.com/tag/focus/" class="tag-cloud-link tag-link-630 tag-link-position-27" style="font-size: 8.8584905660377pt;" aria-label="Focus (11 items)">Focus</a>
+<a href="https://wpf.2000things.com/tag/fonts/" class="tag-cloud-link tag-link-24938 tag-link-position-28" style="font-size: 10.839622641509pt;" aria-label="Fonts (23 items)">Fonts</a>
+<a href="https://wpf.2000things.com/tag/frameworkelement/" class="tag-cloud-link tag-link-23671364 tag-link-position-29" style="font-size: 9.0566037735849pt;" aria-label="FrameworkElement (12 items)">FrameworkElement</a>
+<a href="https://wpf.2000things.com/tag/gradient/" class="tag-cloud-link tag-link-751135 tag-link-position-30" style="font-size: 8.3301886792453pt;" aria-label="Gradient (9 items)">Gradient</a>
+<a href="https://wpf.2000things.com/tag/graphics/" class="tag-cloud-link tag-link-658 tag-link-position-31" style="font-size: 12.22641509434pt;" aria-label="Graphics (38 items)">Graphics</a>
+<a href="https://wpf.2000things.com/tag/grid/" class="tag-cloud-link tag-link-11403 tag-link-position-32" style="font-size: 12.556603773585pt;" aria-label="Grid (43 items)">Grid</a>
+<a href="https://wpf.2000things.com/tag/gridsplitter/" class="tag-cloud-link tag-link-13631504 tag-link-position-33" style="font-size: 9.3207547169811pt;" aria-label="GridSplitter (13 items)">GridSplitter</a>
+<a href="https://wpf.2000things.com/tag/groupbox/" class="tag-cloud-link tag-link-2150176 tag-link-position-34" style="font-size: 8.5943396226415pt;" aria-label="GroupBox (10 items)">GroupBox</a>
+<a href="https://wpf.2000things.com/tag/horizontalalignment/" class="tag-cloud-link tag-link-13467514 tag-link-position-35" style="font-size: 8pt;" aria-label="HorizontalAlignment (8 items)">HorizontalAlignment</a>
+<a href="https://wpf.2000things.com/tag/image/" class="tag-cloud-link tag-link-686 tag-link-position-36" style="font-size: 10.839622641509pt;" aria-label="Image (23 items)">Image</a>
+<a href="https://wpf.2000things.com/tag/inkcanvas/" class="tag-cloud-link tag-link-6285586 tag-link-position-37" style="font-size: 8.3301886792453pt;" aria-label="InkCanvas (9 items)">InkCanvas</a>
+<a href="https://wpf.2000things.com/tag/input/" class="tag-cloud-link tag-link-105671 tag-link-position-38" style="font-size: 9.6509433962264pt;" aria-label="Input (15 items)">Input</a>
+<a href="https://wpf.2000things.com/tag/itemscontrol/" class="tag-cloud-link tag-link-5805353 tag-link-position-39" style="font-size: 9.6509433962264pt;" aria-label="ItemsControl (15 items)">ItemsControl</a>
+<a href="https://wpf.2000things.com/tag/keyboard/" class="tag-cloud-link tag-link-105984 tag-link-position-40" style="font-size: 8.5943396226415pt;" aria-label="Keyboard (10 items)">Keyboard</a>
+<a href="https://wpf.2000things.com/tag/keyboard-focus/" class="tag-cloud-link tag-link-57663219 tag-link-position-41" style="font-size: 8.3301886792453pt;" aria-label="Keyboard Focus (9 items)">Keyboard Focus</a>
+<a href="https://wpf.2000things.com/tag/keydown/" class="tag-cloud-link tag-link-3029119 tag-link-position-42" style="font-size: 9.3207547169811pt;" aria-label="KeyDown (13 items)">KeyDown</a>
+<a href="https://wpf.2000things.com/tag/keyup/" class="tag-cloud-link tag-link-24148038 tag-link-position-43" style="font-size: 8pt;" aria-label="KeyUp (8 items)">KeyUp</a>
+<a href="https://wpf.2000things.com/tag/layout/" class="tag-cloud-link tag-link-26060 tag-link-position-44" style="font-size: 16.716981132075pt;" aria-label="Layout (187 items)">Layout</a>
+<a href="https://wpf.2000things.com/tag/lineargradientbrush/" class="tag-cloud-link tag-link-28580558 tag-link-position-45" style="font-size: 8pt;" aria-label="LinearGradientBrush (8 items)">LinearGradientBrush</a>
+<a href="https://wpf.2000things.com/tag/listbox/" class="tag-cloud-link tag-link-475641 tag-link-position-46" style="font-size: 13.018867924528pt;" aria-label="ListBox (50 items)">ListBox</a>
+<a href="https://wpf.2000things.com/tag/localization/" class="tag-cloud-link tag-link-37184 tag-link-position-47" style="font-size: 11.169811320755pt;" aria-label="Localization (26 items)">Localization</a>
+<a href="https://wpf.2000things.com/tag/manipulation/" class="tag-cloud-link tag-link-71456 tag-link-position-48" style="font-size: 9.3207547169811pt;" aria-label="Manipulation (13 items)">Manipulation</a>
+<a href="https://wpf.2000things.com/tag/margin/" class="tag-cloud-link tag-link-162270 tag-link-position-49" style="font-size: 9.5188679245283pt;" aria-label="Margin (14 items)">Margin</a>
+<a href="https://wpf.2000things.com/tag/measure/" class="tag-cloud-link tag-link-307466 tag-link-position-50" style="font-size: 8.3301886792453pt;" aria-label="Measure (9 items)">Measure</a>
+<a href="https://wpf.2000things.com/tag/miscellaneous/" class="tag-cloud-link tag-link-875 tag-link-position-51" style="font-size: 12.424528301887pt;" aria-label="Miscellaneous (41 items)">Miscellaneous</a>
+<a href="https://wpf.2000things.com/tag/mouse/" class="tag-cloud-link tag-link-2786 tag-link-position-52" style="font-size: 11.169811320755pt;" aria-label="Mouse (26 items)">Mouse</a>
+<a href="https://wpf.2000things.com/tag/panel/" class="tag-cloud-link tag-link-6950 tag-link-position-53" style="font-size: 9.6509433962264pt;" aria-label="Panel (15 items)">Panel</a>
+<a href="https://wpf.2000things.com/tag/popup/" class="tag-cloud-link tag-link-401421 tag-link-position-54" style="font-size: 10.047169811321pt;" aria-label="Popup (17 items)">Popup</a>
+<a href="https://wpf.2000things.com/tag/radial-gradient/" class="tag-cloud-link tag-link-11753633 tag-link-position-55" style="font-size: 8pt;" aria-label="Radial Gradient (8 items)">Radial Gradient</a>
+<a href="https://wpf.2000things.com/tag/resources/" class="tag-cloud-link tag-link-1784 tag-link-position-56" style="font-size: 8.8584905660377pt;" aria-label="Resources (11 items)">Resources</a>
+<a href="https://wpf.2000things.com/tag/routed-events/" class="tag-cloud-link tag-link-4814299 tag-link-position-57" style="font-size: 11.037735849057pt;" aria-label="Routed Events (25 items)">Routed Events</a>
+<a href="https://wpf.2000things.com/tag/scrollviewer/" class="tag-cloud-link tag-link-6817193 tag-link-position-58" style="font-size: 9.6509433962264pt;" aria-label="ScrollViewer (15 items)">ScrollViewer</a>
+<a href="https://wpf.2000things.com/tag/shape/" class="tag-cloud-link tag-link-173283 tag-link-position-59" style="font-size: 8.3301886792453pt;" aria-label="Shape (9 items)">Shape</a>
+<a href="https://wpf.2000things.com/tag/slider/" class="tag-cloud-link tag-link-268522 tag-link-position-60" style="font-size: 8.8584905660377pt;" aria-label="Slider (11 items)">Slider</a>
+<a href="https://wpf.2000things.com/tag/stackpanel/" class="tag-cloud-link tag-link-25056137 tag-link-position-61" style="font-size: 8.5943396226415pt;" aria-label="StackPanel (10 items)">StackPanel</a>
+<a href="https://wpf.2000things.com/tag/tabcontrol/" class="tag-cloud-link tag-link-4676462 tag-link-position-62" style="font-size: 10.047169811321pt;" aria-label="TabControl (17 items)">TabControl</a>
+<a href="https://wpf.2000things.com/tag/text/" class="tag-cloud-link tag-link-5117 tag-link-position-63" style="font-size: 8.3301886792453pt;" aria-label="Text (9 items)">Text</a>
+<a href="https://wpf.2000things.com/tag/textblock/" class="tag-cloud-link tag-link-3128675 tag-link-position-64" style="font-size: 8.5943396226415pt;" aria-label="TextBlock (10 items)">TextBlock</a>
+<a href="https://wpf.2000things.com/tag/textbox/" class="tag-cloud-link tag-link-1988483 tag-link-position-65" style="font-size: 12.490566037736pt;" aria-label="TextBox (42 items)">TextBox</a>
+<a href="https://wpf.2000things.com/tag/tooltip/" class="tag-cloud-link tag-link-796127 tag-link-position-66" style="font-size: 10.047169811321pt;" aria-label="Tooltip (17 items)">Tooltip</a>
+<a href="https://wpf.2000things.com/tag/touch-input/" class="tag-cloud-link tag-link-1439944 tag-link-position-67" style="font-size: 9.6509433962264pt;" aria-label="Touch Input (15 items)">Touch Input</a>
+<a href="https://wpf.2000things.com/tag/transforms/" class="tag-cloud-link tag-link-2333232 tag-link-position-68" style="font-size: 11.037735849057pt;" aria-label="Transforms (25 items)">Transforms</a>
+<a href="https://wpf.2000things.com/tag/uielement/" class="tag-cloud-link tag-link-23200278 tag-link-position-69" style="font-size: 8pt;" aria-label="UIElement (8 items)">UIElement</a>
+<a href="https://wpf.2000things.com/tag/visual-studio/" class="tag-cloud-link tag-link-6678 tag-link-position-70" style="font-size: 11.037735849057pt;" aria-label="Visual Studio (25 items)">Visual Studio</a>
+<a href="https://wpf.2000things.com/tag/window/" class="tag-cloud-link tag-link-43058 tag-link-position-71" style="font-size: 9.5188679245283pt;" aria-label="Window (14 items)">Window</a>
+<a href="https://wpf.2000things.com/tag/windows/" class="tag-cloud-link tag-link-800 tag-link-position-72" style="font-size: 8.5943396226415pt;" aria-label="Windows (10 items)">Windows</a>
+<a href="https://wpf.2000things.com/tag/wpf/" class="tag-cloud-link tag-link-46652 tag-link-position-73" style="font-size: 22pt;" aria-label="WPF (1,177 items)">WPF</a>
+<a href="https://wpf.2000things.com/tag/wrappanel/" class="tag-cloud-link tag-link-4321068 tag-link-position-74" style="font-size: 8.5943396226415pt;" aria-label="WrapPanel (10 items)">WrapPanel</a>
+<a href="https://wpf.2000things.com/tag/xaml/" class="tag-cloud-link tag-link-103962 tag-link-position-75" style="font-size: 13.216981132075pt;" aria-label="XAML (54 items)">XAML</a></div></div><div id="blog-stats-2" class="widget widget_blog-stats"><h4>Blog Stats</h4>		<ul>
+			<li>3,050,002 hits</li>
+		</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a></p>
+    </div>
+    <div class="footerright">
+	        </div>
+</div>
+
+</div>
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201736y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/2000thingswpf.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?action=logout&_wpnonce=984309f88a","homeURL":"https:\/\/wpf.2000things.com\/","postID":"9752","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1479964158j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="14605478" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://wpf.2000things.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="2,000 Things You Should Know About WPF" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="39510d6515" /><input type="hidden" name="_wp_http_referer" value="/2017/09/01/1216-creating-a-custom-itemtemplate-in-a-treeview/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKiotzojIzQEaZ59ra2hiZGRsYmRobJIFAI/kP6g='></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+
+// Infinite scroll support
+jQuery( function( $ ) {
+	$( document.body ).on( 'post-load', function() {
+		SyntaxHighlighter.highlight();
+	} );
+} );
+</script>
+<link rel='stylesheet' id='all-css-0-3' href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1481571546h' type='text/css' media='all' />
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"14605478","siteName":"2,000 Things You Should Know About WPF","siteURL":"https:\/\/wpf.2000things.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/enterprise","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fwpf.2000things.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F","themeURL":"","xhrURL":"https:\/\/wpf.2000things.com\/wp-admin\/admin-ajax.php","nonce":"f3b0fe803b","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"33388961ac\" \/>","referer":"https:\/\/wpf.2000things.com\/2017\/09\/01\/1216-creating-a-custom-itemtemplate-in-a-treeview\/","canFollow":"1","feedID":"444245","statusMessage":"","customizeLink":"https:\/\/2000thingswpf.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2F2000thingswpf.wordpress.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F","postID":"9752","shortlink":"http:\/\/wp.me\/pZhye-2xi","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/wpf.2000things.com\/9752","statsLink":"https:\/\/wordpress.com\/stats\/post\/9752\/wpf.2000things.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Enterprise","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 453 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fwpf.2000things.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/wpf.2000things.com\/wp-admin\/admin-ajax.php","nonce":"d4443702fb","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/2000thingswpf.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fwpf.2000things.com%2F2017%2F09%2F01%2F1216-creating-a-custom-itemtemplate-in-a-treeview%2F","blog_id":"14605478","local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=14605478&v=wpcom&tz=-5&user_id=0&subd=2000thingswpf","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJx9j9sOwiAQRH9Iuq3Gy4vxUwzCqlBuLlDt30sTW/vQ9InNzHB2Ft6BCe8SugQ6gsROCQyfSscNzCybWTD5oVwEo1qM8MqY8cmdNEhjWDlhsixmAQlvbfnICIPpK6vcCpHL4rMbJ7A8JqQyMd8hkRpgk7ZGEEl5NxCmaalUDP8ec12Xa6j/PdU8tbBLcPI5ogGNKXDRslFY69eqaDGxXVXDtWyGuydb8hd7bvb19nBqjttafwHkbJMS'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20170206#ver=20170206' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?56" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'14605478','blog_tz':'-5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'14605478','v':'wpcom','tz':'-5','user_id':'0','post':'9752','subd':'2000thingswpf'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dQb1FCdkNUTz8zaVtDbH5BLGw3dGdoRnZSdDIwUHJ3PVFibjRFcldJcXd1VUdjSGhfREtjRmR4Lyx4bVguNGpSPSVuYV95T1RjW0NxV2lpeS4vXy0tZ2hJaFkzS2dnQTAyeDRHSEFYN3JKQlEtTiY0UE8uYk94P3B0YXN8VENlRzdWW1BXbXdTfjAlSExBWFc2PXBBSVtrelB3VXY5cDItZ0R8QzEuWWhqMUU5VTksQzVrZjNFbWk/dUhXdy1zXyV3T3Q4cFV3VkNDUTQwZCszeUpLaUgsdHx+MDQ3NEJqU3BGNmp5Pzl2JVFTZVNSblBEL2Nk'}]);
+_stq.push([ 'clickTrackerInit', '14605478', '9752' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

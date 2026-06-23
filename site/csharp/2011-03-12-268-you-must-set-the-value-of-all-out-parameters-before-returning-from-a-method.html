@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#268 – You Must Set the Value of All out Parameters Before Returning from a Method</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-11-267-passing-data-back-from-a-method-using-out-parameters.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-13-269-use-ref-modifier-on-parameters-that-are-inputoutput.html">Next</a></nav>
+  <h1>#268 – You Must Set the Value of All out Parameters Before Returning from a Method</h1>
+  <p class="meta">2011-03-12 | <a href="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/">Original URL</a> | Wayback 20110517072822</p>
+  <article><div class="post-2334 post type-post status-publish format-standard hentry category-methods tag-c tag-methods tag-out tag-output-parameters tag-parameters">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">March 12, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-03-12-268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You can use <strong>out</strong> parameters as a way of <a href="2011-03-11-267-passing-data-back-from-a-method-using-out-parameters.html">returning multiple data values</a> from a method to its caller.  Because the intention of an output parameter is to return data to the caller, you must assign some value to every parameter marked as <strong>out</strong> before you can return from a method.  The compiler will enforce this rule.</p>
+<p>In the example below, we&#8217;ve failed to set a value for the <strong>barkPhrase</strong> output parameter.</p>
+<pre class="brush: csharp;">
+        public void GetDogVitals(out string fullName, out int age, out string barkPhrase)
+        {
+            fullName = string.Format(&quot;{0}, {1}&quot;, Name, Title);
+            age = Age;
+            //barkPhrase = BarkPhrase;
+        }
+</pre>
+<p>When we try to compile the code, we&#8217;ll get an error telling us that we must assign a value to the <strong>barkPhrase</strong> output parameter before control leaves the method.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/03/001-mustassign.png"><img class="alignnone size-full wp-image-2336" title="001-MustAssign" src="https://web.archive.org/web/20110517072822id_/http://2000thingscsharp.files.wordpress.com/2011/03/001-mustassign.png?w=630&amp;h=242" alt="" width="630" height="242" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/"
+    dc:identifier="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/"
+    dc:title="#268 &#8211; You Must Set the Value of All out Parameters Before Returning from a&nbsp;Method"
+    trackback:ping="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/methods/" title="View all posts in Methods" rel="category tag">Methods</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/methods/" rel="tag">Methods</a>, <a href="http://en.wordpress.com/tag/out/" rel="tag">Out</a>, <a href="http://en.wordpress.com/tag/output-parameters/" rel="tag">Output Parameters</a>, <a href="http://en.wordpress.com/tag/parameters/" rel="tag">Parameters</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Methods | Tags: C#, Methods, Out, Output Parameters, Parameters</p>
+  <nav class="pager"><a href="2011-03-11-267-passing-data-back-from-a-method-using-out-parameters.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-13-269-use-ref-modifier-on-parameters-that-are-inputoutput.html">Next</a></nav>
+</main>
+
+</body>
+</html>

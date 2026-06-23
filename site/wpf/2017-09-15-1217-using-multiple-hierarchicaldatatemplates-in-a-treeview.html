@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,217 – Using Multiple HierarchicalDataTemplates in a TreeView</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-09-01-1216-creating-a-custom-itemtemplate-in-a-treeview.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-09-23-1218-stretching-items-in-treeview-across-entire-control.html">Next</a></nav>
+  <h1>#1,217 – Using Multiple HierarchicalDataTemplates in a TreeView</h1>
+  <p class="meta">2017-09-15 | <a href="http://wpf.2000things.com/2017/09/15/1217-using-multiple-hierarchicaldatatemplates-in-a-treeview/">Original URL</a> | Wayback 20170916023613</p>
+  <article><div class="post-9796 post type-post status-publish format-standard hentry category-controls tag-controls tag-hierarchicaldatatemplate tag-treeview tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 15, 2017</span>
+																						<span class="post-comments"><a href="2017-09-15-1217-using-multiple-hierarchicaldatatemplates-in-a-treeview.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>I showed <a href="2017-09-01-1216-creating-a-custom-itemtemplate-in-a-treeview.html">last time</a> how to use a <strong>HierarchicalDataTemplate</strong> as the <strong>ItemTemplate</strong> for a <strong>TreeView</strong>. This allowed us to specify the look and feel of each node in the tree and also dictated how the main data item would be traversed to generate the tree.</p>
+<p>If you have some hierarchical data in which the items are not all of the same type, you can specify more than one <strong>HierarchicalDataTemplate</strong> for the <strong>TreeView, </strong>based on the underlying type of each node.</p>
+<p>Let&#8217;s assume that we have both a <strong>Breed </strong>and a <strong>Dog </strong>class. Breed objects contain information about a breed and in turn have a <strong>Dogs</strong> property that is a list of individual dogs of that breed.</p>
+<p>In the example below, we have a <strong>TreeView</strong> whose <strong>ItemsSource </strong>is bound to a list of breeds. We then include a template to use for each <strong>Breed</strong> item and a different template to use for each <strong>Dog</strong> item in the tree. We also indicate that the tree should be expanded by looking at the <strong>Dogs</strong> property in each breed instance.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; ItemsSource=&quot;{Binding Breeds}&quot;&gt;
+            &lt;TreeView.Resources&gt;
+                &lt;HierarchicalDataTemplate DataType=&quot;{x:Type loc:Breed}&quot; ItemsSource=&quot;{Binding Dogs}&quot;&gt;
+                    &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;0,5,0,0&quot;&gt;
+                        &lt;TextBlock Text=&quot;Breed:&quot;/&gt;
+                        &lt;TextBlock Margin=&quot;5,0,0,0&quot; FontWeight=&quot;Bold&quot; Text=&quot;{Binding Name}&quot;/&gt;
+                    &lt;/StackPanel&gt;
+                &lt;/HierarchicalDataTemplate&gt;
+
+                &lt;HierarchicalDataTemplate DataType=&quot;{x:Type loc:Dog}&quot;&gt;
+                    &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;0,2,0,0&quot;&gt;
+                        &lt;TextBlock Text=&quot;{Binding}&quot;/&gt;
+                    &lt;/StackPanel&gt;
+                &lt;/HierarchicalDataTemplate&gt;
+            &lt;/TreeView.Resources&gt;
+        &lt;/TreeView&gt;
+</pre>
+<p>Note that we specify a <strong>DataType </strong>for each <strong>HierarchicalDataTemplate. </strong>As the tree is constructed, the appropriate template will be used, based on whether a node is a breed or a dog.</p>
+<p>Below, we can see how this will look at runtime. Breed nodes show the breed&#8217;s name. Dog nodes show the dog&#8217;s name and age. We just have a <strong>TextBlock</strong> bound to the <strong>Dog</strong> instance as a whole, which causes the dog&#8217;s <strong>ToString</strong> method to get invoked. In our case, we&#8217;ve overridden <strong>ToString</strong> to display the dog&#8217;s name and age.</p>
+<p><a href="https://wpf.2000things.com/2017/09/15/1217-using-multiple-hierarchicaldatatemplates-in-a-treeview/1217_01/" rel="attachment wp-att-9799"><img data-attachment-id="9799" data-permalink="https://wpf.2000things.com/2017/09/15/1217-using-multiple-hierarchicaldatatemplates-in-a-treeview/1217_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/09/1217_01.jpg?w=630" data-orig-size="297,355" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1217_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/09/1217_01.jpg?w=630?w=251" data-large-file="https://2000thingswpf.files.wordpress.com/2017/09/1217_01.jpg?w=630?w=297" class="alignnone size-full wp-image-9799" src="https://web.archive.org/web/20170916023613id_/https://2000thingswpf.files.wordpress.com/2017/09/1217_01.jpg?w=630" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/09/1217_01.jpg 297w, https://2000thingswpf.files.wordpress.com/2017/09/1217_01.jpg?w=125 125w" sizes="(max-width: 297px) 100vw, 297px"   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9796-59bc8e1d88dfa' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9796&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9796-59bc8e1d88dfa' data-name='like-post-frame-14605478-9796-59bc8e1d88dfa'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, HierarchicalDataTemplate, TreeView, WPF</p>
+  <nav class="pager"><a href="2017-09-01-1216-creating-a-custom-itemtemplate-in-a-treeview.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-09-23-1218-stretching-items-in-treeview-across-entire-control.html">Next</a></nav>
+</main>
+
+</body>
+</html>

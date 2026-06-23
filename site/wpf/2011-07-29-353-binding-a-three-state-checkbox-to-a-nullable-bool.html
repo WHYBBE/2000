@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#353 – Binding a Three-State CheckBox to a Nullable Bool</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-07-28-352-use-isthreestate-property-to-create-a-checkbox-that-has-an-indeterminate-state.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-01-354-use-three-state-checkbox-to-show-state-of-other-checkboxes.html">Next</a></nav>
+  <h1>#353 – Binding a Three-State CheckBox to a Nullable Bool</h1>
+  <p class="meta">2011-07-29 | <a href="http://wpf.2000things.com/2011/07/29/353-binding-a-three-state-checkbox-to-a-nullable-bool/">Original URL</a> | Wayback 20120502185431</p>
+  <article><div class="post-2878 post type-post status-publish format-standard hentry category-controls tag-checkbox tag-controls tag-isthreestate tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 29, 2011</span>
+																						<span class="post-comments"><a href="2011-07-29-353-binding-a-three-state-checkbox-to-a-nullable-bool.html" title="Comment on #353 &#8211; Binding a Three-State CheckBox to a Nullable&nbsp;Bool">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Because a three-state <strong>CheckBox</strong> can take on any one of three different values, its current value can&#8217;t be represented by a simple <strong>bool</strong>.  A <strong>bool</strong> can only take on <strong>true</strong> and <strong>false</strong> values.</p>
+<p>A three-state <strong>CheckBox</strong> can instead be bound to a nullable <strong>bool</strong> (represented by <strong>bool?</strong>), which can take on three different values.</p>
+<ul>
+<li>true  (checked)</li>
+<li>false  (not checked)</li>
+<li>null  (indeterminate)</li>
+</ul>
+<p>In the example below, we bind a <strong>CheckBox</strong> control&#8217;s <strong>IsChecked</strong> property to a nullable <strong>bool</strong> property.</p>
+<p><pre class="brush: xml;">
+        &lt;CheckBox Content=&quot;Happy&quot; IsChecked=&quot;{Binding IsHappy}&quot; IsThreeState=&quot;True&quot;/&gt;
+</pre></p>
+<p>In the code-behind, we define the property and set the main window&#8217;s data context.<br />
+<pre class="brush: csharp;">
+        // Nullable bool - can be true, false or null
+        public bool? IsHappy { get; set; }
+
+		public MainWindow()
+		{
+			this.InitializeComponent();
+            this.DataContext = this;
+        }
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: CheckBox, Controls, IsThreeState, WPF</p>
+  <nav class="pager"><a href="2011-07-28-352-use-isthreestate-property-to-create-a-checkbox-that-has-an-indeterminate-state.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-01-354-use-three-state-checkbox-to-show-state-of-other-checkboxes.html">Next</a></nav>
+</main>
+
+</body>
+</html>

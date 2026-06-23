@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#574 – The Problem with Array Covariance</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-05-01-573-array-covariance-doesnt-apply-to-value-types.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-03-575-using-the-is-operator-to-check-the-type-of-a-reference-typed-object.html">Next</a></nav>
+  <h1>#574 – The Problem with Array Covariance</h1>
+  <p class="meta">2012-05-02 | <a href="http://csharp.2000things.com/2012/05/02/574-the-problem-with-array-covariance/">Original URL</a> | Wayback 20120706162248</p>
+  <article><div class="post-4862 post type-post status-publish format-standard hentry category-data-types tag-array-covariance tag-c tag-covariance tag-data-types">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 2, 2012</span>
+																						<span class="post-comments"><a href="2012-05-02-574-the-problem-with-array-covariance.html" title="Comment on #574 &#8211; The Problem with Array&nbsp;Covariance">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>If we have an array of a particular base type,  <a href="2012-04-26-570-assignment-compatibility-for-reference-types.html">assignment compatibility</a> allows us to assign any subtype to an element of the array.</p>
+<p><pre class="brush: csharp;">
+            // Dog[] can contain
+            //   Dogs, or sub-classes of Dogs
+            Dog[] dogs = new Dog[3];
+            dogs[0] = new Dog(&quot;Lassie&quot;);
+            dogs[1] = new Terrier(&quot;Jack&quot;, &quot;Crabby&quot;);
+            dogs[2] = new BorderCollie(&quot;Kirby&quot;, &quot;Ball&quot;);
+</pre></p>
+<p>Notice, however, that the array is still of type <strong>Dog[]</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/05/574-001.png"><img class="alignnone size-full wp-image-4865" title="574-001" src="https://web.archive.org/web/20120706162248id_/http://2000thingscsharp.files.wordpress.com/2012/05/574-001.png?w=630&amp;h=115" alt="" width="630" height="115" /></a></p>
+<p><a href="2012-04-24-568-array-covariance.html">Array covariance</a> allows us to assign an array of a subtype of a class to a variable whose type is an array of the base type.</p>
+<p><pre class="brush: csharp;">
+Dog[] dogs = new Terrier[3];
+</pre></p>
+<p>This can lead to a problem. What looks syntactically like an array of <strong>Dogs</strong> is really an array of <strong>Terrier</strong><strong>s</strong>.  So if we try putting any other <strong>Dog</strong> into the array, the code will compile, but we&#8217;ll get an error at run-time.</p>
+<p><pre class="brush: csharp;">
+dogs[0] = new Terrier(&quot;Jack&quot;, &quot;Snarly&quot;);      // ok
+dogs[1] = new BorderCollie(&quot;Kirby&quot;, &quot;Ball&quot;);  // Run-time error !
+</pre><br />
+<a href="http://2000thingscsharp.files.wordpress.com/2012/05/574-002.png"><img class="alignnone size-full wp-image-4872" title="574-002" src="https://web.archive.org/web/20120706162248id_/http://2000thingscsharp.files.wordpress.com/2012/05/574-002.png?w=630&amp;h=282" alt="" width="630" height="282" /></a></pre>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Data Types | Tags: Array Covariance, C#, Covariance, Data Types</p>
+  <nav class="pager"><a href="2012-05-01-573-array-covariance-doesnt-apply-to-value-types.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-03-575-using-the-is-operator-to-check-the-type-of-a-reference-typed-object.html">Next</a></nav>
+</main>
+
+</body>
+</html>

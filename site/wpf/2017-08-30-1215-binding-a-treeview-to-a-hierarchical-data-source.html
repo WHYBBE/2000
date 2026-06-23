@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,215 – Binding a TreeView to a Hierarchical Data Source</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-07-25-1214-naming-scheme-for-xaml-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-09-01-1216-creating-a-custom-itemtemplate-in-a-treeview.html">Next</a></nav>
+  <h1>#1,215 – Binding a TreeView to a Hierarchical Data Source</h1>
+  <p class="meta">2017-08-30 | <a href="http://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/">Original URL</a> | Wayback 20170902175927</p>
+  <article><div class="post-9717 post type-post status-publish format-standard hentry category-controls tag-wpf tag-controls tag-treeview tag-hierarchicaldatatemplate">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 30, 2017</span>
+																						<span class="post-comments"><a href="2017-08-30-1215-binding-a-treeview-to-a-hierarchical-data-source.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Below is a very simple example of how you might use a <strong>TreeView</strong> control to display a set of hierarchical data.</p>
+<p>Let&#8217;s say that we have a <strong>Person</strong> object that looks like the following. (INPCBase is just a class that implements INotifyPropertyChanged and includes a SetField method).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class Person : INPCBase
+    {
+        public Person(string name, int birth, int? death)
+        {
+            Name = name;
+            Birth = birth;
+            Death = death;
+
+            Children = new List&lt;Person&gt;();
+        }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { SetField(ref _name, value); }
+        }
+
+        private int _birth;
+        public int Birth
+        {
+            get { return _birth; }
+            set { SetField(ref _birth, value); }
+        }
+
+        private int? _death;
+        public int? Death
+        {
+            get { return _death; }
+            set { SetField(ref _death, value); }
+        }
+
+        private List&lt;Person&gt; _children;
+        public List&lt;Person&gt; Children
+        {
+            get { return _children; }
+            private set { SetField(ref _children, value); }
+        }
+
+        public override string ToString()
+        {
+            string death = Death.HasValue ? Death.Value.ToString() : &quot;&quot;;
+            return string.Format($&quot;{Name} ({Birth} - {death})&quot;);
+        }
+    }
+</pre>
+<p>Notice that we have a <strong>Children</strong> property that in turn contains other <strong>Person</strong> objects. Also note that we override <strong>ToString</strong> so that the default string representation for a <strong>Person</strong> includes their name and birth/death.</p>
+<p>Now let&#8217;s assume that we have some ViewModel with a property called <strong>Royal</strong> that is a list of <strong>Person</strong> objects. The property might look like:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private List&lt;Person&gt; _royal;
+        public List&lt;Person&gt; Royal
+        {
+            get { return _royal; }
+            set { SetField(ref _royal, value); }
+        }
+</pre>
+<p>Let&#8217;s assume that we initialize this list as follows:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            var p1 = new Person(&quot;George V&quot;, 1865, 1936);
+
+            var p2 = new Person(&quot;Edward VIII&quot;, 1894, 1974);
+            var p3 = new Person(&quot;George VI&quot;, 1895, 1952);
+            var p4 = new Person(&quot;Mary&quot;, 1897, 1965);
+            var p5 = new Person(&quot;Henry&quot;, 1900, 1974);
+            var p6 = new Person(&quot;George&quot;, 1902, 1942);
+            var p7 = new Person(&quot;John&quot;, 1905, 1919);
+
+            var p8 = new Person(&quot;Elizabeth II&quot;, 1926, null);
+            var p9 = new Person(&quot;Margaret&quot;, 1865, 1936);
+
+            var p10 = new Person(&quot;Richard&quot;, 1944, null);
+
+            var p11 = new Person(&quot;Edward&quot;, 1935, null);
+            var p12 = new Person(&quot;Michael&quot;, 1942, null);
+
+            var p13 = new Person(&quot;Charles&quot;, 1948, null);
+            var p14 = new Person(&quot;Anne&quot;, 1950, null);
+            var p15 = new Person(&quot;Andrew&quot;, 1960, null);
+            var p16 = new Person(&quot;Edward&quot;, 1964, null);
+
+            p1.Children.AddRange(new [] { p2, p3, p4, p5, p6, p7});
+            p3.Children.AddRange(new[] { p8, p9 });
+            p5.Children.Add(p10);
+            p6.Children.AddRange(new[] { p11, p12 });
+            p8.Children.AddRange(new[] { p13, p14, p15, p16 });
+
+            Royal = new List&lt;Person&gt;() { p1 };
+</pre>
+<p>To wire this hierarchical data source up to a <strong>TreeView</strong> control, we use a <strong>HierarchicalDataTemplate </strong>in XAML, as shown below.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; ItemsSource=&quot;{Binding Royal}&quot;&gt;
+            &lt;TreeView.ItemTemplate&gt;
+                &lt;HierarchicalDataTemplate ItemsSource=&quot;{Binding Children}&quot;&gt;
+                    &lt;TreeViewItem Header=&quot;{Binding}&quot;/&gt;
+                &lt;/HierarchicalDataTemplate&gt;
+            &lt;/TreeView.ItemTemplate&gt;
+        &lt;/TreeView&gt;
+</pre>
+<p>There are several things to note about this XAML fragment:</p>
+<ul>
+<li>We set the <strong>ItemsSource</strong> of the <strong>TreeView</strong> to our top-level property (a list of <strong>Person</strong>, which contains one person).</li>
+<li>We tell the <strong>HierarchicalDataTemplate </strong>to use the <strong>Children</strong> property to traverse the hierarchy</li>
+<li>We indicate that each node should be a <strong>TreeViewItem</strong> object, with text (<strong>Header)</strong> that just binds to the <strong>Person</strong> object. This causes the default <strong>ToString</strong> method of the object to be used for the text</li>
+</ul>
+<p>The final result is a nice little family tree:</p>
+<p><img data-attachment-id="9748" data-permalink="https://wpf.2000things.com/2017/08/30/1215-binding-a-treeview-to-a-hierarchical-data-source/1215-01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png?w=630" data-orig-size="310,367" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1215-01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png?w=630?w=253" data-large-file="https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png?w=630?w=310" class="alignnone size-full wp-image-9748" src="https://web.archive.org/web/20170902175927id_/https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png?w=630" alt="1215-01" srcset="https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png 310w, https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png?w=127 127w, https://2000thingswpf.files.wordpress.com/2017/08/1215-01.png?w=253 253w" sizes="(max-width: 310px) 100vw, 310px"   /></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9717-59aaf17f433b4' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9717&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9717-59aaf17f433b4' data-name='like-post-frame-14605478-9717-59aaf17f433b4'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Controls | Tags: WPF, Controls, TreeView, HierarchicalDataTemplate</p>
+  <nav class="pager"><a href="2017-07-25-1214-naming-scheme-for-xaml-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-09-01-1216-creating-a-custom-itemtemplate-in-a-treeview.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#738 – Sample Code – Drawing and Moving Circles at Touch Points</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2013-01-18-737-touch-behavior-when-maximum-number-of-touch-points-reached.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-01-22-739-handling-touch-input-at-different-levels.html">Next</a></nav>
+  <h1>#738 – Sample Code – Drawing and Moving Circles at Touch Points</h1>
+  <p class="meta">2013-01-21 | <a href="http://wpf.2000things.com/2013/01/21/738-sample-code-drawing-and-moving-circles-at-touch-points/">Original URL</a> | Wayback 20130201032452</p>
+  <article><div class="post-6425 post type-post status-publish format-standard hentry category-events tag-events tag-touch-input tag-touch-up tag-touchdown tag-touchmove tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 21, 2013</span>
+																						<span class="post-comments"><a href="2013-01-21-738-sample-code-drawing-and-moving-circles-at-touch-points.html" title="Comment on #738 &#8211; Sample Code &#8211; Drawing and Moving Circles at Touch&nbsp;Points">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Here&#8217;s some sample code that draws a circle for each touch point, when a finger contacts the screen, and then moves that circle around as you move your finger.  This is done using the raw touch events&#8211;<strong>TouchDown, TouchMove</strong> and <strong>TouchUp</strong>.</p>
+<p><pre class="brush: xml;">
+    &lt;Canvas Name=&quot;canvMain&quot; Background=&quot;Transparent&quot;
+        TouchDown=&quot;Canvas_TouchDown&quot; TouchUp=&quot;Canvas_TouchUp&quot; TouchMove=&quot;Canvas_TouchMove&quot;/&gt;
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            TouchPositions = new Dictionary&lt;int, Point&gt;();
+            TouchEllipses = new Dictionary&lt;int, Ellipse&gt;();
+        }
+
+        private const double CircleWidth = 55;
+        private Dictionary&lt;int, Point&gt; TouchPositions;
+        private Dictionary&lt;int, Ellipse&gt; TouchEllipses;
+
+        private void Canvas_TouchDown(object sender, TouchEventArgs e)
+        {
+            canvMain.CaptureTouch(e.TouchDevice);
+
+            TouchPoint tp = e.GetTouchPoint(null);
+
+            Ellipse el = AddEllipseAt(canvMain, tp.Position, Brushes.Red);
+
+            TouchPositions.Add(e.TouchDevice.Id, tp.Position);
+            TouchEllipses.Add(e.TouchDevice.Id, el);
+            e.Handled = true;
+        }
+
+        private void Canvas_TouchMove(object sender, TouchEventArgs e)
+        {
+            TouchPoint tp = e.GetTouchPoint(null);
+
+            Canvas.SetLeft(TouchEllipses[e.TouchDevice.Id], tp.Position.X - (CircleWidth / 2));
+            Canvas.SetTop(TouchEllipses[e.TouchDevice.Id], tp.Position.Y - (CircleWidth / 2));
+            e.Handled = true;
+        }
+
+        private void Canvas_TouchUp(object sender, TouchEventArgs e)
+        {
+            TouchPoint tp = e.GetTouchPoint(null);
+
+            TouchPositions.Remove(e.TouchDevice.Id);
+
+            canvMain.Children.Remove(TouchEllipses[e.TouchDevice.Id]);
+            TouchEllipses.Remove(e.TouchDevice.Id);
+
+            canvMain.ReleaseTouchCapture(e.TouchDevice);
+            e.Handled = true;
+        }
+
+        private Ellipse AddEllipseAt(Canvas canv, Point pt, Brush brush)
+        {
+            Ellipse el = new Ellipse();
+            el.Stroke = brush;
+            el.Fill = brush;
+            el.Width = CircleWidth;
+            el.Height = CircleWidth;
+
+            Canvas.SetLeft(el, pt.X - (CircleWidth / 2));
+            Canvas.SetTop(el, pt.Y - (CircleWidth / 2));
+
+            canv.Children.Add(el);
+
+            return el;
+        }
+
+    }
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/738-001.png"><img class="alignnone size-full wp-image-6429" alt="738-001" src="https://web.archive.org/web/20130201032452id_/http://2000thingswpf.files.wordpress.com/2013/01/738-001.png?w=630"   /></a></p>
+
+<div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpadvert").click(wpcom_adclk_click);
+			jQuery(".wpadvert iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpadvert object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Tag", "events");
+GA_googleAddAttr("Tag", "events");
+GA_googleAddAttr("Tag", "touch-input");
+GA_googleAddAttr("Tag", "touch-up");
+GA_googleAddAttr("Tag", "touchdown");
+GA_googleAddAttr("Tag", "touchmove");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2013/01/21/738-sample-code-drawing-and-moving-circles-at-touch-points/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+</script>
+</div>
+<style type="text/css">
+div.wpadvert>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpadvert script[src*='shareth.ru']").length > 0 || jQuery(".wpadvert .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpadvert' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-6425" class="wpl-button "><a href='2013-01-21-738-sample-code-drawing-and-moving-circles-at-touch-points.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/sethsnap" title="sethsnap" class="wpl-liker" rel="nofollow"><img src='http://1.gravatar.com/avatar/47bc7c320cd6d5e9f7a915de706b144e?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='sethsnap' width='30' height='30' /></a></li></ul></div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, Touch Input, Touch Up, TouchDown, TouchMove, WPF</p>
+  <nav class="pager"><a href="2013-01-18-737-touch-behavior-when-maximum-number-of-touch-points-reached.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-01-22-739-handling-touch-input-at-different-levels.html">Next</a></nav>
+</main>
+
+</body>
+</html>

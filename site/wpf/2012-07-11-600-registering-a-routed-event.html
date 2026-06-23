@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#600 – Registering a Routed Event</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-07-11-599-a-complete-example-of-a-routed-event.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-12-601-the-routedeventhandler-delegate-type.html">Next</a></nav>
+  <h1>#600 – Registering a Routed Event</h1>
+  <p class="meta">2012-07-11 | <a href="http://wpf.2000things.com/2012/07/11/600-registering-a-routed-event/">Original URL</a> | Wayback 20120718082555</p>
+  <article><div class="post-5256 post type-post status-publish format-standard hentry category-events tag-events tag-registerroutedevent tag-routed-events tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 11, 2012</span>
+																						<span class="post-comments"><a href="2012-07-11-600-registering-a-routed-event.html" title="Comment on #600 &#8211; Registering a Routed&nbsp;Event">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you implement a routed event in a class, you end up creating an instance of the <strong>RoutedEvent</strong> type.</p>
+<p>Instead of explicitly creating the <strong>RoutedEvent</strong> instance, you create it indirectly by calling <strong>EventManager.RegisterRoutedEvent</strong>.  This method accepts some information about the routed event that you want to create and returns an instance of a <strong>RoutedEvent</strong>, which you typically store in a static field.  You typically register the event in your static constructor, or at the time that it is declared, so you end up having only one instance of the <strong>RoutedEvent</strong>, no matter how many instances of your class get created.</p>
+<p><pre class="brush: csharp;">
+        // Define/create the routed event object
+        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent(&quot;Click&quot;, RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ButtonBase));
+</pre></p>
+<p><strong>RegisterRoutedEvent </strong>takes the following parameters:</p>
+<ul>
+<li><strong>name</strong> &#8211; the name of the event</li>
+<li><strong>routingStrategy</strong> &#8211; the routing strategy&#8211;tunneling, bubbling or direct</li>
+<li><strong>handlerType</strong> &#8211; the delegate type for event handlers</li>
+<li><strong>ownerType</strong> &#8211; the class type for the event&#8217;s owner</li>
+</ul>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5256" class="wpl-button "><a href='2012-07-11-600-registering-a-routed-event.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, RegisterRoutedEvent, Routed Events, WPF</p>
+  <nav class="pager"><a href="2012-07-11-599-a-complete-example-of-a-routed-event.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-12-601-the-routedeventhandler-delegate-type.html">Next</a></nav>
+</main>
+
+</body>
+</html>

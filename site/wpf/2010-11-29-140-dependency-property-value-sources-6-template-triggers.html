@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#140 – Dependency Property Value Sources: #6 – Template Triggers</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-28-139-dependency-property-value-sources-5-style-triggers.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-30-141-dependency-property-value-sources-7-style-setters.html">Next</a></nav>
+  <h1>#140 – Dependency Property Value Sources: #6 – Template Triggers</h1>
+  <p class="meta">2010-11-29 | <a href="http://wpf.2000things.com/2010/11/29/140-dependency-property-value-sources-6-template-triggers/">Original URL</a> | Wayback 20120706162600</p>
+  <article><div class="post-1201 post type-post status-publish format-standard hentry category-dependency-properties tag-dependency-properties tag-template-trigger tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 29, 2010</span>
+																						<span class="post-comments"><a href="2010-11-29-140-dependency-property-value-sources-6-template-triggers.html" title="Comment on #140 &#8211; Dependency Property Value Sources: #6 &#8211; Template&nbsp;Triggers">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>The sixth source in the list of <a href="http://wp.me/pZhye-io">sources for the base value of a dependency property</a> is a <em>template trigger</em>.   A property obtains its value from a template trigger when the element that the property belongs to has a template containing a trigger that changes the property.</p>
+<p>In the example below, we apply a template to the main button, replacing it with two labels and a new button.  The trigger changes the <strong>Foreground</strong> property of the original button, so the property source for that property becomes <em>template trigger</em>.</p>
+<p>The original button is replaced by the controls in the template, but its <strong>Foreground</strong> property is preserved by using the <strong>TemplateBinding</strong> markup extension.</p>
+<p><pre class="brush: xml;">
+        &lt;Button Name=&quot;btnWithTemplate&quot; Content=&quot;Recreate Me&quot;&gt;
+            &lt;Button.Template&gt;
+                &lt;ControlTemplate TargetType=&quot;{x:Type Button}&quot;&gt;
+                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
+                        &lt;Button Content=&quot;{TemplateBinding Content}&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
+                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
+                    &lt;/StackPanel&gt;
+                    &lt;ControlTemplate.Triggers&gt;
+                        &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
+                            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Green&quot;/&gt;
+                        &lt;/Trigger&gt;
+                    &lt;/ControlTemplate.Triggers&gt;
+                &lt;/ControlTemplate&gt;
+            &lt;/Button.Template&gt;
+        &lt;/Button&gt;
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, Template Trigger, WPF</p>
+  <nav class="pager"><a href="2010-11-28-139-dependency-property-value-sources-5-style-triggers.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-30-141-dependency-property-value-sources-7-style-setters.html">Next</a></nav>
+</main>
+
+</body>
+</html>

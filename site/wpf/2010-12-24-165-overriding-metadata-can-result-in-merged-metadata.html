@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#165 – Overriding Metadata Can Result in Merged Metadata</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-25-166-you-can-override-metadata-for-any-dependency-property.html">Next</a></nav>
+  <h1>#165 – Overriding Metadata Can Result in Merged Metadata</h1>
+  <p class="meta">2010-12-24 | <a href="http://wpf.2000things.com/2010/12/24/165-overriding-metadata-can-result-in-merged-metadata/">Original URL</a> | Wayback 20110203070931</p>
+  <article><div class="post-1382 post type-post status-publish format-standard hentry category-dependency-properties tag-coercevaluecallback tag-dependency-properties tag-overridemetadata tag-propertychangedcallback tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">December 24, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-12-24-165-overriding-metadata-can-result-in-merged-metadata.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>If you override metadata for a dependency property that a class inherits from its parent, you can specify one or more things to override:</p>
+<ul>
+<li>The default value</li>
+<li>The <strong>PropertyChangedCallback</strong></li>
+<li>The <strong>CoerceValueCallback</strong></li>
+<li>Other flags specified for <strong>UIPropertyMetadata</strong> or <strong>FrameworkPropertyMetadata</strong></li>
+</ul>
+<p>If you don&#8217;t specify all of these things, however, the items that you do not specify will be inherited from the parent.</p>
+<p>For example, we <a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">created a child class of </a><strong><a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">Slider</a> </strong>and overrode metadata to provide a new default value for the <strong>Maximum</strong> property.  But the coercion behavior of <strong>Maximum</strong> in our new class behaves as it does for <strong>Slider.Maximum</strong>.  (<strong>Maximum</strong> can&#8217;t be set below Minimum).</p>
+<p>Because we didn&#8217;t specify a <strong>CoerceValueCallback</strong>, the existing coercion logic is used.</p>
+<p>When you <em>do </em>specify new metadata:</p>
+<ul>
+<li>New <em>default </em>value replaces the existing one</li>
+<li><strong>PropertyChangedCallback</strong> is merged with the existing one  (both are invoked)</li>
+<li><strong>CoerceValueCallback</strong> replaces the existing one</li>
+</ul>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/12/24/165-overriding-metadata-can-result-in-merged-metadata/"
+    dc:identifier="http://wpf.2000things.com/2010/12/24/165-overriding-metadata-can-result-in-merged-metadata/"
+    dc:title="#165 &#8211; Overriding Metadata Can Result in Merged&nbsp;Metadata"
+    trackback:ping="http://wpf.2000things.com/2010/12/24/165-overriding-metadata-can-result-in-merged-metadata/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/coercevaluecallback/" rel="tag">CoerceValueCallback</a>, <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/overridemetadata/" rel="tag">OverrideMetadata</a>, <a href="http://en.wordpress.com/tag/propertychangedcallback/" rel="tag">PropertyChangedCallback</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: CoerceValueCallback, Dependency Properties, OverrideMetadata, PropertyChangedCallback, WPF</p>
+  <nav class="pager"><a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-25-166-you-can-override-metadata-for-any-dependency-property.html">Next</a></nav>
+</main>
+
+</body>
+</html>

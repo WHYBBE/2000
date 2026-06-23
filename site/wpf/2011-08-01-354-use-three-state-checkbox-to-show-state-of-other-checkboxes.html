@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#354 – Use Three-State CheckBox to Show State of Other CheckBoxes</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-07-29-353-binding-a-three-state-checkbox-to-a-nullable-bool.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-02-355-implementing-three-state-checkbox-dependent-behavior.html">Next</a></nav>
+  <h1>#354 – Use Three-State CheckBox to Show State of Other CheckBoxes</h1>
+  <p class="meta">2011-08-01 | <a href="http://wpf.2000things.com/2011/08/01/354-use-three-state-checkbox-to-show-state-of-other-checkboxes/">Original URL</a> | Wayback 20120509034001</p>
+  <article><div class="post-2886 post type-post status-publish format-standard hentry category-controls tag-checkbox tag-controls tag-indeterminate tag-isthreestate tag-three-state tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 1, 2011</span>
+																						<span class="post-comments"><a href="2011-08-01-354-use-three-state-checkbox-to-show-state-of-other-checkboxes.html" title="Comment on #354 &#8211; Use Three-State CheckBox to Show State of Other&nbsp;CheckBoxes">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Three-state <strong>CheckBox</strong> controls are often used in conjunction with other <strong>CheckBox</strong> controls. The three-state <strong>CheckBox</strong> appears checked if all other checkboxes are checked, unchecked if nothing else is checked, or the indeterminate state if some other <strong>CheckBox</strong> controls are checked.</p>
+<p>Here&#8217;s an example, starting with the XAML:</p>
+<p><pre class="brush: xml;">
+        &lt;CheckBox Content=&quot;Do Everything&quot; IsChecked=&quot;{Binding DoEverything}&quot; IsThreeState=&quot;True&quot;/&gt;
+        &lt;CheckBox Content=&quot;Eat&quot; IsChecked=&quot;{Binding DoEat}&quot; Margin=&quot;20,0,0,0&quot;/&gt;
+        &lt;CheckBox Content=&quot;Pray&quot; IsChecked=&quot;{Binding DoPray}&quot; Margin=&quot;20,0,0,0&quot;/&gt;
+        &lt;CheckBox Content=&quot;Love&quot; IsChecked=&quot;{Binding DoLove}&quot; Margin=&quot;20,0,0,0&quot;/&gt;
+</pre></p>
+<p>At run-time, you want the following behavior:</p>
+<ul>
+<li>User checks<em> Do Everything<strong>, </strong></em>all other items become checked</li>
+</ul>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/07/002-everything1.png"><img class="alignnone size-full wp-image-2895" title="002-Everything" src="https://web.archive.org/web/20120509034001id_/http://2000thingswpf.files.wordpress.com/2011/07/002-everything1.png?w=630" alt=""   /></a></p>
+<ul>
+<li>User unchecks <em>Do Everything</em>, all other items become unchecked</li>
+</ul>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/07/001-nothing.png"><img title="001-Nothing" src="https://web.archive.org/web/20120509034001id_/http://2000thingswpf.files.wordpress.com/2011/07/001-nothing.png?w=227&amp;h=133" alt="" width="227" height="133" /></a></p>
+<ul>
+<li>User checks individual items, <em>Do Everything </em>becomes checked if everything else is checked, unchecked if nothing is checked, or indeterminate if at some items are checked</li>
+</ul>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/07/003-something.png"><img class="alignnone size-full wp-image-2896" title="003-Something" src="https://web.archive.org/web/20120509034001id_/http://2000thingswpf.files.wordpress.com/2011/07/003-something.png?w=630" alt=""   /></a></p>
+<p>See post #355 for an example of the code-behind that implements this behavior.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: CheckBox, Controls, Indeterminate, IsThreeState, Three-State, WPF</p>
+  <nav class="pager"><a href="2011-07-29-353-binding-a-three-state-checkbox-to-a-nullable-bool.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-02-355-implementing-three-state-checkbox-dependent-behavior.html">Next</a></nav>
+</main>
+
+</body>
+</html>

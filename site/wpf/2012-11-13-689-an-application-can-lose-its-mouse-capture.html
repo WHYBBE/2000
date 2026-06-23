@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#689 – An Application Can Lose Its Mouse Capture</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-12-688-moving-an-element-with-the-mouse.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-14-690-being-notified-when-mouse-capture-is-lost.html">Next</a></nav>
+  <h1>#689 – An Application Can Lose Its Mouse Capture</h1>
+  <p class="meta">2012-11-13 | <a href="http://wpf.2000things.com/2012/11/13/689-an-application-can-lose-its-mouse-capture/">Original URL</a> | Wayback 20121125073559</p>
+  <article><div class="post-5981 post type-post status-publish format-standard hentry category-events tag-capturemouse tag-events tag-mouse tag-mouse-capture tag-releasemousecapture tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 13, 2012</span>
+																						<span class="post-comments"><a href="2012-11-13-689-an-application-can-lose-its-mouse-capture.html" title="Comment on #689 &#8211; An Application Can Lose Its Mouse&nbsp;Capture">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can <a href="http://wp.me/pZhye-1xR">capture the mouse</a> on one mouse button event and then release it on another, with your application in some state while the mouse is captured.</p>
+<p>For example, changing the background color of a label while the left mouse button is down.</p>
+<p><pre class="brush: csharp;">
+        private Brush savedBrush;
+
+        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine(&quot;Feast_MouseDown&quot;);
+            Label l = e.Source as Label;
+            l.CaptureMouse();
+            savedBrush = l.Background;
+            l.Background = Brushes.Cyan;
+        }
+
+        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine(&quot;Feast_MouseUp&quot;);
+            Label l = e.Source as Label;
+            l.ReleaseMouseCapture();
+            l.Background = savedBrush;
+        }
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/689-001.png"><img class="alignnone size-full wp-image-5983" title="689-001" alt="" src="https://web.archive.org/web/20121125073559id_/http://2000thingswpf.files.wordpress.com/2012/11/689-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/689-002.png"><img class="alignnone size-full wp-image-5984" title="689-002" alt="" src="https://web.archive.org/web/20121125073559id_/http://2000thingswpf.files.wordpress.com/2012/11/689-002.png?w=630"   /></a></p>
+<p>Although your code normally releases the mouse capture, it&#8217;s also possible that some system event causes the mouse capture to be lost.  (E.g. A system dialog pops up).  In this case, you won&#8217;t get the expected event, so your event handler never gets a chance to release the mouse capture.  Your application then ends up in an unacceptable state.  (E.g. Label&#8217;s background color wrong).</p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: CaptureMouse, Events, Mouse, Mouse Capture, ReleaseMouseCapture, WPF</p>
+  <nav class="pager"><a href="2012-11-12-688-moving-an-element-with-the-mouse.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-14-690-being-notified-when-mouse-capture-is-lost.html">Next</a></nav>
+</main>
+
+</body>
+</html>

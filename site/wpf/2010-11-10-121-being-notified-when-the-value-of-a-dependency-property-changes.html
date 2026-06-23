@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#121 – Being Notified When the Value of a Dependency Property Changes</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-09-120-clearing-a-dependency-property-value.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-11-122-validating-a-dependency-property.html">Next</a></nav>
+  <h1>#121 – Being Notified When the Value of a Dependency Property Changes</h1>
+  <p class="meta">2010-11-10 | <a href="http://wpf.2000things.com/2010/11/10/121-being-notified-when-the-value-of-a-dependency-property-changes/">Original URL</a> | Wayback 20110423205528</p>
+  <article><div class="post-1049 post type-post status-publish format-standard hentry category-basics tag-dependency-propertyies tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">November 10, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-11-10-121-being-notified-when-the-value-of-a-dependency-property-changes.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>A class that implements a dependency property can optionally ask to be notified when the value of the property changes.  The class specifies a <strong>PropertyChangedCallback</strong> when registering the property.</p>
+<pre class="brush: csharp;">
+            PropertyMetadata ageMetadata =
+                new PropertyMetadata(
+                    18,     // Default value
+                    new PropertyChangedCallback(OnAgeChanged),   // ** call when property changes
+                    new CoerceValueCallback(OnAgeCoerceValue));
+
+            // Register the property
+            AgeProperty =
+                DependencyProperty.Register(
+                    &quot;Age&quot;,                 // Property's name
+                    typeof(int),           // Property's type
+                    typeof(Person),        // Defining class' type
+                    ageMetadata,           // Defines default value &amp; callbacks  (optional)
+                    new ValidateValueCallback(OnAgeValidateValue));   // validation (optional)
+</pre>
+<p>The class can use this callback to perform some logic whenever the property value changes, e.g. automatically setting the value of another property.</p>
+<pre class="brush: csharp;">
+        private static void OnAgeChanged
+            (DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            Person p = (Person)depObj;
+            p.AARPCandidate = (int)e.NewValue &gt; 60 ? true : false;
+        }
+</pre>
+<div class="tppha">
+						<span class="tpphah">
+							On the PopPressed Radar
+						</span><a href="http://poppressed.com/?post_type=tp_pp_features&amp;p=1884" class="tpphat" rel="tppcpop_C_technology" target="_top">
+									<img src="https://web.archive.org/web/20110423205528id_/http://s.wordpress.com/imgpress?resize=140,140&amp;url=http%3A%2F%2Fwww.plastiquepeople.com%2Fblogg%2Fprint_party.jpg" alt="" />
+									<span><i>Print Magazine's</i> New Visual Artists</span>
+								</a><a href="http://poppressed.com/?post_type=tp_pp_features&amp;p=1875" class="tpphat" rel="tppcpop_C_technology" target="_top">
+									<img src="https://web.archive.org/web/20110423205528id_/http://poppressed.files.wordpress.com/2011/04/inhabitat1.jpeg?w=140&amp;h=140&amp;crop=true" alt="" />
+									<span>Saint Petersburg Unveils Primorskiy Zoological Park with Geodesic Domes  </span>
+								</a><a href="http://poppressed.com/?post_type=tp_pp_features&amp;p=1863" class="tpphat" rel="tppcpop_C_technology" target="_top">
+									<img src="https://web.archive.org/web/20110423205528id_/http://poppressed.files.wordpress.com/2011/04/picture-17.png?w=140&amp;h=140&amp;crop=true" alt="" />
+									<span>What One Does In Paris if One is a Carter or Knowles</span>
+								</a><div style="clear: both;"></div>
+						</div></article>
+  <p class="meta">Categories: Basics | Tags: Dependency Propertyies, WPF</p>
+  <nav class="pager"><a href="2010-11-09-120-clearing-a-dependency-property-value.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-11-122-validating-a-dependency-property.html">Next</a></nav>
+</main>
+
+</body>
+</html>

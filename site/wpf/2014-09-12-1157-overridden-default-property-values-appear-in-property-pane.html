@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,157 – Overridden Default Property Values Appear in Property Pane</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-09-11-1156-changing-circular-progress-control-to-be-only-an-arc.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-09-15-1158-managing-using-directives-part-i.html">Next</a></nav>
+  <h1>#1,157 – Overridden Default Property Values Appear in Property Pane</h1>
+  <p class="meta">2014-09-12 | <a href="http://wpf.2000things.com/2014/09/12/1157-overridden-default-property-values-appear-in-property-pane/">Original URL</a> | Wayback 20140915064049</p>
+  <article><div class="post-9285 post type-post status-publish format-standard hentry category-graphics tag-wpf tag-graphics tag-custom-control">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 12, 2014</span>
+																						<span class="post-comments"><a href="2014-09-12-1157-overridden-default-property-values-appear-in-property-pane.html" title="Comment on #1,157 &#8211; Overridden Default Property Values Appear in Property&nbsp;Pane">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In an <a href="2014-09-11-1156-changing-circular-progress-control-to-be-only-an-arc.html">earlier example</a> of a custom control, we used the <strong>OverrideMetadata</strong> method to provide new default values for several dependency properties, as used in our control.  For example, we set the <strong>Stroke</strong> property to a green brush and <strong>StrokeThickness</strong> to 10.0.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        static CircularProgress()
+        {
+            Brush myGreenBrush = new SolidColorBrush(Color.FromArgb(255, 6, 176, 37));
+            myGreenBrush.Freeze();
+
+            StrokeProperty.OverrideMetadata(
+                typeof(CircularProgress),
+                new FrameworkPropertyMetadata(myGreenBrush));
+            FillProperty.OverrideMetadata(
+                typeof(CircularProgress),
+                new FrameworkPropertyMetadata(Brushes.Transparent));
+
+            StrokeThicknessProperty.OverrideMetadata(
+                typeof(CircularProgress),
+                new FrameworkPropertyMetadata(10.0));
+        }
+</pre>
+<p>These new values will show up as expected in the property pane within Visual Studio. Below, we can see both the green brush for <strong>Stroke </strong>and the value of 10.0 for <strong>StrokeThickness</strong>.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1157-001.png"><img class="alignnone size-full wp-image-9287" src="https://web.archive.org/web/20140915064049id_/http://2000thingswpf.files.wordpress.com/2014/09/1157-001.png?w=630&amp;h=517" alt="1157-001" width="630" height="517" /></a></p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/09/12/1157-overridden-default-property-values-appear-in-property-pane/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "business");
+GA_googleAddAttr("Tag", "graphics");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Tag", "graphics");
+GA_googleAddAttr("Tag", "custom-control");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/09/12/1157-overridden-default-property-values-appear-in-property-pane/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Graphics | Tags: WPF, Graphics, Custom Control</p>
+  <nav class="pager"><a href="2014-09-11-1156-changing-circular-progress-control-to-be-only-an-arc.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-09-15-1158-managing-using-directives-part-i.html">Next</a></nav>
+</main>
+
+</body>
+</html>

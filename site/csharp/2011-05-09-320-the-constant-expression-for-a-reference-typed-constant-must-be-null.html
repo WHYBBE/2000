@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#320 – The Constant Expression for a Reference-Typed Constant Must Be Null</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-05-06-319-you-initialize-a-constant-using-an-expression.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-10-321-accessibility-of-constants.html">Next</a></nav>
+  <h1>#320 – The Constant Expression for a Reference-Typed Constant Must Be Null</h1>
+  <p class="meta">2011-05-09 | <a href="http://csharp.2000things.com/2011/05/09/320-the-constant-expression-for-a-reference-typed-constant-must-be-null/">Original URL</a> | Wayback 20120929024212</p>
+  <article><div class="post-2720 post type-post status-publish format-standard hentry category-data-types tag-c tag-constants tag-data-types tag-string">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 9, 2011</span>
+																						<span class="post-comments"><a href="2011-05-09-320-the-constant-expression-for-a-reference-typed-constant-must-be-null.html" title="Comment on #320 &#8211; The Constant Expression for a Reference-Typed Constant Must Be&nbsp;Null">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>The declaration of a constant may use a reference type as the type of the constant.  However, reference types other than string are seldom seen.  The compiler needs to evaluate the value of the constant at compile time.  This means that the constant expression cannot invoke a method on a reference type.  The only valid value in the expression is therefore null.</p>
+<p><pre class="brush: csharp;">
+            // Marginally useful
+            const Dog TheNullDog = null;
+
+            // Not allowed - Compile-time ERROR
+            const Dog ConstantBob = new Dog(&quot;Bob&quot;);
+</pre></p>
+<p>One exception to this rule about only using null in a constant expression for a reference type is the <strong>string</strong> (<strong>System.String</strong>) class.  A constant of type <strong>string</strong> may be initialized with a string literal.</p>
+<p><pre class="brush: csharp;">
+            // string constants can be initialized, although they are reference types
+            const string MyDogsName = &quot;Kirby&quot;;
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/05/09/320-the-constant-expression-for-a-reference-typed-constant-must-be-null/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2720"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/05/09/320-the-constant-expression-for-a-reference-typed-constant-must-be-null/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/05/09/320-the-constant-expression-for-a-reference-typed-constant-must-be-null/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: C#, Constants, Data Types, String</p>
+  <nav class="pager"><a href="2011-05-06-319-you-initialize-a-constant-using-an-expression.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-10-321-accessibility-of-constants.html">Next</a></nav>
+</main>
+
+</body>
+</html>

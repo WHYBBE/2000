@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,191 – Lambda Can’t Capture ref or out Parameters</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-09-25-1190-a-lambda-expression-can-be-recursive.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-09-29-1192-following-the-tryparse-pattern.html">Next</a></nav>
+  <h1>#1,191 – Lambda Can’t Capture ref or out Parameters</h1>
+  <p class="meta">2014-09-26 | <a href="http://csharp.2000things.com/2014/09/26/1191-lambda-cant-capture-ref-or-out-parameters/">Original URL</a> | Wayback 20141001204919</p>
+  <article><div class="post-9138 post type-post status-publish format-standard hentry category-methods tag-c tag-lambda-expression tag-methods">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 26, 2014</span>
+																						<span class="post-comments"><a href="2014-09-26-1191-lambda-cant-capture-ref-or-out-parameters.html" title="Comment on #1,191 &#8211; Lambda Can&#8217;t Capture ref or out&nbsp;Parameters">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Lambda expressions can <a href="2014-09-08-1177-lambda-expressions-can-reference-variables-declared-outside-of-expression.html">make use of variables declared in a containing scope</a>, i.e. outside of the expression itself.  They cannot, however, use variables that are defined as <strong>ref</strong> or <strong>out </strong>parameters in an outer scope.</p>
+<p>In the example below, it&#8217;s a compile-time error to include the <strong>valOut</strong> parameter in the lambda expression.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        static void SomeMethod(int valIn, out int valOut)
+        {
+            int local;
+
+            Action doCalc = () =&gt;
+            {
+                local = valIn * 2;   // this is ok
+                valOut = valIn * i;  // this is not--compile-time error
+            };
+        }
+</pre>
+<p>As an alternative, you can assign a value returned by the lambda to an <strong>out</strong> parameter.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        static void SomeMethod(int valIn, out int valOut)
+        {
+            // Ok to assign result of lambda to
+            // out parameter
+            Func&lt;int&gt; doCalc2 = () =&gt; valIn * 2;
+            valOut = doCalc2();   // Allowed
+        }
+</pre>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("PageURL", "http://csharp.2000things.com/2014/09/26/1191-lambda-cant-capture-ref-or-out-parameters/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Tag", "methods");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "lambda-expression");
+GA_googleAddAttr("Tag", "methods");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2014/09/26/1191-lambda-cant-capture-ref-or-out-parameters/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Methods | Tags: C#, Lambda Expression, Methods</p>
+  <nav class="pager"><a href="2014-09-25-1190-a-lambda-expression-can-be-recursive.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-09-29-1192-following-the-tryparse-pattern.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#377 – Reuse Tooltips by Defining Them as Resources</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-31-376-getting-text-to-wrap-in-a-tooltip.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-02-378-positioning-tooltips.html">Next</a></nav>
+  <h1>#377 – Reuse Tooltips by Defining Them as Resources</h1>
+  <p class="meta">2011-09-01 | <a href="http://wpf.2000things.com/2011/09/01/377-reuse-tooltips-by-defining-them-as-resources/">Original URL</a> | Wayback 20120509053628</p>
+  <article><div class="post-3098 post type-post status-publish format-standard hentry category-controls tag-controls tag-resources tag-tooltips tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 1, 2011</span>
+																						<span class="post-comments"><a href="2011-09-01-377-reuse-tooltips-by-defining-them-as-resources.html" title="Comment on #377 &#8211; Reuse Tooltips by Defining Them as&nbsp;Resources">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>Because tooltips are instances of the <strong>Tooltip</strong> control, you can create tooltip instances in a resource dictionary and then reuse them for multiple controls.</p>
+<p>Below is an example of a tooltip that uses data binding to display the full text of a <strong>TextBox</strong> control.</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;!-- Standard tooltip for TextBox controls, displays Text property of parent control in a TextBlock --&gt;
+        &lt;ToolTip x:Key=&quot;textBlockTooltip&quot; DataContext=&quot;{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}&quot;&gt;
+            &lt;StackPanel&gt;
+                &lt;Label FontWeight=&quot;Bold&quot; Content=&quot;Full Text&quot;/&gt;
+                &lt;TextBlock Text=&quot;{Binding Text}&quot; TextWrapping=&quot;Wrap&quot; Width=&quot;200&quot;/&gt;
+            &lt;/StackPanel&gt;
+        &lt;/ToolTip&gt;
+    &lt;/Window.Resources&gt;
+</pre></p>
+<p>We can then use this tooltip on any <strong>TextBox</strong> control.</p>
+<p><pre class="brush: xml;">
+        &lt;TextBox Text=&quot;Now is the winter of our discontent etc&quot;
+            Width=&quot;100&quot; Margin=&quot;10&quot; ToolTip=&quot;{StaticResource textBlockTooltip}&quot;/&gt;
+        &lt;TextBox Text=&quot;All the world's a stage etc&quot;
+            Width=&quot;100&quot; Margin=&quot;10&quot; ToolTip=&quot;{StaticResource textBlockTooltip}&quot;/&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/09/001-ex1.png"><img class="alignnone size-full wp-image-3103" title="001-Ex1" src="https://web.archive.org/web/20120509053628id_/http://2000thingswpf.files.wordpress.com/2011/09/001-ex1.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/09/002-ex2.png"><img class="alignnone size-full wp-image-3104" title="002-Ex2" src="https://web.archive.org/web/20120509053628id_/http://2000thingswpf.files.wordpress.com/2011/09/002-ex2.png?w=630" alt=""   /></a></pre>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Resources, Tooltips, WPF</p>
+  <nav class="pager"><a href="2011-08-31-376-getting-text-to-wrap-in-a-tooltip.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-02-378-positioning-tooltips.html">Next</a></nav>
+</main>
+
+</body>
+</html>

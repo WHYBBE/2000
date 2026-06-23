@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#705 – Dragging a Custom Object Using Serialization as Format</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-12-04-704-escape-key-cancels-drag-and-drop-behavior.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-06-706-dragging-user-interface-elements-between-applications.html">Next</a></nav>
+  <h1>#705 – Dragging a Custom Object Using Serialization as Format</h1>
+  <p class="meta">2012-12-05 | <a href="http://wpf.2000things.com/2012/12/05/705-dragging-a-custom-object-using-serialization-as-format/">Original URL</a> | Wayback 20121209040725</p>
+  <article><div class="post-6123 post type-post status-publish format-standard hentry category-events tag-drag-and-drop tag-events tag-idataobject tag-serializable tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 5, 2012</span>
+																						<span class="post-comments"><a href="2012-12-05-705-dragging-a-custom-object-using-serialization-as-format.html" title="Comment on #705 &#8211; Dragging a Custom Object Using Serialization as&nbsp;Format">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you use drag-and-drop in WPF, you specify a data format for the data to be dragged.  You can &#8220;drag&#8221; any object that you like, as long as the object is serializable.  Here&#8217;s an example, where a <strong>Dog</strong> object is dragged between instances of a WPF application.</p>
+<p>The GUI consists of several labels that show properties of a <strong>Dog</strong> object.  The <strong>Dog</strong> can be dragged from the <strong>StackPanel</strong> or dropped onto the <strong>StackPanel</strong>.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel Orientation=&quot;Vertical&quot; HorizontalAlignment=&quot;Center&quot;
+                MouseLeftButtonDown=&quot;StackPanel_MouseLeftButtonDown&quot;
+                AllowDrop=&quot;True&quot; Drop=&quot;StackPanel_Drop&quot;&gt;
+        &lt;Label Content=&quot;{Binding TheDog.Name}&quot; FontWeight=&quot;Bold&quot;/&gt;
+        &lt;Label Content=&quot;{Binding TheDog.Age}&quot;/&gt;
+        &lt;Label Content=&quot;{Binding TheDog.BarkSound}&quot;/&gt;
+        &lt;Button Content=&quot;Create Dog&quot; Click=&quot;Button_Click&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>The code-behind creates a <strong>Dog</strong> object on the button click.  When dragging starts, the <strong>Dog</strong> is passed in to the <strong>DoDragDrop</strong> method.  In the <strong>Drop </strong>handler, the <strong>Dog</strong> data is retrieved via the <strong>IDataObject</strong> interface.</p>
+<p><pre class="brush: csharp;">
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+        }
+
+        private Dog theDog;
+        public Dog TheDog
+        {
+            get { return theDog; }
+            set
+            {
+                if (value != theDog)
+                {
+                    theDog = value;
+                    RaisePropertyChanged(&quot;TheDog&quot;);
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TheDog = new Dog(&quot;Kirby&quot;, 15, &quot;Woof&quot;);
+        }
+
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataObject data = new DataObject(DataFormats.Serializable, theDog);
+
+            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+        }
+
+        private void StackPanel_Drop(object sender, DragEventArgs e)
+        {
+            TheDog = (Dog)e.Data.GetData(DataFormats.Serializable);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+</pre></p>
+<p>This allows us to drag the <strong>Dog</strong> from one instance of the application to another. You could also drag objects between applications in the same way.</p>
+<p><a href="http://wpf.2000things.com/2012/12/05/705-dragging-a-custom-object-using-serialization-as-format/705-001/" rel="attachment wp-att-6128"><img class="alignnone size-full wp-image-6128" alt="705-001" src="https://web.archive.org/web/20121209040725id_/http://2000thingswpf.files.wordpress.com/2012/12/705-001.png?w=630&amp;h=264" height="264" width="630" /></a></p>
+<p><a href="http://wpf.2000things.com/2012/12/05/705-dragging-a-custom-object-using-serialization-as-format/705-002/" rel="attachment wp-att-6129"><img class="alignnone size-full wp-image-6129" alt="705-002" src="https://web.archive.org/web/20121209040725id_/http://2000thingswpf.files.wordpress.com/2012/12/705-002.png?w=630&amp;h=263" height="263" width="630" /></a></p>
+<p>For completeness, here&#8217;s the code for the <strong>Dog</strong> class:</p>
+<p><pre class="brush: csharp;">
+    [Serializable]
+    public class Dog
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string BarkSound { get; set; }
+
+        public Dog(string name, int age, string barkSound)
+        {
+            Name = name;
+            Age = age;
+            BarkSound = barkSound;
+        }
+    }
+</pre></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Drag-and-Drop, Events, IDataObject, Serializable, WPF</p>
+  <nav class="pager"><a href="2012-12-04-704-escape-key-cancels-drag-and-drop-behavior.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-06-706-dragging-user-interface-elements-between-applications.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#239 – Creating a Custom Shape by Overriding the Shape Class</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-07-238-the-best-books-on-wpf.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-09-240-shape-vs-drawingvisual.html">Next</a></nav>
+  <h1>#239 – Creating a Custom Shape by Overriding the Shape Class</h1>
+  <p class="meta">2011-03-08 | <a href="http://wpf.2000things.com/2011/03/08/239-creating-a-custom-shape-by-overriding-the-shape-class/">Original URL</a> | Wayback 20111122031018</p>
+  <article><div class="post-1987 post type-post status-publish format-standard hentry category-graphics tag-custom-shape tag-defininggeometry tag-graphics tag-shape tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">March 8, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-03-08-239-creating-a-custom-shape-by-overriding-the-shape-class.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>If you need a specialized shape that you can&#8217;t use any of the <a href="http://wp.me/pZhye-vR"><strong>Shape</strong> subclasses</a> to draw, you can create your own custom class that inherits from <strong>Shape</strong>.</p>
+<p>You define the shape to be drawn by overriding the <strong>Shape.DefiningGeometry</strong> property.  In the get accessor, you create and return an instance of a <strong>Geometry</strong>.  In the example below, we create a new <strong>Geometry</strong> and then use the <strong>StreamGeometryContext</strong> to draw the geometry.</p>
+<p><pre class="brush: csharp;">
+    public class MyWeirdShape : Shape
+    {
+        protected override Geometry DefiningGeometry
+        {
+            get { return GenerateMyWeirdGeometry(); }
+        }
+
+        private Geometry GenerateMyWeirdGeometry()
+        {
+            StreamGeometry geom = new StreamGeometry();
+            using (StreamGeometryContext gc = geom.Open())
+            {
+                // isFilled = false, isClosed = true
+                gc.BeginFigure(new Point(50.0, 50.0), false, true);
+                gc.ArcTo(new Point(75.0, 75.0), new Size(10.0, 20.0), 0.0, false, SweepDirection.Clockwise, true, true);
+                gc.ArcTo(new Point(100.0, 100.0), new Size(10.0, 20.0), 0.0, false, SweepDirection.Clockwise, true, true);
+            }
+
+            return geom;
+        }
+    }
+</pre></p>
+<p>Using the new object in XAML:</p>
+<p><pre class="brush: xml;">
+	&lt;StackPanel&gt;
+		&lt;local:MyWeirdShape Height=&quot;150&quot; Width=&quot;150&quot; Stroke=&quot;Black&quot; StrokeThickness=&quot;2&quot;/&gt;
+	&lt;/StackPanel&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/03/001-weirdshape.png"><img class="alignnone size-full wp-image-1991" title="001-WeirdShape" src="https://web.archive.org/web/20111122031018id_/http://2000thingswpf.files.wordpress.com/2011/03/001-weirdshape.png?w=438&amp;h=195" alt="" width="438" height="195" /></a></pre>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-03-08-239-creating-a-custom-shape-by-overriding-the-shape-class.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Graphics | Tags: Custom Shape, DefiningGeometry, Graphics, Shape, WPF</p>
+  <nav class="pager"><a href="2011-03-07-238-the-best-books-on-wpf.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-09-240-shape-vs-drawingvisual.html">Next</a></nav>
+</main>
+
+</body>
+</html>

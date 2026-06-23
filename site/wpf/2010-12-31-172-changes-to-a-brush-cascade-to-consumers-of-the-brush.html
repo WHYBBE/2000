@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#172 – Changes to a Brush Cascade to Consumers of the Brush</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-30-171-other-base-classes-freezable-and-animatable.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-01-173-you-can-put-freezable-objects-into-a-read-only-state.html">Next</a></nav>
+  <h1>#172 – Changes to a Brush Cascade to Consumers of the Brush</h1>
+  <p class="meta">2010-12-31 | <a href="http://wpf.2000things.com/2010/12/31/172-changes-to-a-brush-cascade-to-consumers-of-the-brush/">Original URL</a> | Wayback 20120421050647</p>
+  <article><div class="post-1430 post type-post status-publish format-standard hentry category-graphics tag-brush tag-graphics tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 31, 2010</span>
+																						<span class="post-comments"><a href="2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html" title="Comment on #172 &#8211; Changes to a Brush Cascade to Consumers of the&nbsp;Brush">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>If you create a <strong>Brush</strong> object, in XAML or code, and use that <strong>Brush</strong> in some controls, any changes to the original <strong>Brush</strong> are automatically reflected in controls that use the brush.</p>
+<p>For example, assume that we define a teal <strong>SolidColorBrush</strong> as a resource and use it to render a <strong>Label</strong>.</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;SolidColorBrush x:Key=&quot;tealBrush&quot; Color=&quot;Teal&quot;/&gt;
+    &lt;/Window.Resources&gt;
+    &lt;StackPanel&gt;
+        &lt;Label Content=&quot;I'm teal!&quot; Foreground=&quot;{StaticResource tealBrush}&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>Now assume that we change the brush&#8217;s color at runtime:</p>
+<p><pre class="brush: csharp;">
+            SolidColorBrush theBrush = (SolidColorBrush)this.Resources[&quot;tealBrush&quot;];
+            theBrush.Color = Colors.DarkMagenta;
+</pre></p>
+<p>You&#8217;ll see that the foreground color of the <strong>Label</strong> changes immediately, as soon as we change the color of the brush.</p>
+<p>This change notification behavior is true not only of the <strong>Brush</strong> class, but of all other classes used in rendering WPF graphics.</p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Graphics | Tags: Brush, Graphics, WPF</p>
+  <nav class="pager"><a href="2010-12-30-171-other-base-classes-freezable-and-animatable.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-01-173-you-can-put-freezable-objects-into-a-read-only-state.html">Next</a></nav>
+</main>
+
+</body>
+</html>

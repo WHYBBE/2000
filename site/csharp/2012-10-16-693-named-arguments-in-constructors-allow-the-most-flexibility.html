@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#693 – Named Arguments in Constructors Allow the Most Flexibility</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-15-692-two-approaches-for-optional-parameters-in-constructors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-17-694-sequence-of-events-for-chained-constructors.html">Next</a></nav>
+  <h1>#693 – Named Arguments in Constructors Allow the Most Flexibility</h1>
+  <p class="meta">2012-10-16 | <a href="http://csharp.2000things.com/2012/10/16/693-named-arguments-in-constructors-allow-the-most-flexibility/">Original URL</a> | Wayback 20121019204939</p>
+  <article><div class="post-5929 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-constructor tag-named-arguments tag-optional-parameters">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 16, 2012</span>
+																						<span class="post-comments"><a href="2012-10-16-693-named-arguments-in-constructors-allow-the-most-flexibility.html" title="Comment on #693 &#8211; Named Arguments in Constructors Allow the Most&nbsp;Flexibility">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>If you declare <a href="2011-04-02-289-you-can-define-multiple-constructors.html">multiple constructors</a> for a class, you can create constructors that support any combination of parameters.</p>
+<p>For example:</p>
+<p><pre class="brush: csharp;">
+        public Dog(string name, int age, string favToy)
+        {
+            // init stuff
+        }
+
+        public Dog(string name) : this(name, 1, null) { }
+        public Dog(string name, string favToy) : this(name, 1, favToy) { }
+</pre></p>
+<p>Using optional parameters, you can declare a single constructor:</p>
+<p><pre class="brush: csharp;">
+        public Dog(string name, int age = 1, string favToy = null)
+        {
+            // init stuff
+        }
+</pre></p>
+<p>But when you do pass in arguments for any optional parameters, you <a href="2012-05-21-587-if-provided-optional-arguments-must-be-in-correct-order.html">must pass them in the correct order</a>, without skipping any.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/693-001.png"><img class="alignnone size-full wp-image-5934" title="693-001" alt="" src="https://web.archive.org/web/20121019204939id_/http://2000thingscsharp.files.wordpress.com/2012/10/693-001.png?w=630"   /></a></p>
+<p>To get around this problem, you can <a href="2012-05-29-593-using-named-arguments.html">use named arguments</a> when invoking the constructor.</p>
+<p><pre class="brush: csharp;">
+            // Ok to omit age, but then favToy must be named argument
+            Dog spot = new Dog(&amp;quot;Spot&amp;quot;, favToy: &amp;quot;Ball&amp;quot;);
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/10/16/693-named-arguments-in-constructors-allow-the-most-flexibility/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5929"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/10/16/693-named-arguments-in-constructors-allow-the-most-flexibility/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/10/16/693-named-arguments-in-constructors-allow-the-most-flexibility/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, Constructor, Named Arguments, Optional Parameters</p>
+  <nav class="pager"><a href="2012-10-15-692-two-approaches-for-optional-parameters-in-constructors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-17-694-sequence-of-events-for-chained-constructors.html">Next</a></nav>
+</main>
+
+</body>
+</html>

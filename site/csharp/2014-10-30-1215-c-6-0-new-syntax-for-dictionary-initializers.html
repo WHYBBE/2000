@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,215 – C# 6.0 – New Syntax for Dictionary Initializers</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-29-1214-c-6-0-using-directive-with-static-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-31-1216-c-6-0-initializing-read-only-auto-properties-within-constructors.html">Next</a></nav>
+  <h1>#1,215 – C# 6.0 – New Syntax for Dictionary Initializers</h1>
+  <p class="meta">2014-10-30 | <a href="http://csharp.2000things.com/2014/10/30/1215-c-6-0-new-syntax-for-dictionary-initializers/">Original URL</a> | Wayback 20141030125436</p>
+  <article><div class="post-9255 post type-post status-publish format-standard hentry category-miscellaneous tag-6-0 tag-c tag-dictionary-initializer tag-miscellaneous">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 30, 2014</span>
+																						<span class="post-comments"><a href="2014-10-30-1215-c-6-0-new-syntax-for-dictionary-initializers.html" title="Comment on #1,215 &#8211; C# 6.0 &#8211; New Syntax for Dictionary&nbsp;Initializers">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Prior to C# 6.0, you could initialize a <strong>Dictionary</strong> object with a collection initializer as follows:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            // Initialization with collection initializer
+            Dictionary&lt;string, int&gt; guys = new Dictionary&lt;string, int&gt; {
+                {&quot;Galileo&quot;, 1564},
+                {&quot;Magellan&quot;, 1480},
+                {&quot;Voltaire&quot;, 1694},
+                {&quot;Kepler&quot;, 1571},
+                {&quot;Keaton&quot;, 1895}
+            };
+</pre>
+<p>In C# 6.0, the following syntax will also work:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            // Initialization with new dictionary initializer
+            Dictionary&lt;string, int&gt; guys = new Dictionary&lt;string, int&gt;
+            {
+                [&quot;Galileo&quot;] = 1564,
+                [&quot;Magellan&quot;] = 1480,
+                [&quot;Voltaire&quot;] = 1694,
+                [&quot;Kepler&quot;] = 1571,
+                [&quot;Keaton&quot;] = 1895}
+            };
+</pre>
+<p>Note that as of 29 Oct, 2014, this feature is not enabled in the current Visual Studio 2014 CTP.</p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("PageURL", "http://csharp.2000things.com/2014/10/30/1215-c-6-0-new-syntax-for-dictionary-initializers/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Autotag", "books");
+GA_googleAddAttr("Tag", "miscellaneous");
+GA_googleAddAttr("Tag", "6-0");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "dictionary-initializer");
+GA_googleAddAttr("Tag", "miscellaneous");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2014/10/30/1215-c-6-0-new-syntax-for-dictionary-initializers/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: 6.0, C#, Dictionary Initializer, Miscellaneous</p>
+  <nav class="pager"><a href="2014-10-29-1214-c-6-0-using-directive-with-static-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-31-1216-c-6-0-initializing-read-only-auto-properties-within-constructors.html">Next</a></nav>
+</main>
+
+</body>
+</html>

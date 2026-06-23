@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#445 – DockPanel Can Be Used Like a StackPanel</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-12-06-444-children-of-dockpanel-dont-always-have-to-be-stretched.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-12-08-446-default-docking-for-dockpanel-children.html">Next</a></nav>
+  <h1>#445 – DockPanel Can Be Used Like a StackPanel</h1>
+  <p class="meta">2011-12-07 | <a href="http://wpf.2000things.com/2011/12/07/445-dockpanel-can-be-used-like-a-stackpanel/">Original URL</a> | Wayback 20120503122151</p>
+  <article><div class="post-3744 post type-post status-publish format-standard hentry category-layout tag-dockpanel tag-layout tag-stackpanel tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 7, 2011</span>
+																						<span class="post-comments"><a href="2011-12-07-445-dockpanel-can-be-used-like-a-stackpanel.html" title="Comment on #445 &#8211; DockPanel Can Be Used Like a&nbsp;StackPanel">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>The<strong> DockPanel</strong> layout container is most often used to dock other container controls along each edge of a window and perhaps include a control that fills the remaining space.  This works well as the outermost container for a main application window.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/12/445-001.png"><img class="alignnone size-full wp-image-3746" title="445-001" src="https://web.archive.org/web/20120503122151id_/http://2000thingswpf.files.wordpress.com/2011/12/445-001.png?w=630" alt=""   /></a></p>
+<p>But because you can stack multiple controls consecutively on the same side, you can use a <strong>DockPanel</strong> like a <strong>StackPanel</strong>, but stacking controls in any direction.</p>
+<p>Docking everything to the left:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/12/445-002.png"><img class="alignnone size-full wp-image-3747" title="445-002" src="https://web.archive.org/web/20120503122151id_/http://2000thingswpf.files.wordpress.com/2011/12/445-002.png?w=630" alt=""   /></a></p>
+<p>Docking everything to the right:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/12/445-003.png"><img class="alignnone size-full wp-image-3748" title="445-003" src="https://web.archive.org/web/20120503122151id_/http://2000thingswpf.files.wordpress.com/2011/12/445-003.png?w=630" alt=""   /></a></p>
+<p>To the top:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/12/445-004.png"><img class="alignnone size-full wp-image-3749" title="445-004" src="https://web.archive.org/web/20120503122151id_/http://2000thingswpf.files.wordpress.com/2011/12/445-004.png?w=630" alt=""   /></a></p>
+<p>Or the bottom:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/12/445-005.png"><img class="alignnone size-full wp-image-3750" title="445-005" src="https://web.archive.org/web/20120503122151id_/http://2000thingswpf.files.wordpress.com/2011/12/445-005.png?w=630" alt=""   /></a></p>
+<p>You can also use various combinations, stacking a series of controls to one side and then another group of controls to another side.</p>
+<p><pre class="brush: xml;">
+    &lt;DockPanel LastChildFill=&quot;False&quot;&gt;
+        &lt;Button Content=&quot;1 - Button&quot; DockPanel.Dock=&quot;Left&quot;/&gt;
+        &lt;Button Content=&quot;2 - Button&quot; DockPanel.Dock=&quot;Left&quot; /&gt;
+        &lt;Button Content=&quot;3 - Button&quot; DockPanel.Dock=&quot;Left&quot; /&gt;
+
+        &lt;Button Content=&quot;4 - Button&quot; DockPanel.Dock=&quot;Bottom&quot; /&gt;
+        &lt;Button Content=&quot;5 - Button&quot; DockPanel.Dock=&quot;Bottom&quot; /&gt;
+        &lt;Button Content=&quot;6 - Button&quot; DockPanel.Dock=&quot;Bottom&quot; /&gt;
+
+        &lt;Button Content=&quot;7 - Button&quot; DockPanel.Dock=&quot;Right&quot; /&gt;
+        &lt;Button Content=&quot;8 - Button&quot; DockPanel.Dock=&quot;Right&quot; /&gt;
+        &lt;Button Content=&quot;9 - Button&quot; DockPanel.Dock=&quot;Right&quot; /&gt;
+    &lt;/DockPanel&gt;
+</pre><br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/12/446-006.png"><img class="alignnone size-full wp-image-3751" title="446-006" src="https://web.archive.org/web/20120503122151id_/http://2000thingswpf.files.wordpress.com/2011/12/446-006.png?w=630" alt=""   /></a></pre>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: DockPanel, Layout, StackPanel, WPF</p>
+  <nav class="pager"><a href="2011-12-06-444-children-of-dockpanel-dont-always-have-to-be-stretched.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-12-08-446-default-docking-for-dockpanel-children.html">Next</a></nav>
+</main>
+
+</body>
+</html>

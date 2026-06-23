@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,202 – Using a Color Animation to Draw Emphasis to Something</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-03-04-1201-how-to-share-star-sized-column-sizes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-03-31-1203-create-a-reusable-group-of-elements-with-a-contentpresenter.html">Next</a></nav>
+  <h1>#1,202 – Using a Color Animation to Draw Emphasis to Something</h1>
+  <p class="meta">2017-03-19 | <a href="http://wpf.2000things.com/2017/03/19/1202-using-a-color-animation-to-draw-emphasis-to-something/">Original URL</a> | Wayback 20170320144446</p>
+  <article><div class="post-9603 post type-post status-publish format-standard hentry category-animation tag-animation tag-coloranimation tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">March 19, 2017</span>
+																						<span class="post-comments"><a href="2017-03-19-1202-using-a-color-animation-to-draw-emphasis-to-something.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>There are times when you might want to draw a user&#8217;s attention to some user interface element, for example when some event causes the contents of the element to change. A <strong>ColorAnimation</strong> on the <strong>Background</strong> of the element is a nice way to do that.</p>
+<p>Below, we have a <strong>TextBlock</strong> that binds to a string property and a <strong>Button</strong> that changes that property&#8217;s value. We set up a style for the <strong>TextBlock</strong> containing an <strong>EventTrigger</strong> that fires whenever the target of the binding changes, i.e. the trigger will fire whenever the value of the <strong>Text</strong> property changes.</p>
+<p>In the trigger, we have a <strong>Storyboard</strong> continuing two animations that run consecutively. The first fades in the background color and the second fades back to the original transparent value. The first animation is shorter, so that we have a longer fade out.</p>
+<p>Here&#8217;s the XAML fragement:</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window.Resources&gt;
+    &lt;ResourceDictionary&gt;
+        &lt;Style x:Key=&quot;LookAtMe&quot; TargetType=&quot;TextBlock&quot;&gt;
+            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
+            &lt;Style.Triggers&gt;
+                &lt;EventTrigger RoutedEvent=&quot;Binding.TargetUpdated&quot;&gt;
+                    &lt;EventTrigger.Actions&gt;
+                        &lt;BeginStoryboard&gt;
+                            &lt;Storyboard&gt;
+                                &lt;ColorAnimation Storyboard.TargetProperty=&quot;(TextBlock.Background).(SolidColorBrush.Color)&quot; 
+                                                From=&quot;Transparent&quot; To=&quot;Magenta&quot; FillBehavior=&quot;Stop&quot; 
+                                                BeginTime=&quot;0:0:0&quot; Duration=&quot;0:0:0.3&quot;/&gt;
+                                &lt;ColorAnimation Storyboard.TargetProperty=&quot;(TextBlock.Background).(SolidColorBrush.Color)&quot; 
+                                                From=&quot;Magenta&quot; To=&quot;Transparent&quot; 
+                                                BeginTime=&quot;0:0:0.3&quot; Duration=&quot;0:0:1&quot;/&gt;
+                            &lt;/Storyboard&gt;
+                        &lt;/BeginStoryboard&gt;
+                    &lt;/EventTrigger.Actions&gt;
+                &lt;/EventTrigger&gt;
+            &lt;/Style.Triggers&gt;
+        &lt;/Style&gt;
+    &lt;/ResourceDictionary&gt;
+&lt;/Window.Resources&gt;
+    
+    &lt;StackPanel Margin=&quot;10&quot;&gt;
+        &lt;TextBlock Text=&quot;{Binding SomeText, NotifyOnTargetUpdated=True}&quot; 
+                   Style=&quot;{StaticResource LookAtMe}&quot;/&gt;
+        &lt;Button Content=&quot;Do Something&quot; 
+                Margin=&quot;0,10,0,0&quot; HorizontalAlignment=&quot;Center&quot; 
+                Click=&quot;btnDoSomething_Click&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre>
+<p>In the code-behind, we have the <strong>SomeText</strong> property and code to change this property whenever the button is pressed.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+private string _someText = &quot;Original text&quot;;
+public string SomeText
+{
+    get { return _someText; }
+    set
+    {
+        if (value != _someText)
+        {
+            _someText = value;
+            RaisePropChanged(&quot;SomeText&quot;);
+        }
+    }
+}
+
+private int nextNum = 1;
+private void btnDoSomething_Click(object sender, RoutedEventArgs e)
+{
+    SomeText = string.Format(&quot;Change to {0}&quot;, nextNum++);
+}
+
+public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+private void RaisePropChanged(string propname)
+{
+    PropertyChanged(this, new PropertyChangedEventArgs(propname));
+}
+</pre>
+<p>When you run this code, the background of the <strong>TextBlock</strong> flashes magenta whenever you click on the button.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9603-58cfeae10e128' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9603&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9603-58cfeae10e128' data-name='like-post-frame-14605478-9603-58cfeae10e128'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Animation | Tags: Animation, ColorAnimation, WPF</p>
+  <nav class="pager"><a href="2017-03-04-1201-how-to-share-star-sized-column-sizes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-03-31-1203-create-a-reusable-group-of-elements-with-a-contentpresenter.html">Next</a></nav>
+</main>
+
+</body>
+</html>

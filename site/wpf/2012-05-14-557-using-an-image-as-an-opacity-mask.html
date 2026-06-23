@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#557 – Using an Image As an Opacity Mask</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-05-11-556-clipping-to-a-border-using-an-opacity-mask.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-15-558-reversing-a-gradient-using-blend.html">Next</a></nav>
+  <h1>#557 – Using an Image As an Opacity Mask</h1>
+  <p class="meta">2012-05-14 | <a href="http://wpf.2000things.com/2012/05/14/557-using-an-image-as-an-opacity-mask/">Original URL</a> | Wayback 20120521033746</p>
+  <article><div class="post-4841 post type-post status-publish format-standard hentry category-brushes tag-brushes tag-imagebrush tag-opacity-mask tag-opacitymask tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 14, 2012</span>
+																						<span class="post-comments"><a href="2012-05-14-557-using-an-image-as-an-opacity-mask.html" title="Comment on #557 &#8211; Using an Image As an Opacity&nbsp;Mask">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You&#8217;ll typically <a href="2012-05-09-554-using-an-opacity-mask.html">use a gradient brush as an opacity mask</a>, to change the opacity of a control gradually.</p>
+<p>You can also use an image as an opacity brush, making various regions of the target control opaque or transparent depending on the opacity at the same spot in the image.</p>
+<p>Below, I&#8217;ve created a smiley face image in Paint.NET.  I&#8217;ve made the background of the image transparent (shown in Paint.NET as a checkerboard).</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/557-001.png"><img class="alignnone size-full wp-image-4842" title="557-001" src="https://web.archive.org/web/20120521033746id_/http://2000thingswpf.files.wordpress.com/2012/05/557-001.png?w=630" alt=""   /></a></p>
+<p>Next I create a WPF project with a simple <strong>Image</strong> control.</p>
+<p><pre class="brush: xml;">
+    &lt;Image Source=&quot;Images\Rocks2Small.jpg&quot; Width=&quot;400&quot;/&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/05/557-002.png"><img class="alignnone size-full wp-image-4845" title="557-002" src="https://web.archive.org/web/20120521033746id_/http://2000thingswpf.files.wordpress.com/2012/05/557-002.png?w=630" alt=""   /></a></p>
+<p>Now we specify an <strong>OpacityMask</strong> for this <strong>Image</strong>.  But instead of using a <strong>LinearGradientBrush</strong> or <strong>RadialGradientBrush</strong>, we use an <strong>ImageBrush</strong>&#8211;a brush created from an image.</p>
+<p><pre class="brush: xml;">
+&lt;Image Source=&quot;Images\Rocks2Small.jpg&quot; Width=&quot;400&quot;&gt;
+    &lt;Image.OpacityMask&gt;
+        &lt;ImageBrush ImageSource=&quot;Images\FaceMask.png&quot;/&gt;
+    &lt;/Image.OpacityMask&gt;
+&lt;/Image&gt;
+</pre></p>
+<p>Using the second image as the opacity mask for the first means&#8211;the first image will be transparent wherever the second image is transparent.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/05/557-003.png"><img class="alignnone size-full wp-image-4849" title="557-003" src="https://web.archive.org/web/20120521033746id_/http://2000thingswpf.files.wordpress.com/2012/05/557-003.png?w=630" alt=""   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-4841" class="wpl-button "><a href='2012-05-14-557-using-an-image-as-an-opacity-mask.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Brushes | Tags: Brushes, ImageBrush, Opacity Mask, OpacityMask, WPF</p>
+  <nav class="pager"><a href="2012-05-11-556-clipping-to-a-border-using-an-opacity-mask.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-15-558-reversing-a-gradient-using-blend.html">Next</a></nav>
+</main>
+
+</body>
+</html>

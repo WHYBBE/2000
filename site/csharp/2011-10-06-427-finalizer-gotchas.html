@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#427 – Finalizer Gotchas</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-05-426-use-a-destructor-to-free-unmanaged-resources.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-07-428-a-finalizer-should-always-call-the-finalizer-of-its-base-class.html">Next</a></nav>
+  <h1>#427 – Finalizer Gotchas</h1>
+  <p class="meta">2011-10-06 | <a href="http://csharp.2000things.com/2011/10/06/427-finalizer-gotchas/">Original URL</a> | Wayback 20111007212117</p>
+  <article><div class="post-3618 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-destructor tag-finalizer tag-garbage-collection">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 6, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-10-06-427-finalizer-gotchas.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>The idea of the finalizer in .NET is that you can override the <strong>Object.Finalize</strong> method, called by the garbage collector when it&#8217;s releasing memory for an object, and you can do any required cleanup of unmanaged resources.</p>
+<p>There are several things to keep in mind if you want to write a finalizer (done in C# using the destructor syntax):</p>
+<ul>
+<li>You can&#8217;t predict when your finalizer is called</li>
+<li>The finalizer might never get called at all</li>
+<li>The order that finalizers are called in is unpredictable.  You therefore can&#8217;t assume that any other managed object that your object references still exists, or is in a known state.</li>
+<li>Garbage collection will take longer if you have objects with finalizers</li>
+</ul>
+<p>&nbsp;</p>
+<div class="tpp">
+						<span style="text-align: left; letter-spacing: 1px; font: 8px/1em Verdana, sans-serif; color: #ccc; text-transform: uppercase; display: block; padding: 0 1px;">Advertisement</span>
+						<a href="http://ecopressed.com" rel="tppceco_A" target="_top">
+							<span class="tppl">
+								Eco World Content From Across The Internet.
+							</span>
+							<img src="https://web.archive.org/web/20111007212117id_/http://90by2030.files.wordpress.com/2011/10/acacia_xanthophloea_2.jpg?w=126&amp;h=78&amp;crop=true" width="126" height="78" alt="EcoPressed" class="tppi" />
+							<span class="tpph">
+								Featured on EcoPressed
+							</span>
+							<span class="tppt">
+								Clothing Exchanges: The Way Forward
+							</span>
+						</a>
+					</div>
+					<div style="clear: both;"></div><div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/10/06/427-finalizer-gotchas/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/10/06/427-finalizer-gotchas/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/10/06/427-finalizer-gotchas/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#, Destructor, Finalizer, Garbage Collection</p>
+  <nav class="pager"><a href="2011-10-05-426-use-a-destructor-to-free-unmanaged-resources.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-07-428-a-finalizer-should-always-call-the-finalizer-of-its-base-class.html">Next</a></nav>
+</main>
+
+</body>
+</html>

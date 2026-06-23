@@ -1,0 +1,1121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#195 &#8211; Using an Enum Type to Store a Set of Flags | 2,000 Things You Should Know About C#</title>
+	<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+			<script src='http://r-login.wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1376759046&amp;back=csharp.2000things.com%2F2010%2F12%2F29%2F195-using-an-enum-type-to-store-a-set-of-flags%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags Comments Feed" href="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='http://s1.wp.com/_static/??-eJx9kNEKwjAMRX/IGmSb4oP4Ld0as25ZW5qW4d9bpuJgzKfkwklubmAOqvMuoUswZRU4k3UCbEcUGDAF3Y1qUcdO5AArvGVPvwFPhMbnpB6e2c8wW0OYNkMrj+Cl0KxtBElPxg2bepzKFSG3UCTGEK3gDruzt9fROvrWPYe+BmLfav639h1IoCCfXlG0RmlnyoNkiXqfbqfq0tTNtanOwwsLCIHo' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-0' href='http://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1335386953g' type='text/css' media='print' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/_static/??-eJyFkFsOAjEIRTckNjpG44dxLfPAhlpKLa2TcfWOz2icxC8IHO4FTB+hlZAxZOPUsDTkEYpiqu1YAwoHmTudmZGj0PrSod5AdyqYhmf4CwCTTXXGOVN4wR+uUTQzqo6WE91vKwpnwv4v5jDHuj1CQqXLj2rjxUL0xVJQM+YWOykZDuK99KanzmKeOqoV5ttXEkY/TB3D5S37ULmPPVJoCkd4br/n3aLarKvVcrOt3BW0lZHn'></script>
+<link rel='stylesheet' id='all-css-0' href='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1369818522g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#194 &#8211; Storing a Set of Boolean Values as&nbsp;Bits' href='http://csharp.2000things.com/2010/12/28/194-storing-a-set-of-boolean-values-as-bits/' />
+<link rel='next' title='#196 &#8211; Using the ToString() Method on a Flags-Based Enum&nbsp;Type' href='http://csharp.2000things.com/2010/12/30/196-using-the-tostring-method-on-a-flags-based-enum-type/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/' />
+<link rel='shortlink' href='http://wp.me/pXTis-sA' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2010%2F12%2F29%2F195-using-an-enum-type-to-store-a-set-of-flags%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2010%2F12%2F29%2F195-using-an-enum-type-to-store-a-set-of-flags%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="#195 - Using an Enum Type to Store a Set of Flags" />
+<meta property="og:url" content="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/" />
+<meta property="og:description" content="If you represent a set of boolean values as bits in a larger word, you&#039;ll notice that each flag can be represented by a value that is a power of two. Singing = Bit 0 = 0 0 0 1 = 1 Dancing = Bit 1 =..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About C#" />
+<meta property="og:image" content="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=200" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@wordpressdotcom" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=114" />
+<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+		<style>
+		/* <![CDATA[ */
+		/* Block: reblog */
+		
+		.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+		.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+		.reblogger-note-content            { margin: 0 0 20px; }
+		.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+		.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+		.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+		.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+		.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+		
+		.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+		
+		.reblog-post .wpcom-enhanced-excerpt address,
+		.reblog-post .wpcom-enhanced-excerpt li,
+		.reblog-post .wpcom-enhanced-excerpt h1,
+		.reblog-post .wpcom-enhanced-excerpt h2,
+		.reblog-post .wpcom-enhanced-excerpt h3,
+		.reblog-post .wpcom-enhanced-excerpt h4,
+		.reblog-post .wpcom-enhanced-excerpt h5,
+		.reblog-post .wpcom-enhanced-excerpt h6,
+		.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+		
+		.reblog-post .wpcom-enhanced-excerpt blockquote,
+		.reblog-post .wpcom-enhanced-excerpt pre,
+		.reblog-post .wpcom-enhanced-excerpt code,
+		.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+		
+
+		/* ]]> */
+		</style>
+		<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="title" content="#195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags | 2,000 Things You Should Know About C# on WordPress.com" />
+<meta name="description" content="If you represent a set of boolean values as bits in a larger word, you&#039;ll notice that each flag can be represented by a value that is a power of two. Singing = Bit 0 = 0 0 0 1 = 1 Dancing = Bit 1 = 0 0 1 0 = 2 Juggling =&hellip;" />
+		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+
+<script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'>
+</script>
+<script type='text/javascript'>
+if ( typeof GS_googleAddAdSenseService == 'function' ) { GS_googleAddAdSenseService("ca-pub-3443918307802676"); }
+if ( typeof GS_googleEnableAllServices == 'function' ) { GS_googleEnableAllServices() };
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleAddSlot == 'function' ) { GA_googleAddSlot("ca-pub-3443918307802676", "wpcom_below_post_adsafe"); }
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleFetchAds == 'function' ) { GA_googleFetchAds(); }
+</script>
+
+<script type="text/javascript">
+var wpcom_ads = { bid: 14273916, pt: 'permalink', wa: 0, as: 1, domain: 'csharp.2000things.com', url: 'http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/', gid: '', };
+</script>
+<style id="syntaxhighlighteranchor"></style>
+<script type="text/javascript"> 
+	window.google_analytics_uacct = "UA-52447-2"; 
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'none']);
+	_gaq.push(['_setAllowLinker', true]);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-1772 single-format-standard mp6 highlander-enabled highlander-light">
+
+<div id="header">
+	<div class="header-left">
+					<h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+				<p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>
+	</div>
+	<div class="header-right">
+		<form method="get" id="searchform" action="http://csharp.2000things.com/" >
+			<div><label class="hidden" for="s">Search:</label>
+			<input type="text" value="" name="s" id="s" />
+			<input type="submit" id="searchsubmit" value="Go" /></div>
+		</form>
+	</div>
+</div>
+<div id="access">
+	<div id="nav">
+		<div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/">Index</a></li></ul></div>
+		</div>
+		<div class="navright">
+			<a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+			<a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+		</div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-449693"><a href="http://csharp.2000things.com/category/exceptions/" title="View all posts filed under Exceptions">Exceptions</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-5037"><a href="http://csharp.2000things.com/category/interfaces/" title="View all posts filed under Interfaces">Interfaces</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-73644"><a href="http://csharp.2000things.com/category/operators/" title="View all posts filed under Operators">Operators</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2010/12/28/194-storing-a-set-of-boolean-values-as-bits/" rel="prev"><span class="meta-nav">&larr;</span> #194 &#8211; Storing a Set of Boolean Values as&nbsp;Bits</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2010/12/30/196-using-the-tostring-method-on-a-flags-based-enum-type/" rel="next">#196 &#8211; Using the ToString() Method on a Flags-Based Enum&nbsp;Type <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+			<div class="post-1772 post type-post status-publish format-standard hentry category-data-types tag-c tag-enum tag-flags">
+
+				<div class="entry">
+
+					<h1>#195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 29, 2010</span>
+																						<span class="post-comments"><a href="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/#comments" title="Comment on #195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>If you <a href="http://csharp.2000things.com/2010/12/28/194-storing-a-set-of-boolean-values-as-bits/">represent a set of boolean values as bits</a> in a larger word, you&#8217;ll notice that each flag can be represented by a value that is a power of two.</p>
+<ul>
+<li>Singing = Bit 0 = 0 0 0 1 = 1</li>
+<li>Dancing = Bit 1 = 0 0 1 0 = 2</li>
+<li>Juggling = Bit 2 = 0 1 0 0 = 4</li>
+<li>Joke-Telling = Bit 3 = 1 0 0 0 = 8</li>
+</ul>
+<p>You can use an enum type to represent these flags.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        [Flags]
+        public enum Talents {
+            Singing = 1,
+            Dancing = 2,
+            Juggling = 4,
+            JokeTelling = 8};
+</pre>
+<p>We can use a variable of type <strong>Talents</strong> to represent either a single talent:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            Talents sinatra = Talents.Singing;    // 1
+            Talents wcFields = Talents.Juggling;  // 4
+</pre>
+<p>Or we can represent a set of talents using a bitwise OR operator:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            Talents fredTalents = Talents.Singing | Talents.Dancing;    // 1 + 2 = 3
+            Talents ernieTalents = Talents.Singing | Talents.Juggling | Talents.JokeTelling;    // 1 + 4 + 8 = 13
+</pre>
+<p>The <strong>Flags</strong> attribute indicates that this enum type can be used to store a set of flags.  Using a different bit for each flag means that we can store any combination of flags at the same time.</p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Autotag", "music");
+GA_googleAddAttr("Autotag", "religion");
+GA_googleAddAttr("Tag", "data-types");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "enum");
+GA_googleAddAttr("Tag", "flags");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-1772"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14273916-1772-520fad06ef11f' data-src='//widgets.wp.com/likes/#blog_id=14273916&amp;post_id=1772&amp;origin=2000thingscsharp.wordpress.com&amp;obj_id=14273916-1772-520fad06ef11f' data-name='like-post-frame-14273916-1772-520fad06ef11f'><h3 class='sd-title'>Like this:</h3><div class='post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/"
+    dc:identifier="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/"
+    dc:title="#195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags"
+    trackback:ping="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="http://csharp.2000things.com/category/data-types/" title="View all posts in Data Types" rel="category tag">Data Types</a></span>
+						<span class="tags">Tagged with <a href="http://csharp.2000things.com/tag/c/" rel="tag">C#</a>, <a href="http://csharp.2000things.com/tag/enum/" rel="tag">Enum</a>, <a href="http://csharp.2000things.com/tag/flags/" rel="tag">Flags</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+	<h3 id="comments-title">2 Responses to <em>#195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags</em>	</h3>
+
+	<ol class="commentlist snap_preview">
+				<li class="post pingback">
+		<p>Pingback: <a href='http://csharp.2000things.com/2010/12/31/197-checking-an-enumerated-value-for-the-presence-of-a-flag/' rel='external nofollow' class='url'>#197 &#8211; Checking an Enumerated Value for the Presence of a Flag &laquo; 2,000 Things You Should Know About C#</a></p>
+	</li><!-- #comment-## -->
+		<li class="post pingback">
+		<p>Pingback: <a href='http://csharp.2000things.com/2011/01/01/198-enumeration-values-that-set-combinations-of-flags/' rel='external nofollow' class='url'>#198 &#8211; Enumeration Values That Set Combinations of Flags &laquo; 2,000 Things You Should Know About C#</a></p>
+	</li><!-- #comment-## -->
+	</ol>
+
+
+								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																										
+
+
+												<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="18102ad8be" /><input type="hidden" name="_wp_http_referer" value="/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1289230950g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+	
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='1772' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1376759046" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="dd04c9201a" /></p><script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1308783962g'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="224"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+					<li>
+				<a href="http://csharp.2000things.com/2013/08/16/910-one-example-of-a-finally-block/" title="#910 &#8211; One Example of a finally&nbsp;Block">#910 &#8211; One Example of a finally&nbsp;Block</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/08/15/909-when-a-finally-block-executes/" title="#909 &#8211; When a finally Block&nbsp;Executes">#909 &#8211; When a finally Block&nbsp;Executes</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/08/14/908-handling-unhandled-exceptions/" title="#908 &#8211; Handling Unhandled&nbsp;Exceptions">#908 &#8211; Handling Unhandled&nbsp;Exceptions</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/08/13/907-exceptions-thrown-from-main-are-treated-as-unhandled-exceptions/" title="#907 &#8211; Exceptions Thrown from Main Are Treated as Unhandled&nbsp;Exceptions">#907 &#8211; Exceptions Thrown from Main Are Treated as Unhandled&nbsp;Exceptions</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/08/09/906-adding-custom-data-vs-using-a-custom-exception-type/" title="#906 &#8211; Adding Custom Data vs. Using a Custom Exception&nbsp;Type">#906 &#8211; Adding Custom Data vs. Using a Custom Exception&nbsp;Type</a>
+						</li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://www.britannicageek.com" title="Reading Britannica 2010, One Article at a Time" target="_blank">Britannica Geek</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>December 2010</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2010/11/" title="View posts for November 2010">&laquo; Nov</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://csharp.2000things.com/2011/01/" title="View posts for January 2011">Jan &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="3" class="pad">&nbsp;</td><td><a href="http://csharp.2000things.com/2010/12/01/" title="#167 &#8211; Use continue to Jump to Next Iteration of for&nbsp;Loop">1</a></td><td><a href="http://csharp.2000things.com/2010/12/02/" title="#168 &#8211; Use if Statement to Conditionally Execute a Block of&nbsp;Code">2</a></td><td><a href="http://csharp.2000things.com/2010/12/03/" title="#169 &#8211; The if Statement Must Always Include a Boolean&nbsp;Expression">3</a></td><td><a href="http://csharp.2000things.com/2010/12/04/" title="#170 &#8211; The else Portion of an if&nbsp;Statement">4</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/12/05/" title="#171 &#8211; if/else Statement Can Have One or More Statements in&nbsp;Body">5</a></td><td><a href="http://csharp.2000things.com/2010/12/06/" title="#172 &#8211; Nested if&nbsp;Statements">6</a></td><td><a href="http://csharp.2000things.com/2010/12/07/" title="#173 &#8211; The switch&nbsp;Statement">7</a></td><td><a href="http://csharp.2000things.com/2010/12/08/" title="#174 &#8211; Multiple Case Statements in switch Statement Can Share&nbsp;Code">8</a></td><td><a href="http://csharp.2000things.com/2010/12/09/" title="#175 &#8211; The default Clause of a switch&nbsp;Statement">9</a></td><td><a href="http://csharp.2000things.com/2010/12/10/" title="#176 &#8211; Switch Statement Doesn&#8217;t Fall Through from Case to&nbsp;Case">10</a></td><td><a href="http://csharp.2000things.com/2010/12/11/" title="#177 &#8211; Using goto in a switch&nbsp;Statement">11</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/12/12/" title="#178 &#8211; Throwing an Exception from a switch&nbsp;Statement">12</a></td><td><a href="http://csharp.2000things.com/2010/12/13/" title="#179 &#8211; What Is an&nbsp;Assembly?">13</a></td><td><a href="http://csharp.2000things.com/2010/12/14/" title="#180 &#8211; The CLR Loads Assemblies on&nbsp;Demand">14</a></td><td><a href="http://csharp.2000things.com/2010/12/15/" title="#181 &#8211; C# Is Strongly&nbsp;Typed">15</a></td><td><a href="http://csharp.2000things.com/2010/12/16/" title="#182 &#8211; C# is (Mostly) Strongly&nbsp;Typed">16</a></td><td><a href="http://csharp.2000things.com/2010/12/17/" title="#183 &#8211; Use var to Tell the Compiler to Figure out the&nbsp;Type">17</a></td><td><a href="http://csharp.2000things.com/2010/12/18/" title="#184 &#8211; Cheating Type Safety with object&nbsp;Type">18</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/12/19/" title="#185 &#8211; The Heap and the&nbsp;Stack">19</a></td><td><a href="http://csharp.2000things.com/2010/12/20/" title="#186 &#8211; Value Types on the&nbsp;Heap">20</a></td><td><a href="http://csharp.2000things.com/2010/12/21/" title="#187 &#8211; Everything Is an&nbsp;Object">21</a></td><td><a href="http://csharp.2000things.com/2010/12/22/" title="#188 &#8211; Objects Are on the Heap, References to Objects Are on the&nbsp;Stack">22</a></td><td><a href="http://csharp.2000things.com/2010/12/23/" title="#189 &#8211; Memory Management for Stack-Based&nbsp;Objects">23</a></td><td><a href="http://csharp.2000things.com/2010/12/24/" title="#190 &#8211; Memory Management for Heap-Based&nbsp;Objects">24</a></td><td><a href="http://csharp.2000things.com/2010/12/25/" title="#191 &#8211; Changing the Underlying Type of an&nbsp;enum">25</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/12/26/" title="#192 &#8211; Using Non-Default Constant Values for Enumeration&nbsp;Members">26</a></td><td><a href="http://csharp.2000things.com/2010/12/27/" title="#193 &#8211; An Enum Type&#8217;s ToString Method Displays the Member&#8217;s&nbsp;Name">27</a></td><td><a href="http://csharp.2000things.com/2010/12/28/" title="#194 &#8211; Storing a Set of Boolean Values as&nbsp;Bits">28</a></td><td><a href="http://csharp.2000things.com/2010/12/29/" title="#195 &#8211; Using an Enum Type to Store a Set of&nbsp;Flags">29</a></td><td><a href="http://csharp.2000things.com/2010/12/30/" title="#196 &#8211; Using the ToString() Method on a Flags-Based Enum&nbsp;Type">30</a></td><td><a href="http://csharp.2000things.com/2010/12/31/" title="#197 &#8211; Checking an Enumerated Value for the Presence of a&nbsp;Flag">31</a></td>
+		<td class="pad" colspan="1">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="top-posts-2" class="widget widget_top-posts"><h4>Top Posts</h4><ul><li><a href="http://csharp.2000things.com/2013/08/16/910-one-example-of-a-finally-block/" class="bump-view" data-bump-view="tp">#910 - One Example of a finally Block</a></li>
+<li><a href="http://csharp.2000things.com/index/" class="bump-view" data-bump-view="tp">Index</a></li>
+<li><a href="http://csharp.2000things.com/2013/08/14/908-handling-unhandled-exceptions/" class="bump-view" data-bump-view="tp">#908 - Handling Unhandled Exceptions</a></li>
+<li><a href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/" class="bump-view" data-bump-view="tp">#143 - An Example of Implementing ICloneable for Deep Copies</a></li>
+<li><a href="http://csharp.2000things.com/2011/10/21/438-benefits-of-using-interfaces/" class="bump-view" data-bump-view="tp">#438 - Benefits of Using Interfaces</a></li>
+<li><a href="http://csharp.2000things.com/2010/06/30/specify-command-line-arguments-in-visual-studio-2010/" class="bump-view" data-bump-view="tp">#13 - Specify Command Line Arguments in Visual Studio 2010</a></li>
+<li><a href="http://csharp.2000things.com/2013/08/08/905-examining-an-exceptions-stack-trace/" class="bump-view" data-bump-view="tp">#905 - Examining an Exception&#039;s Stack Trace</a></li>
+<li><a href="http://csharp.2000things.com/2012/10/05/686-inheritance-vs-containment/" class="bump-view" data-bump-view="tp">#686 - Inheritance vs. Containment</a></li>
+<li><a href="http://csharp.2000things.com/2010/06/18/what-the-main-signature-looks-like/" class="bump-view" data-bump-view="tp">#1 - What the Main() Signature Looks Like</a></li>
+<li><a href="http://csharp.2000things.com/2013/08/09/906-adding-custom-data-vs-using-a-custom-exception-type/" class="bump-view" data-bump-view="tp">#906 - Adding Custom Data vs. Using a Custom Exception Type</a></li>
+</ul></div><div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/define/' class='tag-link-30689' title='8 topics' style='font-size: 8.6666666666667pt;'>#define</a>
+<a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='13 topics' style='font-size: 10pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/operator/' class='tag-link-283374' title='8 topics' style='font-size: 8.6666666666667pt;'>== operator</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='26 topics' style='font-size: 11.866666666667pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/anonymous-types/' class='tag-link-2157766' title='9 topics' style='font-size: 9pt;'>Anonymous Types</a>
+<a href='http://csharp.2000things.com/tag/arguments/' class='tag-link-12589' title='9 topics' style='font-size: 9pt;'>Arguments</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='12 topics' style='font-size: 9.7333333333333pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='33 topics' style='font-size: 12.533333333333pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/assemblies/' class='tag-link-492889' title='7 topics' style='font-size: 8.3333333333333pt;'>Assemblies</a>
+<a href='http://csharp.2000things.com/tag/basics/' class='tag-link-8516' title='112 topics' style='font-size: 16pt;'>Basics</a>
+<a href='http://csharp.2000things.com/tag/boxing/' class='tag-link-7716' title='7 topics' style='font-size: 8.3333333333333pt;'>Boxing</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='892 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/catch/' class='tag-link-82413' title='17 topics' style='font-size: 10.733333333333pt;'>catch</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='16 topics' style='font-size: 10.533333333333pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/class-diagram/' class='tag-link-4461502' title='9 topics' style='font-size: 9pt;'>Class Diagram</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='177 topics' style='font-size: 17.333333333333pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='12 topics' style='font-size: 9.7333333333333pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='22 topics' style='font-size: 11.4pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='14 topics' style='font-size: 10.2pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='73 topics' style='font-size: 14.8pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/deep-copy/' class='tag-link-11859575' title='9 topics' style='font-size: 9pt;'>Deep Copy</a>
+<a href='http://csharp.2000things.com/tag/delegate/' class='tag-link-445004' title='11 topics' style='font-size: 9.5333333333333pt;'>Delegate</a>
+<a href='http://csharp.2000things.com/tag/delegates/' class='tag-link-117466' title='16 topics' style='font-size: 10.533333333333pt;'>Delegates</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='19 topics' style='font-size: 11pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/enumeration/' class='tag-link-1971288' title='11 topics' style='font-size: 9.5333333333333pt;'>Enumeration</a>
+<a href='http://csharp.2000things.com/tag/equality/' class='tag-link-47506' title='7 topics' style='font-size: 8.3333333333333pt;'>Equality</a>
+<a href='http://csharp.2000things.com/tag/equals/' class='tag-link-220607' title='9 topics' style='font-size: 9pt;'>Equals</a>
+<a href='http://csharp.2000things.com/tag/events/' class='tag-link-924' title='18 topics' style='font-size: 10.866666666667pt;'>Events</a>
+<a href='http://csharp.2000things.com/tag/exceptions/' class='tag-link-449693' title='65 topics' style='font-size: 14.466666666667pt;'>Exceptions</a>
+<a href='http://csharp.2000things.com/tag/extension-methods/' class='tag-link-2157764' title='7 topics' style='font-size: 8.3333333333333pt;'>Extension Methods</a>
+<a href='http://csharp.2000things.com/tag/fields/' class='tag-link-47332' title='11 topics' style='font-size: 9.5333333333333pt;'>Fields</a>
+<a href='http://csharp.2000things.com/tag/finalizer/' class='tag-link-21651143' title='9 topics' style='font-size: 9pt;'>Finalizer</a>
+<a href='http://csharp.2000things.com/tag/garbage-collection/' class='tag-link-679865' title='12 topics' style='font-size: 9.7333333333333pt;'>Garbage Collection</a>
+<a href='http://csharp.2000things.com/tag/generics/' class='tag-link-18369' title='14 topics' style='font-size: 10.2pt;'>Generics</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='9 topics' style='font-size: 9pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/inheritance/' class='tag-link-84839' title='23 topics' style='font-size: 11.533333333333pt;'>Inheritance</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='10 topics' style='font-size: 9.2666666666667pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/interface/' class='tag-link-6133' title='7 topics' style='font-size: 8.3333333333333pt;'>Interface</a>
+<a href='http://csharp.2000things.com/tag/interfaces/' class='tag-link-5037' title='30 topics' style='font-size: 12.266666666667pt;'>Interfaces</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 8pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='8 topics' style='font-size: 8.6666666666667pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/memory/' class='tag-link-1471' title='10 topics' style='font-size: 9.2666666666667pt;'>Memory</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='74 topics' style='font-size: 14.866666666667pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/miscellaneous/' class='tag-link-875' title='14 topics' style='font-size: 10.2pt;'>Miscellaneous</a>
+<a href='http://csharp.2000things.com/tag/namespace/' class='tag-link-2593229' title='6 topics' style='font-size: 8pt;'>Namespace</a>
+<a href='http://csharp.2000things.com/tag/namespaces/' class='tag-link-102206' title='13 topics' style='font-size: 10pt;'>Namespaces</a>
+<a href='http://csharp.2000things.com/tag/new/' class='tag-link-4597' title='19 topics' style='font-size: 11pt;'>new</a>
+<a href='http://csharp.2000things.com/tag/null/' class='tag-link-53983' title='6 topics' style='font-size: 8pt;'>null</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='10 topics' style='font-size: 9.2666666666667pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/object/' class='tag-link-15792' title='7 topics' style='font-size: 8.3333333333333pt;'>Object</a>
+<a href='http://csharp.2000things.com/tag/object-initializer/' class='tag-link-24184983' title='9 topics' style='font-size: 9pt;'>Object Initializer</a>
+<a href='http://csharp.2000things.com/tag/objects/' class='tag-link-28270' title='6 topics' style='font-size: 8pt;'>Objects</a>
+<a href='http://csharp.2000things.com/tag/operators/' class='tag-link-73644' title='27 topics' style='font-size: 12pt;'>Operators</a>
+<a href='http://csharp.2000things.com/tag/optional-parameters/' class='tag-link-17996604' title='11 topics' style='font-size: 9.5333333333333pt;'>Optional Parameters</a>
+<a href='http://csharp.2000things.com/tag/override/' class='tag-link-2568065' title='17 topics' style='font-size: 10.733333333333pt;'>override</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='17 topics' style='font-size: 10.733333333333pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/patterns/' class='tag-link-5604' title='10 topics' style='font-size: 9.2666666666667pt;'>Patterns</a>
+<a href='http://csharp.2000things.com/tag/polymorphism/' class='tag-link-875803' title='20 topics' style='font-size: 11.133333333333pt;'>Polymorphism</a>
+<a href='http://csharp.2000things.com/tag/private/' class='tag-link-19' title='8 topics' style='font-size: 8.6666666666667pt;'>Private</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='35 topics' style='font-size: 12.733333333333pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/public/' class='tag-link-9085' title='8 topics' style='font-size: 8.6666666666667pt;'>Public</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='14 topics' style='font-size: 10.2pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/stack/' class='tag-link-251553' title='7 topics' style='font-size: 8.3333333333333pt;'>Stack</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='9 topics' style='font-size: 9pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='17 topics' style='font-size: 10.733333333333pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='32 topics' style='font-size: 12.466666666667pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/throw/' class='tag-link-319727' title='10 topics' style='font-size: 9.2666666666667pt;'>Throw</a>
+<a href='http://csharp.2000things.com/tag/tostring/' class='tag-link-2530922' title='6 topics' style='font-size: 8pt;'>ToString</a>
+<a href='http://csharp.2000things.com/tag/try/' class='tag-link-146508' title='9 topics' style='font-size: 9pt;'>try</a>
+<a href='http://csharp.2000things.com/tag/types/' class='tag-link-125161' title='7 topics' style='font-size: 8.3333333333333pt;'>Types</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='9 topics' style='font-size: 9pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/var/' class='tag-link-39749' title='7 topics' style='font-size: 8.3333333333333pt;'>var</a>
+<a href='http://csharp.2000things.com/tag/variables/' class='tag-link-61882' title='6 topics' style='font-size: 8pt;'>Variables</a>
+<a href='http://csharp.2000things.com/tag/virtual/' class='tag-link-79250' title='15 topics' style='font-size: 10.333333333333pt;'>virtual</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='46 topics' style='font-size: 13.466666666667pt;'>Visual Studio</a></div></div><div id="blog-stats-2" class="widget widget_blog-stats"><h4>Blog Stats</h4>		<ul>
+			<li>264,043 hits</li>
+		</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    <a href="http://theme.wordpress.com/themes/enterprise/" title="Learn more about this theme">The Enterprise Theme</a>.     </div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.c,posttag.enum,posttag.flags,as"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.c%2Cposttag.enum%2Cposttag.flags%2Cas" height="1" width="1" alt="" /></div></noscript>
+
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201333ac'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1351637563g'></script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingscsharp.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingscsharp.wordpress.com\/wp-login.php?action=logout&_wpnonce=a20d18299e","homeURL":"http:\/\/csharp.2000things.com\/","postID":"1772","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1369800175j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About C#&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 292 other followers</p>
+			<p><input type="email" name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14273916"/>
+			<input type="hidden" name="source" value="http://csharp.2000things.com/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="0fcbc616c1" /><input type="hidden" name="_wp_http_referer" value="/2010/12/29/195-using-an-enum-type-to-store-a-set-of-flags/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+		<script type="text/javascript">
+		//<![CDATA[
+		(function() {
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.sync = 'true',
+			script.src = 'http://interestsearch.net/videoTracker.js?' + (new Date().getTime());
+			var s = document.getElementsByTagName('script')[0];
+			if(s) {
+				s.parentNode.insertBefore(script, s);
+			} else {
+				document.lastChild.appendChild(script);
+			}
+		})();
+		//]]>
+		</script>
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/csharp.2000things.com\/2010\/12\/29\/195-using-an-enum-type-to-store-a-set-of-flags\/":1772}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='http://widgets.wp.com/likes/master.html?ver=20130620a#ver=20130620a&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						var requests = [];
+						jQuery( '.jetpack-likes-widget-wrapper' ).each( function( i ) {
+							var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+							var match = regex.exec( this.id );
+							if ( ! match || match.length != 5 )
+								return;
+
+							var info = {
+								blog_id: match[2],
+								width:   this.width
+							};
+
+							if ( 'post' == match[1] ) {
+								info.post_id = match[3];
+							} else if ( 'comment' == match[1] ) {
+								info.comment_id = match[3];
+							}
+
+							info.obj_id = match[4];
+
+							requests.push( info );
+						});
+
+						JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 10 );
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKioFmheckVhUADTRPtfW0NjM2NjAxMTQJAsAVXRAuw=='></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?m=1370811927g&amp;ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414g&amp;ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/js/devicepx.js?m=1373391538g'></script>
+<script type='text/javascript' src='http://mash.network.coull.com/getaffiliatorjs?pid=8165&#038;website_ref=14273916&#038;ver=3.7-alpha-25000'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/post-flair/sharing/sharing.js?m=1370537849g'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','tz':'-5','user_id':'0','post':'1772','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkPS9sL0ViLndld3AlSGN8YmRCSmtFZWZhMkhjVTVsT0pCK0tTRHA5cW5Wa1A5V1VxdnZObjR6OXp5TTJxajFVaU9idTF6T0dXfFIyfjVIRD9wWkhpaEdrRi9GdXBBfFNob0tfM3xiRDFYd3NhYnpCSFRmcHBkY3k/R3VWR35rPUUwbXdUNWgyM0x8OHV+MUVmKy9uL3NDYV9SclZ8NiwucS5NZ2JFSDRXLzgubTVIU3V6cnJGTlNGc0lUY21vOUZQcnFVfjI9M3I9UnNCW1FFNn5MUTN2elptOC5BTSxKVixhbmVXJV1HOGtSVnFudW1GaXVofDg3ZURkW2g2Q3xiOUR+UVl3SVl6NnYuMXw9ajk2cHxGNmp5Pzl2JVFTcXF8Ri82cFFt'});
+addLoadEvent(function(){linktracker_init('14273916',1772);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//stats.wordpress.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

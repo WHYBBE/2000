@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#343 – Associating Multiple Controls with the Same Command</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-07-14-342-binding-a-button-to-a-command.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-07-18-344-the-commandbinding-canexecute-event-determines-whether-a-button-is-enabled.html">Next</a></nav>
+  <h1>#343 – Associating Multiple Controls with the Same Command</h1>
+  <p class="meta">2011-07-15 | <a href="http://wpf.2000things.com/2011/07/15/343-associating-multiple-controls-with-the-same-command/">Original URL</a> | Wayback 20110719144958</p>
+  <article><div class="post-2785 post type-post status-publish format-standard hentry category-commands tag-wpf tag-commands tag-commandbinding tag-command">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">July 15, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-07-15-343-associating-multiple-controls-with-the-same-command.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>One benefit of <a href="http://wp.me/pZhye-IH">using commands</a> in WPF, as opposed to writing event handlers, is that it&#8217;s easier to link multiple controls to a single command.  With commands, you can create a single command object, bind it to a method, and then associate the command with more than one control by setting the <strong>Command</strong> property of each control.</p>
+<p>In the example below, we associate the <strong>ApplicationCommands.Open</strong> command with both a <strong>Button</strong> and a <strong>MenuItem</strong>.</p>
+<pre class="brush: xml;">
+    &lt;Window.ContextMenu&gt;
+        &lt;ContextMenu&gt;
+            &lt;MenuItem Header=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;/&gt;
+        &lt;/ContextMenu&gt;
+    &lt;/Window.ContextMenu&gt;
+
+    &lt;StackPanel&gt;
+        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+    &lt;/StackPanel&gt;
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/07/001-twoopens.png"><img class="alignnone size-full wp-image-2791" title="001-TwoOpens" src="https://web.archive.org/web/20110719144958id_/http://2000thingswpf.files.wordpress.com/2011/07/001-twoopens.png?w=318&amp;h=173" alt="" width="318" height="173" /></a></p>
+<p>In the code-behind, we still only have to create a single <strong>CommandBinding</strong> instance.</p>
+<pre class="brush: csharp;">
+		public MainWindow()
+		{
+			this.InitializeComponent();
+
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Open_Executed, Open_CanExecute));
+        }
+
+        public void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show(&quot;Open file code goes here&quot;);
+        }
+
+        public void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;   // Can we open file?
+        }
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/07/15/343-associating-multiple-controls-with-the-same-command/"
+    dc:identifier="http://wpf.2000things.com/2011/07/15/343-associating-multiple-controls-with-the-same-command/"
+    dc:title="#343 &#8211; Associating Multiple Controls with the Same&nbsp;Command"
+    trackback:ping="http://wpf.2000things.com/2011/07/15/343-associating-multiple-controls-with-the-same-command/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/commands/" title="View all posts in Commands" rel="category tag">Commands</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a>, <a href="http://en.wordpress.com/tag/commands/" rel="tag">Commands</a>, <a href="http://en.wordpress.com/tag/commandbinding/" rel="tag">CommandBinding</a>, <a href="http://en.wordpress.com/tag/command/" rel="tag">Command</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Commands | Tags: WPF, Commands, CommandBinding, Command</p>
+  <nav class="pager"><a href="2011-07-14-342-binding-a-button-to-a-command.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-07-18-344-the-commandbinding-canexecute-event-determines-whether-a-button-is-enabled.html">Next</a></nav>
+</main>
+
+</body>
+</html>

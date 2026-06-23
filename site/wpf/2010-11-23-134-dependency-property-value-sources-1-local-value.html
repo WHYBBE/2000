@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#134 – Dependency Property Value Sources: #1 – Local Value</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-22-133-where-a-dependency-property-gets-its-value.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-24-135-dependency-property-value-sources-2-parent-template-trigger.html">Next</a></nav>
+  <h1>#134 – Dependency Property Value Sources: #1 – Local Value</h1>
+  <p class="meta">2010-11-23 | <a href="http://wpf.2000things.com/2010/11/23/134-dependency-property-value-sources-1-local-value/">Original URL</a> | Wayback 20101203151322</p>
+  <article><div class="post-1149 post type-post status-publish format-default hentry category-dependency-properties tag-base-value tag-dependency-properties tag-local-value tag-wpf">
+				
+           		<div class="entry">
+                                                
+                    
+                        
+                    <div class="post-info">
+                        <p><span class="time">November 23, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-11-23-134-dependency-property-value-sources-1-local-value.html">Leave a Comment</a></span> </p> 
+                    </div>
+               
+                    <p>The highest priority source for the <a href="http://wp.me/pZhye-io">base value of a dependency property</a> is the property&#8217;s <em>local value</em>, set in XAML for the element that owns the property, or set from code.  If a local value is provided, it will override all other possible sources for the base value of the property.</p>
+<p>In the following example, the 2nd <strong>Label </strong>provides a local value for the <strong>FontStyle</strong> property, overriding the inherited value.</p>
+<pre class="brush: xml;">
+&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:m=&quot;clr-namespace:PersonLib;assembly=PersonLib&quot;
+        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot; FontStyle=&quot;Italic&quot;&gt;
+    &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
+        &lt;Button Content=&quot;Run&quot; Height=&quot;23&quot; Width=&quot;75&quot; /&gt;
+        &lt;Button Content=&quot;Skip&quot; Height=&quot;23&quot; Width=&quot;75&quot; /&gt;
+        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+            &lt;Label Content=&quot;Inside 2nd StackPanel&quot;/&gt;
+            &lt;Label x:Name=&quot;lblIndep&quot; Content=&quot;I do my own FontStyle&quot; FontStyle=&quot;Normal&quot;/&gt;
+        &lt;/StackPanel&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</pre>
+<p>You can also set a local value from code:</p>
+<pre class="brush: csharp;">
+            lblIndep.FontStyle = FontStyles.Normal;
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2010/11/localvalue.png"><img class="alignnone size-full wp-image-1172" title="LocalValue" src="https://web.archive.org/web/20101203151322id_/http://2000thingswpf.files.wordpress.com/2010/11/localvalue.png?w=373&amp;h=128" alt="" width="373" height="128" /></a></pre>
+<div class="clear"></div>
+                                                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/11/23/134-dependency-property-value-sources-1-local-value/"
+    dc:identifier="http://wpf.2000things.com/2010/11/23/134-dependency-property-value-sources-1-local-value/"
+    dc:title="#134 &#8211; Dependency Property Value Sources: #1 &#8211; Local&nbsp;Value"
+    trackback:ping="http://wpf.2000things.com/2010/11/23/134-dependency-property-value-sources-1-local-value/trackback/" />
+</rdf:RDF>                    -->
+                
+                </div>
+                    
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>  
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/base-value/" rel="tag">Base Value</a>, <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/local-value/" rel="tag">Local Value</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+                                
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Base Value, Dependency Properties, Local Value, WPF</p>
+  <nav class="pager"><a href="2010-11-22-133-where-a-dependency-property-gets-its-value.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-24-135-dependency-property-value-sources-2-parent-template-trigger.html">Next</a></nav>
+</main>
+
+</body>
+</html>

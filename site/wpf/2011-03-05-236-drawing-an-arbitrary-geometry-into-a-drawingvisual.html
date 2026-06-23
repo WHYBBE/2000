@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#236 – Drawing an Arbitrary Geometry into a DrawingVisual</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-04-235-types-of-visual-content-that-you-can-create-using-a-drawingcontext.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-06-237-drawing-shapes-with-the-shape-subclasses.html">Next</a></nav>
+  <h1>#236 – Drawing an Arbitrary Geometry into a DrawingVisual</h1>
+  <p class="meta">2011-03-05 | <a href="http://wpf.2000things.com/2011/03/05/236-drawing-an-arbitrary-geometry-into-a-drawingvisual/">Original URL</a> | Wayback 20111223180203</p>
+  <article><div class="post-1966 post type-post status-publish format-standard hentry category-graphics tag-drawingcontext tag-drawingvisual tag-geometry tag-graphics tag-streamgeometry tag-streamgeometrycontext tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">March 5, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-03-05-236-drawing-an-arbitrary-geometry-into-a-drawingvisual.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You can <a href="http://wp.me/pZhye-vg">render content in a <strong>DrawingVisual</strong></a> object by using a <strong>DrawingContext</strong> to draw objects that you want rendered.  Use the <strong>DrawingContext</strong>&#8216;s<strong> DrawGeometry</strong> method to draw an arbitrary geometry.</p>
+<p>Below is an example of using <strong>DrawGeometry</strong>, where we render our object in the <strong>DrawingVisual</strong> constructor.</p>
+<p><pre class="brush: csharp;">
+        public MyDrawingVisual()
+        {
+            // First define the geometric shape
+            StreamGeometry geom = new StreamGeometry();
+            using (StreamGeometryContext gc = geom.Open())
+            {
+                // Start new object, filled=true, closed=true
+                gc.BeginFigure(new Point(150.0, 150.0), true, true);
+
+                // isStroked=true, isSmoothJoin=true
+                gc.LineTo(new Point(210.0, 105.0), true, true);
+                gc.LineTo(new Point(270.0, 150.0), true, true);
+                gc.LineTo(new Point(270.0, 45.0), true, true);
+                gc.LineTo(new Point(210.0, 90.0), true, true);
+                gc.LineTo(new Point(150.0, 45.0), true, true);
+            }
+
+            using (DrawingContext dc = RenderOpen())
+            {
+                // Draw our geometry
+                dc.DrawGeometry(Brushes.DarkRed, new Pen(Brushes.Blue, 2), geom);
+            }
+        }
+</pre></p>
+<p>We create a new <strong>StreamGeometry</strong> object, which is what we&#8217;ll render into the <strong>DrawingContext </strong>using the <strong>DrawGeometry</strong> method.  To create the actual object, we use the <strong>StreamGeometryContext</strong> of the <strong>StreamGeometry</strong> and call methods like <strong>BeginFigure</strong> and <strong>LineTo</strong>.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/03/001-butterfly1.png"><img class="alignnone size-full wp-image-1969" title="001-Butterfly" src="https://web.archive.org/web/20111223180203id_/http://2000thingswpf.files.wordpress.com/2011/03/001-butterfly1.png?w=630" alt=""   /></a></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-03-05-236-drawing-an-arbitrary-geometry-into-a-drawingvisual.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Graphics | Tags: DrawingContext, DrawingVisual, Geometry, Graphics, StreamGeometry, StreamGeometryContext, WPF</p>
+  <nav class="pager"><a href="2011-03-04-235-types-of-visual-content-that-you-can-create-using-a-drawingcontext.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-06-237-drawing-shapes-with-the-shape-subclasses.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#568 &#8211; Array Covariance &laquo; 2,000 Things You Should Know About C#</title>
+
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/pub/enterprise/style.css?m=1340030681g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+
+		<script src='http://r-login.wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1341590518&amp;back=csharp.2000things.com%2F2012%2F04%2F24%2F568-array-covariance%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #568 &#8211; Array&nbsp;Covariance Comments Feed" href="http://csharp.2000things.com/2012/04/24/568-array-covariance/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/_static/??/wp-content/blog-plugins/loggedout-follow/widget.css,/wp-content/blog-plugins/wordads/global.css,/wp-content/blog-plugins/wordads/enterprise-v2.css,/wp-content/mu-plugins/infinity/themes/pub/enterprise.css,/i/noticons/noticons.css,/wp-content/mu-plugins/post-flair/style.css,/wp-content/themes/h4/global.css?m=1341582981j' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??/wp-includes/js/jquery/jquery.js,/wp-content/blog-plugins/loggedout-follow/widget.js,/wp-includes/js/comment-reply.js,/wp-includes/js/spin.js,/wp-includes/js/jquery/jquery.spin.js?m=1339788006j'></script>
+<link rel='stylesheet' id='all-css-0' href='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1339644630g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1307172283g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#567 &#8211; Wider vs. Narrower&nbsp;Types' href='http://csharp.2000things.com/2012/04/23/567-wider-vs-narrower-types/' />
+<link rel='next' title='#569 &#8211; Assignment&nbsp;Compatibility' href='http://csharp.2000things.com/2012/04/25/569-assignment-compatibility/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2012/04/24/568-array-covariance/' />
+<link rel='shortlink' href='http://wp.me/pXTis-1fE' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2012%2F04%2F24%2F568-array-covariance%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2012%2F04%2F24%2F568-array-covariance%2F&amp;for=wpcom-auto-discovery" /><meta property="og:type" content="article" />
+<meta property="og:title" content="#568 &#8211; Array&nbsp;Covariance" />
+<meta property="og:url" content="http://csharp.2000things.com/2012/04/24/568-array-covariance/" />
+<meta property="og:description" content="In C#, you can always implicitly convert an instance of a more derived type  to an instance of a base type. For example, the following is allowed: Note that at this point, the someDog variable poin..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About C#" />
+<meta property="og:image" content="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=300" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:creator:id" content="10372992" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=114" />
+<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+
+<script type="text/javascript">
+	var fmwp = { cat: 'enterprisetech',
+							 bid: 14273916,
+							 pt: 'permalink',
+							 theme: 'enterprise',
+							 colorscheme: 'light',
+							 url: escape('http://csharp.2000things.com/2012/04/24/568-array-covariance/') };
+</script>
+<script type='text/javascript'>
+  (function() {
+    var useSSL = 'https:' == document.location.protocol;
+    var src = (useSSL ? 'https:' : 'http:') +       '//www.googletagservices.com/tag/js/gpt.js';
+    document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+  })();
+</script>
+
+
+<script type='text/javascript'>
+  if ( typeof googletag != 'undefined' ) {
+  googletag.cmd.push(function() {
+googletag.pubads().setTargeting("BlogId", "14273916");
+googletag.pubads().setTargeting("WordAds", "1");
+googletag.pubads().setTargeting("Domain", "csharp.2000things.com");
+googletag.pubads().setTargeting("AdSafe", "1");
+googletag.pubads().setTargeting("WordAds-FM", "1");
+googletag.pubads().setTargeting("DarkClass", "");
+googletag.pubads().setTargeting("MarkupVer", "2");
+googletag.pubads().setTargeting("Autotag", "technology");
+googletag.pubads().setTargeting("Autotag", "basketball");
+googletag.pubads().setTargeting("Autotag", "gadgets");
+googletag.pubads().setTargeting("Tag", "data-types");
+googletag.pubads().setTargeting("Tag", "array-covariance");
+googletag.pubads().setTargeting("Tag", "c");
+googletag.pubads().setTargeting("Tag", "covariance");
+googletag.pubads().setTargeting("Tag", "data-types");
+
+  });
+	}
+</script>
+
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() {
+googletag.defineSlot('/9240792/Wordads_Leaderboard', [728, 90], 'div-gpt-ad-1330047761659-0').addService(googletag.pubads());
+googletag.defineSlot('/9240792/Wordads_Mrec', [300, 250], 'div-gpt-ad-1330047806923-0').addService(googletag.pubads());
+googletag.defineSlot('/9240792/Wordads_ContentWell', [468, 60], 'div-gpt-ad-1330229685952-0').addService(googletag.pubads());
+
+googletag.pubads().enableSingleRequest();
+googletag.pubads().enableSyncRendering();
+googletag.enableServices();
+});
+}
+</script>
+<script type="text/javascript"> 
+	window.google_analytics_uacct = "UA-52447-2"; 
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'none']);
+	_gaq.push(['_setAllowLinker', true]);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+
+</head>
+
+<body class="single single-post postid-4814 single-format-standard highlander-enabled highlander-light">
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330047761659-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330047761659-0'); });
+}
+</script>
+</div>
+</div>
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+                <p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>
+    </div>
+    <div class="header-right">
+        <form method="get" id="searchform" action="http://csharp.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/">Index</a></li></ul></div>
+	    </div>
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-5037"><a href="http://csharp.2000things.com/category/interfaces/" title="View all posts filed under Interfaces">Interfaces</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-73644"><a href="http://csharp.2000things.com/category/operators/" title="View all posts filed under Operators">Operators</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="http://csharp.2000things.com/category/events/" title="View all posts filed under Events">Events</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2012/04/23/567-wider-vs-narrower-types/" rel="prev"><span class="meta-nav">&larr;</span> #567 &#8211; Wider vs. Narrower&nbsp;Types</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2012/04/25/569-assignment-compatibility/" rel="next">#569 &#8211; Assignment&nbsp;Compatibility <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+			<div class="post-4814 post type-post status-publish format-standard hentry category-data-types tag-array-covariance tag-c tag-covariance tag-data-types">
+
+				<div class="entry">
+
+					<h1>#568 &#8211; Array&nbsp;Covariance</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">April 24, 2012</span>
+																						<span class="post-comments"><a href="http://csharp.2000things.com/2012/04/24/568-array-covariance/#comments" title="Comment on #568 &#8211; Array&nbsp;Covariance">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>In C#, you can always implicitly convert an instance of a more derived type  to an instance of a base type.</p>
+<p>For example, the following is allowed:</p>
+<p><pre class="brush: csharp;">
+Hound huck = new Hound(&quot;Huckleberry&quot;, 55);
+
+// Since Hound is a sub-class of Dog, we can
+// assign to Dog
+Dog someDog = huck;
+</pre></p>
+<p>Note that at this point, the <strong>someDog</strong> variable points to an instance of a <strong>Hound</strong>, rather than an instance of a <strong>Dog</strong>.</p>
+<p>You can also assign an array of objects of a more derived type to an array of objects of a base type.  This is known as <em>array covariance</em>.  It&#8217;s allowed as long as the type of the source array elements is implicitly convertible to the type of the target array elements.</p>
+<p><pre class="brush: csharp;">
+Hound[] hounds = new Hound[2] {
+new Hound(&quot;Huckleberry&quot;, 55),
+new Hound(&quot;Astro&quot;, 50)};
+
+// Allowed because of array covariance
+Dog[] dogs = hounds;
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/04/24/568-array-covariance/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-4814"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/04/24/568-array-covariance/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/04/24/568-array-covariance/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></div><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-4814" class="wpl-button "><a href='http://csharp.2000things.com/2012/04/24/568-array-covariance/?like=1&amp;_wpnonce=46ab77a832' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2012/04/24/568-array-covariance/"
+    dc:identifier="http://csharp.2000things.com/2012/04/24/568-array-covariance/"
+    dc:title="#568 &#8211; Array&nbsp;Covariance"
+    trackback:ping="http://csharp.2000things.com/2012/04/24/568-array-covariance/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="http://csharp.2000things.com/category/data-types/" title="View all posts in Data Types" rel="category tag">Data Types</a></span>
+						<span class="tags">Tagged with <a href="http://csharp.2000things.com/tag/array-covariance/" rel="tag">Array Covariance</a>, <a href="http://csharp.2000things.com/tag/c/" rel="tag">C#</a>, <a href="http://csharp.2000things.com/tag/covariance/" rel="tag">Covariance</a>, <a href="http://csharp.2000things.com/tag/data-types/" rel="tag">Data Types</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+	<h3 id="comments-title">One Response to <em>#568 &#8211; Array&nbsp;Covariance</em>	</h3>
+
+	<ol class="commentlist snap_preview">
+				<li class="post pingback">
+		<p>Pingback: <a href='http://csharp.2000things.com/2012/05/02/574-the-problem-with-array-covariance/' rel='external nofollow' class='url'>#574 &#8211; The Problem with Array Covariance &laquo; 2,000 Things You Should Know About C#</a></p>
+	</li>
+	</ol>
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2012/04/24/568-array-covariance/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																										
+
+
+												
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment"></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&forcedefault=y&d=identicon" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div> 
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1289230950g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+	
+	
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+});
+</script>
+
+<div id="comment-form-subscribe"> 
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='4814' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1341590519" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="17515e4145" /></p><script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1308783962g'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="64"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+<div class="wpadvert wpmrec">
+
+<div id='div-gpt-ad-1330047806923-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330047806923-0'); });
+}
+</script>
+</div>
+</div>
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://csharp.2000things.com/2012/07/06/621-sealing-a-class-to-prevent-inheritance/" title="#621 &#8211; Sealing a Class to Prevent&nbsp;Inheritance">#621 &#8211; Sealing a Class to Prevent&nbsp;Inheritance</a></li>
+				<li><a href="http://csharp.2000things.com/2012/07/05/620-inherit-from-a-class-in-a-different-assembly/" title="#620 &#8211; Inherit from a Class In A Different&nbsp;Assembly">#620 &#8211; Inherit from a Class In A Different&nbsp;Assembly</a></li>
+				<li><a href="http://csharp.2000things.com/2012/07/04/619-calling-the-constructor-in-a-base-class/" title="#619 &#8211; Calling the Constructor in a Base&nbsp;Class">#619 &#8211; Calling the Constructor in a Base&nbsp;Class</a></li>
+				<li><a href="http://csharp.2000things.com/2012/07/03/618-use-the-base-keyword-to-call-a-method-in-the-base-class/" title="#618 &#8211; Use the base Keyword to Call A Method in the Base&nbsp;Class">#618 &#8211; Use the base Keyword to Call A Method in the Base&nbsp;Class</a></li>
+				<li><a href="http://csharp.2000things.com/2012/07/02/617-the-simplest-way-to-call-a-method-in-a-base-class/" title="#617 &#8211; The Simplest Way to Call a Method in a Base&nbsp;Class">#617 &#8211; The Simplest Way to Call a Method in a Base&nbsp;Class</a></li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>April 2012</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2012/03/" title="View posts for March 2012">&laquo; Mar</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://csharp.2000things.com/2012/05/" title="View posts for May 2012">May &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr><td>1</td><td><a href="http://csharp.2000things.com/2012/04/02/" title="#552 &#8211; Anonymous Methods Have Access to Local Variables Where They Are&nbsp;Declared">2</a></td><td><a href="http://csharp.2000things.com/2012/04/03/" title="#553 &#8211; Anonymous Methods as Static or Instance&nbsp;Methods">3</a></td><td><a href="http://csharp.2000things.com/2012/04/04/" title="#554 &#8211; Rules for Matching an Anonymous Method to a Delegate&nbsp;Type">4</a></td><td><a href="http://csharp.2000things.com/2012/04/05/" title="#555 &#8211; Enumerable Objects and&nbsp;Enumerators">5</a></td><td><a href="http://csharp.2000things.com/2012/04/06/" title="#556 &#8211; Using an Enumerator&nbsp;Explicitly">6</a></td><td>7</td>
+	</tr>
+	<tr>
+		<td>8</td><td><a href="http://csharp.2000things.com/2012/04/09/" title="#557 &#8211; Using an Iterator to Return the Elements of an Enumerable&nbsp;Type">9</a></td><td><a href="http://csharp.2000things.com/2012/04/10/" title="#558 &#8211; Using an Iterator Within a for&nbsp;Loop">10</a></td><td><a href="http://csharp.2000things.com/2012/04/11/" title="#559 &#8211; An Iterator Can Return an Enumerable Type or an&nbsp;Enumerator">11</a></td><td><a href="http://csharp.2000things.com/2012/04/12/" title="#560 &#8211; Returning an Enumerator from an&nbsp;Iterator">12</a></td><td><a href="http://csharp.2000things.com/2012/04/13/" title="#561 &#8211; Using a yield break&nbsp;Statement">13</a></td><td>14</td>
+	</tr>
+	<tr>
+		<td>15</td><td><a href="http://csharp.2000things.com/2012/04/16/" title="#562 &#8211; What an Iterator Looks Like Under the&nbsp;Covers">16</a></td><td><a href="http://csharp.2000things.com/2012/04/17/" title="#563 &#8211; Enumerable Types Can Generate Multiple&nbsp;Enumerators">17</a></td><td><a href="http://csharp.2000things.com/2012/04/18/" title="#564 &#8211; Use the Reverse Method to Iterate Backwards through a&nbsp;Collection">18</a></td><td><a href="http://csharp.2000things.com/2012/04/19/" title="#565 &#8211; Using an Iterator to Return A Shuffled&nbsp;Sequence">19</a></td><td><a href="http://csharp.2000things.com/2012/04/20/" title="#566 &#8211; Implicit Conversions to Nullable&nbsp;Types">20</a></td><td>21</td>
+	</tr>
+	<tr>
+		<td>22</td><td><a href="http://csharp.2000things.com/2012/04/23/" title="#567 &#8211; Wider vs. Narrower&nbsp;Types">23</a></td><td><a href="http://csharp.2000things.com/2012/04/24/" title="#568 &#8211; Array&nbsp;Covariance">24</a></td><td><a href="http://csharp.2000things.com/2012/04/25/" title="#569 &#8211; Assignment&nbsp;Compatibility">25</a></td><td><a href="http://csharp.2000things.com/2012/04/26/" title="#570 &#8211; Assignment Compatibility for Reference&nbsp;Types">26</a></td><td><a href="http://csharp.2000things.com/2012/04/27/" title="#571 &#8211; Covariance in Programming&nbsp;Languages">27</a></td><td>28</td>
+	</tr>
+	<tr>
+		<td>29</td><td><a href="http://csharp.2000things.com/2012/04/30/" title="#572 &#8211; Why Array Covariance Is Called&nbsp;Covariance">30</a></td>
+		<td class="pad" colspan="5">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://csharp.2000things.com/index/'>Index</a></li><li><a href='http://csharp.2000things.com/2010/06/30/specify-command-line-arguments-in-visual-studio-2010/'>#13 - Specify Command Line Arguments in Visual Studio 2010</a></li><li><a href='http://csharp.2000things.com/2012/07/05/620-inherit-from-a-class-in-a-different-assembly/'>#620 - Inherit from a Class In A Different Assembly</a></li><li><a href='http://csharp.2000things.com/2010/07/01/composite-format-strings-in-c/'>#14 - Composite Format Strings in C#</a></li><li><a href='http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/'>#143 - An Example of Implementing ICloneable for Deep Copies</a></li><li><a href='http://csharp.2000things.com/2012/07/04/619-calling-the-constructor-in-a-base-class/'>#619 - Calling the Constructor in a Base Class</a></li><li><a href='http://csharp.2000things.com/2011/04/15/302-generating-an-xml-documentation-file/'>#302 - Generating an XML Documentation File</a></li><li><a href='http://csharp.2000things.com/2010/07/11/24-character-literals/'>#24 - Character Literals</a></li><li><a href='http://csharp.2000things.com/2010/06/18/what-the-main-signature-looks-like/'>#1 - What the Main() Signature Looks Like</a></li><li><a href='http://csharp.2000things.com/2010/06/20/who-designed-c/'>#3 - Who Designed C#?</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/define/' class='tag-link-30689' title='8 topics' style='font-size: 8.7253886010363pt;'>#define</a>
+<a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='13 topics' style='font-size: 10.176165803109pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/operator/' class='tag-link-283374' title='8 topics' style='font-size: 8.7253886010363pt;'>== operator</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='13 topics' style='font-size: 10.176165803109pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/arguments/' class='tag-link-12589' title='6 topics' style='font-size: 8pt;'>Arguments</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='9 topics' style='font-size: 9.0880829015544pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='32 topics' style='font-size: 12.860103626943pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/basics/' class='tag-link-8516' title='74 topics' style='font-size: 15.471502590674pt;'>Basics</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='603 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='14 topics' style='font-size: 10.39378238342pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='91 topics' style='font-size: 16.051813471503pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='11 topics' style='font-size: 9.6683937823834pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='8 topics' style='font-size: 8.7253886010363pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='14 topics' style='font-size: 10.39378238342pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='42 topics' style='font-size: 13.658031088083pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/delegate/' class='tag-link-445004' title='9 topics' style='font-size: 9.0880829015544pt;'>Delegate</a>
+<a href='http://csharp.2000things.com/tag/delegates/' class='tag-link-117466' title='16 topics' style='font-size: 10.756476683938pt;'>Delegates</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='18 topics' style='font-size: 11.119170984456pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/enumeration/' class='tag-link-1971288' title='11 topics' style='font-size: 9.6683937823834pt;'>Enumeration</a>
+<a href='http://csharp.2000things.com/tag/equality/' class='tag-link-47506' title='7 topics' style='font-size: 8.3626943005181pt;'>Equality</a>
+<a href='http://csharp.2000things.com/tag/equals/' class='tag-link-220607' title='9 topics' style='font-size: 9.0880829015544pt;'>Equals</a>
+<a href='http://csharp.2000things.com/tag/events/' class='tag-link-924' title='18 topics' style='font-size: 11.119170984456pt;'>Events</a>
+<a href='http://csharp.2000things.com/tag/fields/' class='tag-link-47332' title='7 topics' style='font-size: 8.3626943005181pt;'>Fields</a>
+<a href='http://csharp.2000things.com/tag/generics/' class='tag-link-18369' title='14 topics' style='font-size: 10.39378238342pt;'>Generics</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='8 topics' style='font-size: 8.7253886010363pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/inheritance/' class='tag-link-84839' title='13 topics' style='font-size: 10.176165803109pt;'>Inheritance</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='8 topics' style='font-size: 8.7253886010363pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/interfaces/' class='tag-link-5037' title='27 topics' style='font-size: 12.352331606218pt;'>Interfaces</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 8pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='6 topics' style='font-size: 8pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='51 topics' style='font-size: 14.310880829016pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/namespaces/' class='tag-link-102206' title='12 topics' style='font-size: 9.8860103626943pt;'>Namespaces</a>
+<a href='http://csharp.2000things.com/tag/new/' class='tag-link-4597' title='11 topics' style='font-size: 9.6683937823834pt;'>new</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='9 topics' style='font-size: 9.0880829015544pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/operators/' class='tag-link-73644' title='27 topics' style='font-size: 12.352331606218pt;'>Operators</a>
+<a href='http://csharp.2000things.com/tag/optional-parameters/' class='tag-link-17996604' title='8 topics' style='font-size: 8.7253886010363pt;'>Optional Parameters</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='12 topics' style='font-size: 9.8860103626943pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/polymorphism/' class='tag-link-875803' title='11 topics' style='font-size: 9.6683937823834pt;'>Polymorphism</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='23 topics' style='font-size: 11.844559585492pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='14 topics' style='font-size: 10.39378238342pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='8 topics' style='font-size: 8.7253886010363pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='16 topics' style='font-size: 10.756476683938pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='16 topics' style='font-size: 10.756476683938pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='8 topics' style='font-size: 8.7253886010363pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='27 topics' style='font-size: 12.352331606218pt;'>Visual Studio</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>90,699 hits</li>
+			</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/" title="Learn more about this theme">Enterprise</a> by <a href="http://www.studiopress.com/" rel="designer">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?aa&#038;ver=3.5-alpha'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1318621548g'></script>
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.array-covariance,posttag.c,posttag.covariance,posttag.data-types,wa.as.fm.enterprisetech,wa.pv.ads.2000thingscsharp"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.array-covariance%2Cposttag.c%2Cposttag.covariance%2Cposttag.data-types%2Cwa.as.fm.enterprisetech%2Cwa.pv.ads.2000thingscsharp" height="1" width="1" alt="" /></div></noscript>
+
+
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	(function($){
+		$(document).on( 'ready post-load', function() {
+
+			// Remove the login box when clicking the page
+			$( document ).mousedown( function( e ) {
+				if ( null == $( e.target ).closest( '#wpl-mustlogin' ).get( 0 ) ) {
+					$( '#wpl-mustlogin' ).remove();
+				}
+			});
+
+			// Handle clicking the like button itself
+			$('.wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+
+				var postid = $(this).parent().attr('id').split('like-')[1];
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=8b7dec2628; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+
+				$(this).parent().siblings('.wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="https://2000thingscsharp.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="postid" value="' + postid + '" /> \
+							<input type="hidden" name="redirect_to" value="http://csharp.2000things.com/2012/04/24/568-array-covariance?year=2012&#038;monthnum=04&#038;day=24&#038;name=568-array-covariance&#038;like=1" /> \
+							<input type="hidden" name="wpl_rand" value="8b7dec2628" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+
+				$('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+
+			$('#wpl-mustlogin input.input').live( 'focus', function() {
+				$(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( $(this).val() == '' ) {
+					$(this).prev().show();
+				}
+			});
+
+			$('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					$('#wpl-mustlogin form').submit();
+				} );
+			});
+
+			$('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+
+				var link = $(this).attr('href');
+
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});
+		})
+	})(jQuery);
+	/* ]]> */
+	</script>
+
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {'http://csharp.2000things.com/2012/04/24/568-array-covariance/':'4814'};
+	</script>
+	
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+		<style type="text/css">
+			
+				.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+				.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+				.reblogger-note-content            { margin: 0 0 20px; }
+				.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+				.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+				.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+				.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+				.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+
+				.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+
+				.reblog-post .wpcom-enhanced-excerpt address,
+				.reblog-post .wpcom-enhanced-excerpt li,
+				.reblog-post .wpcom-enhanced-excerpt h1,
+				.reblog-post .wpcom-enhanced-excerpt h2,
+				.reblog-post .wpcom-enhanced-excerpt h3,
+				.reblog-post .wpcom-enhanced-excerpt h4,
+				.reblog-post .wpcom-enhanced-excerpt h5,
+				.reblog-post .wpcom-enhanced-excerpt h6,
+				.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+
+				.reblog-post .wpcom-enhanced-excerpt blockquote,
+				.reblog-post .wpcom-enhanced-excerpt pre,
+				.reblog-post .wpcom-enhanced-excerpt code,
+				.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+					</style><script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingscsharp.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingscsharp.wordpress.com\/wp-login.php?action=logout&_wpnonce=ff5bb819b0","homeURL":"http:\/\/csharp.2000things.com\/","postID":"4814","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/script.js?m=1340054924g'></script>
+	
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+			
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About C#&rdquo;</label></h3>
+		
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+			
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 57 other followers</p>		
+			
+			<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14273916"/>
+			<input type="hidden" name="source" value="http://csharp.2000things.com/2012/04/24/568-array-covariance/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="8409cfad24" /><input type="hidden" name="_wp_http_referer" value="/2012/04/24/568-array-covariance/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/post-flair/sharing/sharing.js?m=1337969958g'></script>
+		<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function(){
+			jQuery( '.share-twitter' ).click(function(){
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+		<script type='text/javascript' src='http://s2.wp.com/_static/??/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js,/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1338000963j'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1267535107g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1317424672g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://s2.wp.com/_static/??/wp-content/js/devicepx.js,/wp-content/mu-plugins/notes/underscore.js,/wp-content/mu-plugins/notes/backbone.js,/wp-content/mu-plugins/notes/mustache.js,/wp-content/mu-plugins/notes/notes-rest-common.js?m=1341003658j'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','user_id':'0','post':'4814','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1LZ2xfJXEyPWZCW2RIR0FaYVJPd0I3eGkuZ2k2NWxwVnlQUElWXTI5eS5wODglRjBDNG9hd1BTfkVCaCtCaC42VzBVYlVfMk91dFljZE4/VmFCZHdpUHVaVGNDfCVaenEsUW1bUUNVLzRLNixWeHFVLDlTeHxNY0IsLkJrcnp0eS5salAsU2JWakR1elBvZCZiTkEzXXlsLi1PU25PbltLcyZONi1Lay1ia3RtU0ZEcmxjdDdab2FqP3lnNTdjWUJBJW9+MythaEZ2SG9naWl+fHhYbzFTJlVDVm13LF16UnU3VHlTVnNmPU44bS18bktCRElLekVQVnF6ZD9Sclh+T1hwbW1udk58Wnpfdi9kdFNjcjMxRFUyb0FuW0JOYkhYZ2xOc0MwZy09MF81aXNUSg=='});
+addLoadEvent(function(){linktracker_init('14273916',4814);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+
+<script type="text/javascript">try{zoomImgs();setInterval(zoomImgs,1000);}catch(e){}</script>
+
+
+</body>
+</html>

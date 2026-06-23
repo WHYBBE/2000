@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,140 – Using a Value Converter in a Template</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-08-19-1139-value-converter-example-for-input.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-21-1141-attached-properties-allow-customization-of-existing-controls.html">Next</a></nav>
+  <h1>#1,140 – Using a Value Converter in a Template</h1>
+  <p class="meta">2014-08-20 | <a href="http://wpf.2000things.com/2014/08/20/1140-using-a-value-converter-in-a-template/">Original URL</a> | Wayback 20140919172844</p>
+  <article><div class="post-9175 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-template tag-value-converter tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 20, 2014</span>
+																						<span class="post-comments"><a href="2014-08-20-1140-using-a-value-converter-in-a-template.html" title="Comment on #1,140 &#8211; Using a Value Converter in a&nbsp;Template">4 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>You can use a <a href="2014-08-15-1137-value-converter-basics.html">value converter</a> anywhere in XAML where you are using data binding.</p>
+<p>Below is an example of using a value converter within a data template.  The <strong>Visibility </strong>property is bound to the underlying <strong>Actor</strong> object that is the data context for the item template.  The value converter then derives a value for <strong>Visibility </strong>from several properties within the <strong>Actor </strong>object.  (Assume that we have an <strong>ActorList</strong> property that is a <a href="2013-12-06-966-listbox-data-binding-basics-part-iii.html">collection of <strong>Actor</strong> instances).</a></p>
+<p>The XAML includes:</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;Window.Resources&gt;
+        &lt;loc:DeadFredConverter x:Key=&quot;deadFredConverter&quot;/&gt;
+    &lt;/Window.Resources&gt;
+
+    &lt;StackPanel&gt;
+        &lt;ListBox Margin=&quot;15&quot; Width=&quot;270&quot; Height=&quot;320&quot;
+             ItemsSource=&quot;{Binding ActorList}&quot;&gt;
+            &lt;ListBox.ItemTemplate&gt;
+                &lt;DataTemplate&gt;
+                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+                        &lt;Image Source=&quot;{Binding Image}&quot; Height=&quot;80&quot;/&gt;
+                        &lt;StackPanel Margin=&quot;5&quot;&gt;
+                            &lt;TextBlock Text=&quot;{Binding FullName}&quot; FontSize=&quot;12&quot; FontWeight=&quot;Bold&quot;/&gt;
+                            &lt;TextBlock Text=&quot;{Binding Dates}&quot;/&gt;
+                            &lt;TextBlock Text=&quot;{Binding KnownFor}&quot; Margin=&quot;0,5,0,0&quot; FontStyle=&quot;Italic&quot;/&gt;
+                        &lt;/StackPanel&gt;
+                        &lt;Label Content=&quot;Dead Fred !&quot; Foreground=&quot;Red&quot;
+                               FontWeight=&quot;Bold&quot;
+                               Visibility=&quot;{Binding Converter={StaticResource deadFredConverter}}&quot;/&gt;
+                    &lt;/StackPanel&gt;
+                &lt;/DataTemplate&gt;
+            &lt;/ListBox.ItemTemplate&gt;
+        &lt;/ListBox&gt;
+    &lt;/StackPanel&gt;
+</pre>
+<p>The body of the value converter is:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    class DeadFredConverter : IValueConverter
+    {
+        // Convert to Visibility, deriving from properties on Actor object
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            Actor a = (Actor)value;
+
+            Visibility vis = Visibility.Hidden;
+
+            if ((a.FirstName == &quot;Fred&quot;) &amp;&amp;
+                a.DeathYear.HasValue &amp;&amp;
+                (a.DeathYear &lt;= DateTime.Today.Year))
+                vis = Visibility.Visible;
+
+            return vis;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+</pre>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1140-001.png"><img class="alignnone size-full wp-image-9177" src="https://web.archive.org/web/20140919172844id_/http://2000thingswpf.files.wordpress.com/2014/08/1140-001.png?w=630" alt="1140-001"   /></a></p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/08/20/1140-using-a-value-converter-in-a-template/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "data-binding");
+GA_googleAddAttr("Tag", "data-binding");
+GA_googleAddAttr("Tag", "template");
+GA_googleAddAttr("Tag", "value-converter");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/08/20/1140-using-a-value-converter-in-a-template/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, Template, Value Converter, WPF</p>
+  <nav class="pager"><a href="2014-08-19-1139-value-converter-example-for-input.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-21-1141-attached-properties-allow-customization-of-existing-controls.html">Next</a></nav>
+</main>
+
+</body>
+</html>

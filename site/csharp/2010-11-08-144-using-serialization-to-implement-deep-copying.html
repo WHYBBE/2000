@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#144 – Using Serialization to Implement Deep Copying</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-07-143-an-example-of-implementing-icloneable-for-deep-copies.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-09-145-using-array-find-to-search-an-unsorted-array.html">Next</a></nav>
+  <h1>#144 – Using Serialization to Implement Deep Copying</h1>
+  <p class="meta">2010-11-08 | <a href="http://csharp.2000things.com/2010/11/08/144-using-serialization-to-implement-deep-copying/">Original URL</a> | Wayback 20111007212511</p>
+  <article><div class="post-1412 post type-post status-publish format-standard hentry category-classes tag-c tag-deep-copy tag-serialization">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">November 8, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2010-11-08-144-using-serialization-to-implement-deep-copying.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>One alternative to using the <strong>ICloneable</strong> interface to support <a href="http://wp.me/pXTis-mw">making a deep copy</a> for a custom type is to use serialization.</p>
+<p>This method will work only if the class to be copied, as well as all classes referenced by it (directly or indirectly), are serializable.</p>
+<p>For example, if we have a <strong>Person</strong> class that has some value-typed members, but also a reference to an instance of the <strong>Address</strong> class, both the <strong>Person</strong> and <strong>Address</strong> classes have to be serializable in order to use this technique.</p>
+<p>Here&#8217;s a generic method that makes a deep copy using serialization, serializing the object into a stream and then deserializing into a new object.</p>
+<pre class="brush: csharp;">
+        public static T DeepCopy&lt;T&gt;(T obj)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, obj);
+                stream.Position = 0;
+
+                return (T)formatter.Deserialize(stream);
+            }
+        }
+</pre>
+<p>Using this method to deep copy a <strong>Person</strong>:</p>
+<pre class="brush: csharp;">
+            Person bronteClone = DeepCopy&lt;Person&gt;(emily);
+</pre>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/11/08/144-using-serialization-to-implement-deep-copying/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/11/08/144-using-serialization-to-implement-deep-copying/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/11/08/144-using-serialization-to-implement-deep-copying/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Deep Copy, Serialization</p>
+  <nav class="pager"><a href="2010-11-07-143-an-example-of-implementing-icloneable-for-deep-copies.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-09-145-using-array-find-to-search-an-unsorted-array.html">Next</a></nav>
+</main>
+
+</body>
+</html>

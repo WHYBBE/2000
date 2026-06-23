@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#219 – Unboxing a Boxed Object</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-01-21-218-store-value-typed-objects-on-the-heap-through-boxing.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-23-220-boxing-can-happen-automatically.html">Next</a></nav>
+  <h1>#219 – Unboxing a Boxed Object</h1>
+  <p class="meta">2011-01-22 | <a href="http://csharp.2000things.com/2011/01/22/219-unboxing-a-boxed-object/">Original URL</a> | Wayback 20110127035203</p>
+  <article><div class="post-1962 post type-post status-publish format-standard hentry category-data-types tag-boxing tag-c tag-unboxing">
+				
+           		<div class="entry">
+                                                
+                    
+                        
+                    <div class="post-info">
+                        <p><span class="time">January 22, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-01-22-219-unboxing-a-boxed-object.html">Leave a Comment</a></span> </p> 
+                    </div>
+               
+                    <p>If you&#8217;ve converted a value-typed object to a reference-typed object by <a href="2011-01-21-218-store-value-typed-objects-on-the-heap-through-boxing.html">boxing</a> it, you can later <em>unbox</em> the object, converting it back to a value type.</p>
+<p>Assume that we&#8217;ve boxed an integer value as follows:</p>
+<pre class="brush: csharp;">
+            int i = 1964;
+            object o = i;   // Box i
+</pre>
+<p>Now we have a copy of the integer in a new object on the heap.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/01/001-twothings.png"><img class="alignnone size-full wp-image-1964" title="001-TwoThings" src="https://web.archive.org/web/20110127035203id_/http://2000thingscsharp.files.wordpress.com/2011/01/001-twothings.png?w=248&amp;h=106" alt="" width="248" height="106" /></a></p>
+<p>We can later convert this object back to a value type.  This is known as <em>unboxing</em>.</p>
+<pre class="brush: csharp;">
+            int j = (int)o;  // Unbox
+</pre>
+<p>When we unbox, we need to explicitly cast the object to the value type.  Because the integer derives from <strong>System.Object</strong>, we can convert it to an object implicitly, but when converting from an <strong>object</strong> to an <strong>int</strong>, we need an explicit cast.</p>
+<p>As with boxing, unboxing copies the value of the heap-based object.  It does not delete the object on the heap or free its memory.</p>
+<div class="clear"></div>
+                                                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/01/22/219-unboxing-a-boxed-object/"
+    dc:identifier="http://csharp.2000things.com/2011/01/22/219-unboxing-a-boxed-object/"
+    dc:title="#219 &#8211; Unboxing a Boxed&nbsp;Object"
+    trackback:ping="http://csharp.2000things.com/2011/01/22/219-unboxing-a-boxed-object/trackback/" />
+</rdf:RDF>                    -->
+                
+                </div>
+                    
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/data-types/" title="View all posts in Data Types" rel="category tag">Data Types</a></span>  
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/boxing/" rel="tag">Boxing</a>, <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/unboxing/" rel="tag">Unboxing</a></span>                    </p>
+                </div>
+                                
+            </div></article>
+  <p class="meta">Categories: Data Types | Tags: Boxing, C#, Unboxing</p>
+  <nav class="pager"><a href="2011-01-21-218-store-value-typed-objects-on-the-heap-through-boxing.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-23-220-boxing-can-happen-automatically.html">Next</a></nav>
+</main>
+
+</body>
+</html>

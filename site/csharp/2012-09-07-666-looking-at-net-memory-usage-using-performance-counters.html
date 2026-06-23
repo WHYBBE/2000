@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#666 – Looking at .NET Memory Usage Using Performance Counters</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-09-06-665-maximum-amount-of-virtual-memory.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-10-667-net-memory-performance-counters-updated-when-garbage-collector-runs.html">Next</a></nav>
+  <h1>#666 – Looking at .NET Memory Usage Using Performance Counters</h1>
+  <p class="meta">2012-09-07 | <a href="http://csharp.2000things.com/2012/09/07/666-looking-at-net-memory-usage-using-performance-counters/">Original URL</a> | Wayback 20130817151306</p>
+  <article><div class="post-5644 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-heap tag-memory tag-virtual-memory">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 7, 2012</span>
+																						<span class="post-comments"><a href="2012-09-07-666-looking-at-net-memory-usage-using-performance-counters.html" title="Comment on #666 &#8211; Looking at .NET Memory Usage Using Performance&nbsp;Counters">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>As you create new objects in .NET, the garbage collector <a href="2011-01-30-227-instances-of-classes-are-created-on-the-heap.html">allocates memory for the objects</a> on the heap.  As memory is allocated, the process consumes some of its <a href="http://wp.me/pXTis-1sX">available virtual memory</a>.  (In practice, a 32-bit process can allocate at most around 1.5GB of its 2GB maximum).</p>
+<p>You can keep track of (roughly) how much memory on the managed heap that your application has allocated by using performance counters.</p>
+<p>To track memory usage:</p>
+<ul>
+<li>Start Performance Monitor</li>
+</ul>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/666-004.png"><img class="alignnone size-full wp-image-5651" title="666-004" src="https://web.archive.org/web/20130817151306id_/http://2000thingscsharp.files.wordpress.com/2012/09/666-004.png?w=630" alt=""   /></a></p>
+<p>&nbsp;</p>
+<ul>
+<li>Start your application</li>
+<li>Click the &#8220;+&#8221; icon to add a counter</li>
+</ul>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/666-005.png"><img class="alignnone size-full wp-image-5653" title="666-005" src="https://web.archive.org/web/20130817151306id_/http://2000thingscsharp.files.wordpress.com/2012/09/666-005.png?w=630" alt=""   /></a></p>
+<ul>
+<li>Expand the <strong>.NET CLR Memory</strong> section</li>
+</ul>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/666-001.png"><img class="alignnone size-full wp-image-5646" title="666-001" src="https://web.archive.org/web/20130817151306id_/http://2000thingscsharp.files.wordpress.com/2012/09/666-001.png?w=630" alt=""   /></a></p>
+<ul>
+<li>Select the <strong># Total Reserved Bytes</strong> counter and select your application</li>
+</ul>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/666-002.png"><img class="alignnone size-full wp-image-5647" title="666-002" src="https://web.archive.org/web/20130817151306id_/http://2000thingscsharp.files.wordpress.com/2012/09/666-002.png?w=630" alt=""   /></a></p>
+<ul>
+<li>Click the <strong>Add </strong>button and then click <strong>OK</strong></li>
+</ul>
+<p>You&#8217;ll now see a graph indicating total number of bytes of memory that your application has reserved.  The <strong>Last</strong> field will show you the most recent value.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/666-003.png"><img class="alignnone size-full wp-image-5648" title="666-003" src="https://web.archive.org/web/20130817151306id_/http://2000thingscsharp.files.wordpress.com/2012/09/666-003.png?w=630&amp;h=419" alt="" width="630" height="419" /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "basics");
+GA_googleAddAttr("Tag", "basics");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "heap");
+GA_googleAddAttr("Tag", "memory");
+GA_googleAddAttr("Tag", "virtual-memory");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2012/09/07/666-looking-at-net-memory-usage-using-performance-counters/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/09/07/666-looking-at-net-memory-usage-using-performance-counters/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5644"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/09/07/666-looking-at-net-memory-usage-using-performance-counters/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/09/07/666-looking-at-net-memory-usage-using-performance-counters/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#, Heap, Memory, Virtual Memory</p>
+  <nav class="pager"><a href="2012-09-06-665-maximum-amount-of-virtual-memory.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-10-667-net-memory-performance-counters-updated-when-garbage-collector-runs.html">Next</a></nav>
+</main>
+
+</body>
+</html>

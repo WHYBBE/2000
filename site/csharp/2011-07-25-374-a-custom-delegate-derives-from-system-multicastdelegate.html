@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#374 – A Custom Delegate Derives from System.MulticastDelegate</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-07-26-375-using-getinvocationlist-to-get-a-list-of-individual-delegates.html">Next</a></nav>
+  <h1>#374 – A Custom Delegate Derives from System.MulticastDelegate</h1>
+  <p class="meta">2011-07-25 | <a href="http://csharp.2000things.com/2011/07/25/374-a-custom-delegate-derives-from-system-multicastdelegate/">Original URL</a> | Wayback 20130107123447</p>
+  <article><div class="post-3150 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-delegate tag-delegates tag-multicastdelegate">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 25, 2011</span>
+																						<span class="post-comments"><a href="2011-07-25-374-a-custom-delegate-derives-from-system-multicastdelegate.html" title="Comment on #374 &#8211; A Custom Delegate Derives from&nbsp;System.MulticastDelegate">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You define a new delegate in C# using the <strong>delegate</strong> keyword.</p>
+<p><pre class="brush: csharp;">
+        private delegate void StringHandlerDelegate(string s);
+</pre></p>
+<p>This is equivalent to defining a new class that inherits from <strong>System.MulticastDelegate</strong> (which in turn inherits from <strong>System.Delegate</strong>).  <strong>MulticastDelegate</strong> is a class that knows how to refer to a set of methods&#8211;known as as the delegates <em>invocation list</em>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/07/001-extends.png"><img class="alignnone size-full wp-image-3153" title="001-Extends" src="https://web.archive.org/web/20130107123447id_/http://2000thingscsharp.files.wordpress.com/2011/07/001-extends.png?w=630&amp;h=344" alt="" width="630" height="344" /></a></p>
+<p>Later in your code, you declare an instance of your delegate and set it equal to a method.</p>
+<p><pre class="brush: csharp;">
+            StringHandlerDelegate del = Method1;
+</pre></p>
+<p>When you do this, you&#8217;re creating an instance of the new <strong>MulticastDelegate</strong> subclass and giving it a reference to the <strong>Method1</strong> method.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/07/002-constructor.png"><img class="alignnone size-full wp-image-3154" title="002-Constructor" src="https://web.archive.org/web/20130107123447id_/http://2000thingscsharp.files.wordpress.com/2011/07/002-constructor.png?w=630&amp;h=189" alt="" width="630" height="189" /></a></p>
+<p>You can also add a second method to the invocation list using the += operator.</p>
+<p><pre class="brush: csharp;">
+            del += Method2;
+</pre></p>
+<p>At this point, a new delegate is created and <strong>System.Delegate.Combine</strong> method is then called to combine the two delegates into a new delegate that points to both methods.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/07/003-combine.png"><img class="alignnone size-full wp-image-3162" title="003-Combine" src="https://web.archive.org/web/20130107123447id_/http://2000thingscsharp.files.wordpress.com/2011/07/003-combine.png?w=630&amp;h=85" alt="" width="630" height="85" /></a></p>
+		<div class="wpcnt" style="text-align: center;">
+			<div class="wpadvert wpalt" style="text-align: center; position: relative; margin: 10px auto; overflow: hidden; display: inline-block;">
+				<a class="wpadvert-about" style="position: absolute; padding: 0 1px; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<script type='text/javascript'>
+					GA_googleFillSlot("Wordads_MIS_Mrec_Below_adsafe");
+
+				</script>
+				<style type='text/css'>
+				div.wpadvert>div { margin-top: 1em; }
+				body.highlander-light .wpadvert>a { color: #222; }
+				body.highlander-dark .wpadvert>a { color: #ddd; }
+				</style>
+			</div>
+		</div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#, Delegate, Delegates, MulticastDelegate</p>
+  <nav class="pager"><a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-07-26-375-using-getinvocationlist-to-get-a-list-of-individual-delegates.html">Next</a></nav>
+</main>
+
+</body>
+</html>

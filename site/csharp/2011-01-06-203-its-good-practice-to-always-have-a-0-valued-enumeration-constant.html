@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#203 – It’s Good Practice to Always Have a 0-Valued Enumeration Constant</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-01-05-202-all-fields-in-an-object-are-automatically-initialized.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-07-204-three-rules-about-using-implicitly-typed-variables.html">Next</a></nav>
+  <h1>#203 – It’s Good Practice to Always Have a 0-Valued Enumeration Constant</h1>
+  <p class="meta">2011-01-06 | <a href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/">Original URL</a> | Wayback 20120714000355</p>
+  <article><div class="post-1841 post type-post status-publish format-standard hentry category-data-types tag-c tag-enum">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 6, 2011</span>
+																						<span class="post-comments"><a href="2011-01-06-203-its-good-practice-to-always-have-a-0-valued-enumeration-constant.html" title="Comment on #203 &#8211; It&#8217;s Good Practice to Always Have a 0-Valued Enumeration&nbsp;Constant">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>We saw earlier that you can <a href="2010-12-26-192-using-non-default-constant-values-for-enumeration-members.html">declare any values</a> you like for an enum type&#8217;s constants.</p>
+<p><pre class="brush: csharp;">
+public enum Mood {
+    Crabby = -5,
+    Happy = 5,
+    Petulant = -2,
+    Elated = 10};
+</pre></p>
+<p>Clearly we can declare an <strong>enum </strong>type that has no constant that maps to the value of 0.</p>
+<p>We saw earlier, however, that fields in a reference type are zeroed out when an instance of that object is constructed.  This can lead to having an enumerated field/property that has a 0 value but no matching constant in the enumerated type.</p>
+<p><pre class="brush: csharp;">
+            Person p = new Person(&quot;Lillian&quot;, &quot;Gish&quot;);
+
+            Mood theMood = Mood.Happy;
+            Console.WriteLine(theMood);    // Happy
+
+            theMood = p.PersonMood;
+            Console.WriteLine(theMood);    // 0   (unable to map to a constant)
+</pre></p>
+<p>This is allowed, since the enumerated value can be any integer.  But it&#8217;s better practice to always define a 0-valued constant.</p>
+<p><pre class="brush: csharp;">
+    public enum Mood
+    {
+        NONE = 0,
+        Crabby = -5,
+        Happy = 5,
+        Petulant = -2,
+        Elated = 10
+    };
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-1841"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: C#, Enum</p>
+  <nav class="pager"><a href="2011-01-05-202-all-fields-in-an-object-are-automatically-initialized.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-07-204-three-rules-about-using-implicitly-typed-variables.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#358 – Binding a RadioButton to an Enumerated Type</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-04-357-radiobutton-is-a-contentcontrol.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-08-359-togglebutton-basics.html">Next</a></nav>
+  <h1>#358 – Binding a RadioButton to an Enumerated Type</h1>
+  <p class="meta">2011-08-05 | <a href="http://wpf.2000things.com/2011/08/05/358-binding-a-radiobutton-to-an-enumerated-type/">Original URL</a> | Wayback 20120204020500</p>
+  <article><div class="post-2927 post type-post status-publish format-standard hentry category-controls tag-controls tag-enumeration tag-radiobutton tag-value-converter tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">August 5, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-08-05-358-binding-a-radiobutton-to-an-enumerated-type.html">3 Comments</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You can bind <strong>RadioButton</strong> controls to an enum by using a value converter.</p>
+<p>The XAML:</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;loc:EnumToBooleanConverter x:Key=&quot;enumToBooleanConverter&quot; /&gt;
+    &lt;/Window.Resources&gt;
+
+    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot;&gt;
+        &lt;Label Content=&quot;Favorite animated character?&quot;/&gt;
+        &lt;RadioButton IsChecked=&quot;{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.Gumby}}&quot;
+                     Content=&quot;Gumby&quot;/&gt;
+        &lt;RadioButton IsChecked=&quot;{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.PinkPanther}}&quot;
+                     Content=&quot;Pink Panther&quot;/&gt;
+        &lt;RadioButton IsChecked=&quot;{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.Magoo}}&quot;
+                     Content=&quot;Mr. Magoo&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>The enumeration:</p>
+<p><pre class="brush: csharp;">
+    public enum CartoonCharacters
+    {
+        Gumby,
+        PinkPanther,
+        Magoo
+    }
+</pre></p>
+<p>The enum-based property you&#8217;re binding to:</p>
+<p><pre class="brush: csharp;">
+        public CartoonCharacters FavCharacter { get; set; }
+</pre></p>
+<p>And the value converter referenced by the XAML:</p>
+<p><pre class="brush: csharp;">
+    public class EnumToBooleanConverter : IValueConverter
+    {
+        // Convert enum [value] to boolean, true if matches [param]
+        public object Convert(object value, Type targetType, object param, CultureInfo culture)
+        {
+            return value.Equals(param);
+        }
+
+        // Convert boolean to enum, returning [param] if true
+        public object ConvertBack(object value, Type targetType, object param, CultureInfo culture)
+        {
+            return (bool)value ? param : Binding.DoNothing;
+        }
+    }
+</pre></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-08-05-358-binding-a-radiobutton-to-an-enumerated-type.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Enumeration, RadioButton, Value Converter, WPF</p>
+  <nav class="pager"><a href="2011-08-04-357-radiobutton-is-a-contentcontrol.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-08-359-togglebutton-basics.html">Next</a></nav>
+</main>
+
+</body>
+</html>

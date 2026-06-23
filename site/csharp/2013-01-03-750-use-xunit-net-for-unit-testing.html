@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#750 – Use xUnit.net for Unit Testing</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2013-01-02-749-example-of-some-c-design-patterns.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-01-04-751-inheritance-only-partially-preserves-encapsulation.html">Next</a></nav>
+  <h1>#750 – Use xUnit.net for Unit Testing</h1>
+  <p class="meta">2013-01-03 | <a href="http://csharp.2000things.com/2013/01/03/750-use-xunit-net-for-unit-testing/">Original URL</a> | Wayback 20130111055605</p>
+  <article><div class="post-6454 post type-post status-publish format-standard hentry category-miscellaneous tag-c tag-miscellaneous tag-testing tag-unit-testing tag-xunit-net">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 3, 2013</span>
+																						<span class="post-comments"><a href="2013-01-03-750-use-xunit-net-for-unit-testing.html" title="Comment on #750 &#8211; Use xUnit.net for Unit&nbsp;Testing">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>On Codeplex, you&#8217;ll find a project called <a href="http://xunit.codeplex.com/">xUnit.net</a>&#8211;a unit testing framework that allows you to write and run unit tests against your code.</p>
+<p>To use <strong>xUnit.net</strong>, you write test methods that invoke the methods that you want to test and then make various assertions about the expected results.</p>
+<p>For example, assume that you have a <strong>Divide </strong>method:</p>
+<p><pre class="brush: csharp;">
+        public static double Divide(double a, double b)
+</pre></p>
+<p>You can then use <strong>xUnit.net</strong> to write a test method that makes several assertions about what it expects the results of calling the <strong>Divide</strong> method to be.</p>
+<p><pre class="brush: csharp;">
+    public class SomeTests
+    {
+        [Fact]
+        public void DivideTest()
+        {
+            Assert.Equal(3.0, MathClass.Divide(6.0, 2.0));
+            Assert.InRange&lt;double&gt;(MathClass.Divide(1.0, 3.0), 0.3333, 0.3334);
+
+            Assert.Equal(3.14, MathClass.Divide(Math.PI, 1.0));  // Fails!
+        }
+    }
+</pre></p>
+<p>After you build your project, you can use the xUnit test console to run your unit tests.  It will indicate how many tests passed or failed.</p>
+<p><a href="http://csharp.2000things.com/?attachment_id=6456" rel="attachment wp-att-6456"><img class="alignnone size-full wp-image-6456" alt="750-001" src="https://web.archive.org/web/20130111055605id_/http://2000thingscsharp.files.wordpress.com/2013/01/750-001.png?w=630&amp;h=239" width="630" height="239" /></a></p>
+		<div class="wpcnt" style="text-align: center;">
+			<div class="wpadvert wpalt" style="text-align: center; position: relative; margin: 10px auto; overflow: hidden; display: inline-block;">
+				<a class="wpadvert-about" style="position: absolute; padding: 0 1px; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<script type='text/javascript'>
+					GA_googleFillSlot("Wordads_MIS_Mrec_Below_adsafe");
+
+				</script>
+				<style type='text/css'>
+				div.wpadvert>div { margin-top: 1em; }
+				body.highlander-light .wpadvert>a { color: #222; }
+				body.highlander-dark .wpadvert>a { color: #ddd; }
+				</style>
+			</div>
+		</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: C#, Miscellaneous, Testing, Unit Testing, xUnit.net</p>
+  <nav class="pager"><a href="2013-01-02-749-example-of-some-c-design-patterns.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-01-04-751-inheritance-only-partially-preserves-encapsulation.html">Next</a></nav>
+</main>
+
+</body>
+</html>

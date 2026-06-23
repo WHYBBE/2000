@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#244 – Use a TextBlock Element for Richer Formatting</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-12-243-display-text-using-a-label-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-14-245-easily-inline-text-formatting-codes-with-textblock-control.html">Next</a></nav>
+  <h1>#244 – Use a TextBlock Element for Richer Formatting</h1>
+  <p class="meta">2011-03-13 | <a href="http://wpf.2000things.com/2011/03/13/244-use-a-textblock-element-for-richer-formatting/">Original URL</a> | Wayback 20110317053044</p>
+  <article><div class="post-2024 post type-post status-publish format-standard hentry category-controls tag-controls tag-label tag-textblock tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">March 13, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-03-13-244-use-a-textblock-element-for-richer-formatting.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>The <strong>Label</strong> control allows setting font properties like size and weight, but the settings apply to all of the text in the label.  Also, it&#8217;s difficult to embed line breaks without introducing cryptic characters.</p>
+<p>The <strong>TextBlock</strong> control allows formatting subsets of its textual content by adding a series of <strong>Run</strong> elements and formatting each one separately.</p>
+<p>Here&#8217;s an example.  Here&#8217;s a <strong>Label</strong> control:</p>
+<pre class="brush: xml;">
+		&lt;Label Background=&quot;DarkGray&quot; Margin=&quot;10&quot; Height=&quot;50&quot; FontSize=&quot;14&quot;
+			Content=&quot;Lancaster / York Richard, Duke of York Henry VI Warwick Somerset&quot; /&gt;
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/03/001-label1.png"><img class="alignnone size-full wp-image-2026" title="001-Label" src="https://web.archive.org/web/20110317053044id_/http://2000thingswpf.files.wordpress.com/2011/03/001-label1.png?w=580&amp;h=71" alt="" width="580" height="71" /></a><br />
+And here&#8217;s an example of a <strong>TextBlock</strong> control, showing the same content:</p>
+<pre class="brush: xml;">
+		&lt;TextBlock Background=&quot;DarkGray&quot; Margin=&quot;10&quot; Height=&quot;100&quot; FontSize=&quot;14&quot;&gt;
+			&lt;Run Text=&quot;Lancaster&quot; Foreground=&quot;Red&quot; TextDecorations=&quot;Underline&quot;/&gt;&lt;Run Text=&quot; / &quot;/&gt;
+			&lt;Run Text=&quot;York&quot; Foreground=&quot;White&quot; TextDecorations=&quot;Underline&quot;/&gt;
+			&lt;LineBreak/&gt;
+			&lt;Run Text=&quot;Richard, Duke of York&quot; Foreground=&quot;White&quot; FontSize=&quot;16&quot; FontWeight=&quot;Bold&quot;/&gt;
+			&lt;LineBreak/&gt;
+			&lt;Run Text=&quot;Henry VI&quot; Foreground=&quot;Red&quot; FontSize=&quot;16&quot; FontWeight=&quot;Bold&quot;/&gt;
+			&lt;LineBreak/&gt;
+			&lt;Run Text=&quot;Warwick&quot; Foreground=&quot;White&quot; FontStyle=&quot;Italic&quot;/&gt;
+			&lt;LineBreak/&gt;
+			&lt;Run Text=&quot;Somerset&quot; Foreground=&quot;Red&quot; FontStyle=&quot;Italic&quot;/&gt;
+		&lt;/TextBlock&gt;
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/03/002-textblock.png"><img class="alignnone size-full wp-image-2028" title="002-TextBlock" src="https://web.archive.org/web/20110317053044id_/http://2000thingswpf.files.wordpress.com/2011/03/002-textblock.png?w=279&amp;h=117" alt="" width="279" height="117" /></a></pre>
+<div class="tpp">
+						<a href="http://poppressed.com" rel="tppcpop_A_television_entertainment_books">
+							<span class="tppl">
+								The freshest in culture.
+							</span>
+							<img src="https://web.archive.org/web/20110317053044id_/http://poppressed.files.wordpress.com/2011/03/screen-shot-2011-03-16-at-12-48-47-am.png?w=126&amp;h=78&amp;crop=true" width="126" height="78" alt="PopPressed" class="tppi" />
+							<span class="tpph">
+								Featured on PopPressed
+							</span>
+							<span class="tppt">
+								Vintage St. Patrick's Day 
+							</span>
+						</a>
+					</div>
+					<div style="clear: both;"></div><div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/03/13/244-use-a-textblock-element-for-richer-formatting/"
+    dc:identifier="http://wpf.2000things.com/2011/03/13/244-use-a-textblock-element-for-richer-formatting/"
+    dc:title="#244 &#8211; Use a TextBlock Element for Richer&nbsp;Formatting"
+    trackback:ping="http://wpf.2000things.com/2011/03/13/244-use-a-textblock-element-for-richer-formatting/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/controls/" title="View all posts in Controls" rel="category tag">Controls</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/controls/" rel="tag">Controls</a>, <a href="http://en.wordpress.com/tag/label/" rel="tag">Label</a>, <a href="http://en.wordpress.com/tag/textblock/" rel="tag">TextBlock</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Label, TextBlock, WPF</p>
+  <nav class="pager"><a href="2011-03-12-243-display-text-using-a-label-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-14-245-easily-inline-text-formatting-codes-with-textblock-control.html">Next</a></nav>
+</main>
+
+</body>
+</html>

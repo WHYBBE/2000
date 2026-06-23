@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#83 – Collection Syntax for Read-Only Vs. Read-Write Properties</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-02-82-how-xaml-handles-whitespace.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-04-84-store-reusable-objects-in-a-resource-dictionary.html">Next</a></nav>
+  <h1>#83 – Collection Syntax for Read-Only Vs. Read-Write Properties</h1>
+  <p class="meta">2010-10-03 | <a href="http://wpf.2000things.com/2010/10/03/83-collection-syntax-for-read-only-vs-read-write-properties/">Original URL</a> | Wayback 20101013221528</p>
+  <article><div class="post-684 post type-post hentry category-xaml tag-xaml tag-collection-syntax">
+				
+           		<div class="entry">
+                                                
+                    
+                        
+                    <div class="post-info">
+                        <p><span class="time">October 3, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-10-03-83-collection-syntax-for-read-only-vs-read-write-properties.html">Leave a Comment</a></span> </p> 
+                    </div>
+               
+                    <p>When using the XAML <a href="2010-09-27-77-xaml-collection-syntax.html">collection syntax</a> for a collection-based property that is read/write, the inclusion of an object element representing the collection object is optional.</p>
+<p>E.g. Because <strong>FrameworkElement.Resources</strong> is read/write, we can list a series of resources using either of the following forms.</p>
+<pre class="brush: xml;">
+ &lt;!-- Create new ResourceDictionary, assign to Resources property --&gt;
+ &lt;Window.Resources&gt;
+     &lt;ResourceDictionary&gt;
+         &lt;SolidColorBrush x:Key=&quot;redBrush&quot; Color=&quot;Red&quot;/&gt;
+         &lt;SolidColorBrush x:Key=&quot;indigoBrush&quot; Color=&quot;Indigo&quot;/&gt;
+     &lt;/ResourceDictionary&gt;
+ &lt;/Window.Resources&gt;
+
+ &lt;!-- Omit ResourceDictionary, use collection syntax, new resources added to existing collection --&gt;
+ &lt;Window.Resources&gt;
+     &lt;SolidColorBrush x:Key=&quot;redBrush&quot; Color=&quot;Red&quot;/&gt;
+     &lt;SolidColorBrush x:Key=&quot;indigoBrush&quot; Color=&quot;Indigo&quot;/&gt;
+ &lt;/Window.Resources&gt;
+</pre>
+<p>However, for read-only collection properties, because you can&#8217;t create a new instance of the collection and assign it to the property, you must use the collection syntax, omitting the object element for the collection.</p>
+<pre class="brush: xml;">
+ &lt;StackPanel.Children&gt;
+     &lt;!-- Children property is read-only, so we can't include UIElementCollection element here --&gt;
+     &lt;Button Content=&quot;Button&quot; Height=&quot;25&quot; Width=&quot;50&quot; /&gt;
+&lt;ComboBox Height=&quot;23&quot; Width=&quot;120&quot; /&gt;
+ &lt;/StackPanel.Children&gt;
+</pre>
+<div class="clear"></div>
+                                                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/10/03/83-collection-syntax-for-read-only-vs-read-write-properties/"
+    dc:identifier="http://wpf.2000things.com/2010/10/03/83-collection-syntax-for-read-only-vs-read-write-properties/"
+    dc:title="#83 &#8211; Collection Syntax for Read-Only Vs. Read-Write&nbsp;Properties"
+    trackback:ping="http://wpf.2000things.com/2010/10/03/83-collection-syntax-for-read-only-vs-read-write-properties/trackback/" />
+</rdf:RDF>                    -->
+                
+                </div>
+                    
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/xaml/" title="View all posts in XAML" rel="category tag">XAML</a></span>  
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/xaml/" rel="tag">XAML</a>, <a href="http://en.wordpress.com/tag/collection-syntax/" rel="tag">Collection Syntax</a></span>                    </p>
+                </div>
+                                
+            </div></article>
+  <p class="meta">Categories: XAML | Tags: XAML, Collection Syntax</p>
+  <nav class="pager"><a href="2010-10-02-82-how-xaml-handles-whitespace.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-04-84-store-reusable-objects-in-a-resource-dictionary.html">Next</a></nav>
+</main>
+
+</body>
+</html>

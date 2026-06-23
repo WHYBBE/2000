@@ -1,0 +1,756 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#492 &#8211; Layout Can Change at Runtime &laquo; 2,000 Things You Should Know About WPF</title>
+
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/pub/enterprise/style.css?m=1352691612g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://wpf.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=wpf.2000things.com&amp;id=14605478&amp;t=1330167906&amp;back=wpf.2000things.com%2F2012%2F02%2F10%2F492-layout-can-change-at-runtime%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Feed" href="http://wpf.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Comments Feed" href="http://wpf.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; #492 &#8211; Layout Can Change at&nbsp;Runtime Comments Feed" href="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1352408494g" type="text/css" />
+<link rel='stylesheet' id='loggedout-subscribe-css'  href='http://s1.wp.com/wp-content/blog-plugins/loggedout-follow/widget.css?m=1330044119g&#038;ver=20120104' type='text/css' media='all' />
+<link rel='stylesheet' id='post-reactions-css'  href='http://s2.wp.com/wp-content/mu-plugins/post-flair/style.css?m=1354474399g&#038;ver=3' type='text/css' media='all' />
+<link rel='stylesheet' id='wordads-generic-css'  href='http://s1.wp.com/wp-content/blog-plugins/wordads/general.css?m=1354472924g&#038;ver=2011-11-18' type='text/css' media='all' />
+<link rel='stylesheet' id='wordads-enterprise-css'  href='http://s0.wp.com/wp-content/blog-plugins/wordads/enterprise.css?m=1352718639g&#038;ver=2011-11-18' type='text/css' media='all' />
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/jquery/jquery.js?m=1352653157g&#038;ver=1.7.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/blog-plugins/loggedout-follow/widget.js?m=1354470057g&#038;ver=20120215'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/comment-reply.js?m=1346531579g&#038;ver=3.4-alpha-19904'></script>
+<link rel='stylesheet' id='highlander-comments-css'  href='http://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1330128801g&#038;ver=20110620' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1352186683g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingswpf.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingswpf.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#491 &#8211; Displaying a&nbsp;Hyperlink' href='http://wpf.2000things.com/2012/02/09/491-displaying-a-hyperlink/' />
+<link rel='next' title='#493 &#8211; Setting the Visibility of a User Interface&nbsp;Element' href='http://wpf.2000things.com/2012/02/13/493-setting-the-visibility-of-a-user-interface-element/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/' />
+<link rel='shortlink' href='http://wp.me/pZhye-14Y' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&url=http%3A%2F%2Fwpf.2000things.com%2F2012%2F02%2F10%2F492-layout-can-change-at-runtime%2F&for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&url=http%3A%2F%2Fwpf.2000things.com%2F2012%2F02%2F10%2F492-layout-can-change-at-runtime%2F&for=wpcom-auto-discovery" /><meta property="og:type" content="article" />
+<meta property="og:title" content="#492 &#8211; Layout Can Change at&nbsp;Runtime" />
+<meta property="og:url" content="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/" />
+<meta property="og:description" content="One benefit of flow-based layout, as opposed to coordinate-based layout, is that elements in the user interface will size to fit their content.  The GUI designer does not have to explicitly set th..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About WPF" />
+<meta property="og:image" content="http://2000thingswpf.files.wordpress.com/2012/02/492-001.png?w=300&amp;h=300" />
+<meta property="og:image" content="http://2000thingswpf.files.wordpress.com/2012/02/492-002.png?w=300&amp;h=300" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/96cfc0c116be8a3fdedb05f3d276adb4?s=114" />
+<link rel='openid.server' href='http://2000thingswpf.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingswpf.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wpf.2000things.com/osd.xml" title="2,000 Things You Should Know About WPF" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+	<style type="text/css">
+	/* <![CDATA[ */
+			/* ]]> */
+	</style>
+			<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+<meta name="application-name" content="2,000 Things You Should Know About WPF" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a WPF Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://wpf.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+<script type="text/javascript">
+	var fmwp = { cat: 'enterprisetech',
+							 bid: 14605478,
+							 pt: 'permalink',
+							 theme: 'enterprise',
+							 colorscheme: 'light',
+							 url: escape('http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/') };
+</script>
+<script type='text/javascript'>
+  (function() {
+    var useSSL = 'https:' == document.location.protocol;
+    var src = (useSSL ? 'https:' : 'http:') +       '//www.googletagservices.com/tag/js/gpt.js';
+    document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+  })();
+</script>	
+
+
+<script type='text/javascript'>
+  googletag.cmd.push(function() {
+googletag.pubads().setTargeting("WordAds", "1");
+googletag.pubads().setTargeting("WordAds-FM", "1");
+googletag.pubads().setTargeting("DarkClass", "");
+googletag.pubads().setTargeting("Autotag", "technology");
+googletag.pubads().setTargeting("Autotag", "entertainment");
+googletag.pubads().setTargeting("Autotag", "music");
+googletag.pubads().setTargeting("Tag", "layout");
+googletag.pubads().setTargeting("Tag", "layout");
+googletag.pubads().setTargeting("Tag", "wpf");
+
+  });
+</script>
+
+<script type='text/javascript'>
+googletag.cmd.push(function() {
+googletag.defineSlot('/9240792/Wordads_Leaderboard', [728, 90], 'div-gpt-ad-1330047761659-0').addService(googletag.pubads());
+googletag.defineSlot('/9240792/Wordads_Mrec', [300, 250], 'div-gpt-ad-1330047806923-0').addService(googletag.pubads());
+
+
+googletag.pubads().enableSingleRequest();
+googletag.pubads().enableSyncRendering();
+googletag.enableServices();
+});
+</script>
+
+</head>
+
+<body class="single single-post postid-4152 single-format-standard highlander-enabled highlander-light">
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330047761659-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330047761659-0'); });
+</script>
+</div>
+</div>
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://wpf.2000things.com/">2,000 Things You Should Know About WPF</a></h4>
+                <p id="description">Everything a WPF Developer Needs to Know, in Bite-Sized Chunks</p>
+    </div>
+    <div class="header-right">
+        <form method="get" id="searchform" action="http://wpf.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://wpf.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://wpf.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-17"><a href="http://wpf.2000things.com/index/">Index</a></li></ul></div>
+	    </div>
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-100823"><a href="http://wpf.2000things.com/category/controls/" title="View all posts filed under Controls">Controls</a>
+</li>
+	<li class="cat-item cat-item-26060"><a href="http://wpf.2000things.com/category/layout/" title="View all posts filed under Layout">Layout</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="http://wpf.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-103962"><a href="http://wpf.2000things.com/category/xaml/" title="View all posts filed under XAML">XAML</a>
+</li>
+	<li class="cat-item cat-item-658"><a href="http://wpf.2000things.com/category/graphics/" title="View all posts filed under Graphics">Graphics</a>
+</li>
+	<li class="cat-item cat-item-4859017"><a href="http://wpf.2000things.com/category/dependency-properties/" title="View all posts filed under Dependency Properties">Dependency Properties</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://wpf.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-20948"><a href="http://wpf.2000things.com/category/blend/" title="View all posts filed under Blend">Blend</a>
+</li>
+	<li class="cat-item cat-item-24938"><a href="http://wpf.2000things.com/category/fonts/" title="View all posts filed under Fonts">Fonts</a>
+</li>
+	<li class="cat-item cat-item-725408"><a href="http://wpf.2000things.com/category/data-binding/" title="View all posts filed under Data Binding">Data Binding</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+        
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://wpf.2000things.com/2012/02/09/491-displaying-a-hyperlink/" rel="prev"><span class="meta-nav">&larr;</span> #491 &#8211; Displaying a&nbsp;Hyperlink</a></div>
+				<div class="nav-next"><a href="http://wpf.2000things.com/2012/02/13/493-setting-the-visibility-of-a-user-interface-element/" rel="next">#493 &#8211; Setting the Visibility of a User Interface&nbsp;Element <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+            <div class="post-4152 post type-post status-publish format-standard hentry category-layout tag-layout tag-wpf">
+
+           		<div class="entry">
+
+                    <h1>#492 &#8211; Layout Can Change at&nbsp;Runtime</h1>
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">February 10, 2012</span>
+                        	                        	<span class="post-comments"><a href="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/#respond">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>One benefit of flow-based layout, as opposed to coordinate-based layout, is that elements in the user interface will size to fit their content.  The GUI designer does not have to explicitly set the size and location of each child element.</p>
+<p>The layout containers in WPF don&#8217;t just position their child elements at design-time, but will re-measure and arrange their child elements when certain properties of the child elements change.  For example, if the <strong>Content</strong> property of a <strong>Label </strong>control changes, the parent container will update its layout based on the new text.</p>
+<p>In the example below, when the <strong>Label </strong>containing the movie title changes, the buttons to its right shift.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel&gt;
+        &lt;Label Content=&quot;Have you seen this movie?&quot; Margin=&quot;3&quot;/&gt;
+        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+            &lt;Label Content=&quot;{Binding NextMovieTitle}&quot; Margin=&quot;3&quot;/&gt;
+            &lt;Button Content=&quot;Seen It&quot; Margin=&quot;3&quot;/&gt;
+            &lt;Button Content=&quot;NOT Seen It&quot; Margin=&quot;3&quot;/&gt;
+        &lt;/StackPanel&gt;
+        &lt;Button Content=&quot;Next Movie&quot; HorizontalAlignment=&quot;Center&quot; Margin=&quot;3&quot;
+                Click=&quot;btnNext_Click&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/02/492-001.png"><img class="alignnone size-full wp-image-4168" title="492-001" src="http://2000thingswpf.files.wordpress.com/2012/02/492-001.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/02/492-002.png"><img class="alignnone size-full wp-image-4169" title="492-002" src="http://2000thingswpf.files.wordpress.com/2012/02/492-002.png?w=630" alt=""   /></a></pre>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/?like=1&amp;_wpnonce=231d9e8fa1' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></div></div><div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/"
+    dc:identifier="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/"
+    dc:title="#492 &#8211; Layout Can Change at&nbsp;Runtime"
+    trackback:ping="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://wpf.2000things.com/category/layout/" title="View all posts in Layout" rel="category tag">Layout</a></span>
+                    	<span class="tags">Tagged with <a href="http://wpf.2000things.com/tag/layout/" rel="tag">Layout</a>, <a href="http://wpf.2000things.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div>
+
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+            
+                        <p></p>
+
+            <div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2012/02/10/492-layout-can-change-at-runtime/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://wpf.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																										
+
+
+												
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment"></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&forcedefault=1&d=identicon" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div> 
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1305202182g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+	
+	
+</div>
+
+
+<div id="comment-form-subscribe"> 
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='4152' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1330167906" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="27baa66ade" /></p><script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1352243162g&#038;ver=1'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="230"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+    </div>
+
+<div id="sidebar">
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330047806923-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330047806923-0'); });
+</script>
+</div>
+</div>
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-3" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://wpf.2000things.com/2012/02/24/500-sharing-an-event-handler-across-multiple-controls-method-ii/" title="#501 &#8211; Sharing an Event Handler Across Multiple Controls, Method&nbsp;II">#501 &#8211; Sharing an Event Handler Across Multiple Controls, Method&nbsp;II</a></li>
+				<li><a href="http://wpf.2000things.com/2012/02/23/500-sharing-an-event-handler-across-multiple-controls-method-1/" title="#500 &#8211; Sharing an Event Handler Across Multiple Controls, Method&nbsp;1">#500 &#8211; Sharing an Event Handler Across Multiple Controls, Method&nbsp;1</a></li>
+				<li><a href="http://wpf.2000things.com/2012/02/22/499-interacting-with-the-control-that-initiated-an-event/" title="#499 &#8211; Interacting with the Control That Initiated an&nbsp;Event">#499 &#8211; Interacting with the Control That Initiated an&nbsp;Event</a></li>
+				<li><a href="http://wpf.2000things.com/2012/02/21/no-post-today/" title="No Post&nbsp;Today">No Post&nbsp;Today</a></li>
+				<li><a href="http://wpf.2000things.com/2012/02/20/498-a-list-of-wpf-blogs-and-forums/" title="#498 &#8211; A List of WPF Blogs and&nbsp;Forums">#498 &#8211; A List of WPF Blogs and&nbsp;Forums</a></li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://csharp.2000things.com/" title="Everything a C# Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About C#</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>February 2012</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://wpf.2000things.com/2012/01/" title="View posts for January 2012">&laquo; Jan</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="3" class="pad">&nbsp;</td><td><a href="http://wpf.2000things.com/2012/02/01/" title="#485 &#8211; Binding a ComboBox to an Enumerated Type&#8217;s List of&nbsp;Values">1</a></td><td><a href="http://wpf.2000things.com/2012/02/02/" title="#486 &#8211; InkCanvas Supports Different Editing&nbsp;Modes">2</a></td><td><a href="http://wpf.2000things.com/2012/02/03/" title="#487 &#8211; Specify DrawingAttributes When Drawing to an&nbsp;InkCanvas">3</a></td><td>4</td>
+	</tr>
+	<tr>
+		<td>5</td><td><a href="http://wpf.2000things.com/2012/02/06/" title="#488 &#8211; You Can Change Drawing Attributes of Existing Strokes in an&nbsp;InkCanvas">6</a></td><td><a href="http://wpf.2000things.com/2012/02/07/" title="#489 &#8211; Using the InkCanvas to Recognize Gestures, part&nbsp;I">7</a></td><td><a href="http://wpf.2000things.com/2012/02/08/" title="#490 &#8211; Using the InkCanvas to Recognize Gestures, part&nbsp;II">8</a></td><td><a href="http://wpf.2000things.com/2012/02/09/" title="#491 &#8211; Displaying a&nbsp;Hyperlink">9</a></td><td><a href="http://wpf.2000things.com/2012/02/10/" title="#492 &#8211; Layout Can Change at&nbsp;Runtime">10</a></td><td>11</td>
+	</tr>
+	<tr>
+		<td>12</td><td><a href="http://wpf.2000things.com/2012/02/13/" title="#493 &#8211; Setting the Visibility of a User Interface&nbsp;Element">13</a></td><td><a href="http://wpf.2000things.com/2012/02/14/" title="#494 &#8211; Using a Value Converter to Bind to a Visibility&nbsp;Property">14</a></td><td><a href="http://wpf.2000things.com/2012/02/15/" title="#495 &#8211; Binding to a Visibility Property Without Using a Value&nbsp;Converter">15</a></td><td><a href="http://wpf.2000things.com/2012/02/16/" title="#496 &#8211; Using a StackPanel to Make a Group of Buttons the Same&nbsp;Size">16</a></td><td><a href="http://wpf.2000things.com/2012/02/17/" title="#497 &#8211; Use a UniformGrid to Make a Group of Buttons the Same&nbsp;Size">17</a></td><td>18</td>
+	</tr>
+	<tr>
+		<td>19</td><td><a href="http://wpf.2000things.com/2012/02/20/" title="#498 &#8211; A List of WPF Blogs and&nbsp;Forums">20</a></td><td><a href="http://wpf.2000things.com/2012/02/21/" title="No Post&nbsp;Today">21</a></td><td><a href="http://wpf.2000things.com/2012/02/22/" title="#499 &#8211; Interacting with the Control That Initiated an&nbsp;Event">22</a></td><td><a href="http://wpf.2000things.com/2012/02/23/" title="#500 &#8211; Sharing an Event Handler Across Multiple Controls, Method&nbsp;1">23</a></td><td><a href="http://wpf.2000things.com/2012/02/24/" title="#501 &#8211; Sharing an Event Handler Across Multiple Controls, Method&nbsp;II">24</a></td><td id="today">25</td>
+	</tr>
+	<tr>
+		<td>26</td><td>27</td><td>28</td><td>29</td>
+		<td class="pad" colspan="3">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://wpf.2000things.com/index/'>Index</a></li><li><a href='http://wpf.2000things.com/2012/02/24/500-sharing-an-event-handler-across-multiple-controls-method-ii/'>#501 - Sharing an Event Handler Across Multiple Controls, Method II</a></li><li><a href='http://wpf.2000things.com/2011/02/17/220-using-the-predefined-colors/'>#220 - Using the Predefined Colors</a></li><li><a href='http://wpf.2000things.com/2012/02/20/498-a-list-of-wpf-blogs-and-forums/'>#498 - A List of WPF Blogs and Forums </a></li><li><a href='http://wpf.2000things.com/2012/02/23/500-sharing-an-event-handler-across-multiple-controls-method-1/'>#500 - Sharing an Event Handler Across Multiple Controls, Method 1</a></li><li><a href='http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/'>#204 - Detecting Key Presses in a WPF Window</a></li><li><a href='http://wpf.2000things.com/2010/12/26/167-implementing-a-dependency-property-that-is-a-collection/'>#167 - Implementing a Dependency Property That Is A Collection</a></li><li><a href='http://wpf.2000things.com/2010/10/22/102-using-xamlreader-to-load-a-loose-xaml-file/'>#102 - Using XamlReader to Load a Loose XAML File</a></li><li><a href='http://wpf.2000things.com/2010/07/22/10-templates/'>#10 - Templates</a></li><li><a href='http://wpf.2000things.com/2011/12/21/455-using-itemcontainerstyle-to-bind-data-elements-in-a-collection-to-a-grid/'>#455 - Using ItemContainerStyle to Bind Data Elements in a Collection to a Grid</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://wpf.2000things.com/tag/application/' class='tag-link-3370' title='6 topics' style='font-size: 8.5185185185185pt;'>Application</a>
+<a href='http://wpf.2000things.com/tag/blend/' class='tag-link-20948' title='18 topics' style='font-size: 11.703703703704pt;'>Blend</a>
+<a href='http://wpf.2000things.com/tag/border/' class='tag-link-75704' title='8 topics' style='font-size: 9.2592592592593pt;'>Border</a>
+<a href='http://wpf.2000things.com/tag/brush/' class='tag-link-324237' title='7 topics' style='font-size: 8.8888888888889pt;'>Brush</a>
+<a href='http://wpf.2000things.com/tag/button/' class='tag-link-94913' title='8 topics' style='font-size: 9.2592592592593pt;'>Button</a>
+<a href='http://wpf.2000things.com/tag/calendar/' class='tag-link-7155' title='7 topics' style='font-size: 8.8888888888889pt;'>Calendar</a>
+<a href='http://wpf.2000things.com/tag/canvas/' class='tag-link-53176' title='9 topics' style='font-size: 9.6296296296296pt;'>Canvas</a>
+<a href='http://wpf.2000things.com/tag/checkbox/' class='tag-link-760947' title='6 topics' style='font-size: 8.5185185185185pt;'>CheckBox</a>
+<a href='http://wpf.2000things.com/tag/coercevaluecallback/' class='tag-link-43671909' title='5 topics' style='font-size: 8pt;'>CoerceValueCallback</a>
+<a href='http://wpf.2000things.com/tag/color/' class='tag-link-11835' title='6 topics' style='font-size: 8.5185185185185pt;'>Color</a>
+<a href='http://wpf.2000things.com/tag/commands/' class='tag-link-319' title='9 topics' style='font-size: 9.6296296296296pt;'>Commands</a>
+<a href='http://wpf.2000things.com/tag/contentcontrol/' class='tag-link-6435769' title='8 topics' style='font-size: 9.2592592592593pt;'>ContentControl</a>
+<a href='http://wpf.2000things.com/tag/controls/' class='tag-link-100823' title='123 topics' style='font-size: 17.703703703704pt;'>Controls</a>
+<a href='http://wpf.2000things.com/tag/data-binding/' class='tag-link-725408' title='18 topics' style='font-size: 11.703703703704pt;'>Data Binding</a>
+<a href='http://wpf.2000things.com/tag/dependency-properties/' class='tag-link-4859017' title='46 topics' style='font-size: 14.592592592593pt;'>Dependency Properties</a>
+<a href='http://wpf.2000things.com/tag/dependency-property/' class='tag-link-12411431' title='7 topics' style='font-size: 8.8888888888889pt;'>Dependency property</a>
+<a href='http://wpf.2000things.com/tag/dockpanel/' class='tag-link-4486568' title='7 topics' style='font-size: 8.8888888888889pt;'>DockPanel</a>
+<a href='http://wpf.2000things.com/tag/drawingvisual/' class='tag-link-3264714' title='7 topics' style='font-size: 8.8888888888889pt;'>DrawingVisual</a>
+<a href='http://wpf.2000things.com/tag/event-handler/' class='tag-link-4364007' title='5 topics' style='font-size: 8pt;'>Event Handler</a>
+<a href='http://wpf.2000things.com/tag/flowdocument/' class='tag-link-27472306' title='11 topics' style='font-size: 10.222222222222pt;'>FlowDocument</a>
+<a href='http://wpf.2000things.com/tag/focus/' class='tag-link-630' title='6 topics' style='font-size: 8.5185185185185pt;'>Focus</a>
+<a href='http://wpf.2000things.com/tag/fonts/' class='tag-link-24938' title='14 topics' style='font-size: 10.962962962963pt;'>Fonts</a>
+<a href='http://wpf.2000things.com/tag/graphics/' class='tag-link-658' title='16 topics' style='font-size: 11.333333333333pt;'>Graphics</a>
+<a href='http://wpf.2000things.com/tag/grid/' class='tag-link-11403' title='26 topics' style='font-size: 12.814814814815pt;'>Grid</a>
+<a href='http://wpf.2000things.com/tag/gridsplitter/' class='tag-link-13631504' title='10 topics' style='font-size: 9.9259259259259pt;'>GridSplitter</a>
+<a href='http://wpf.2000things.com/tag/horizontalalignment/' class='tag-link-13467514' title='6 topics' style='font-size: 8.5185185185185pt;'>HorizontalAlignment</a>
+<a href='http://wpf.2000things.com/tag/image/' class='tag-link-686' title='15 topics' style='font-size: 11.111111111111pt;'>Image</a>
+<a href='http://wpf.2000things.com/tag/inkcanvas/' class='tag-link-6285586' title='9 topics' style='font-size: 9.6296296296296pt;'>InkCanvas</a>
+<a href='http://wpf.2000things.com/tag/intellisense/' class='tag-link-98072' title='7 topics' style='font-size: 8.8888888888889pt;'>Intellisense</a>
+<a href='http://wpf.2000things.com/tag/itemscontrol/' class='tag-link-5805353' title='5 topics' style='font-size: 8pt;'>ItemsControl</a>
+<a href='http://wpf.2000things.com/tag/layout/' class='tag-link-26060' title='102 topics' style='font-size: 17.111111111111pt;'>Layout</a>
+<a href='http://wpf.2000things.com/tag/lineargradientbrush/' class='tag-link-28580558' title='8 topics' style='font-size: 9.2592592592593pt;'>LinearGradientBrush</a>
+<a href='http://wpf.2000things.com/tag/logical-tree/' class='tag-link-3264715' title='5 topics' style='font-size: 8pt;'>Logical Tree</a>
+<a href='http://wpf.2000things.com/tag/margin/' class='tag-link-162270' title='11 topics' style='font-size: 10.222222222222pt;'>Margin</a>
+<a href='http://wpf.2000things.com/tag/panel/' class='tag-link-6950' title='6 topics' style='font-size: 8.5185185185185pt;'>Panel</a>
+<a href='http://wpf.2000things.com/tag/resources/' class='tag-link-1784' title='5 topics' style='font-size: 8pt;'>Resources</a>
+<a href='http://wpf.2000things.com/tag/stackpanel/' class='tag-link-25056137' title='8 topics' style='font-size: 9.2592592592593pt;'>StackPanel</a>
+<a href='http://wpf.2000things.com/tag/text/' class='tag-link-5117' title='5 topics' style='font-size: 8pt;'>Text</a>
+<a href='http://wpf.2000things.com/tag/tooltip/' class='tag-link-796127' title='7 topics' style='font-size: 8.8888888888889pt;'>Tooltip</a>
+<a href='http://wpf.2000things.com/tag/visual-studio/' class='tag-link-6678' title='20 topics' style='font-size: 12pt;'>Visual Studio</a>
+<a href='http://wpf.2000things.com/tag/visual-studio-2010/' class='tag-link-11664360' title='5 topics' style='font-size: 8pt;'>Visual Studio 2010</a>
+<a href='http://wpf.2000things.com/tag/window/' class='tag-link-43058' title='12 topics' style='font-size: 10.444444444444pt;'>Window</a>
+<a href='http://wpf.2000things.com/tag/wpf/' class='tag-link-46652' title='465 topics' style='font-size: 22pt;'>WPF</a>
+<a href='http://wpf.2000things.com/tag/wrappanel/' class='tag-link-4321068' title='8 topics' style='font-size: 9.2592592592593pt;'>WrapPanel</a>
+<a href='http://wpf.2000things.com/tag/xaml/' class='tag-link-103962' title='50 topics' style='font-size: 14.888888888889pt;'>XAML</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>159,280 hits</li>
+			</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a href="http://www.studiopress.com/" rel="designer">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?aa&#038;ver=3.4-alpha-19904'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1352576748g&#038;ver=3.4-alpha-19904'></script>
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.layout,posttag.wpf,as,wa.pv.noads.2000thingswpf,wa.as.fm.enterprisetech,wa.pv.ads.2000thingswpf"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.layout%2Cposttag.wpf%2Cas%2Cwa.pv.noads.2000thingswpf%2Cwa.as.fm.enterprisetech%2Cwa.pv.ads.2000thingswpf" height="1" width="1" alt="" /></div></noscript>
+
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery(document).ready( function($) {
+
+			// Remove the login box when clicking the page
+			$( document ).mousedown( function( e ) {
+				if ( null == $( e.target ).closest( '#wpl-mustlogin' ).get( 0 ) ) {
+					$( '#wpl-mustlogin' ).remove();
+				}
+			});
+
+			// Handle clicking the like button itself
+			$('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				$.post( 'http://wpf.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=372b05d98f; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+
+				$('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="https://2000thingswpf.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="372b05d98f" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+
+				$('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			$('#wpl-mustlogin input.input').live( 'focus', function() {
+				$(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( $(this).val() == '' )
+					$(this).prev().show();
+			});
+			
+			$('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				$.post( 'http://wpf.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					$('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			$('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = $(this).attr('href');
+				
+				$.post( 'http://wpf.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+		<style type="text/css">
+			
+				.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+				.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+				.reblogger-note-content            { margin: 0 0 20px 35px; }
+				.reblog-post                       { border-left: 3px solid #eee; padding-left: 15px; }
+				.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+				.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+				.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+				.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+				.reblog-post                       { border-left: 3px solid #eee; padding-left: 15px; }
+					</style><script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingswpf.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingswpf.wordpress.com\/wp-login.php?action=logout&_wpnonce=d512abadea","homeURL":"http:\/\/wpf.2000things.com\/","postID":"4152","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/script.js?m=1330133177g&#038;ver=20110804'></script>
+	
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+			
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About WPF&rdquo;</label></h3>
+		
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+			
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 110 other followers</p>		
+			
+			<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14605478"/>
+			<input type="hidden" name="source" value="http://wpf.2000things.com/2012/02/10/492-layout-can-change-at-runtime/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5375fdfeeb" /><input type="hidden" name="_wp_http_referer" value="/2012/02/10/492-layout-can-change-at-runtime/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type='text/javascript' src='http://s1.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js?m=1347394871g&#038;ver=2.1.364b'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushXml.js?m=1347394871g&#038;ver=2.1.364b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1349269507g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1305202189g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14605478','v':'wpcom','user_id':'0','post':'4152','subd':'2000thingswpf'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1LZ2xfJXEyPWZCW2RIR0FaYVJPd0I3eHhGayxPW2ZUWkkzJmxvVUNlcFlWVC9VLDRxfDNyJUEraislK11VZm9PdG5CNEpZWXVJNXd3SjVHMj8vQmVyQmZ3ZStVeDNKSmpnREhyYXMvP1dvTmw4SncxU3lSZlJ+Qz8wTy9lUzhEdnF4Uy84MDFMYjRmU3VaaXJsLjRbdUs3fHddQ1NDUFJCWXh0RzVXWFguQXZkciU3V094XWYwQjQmLUpnSHomW284WUViQ00vb1V2VnlydDY5QXhpPy9wWE9iMzctUlF4P1Q9NDR+S2dXR2RKT2V1cFtNSkdKSG1XbU1C'});
+addLoadEvent(function(){linktracker_init('14605478',4152);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+
+</body>
+</html>

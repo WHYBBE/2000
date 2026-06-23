@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#573 – Array Covariance Doesn’t Apply to Value Types</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-04-30-572-why-array-covariance-is-called-covariance.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-02-574-the-problem-with-array-covariance.html">Next</a></nav>
+  <h1>#573 – Array Covariance Doesn’t Apply to Value Types</h1>
+  <p class="meta">2012-05-01 | <a href="http://csharp.2000things.com/2012/05/01/573-array-covariance-doesnt-apply-to-value-types/">Original URL</a> | Wayback 20120706162417</p>
+  <article><div class="post-4854 post type-post status-publish format-standard hentry category-data-types tag-array-covariance tag-arrays tag-c tag-covariance tag-data-types">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 1, 2012</span>
+																						<span class="post-comments"><a href="2012-05-01-573-array-covariance-doesnt-apply-to-value-types.html" title="Comment on #573 &#8211; Array Covariance Doesn&#8217;t Apply to Value&nbsp;Types">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>Array covariance allows <strong>T[] </strong>to be assigned to <strong>U[]</strong>, if <strong>T </strong>can be assigned to <strong>U</strong>.</p>
+<p><pre class="brush: csharp;">
+// Assignment compatibility, because Terrier is sub-type of Dog
+Terrier t = new Terrier(&quot;Bob&quot;);
+Dog d = t;
+
+// Allowed because of array covariance
+Terrier[] terriers = MakeTerrierArray();
+Dog[] dogs = terriers;
+</pre></p>
+<p>This does not work, however, if the contents of the arrays are value types.  Arrays of value-typed objects are not covariant.</p>
+<p><pre class="brush: csharp;">
+            byte b1 = 12;
+            ushort u1 = b1;  // Assignment compatible
+
+            byte[] bytearray = new byte[] { 1, 2, 3 };
+
+            // Not allowed.  Compile-time error &quot;Cannot implicitly convert type 'byte[]' to 'ushort[]'
+            ushort[] shortarray = bytearray;
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Data Types | Tags: Array Covariance, Arrays, C#, Covariance, Data Types</p>
+  <nav class="pager"><a href="2012-04-30-572-why-array-covariance-is-called-covariance.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-02-574-the-problem-with-array-covariance.html">Next</a></nav>
+</main>
+
+</body>
+</html>

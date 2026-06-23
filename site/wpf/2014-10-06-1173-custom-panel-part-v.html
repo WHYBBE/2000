@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,173 – Custom Panel, part V</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-03-1172-custom-panel-part-iv.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-07-1174-custom-panel-part-vi.html">Next</a></nav>
+  <h1>#1,173 – Custom Panel, part V</h1>
+  <p class="meta">2014-10-06 | <a href="http://wpf.2000things.com/2014/10/06/1173-custom-panel-part-v/">Original URL</a> | Wayback 20141007150448</p>
+  <article><div class="post-9387 post type-post status-publish format-standard hentry category-layout tag-arrange tag-layout tag-measure tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 6, 2014</span>
+																						<span class="post-comments"><a href="2014-10-06-1173-custom-panel-part-v.html" title="Comment on #1,173 &#8211; Custom Panel, part&nbsp;V">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Below is another example of a custom panel.  This panel arranges its children into two columns, flowing to the next row after both columns are filled.  It also gives each child element a uniform amount of space, based on the total size of the containing panel.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class TwoColUniformPanel : Panel
+    {
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            Size childSize = CalcUniformChildSize(availableSize);
+
+            foreach (UIElement elem in InternalChildren)
+                elem.Measure(childSize);
+
+            return availableSize;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            // All children are the same size
+            Size childSize = CalcUniformChildSize(finalSize);
+
+            double top = 0.0;
+            double left = 0.0;
+
+            for (int i = 0; i &lt; InternalChildren.Count; i++)
+            {
+                Rect r = new Rect(new Point(left, top), childSize);
+
+                InternalChildren[i].Arrange(r);
+
+                // Next row
+                if (left &gt; 0.0)
+                    top += childSize.Height;
+
+                // Alternate column
+                left = (left &gt; 0.0) ? 0.0 : (finalSize.Width / 2.0);
+            }
+
+            return finalSize;
+        }
+
+        private Size CalcUniformChildSize(Size availSize)
+        {
+            int numRows = (int)Math.Ceiling(InternalChildren.Count / 2.0);
+            return new Size(availSize.Width / 2.0,
+                            availSize.Height / numRows);
+        }
+    }
+</pre>
+<p>We can use the panel as follows:</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;loc:TwoColUniformPanel Margin=&quot;5&quot;&gt;
+        &lt;Label Content=&quot;I'm child #1&quot; VerticalAlignment=&quot;Center&quot;
+               Background=&quot;Thistle&quot; /&gt;
+        &lt;Label Content=&quot;I'm child #2&quot;
+               Background=&quot;Lavender&quot; /&gt;
+        &lt;Label Content=&quot;Third kid&quot;
+               Background=&quot;Honeydew&quot; /&gt;
+    &lt;/loc:TwoColUniformPanel&gt;
+</pre>
+<p>Below are some images showing the result, as we resize the panel. Note that the first label stays vertically aligned in the center of the area allotted for it, rather than stretching to fill the area like the other labels.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1173-001.png"><img class="alignnone size-full wp-image-9390" src="https://web.archive.org/web/20141007150448id_/http://2000thingswpf.files.wordpress.com/2014/10/1173-001.png?w=630" alt="1173-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1173-002.png"><img class="alignnone size-full wp-image-9391" src="https://web.archive.org/web/20141007150448id_/http://2000thingswpf.files.wordpress.com/2014/10/1173-002.png?w=630" alt="1173-002"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1173-003.png"><img class="alignnone size-full wp-image-9392" src="https://web.archive.org/web/20141007150448id_/http://2000thingswpf.files.wordpress.com/2014/10/1173-003.png?w=630" alt="1173-003"   /></a></p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/10/06/1173-custom-panel-part-v/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Tag", "layout");
+GA_googleAddAttr("Tag", "arrange");
+GA_googleAddAttr("Tag", "layout");
+GA_googleAddAttr("Tag", "measure");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/10/06/1173-custom-panel-part-v/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: Arrange, Layout, Measure, WPF</p>
+  <nav class="pager"><a href="2014-10-03-1172-custom-panel-part-iv.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-07-1174-custom-panel-part-vi.html">Next</a></nav>
+</main>
+
+</body>
+</html>

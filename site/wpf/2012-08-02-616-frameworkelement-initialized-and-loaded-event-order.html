@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#616 – FrameworkElement.Initialized and Loaded Event Order</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-08-01-615-standard-object-lifetime-events-for-frameworkelement-objects.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-03-617-input-events.html">Next</a></nav>
+  <h1>#616 – FrameworkElement.Initialized and Loaded Event Order</h1>
+  <p class="meta">2012-08-02 | <a href="http://wpf.2000things.com/2012/08/02/616-frameworkelement-initialized-and-loaded-event-order/">Original URL</a> | Wayback 20120805235936</p>
+  <article><div class="post-5383 post type-post status-publish format-standard hentry category-events tag-events tag-frameworkelement tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 2, 2012</span>
+																						<span class="post-comments"><a href="2012-08-02-616-frameworkelement-initialized-and-loaded-event-order.html" title="Comment on #616 &#8211; FrameworkElement.Initialized and Loaded Event&nbsp;Order">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>All elements that inherit (directly or indirectly) from <strong>FrameworkElement</strong> will fire <a href="2012-08-01-615-standard-object-lifetime-events-for-frameworkelement-objects.html">both <strong>Initialized</strong> and <strong>Loaded</strong> events</a> when the control is being loaded.  For example, both an <strong>Initialized</strong> and <strong>Loaded </strong>event will for each control in your application when the application is starting up.</p>
+<p>The <strong>Initialized</strong> events for all controls fire starting with the elements at the bottom of the logical tree.  When handling the <strong>Initialize</strong> event for a particular element, you can assume that any elements below the element in question have already been initialized.</p>
+<p>The <strong>Loaded</strong> event, on the other hand, fires from the top of the logical tree and then continues down the tree.  The <strong>Loaded </strong>events begin firing only after the layout system has figured out the position and size of every element in the tree.  So in a handler for a <strong>Loaded</strong> event, you can assume that all elements in the logical tree are fully configured.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5383" class="wpl-button "><a href='2012-08-02-616-frameworkelement-initialized-and-loaded-event-order.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/urbanwallart" title="urbanwallart" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/9fd1b129b3b50e332ed1eef81a034bfc?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='urbanwallart' width='30' height='30' /></a></li></ul></div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, FrameworkElement, WPF</p>
+  <nav class="pager"><a href="2012-08-01-615-standard-object-lifetime-events-for-frameworkelement-objects.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-03-617-input-events.html">Next</a></nav>
+</main>
+
+</body>
+</html>

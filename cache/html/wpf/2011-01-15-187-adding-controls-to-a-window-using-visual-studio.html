@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#187 &#8211; Adding Controls to a Window Using Visual Studio &laquo; 2,000 Things You Should Know About WPF</title>
+
+<link rel="stylesheet" href="http://s2.wp.com/wp-content/themes/pub/enterprise/style.css?m=1292826966g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://wpf.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=wpf.2000things.com&amp;id=14605478&amp;t=1295806805&amp;back=wpf.2000things.com%2F2011%2F01%2F15%2F187-adding-controls-to-a-window-using-visual-studio%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Feed" href="http://wpf.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Comments Feed" href="http://wpf.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; #187 &#8211; Adding Controls to a Window Using Visual&nbsp;Studio Comments Feed" href="http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1291749258g" type="text/css" />
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/l10n.js?m=1295648996g&amp;ver=20101110'></script>
+<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.js?m=1290133841g&amp;ver=1.4.4'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/comment-reply.js?m=1244646329g&amp;ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingswpf.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingswpf.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='2,000 Things You Should Know About WPF' href='http://wpf.2000things.com/' />
+<link rel='prev' title='#186 &#8211; When to Use Blend (vs. Visual&nbsp;Studio)' href='http://wpf.2000things.com/2011/01/14/186-when-to-use-blend-vs-visual-studio/' />
+<link rel='next' title='#188 &#8211; Adding Controls to a Window Using&nbsp;Blend' href='http://wpf.2000things.com/2011/01/16/188-adding-controls-to-a-window-using-blend/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/' />
+<link rel='shortlink' href='http://wp.me/pZhye-oR' />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="apple-touch-icon" href="http://1.gravatar.com/blavatar/96cfc0c116be8a3fdedb05f3d276adb4?s=158" />
+	<style type="text/css">
+	/* <![CDATA[ */
+				div#likes { margin-top: 15px; }
+		.like-button { border: 1px solid #eee; padding: 2px 6px; font-size: 13px; font-family: arial, tahoma, sans-serif; }
+		#wpl-likebox { clear: left; font-size: 11px; font-family: arial, tahoma, verdana, sans-serif !important; min-height: 30px; margin: 10px 0 !important; padding: 5px 0 10px 0 !important; }
+		#wpl-button { float: left; background: url( /i/buttonbg.png ) top left repeat-x; margin-right: 7px; border: 1px solid #d4d4d4; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-button a { color: #666 !important; line-height: 130% !important; text-decoration: none !important; outline: none; float: left; padding: 3px 6px 2px 24px !important; font-size: 11px !important; background: url( /i/likestar.png ) 6px 49.8% no-repeat; }
+		#wpl-button.liked { background: #feffce; border: 1px solid #f3e389; }
+		#wpl-button.liked a { color: #ba871b !important; }
+		#wpl-likebox #wpl-count { min-height: 25px; line-height: 130% !important; float: left; padding-top: 4px; }
+		#wpl-likebox #wpl-avatars { clear: left; max-height: 98px; overflow: hidden; margin-top: 15px; line-height: 130% !important; }
+		#wpl-likebox #wpl-avatars img { border: none !important; }
+		#wpl-likebox #wpl-mustlogin { line-height: 14px !important; font-size: 11px; clear: left; margin-top: 5px; background: #f0f0f0; padding: 10px; width: 65%; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-likebox #wpl-mustlogin a { color: #888; text-decoration: underline; }
+		#wpl-likebox #wpl-mustlogin p { margin: 5px 0; padding: 0 }
+		#wpl-likebox #wpl-mustlogin input.input { padding: 2px; background: #fff; font-size: 11px; font-family: inherit; border: 1px solid #ccc; -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin input#wp-submit { border: 1px solid #ccc; font-size: 11px; background: #fafafa; repeat-x; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 2px 4px !important; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin label { position: relative; cursor: text; }
+		#wpl-likebox #wpl-mustlogin label span { position: absolute; top: 0px; left: 5px; padding: 0 !important; }
+		#wpl-likebox #wpl-mustlogin label span { top /*\**/: -10px\9; }
+	/* ]]> */
+	</style>
+	<link rel='openid.server' href='http://2000thingswpf.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingswpf.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wpf.2000things.com/osd.xml" title="2,000 Things You Should Know About WPF" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+<style type="text/css">
+#header {
+	background: #FFFFFF url() no-repeat;
+}
+#header h1, #header h1 a, #header h1 a:visited, #header h4, #header h4 a, #header h4 a:visited, .header-left {
+	color: #333333;
+}
+</style>
+<meta name="application-name" content="2,000 Things You Should Know About WPF" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://wpf.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+<script type='text/javascript'>/*<![CDATA[*/if(typeof(addLoadEvent)!='undefined'){addLoadEvent(function(){if(top==self){i=document.createElement('img');i.src='http://botd2.wordpress.com/botd.gif?blog=14605478&post=1541&lang=en&date=1295089203&ip=174.129.228.67&url=http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/';i.style.width='0px';i.style.height='0px';i.style.overflow='hidden';document.body.appendChild(i);}});}/*]]>*/</script>
+
+</head>
+
+<body class="single single-post postid-1541 single-format-standard">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://wpf.2000things.com/">2,000 Things You Should Know About WPF</a></h4>
+         
+        <p id="description">Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks</p>  
+    </div>
+    <div class="header-right">   
+        <form method="get" id="searchform" action="http://wpf.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://wpf.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://wpf.2000things.com/about/" title="About&nbsp;Me">About&nbsp;Me</a></li><li class="page_item page-item-17"><a href="http://wpf.2000things.com/index/" title="Index">Index</a></li></ul></div>
+	
+	    </div>  
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+	
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-8516"><a href="http://wpf.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-103962"><a href="http://wpf.2000things.com/category/xaml/" title="View all posts filed under XAML">XAML</a>
+</li>
+	<li class="cat-item cat-item-4859017"><a href="http://wpf.2000things.com/category/dependency-properties/" title="View all posts filed under Dependency Properties">Dependency Properties</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://wpf.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-100823"><a href="http://wpf.2000things.com/category/controls/" title="View all posts filed under Controls">Controls</a>
+</li>
+	<li class="cat-item cat-item-20948"><a href="http://wpf.2000things.com/category/blend/" title="View all posts filed under Blend">Blend</a>
+</li>
+	<li class="cat-item cat-item-658"><a href="http://wpf.2000things.com/category/graphics/" title="View all posts filed under Graphics">Graphics</a>
+</li>
+	<li class="cat-item cat-item-725408"><a href="http://wpf.2000things.com/category/data-binding/" title="View all posts filed under Data Binding">Data Binding</a>
+</li>
+	<li class="cat-item cat-item-292"><a href="http://wpf.2000things.com/category/media/" title="View all posts filed under Media">Media</a>
+</li>
+	<li class="cat-item cat-item-1807"><a href="http://wpf.2000things.com/category/animation/" title="View all posts filed under Animation">Animation</a>
+</li>
+		</ul>
+	</div>
+	
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+                            
+                
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://wpf.2000things.com/2011/01/14/186-when-to-use-blend-vs-visual-studio/" rel="prev"><span class="meta-nav">&larr;</span> #186 &#8211; When to Use Blend (vs. Visual&nbsp;Studio)</a></div>
+				<div class="nav-next"><a href="http://wpf.2000things.com/2011/01/16/188-adding-controls-to-a-window-using-blend/" rel="next">#188 &#8211; Adding Controls to a Window Using&nbsp;Blend <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+			                
+            <div class="post-1541 post type-post status-publish format-standard hentry category-visual-studio tag-controls tag-visual-studio tag-wpf">
+				
+           		<div class="entry">
+                                                
+                    <h1>#187 &#8211; Adding Controls to a Window Using Visual&nbsp;Studio</h1>
+                        
+                    <div class="post-info">
+                        <p><span class="time">January 15, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/#respond">Leave a Comment</a></span> </p> 
+                    </div>
+               
+                    <p>In Visual Studio, you can add user interface controls to a window by dragging them onto a design surface.  Start by double-clicking on the window&#8217;s .xaml file in the Solution Explorer.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/001-openwindow.png"><img class="alignnone size-full wp-image-1542" title="001-OpenWindow" src="http://2000thingswpf.files.wordpress.com/2011/01/001-openwindow.png?w=256&#038;h=325" alt="" width="256" height="325" /></a></p>
+<p>This will open the window in a design view editor.  The editor will have a design surface at the top and a XAML editor below that.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/002-designtime.png"><img class="alignnone size-full wp-image-1543" title="002-DesignTime" src="http://2000thingswpf.files.wordpress.com/2011/01/002-designtime.png?w=630&#038;h=511" alt="" width="630" height="511" /></a></p>
+<p>You can add new controls to the window by dragging them onto the design surface in the top pane or by editing the XAML directly.</p>
+<p>To drag a control onto the design surface, find the list of WPF controls in the Toolbox window.  Once you find the control that you want, left-click and drag it onto the window&#8217;s design surface.  In the example below, we add a <strong>CheckBox</strong> to the window.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/003-dragcheckbox.png"><img class="alignnone size-full wp-image-1544" title="003-DragCheckBox" src="http://2000thingswpf.files.wordpress.com/2011/01/003-dragcheckbox.png?w=590&#038;h=510" alt="" width="590" height="510" /></a></p>
+<p>When you&#8217;re done dragging, the new control will show up both on the design surface and in the XAML.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/004-voila.png"><img class="alignnone size-full wp-image-1545" title="004-Voila" src="http://2000thingswpf.files.wordpress.com/2011/01/004-voila.png?w=420&#038;h=585" alt="" width="420" height="585" /></a></p>
+<div class="clear"></div>
+                                                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/"
+    dc:identifier="http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/"
+    dc:title="#187 &#8211; Adding Controls to a Window Using Visual&nbsp;Studio"
+    trackback:ping="http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/trackback/" />
+</rdf:RDF>                    -->
+                
+                </div>
+                    
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/visual-studio/" title="View all posts in Visual Studio" rel="category tag">Visual Studio</a></span>  
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/controls/" rel="tag">Controls</a>, <a href="http://en.wordpress.com/tag/visual-studio/" rel="tag">Visual Studio</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+                                
+            </div>
+			
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+                                                        
+                        <p></p>
+                        
+            <div id="wpl-likebox"><div id="wpl-button"><a href='http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/?like=1&amp;_wpnonce=98e788cf0f' title='I like this post' class='like needs-login' rel='nofollow'><span>Like</span></a></div><div id="wpl-count">Be the first to like this post.</div></div><div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://wpf.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='1541' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1295806805" />
+<p><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p><p><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Subscribe by email to this site</label></p><input type="hidden" name="sub-type" value="comment-form-text1" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="783632e5df" /></p>					</form>
+							</div><!-- #respond -->
+						
+</div><!-- #comments -->                                    
+    </div>
+		
+<div id="sidebar">
+    	
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-3" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://wpf.2000things.com/2011/01/23/195-the-venerable-messagebox/" title="#195 &#8211; The Venerable&nbsp;MessageBox">#195 &#8211; The Venerable&nbsp;MessageBox</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/22/194-hello-wpf-world-love-blend/" title="#194 &#8211; Hello WPF World, Love&nbsp;Blend">#194 &#8211; Hello WPF World, Love&nbsp;Blend</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/21/193-you-can-have-a-project-open-in-blend-and-visual-studio-at-the-same-time/" title="#193 &#8211; You Can Have a Project Open in Blend and Visual Studio at the Same&nbsp;Time">#193 &#8211; You Can Have a Project Open in Blend and Visual Studio at the Same&nbsp;Time</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/20/192-setting-a-controls-properties-using-blend/" title="#192 &#8211; Setting a Control&#8217;s Properties Using&nbsp;Blend">#192 &#8211; Setting a Control&#8217;s Properties Using&nbsp;Blend</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/19/191-setting-a-controls-properties-using-visual-studio/" title="#191 &#8211; Setting a Control&#8217;s Properties Using Visual&nbsp;Studio">#191 &#8211; Setting a Control&#8217;s Properties Using Visual&nbsp;Studio</a></li>
+				</ul>
+		</div><div id="calendar-3" class="widget widget_calendar"><h4>&nbsp;</h4><div id="calendar_wrap"><table id="wp-calendar" summary="Calendar">
+	<caption>January 2011</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://wpf.2000things.com/2010/12/" title="View posts for December 2010">&laquo; Dec</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="6" class="pad">&nbsp;</td><td><a href="http://wpf.2000things.com/2011/01/01/" title="#173 &#8211; You Can Put Freezable Objects Into a Read-Only&nbsp;State">1</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://wpf.2000things.com/2011/01/02/" title="#174 &#8211; Predefined Brushes Are Already&nbsp;Frozen">2</a></td><td><a href="http://wpf.2000things.com/2011/01/03/" title="#175 &#8211; Freeze Graphical Objects That You Don&#8217;t Intend to&nbsp;Modify">3</a></td><td><a href="http://wpf.2000things.com/2011/01/04/" title="#176 &#8211; Two Kinds of&nbsp;Templates">4</a></td><td><a href="http://wpf.2000things.com/2011/01/05/" title="#177 &#8211; A Content Presenter Is a Placeholder for a Content Control&#8217;s&nbsp;Content">5</a></td><td><a href="http://wpf.2000things.com/2011/01/06/" title="#178 &#8211; A Control Can Have Both a Control Template and A Data&nbsp;Template">6</a></td><td><a href="http://wpf.2000things.com/2011/01/07/" title="#179 &#8211; Panel Controls Contain UIElement&nbsp;Children">7</a></td><td><a href="http://wpf.2000things.com/2011/01/08/" title="#180 &#8211; How Layout&nbsp;Works">8</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://wpf.2000things.com/2011/01/09/" title="#181 &#8211; Creating a WPF Development&nbsp;Environment">9</a></td><td><a href="http://wpf.2000things.com/2011/01/10/" title="#182 &#8211; Create a WPF Project from Either Visual Studio or&nbsp;Blend">10</a></td><td><a href="http://wpf.2000things.com/2011/01/11/" title="#183 &#8211; Project Types Available from Visual Studio 2010 and Expression Blend&nbsp;4">11</a></td><td><a href="http://wpf.2000things.com/2011/01/12/" title="#184 &#8211; Creating a WPF Application Using Visual&nbsp;Studio">12</a></td><td><a href="http://wpf.2000things.com/2011/01/13/" title="#185 &#8211; Creating a WPF Application Using&nbsp;Blend">13</a></td><td><a href="http://wpf.2000things.com/2011/01/14/" title="#186 &#8211; When to Use Blend (vs. Visual&nbsp;Studio)">14</a></td><td><a href="http://wpf.2000things.com/2011/01/15/" title="#187 &#8211; Adding Controls to a Window Using Visual&nbsp;Studio">15</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://wpf.2000things.com/2011/01/16/" title="#188 &#8211; Adding Controls to a Window Using&nbsp;Blend">16</a></td><td><a href="http://wpf.2000things.com/2011/01/17/" title="#189 &#8211; Adding an Event Handler to a Control Using Visual&nbsp;Studio">17</a></td><td><a href="http://wpf.2000things.com/2011/01/18/" title="#190 &#8211; Adding an Event Handler to a Control Using&nbsp;Blend">18</a></td><td><a href="http://wpf.2000things.com/2011/01/19/" title="#191 &#8211; Setting a Control&#8217;s Properties Using Visual&nbsp;Studio">19</a></td><td><a href="http://wpf.2000things.com/2011/01/20/" title="#192 &#8211; Setting a Control&#8217;s Properties Using&nbsp;Blend">20</a></td><td><a href="http://wpf.2000things.com/2011/01/21/" title="#193 &#8211; You Can Have a Project Open in Blend and Visual Studio at the Same&nbsp;Time">21</a></td><td><a href="http://wpf.2000things.com/2011/01/22/" title="#194 &#8211; Hello WPF World, Love&nbsp;Blend">22</a></td>
+	</tr>
+	<tr>
+		<td id="today"><a href="http://wpf.2000things.com/2011/01/23/" title="#195 &#8211; The Venerable&nbsp;MessageBox">23</a></td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td>
+	</tr>
+	<tr>
+		<td>30</td><td>31</td>
+		<td class="pad" colspan="5">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://wpf.2000things.com/2010/10/22/102-using-xamlreader-to-load-a-loose-xaml-file/'>#102 - Using XamlReader to Load a Loose XAML File</a></li><li><a href='http://wpf.2000things.com/2011/01/22/194-hello-wpf-world-love-blend/'>#194 - Hello WPF World, Love Blend</a></li><li><a href='http://wpf.2000things.com/index/'>Index</a></li><li><a href='http://wpf.2000things.com/2010/12/15/156-using-the-tag-property-to-store-custom-data-with-an-element/'>#156 - Using the Tag Property to Store Custom Data with an Element</a></li><li><a href='http://wpf.2000things.com/2011/01/23/195-the-venerable-messagebox/'>#195 - The Venerable MessageBox</a></li><li><a href='http://wpf.2000things.com/2010/08/08/27-class-hierarchy/'>#27 - Class Hierarchy</a></li><li><a href='http://wpf.2000things.com/2010/12/16/157-you-can-set-standard-clr-properties-from-xaml/'>#157 - You Can Set Standard CLR Properties from XAML</a></li><li><a href='http://wpf.2000things.com/2010/08/29/48-handling-an-applications-exit-event/'>#48 - Handling an Application's Exit Event</a></li><li><a href='http://wpf.2000things.com/2010/10/19/99-creating-custom-objects-in-xaml/'>#99 - Creating Custom Objects in XAML</a></li><li><a href='http://wpf.2000things.com/2010/10/23/103-xaml-2009/'>#103 - XAML 2009</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://wpf.2000things.com/tag/application/' class='tag-link-3370' title='4 topics' style='font-size: 9.7803468208092pt;'>Application</a>
+<a href='http://wpf.2000things.com/tag/attached-properties/' class='tag-link-16229205' title='3 topics' style='font-size: 8.971098265896pt;'>Attached Properties</a>
+<a href='http://wpf.2000things.com/tag/baml/' class='tag-link-9190773' title='3 topics' style='font-size: 8.971098265896pt;'>BAML</a>
+<a href='http://wpf.2000things.com/tag/binding/' class='tag-link-296829' title='2 topics' style='font-size: 8pt;'>Binding</a>
+<a href='http://wpf.2000things.com/tag/blend/' class='tag-link-20948' title='10 topics' style='font-size: 12.531791907514pt;'>Blend</a>
+<a href='http://wpf.2000things.com/tag/code-behind/' class='tag-link-1380862' title='2 topics' style='font-size: 8pt;'>Code-Behind</a>
+<a href='http://wpf.2000things.com/tag/coercevaluecallback/' class='tag-link-43671909' title='5 topics' style='font-size: 10.42774566474pt;'>CoerceValueCallback</a>
+<a href='http://wpf.2000things.com/tag/collection-syntax/' class='tag-link-42937742' title='3 topics' style='font-size: 8.971098265896pt;'>Collection Syntax</a>
+<a href='http://wpf.2000things.com/tag/contentcontrol/' class='tag-link-6435769' title='2 topics' style='font-size: 8pt;'>ContentControl</a>
+<a href='http://wpf.2000things.com/tag/content-properties/' class='tag-link-43150681' title='2 topics' style='font-size: 8pt;'>Content Properties</a>
+<a href='http://wpf.2000things.com/tag/controls/' class='tag-link-100823' title='7 topics' style='font-size: 11.398843930636pt;'>Controls</a>
+<a href='http://wpf.2000things.com/tag/control-template/' class='tag-link-18931069' title='3 topics' style='font-size: 8.971098265896pt;'>Control Template</a>
+<a href='http://wpf.2000things.com/tag/data-binding/' class='tag-link-725408' title='2 topics' style='font-size: 8pt;'>Data Binding</a>
+<a href='http://wpf.2000things.com/tag/dependencyobject/' class='tag-link-12653898' title='2 topics' style='font-size: 8pt;'>DependencyObject</a>
+<a href='http://wpf.2000things.com/tag/dependency-properties/' class='tag-link-4859017' title='45 topics' style='font-size: 17.549132947977pt;'>Dependency Properties</a>
+<a href='http://wpf.2000things.com/tag/dependency-property/' class='tag-link-12411431' title='7 topics' style='font-size: 11.398843930636pt;'>Dependency property</a>
+<a href='http://wpf.2000things.com/tag/directx/' class='tag-link-20056' title='2 topics' style='font-size: 8pt;'>DirectX</a>
+<a href='http://wpf.2000things.com/tag/event-handler/' class='tag-link-4364007' title='3 topics' style='font-size: 8.971098265896pt;'>Event Handler</a>
+<a href='http://wpf.2000things.com/tag/frameworkelement/' class='tag-link-23671364' title='2 topics' style='font-size: 8pt;'>FrameworkElement</a>
+<a href='http://wpf.2000things.com/tag/freezable/' class='tag-link-7482551' title='3 topics' style='font-size: 8.971098265896pt;'>Freezable</a>
+<a href='http://wpf.2000things.com/tag/graphics/' class='tag-link-658' title='3 topics' style='font-size: 8.971098265896pt;'>Graphics</a>
+<a href='http://wpf.2000things.com/tag/inheritance/' class='tag-link-84839' title='2 topics' style='font-size: 8pt;'>Inheritance</a>
+<a href='http://wpf.2000things.com/tag/layout/' class='tag-link-26060' title='3 topics' style='font-size: 8.971098265896pt;'>Layout</a>
+<a href='http://wpf.2000things.com/tag/logical-tree/' class='tag-link-3264715' title='5 topics' style='font-size: 10.42774566474pt;'>Logical Tree</a>
+<a href='http://wpf.2000things.com/tag/markup/' class='tag-link-4675' title='3 topics' style='font-size: 8.971098265896pt;'>Markup</a>
+<a href='http://wpf.2000things.com/tag/markup-extension/' class='tag-link-13775636' title='2 topics' style='font-size: 8pt;'>Markup Extension</a>
+<a href='http://wpf.2000things.com/tag/markup-extensions/' class='tag-link-18058044' title='2 topics' style='font-size: 8pt;'>Markup Extensions</a>
+<a href='http://wpf.2000things.com/tag/metadata/' class='tag-link-23191' title='3 topics' style='font-size: 8.971098265896pt;'>Metadata</a>
+<a href='http://wpf.2000things.com/tag/overridemetadata/' class='tag-link-48248566' title='3 topics' style='font-size: 8.971098265896pt;'>OverrideMetadata</a>
+<a href='http://wpf.2000things.com/tag/propertychangedcallback/' class='tag-link-43671910' title='4 topics' style='font-size: 9.7803468208092pt;'>PropertyChangedCallback</a>
+<a href='http://wpf.2000things.com/tag/property-element-syntax/' class='tag-link-42774866' title='2 topics' style='font-size: 8pt;'>Property Element Syntax</a>
+<a href='http://wpf.2000things.com/tag/property-trigger/' class='tag-link-46138579' title='2 topics' style='font-size: 8pt;'>Property Trigger</a>
+<a href='http://wpf.2000things.com/tag/resources/' class='tag-link-1784' title='4 topics' style='font-size: 9.7803468208092pt;'>Resources</a>
+<a href='http://wpf.2000things.com/tag/silverlight/' class='tag-link-984139' title='2 topics' style='font-size: 8pt;'>Silverlight</a>
+<a href='http://wpf.2000things.com/tag/styles/' class='tag-link-67123' title='2 topics' style='font-size: 8pt;'>Styles</a>
+<a href='http://wpf.2000things.com/tag/templates/' class='tag-link-1663' title='2 topics' style='font-size: 8pt;'>Templates</a>
+<a href='http://wpf.2000things.com/tag/triggers/' class='tag-link-14109' title='2 topics' style='font-size: 8pt;'>Triggers</a>
+<a href='http://wpf.2000things.com/tag/uielement/' class='tag-link-23200278' title='3 topics' style='font-size: 8.971098265896pt;'>UIElement</a>
+<a href='http://wpf.2000things.com/tag/value-inheritance/' class='tag-link-46356674' title='2 topics' style='font-size: 8pt;'>Value Inheritance</a>
+<a href='http://wpf.2000things.com/tag/visual-studio/' class='tag-link-6678' title='12 topics' style='font-size: 13.098265895954pt;'>Visual Studio</a>
+<a href='http://wpf.2000things.com/tag/visual-studio-2010/' class='tag-link-11664360' title='5 topics' style='font-size: 10.42774566474pt;'>Visual Studio 2010</a>
+<a href='http://wpf.2000things.com/tag/visual-tree/' class='tag-link-3264716' title='3 topics' style='font-size: 8.971098265896pt;'>Visual Tree</a>
+<a href='http://wpf.2000things.com/tag/wpf/' class='tag-link-46652' title='160 topics' style='font-size: 22pt;'>WPF</a>
+<a href='http://wpf.2000things.com/tag/xaml/' class='tag-link-103962' title='48 topics' style='font-size: 17.791907514451pt;'>XAML</a>
+<a href='http://wpf.2000things.com/tag/xaml-namespaces/' class='tag-link-18024396' title='2 topics' style='font-size: 8pt;'>XAML Namespaces</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>9,290 hits</li>
+			</ul>
+		</div>		
+</div>			
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a rel="designer" href="http://www.studiopress.com/">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery( function() {
+			
+			jQuery('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				jQuery('#wpl-mustlogin').remove();
+
+				jQuery.post( 'http://2000thingswpf.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=2ad1d9d830; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+				
+				jQuery('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="http://2000thingswpf.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://wpf.2000things.com/2011/01/15/187-adding-controls-to-a-window-using-visual-studio/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="2ad1d9d830" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+				
+				jQuery('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			jQuery('#wpl-mustlogin input.input').live( 'focus', function() {
+				jQuery(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( jQuery(this).val() == '' )
+					jQuery(this).prev().show();
+			});
+			
+			jQuery('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				jQuery.post( 'http://2000thingswpf.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					jQuery('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			jQuery('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = jQuery(this).attr('href');
+				
+				jQuery.post( 'http://2000thingswpf.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript">_qoptions={qacct:'p-18-mFEk4J448M',labels:'language.en,type.wpcom,posttag.controls,posttag.visual-studio,posttag.wpf'};</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript><p><img class="robots-nocontent" src="http://pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cposttag.controls%2Cposttag.visual-studio%2Cposttag.wpf" style="display:none" height="1" width="1" alt="" /></p></noscript>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?o&#038;ver=MU'></script>
+	<script type="text/javascript">	
+	// <![CDATA[
+	WPGroHo = {
+		data: {},
+		renderers: {},
+		syncProfileData: function( hash, id ) {
+			if ( !WPGroHo.data[hash] ) {
+				WPGroHo.data[hash] = {};
+				a = jQuery( 'div.grofile-hash-map-' + hash + ' span' ).each( function() {
+					WPGroHo.data[hash][this.className] = jQuery( this ).text();
+				} );
+			}
+
+			WPGroHo.appendProfileData( WPGroHo.data[hash], hash, id );
+		},
+		appendProfileData: function( data, hash, id ) {
+			for ( var key in data ) {
+				if ( jQuery.isFunction( WPGroHo.renderers[key] ) ) {
+					return WPGroHo.renderers[key]( data[key], hash, id, key );
+				}
+
+				jQuery( '#' + id ).find( 'h4' ).after( jQuery( '<p class="grav-extra ' + key + '" />' ).html( data[key] ) );
+			}
+		}
+	};
+	jQuery(document).ready(function($){
+		Gravatar.profile_cb = function( h, d ) {
+			WPGroHo.syncProfileData( h, d );
+		};
+		Gravatar.attach_profiles();
+	});
+	// ]]>
+	</script>
+	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type="text/javascript" src="http://b.scorecardresearch.com/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script src="http://s.stats.wordpress.com/w.js?19" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14605478','v':'wpcom','user_id':'0','post':'1541','subd':'2000thingswpf'});
+ex_go({'crypt':'RDZ8LFkxbXEuSi5CR1drN3N5OGkwd2hWbjcxMzZXSlVGK3ZTcSxXX2lSanJfdy4/MXhOLkNQbFkrYkZ6SStdYlQ2ZU1JMnFCeUtORC5FaS9KNlBGMmNKNjBlJm1dMDg9WEhZNmJEfFdad2hXW3FJVUp5bi52Vl1TTWYvcXEmaXVbb09CSFAsP3dZeW1tdCtEOD85Zkg2OWNxNmxmc1lNQXdfUWoyUGtSYTB5MC9JVCV4aWdOc0ptY3IuSSY/UkIrUUc4Vl8lWXhOPzlaJQ=='});
+addLoadEvent(function(){linktracker_init('14605478',1541);});
+	</script>
+
+</body>
+</html>

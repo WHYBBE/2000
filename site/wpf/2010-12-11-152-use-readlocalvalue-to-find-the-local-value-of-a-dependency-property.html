@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#152 – Use ReadLocalValue() to Find the Local Value of a Dependency Property</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-10-151-dependency-properties-remember-non-coerced-values.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-12-153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object.html">Next</a></nav>
+  <h1>#152 – Use ReadLocalValue() to Find the Local Value of a Dependency Property</h1>
+  <p class="meta">2010-12-11 | <a href="http://wpf.2000things.com/2010/12/11/152-use-readlocalvalue-to-find-the-local-value-of-a-dependency-property/">Original URL</a> | Wayback 20120706161743</p>
+  <article><div class="post-1282 post type-post status-publish format-standard hentry category-dependency-properties tag-dependency-properties tag-local-value tag-readlocalvalue tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 11, 2010</span>
+																						<span class="post-comments"><a href="2010-12-11-152-use-readlocalvalue-to-find-the-local-value-of-a-dependency-property.html" title="Comment on #152 &#8211; Use ReadLocalValue() to Find the Local Value of a Dependency&nbsp;Property">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use a <strong>DependencyObject</strong>&#8216;s<strong> ReadLocalValue</strong> method to get the local value of a dependency property, rather than its effective value.  Recall that the <a href="2010-11-23-134-dependency-property-value-sources-1-local-value.html">local value</a> is a value set locally, from XAML or code, which takes precedence over all other sources for the base value of a dependency property.  The local value has <em>lower</em> precedence than any coerced values.</p>
+<p>Using <strong>ReadLocalValue</strong> (assuming that <strong>this</strong> refers to a <strong>DependencyObject</strong> that registers <strong>AgeProperty</strong>):</p>
+<p><pre class="brush: csharp;">
+            int ageValue = (int)this.GetValue(AgeProperty);         // Effective value
+            int ageLocal = (int)this.ReadLocalValue(AgeProperty);   // Local value
+</pre></p>
+<p>Getting this information for the <a href="2010-12-10-151-dependency-properties-remember-non-coerced-values.html"><strong>Age/SuperOld</strong> example</a>, we get the following:</p>
+<p><pre class="brush: csharp;">
+            p.Age = 28;
+            info = p.AgeInfo();   // Value=28, Local=28
+
+            p.SuperOld = true;
+            info = p.AgeInfo();   // Value=999, Local=28
+
+            p.Age = 56;
+            info = p.AgeInfo();   // Value=999, Local=56
+
+            p.SuperOld = false;
+            info = p.AgeInfo();   // Value=56, Local=56
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, Local Value, ReadLocalValue, WPF</p>
+  <nav class="pager"><a href="2010-12-10-151-dependency-properties-remember-non-coerced-values.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-12-153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object.html">Next</a></nav>
+</main>
+
+</body>
+</html>

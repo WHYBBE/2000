@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#654 – Mouse Events for Button Presses</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-09-24-653-mousemove-events.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-26-655-bubbling-mouse-events-swallowed-by-some-controls.html">Next</a></nav>
+  <h1>#654 – Mouse Events for Button Presses</h1>
+  <p class="meta">2012-09-25 | <a href="http://wpf.2000things.com/2012/09/25/654-mouse-events-for-button-presses/">Original URL</a> | Wayback 20121014074504</p>
+  <article><div class="post-5661 post type-post status-publish format-standard hentry category-events tag-events tag-mouse tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 25, 2012</span>
+																						<span class="post-comments"><a href="2012-09-25-654-mouse-events-for-button-presses.html" title="Comment on #654 &#8211; Mouse Events for Button&nbsp;Presses">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>When a user clicks on a mouse button, there are a series of preview events (tunneling) and actual events (bubbling) that travel up and down the logical tree.</p>
+<p>For example, for a <strong>Label</strong> contained in a <strong>StackPanel</strong>, which is contained in a <strong>Window</strong>, the full sequence of events for a left mouse button click on the <strong>Label </strong>is:</p>
+<ul>
+<li><strong>PreviewMouseLeftButtonDown</strong> for <strong>Window</strong></li>
+<li><strong>PreviewMouseDown </strong>for <strong>Window</strong></li>
+<li><strong>PreviewMouseLeftButtonDown </strong>for <strong>StackPanel</strong></li>
+<li><strong>PreviewMouseDown</strong> for <strong>StackPanel</strong></li>
+<li><strong>PreviewMouseLeftButtonDown</strong> for <strong>Label</strong></li>
+<li><strong>PreviewMouseDown</strong> for <strong>Label</strong></li>
+<li><strong>MouseLeftButtonDown</strong> for <strong>Label</strong></li>
+<li><strong>MouseDown</strong> for <strong>Label</strong></li>
+<li><strong>MouseLeftButtonDown </strong>for <strong>StackPanel</strong></li>
+<li><strong>MouseDown</strong> for <strong>StackPanel</strong></li>
+<li><strong>MouseLeftButtonDown </strong>for<strong> Window</strong></li>
+<li><strong>MouseDown</strong> for <strong>Window</strong></li>
+<li><strong>PreviewMouseLeftButtonUp</strong> for <strong>Window</strong></li>
+<li><strong>PreviewMouseUp</strong> for <strong>Window</strong></li>
+<li><strong>PreviewMouseLeftButtonUp</strong> for <strong>StackPanel</strong></li>
+<li><strong>PreviewMouseUp </strong>for <strong>StackPanel</strong></li>
+<li><strong>PreviewMouseLeftButtonUp</strong> for <strong>Label</strong></li>
+<li><strong>PreviewMouseUp</strong> for <strong>Label</strong></li>
+<li><strong>MouseLeftButtonUp</strong> for <strong>Label</strong></li>
+<li><strong>MouseUp</strong> for <strong>Label</strong></li>
+<li><strong>MouseLeftButtonUp</strong> for <strong>Stackpanel</strong></li>
+<li><strong>MouseUp</strong> for <strong>StackPanel</strong></li>
+<li><strong>MouseLeftButtonUp</strong> for <strong>Window</strong></li>
+<li><strong>MouseUp</strong> for <strong>Window</strong></li>
+</ul>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/09/654-001.png"><img class="alignnone size-full wp-image-5663" title="654-001" src="https://web.archive.org/web/20121014074504id_/http://2000thingswpf.files.wordpress.com/2012/09/654-001.png?w=630&amp;h=293" alt="" width="630" height="293" /></a></p>
+<p>&nbsp;</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5661" class="wpl-button "><a href='2012-09-25-654-mouse-events-for-button-presses.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count"><span class="wpl-count-number">2</span> bloggers like this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/patricklatter" title="Patrick Latter" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/cac887042d6e4d93b9e1a493686255db?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='Patrick Latter' width='30' height='30' /></a></li><li><a href="http://gravatar.com/mihaicristiandaniel" title="Cristian Mihai" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/c87b0e5b32e3383df7109d0c4a544dce?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='Cristian Mihai' width='30' height='30' /></a></li></ul></div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, Mouse, WPF</p>
+  <nav class="pager"><a href="2012-09-24-653-mousemove-events.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-26-655-bubbling-mouse-events-swallowed-by-some-controls.html">Next</a></nav>
+</main>
+
+</body>
+</html>

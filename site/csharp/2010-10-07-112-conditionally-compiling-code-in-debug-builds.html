@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#112 – Conditionally Compiling Code in Debug Builds</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-06-111-combining-the-logical-or-shift-operators-with-the-assignment-operator.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-08-113-conditionally-compiling-code-based-on-symbols.html">Next</a></nav>
+  <h1>#112 – Conditionally Compiling Code in Debug Builds</h1>
+  <p class="meta">2010-10-07 | <a href="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/">Original URL</a> | Wayback 20110127232002</p>
+  <article><div class="post-1111 post type-post status-publish format-standard hentry category-debugging tag-if tag-debug">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 7, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-10-07-112-conditionally-compiling-code-in-debug-builds.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>By default, the C# project wizard sets up every project to have two different build configurations&#8211;<strong>Debug</strong> and <strong>Release</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/debugrelease.png"><img class="alignnone size-full wp-image-1112" title="DebugRelease" src="https://web.archive.org/web/20110127232002id_/http://2000thingscsharp.files.wordpress.com/2010/10/debugrelease.png?w=218&amp;h=128" alt="" width="218" height="128" /></a></p>
+<p>Debug builds (as compared with Release builds):</p>
+<ul>
+<li>Create executables in \bin\Debug directory</li>
+<li>Do <em>not</em> optimize code</li>
+<li>Define the DEBUG symbol</li>
+<li>Write out full debug info</li>
+</ul>
+<p>You build your projects in the Debug configuration during development, for the best debugging experience.  Then, when your program is ready to ship, you build the Release configuration and ship that version.</p>
+<p>You may want to include certain code in your program that you use only for debugging purposes&#8211;so you include it in only the Debug build.  You do this using the <strong>#if</strong> directive, checking the DEBUG variable.</p>
+<pre class="brush: csharp;">
+ static void Main(string[] args)
+ {
+#if DEBUG
+     DoSomeLogging();   // Only do this in Debug build
+#endif
+    uint x = 0x1234;
+    x &amp;= 0x0020;
+ }
+</pre>
+<p>Code within the #if/#endif directives will not be included in the release build.</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/"
+    dc:identifier="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/"
+    dc:title="#112 &#8211; Conditionally Compiling Code in Debug&nbsp;Builds"
+    trackback:ping="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/debugging/" title="View all posts in Debugging" rel="category tag">Debugging</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/if/" rel="tag">#if</a>, <a href="http://en.wordpress.com/tag/debug/" rel="tag">DEBUG</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Debugging | Tags: #if, DEBUG</p>
+  <nav class="pager"><a href="2010-10-06-111-combining-the-logical-or-shift-operators-with-the-assignment-operator.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-08-113-conditionally-compiling-code-based-on-symbols.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#277 – Passing an Array to a Method</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-20-276-passing-a-struct-by-reference.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-22-278-passing-an-array-by-reference.html">Next</a></nav>
+  <h1>#277 – Passing an Array to a Method</h1>
+  <p class="meta">2011-03-21 | <a href="http://csharp.2000things.com/2011/03/21/277-passing-an-array-to-a-method/">Original URL</a> | Wayback 20120525034126</p>
+  <article><div class="post-2399 post type-post status-publish format-standard hentry category-methods tag-array tag-c tag-methods">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">March 21, 2011</span>
+																						<span class="post-comments"><a href="2011-03-21-277-passing-an-array-to-a-method.html" title="Comment on #277 &#8211; Passing an Array to a&nbsp;Method">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>A variable that is the name of an array is just a reference to an instance of <strong>System.Array</strong>.  Since it is a reference type, when you pass an array to a method, you pass a copy of the reference.  This means that the method has the ability to read and write elements of the array.</p>
+<p>Here&#8217;s a method that accepts an array as an input parameter.  The code demonstrates that you can read from and write to elements of the array.</p>
+<p><pre class="brush: csharp;">
+        public static void DumpMovieInfo(MovieInfo[] movieList)
+        {
+            for (int i = 0; i &lt; movieList.Length; i++)
+            {
+                // Read element of the array
+                Console.WriteLine(&quot;{0} ({1}), {2}&quot;, movieList[i].Title, movieList[i].Year, movieList[i].Director);
+
+                // Rewrite element
+                movieList[i].Title = movieList[i].Title.ToUpper();
+                movieList[i].Director = movieList[i].Director.ToUpper();
+            }
+        }
+</pre></p>
+<p>You would call the method as follows:</p>
+<p><pre class="brush: csharp;">
+            MovieInfo[] movies = { new MovieInfo(&quot;The African Queen&quot;, 1951, &quot;John Huston&quot;),
+                                   new MovieInfo(&quot;Casablanca&quot;, 1942, &quot;Michael Curtiz&quot;),
+                                   new MovieInfo(&quot;The Godfather&quot;, 1972, &quot;Francis Ford Coppola&quot;)};
+
+            Movie.DumpMovieInfo(movies);
+
+            Movie.DumpMovieInfo(movies);
+</pre></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/03/001-method1.png"><img class="alignnone size-full wp-image-2404" title="001-Method" src="https://web.archive.org/web/20120525034126id_/http://2000thingscsharp.files.wordpress.com/2011/03/001-method1.png?w=630" alt=""   /></a></pre>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/03/21/277-passing-an-array-to-a-method/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2399"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/03/21/277-passing-an-array-to-a-method/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/03/21/277-passing-an-array-to-a-method/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Methods | Tags: Array, C#, Methods</p>
+  <nav class="pager"><a href="2011-03-20-276-passing-a-struct-by-reference.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-22-278-passing-an-array-by-reference.html">Next</a></nav>
+</main>
+
+</body>
+</html>

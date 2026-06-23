@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#160 – Be Careful When Setting Dependency Property Values from a DependencyObject Constructor</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-18-159-creating-a-read-only-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-20-161-read-a-dependency-propertys-metadata.html">Next</a></nav>
+  <h1>#160 – Be Careful When Setting Dependency Property Values from a DependencyObject Constructor</h1>
+  <p class="meta">2010-12-19 | <a href="http://wpf.2000things.com/2010/12/19/160-be-careful-when-setting-dependency-property-values-from-a-dependencyobject-constructor/">Original URL</a> | Wayback 20110203070710</p>
+  <article><div class="post-1340 post type-post status-publish format-standard hentry category-dependency-properties tag-default-constructor tag-dependency-properties tag-fxcop tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">December 19, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-12-19-160-be-careful-when-setting-dependency-property-values-from-a-dependencyobject-constructor.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You should normally avoid calling any virtual methods in a C# class constructor.  Your constructor might get called during construction of a derived class, before the derived class has finished initializing everything that it needs to initialize.  If the derived class also overrides the virtual method that you&#8217;re calling, that method could end up getting called before the derived class has finished initializing everything (in its constructor).</p>
+<p>If you use <a href="http://blogs.msdn.com/b/codeanalysis/archive/2010/07/26/fxcop-10-0-is-available.aspx">FxCop</a> to check your code, this will be caught by the <a href="http://msdn.microsoft.com/en-us/library/ms182331%28v=vs.80%29.aspx">DoNotCallOverridableMethodsInConstructors</a> rule.</p>
+<p>This rule applies to WPF.  If you set the value of a dependency property in a constructor, virtual methods or callbacks in the property system may end up getting called.</p>
+<p>The best way to avoid the problem is to follow the following rule:</p>
+<ul>
+<li>Initialize all objects that might be used by property system callbacks in your default (parameterless) constructor</li>
+</ul>
+<p>See also: <a href="http://msdn.microsoft.com/en-us/library/ms754149.aspx">Safe Constructor Patterns for DependencyObjects</a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/12/19/160-be-careful-when-setting-dependency-property-values-from-a-dependencyobject-constructor/"
+    dc:identifier="http://wpf.2000things.com/2010/12/19/160-be-careful-when-setting-dependency-property-values-from-a-dependencyobject-constructor/"
+    dc:title="#160 &#8211; Be Careful When Setting Dependency Property Values from a DependencyObject&nbsp;Constructor"
+    trackback:ping="http://wpf.2000things.com/2010/12/19/160-be-careful-when-setting-dependency-property-values-from-a-dependencyobject-constructor/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/default-constructor/" rel="tag">Default Constructor</a>, <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/fxcop/" rel="tag">FxCop</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Default Constructor, Dependency Properties, FxCop, WPF</p>
+  <nav class="pager"><a href="2010-12-18-159-creating-a-read-only-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-20-161-read-a-dependency-propertys-metadata.html">Next</a></nav>
+</main>
+
+</body>
+</html>

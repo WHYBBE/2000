@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#887 – The Difference between Disabled and Hidden Scrollbar Visibility</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2013-08-16-886-wrapping-a-canvas-in-a-scrollviewer.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-08-20-888-different-ways-to-scroll-content-in-a-scrollviewer.html">Next</a></nav>
+  <h1>#887 – The Difference between Disabled and Hidden Scrollbar Visibility</h1>
+  <p class="meta">2013-08-19 | <a href="http://wpf.2000things.com/2013/08/19/887-the-difference-between-disabled-and-hidden-scrollbar-visibility/">Original URL</a> | Wayback 20140331075209</p>
+  <article><div class="post-7479 post type-post status-publish format-standard hentry category-controls tag-controls tag-disabled tag-hidden tag-scrollbar tag-scrollviewer tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 19, 2013</span>
+																						<span class="post-comments"><a href="2013-08-19-887-the-difference-between-disabled-and-hidden-scrollbar-visibility.html" title="Comment on #887 &#8211; The Difference between Disabled and Hidden Scrollbar&nbsp;Visibility">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>A <a href="2011-09-19-389-wrap-a-panel-in-a-scrollviewer-to-provide-scrolling-support.html"><strong>ScrollViewer</strong> </a>allows setting the horizontal or vertical <a href="2011-09-20-390-scrollbar-visibility-in-a-scrollviewer.html">scrollbar visibility</a> to <strong>Auto</strong>, <strong>Disabled</strong>, <strong>Hidden</strong> or <strong>Visible</strong>.  The <strong>Disabled</strong> and <strong>Hidden</strong> options are similiar, but subtly different.</p>
+<ul>
+<li><strong>Hidden</strong> &#8211; Scrollbar is not shown, but content is allowed to scroll (e.g. using arrow keys).  Content in <strong>ScrollViewer</strong> is given an infinite amount of space in the scrolling direction.  (E.g. Infinite width if <strong>HorizontalScrollBarVisibility</strong> is set to <strong>Hidden</strong>).</li>
+<li><strong>Disabled</strong> &#8211; Content cannot scroll and is not allowed to be larger than the <strong>ScrollViewer&#8217;s</strong> size in the scrolling direction.</li>
+</ul>
+<p>We can see how this works by placing a horizontally-oriented <a href="2011-09-30-398-wrappanel-element.html"><strong>WrapPanel</strong></a> inside a <strong>ScrollViewer</strong>.  When the <strong>HorizontalScrollBarVisibility</strong> is set to <strong>Hidden</strong>, the <strong>WrapPanel</strong> is infinitely wide and therefore never wraps.  (You can still scroll the content using the arrow keys).</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/08/887-001.png"><img class="alignnone size-full wp-image-7480" alt="887-001" src="https://web.archive.org/web/20140331075209id_/http://2000thingswpf.files.wordpress.com/2013/08/887-001.png?w=630"   /></a></p>
+<p>If the <strong>HorizontalScrollBarVisibility</strong> is set to <strong>Disabled</strong>, the <strong>WrapPanel</strong> can&#8217;t scroll horizontally and its width is constrained to the width of the <strong>ScrollViewer</strong>, causing it to wrap.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/08/887-002.png"><img class="alignnone size-full wp-image-7481" alt="887-002" src="https://web.archive.org/web/20140331075209id_/http://2000thingswpf.files.wordpress.com/2013/08/887-002.png?w=630"   /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2013/08/19/887-the-difference-between-disabled-and-hidden-scrollbar-visibility/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "disabled");
+GA_googleAddAttr("Tag", "hidden");
+GA_googleAddAttr("Tag", "scrollbar");
+GA_googleAddAttr("Tag", "scrollviewer");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2013/08/19/887-the-difference-between-disabled-and-hidden-scrollbar-visibility/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='virool.com']").length > 0 || jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-7479-53391eaa4925a' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=7479&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-7479-53391eaa4925a' data-name='like-post-frame-14605478-7479-53391eaa4925a'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Disabled, Hidden, Scrollbar, ScrollViewer, WPF</p>
+  <nav class="pager"><a href="2013-08-16-886-wrapping-a-canvas-in-a-scrollviewer.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-08-20-888-different-ways-to-scroll-content-in-a-scrollviewer.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#222 – Example: Changing a Color Using RGB Sliders</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-02-18-221-changing-a-brush-at-run-time.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-20-223-predefined-system-colors.html">Next</a></nav>
+  <h1>#222 – Example: Changing a Color Using RGB Sliders</h1>
+  <p class="meta">2011-02-19 | <a href="http://wpf.2000things.com/2011/02/19/222-example-changing-a-color-using-rgb-sliders/">Original URL</a> | Wayback 20111223210624</p>
+  <article><div class="post-1859 post type-post status-publish format-standard hentry category-graphics tag-color tag-solidcolorbrush tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">February 19, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-02-19-222-example-changing-a-color-using-rgb-sliders.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>Here&#8217;s an example of changing a color at run-time, using three sliders.</p>
+<p>The XAML defines a control and three sliders:</p>
+<p><pre class="brush: xml;">
+	&lt;Window.Resources&gt;
+		&lt;SolidColorBrush x:Key=&quot;magicBrush&quot; Color=&quot;Red&quot;/&gt;
+	&lt;/Window.Resources&gt;
+
+	&lt;StackPanel&gt;
+		&lt;Ellipse Height=&quot;100&quot; Width=&quot;200&quot; Fill=&quot;{StaticResource magicBrush}&quot; Margin=&quot;30&quot;/&gt;
+
+		&lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
+			&lt;Label Content=&quot;Red&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        	&lt;Slider Name=&quot;sliR&quot; Width=&quot;150&quot; Margin=&quot;10&quot; Minimum=&quot;0&quot; Maximum=&quot;255&quot; TickFrequency=&quot;1&quot; IsSnapToTickEnabled=&quot;True&quot;
+				Value=&quot;255&quot;
+				ValueChanged=&quot;sli_ValueChanged&quot;/&gt;
+			&lt;Label Content=&quot;{Binding ElementName=sliR, Path=Value}&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+		&lt;/StackPanel&gt;
+		&lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
+			&lt;Label Content=&quot;Green&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        	&lt;Slider Name=&quot;sliG&quot; Width=&quot;150&quot; Margin=&quot;10&quot; Minimum=&quot;0&quot; Maximum=&quot;255&quot; TickFrequency=&quot;1&quot; IsSnapToTickEnabled=&quot;True&quot;
+				ValueChanged=&quot;sli_ValueChanged&quot;/&gt;
+			&lt;Label Content=&quot;{Binding ElementName=sliG, Path=Value}&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+		&lt;/StackPanel&gt;
+		&lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
+			&lt;Label Content=&quot;Blue&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        	&lt;Slider Name=&quot;sliB&quot; Width=&quot;150&quot; Margin=&quot;10&quot; Minimum=&quot;0&quot; Maximum=&quot;255&quot; TickFrequency=&quot;1&quot; IsSnapToTickEnabled=&quot;True&quot;
+				ValueChanged=&quot;sli_ValueChanged&quot;/&gt;
+			&lt;Label Content=&quot;{Binding ElementName=sliB, Path=Value}&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+		&lt;/StackPanel&gt;
+	&lt;/StackPanel&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/001-start.png"><img class="alignnone size-full wp-image-1867" title="001-Start" src="https://web.archive.org/web/20111223210624id_/http://2000thingswpf.files.wordpress.com/2011/02/001-start.png?w=630" alt=""   /></a></p>
+<p>In code, we have a single method that executes when the sliders change, which changes the brush color:</p>
+<p><pre class="brush: csharp;">
+        private void sli_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs&lt;double&gt; e)
+        {
+			SolidColorBrush magicBrush = (SolidColorBrush)this.Resources[&quot;magicBrush&quot;];
+
+            if ((sliR != null) &amp;&amp; (sliG != null) &amp;&amp; (sliB != null))
+            {
+                magicBrush.Color = Color.FromRgb((byte)sliR.Value, (byte)sliG.Value, (byte)sliB.Value);
+            }
+        }
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/002-anewcolor.png"><img class="alignnone size-full wp-image-1868" title="002-ANewColor" src="https://web.archive.org/web/20111223210624id_/http://2000thingswpf.files.wordpress.com/2011/02/002-anewcolor.png?w=630" alt=""   /></a></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-02-19-222-example-changing-a-color-using-rgb-sliders.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Graphics | Tags: Color, SolidColorBrush, WPF</p>
+  <nav class="pager"><a href="2011-02-18-221-changing-a-brush-at-run-time.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-20-223-predefined-system-colors.html">Next</a></nav>
+</main>
+
+</body>
+</html>

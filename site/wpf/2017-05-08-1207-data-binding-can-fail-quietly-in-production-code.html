@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,207 – Data Binding Can Fail Quietly in Production Code</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-04-28-1206-changing-color-of-custom-circular-progress.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">Next</a></nav>
+  <h1>#1,207 – Data Binding Can Fail Quietly in Production Code</h1>
+  <p class="meta">2017-05-08 | <a href="http://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/">Original URL</a> | Wayback 20170511050020</p>
+  <article><div class="post-9658 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 8, 2017</span>
+																						<span class="post-comments"><a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">6 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>By default, if there&#8217;s a problem in how you set up data binding in WPF, the user of the application will never see the binding errors. An exception occurs internally for the binding error, but the WPF application won&#8217;t crash or report the exception.</p>
+<p>Let&#8217;s say that we have that we have an application the includes the following properties in an object that we bind to (i.e. the object that we set the DataContext of a window to). (Using <strong>SetProp</strong> from <a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">post #1,205</a>).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private string _yourText;
+        public string YourText
+        {
+            get { return _yourText; }
+            set
+            {
+                if (SetProp(ref _yourText, value))
+                {
+                    RaisePropertyChanged(&quot;TextLength&quot;);
+                }
+            }
+        }
+
+        private int _textLength;
+        public int TextLength
+        {
+            get { return string.IsNullOrWhiteSpace(_yourText) ? 0 : _yourText.Length; }
+        }
+</pre>
+<p>Now let&#8217;s say that we have the following XAML fragment (assume in a <strong>Window</strong> whose <strong>DataContext</strong> is set to a class containing the properties shown above).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;TextBlock Text=&quot;Enter text:&quot;/&gt;
+        &lt;TextBox Grid.Column=&quot;1&quot; Margin=&quot;10,0&quot; Text=&quot;{Binding YourText, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+
+        &lt;TextBlock Grid.Row=&quot;1&quot; Margin=&quot;0,10&quot; Text=&quot;Length:&quot;/&gt;
+        &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Margin=&quot;0,10&quot; Text=&quot;{Binding TextLenth}&quot;/&gt;
+</pre>
+<p>Note the error&#8211;we spelled the <b>TextLength</b> property incorrectly, so binding for this <b>TextBlock</b> will fail.</p>
+<p>If we just build and run the application, we won&#8217;t get an exception and the application will run fine. It just won&#8217;t bind to <b>TextLength</b>.<br />
+<a href="https://wpf.2000things.com/?attachment_id=9669" rel="attachment wp-att-9669"><img data-attachment-id="9669" data-permalink="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/1207_1-2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630" data-orig-size="347,157" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1207_1" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630?w=347" src="https://web.archive.org/web/20170511050020id_/https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=630" alt=""   class="alignnone size-full wp-image-9669" srcset="https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg 347w, https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/05/1207_11.jpg?w=300 300w" sizes="(max-width: 347px) 100vw, 347px" /></a></p>
+<p>If you run the application in the Visual Studio debugger and pay attention to the Output window, you&#8217;ll see the error reported there. But WPF swallows this error and the application runs fine.<br />
+<a href="https://wpf.2000things.com/?attachment_id=9667" rel="attachment wp-att-9667"><img data-attachment-id="9667" data-permalink="https://wpf.2000things.com/2017/05/08/1207-data-binding-can-fail-quietly-in-production-code/1207_2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237" data-orig-size="870,327" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1207_2" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&#038;h=237?w=630" src="https://web.archive.org/web/20170511050020id_/https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&amp;h=237" alt="" width="630" height="237" class="alignnone size-full wp-image-9667" srcset="https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=630&amp;h=237 630w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=150&amp;h=56 150w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=300&amp;h=113 300w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg?w=768&amp;h=289 768w, https://2000thingswpf.files.wordpress.com/2017/05/1207_2.jpg 870w" sizes="(max-width: 630px) 100vw, 630px" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9658-5913efe91e5f4' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9658&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9658-5913efe91e5f4' data-name='like-post-frame-14605478-9658-5913efe91e5f4'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, WPF</p>
+  <nav class="pager"><a href="2017-04-28-1206-changing-color-of-custom-circular-progress.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">Next</a></nav>
+</main>
+
+</body>
+</html>

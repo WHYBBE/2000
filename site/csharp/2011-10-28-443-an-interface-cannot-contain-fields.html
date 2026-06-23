@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#443 – An Interface Cannot Contain Fields</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-27-442-explicit-interface-implementation-allows-duplicate-member-names.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-31-444-interfaces-can-inherit-from-other-interfaces.html">Next</a></nav>
+  <h1>#443 – An Interface Cannot Contain Fields</h1>
+  <p class="meta">2011-10-28 | <a href="http://csharp.2000things.com/2011/10/28/443-an-interface-cannot-contain-fields/">Original URL</a> | Wayback 20121208012846</p>
+  <article><div class="post-3745 post type-post status-publish format-standard hentry category-interfaces tag-c tag-fields tag-interfaces">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 28, 2011</span>
+																						<span class="post-comments"><a href="2011-10-28-443-an-interface-cannot-contain-fields.html" title="Comment on #443 &#8211; An Interface Cannot Contain&nbsp;Fields">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>An interface can contain methods, properties, events or indexers.  It cannot contain fields.</p>
+<p><pre class="brush: csharp;">
+    interface IMoo
+    {
+        // Methods
+        void Moo();
+
+        // Field not allowed - compile-time error
+        string Name;
+</pre></p>
+<p>Instead of a field, you can use a property.</p>
+<p><pre class="brush: csharp;">
+    interface IMoo
+    {
+        // Methods
+        void Moo();
+
+        // Name as a property is OK
+        string Name { get; set; }
+</pre></p>
+<p>Interfaces don&#8217;t allow fields because they consist of a contract that is a list of methods, whose implementation is provided by a class. Properties are implemented as methods (get and set accessors), so they fit this model.  But fields are just data locations, so it doesn&#8217;t make sense to include them in an interface.</p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Interfaces | Tags: C#, Fields, Interfaces</p>
+  <nav class="pager"><a href="2011-10-27-442-explicit-interface-implementation-allows-duplicate-member-names.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-31-444-interfaces-can-inherit-from-other-interfaces.html">Next</a></nav>
+</main>
+
+</body>
+</html>

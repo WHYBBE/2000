@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,211 – Catching Exceptions Originating in Property Accessors</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-06-05-1210-exceptions-in-property-accessors-can-be-ignored-in-production-code.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-06-29-1212-viewing-wpf-trace-output-outside-of-visual-studio.html">Next</a></nav>
+  <h1>#1,211 – Catching Exceptions Originating in Property Accessors</h1>
+  <p class="meta">2017-06-18 | <a href="http://wpf.2000things.com/2017/06/18/1211-catching-exceptions-originating-in-property-accessors/">Original URL</a> | Wayback 20171027045334</p>
+  <article><div class="post-9690 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-exceptions tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">June 18, 2017</span>
+																						<span class="post-comments"><a href="2017-06-18-1211-catching-exceptions-originating-in-property-accessors.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Post <a href="2017-06-05-1210-exceptions-in-property-accessors-can-be-ignored-in-production-code.html">#1,210</a> explained that when data binding causes a property accessor to fire (either get or set) and an exception occurs, the exception will be ignored by the data binding layer. The exception gets caught internally and converted into a binding error that you normally don&#8217;t see.</p>
+<p>We can use the technique described in <a href="2017-05-20-1209-catching-data-binding-errors-part-2.html">#1,209</a> to to intercept this binding error and convert it back to an exception. This avoids the problem of these original exceptions never being seen.</p>
+<p>Below is a complete example, setting us up with a <strong>NullReferenceException</strong> that comes out of a property set accessor. We wire up a trace listener that will catch this error and other binding errors.</p>
+<p>First, we define a <strong>BindingErrorTraceListener</strong> class, which intercepts the binding errors by overriding the <strong>WriteLine</strong> method. In the snippet below, we simply throw a new exception that contains the entire text of the binding error. This will work for all binding errors (e.g. due to binding expression problems or due to exceptions coming out of property accessors).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class BindingErrorTraceListener : TraceListener
+    {
+        public override void Write(string s) { }
+
+        public override void WriteLine(string message)
+        {
+            throw new Exception(message);
+        }
+    }
+</pre>
+<p>Next, we wire up the listener in our application&#8217;s startup logic. We also set up a handler for unhandled exceptions and display the body of the exception. (You could just as easily log the exception here).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public partial class App : Application
+    {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            PresentationTraceSources.Refresh();
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
+            PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorTraceListener());
+
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message);
+        }
+    }
+</pre>
+<p>For existing WPF applications, this is all you need to do. All binding errors will now be converted to exceptions, caught and displayed. Some might argue that this should be standard fare for every WPF application. (Maybe not displaying the errors to the user, but at least logging them).</p>
+<p>The snippets below are for a sample application, so that you can see this in action.</p>
+<p>We start with a window that lets the user type in someone&#8217;s name then then displays the number of characters in the name.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window x:Class=&quot;WpfApp1.MainWindow&quot; xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot; xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot; xmlns:local=&quot;clr-namespace:WpfApp1&quot; mc:Ignorable=&quot;d&quot; Title=&quot;A ColorAnimation&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+    
+    &lt;Grid Margin=&quot;10&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+            &lt;ColumnDefinition/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+        
+        &lt;TextBlock Text=&quot;Enter text:&quot;/&gt;
+        &lt;TextBox Grid.Column=&quot;1&quot; Margin=&quot;10,0&quot; Text=&quot;{Binding YourTextqqqq, UpdateSourceTrigger=PropertyChanged}&quot;/&gt;
+
+        &lt;TextBlock Grid.Row=&quot;1&quot; Margin=&quot;0,10&quot; Text=&quot;Length:&quot;/&gt;
+        &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Margin=&quot;0,10&quot; Text=&quot;{Binding TextLength}&quot;/&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</pre>
+<p>In the code-behind, we simply wire up the <strong>DataContext</strong> of the window to a viewmodel.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public partial class MainWindow : Window
+    {
+        public SomeViewModel ViewModel { get; set; }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            ViewModel = new SomeViewModel();
+            this.DataContext = ViewModel;
+        }
+    }
+</pre>
+<p>Finally, we have the body of our viewmodel, where we make an attempt to call a method on a <strong>BobNotify</strong> object when the user types &#8220;Bob&#8221;. We haven&#8217;t initialized the object, so this will generate a null reference exception.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class SomeViewModel : INotifyPropertyChanged
+    {
+        private BobNotify _bobNotify;
+
+        private string _yourText;
+        public string YourText
+        {
+            get { return _yourText; }
+            set
+            {
+                if (SetProp(ref _yourText, value))
+                {
+                    // E-mail Bob if someone types his name
+                    // (but we forgot to initialize BobNotify object, so will get NullRefException here).
+                    if (_yourText == &quot;Bob&quot;)
+                        _bobNotify.SendEmail(_yourText);
+
+                    RaisePropertyChanged(&quot;TextLength&quot;);
+                }
+            }
+        }
+
+        public int TextLength
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(_yourText) ? 0 : _yourText.Length;
+            }
+        }
+
+        protected bool SetProp&lt;T&gt;(ref T backingField, T value, [CallerMemberName] string propName = null)
+        {
+            bool valueChanged = false;
+
+            // Can't use equality operator on generic types
+            if (!EqualityComparer&lt;T&gt;.Default.Equals(backingField, value))
+            {
+                backingField = value;
+                RaisePropertyChanged(propName);
+                valueChanged = true;
+            }
+
+            return valueChanged;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private void RaisePropertyChanged(string propname)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propname));
+        }
+    }
+</pre>
+<p>When we put all of these pieces together and test the application, we see that when the user types &#8220;Bob&#8221;, we get the dialog popping up with the full text of the binding error. In the body of the error you can see the original <strong>NullReferenceException</strong>.</p>
+<p><a href="https://wpf.2000things.com/2017/06/18/1211-catching-exceptions-originating-in-property-accessors/1211_01/" rel="attachment wp-att-9697"><img data-attachment-id="9697" data-permalink="https://wpf.2000things.com/2017/06/18/1211-catching-exceptions-originating-in-property-accessors/1211_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=630&#038;h=372" data-orig-size="641,378" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1211_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=630&#038;h=372?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=630&#038;h=372?w=630" class="alignnone size-full wp-image-9697" src="https://web.archive.org/web/20171027045334id_/https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=630&amp;h=372" alt="" width="630" height="372" srcset="https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=630&amp;h=372 630w, https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=150&amp;h=88 150w, https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png?w=300&amp;h=177 300w, https://2000thingswpf.files.wordpress.com/2017/06/1211_01.png 641w" sizes="(max-width: 630px) 100vw, 630px" /></a></p>
+<p>One interesting thing to note is the part saying <strong>target element is &#8216;TextBox&#8217; (Name=&#8221;)</strong>. The name is empty because in .xaml, we didn&#8217;t name the element. You often avoid naming XAML elements in WPF because you shouldn&#8217;t need to interact with the elements in your code-behind. However, naming elements can be useful in cases like this, where the name would normally be reported.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9690-59f2bbd9e8dc5' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9690&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9690-59f2bbd9e8dc5' data-name='like-post-frame-14605478-9690-59f2bbd9e8dc5'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, Exceptions, WPF</p>
+  <nav class="pager"><a href="2017-06-05-1210-exceptions-in-property-accessors-can-be-ignored-in-production-code.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-06-29-1212-viewing-wpf-trace-output-outside-of-visual-studio.html">Next</a></nav>
+</main>
+
+</body>
+</html>

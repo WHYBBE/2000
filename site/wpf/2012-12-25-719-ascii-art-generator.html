@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#719 – ASCII Art Generator</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-12-24-718-copying-text-to-and-from-the-clipboard.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-26-720-discovering-what-kind-of-data-is-on-the-clipboard.html">Next</a></nav>
+  <h1>#719 – ASCII Art Generator</h1>
+  <p class="meta">2012-12-25 | <a href="http://wpf.2000things.com/2012/12/25/719-ascii-art-generator/">Original URL</a> | Wayback 20121229165954</p>
+  <article><div class="post-6279 post type-post status-publish format-standard hentry category-miscellaneous tag-ascii-art tag-miscellaneous tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 25, 2012</span>
+																						<span class="post-comments"><a href="2012-12-25-719-ascii-art-generator.html" title="Comment on #719 &#8211; ASCII Art&nbsp;Generator">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Here&#8217;s a WPF-based ASCII Art generator that I wrote.  Merry Christmas!</p>
+<p>The GUI just consists of a button for selecting a file and a label indicating the file that was selected.</p>
+<p><pre class="brush: xml;">
+    &lt;Grid&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot; /&gt;
+            &lt;RowDefinition/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition /&gt;
+            &lt;ColumnDefinition/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        &lt;Label Content=&quot;{Binding InputFile}&quot;
+               HorizontalAlignment=&quot;Left&quot; VerticalAlignment=&quot;Center&quot;
+               Margin=&quot;10&quot;/&gt;
+        &lt;Button Content=&quot;Select File&quot; Grid.Column=&quot;1&quot;
+                HorizontalAlignment=&quot;Left&quot; VerticalAlignment=&quot;Center&quot;
+                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
+                Click=&quot;btnSelectFile_Click&quot;/&gt;
+    &lt;/Grid&gt;
+</pre></p>
+<p>In the code-behind, we generate an output file name and load the input file into a <strong>Bitmap</strong> before calling the main ASCII Art generation method.</p>
+<p><pre class="brush: csharp;">
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+
+            inputFile = &quot;Select an image file to use for ASCII Art&quot;;
+        }
+
+        private string inputFile;
+        public string InputFile
+        {
+            get { return inputFile; }
+            set
+            {
+                if (value != inputFile)
+                {
+                    inputFile = value;
+                    RaisePropertyChanged(&quot;InputFile&quot;);
+                }
+            }
+        }
+
+        async private void btnSelectFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = &quot;Image Files (*.jpg, *.png)|*.jpg;*.png;&quot;;
+            ofd.Title = &quot;Select an image file to convert&quot;;
+
+            try
+            {
+                bool? bResult = ofd.ShowDialog();
+                if (bResult.HasValue &amp;&amp; (bool)bResult)
+                {
+                    InputFile = ofd.FileName;
+                    await Task.Run(() =&gt; DoGenerate(InputFile));
+                }
+            }
+            catch (Exception xx)
+            {
+                MessageBox.Show(string.Format(&quot;Fatal Error: {0}&quot;, xx.ToString()), &quot;Fatal Error&quot;, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DoGenerate(string inputFile)
+        {
+            int outputWidth = 100;
+
+            FileInfo fi = new FileInfo(inputFile);
+            if (!fi.Exists)
+                throw new Exception(string.Format(&quot;File {0} not found&quot;, inputFile));
+            string outputFile = Path.Combine(fi.DirectoryName, Path.GetFileNameWithoutExtension(inputFile) + &quot;.txt&quot;);
+
+            Bitmap bmInput = new Bitmap(inputFile);
+
+            if (outputWidth &gt; bmInput.Width)
+                throw new Exception(&quot;Output width must be &lt;= pixel width of image&quot;);
+
+            // Generate the ASCII art
+            AscArt.GenerateAsciiArt(bmInput, outputFile, outputWidth);
+
+            // This will fire up default app for .txt files
+            Process.Start(outputFile);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+</pre></p>
+<p>Finally, here is the code for the class that generates the ASCII art.</p>
+<p><pre class="brush: csharp;">
+    public static class AscArt
+    {
+        // Typical width/height for ASCII characters
+        private const double FontAspectRatio = 0.6;
+
+        // Available character set, ordered by decreasing intensity (brightness)
+        private const string OutputCharSet = &quot;@%#*+=-:. &quot;;
+
+        // Alternate char set uses more chars, but looks less realistic
+        private const string OutputCharSetAlternate = &quot;$@B%8&amp;WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~&lt;&gt;i!lI;:,\&quot;^`'. &quot;;
+
+        public static void GenerateAsciiArt(Bitmap bmInput, string outputFile, int outputWidth)
+        {
+            // pixelChunkWidth/pixelChunkHeight - size of a chunk of pixels that will
+            // map to 1 character.  These are doubles to avoid progressive rounding
+            // error.
+            double pixelChunkWidth = (double)bmInput.Width / (double)outputWidth;
+            double pixelChunkHeight = pixelChunkWidth / FontAspectRatio;
+
+            // Calculate output height to capture entire image
+            int outputHeight = (int)Math.Round((double)bmInput.Height / pixelChunkHeight);
+
+            // Generate output image, row by row
+            double pixelOffSetTop = 0.0;
+            StringBuilder sbOutput = new StringBuilder();
+
+            for (int row = 1; row &lt;= outputHeight; row++)
+            {
+                double pixelOffSetLeft = 0.0;
+
+                for (int col = 1; col &lt;= outputWidth; col++)
+                {
+                    // Calculate brightness for this set of pixels by averaging
+                    // brightness across all pixels in this pixel chunk
+                    double brightSum = 0.0;
+                    int pixelCount = 0;
+                    for (int pixelLeftInd = 0; pixelLeftInd &lt; (int)pixelChunkWidth; pixelLeftInd++)
+                        for (int pixelTopInd = 0; pixelTopInd &lt; (int)pixelChunkHeight; pixelTopInd++)
+                        {
+                            // Each call to GetBrightness returns value between 0.0 and 1.0
+                            int x = (int)pixelOffSetLeft + pixelLeftInd;
+                            int y = (int)pixelOffSetTop + pixelTopInd;
+                            if ((x &lt; bmInput.Width) &amp;&amp; (y &lt; bmInput.Height))
+                            {
+                                brightSum += bmInput.GetPixel(x, y).GetBrightness();
+                                pixelCount++;
+                            }
+                        }
+
+                    // Average brightness for this entire pixel chunk, between 0.0 and 1.0
+                    double pixelChunkBrightness = brightSum / pixelCount;
+
+                    // Target character is just relative position in ordered set of output characters
+                    int outputIndex = (int)Math.Floor(pixelChunkBrightness * OutputCharSet.Length);
+                    if (outputIndex == OutputCharSet.Length)
+                        outputIndex--;
+
+                    char targetChar = OutputCharSet[outputIndex];
+
+                    sbOutput.Append(targetChar);
+
+                    pixelOffSetLeft += pixelChunkWidth;
+                }
+                sbOutput.AppendLine();
+                pixelOffSetTop += pixelChunkHeight;
+            }
+
+            // Dump output string to file
+            File.WriteAllText(outputFile, sbOutput.ToString());
+        }
+    }
+</pre></p>
+<p><a href="http://wpf.2000things.com/2012/12/25/719-ascii-art-generator/719-001/" rel="attachment wp-att-6284"><img class="alignnone size-full wp-image-6284" alt="719-001" src="https://web.archive.org/web/20121229165954id_/http://2000thingswpf.files.wordpress.com/2012/12/719-001.png?w=630&amp;h=354" width="630" height="354" /></a></p>
+<p>&nbsp;</p>
+<p>Full solution available <a href="https://www.dropbox.com/s/9ge73j68phdwwal/ASCIIArtWPF.zip">here</a>.</p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: ASCII Art, Miscellaneous, WPF</p>
+  <nav class="pager"><a href="2012-12-24-718-copying-text-to-and-from-the-clipboard.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-26-720-discovering-what-kind-of-data-is-on-the-clipboard.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#279 – Passing a Multidimensional Array to a Method</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-22-278-passing-an-array-by-reference.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-24-280-implicitly-typed-arrays.html">Next</a></nav>
+  <h1>#279 – Passing a Multidimensional Array to a Method</h1>
+  <p class="meta">2011-03-23 | <a href="http://csharp.2000things.com/2011/03/23/279-passing-a-multidimensional-array-to-a-method/">Original URL</a> | Wayback 20110528050243</p>
+  <article><div class="post-2413 post type-post status-publish format-standard hentry category-methods tag-arrays tag-c tag-methods">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">March 23, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-03-23-279-passing-a-multidimensional-array-to-a-method.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You can pass multi-dimensional arrays to methods.  Like arrays with a single dimension, the array is passed by value, with a copy of the reference passed to the method.  This means that the method can change elements in the array.</p>
+<p>Here&#8217;s an example of a method that takes a two-dimensional array as an input parameter.</p>
+<pre class="brush: csharp;">
+        public static void CountPawns(ChessPiece[,] chessboard, out int redPawns, out int blackPawns)
+        {
+            redPawns = 0;
+            blackPawns = 0;
+
+            for (int row = 0; row &lt; 8; row++)
+                for (int col = 0; col &lt; 8; col++)
+                {
+                    ChessPiece piece = chessboard[row,col];
+                    if (piece != null)
+                    {
+                        if (piece.PieceType == PieceTypeEnum.Pawn)
+                        {
+                            if (piece.PieceColor == PieceColorEnum.Red)
+                                redPawns++;
+                            else
+                                blackPawns++;
+                        }
+                    }
+                }
+        }
+</pre>
+<p>When calling the method, you just pass the name of the array to the method.</p>
+<pre class="brush: csharp;">
+            ChessPiece[,] board = new ChessPiece[8, 8];
+
+            board[0, 1] = new ChessPiece(PieceTypeEnum.King, PieceColorEnum.Red);
+            // continue to set up board here
+
+            int redPawns;
+            int blackPawns;
+            Chess.CountPawns(board, out redPawns, out blackPawns);
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/03/23/279-passing-a-multidimensional-array-to-a-method/"
+    dc:identifier="http://csharp.2000things.com/2011/03/23/279-passing-a-multidimensional-array-to-a-method/"
+    dc:title="#279 &#8211; Passing a Multidimensional Array to a&nbsp;Method"
+    trackback:ping="http://csharp.2000things.com/2011/03/23/279-passing-a-multidimensional-array-to-a-method/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/methods/" title="View all posts in Methods" rel="category tag">Methods</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/arrays/" rel="tag">Arrays</a>, <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/methods/" rel="tag">Methods</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Methods | Tags: Arrays, C#, Methods</p>
+  <nav class="pager"><a href="2011-03-22-278-passing-an-array-by-reference.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-24-280-implicitly-typed-arrays.html">Next</a></nav>
+</main>
+
+</body>
+</html>

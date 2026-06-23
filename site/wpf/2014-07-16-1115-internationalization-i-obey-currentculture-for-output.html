@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,115 – Internationalization I – Obey CurrentCulture for Output</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-07-15-1114-culture-codes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-07-17-1116-an-example-of-output-that-obeys-currentculture.html">Next</a></nav>
+  <h1>#1,115 – Internationalization I – Obey CurrentCulture for Output</h1>
+  <p class="meta">2014-07-16 | <a href="http://wpf.2000things.com/2014/07/16/1115-internationalization-i-obey-currentculture-for-output/">Original URL</a> | Wayback 20141206181709</p>
+  <article><div class="post-9010 post type-post status-publish format-standard hentry category-localization tag-currentculture tag-localization tag-regional-settings tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 16, 2014</span>
+																						<span class="post-comments"><a href="2014-07-16-1115-internationalization-i-obey-currentculture-for-output.html" title="Comment on #1,115 &#8211; Internationalization I &#8211; Obey CurrentCulture for&nbsp;Output">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>The first step in <a href="2014-07-11-1112-internationalization-vs-localization.html">internationalizing</a> an application is to ensure that your application honors the user&#8217;s current regional settings, as reflected by the <a href="2013-02-26-764-current-culture-is-used-when-converting-data-to-a-string.html"><strong>CurrentCulture</strong> property</a> of the application&#8217;s main thread.</p>
+<p>Current culture impacts the <em>display</em> of the following:</p>
+<ul>
+<li>Numeric data</li>
+<li>Date/time values</li>
+<li>Currency values</li>
+</ul>
+<p>All of these values are typically stored internally as numeric (e.g.<strong> double, int</strong>) or <strong>DateTime</strong> values.  These values exist in memory in a culture-agnostic form.  You only need to worry about regional settings when you display a value to the user.</p>
+<p>In .NET, if you use the <strong>ToString</strong> method on a numeric or date/time object, with or without formatting strings, the resulting string will correctly reflect the current regional settings.</p>
+<p>If you&#8217;re using data binding to convert numeric or date/time data to strings, you need to <a href="2013-02-27-765-wpf-data-binding-ignores-currentculture.html">manually set the <strong>Language</strong> property</a> on each window or page to force data binding to use the culture correctly.</p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/07/16/1115-internationalization-i-obey-currentculture-for-output/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "currentculture");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "regional-settings");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/07/16/1115-internationalization-i-obey-currentculture-for-output/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Localization | Tags: CurrentCulture, Localization, Regional Settings, WPF</p>
+  <nav class="pager"><a href="2014-07-15-1114-culture-codes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-07-17-1116-an-example-of-output-that-obeys-currentculture.html">Next</a></nav>
+</main>
+
+</body>
+</html>

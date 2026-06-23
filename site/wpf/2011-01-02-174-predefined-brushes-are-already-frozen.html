@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#174 – Predefined Brushes Are Already Frozen</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-01-01-173-you-can-put-freezable-objects-into-a-read-only-state.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-03-175-freeze-graphical-objects-that-you-dont-intend-to-modify.html">Next</a></nav>
+  <h1>#174 – Predefined Brushes Are Already Frozen</h1>
+  <p class="meta">2011-01-02 | <a href="http://wpf.2000things.com/2011/01/02/174-predefined-brushes-are-already-frozen/">Original URL</a> | Wayback 20120627162338</p>
+  <article><div class="post-1442 post type-post status-publish format-standard hentry category-graphics tag-brushes tag-freezable tag-graphics tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 2, 2011</span>
+																						<span class="post-comments"><a href="2011-01-02-174-predefined-brushes-are-already-frozen.html" title="Comment on #174 &#8211; Predefined Brushes Are Already&nbsp;Frozen">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>All of the brushes in the predefined <strong>Brushes</strong> collection are already in a frozen state, meaning that they are read-only.  Being frozen means that they will perform more efficiently when using them to render graphical objects, since WPF doesn&#8217;t need to worry about notifying consumers of the brush when the brush changes.</p>
+<p>Here&#8217;s an example, where we have two different labels, one painted with a brush created in XAML and one painted with a brush from the <strong>Brushes</strong> collection.</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;SolidColorBrush x:Key=&quot;tealBrush&quot; Color=&quot;Teal&quot;/&gt;
+    &lt;/Window.Resources&gt;
+    &lt;StackPanel&gt;
+        &lt;Label Name=&quot;lblWithTealBrush&quot; Content=&quot;I use a SolidColorBrush created in Window.Resources&quot; Foreground=&quot;{StaticResource tealBrush}&quot;/&gt;
+        &lt;Label Name=&quot;lblWithRedBrush&quot; Content=&quot;I use Brushes.Red&quot;&gt;
+            &lt;Label.Foreground&gt;
+                &lt;x:Static Member=&quot;Brushes.Red&quot;/&gt;
+            &lt;/Label.Foreground&gt;
+        &lt;/Label&gt;
+        &lt;Button Content=&quot;Click Me&quot; Width=&quot;100&quot; Click=&quot;btnTest_Click&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>We can add code to check the frozen state of these two different brushes.</p>
+<p><pre class="brush: csharp;">
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush tealBrush = (SolidColorBrush)lblWithTealBrush.Foreground;
+            bool frozen = tealBrush.IsFrozen;    // frozen = false
+
+            SolidColorBrush redBrush = (SolidColorBrush)lblWithRedBrush.Foreground;
+            frozen = redBrush.IsFrozen;          // frozen = true
+        }
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-1442" class="wpl-button "><a href='2011-01-02-174-predefined-brushes-are-already-frozen.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Graphics | Tags: Brushes, Freezable, Graphics, WPF</p>
+  <nav class="pager"><a href="2011-01-01-173-you-can-put-freezable-objects-into-a-read-only-state.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-03-175-freeze-graphical-objects-that-you-dont-intend-to-modify.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#714 – Setting the Cursor to Render Some Text While Dragging</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-12-17-713-setting-the-cursor-to-an-image-of-an-uielement-while-dragging.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-19-715-using-the-thumb-control-to-drag-objects-on-a-canvas.html">Next</a></nav>
+  <h1>#714 – Setting the Cursor to Render Some Text While Dragging</h1>
+  <p class="meta">2012-12-18 | <a href="http://wpf.2000things.com/2012/12/18/714-setting-the-cursor-to-render-some-text-while-dragging/">Original URL</a> | Wayback 20121220124409</p>
+  <article><div class="post-6218 post type-post status-publish format-standard hentry category-events tag-cursor tag-drag-and-drop tag-events tag-mouse-cursor tag-text tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 18, 2012</span>
+																						<span class="post-comments"><a href="2012-12-18-714-setting-the-cursor-to-render-some-text-while-dragging.html" title="Comment on #714 &#8211; Setting the Cursor to Render Some Text While&nbsp;Dragging">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <strong>GiveFeedback</strong> to <a href="http://wp.me/pZhye-1C2">change the cursor</a> during a drag-and-drop operation.  You can set the cursor to be some text by rendering a visual element to a bitmap and then converting that bitmap to a cursor.</p>
+<p>Here&#8217;s a helper class containing a method that converts some text to a cursor.</p>
+<p><pre class="brush: csharp;">
+    public class CursorHelper
+    {
+        private static class NativeMethods
+        {
+            public struct IconInfo
+            {
+                public bool fIcon;
+                public int xHotspot;
+                public int yHotspot;
+                public IntPtr hbmMask;
+                public IntPtr hbmColor;
+            }
+
+            [DllImport(&quot;user32.dll&quot;)]
+            public static extern SafeIconHandle CreateIconIndirect(ref IconInfo icon);
+
+            [DllImport(&quot;user32.dll&quot;)]
+            public static extern bool DestroyIcon(IntPtr hIcon);
+
+            [DllImport(&quot;user32.dll&quot;)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool GetIconInfo(IntPtr hIcon, ref IconInfo pIconInfo);
+        }
+
+        [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
+        private class SafeIconHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public SafeIconHandle()
+                : base(true)
+            {
+            }
+
+            override protected bool ReleaseHandle()
+            {
+                return NativeMethods.DestroyIcon(handle);
+            }
+        }
+
+        private static Cursor InternalCreateCursor(System.Drawing.Bitmap bmp)
+        {
+            var iconInfo = new NativeMethods.IconInfo();
+            NativeMethods.GetIconInfo(bmp.GetHicon(), ref iconInfo);
+
+            iconInfo.xHotspot = 0;
+            iconInfo.yHotspot = 0;
+            iconInfo.fIcon = false;
+
+            SafeIconHandle cursorHandle = NativeMethods.CreateIconIndirect(ref iconInfo);
+            return CursorInteropHelper.Create(cursorHandle);
+        }
+
+        public static Cursor CreateCursor(string cursorText)
+        {
+            // Text to render
+            FormattedText fmtText = new FormattedText(cursorText,
+                    new CultureInfo(&quot;en-us&quot;),
+                    FlowDirection.LeftToRight,
+                    new Typeface(new FontFamily(&quot;Arial&quot;), FontStyles.Normal, FontWeights.Normal, new FontStretch()),
+                    12.0,  // FontSize
+                    Brushes.Black);
+
+            // The Visual to use as the source of the RenderTargetBitmap.
+            DrawingVisual drawingVisual = new DrawingVisual();
+            DrawingContext drawingContext = drawingVisual.RenderOpen();
+            drawingContext.DrawText(fmtText, new Point());
+            drawingContext.Close();
+
+            // The BitmapSource that is rendered with a Visual.
+            RenderTargetBitmap rtb = new RenderTargetBitmap(
+                (int)drawingVisual.ContentBounds.Width,
+                (int)drawingVisual.ContentBounds.Height,
+                96,   // dpiX
+                96,   // dpiY
+                PixelFormats.Pbgra32);
+            rtb.Render(drawingVisual);
+
+            // Encoding the RenderBitmapTarget into a bitmap (as PNG)
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+
+            using (var ms = new MemoryStream())
+            {
+                encoder.Save(ms);
+                using (var bmp = new System.Drawing.Bitmap(ms))
+                {
+                    return InternalCreateCursor(bmp);
+                }
+            }
+        }
+    }
+</pre></p>
+<p>We can test this code by setting the cursor to some text when we drag a <b>Label</b>.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel&gt;
+        &lt;Label Content=&quot;Mayflower&quot; Background=&quot;AliceBlue&quot; 
+               HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot; Padding=&quot;20,5&quot;
+               MouseLeftButtonDown=&quot;Label_MouseLeftButtonDown&quot;
+               GiveFeedback=&quot;Label_GiveFeedback&quot;/&gt;
+        &lt;Label Content=&quot;Drag to here&quot; Background=&quot;SpringGreen&quot; 
+               HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot;
+               Drop=&quot;Label_Drop&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>Here&#8217;s the code for the drag-and-drop operation.</p>
+<p><pre class="brush: csharp;">
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataObject data = new DataObject(DataFormats.Text, ((Label)e.Source).Content);
+
+            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+        }
+
+        private void Label_Drop(object sender, DragEventArgs e)
+        {
+            ((Label)e.Source).Content = (string)e.Data.GetData(DataFormats.Text);
+        }
+
+        private Cursor customCursor = null;
+
+        private void Label_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            if (e.Effects == DragDropEffects.Copy)
+            {
+                if (customCursor == null)
+                    customCursor = CursorHelper.CreateCursor(&quot;Mayflower - 18 Dec 1620&quot;);
+
+                if (customCursor != null)
+                {
+                    e.UseDefaultCursors = false;
+                    Mouse.SetCursor(customCursor);
+                }
+            }
+            else
+                e.UseDefaultCursors = true;
+
+            e.Handled = true;
+        }
+</pre></p>
+<p><a href="http://wpf.2000things.com/2012/12/18/714-setting-the-cursor-to-render-some-text-while-dragging/714-001/" rel="attachment wp-att-6223"><img class="alignnone size-full wp-image-6223" alt="714-001" src="https://web.archive.org/web/20121220124409id_/http://2000thingswpf.files.wordpress.com/2012/12/714-001.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Cursor, Drag-and-Drop, Events, Mouse Cursor, Text, WPF</p>
+  <nav class="pager"><a href="2012-12-17-713-setting-the-cursor-to-an-image-of-an-uielement-while-dragging.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-19-715-using-the-thumb-control-to-drag-objects-on-a-canvas.html">Next</a></nav>
+</main>
+
+</body>
+</html>

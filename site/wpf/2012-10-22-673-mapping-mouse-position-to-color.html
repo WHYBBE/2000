@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#673 – Mapping Mouse Position to Color</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-19-672-mouse-coordinates-are-in-device-independent-units.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-23-674-mapping-mouse-position-to-color-part-ii.html">Next</a></nav>
+  <h1>#673 – Mapping Mouse Position to Color</h1>
+  <p class="meta">2012-10-22 | <a href="http://wpf.2000things.com/2012/10/22/673-mapping-mouse-position-to-color/">Original URL</a> | Wayback 20121029035336</p>
+  <article><div class="post-5818 post type-post status-publish format-standard hentry category-miscellaneous tag-color tag-color-wheel tag-hsv tag-miscellaneous tag-mouse-position tag-rgb tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 22, 2012</span>
+																						<span class="post-comments"><a href="2012-10-22-673-mapping-mouse-position-to-color.html" title="Comment on #673 &#8211; Mapping Mouse Position to&nbsp;Color">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can map a 2D mouse position to a color by using the mouse position to map to the Hue and Saturation and then converting the HSV value to an RGB value.  (We just use 1.0 as the Value component of HSV).  We can map the mouse to a color wheel and use the angle of a line from the mouse position to the center of the wheel as the hue and use the distance from the center of the wheel as the saturation.</p>
+<p>So we want to map a mouse position against a color wheel like the following:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/673-001.png"><img class="alignnone size-full wp-image-5819" title="673-001" alt="" src="https://web.archive.org/web/20121029035336id_/http://2000thingswpf.files.wordpress.com/2012/10/673-001.png?w=630"   /></a></p>
+<p>In WPF, we&#8217;ll just create a <strong>Canvas</strong>, with a <strong>Label</strong> that will be used to dump out the RGB values.</p>
+<p><pre class="brush: xml;">
+&lt;Window Name=&quot;win1&quot; x:Class=&quot;WpfApplication1.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;Color from Mouse Position&quot;
+        SizeToContent=&quot;WidthAndHeight&quot;
+        MouseMove=&quot;win1_MouseMove_1&quot;&gt;
+
+    &lt;Canvas x:Name=&quot;canv1&quot; Width=&quot;400&quot; Height=&quot;400&quot;&gt;
+        &lt;Label Content=&quot;{Binding RGBInfo}&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+    &lt;/Canvas&gt;
+&lt;/Window&gt;
+</pre></p>
+<p>In the code-behind, we&#8217;ll handle the <strong>MouseMove</strong> event for the window and re-calculate the color of the window&#8217;s background brush, based on the mouse position.</p>
+<p><pre class="brush: csharp;">
+    /// &lt;summary&gt;
+    ///
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        SolidColorBrush backBrush = new SolidColorBrush();
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            this.DataContext = this;
+            win1.Background = backBrush;
+        }
+
+        private string rgbInfo;
+        public string RGBInfo
+        {
+            get { return rgbInfo; }
+            set
+            {
+                if (value != rgbInfo)
+                {
+                    rgbInfo = value;
+                    RaisePropertyChanged(&quot;RGBInfo&quot;);
+                }
+            }
+        }
+
+        private void win1_MouseMove_1(object sender, MouseEventArgs e)
+        {
+            double radius = (canv1.ActualWidth / 2);
+
+            Color c = ColorFromMousePosition(e.GetPosition(canv1), radius);
+            backBrush.Color = c;
+            RGBInfo = string.Format(&quot;R={0}, G={1}, B={2}&quot;, c.R, c.G, c.B);
+        }
+
+        Color ColorFromMousePosition(Point mousePos, double radius)
+        {
+            // Position relative to center of canvas
+            double xRel = mousePos.X - radius;
+            double yRel = mousePos.Y - radius;
+
+            // Hue is angle in deg, 0-360
+            double angleRadians = Math.Atan2(yRel, xRel);
+            double hue = angleRadians * (180 / Math.PI);
+            if (hue &lt; 0)
+                hue = 360 + hue;
+
+            // Saturation is distance from center
+            double saturation = Math.Min(Math.Sqrt(xRel * xRel + yRel * yRel) / radius, 1.0);
+
+            byte r, g, b;
+            ColorUtil.HsvToRgb(hue, saturation, 1.0, out r, out g, out b);
+            return Color.FromRgb(r, g, b);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+</pre></p>
+<p>Notice that we make use of an HSV to RGB conversion function, found at <a href="http://www.splinter.com.au/converting-hsv-to-rgb-colour-using-c/">http://www.splinter.com.au/converting-hsv-to-rgb-colour-using-c/</a>. Below is the function as we&#8217;re using it.</p>
+<p><pre class="brush: csharp;">
+    public static class ColorUtil
+    {
+        /// &lt;summary&gt;
+        /// Convert HSV to RGB
+        /// h is from 0-360
+        /// s,v values are 0-1
+        /// r,g,b values are 0-255
+        /// Based upon http://ilab.usc.edu/wiki/index.php/HSV_And_H2SV_Color_Space#HSV_Transformation_C_.2F_C.2B.2B_Code_2
+        /// &lt;/summary&gt;
+        public static void HsvToRgb(double h, double S, double V, out byte r, out byte g, out byte b)
+        {
+            // ######################################################################
+            // T. Nathan Mundhenk
+            // mundhenk@usc.edu
+            // C/C++ Macro HSV to RGB
+
+            double H = h;
+            while (H &lt; 0) { H += 360; };
+            while (H &gt;= 360) { H -= 360; };
+            double R, G, B;
+            if (V &lt;= 0)
+            { R = G = B = 0; }
+            else if (S &lt;= 0)
+            {
+                R = G = B = V;
+            }
+            else
+            {
+                double hf = H / 60.0;
+                int i = (int)Math.Floor(hf);
+                double f = hf - i;
+                double pv = V * (1 - S);
+                double qv = V * (1 - S * f);
+                double tv = V * (1 - S * (1 - f));
+                switch (i)
+                {
+
+                    // Red is the dominant color
+
+                    case 0:
+                        R = V;
+                        G = tv;
+                        B = pv;
+                        break;
+
+                    // Green is the dominant color
+
+                    case 1:
+                        R = qv;
+                        G = V;
+                        B = pv;
+                        break;
+                    case 2:
+                        R = pv;
+                        G = V;
+                        B = tv;
+                        break;
+
+                    // Blue is the dominant color
+
+                    case 3:
+                        R = pv;
+                        G = qv;
+                        B = V;
+                        break;
+                    case 4:
+                        R = tv;
+                        G = pv;
+                        B = V;
+                        break;
+
+                    // Red is the dominant color
+
+                    case 5:
+                        R = V;
+                        G = pv;
+                        B = qv;
+                        break;
+
+                    // Just in case we overshoot on our math by a little, we put these here. Since its a switch it won't slow us down at all to put these here.
+
+                    case 6:
+                        R = V;
+                        G = tv;
+                        B = pv;
+                        break;
+                    case -1:
+                        R = V;
+                        G = pv;
+                        B = qv;
+                        break;
+
+                    // The color is not defined, we should throw an error.
+
+                    default:
+                        //LFATAL(&quot;i Value error in Pixel conversion, Value is %d&quot;, i);
+                        R = G = B = V; // Just pretend its black/white
+                        break;
+                }
+            }
+            r = Clamp((byte)(R * 255.0));
+            g = Clamp((byte)(G * 255.0));
+            b = Clamp((byte)(B * 255.0));
+        }
+
+        /// &lt;summary&gt;
+        /// Clamp a value to 0-255
+        /// &lt;/summary&gt;
+        private static byte Clamp(byte i)
+        {
+            if (i &lt; 0) return 0;
+            if (i &gt; 255) return 255;
+            return i;
+        }
+    }
+</pre></p>
+<p>The final result is a window whose background color changes as we move the mouse around.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/673-002.png"><img class="alignnone size-full wp-image-5825" title="673-002" alt="" src="https://web.archive.org/web/20121029035336id_/http://2000thingswpf.files.wordpress.com/2012/10/673-002.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/673-003.png"><img class="alignnone size-full wp-image-5826" title="673-003" alt="" src="https://web.archive.org/web/20121029035336id_/http://2000thingswpf.files.wordpress.com/2012/10/673-003.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: Color, Color Wheel, HSV, Miscellaneous, Mouse Position, RGB, WPF</p>
+  <nav class="pager"><a href="2012-10-19-672-mouse-coordinates-are-in-device-independent-units.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-23-674-mapping-mouse-position-to-color-part-ii.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#456 – An Element in a Grid Can Span Multiple Rows or Columns</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-12-21-455-using-itemcontainerstyle-to-bind-data-elements-in-a-collection-to-a-grid.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-12-23-457-use-a-gridsplitter-to-let-a-user-change-row-or-column-size-in-a-grid.html">Next</a></nav>
+  <h1>#456 – An Element in a Grid Can Span Multiple Rows or Columns</h1>
+  <p class="meta">2011-12-22 | <a href="http://wpf.2000things.com/2011/12/22/456-an-element-in-a-grid-can-span-multiple-rows-or-columns/">Original URL</a> | Wayback 20120505074141</p>
+  <article><div class="post-3828 post type-post status-publish format-standard hentry category-layout tag-columnspan tag-grid tag-layout tag-rowspan tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 22, 2011</span>
+																						<span class="post-comments"><a href="2011-12-22-456-an-element-in-a-grid-can-span-multiple-rows-or-columns.html" title="Comment on #456 &#8211; An Element in a Grid Can Span Multiple Rows or&nbsp;Columns">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can have child elements in a grid span multiple rows and/or multiple columns using the the <strong>Grid.RowSpan</strong> and <strong>Grid.ColumnSpan</strong> properties.</p>
+<p>In the example below, the <strong>Image</strong> spans two rows and two columns and the <strong>TextBlock</strong> is located in a single row, but spans two columns.</p>
+<p><pre class="brush: xml;">
+    &lt;Grid DataContext=&quot;{Binding GoodMovie}&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        &lt;Image Source=&quot;{Binding Image}&quot; Grid.RowSpan=&quot;2&quot; Grid.ColumnSpan=&quot;2&quot;
+               Width=&quot;142&quot; Height=&quot;216&quot; Margin=&quot;5&quot;
+               HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+
+        &lt;Label Content=&quot;{Binding Title}&quot; FontWeight=&quot;Bold&quot; Grid.Row=&quot;0&quot; Grid.Column=&quot;2&quot;/&gt;
+        &lt;Label Content=&quot;{Binding Year}&quot; Grid.Row=&quot;0&quot; Grid.Column=&quot;3&quot;/&gt;
+
+        &lt;TextBlock Text=&quot;{Binding Summary}&quot; Grid.Row=&quot;1&quot; Grid.Column=&quot;2&quot; Grid.ColumnSpan=&quot;2&quot;
+                   TextWrapping=&quot;Wrap&quot; Margin=&quot;8&quot;/&gt;
+
+        &lt;Label Content=&quot;Director:&quot; Grid.Row=&quot;2&quot; Grid.Column=&quot;0&quot; HorizontalAlignment=&quot;Right&quot;/&gt;
+        &lt;Label Content=&quot;{Binding Director}&quot; Grid.Row=&quot;2&quot; Grid.Column=&quot;1&quot; HorizontalAlignment=&quot;Left&quot;/&gt;
+
+        &lt;Label Content=&quot;Actor:&quot; Grid.Row=&quot;3&quot; Grid.Column=&quot;0&quot; HorizontalAlignment=&quot;Right&quot;/&gt;
+        &lt;Label Content=&quot;{Binding ActorLead}&quot; Grid.Row=&quot;3&quot; Grid.Column=&quot;1&quot; HorizontalAlignment=&quot;Left&quot;/&gt;
+
+        &lt;Label Content=&quot;Actress:&quot; Grid.Row=&quot;4&quot; Grid.Column=&quot;0&quot; HorizontalAlignment=&quot;Right&quot;/&gt;
+        &lt;Label Content=&quot;{Binding ActressLead}&quot; Grid.Row=&quot;4&quot; Grid.Column=&quot;1&quot; HorizontalAlignment=&quot;Left&quot;/&gt;
+    &lt;/Grid&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/12/456-001.png"><img class="alignnone size-full wp-image-3834" title="456-001" src="https://web.archive.org/web/20120505074141id_/http://2000thingswpf.files.wordpress.com/2011/12/456-001.png?w=630" alt=""   /></a><br />
+You can see things a little better by turning on the grid lines.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/12/456-002.png"><img class="alignnone size-full wp-image-3835" title="456-002" src="https://web.archive.org/web/20120505074141id_/http://2000thingswpf.files.wordpress.com/2011/12/456-002.png?w=630" alt=""   /></a></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: ColumnSpan, Grid, Layout, RowSpan, WPF</p>
+  <nav class="pager"><a href="2011-12-21-455-using-itemcontainerstyle-to-bind-data-elements-in-a-collection-to-a-grid.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-12-23-457-use-a-gridsplitter-to-let-a-user-change-row-or-column-size-in-a-grid.html">Next</a></nav>
+</main>
+
+</body>
+</html>

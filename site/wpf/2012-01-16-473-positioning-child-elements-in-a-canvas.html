@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#473 – Positioning Child Elements in a Canvas</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-01-13-472-uniformgrid-defaults-to-being-square.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-01-17-474-hiding-a-combobox-selection-highlight-when-the-mouse-moves-off-item.html">Next</a></nav>
+  <h1>#473 – Positioning Child Elements in a Canvas</h1>
+  <p class="meta">2012-01-16 | <a href="http://wpf.2000things.com/2012/01/16/473-positioning-child-elements-in-a-canvas/">Original URL</a> | Wayback 20120427183739</p>
+  <article><div class="post-3980 post type-post status-publish format-standard hentry category-layout tag-canvas tag-layout tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 16, 2012</span>
+																						<span class="post-comments"><a href="2012-01-16-473-positioning-child-elements-in-a-canvas.html" title="Comment on #473 &#8211; Positioning Child Elements in a&nbsp;Canvas">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Child elements are position in a <a href="2011-09-23-393-canvas-element.html"><strong>Canvas </strong>panel</a> by specifying the location of the child element in WPF units.</p>
+<p>You can position all elements by specifying values for <strong>Left</strong> and <strong>Top </strong>properties only.  This will position each element relative to the upper left corner of the container.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/01/473-001.png"><img class="alignnone size-full wp-image-3981" title="473-001" src="https://web.archive.org/web/20120427183739id_/http://2000thingswpf.files.wordpress.com/2012/01/473-001.png?w=630" alt=""   /></a></p>
+<p>These child elements will then retain the same position from the upper left corner of the container as it is resized.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/01/473-002.png"><img class="alignnone size-full wp-image-3982" title="473-002" src="https://web.archive.org/web/20120427183739id_/http://2000thingswpf.files.wordpress.com/2012/01/473-002.png?w=630" alt=""   /></a></p>
+<p>You can specify a child element&#8217;s position relative to any of the four corners of the container, depending on which two of the four positioning properties you specify.  Child elements will then retain their position relative to that corner as the container is resized.</p>
+<ul>
+<li><strong>Left/Top</strong> - upper left corner</li>
+<li><strong>Right/Top</strong> - upper right corner</li>
+<li><strong>Right/Bottom</strong> - lower right corner</li>
+<li><strong>Left/Bottom</strong> - lower bottom corner</li>
+</ul>
+<p><pre class="brush: xml;">
+    &lt;Canvas&gt;
+        &lt;Button Content=&quot;Left=10,Top=10&quot; Canvas.Left=&quot;10&quot; Canvas.Top=&quot;10&quot;/&gt;
+        &lt;Button Content=&quot;Right=10,Top=10&quot; Canvas.Right=&quot;10&quot; Canvas.Top=&quot;10&quot;/&gt;
+        &lt;Button Content=&quot;Right=10,Bottom=10&quot; Canvas.Right=&quot;10&quot; Canvas.Bottom=&quot;10&quot;/&gt;
+        &lt;Button Content=&quot;Left=10,Bottom=10&quot; Canvas.Left=&quot;10&quot; Canvas.Bottom=&quot;10&quot;/&gt;
+    &lt;/Canvas&gt;
+</pre><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/01/473-003.png"><img class="alignnone size-full wp-image-3985" title="473-003" src="https://web.archive.org/web/20120427183739id_/http://2000thingswpf.files.wordpress.com/2012/01/473-003.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/01/473-004.png"><img class="alignnone size-full wp-image-3986" title="473-004" src="https://web.archive.org/web/20120427183739id_/http://2000thingswpf.files.wordpress.com/2012/01/473-004.png?w=630" alt=""   /></a></pre>
+<div class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-3980" class="wpl-button "><a href='2012-01-16-473-positioning-child-elements-in-a-canvas.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Layout | Tags: Canvas, Layout, WPF</p>
+  <nav class="pager"><a href="2012-01-13-472-uniformgrid-defaults-to-being-square.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-01-17-474-hiding-a-combobox-selection-highlight-when-the-mouse-moves-off-item.html">Next</a></nav>
+</main>
+
+</body>
+</html>

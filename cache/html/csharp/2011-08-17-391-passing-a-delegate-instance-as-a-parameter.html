@@ -1,0 +1,786 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#391 &#8211; Passing a Delegate Instance as a Parameter &laquo; 2,000 Things You Should Know About C#</title>
+
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/pub/enterprise/style.css?m=1344944977g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+
+		<script src='http://r-login.wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1348886231&amp;back=csharp.2000things.com%2F2011%2F08%2F17%2F391-passing-a-delegate-instance-as-a-parameter%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter Comments Feed" href="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/_static/??/wp-content/blog-plugins/loggedout-follow/widget.css,/wp-content/mu-plugins/infinity/themes/pub/enterprise.css,/wp-content/mu-plugins/post-flair/style.css,/wp-content/mu-plugins/post-flair/sharing/sharing.css,/wp-content/themes/h4/global.css,/wp-content/mu-plugins/widgets/css/widget-grid-and-list.css?m=1345177132j' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/_static/??/wp-includes/js/jquery/jquery.js,/wp-content/blog-plugins/loggedout-follow/widget.js,/wp-includes/js/comment-reply.js,/wp-content/mu-plugins/widgets/js/widget-bump-view.js?m=1342269540j'></script>
+<link rel='stylesheet' id='all-css-0' href='http://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1343991657g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1307172283g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#390 &#8211; Using the Same Handler for Multiple&nbsp;Events' href='http://csharp.2000things.com/2011/08/16/390-using-the-same-handler-for-multiple-events/' />
+<link rel='next' title='#392 &#8211; Reversing a String Using the Reverse&nbsp;Method' href='http://csharp.2000things.com/2011/08/18/392-reversing-a-string-using-the-reverse-method/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/' />
+<link rel='shortlink' href='http://wp.me/pXTis-Rd' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2011%2F08%2F17%2F391-passing-a-delegate-instance-as-a-parameter%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2011%2F08%2F17%2F391-passing-a-delegate-instance-as-a-parameter%2F&amp;for=wpcom-auto-discovery" /><meta property="og:type" content="article" />
+<meta property="og:title" content="#391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter" />
+<meta property="og:url" content="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/" />
+<meta property="og:description" content="When you use the delegate keyword to define a delegate, you&#8217;re actually defining a new class, which inherits from System.MulticastDelegate. When you declare a variable of this delegate type a..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About C#" />
+<meta property="og:image" content="http://2000thingscsharp.files.wordpress.com/2011/08/001-delegateasparameter.png" />
+<meta name="twitter:image" content="http://2000thingscsharp.files.wordpress.com/2011/08/001-delegateasparameter.png" />
+<meta name="twitter:card" content="photo" />
+<meta name="twitter:creator:id" content="10372992" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=114" />
+<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+		<style>
+		/* <![CDATA[ */
+		/* Block: reblog */
+		
+		.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+		.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+		.reblogger-note-content            { margin: 0 0 20px; }
+		.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+		.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+		.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+		.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+		.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+		
+		.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+		
+		.reblog-post .wpcom-enhanced-excerpt address,
+		.reblog-post .wpcom-enhanced-excerpt li,
+		.reblog-post .wpcom-enhanced-excerpt h1,
+		.reblog-post .wpcom-enhanced-excerpt h2,
+		.reblog-post .wpcom-enhanced-excerpt h3,
+		.reblog-post .wpcom-enhanced-excerpt h4,
+		.reblog-post .wpcom-enhanced-excerpt h5,
+		.reblog-post .wpcom-enhanced-excerpt h6,
+		.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+		
+		.reblog-post .wpcom-enhanced-excerpt blockquote,
+		.reblog-post .wpcom-enhanced-excerpt pre,
+		.reblog-post .wpcom-enhanced-excerpt code,
+		.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+		
+
+		/* ]]> */		
+		</style>
+		<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="title" content="#391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter | 2,000 Things You Should Know About C# on WordPress.com" />
+<meta name="description" content="When you use the delegate keyword to define a delegate, you&#8217;re actually defining a new class, which inherits from System.MulticastDelegate. When you declare a variable of this delegate type and assign a method to it, you&#8217;re creating an instance of the new class. &nbsp; You now have a delegate instance that is set up to&hellip;" />
+		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+
+</head>
+
+<body class="single single-post postid-3299 single-format-standard highlander-enabled highlander-light">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+                <p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>
+    </div>
+    <div class="header-right">
+        <form method="get" id="searchform" action="http://csharp.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/">Index</a></li></ul></div>
+	    </div>
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-5037"><a href="http://csharp.2000things.com/category/interfaces/" title="View all posts filed under Interfaces">Interfaces</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-73644"><a href="http://csharp.2000things.com/category/operators/" title="View all posts filed under Operators">Operators</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="http://csharp.2000things.com/category/events/" title="View all posts filed under Events">Events</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2011/08/16/390-using-the-same-handler-for-multiple-events/" rel="prev"><span class="meta-nav">&larr;</span> #390 &#8211; Using the Same Handler for Multiple&nbsp;Events</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2011/08/18/392-reversing-a-string-using-the-reverse-method/" rel="next">#392 &#8211; Reversing a String Using the Reverse&nbsp;Method <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+			<div class="post-3299 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-delegates tag-multicastdelegate">
+
+				<div class="entry">
+
+					<h1>#391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 17, 2011</span>
+																						<span class="post-comments"><a href="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/#respond" title="Comment on #391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you use the <strong>delegate</strong> keyword to define a delegate, you&#8217;re actually defining a new class, which inherits from <strong>System.MulticastDelegate</strong>.</p>
+<p><pre class="brush: csharp;">
+        public delegate string StringProcessorDelegate(string input);
+</pre></p>
+<p>When you declare a variable of this delegate type and assign a method to it, you&#8217;re creating an instance of the new class.</p>
+<p><pre class="brush: csharp;">
+            StringProcessorDelegate stringProcessor = ReverseAndHighLight;
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+        static string ReverseAndHighLight(string input)
+        {
+            // Reverse, add asterisks
+        }
+</pre></p>
+<p>You now have a delegate instance that is set up to invoke the <strong>ReverseAndHighlight</strong> method.  This instance is actually just a normal .NET object, since it&#8217;s an instance of the new type that derives from <strong>System.MulticastDelegate</strong>.  This means that you can pass this object to a method, as a parameter.</p>
+<p><pre class="brush: csharp;">
+            string result = DoStringProcessing(stringProcessor, &quot;Basil Rathbone&quot;);
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+        static string DoStringProcessing(StringProcessorDelegate del, string input)
+        {
+            Console.WriteLine(&quot;Input string: {0}&quot;, input);
+            string result = del(input);
+            Console.WriteLine(&quot;Result: {0}&quot;, result);
+
+            return result;
+        }
+</pre></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/08/001-delegateasparameter.png"><img class="alignnone size-full wp-image-3305" title="001-DelegateAsParameter" src="http://2000thingscsharp.files.wordpress.com/2011/08/001-delegateasparameter.png?w=630" alt=""   /></a></pre>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-3299"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></div></div><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-3299" class="wpl-button "><a href='http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/?like=1&amp;_wpnonce=6fef27cb19' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/"
+    dc:identifier="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/"
+    dc:title="#391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter"
+    trackback:ping="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="http://csharp.2000things.com/category/basics/" title="View all posts in Basics" rel="category tag">Basics</a></span>
+						<span class="tags">Tagged with <a href="http://csharp.2000things.com/tag/basics/" rel="tag">Basics</a>, <a href="http://csharp.2000things.com/tag/c/" rel="tag">C#</a>, <a href="http://csharp.2000things.com/tag/delegates/" rel="tag">Delegates</a>, <a href="http://csharp.2000things.com/tag/multicastdelegate/" rel="tag">MulticastDelegate</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																										
+
+
+												
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment"></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div> 
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1289230950g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+	
+	
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+});
+</script>
+
+<div id="comment-form-subscribe"> 
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='3299' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1348886231" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c8bced40e1" /></p><script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1308783962g'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="96"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+					<li>
+				<a href="http://csharp.2000things.com/2012/09/28/681-avoid-using-the-new-keyword-to-hide-methods/" title="#681 &#8211; Avoid Using the new Keyword To Hide&nbsp;Methods">#681 &#8211; Avoid Using the new Keyword To Hide&nbsp;Methods</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2012/09/27/680-virtual-modifier-combinations/" title="#680 &#8211; Virtual Modifier&nbsp;Combinations">#680 &#8211; Virtual Modifier&nbsp;Combinations</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2012/09/26/679-hide-an-inherited-method-with-a-virtual-method/" title="#679 &#8211; Hide An Inherited Method with A Virtual&nbsp;Method">#679 &#8211; Hide An Inherited Method with A Virtual&nbsp;Method</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2012/09/25/678-a-sealed-method-cannot-be-overridden/" title="#678 &#8211; A Sealed Method Cannot Be&nbsp;Overridden">#678 &#8211; A Sealed Method Cannot Be&nbsp;Overridden</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2012/09/24/677-method-marked-with-new-modifier-cannot-be-overridden/" title="#677 &#8211; Method Marked with new Modifier Cannot Be&nbsp;Overridden">#677 &#8211; Method Marked with new Modifier Cannot Be&nbsp;Overridden</a>
+						</li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>August 2011</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2011/07/" title="View posts for July 2011">&laquo; Jul</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://csharp.2000things.com/2011/09/" title="View posts for September 2011">Sep &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="1" class="pad">&nbsp;</td><td><a href="http://csharp.2000things.com/2011/08/01/" title="#379 &#8211; Using the EventHandler Delegate for Events that Return No&nbsp;Data">1</a></td><td><a href="http://csharp.2000things.com/2011/08/02/" title="#380 &#8211; Handling Events that Use the EventHandler Delegate&nbsp;Type">2</a></td><td><a href="http://csharp.2000things.com/2011/08/03/" title="#381 &#8211; Implementing an Event that Returns Some&nbsp;Data">3</a></td><td><a href="http://csharp.2000things.com/2011/08/04/" title="#382 &#8211; Handling an Event that Returns Some&nbsp;Data">4</a></td><td><a href="http://csharp.2000things.com/2011/08/05/" title="#383 &#8211; Removing a Handler from an&nbsp;Event">5</a></td><td>6</td>
+	</tr>
+	<tr>
+		<td>7</td><td><a href="http://csharp.2000things.com/2011/08/08/" title="#384 &#8211; The Difference Between Delegates and&nbsp;Events">8</a></td><td><a href="http://csharp.2000things.com/2011/08/09/" title="#385 &#8211; A Delegate Instance Can Refer to Both Instance and Static&nbsp;Methods">9</a></td><td><a href="http://csharp.2000things.com/2011/08/10/" title="#386 &#8211; Implementing a Static&nbsp;Event">10</a></td><td><a href="http://csharp.2000things.com/2011/08/11/" title="#387 &#8211; Static Events vs. Static Event Handler&nbsp;Methods">11</a></td><td><a href="http://csharp.2000things.com/2011/08/12/" title="#388 &#8211; Declaring and Using Private&nbsp;Events">12</a></td><td>13</td>
+	</tr>
+	<tr>
+		<td>14</td><td><a href="http://csharp.2000things.com/2011/08/15/" title="#389 &#8211; Check for Null Before Raising an&nbsp;Event">15</a></td><td><a href="http://csharp.2000things.com/2011/08/16/" title="#390 &#8211; Using the Same Handler for Multiple&nbsp;Events">16</a></td><td><a href="http://csharp.2000things.com/2011/08/17/" title="#391 &#8211; Passing a Delegate Instance as a&nbsp;Parameter">17</a></td><td><a href="http://csharp.2000things.com/2011/08/18/" title="#392 &#8211; Reversing a String Using the Reverse&nbsp;Method">18</a></td><td><a href="http://csharp.2000things.com/2011/08/19/" title="#393 &#8211; Implement a Helper Method to Raise an&nbsp;Event">19</a></td><td>20</td>
+	</tr>
+	<tr>
+		<td>21</td><td><a href="http://csharp.2000things.com/2011/08/22/" title="#394 &#8211; Raising an Event in a Thread-Safe&nbsp;Manner">22</a></td><td><a href="http://csharp.2000things.com/2011/08/23/" title="#395 &#8211; Overriding the Default add and remove Accessors for an&nbsp;Event">23</a></td><td><a href="http://csharp.2000things.com/2011/08/24/" title="#396 &#8211; Operators as Class&nbsp;Members">24</a></td><td><a href="http://csharp.2000things.com/2011/08/25/" title="#397 &#8211; Defining an&nbsp;Operator">25</a></td><td><a href="http://csharp.2000things.com/2011/08/26/" title="#398 &#8211; Overloadable&nbsp;Operators">26</a></td><td>27</td>
+	</tr>
+	<tr>
+		<td>28</td><td><a href="http://csharp.2000things.com/2011/08/29/" title="#399 &#8211; Overloading Unary&nbsp;Operators">29</a></td><td><a href="http://csharp.2000things.com/2011/08/30/" title="#400 &#8211; Overloading Binary&nbsp;Operators">30</a></td><td><a href="http://csharp.2000things.com/2011/08/31/" title="#401 &#8211; Every Object Inherits an Equals&nbsp;Method">31</a></td>
+		<td class="pad" colspan="3">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="top-posts-2" class="widget widget_top-posts"><h4>Top Posts</h4><ul><li><a href="http://csharp.2000things.com/2010/06/30/specify-command-line-arguments-in-visual-studio-2010/" class="bump-view" data-bump-view="tp">#13 - Specify Command Line Arguments in Visual Studio 2010</a></li>
+<li><a href="http://csharp.2000things.com/index/" class="bump-view" data-bump-view="tp">Index</a></li>
+<li><a href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/" class="bump-view" data-bump-view="tp">#143 - An Example of Implementing ICloneable for Deep Copies</a></li>
+<li><a href="http://csharp.2000things.com/2012/09/28/681-avoid-using-the-new-keyword-to-hide-methods/" class="bump-view" data-bump-view="tp">#681 - Avoid Using the new Keyword To Hide Methods </a></li>
+<li><a href="http://csharp.2000things.com/2011/01/20/217-t-is-equivalent-to-nullablet/" class="bump-view" data-bump-view="tp">#217 - T? Is Equivalent to Nullable&lt;T&gt;</a></li>
+<li><a href="http://csharp.2000things.com/2011/09/21/416-use-an-epsilon-to-compare-two-floating-point-numbers/" class="bump-view" data-bump-view="tp">#416 - Use an Epsilon to Compare Two Floating Point Numbers</a></li>
+<li><a href="http://csharp.2000things.com/2011/03/05/261-how-automatic-properties-look-under-the-covers/" class="bump-view" data-bump-view="tp">#261 - How Automatic Properties Look Under-the-Covers</a></li>
+<li><a href="http://csharp.2000things.com/2010/11/08/144-using-serialization-to-implement-deep-copying/" class="bump-view" data-bump-view="tp">#144 - Using Serialization to Implement Deep Copying</a></li>
+<li><a href="http://csharp.2000things.com/2012/09/26/679-hide-an-inherited-method-with-a-virtual-method/" class="bump-view" data-bump-view="tp">#679 - Hide An Inherited Method with A Virtual Method</a></li>
+<li><a href="http://csharp.2000things.com/2012/09/27/680-virtual-modifier-combinations/" class="bump-view" data-bump-view="tp">#680 - Virtual Modifier Combinations</a></li>
+</ul></div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/define/' class='tag-link-30689' title='8 topics' style='font-size: 8.3645833333333pt;'>#define</a>
+<a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='13 topics' style='font-size: 9.8229166666667pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/operator/' class='tag-link-283374' title='8 topics' style='font-size: 8.3645833333333pt;'>== operator</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='15 topics' style='font-size: 10.1875pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='10 topics' style='font-size: 9.0208333333333pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='32 topics' style='font-size: 12.520833333333pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/basics/' class='tag-link-8516' title='85 topics' style='font-size: 15.510416666667pt;'>Basics</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='663 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='16 topics' style='font-size: 10.40625pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='115 topics' style='font-size: 16.458333333333pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='11 topics' style='font-size: 9.3125pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='11 topics' style='font-size: 9.3125pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='14 topics' style='font-size: 10.041666666667pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='55 topics' style='font-size: 14.197916666667pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/delegate/' class='tag-link-445004' title='11 topics' style='font-size: 9.3125pt;'>Delegate</a>
+<a href='http://csharp.2000things.com/tag/delegates/' class='tag-link-117466' title='16 topics' style='font-size: 10.40625pt;'>Delegates</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='19 topics' style='font-size: 10.916666666667pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/enumeration/' class='tag-link-1971288' title='11 topics' style='font-size: 9.3125pt;'>Enumeration</a>
+<a href='http://csharp.2000things.com/tag/equality/' class='tag-link-47506' title='7 topics' style='font-size: 8pt;'>Equality</a>
+<a href='http://csharp.2000things.com/tag/equals/' class='tag-link-220607' title='9 topics' style='font-size: 8.7291666666667pt;'>Equals</a>
+<a href='http://csharp.2000things.com/tag/events/' class='tag-link-924' title='18 topics' style='font-size: 10.770833333333pt;'>Events</a>
+<a href='http://csharp.2000things.com/tag/fields/' class='tag-link-47332' title='8 topics' style='font-size: 8.3645833333333pt;'>Fields</a>
+<a href='http://csharp.2000things.com/tag/generics/' class='tag-link-18369' title='14 topics' style='font-size: 10.041666666667pt;'>Generics</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='9 topics' style='font-size: 8.7291666666667pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/inheritance/' class='tag-link-84839' title='13 topics' style='font-size: 9.8229166666667pt;'>Inheritance</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='8 topics' style='font-size: 8.3645833333333pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/interfaces/' class='tag-link-5037' title='28 topics' style='font-size: 12.083333333333pt;'>Interfaces</a>
+<a href='http://csharp.2000things.com/tag/memory/' class='tag-link-1471' title='10 topics' style='font-size: 9.0208333333333pt;'>Memory</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='59 topics' style='font-size: 14.416666666667pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/namespaces/' class='tag-link-102206' title='12 topics' style='font-size: 9.53125pt;'>Namespaces</a>
+<a href='http://csharp.2000things.com/tag/new/' class='tag-link-4597' title='15 topics' style='font-size: 10.1875pt;'>new</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='9 topics' style='font-size: 8.7291666666667pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/operators/' class='tag-link-73644' title='27 topics' style='font-size: 12.010416666667pt;'>Operators</a>
+<a href='http://csharp.2000things.com/tag/optional-parameters/' class='tag-link-17996604' title='8 topics' style='font-size: 8.3645833333333pt;'>Optional Parameters</a>
+<a href='http://csharp.2000things.com/tag/override/' class='tag-link-2568065' title='13 topics' style='font-size: 9.8229166666667pt;'>override</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='12 topics' style='font-size: 9.53125pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/polymorphism/' class='tag-link-875803' title='16 topics' style='font-size: 10.40625pt;'>Polymorphism</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='23 topics' style='font-size: 11.5pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='14 topics' style='font-size: 10.041666666667pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='8 topics' style='font-size: 8.3645833333333pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='16 topics' style='font-size: 10.40625pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='24 topics' style='font-size: 11.645833333333pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='9 topics' style='font-size: 8.7291666666667pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/virtual/' class='tag-link-79250' title='13 topics' style='font-size: 9.8229166666667pt;'>virtual</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='28 topics' style='font-size: 12.083333333333pt;'>Visual Studio</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>110,892 hits</li>
+			</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/" title="Learn more about this theme">Enterprise</a> by <a href="http://www.studiopress.com/" rel="designer">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.basics,posttag.c,posttag.delegates,posttag.multicastdelegate,wa.pv.noads.2000thingscsharp,wa.pv.noads.2000thingscsharp"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.basics%2Cposttag.c%2Cposttag.delegates%2Cposttag.multicastdelegate%2Cwa.pv.noads.2000thingscsharp%2Cwa.pv.noads.2000thingscsharp" height="1" width="1" alt="" /></div></noscript>
+
+
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	(function($){
+		$(document).on( 'ready post-load', function() {
+
+			// Remove the login box when clicking the page
+			$( document ).mousedown( function( e ) {
+				if ( null == $( e.target ).closest( '#wpl-mustlogin' ).get( 0 ) ) {
+					$( '#wpl-mustlogin' ).remove();
+				}
+			});
+
+			// Handle clicking the like button itself
+			$('.wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+
+				var postid = $(this).parent().attr('id').split('like-')[1];
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=dc7824c50a; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+
+				$(this).parent().siblings('.wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="https://2000thingscsharp.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="postid" value="' + postid + '" /> \
+							<input type="hidden" name="redirect_to" value="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter?year=2011&#038;monthnum=08&#038;day=17&#038;name=391-passing-a-delegate-instance-as-a-parameter&#038;like=1" /> \
+							<input type="hidden" name="wpl_rand" value="dc7824c50a" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+
+				$('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+
+			$('#wpl-mustlogin input.input').live( 'focus', function() {
+				$(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( $(this).val() == '' ) {
+					$(this).prev().show();
+				}
+			});
+
+			$('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					$('#wpl-mustlogin form').submit();
+				} );
+			});
+
+			$('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+
+				var link = $(this).attr('href');
+
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});
+		})
+	})(jQuery);
+	/* ]]> */
+	</script>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?ver=201239ab'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1318621548g'></script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingscsharp.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingscsharp.wordpress.com\/wp-login.php?action=logout&_wpnonce=6d4b9096f3","homeURL":"http:\/\/csharp.2000things.com\/","postID":"3299","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/script.js?m=1342824083g'></script>
+	
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+			
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About C#&rdquo;</label></h3>
+		
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+			
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 155 other followers</p>		
+			
+			<p><input type="email" name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14273916"/>
+			<input type="hidden" name="source" value="http://csharp.2000things.com/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="b3f450d492" /><input type="hidden" name="_wp_http_referer" value="/2011/08/17/391-passing-a-delegate-instance-as-a-parameter/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/csharp.2000things.com\/2011\/08\/17\/391-passing-a-delegate-instance-as-a-parameter\/":3299}	</script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/post-flair/sharing/sharing.js?m=1345189394g'></script>
+		<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function(){
+			jQuery( '.share-twitter' ).click(function(){
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+		<script type='text/javascript' src='http://s2.wp.com/_static/??/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js,/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1338000963j'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1267535107g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1305289786g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/js/devicepx.js?m=1346791564g'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','user_id':'0','post':'3299','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE5tW3cvZGQtW1JXcy0rJW1Kd3duRXpHcVIyMT9QM0hjMVVzUVdVYUFjY1EwM009dSZySj1vY0lDT0twTFE5QV9dU2tnMlRNVV93QnhsZldzbnBjdWdTLWE9SEtlak5laWxuTU5IUlV0anRlNG9nZWwzQkFELmpPaWs5d1BXSSZ1NTR0ZnU0LTE1OGFFSlRjPV8xb0FvNW1mRDFhWlBCTXN0TD1mSUJJeX5EZGw1dC9kckV5amk5NTVpb1YrQ1BPUjRGZytJUiZPVWFzb3lKci1kT356QkQxSnImZl8ya2lGWA=='});
+addLoadEvent(function(){linktracker_init('14273916',3299);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+
+</body>
+</html>

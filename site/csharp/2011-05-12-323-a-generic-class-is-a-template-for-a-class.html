@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#323 – A Generic Class is a Template for a Class</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-05-11-322-class-accessibility.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-13-324-a-generic-class-can-have-more-than-one-type-parameter.html">Next</a></nav>
+  <h1>#323 – A Generic Class is a Template for a Class</h1>
+  <p class="meta">2011-05-12 | <a href="http://csharp.2000things.com/2011/05/12/323-a-generic-class-is-a-template-for-a-class/">Original URL</a> | Wayback 20110515052050</p>
+  <article><div class="post-2739 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-generics">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">May 12, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>A <em>generic</em> class is a class that takes one or more <em>type parameters</em>, which it then uses in the definition of the class.  It can be thought of as a template for a class.</p>
+<pre class="brush: csharp;">
+    public class ThingContainer&lt;TParam&gt;
+    {
+        private TParam theThing;
+
+        public void SetThing(TParam newValue)
+        {
+            theThing = newValue;
+        }
+    }
+</pre>
+<p>You use a generic class by specifying a type for each of the type parameters.</p>
+<pre class="brush: csharp;">
+            ThingContainer&lt;int&gt; intContainer = new ThingContainer&lt;int&gt;();
+            intContainer.SetThing(5);
+
+            ThingContainer&lt;Dog&gt; dogContainer = new ThingContainer&lt;Dog&gt;();
+            dogContainer.SetThing(new Dog(&quot;Kirby&quot;, 5));
+</pre>
+<p>In this example, we use a generic class to store an object of an arbitrary type.  We use one version of the class to store an <strong>int</strong> and another to store a <strong>Dog</strong>.  Notice that wherever we use the name of the generic class to define an instance, we need to supply a typename (e.g. <strong>int</strong>, <strong>Dog</strong>) as a parameter.</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/05/12/323-a-generic-class-is-a-template-for-a-class/"
+    dc:identifier="http://csharp.2000things.com/2011/05/12/323-a-generic-class-is-a-template-for-a-class/"
+    dc:title="#323 &#8211; A Generic Class is a Template for a&nbsp;Class"
+    trackback:ping="http://csharp.2000things.com/2011/05/12/323-a-generic-class-is-a-template-for-a-class/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/classes/" title="View all posts in Classes" rel="category tag">Classes</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/classes/" rel="tag">Classes</a>, <a href="http://en.wordpress.com/tag/generics/" rel="tag">Generics</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, Generics</p>
+  <nav class="pager"><a href="2011-05-11-322-class-accessibility.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-13-324-a-generic-class-can-have-more-than-one-type-parameter.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#444 – Interfaces Can Inherit from Other Interfaces</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-28-443-an-interface-cannot-contain-fields.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-01-445-differences-between-an-interface-and-an-abstract-class.html">Next</a></nav>
+  <h1>#444 – Interfaces Can Inherit from Other Interfaces</h1>
+  <p class="meta">2011-10-31 | <a href="http://csharp.2000things.com/2011/10/31/444-interfaces-can-inherit-from-other-interfaces/">Original URL</a> | Wayback 20121225221828</p>
+  <article><div class="post-3752 post type-post status-publish format-standard hentry category-interfaces tag-c tag-inheritance tag-interfaces">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 31, 2011</span>
+																						<span class="post-comments"><a href="2011-10-31-444-interfaces-can-inherit-from-other-interfaces.html" title="Comment on #444 &#8211; Interfaces Can Inherit from Other&nbsp;Interfaces">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>An interface can inherit from other interfaces.  A class implementing an interface must then implement all members of all interfaces in the inheritance chain.</p>
+<p>For example, assume that we have an <strong>INameAndMotto</strong> interface with <strong>Name</strong> and <strong>Motto</strong> properties.</p>
+<p><pre class="brush: csharp;">
+    interface INameAndMotto
+    {
+        string Name { get; set; }
+        string Motto { get; set; }
+    }
+</pre></p>
+<p>Now we can inherit this interface when we define the <strong>IMoo</strong> interface.</p>
+<p><pre class="brush: csharp;">
+    interface IMoo : INameAndMotto
+    {
+        void Moo();
+        List&lt;string&gt; MooLog { get; set; }
+    }
+</pre></p>
+<p>Now if we specify that the <strong>Cow </strong>class inherits from <strong>IMoo</strong>, it must implement all methods in both <strong>IMoo</strong> and <strong>INameAndMotto</strong>.</p>
+<p><pre class="brush: csharp;">
+    public class Cow : IMoo
+    {
+        public string Name { get; set; }
+        public string Motto { get; set; }
+
+        public void Moo()
+        {
+            Console.WriteLine(&quot;Moo&quot;);
+        }
+
+        public List&lt;string&gt; MooLog { get; set; }
+    }
+</pre></p>
+<p><strong><br />
+</strong></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Interfaces | Tags: C#, Inheritance, Interfaces</p>
+  <nav class="pager"><a href="2011-10-28-443-an-interface-cannot-contain-fields.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-01-445-differences-between-an-interface-and-an-abstract-class.html">Next</a></nav>
+</main>
+
+</body>
+</html>

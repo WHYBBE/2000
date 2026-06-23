@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#465 – Using GridSplitters with Nested Grids</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-01-03-464-showspreview-property-delays-rowcolumn-size-change-using-a-gridsplitter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-01-05-466-using-a-gridsplitter-in-conjunction-with-a-sharedsizegroup.html">Next</a></nav>
+  <h1>#465 – Using GridSplitters with Nested Grids</h1>
+  <p class="meta">2012-01-04 | <a href="http://wpf.2000things.com/2012/01/04/465-using-gridsplitters-with-nested-grids/">Original URL</a> | Wayback 20120503114444</p>
+  <article><div class="post-3909 post type-post status-publish format-standard hentry category-layout tag-gridsplitter tag-layout tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 4, 2012</span>
+																						<span class="post-comments"><a href="2012-01-04-465-using-gridsplitters-with-nested-grids.html" title="Comment on #465 &#8211; Using GridSplitters with Nested&nbsp;Grids">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use <strong>GridSplitter</strong> elements in any <strong>Grid</strong>, including a <strong>Grid</strong> that&#8217;s nested inside another <strong>Grid</strong>.  This allows you to have <strong>GridSplitters</strong> that split elements within just a portion of the screen, as shown below.</p>
+<p>In this example, the main grid has a vertical splitter between left and right sub-grids, each of which has a horizontal splitter between top and bottom panels.</p>
+<p><pre class="brush: xml;">
+    &lt;Grid&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+            &lt;ColumnDefinition/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        &lt;!-- Sub-grid on left --&gt;
+        &lt;Grid Grid.Column=&quot;0&quot;&gt;
+            &lt;Grid.RowDefinitions&gt;
+                &lt;RowDefinition/&gt;
+                &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+                &lt;RowDefinition/&gt;
+            &lt;/Grid.RowDefinitions&gt;
+
+            &lt;Label Content=&quot;Left, Row 0&quot; Background=&quot;Azure&quot; Grid.Row=&quot;0&quot;/&gt;
+            &lt;Label Content=&quot;Left, Row 2&quot; Background=&quot;Lavender&quot; Grid.Row=&quot;2&quot;/&gt;
+            &lt;GridSplitter Grid.Row=&quot;1&quot; Height=&quot;8&quot; Background=&quot;DarkSlateBlue&quot;
+                          HorizontalAlignment=&quot;Stretch&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Grid&gt;
+
+        &lt;!-- Sub-grid on right --&gt;
+        &lt;Grid Grid.Column=&quot;2&quot;&gt;
+            &lt;Grid.RowDefinitions&gt;
+                &lt;RowDefinition/&gt;
+                &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+                &lt;RowDefinition/&gt;
+            &lt;/Grid.RowDefinitions&gt;
+
+            &lt;Label Content=&quot;Right, Row 0&quot; Background=&quot;Moccasin&quot; Grid.Row=&quot;0&quot;/&gt;
+            &lt;Label Content=&quot;Right, Row 2&quot; Background=&quot;Honeydew&quot; Grid.Row=&quot;2&quot;/&gt;
+            &lt;GridSplitter Grid.Row=&quot;1&quot; Height=&quot;8&quot; Background=&quot;DarkSlateBlue&quot;
+                          HorizontalAlignment=&quot;Stretch&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Grid&gt;
+
+        &lt;!-- Splitter between left/right sub-grids --&gt;
+        &lt;GridSplitter Grid.Column =&quot;1&quot; Width=&quot;8&quot; Background=&quot;DarkSlateBlue&quot;
+                      VerticalAlignment=&quot;Stretch&quot; HorizontalAlignment=&quot;Center&quot;/&gt;
+    &lt;/Grid&gt;
+</pre><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/01/465-001.png"><img class="alignnone size-full wp-image-3914" title="465-001" src="https://web.archive.org/web/20120503114444id_/http://2000thingswpf.files.wordpress.com/2012/01/465-001.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/01/465-0021.png"><img class="alignnone size-full wp-image-3916" title="465-002" src="https://web.archive.org/web/20120503114444id_/http://2000thingswpf.files.wordpress.com/2012/01/465-0021.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/01/465-003.png"><img class="alignnone size-full wp-image-3917" title="465-003" src="https://web.archive.org/web/20120503114444id_/http://2000thingswpf.files.wordpress.com/2012/01/465-003.png?w=630" alt=""   /></a></pre>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: GridSplitter, Layout, WPF</p>
+  <nav class="pager"><a href="2012-01-03-464-showspreview-property-delays-rowcolumn-size-change-using-a-gridsplitter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-01-05-466-using-a-gridsplitter-in-conjunction-with-a-sharedsizegroup.html">Next</a></nav>
+</main>
+
+</body>
+</html>

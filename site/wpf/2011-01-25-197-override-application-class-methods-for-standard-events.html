@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#197 – Override Application Class Methods for Standard Events</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-01-24-196-getting-a-result-back-from-a-messagebox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-26-198-creating-and-showing-additional-windows.html">Next</a></nav>
+  <h1>#197 – Override Application Class Methods for Standard Events</h1>
+  <p class="meta">2011-01-25 | <a href="http://wpf.2000things.com/2011/01/25/197-override-application-class-methods-for-standard-events/">Original URL</a> | Wayback 20120621235113</p>
+  <article><div class="post-1663 post type-post status-publish format-standard hentry category-basics tag-application tag-sessionending tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 25, 2011</span>
+																						<span class="post-comments"><a href="2011-01-25-197-override-application-class-methods-for-standard-events.html" title="Comment on #197 &#8211; Override Application Class Methods for Standard&nbsp;Events">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>We&#8217;ve <a href="2010-08-21-40-application-lifetime.html">already mentioned</a> some of the main events that the <strong>Application </strong>class fires&#8211;e.g. <strong>Startup</strong>, <strong>Exit</strong> and <strong>SessionEnding</strong>.  We also showed how you can add event handlers to your <strong>Application</strong>-derived class to handle these events, using <strong>SessionEnding</strong> as <a href="2010-08-28-47-detecting-when-the-windows-session-is-ending.html">our example</a>.</p>
+<p>Rather than adding an event handler for <strong>Application.SessionEnding</strong> to our class, we could have just overridden the <strong>OnSessionEnding</strong> method.  This is more appropriate in a class that already derives from <strong>Application</strong>.  Instead of specifying the handler in App.xaml and adding the handler to App.xaml.cs, we can just add code for the override to App.xaml.cs.</p>
+<p>As an example, the override for <strong>OnSessionEnding</strong> could look something like this:</p>
+<p><pre class="brush: csharp;">
+	public partial class App : Application
+	{
+            protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+            {
+                // Always call method in base class, so that the event gets raised.
+                base.OnSessionEnding(e);
+
+                // Place your own SessionEnding logic here
+            }
+    }
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-1663" class="wpl-button "><a href='2011-01-25-197-override-application-class-methods-for-standard-events.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Basics | Tags: Application, SessionEnding, WPF</p>
+  <nav class="pager"><a href="2011-01-24-196-getting-a-result-back-from-a-messagebox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-26-198-creating-and-showing-additional-windows.html">Next</a></nav>
+</main>
+
+</body>
+</html>

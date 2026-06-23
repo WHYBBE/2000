@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#204 &#8211; Detecting Key Presses in a WPF Window &laquo; 2,000 Things You Should Know About WPF</title>
+
+<link rel="stylesheet" href="http://s2.wp.com/wp-content/themes/pub/enterprise/style.css?m=1292826966g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://wpf.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=wpf.2000things.com&amp;id=14605478&amp;t=1296703454&amp;back=wpf.2000things.com%2F2011%2F02%2F01%2F204-detecting-key-presses-in-a-wpf-window%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Feed" href="http://wpf.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Comments Feed" href="http://wpf.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; #204 &#8211; Detecting Key Presses in a WPF&nbsp;Window Comments Feed" href="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1296073727g" type="text/css" />
+<link rel='stylesheet' id='grunion.css-css'  href='http://s1.wp.com/wp-content/mu-plugins/grunion-contact-form-2.0/css/grunion.css?m=1296500193g&#038;ver=MU' type='text/css' media='all' />
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/l10n.js?m=1295648996g&amp;ver=20101110'></script>
+<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.js?m=1290133841g&amp;ver=1.4.4'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/comment-reply.js?m=1268502178g&amp;ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingswpf.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingswpf.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='2,000 Things You Should Know About WPF' href='http://wpf.2000things.com/' />
+<link rel='prev' title='#203 &#8211; Window Size and Location Are Specified in Device Independent&nbsp;Units' href='http://wpf.2000things.com/2011/01/31/203-window-size-and-location-are-specified-in-device-independent-units/' />
+<link rel='next' title='#205 &#8211; The WPF GUI&nbsp;Pipeline' href='http://wpf.2000things.com/2011/02/02/205-the-wpf-gui-pipeline/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/' />
+<link rel='shortlink' href='http://wp.me/pZhye-rO' />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="apple-touch-icon" href="http://1.gravatar.com/blavatar/96cfc0c116be8a3fdedb05f3d276adb4?s=158" />
+	<style type="text/css">
+	/* <![CDATA[ */
+				div#likes { margin-top: 15px; }
+		.like-button { border: 1px solid #eee; padding: 2px 6px; font-size: 13px; font-family: arial, tahoma, sans-serif; }
+		#wpl-likebox { clear: left; font-size: 11px; font-family: arial, tahoma, verdana, sans-serif !important; min-height: 30px; margin: 10px 0 !important; padding: 5px 0 10px 0 !important; }
+		#wpl-button { float: left; background: url( /i/buttonbg.png ) top left repeat-x; margin-right: 7px; border: 1px solid #d4d4d4; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-button a { color: #666 !important; line-height: 130% !important; text-decoration: none !important; outline: none; float: left; padding: 3px 6px 2px 24px !important; font-size: 11px !important; background: url( /i/likestar.png ) 6px 49.8% no-repeat; }
+		#wpl-button.liked { background: #feffce; border: 1px solid #f3e389; }
+		#wpl-button.liked a { color: #ba871b !important; }
+		#wpl-likebox #wpl-count { min-height: 25px; line-height: 130% !important; float: left; padding-top: 4px; }
+		#wpl-likebox #wpl-avatars { clear: left; max-height: 98px; overflow: hidden; margin-top: 15px; line-height: 130% !important; }
+		#wpl-likebox #wpl-avatars img { border: none !important; }
+		#wpl-likebox #wpl-mustlogin { line-height: 14px !important; font-size: 11px; clear: left; margin-top: 5px; background: #f0f0f0; padding: 10px; width: 65%; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-likebox #wpl-mustlogin a { color: #888; text-decoration: underline; }
+		#wpl-likebox #wpl-mustlogin p { margin: 5px 0; padding: 0 }
+		#wpl-likebox #wpl-mustlogin input.input { padding: 2px; background: #fff; font-size: 11px; font-family: inherit; border: 1px solid #ccc; -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin input#wp-submit { border: 1px solid #ccc; font-size: 11px; background: #fafafa; repeat-x; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 2px 4px !important; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin label { position: relative; cursor: text; }
+		#wpl-likebox #wpl-mustlogin label span { position: absolute; top: 0px; left: 5px; padding: 0 !important; }
+		#wpl-likebox #wpl-mustlogin label span { top /*\**/: -10px\9; }
+	/* ]]> */
+	</style>
+	<link rel='openid.server' href='http://2000thingswpf.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingswpf.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wpf.2000things.com/osd.xml" title="2,000 Things You Should Know About WPF" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+<style type="text/css">
+#header {
+	background: #FFFFFF url() no-repeat;
+}
+#header h1, #header h1 a, #header h1 a:visited, #header h4, #header h4 a, #header h4 a:visited, .header-left {
+	color: #333333;
+}
+</style>
+<meta name="application-name" content="2,000 Things You Should Know About WPF" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://wpf.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+<script type='text/javascript'>/*<![CDATA[*/if(typeof(addLoadEvent)!='undefined'){addLoadEvent(function(){if(top==self){i=document.createElement('img');i.src='http://botd2.wordpress.com/botd.gif?blog=14605478&post=1724&lang=en&date=1296579182&ip=174.129.228.67&url=http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/';i.style.width='0px';i.style.height='0px';i.style.overflow='hidden';document.body.appendChild(i);}});}/*]]>*/</script>
+
+</head>
+
+<body class="single single-post postid-1724 single-format-standard">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://wpf.2000things.com/">2,000 Things You Should Know About WPF</a></h4>
+         
+        <p id="description">Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks</p>  
+    </div>
+    <div class="header-right">   
+        <form method="get" id="searchform" action="http://wpf.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://wpf.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://wpf.2000things.com/about/" title="About&nbsp;Me">About&nbsp;Me</a></li><li class="page_item page-item-17"><a href="http://wpf.2000things.com/index/" title="Index">Index</a></li></ul></div>
+	
+	    </div>  
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+	
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-8516"><a href="http://wpf.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-103962"><a href="http://wpf.2000things.com/category/xaml/" title="View all posts filed under XAML">XAML</a>
+</li>
+	<li class="cat-item cat-item-4859017"><a href="http://wpf.2000things.com/category/dependency-properties/" title="View all posts filed under Dependency Properties">Dependency Properties</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://wpf.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-100823"><a href="http://wpf.2000things.com/category/controls/" title="View all posts filed under Controls">Controls</a>
+</li>
+	<li class="cat-item cat-item-20948"><a href="http://wpf.2000things.com/category/blend/" title="View all posts filed under Blend">Blend</a>
+</li>
+	<li class="cat-item cat-item-658"><a href="http://wpf.2000things.com/category/graphics/" title="View all posts filed under Graphics">Graphics</a>
+</li>
+	<li class="cat-item cat-item-725408"><a href="http://wpf.2000things.com/category/data-binding/" title="View all posts filed under Data Binding">Data Binding</a>
+</li>
+	<li class="cat-item cat-item-800"><a href="http://wpf.2000things.com/category/windows/" title="View all posts filed under Windows">Windows</a>
+</li>
+	<li class="cat-item cat-item-292"><a href="http://wpf.2000things.com/category/media/" title="View all posts filed under Media">Media</a>
+</li>
+		</ul>
+	</div>
+	
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+        
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://wpf.2000things.com/2011/01/31/203-window-size-and-location-are-specified-in-device-independent-units/" rel="prev"><span class="meta-nav">&larr;</span> #203 &#8211; Window Size and Location Are Specified in Device Independent&nbsp;Units</a></div>
+				<div class="nav-next"><a href="http://wpf.2000things.com/2011/02/02/205-the-wpf-gui-pipeline/" rel="next">#205 &#8211; The WPF GUI&nbsp;Pipeline <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+            <div class="post-1724 post type-post status-publish format-standard hentry category-basics tag-keydown tag-keyup tag-window tag-wpf">
+
+           		<div class="entry">
+
+                    <h1>#204 &#8211; Detecting Key Presses in a WPF&nbsp;Window</h1>
+
+                    <div class="post-info">
+                        <p><span class="time">February 1, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/#respond">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You can detect key presses in a class that derives from <strong>Window</strong> by overriding the <strong>OnKeyDown</strong> and <strong>OnKeyUp</strong> methods (which in turn fire the <strong>KeyDown</strong> and <strong>KeyUp</strong> events).  <strong></strong></p>
+<p>These key down/up methods are invoked in addition to any control that has focus and might also provide key down/up methods.</p>
+<p>For example, a <strong>TextBox</strong> also has <strong>KeyDown</strong> and <strong>KeyUp</strong> events that are fired.  If a user presses a key while a <strong>TextBox</strong> has focus, the sequence of events is:</p>
+<ul>
+<li><strong>KeyDown </strong>in <strong>TextBox</strong></li>
+<li><strong>KeyDown </strong>in <strong>Window</strong></li>
+<li><strong>KeyUp </strong>in <strong>TextBox</strong></li>
+<li><strong>KeyUp </strong>in <strong>Window</strong></li>
+</ul>
+<p>Here&#8217;s an example:</p>
+<pre class="brush: csharp;">
+    public partial class MainWindow : Window
+    {
+        private static Key[] vowels = { Key.A, Key.E, Key.I, Key.O, Key.U };
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            if ((vowels.Contains(e.Key)) &amp;&amp; (!e.IsRepeat))
+                lblVowels.Content = lblVowels.Content + e.Key.ToString();
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+
+            if (vowels.Contains(e.Key))
+                lblVowels.Content = lblVowels.Content + &quot;,&quot;;
+        }
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/001-albeit1.png"><img class="alignnone size-full wp-image-1730" title="001-Albeit" src="http://2000thingswpf.files.wordpress.com/2011/02/001-albeit1.png?w=493&#038;h=178" alt="" width="493" height="178" /></a></pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/"
+    dc:identifier="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/"
+    dc:title="#204 &#8211; Detecting Key Presses in a WPF&nbsp;Window"
+    trackback:ping="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/basics/" title="View all posts in Basics" rel="category tag">Basics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/keydown/" rel="tag">KeyDown</a>, <a href="http://en.wordpress.com/tag/keyup/" rel="tag">KeyUp</a>, <a href="http://en.wordpress.com/tag/window/" rel="tag">Window</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div>
+
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+            
+                        <p></p>
+
+            <div id="wpl-likebox"><div id="wpl-button"><a href='http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/?like=1&amp;_wpnonce=1b323a2d92' title='I like this post' class='like needs-login' rel='nofollow'><span>Like</span></a></div><div id="wpl-count">Be the first to like this post.</div></div><div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/02/01/204-detecting-key-presses-in-a-wpf-window/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://wpf.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='1724' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1296703457" />
+<p><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p><p><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Subscribe to this site by email</label></p><input type="hidden" name="sub-type" value="comment-form-text2" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="887f7624cb" /></p>					</form>
+							</div><!-- #respond -->
+						
+</div><!-- #comments -->
+    </div>
+
+<div id="sidebar">
+    	
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-3" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://wpf.2000things.com/2011/02/02/205-the-wpf-gui-pipeline/" title="#205 &#8211; The WPF GUI&nbsp;Pipeline">#205 &#8211; The WPF GUI&nbsp;Pipeline</a></li>
+				<li><a href="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/" title="#204 &#8211; Detecting Key Presses in a WPF&nbsp;Window">#204 &#8211; Detecting Key Presses in a WPF&nbsp;Window</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/31/203-window-size-and-location-are-specified-in-device-independent-units/" title="#203 &#8211; Window Size and Location Are Specified in Device Independent&nbsp;Units">#203 &#8211; Window Size and Location Are Specified in Device Independent&nbsp;Units</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/30/202-an-example-of-modalmodeless-dialogs/" title="#202 &#8211; An Example of Modal/Modeless&nbsp;Dialogs">#202 &#8211; An Example of Modal/Modeless&nbsp;Dialogs</a></li>
+				<li><a href="http://wpf.2000things.com/2011/01/29/201-showing-a-modal-dialog-using-showdialog/" title="#201 &#8211; Showing a Modal Dialog Using&nbsp;ShowDialog">#201 &#8211; Showing a Modal Dialog Using&nbsp;ShowDialog</a></li>
+				</ul>
+		</div><div id="calendar-3" class="widget widget_calendar"><h4>&nbsp;</h4><div id="calendar_wrap"><table id="wp-calendar" summary="Calendar">
+	<caption>February 2011</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://wpf.2000things.com/2011/01/" title="View posts for January 2011">&laquo; Jan</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="2" class="pad">&nbsp;</td><td><a href="http://wpf.2000things.com/2011/02/01/" title="#204 &#8211; Detecting Key Presses in a WPF&nbsp;Window">1</a></td><td id="today"><a href="http://wpf.2000things.com/2011/02/02/" title="#205 &#8211; The WPF GUI&nbsp;Pipeline">2</a></td><td>3</td><td>4</td><td>5</td>
+	</tr>
+	<tr>
+		<td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+	</tr>
+	<tr>
+		<td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td>
+	</tr>
+	<tr>
+		<td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td>
+	</tr>
+	<tr>
+		<td>27</td><td>28</td>
+		<td class="pad" colspan="5">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://wpf.2000things.com/2010/08/08/27-class-hierarchy/'>#27 - Class Hierarchy</a></li><li><a href='http://wpf.2000things.com/2011/01/05/177-a-content-presenter-is-a-placeholder-for-a-content-controls-content/'>#177 - A Content Presenter Is a Placeholder for a Content Control's Content</a></li><li><a href='http://wpf.2000things.com/2010/11/16/127-reacting-to-a-dependency-property-change-using-triggers/'>#127 - Reacting to a Dependency Property Change Using Triggers</a></li><li><a href='http://wpf.2000things.com/2010/12/30/171-other-base-classes-freezable-and-animatable/'>#171 - Other Base Classes - Freezable and Animatable</a></li><li><a href='http://wpf.2000things.com/index/'>Index</a></li><li><a href='http://wpf.2000things.com/2010/10/23/103-xaml-2009/'>#103 - XAML 2009</a></li><li><a href='http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/'>#204 - Detecting Key Presses in a WPF Window</a></li><li><a href='http://wpf.2000things.com/2010/10/18/98-how-attached-properties-work-in-wpf/'>#98 - How Attached Properties Work in WPF</a></li><li><a href='http://wpf.2000things.com/2010/12/25/166-you-can-override-metadata-for-any-dependency-property/'>#166 - You Can Override Metadata for Any Dependency Property</a></li><li><a href='http://wpf.2000things.com/2010/08/29/48-handling-an-applications-exit-event/'>#48 - Handling an Application's Exit Event</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://wpf.2000things.com/tag/application/' class='tag-link-3370' title='6 topics' style='font-size: 10.96pt;'>Application</a>
+<a href='http://wpf.2000things.com/tag/attached-properties/' class='tag-link-16229205' title='3 topics' style='font-size: 8.96pt;'>Attached Properties</a>
+<a href='http://wpf.2000things.com/tag/baml/' class='tag-link-9190773' title='3 topics' style='font-size: 8.96pt;'>BAML</a>
+<a href='http://wpf.2000things.com/tag/binding/' class='tag-link-296829' title='2 topics' style='font-size: 8pt;'>Binding</a>
+<a href='http://wpf.2000things.com/tag/blend/' class='tag-link-20948' title='10 topics' style='font-size: 12.48pt;'>Blend</a>
+<a href='http://wpf.2000things.com/tag/code-behind/' class='tag-link-1380862' title='2 topics' style='font-size: 8pt;'>Code-Behind</a>
+<a href='http://wpf.2000things.com/tag/coercevaluecallback/' class='tag-link-43671909' title='5 topics' style='font-size: 10.4pt;'>CoerceValueCallback</a>
+<a href='http://wpf.2000things.com/tag/collection-syntax/' class='tag-link-42937742' title='3 topics' style='font-size: 8.96pt;'>Collection Syntax</a>
+<a href='http://wpf.2000things.com/tag/contentcontrol/' class='tag-link-6435769' title='2 topics' style='font-size: 8pt;'>ContentControl</a>
+<a href='http://wpf.2000things.com/tag/content-properties/' class='tag-link-43150681' title='2 topics' style='font-size: 8pt;'>Content Properties</a>
+<a href='http://wpf.2000things.com/tag/controls/' class='tag-link-100823' title='7 topics' style='font-size: 11.36pt;'>Controls</a>
+<a href='http://wpf.2000things.com/tag/control-template/' class='tag-link-18931069' title='3 topics' style='font-size: 8.96pt;'>Control Template</a>
+<a href='http://wpf.2000things.com/tag/data-binding/' class='tag-link-725408' title='2 topics' style='font-size: 8pt;'>Data Binding</a>
+<a href='http://wpf.2000things.com/tag/dependencyobject/' class='tag-link-12653898' title='2 topics' style='font-size: 8pt;'>DependencyObject</a>
+<a href='http://wpf.2000things.com/tag/dependency-properties/' class='tag-link-4859017' title='45 topics' style='font-size: 17.44pt;'>Dependency Properties</a>
+<a href='http://wpf.2000things.com/tag/dependency-property/' class='tag-link-12411431' title='7 topics' style='font-size: 11.36pt;'>Dependency property</a>
+<a href='http://wpf.2000things.com/tag/directx/' class='tag-link-20056' title='2 topics' style='font-size: 8pt;'>DirectX</a>
+<a href='http://wpf.2000things.com/tag/dpi/' class='tag-link-613757' title='2 topics' style='font-size: 8pt;'>DPI</a>
+<a href='http://wpf.2000things.com/tag/event-handler/' class='tag-link-4364007' title='3 topics' style='font-size: 8.96pt;'>Event Handler</a>
+<a href='http://wpf.2000things.com/tag/frameworkelement/' class='tag-link-23671364' title='2 topics' style='font-size: 8pt;'>FrameworkElement</a>
+<a href='http://wpf.2000things.com/tag/freezable/' class='tag-link-7482551' title='3 topics' style='font-size: 8.96pt;'>Freezable</a>
+<a href='http://wpf.2000things.com/tag/graphics/' class='tag-link-658' title='3 topics' style='font-size: 8.96pt;'>Graphics</a>
+<a href='http://wpf.2000things.com/tag/inheritance/' class='tag-link-84839' title='2 topics' style='font-size: 8pt;'>Inheritance</a>
+<a href='http://wpf.2000things.com/tag/layout/' class='tag-link-26060' title='3 topics' style='font-size: 8.96pt;'>Layout</a>
+<a href='http://wpf.2000things.com/tag/logical-tree/' class='tag-link-3264715' title='5 topics' style='font-size: 10.4pt;'>Logical Tree</a>
+<a href='http://wpf.2000things.com/tag/markup/' class='tag-link-4675' title='3 topics' style='font-size: 8.96pt;'>Markup</a>
+<a href='http://wpf.2000things.com/tag/markup-extension/' class='tag-link-13775636' title='2 topics' style='font-size: 8pt;'>Markup Extension</a>
+<a href='http://wpf.2000things.com/tag/markup-extensions/' class='tag-link-18058044' title='2 topics' style='font-size: 8pt;'>Markup Extensions</a>
+<a href='http://wpf.2000things.com/tag/metadata/' class='tag-link-23191' title='3 topics' style='font-size: 8.96pt;'>Metadata</a>
+<a href='http://wpf.2000things.com/tag/overridemetadata/' class='tag-link-48248566' title='3 topics' style='font-size: 8.96pt;'>OverrideMetadata</a>
+<a href='http://wpf.2000things.com/tag/propertychangedcallback/' class='tag-link-43671910' title='4 topics' style='font-size: 9.76pt;'>PropertyChangedCallback</a>
+<a href='http://wpf.2000things.com/tag/property-element-syntax/' class='tag-link-42774866' title='2 topics' style='font-size: 8pt;'>Property Element Syntax</a>
+<a href='http://wpf.2000things.com/tag/resources/' class='tag-link-1784' title='4 topics' style='font-size: 9.76pt;'>Resources</a>
+<a href='http://wpf.2000things.com/tag/sessionending/' class='tag-link-41227031' title='2 topics' style='font-size: 8pt;'>SessionEnding</a>
+<a href='http://wpf.2000things.com/tag/silverlight/' class='tag-link-984139' title='2 topics' style='font-size: 8pt;'>Silverlight</a>
+<a href='http://wpf.2000things.com/tag/styles/' class='tag-link-67123' title='2 topics' style='font-size: 8pt;'>Styles</a>
+<a href='http://wpf.2000things.com/tag/templates/' class='tag-link-1663' title='2 topics' style='font-size: 8pt;'>Templates</a>
+<a href='http://wpf.2000things.com/tag/uielement/' class='tag-link-23200278' title='3 topics' style='font-size: 8.96pt;'>UIElement</a>
+<a href='http://wpf.2000things.com/tag/visual-studio/' class='tag-link-6678' title='12 topics' style='font-size: 13.04pt;'>Visual Studio</a>
+<a href='http://wpf.2000things.com/tag/visual-studio-2010/' class='tag-link-11664360' title='5 topics' style='font-size: 10.4pt;'>Visual Studio 2010</a>
+<a href='http://wpf.2000things.com/tag/visual-tree/' class='tag-link-3264716' title='3 topics' style='font-size: 8.96pt;'>Visual Tree</a>
+<a href='http://wpf.2000things.com/tag/window/' class='tag-link-43058' title='7 topics' style='font-size: 11.36pt;'>Window</a>
+<a href='http://wpf.2000things.com/tag/wpf/' class='tag-link-46652' title='170 topics' style='font-size: 22pt;'>WPF</a>
+<a href='http://wpf.2000things.com/tag/xaml/' class='tag-link-103962' title='48 topics' style='font-size: 17.68pt;'>XAML</a>
+<a href='http://wpf.2000things.com/tag/xaml-namespaces/' class='tag-link-18024396' title='2 topics' style='font-size: 8pt;'>XAML Namespaces</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>10,717 hits</li>
+			</ul>
+		</div>		
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a rel="designer" href="http://www.studiopress.com/">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery( function() {
+			
+			jQuery('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				jQuery('#wpl-mustlogin').remove();
+
+				jQuery.post( 'http://2000thingswpf.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=4cef9d5993; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+				
+				jQuery('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="http://2000thingswpf.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://wpf.2000things.com/2011/02/01/204-detecting-key-presses-in-a-wpf-window/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="4cef9d5993" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+				
+				jQuery('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			jQuery('#wpl-mustlogin input.input').live( 'focus', function() {
+				jQuery(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( jQuery(this).val() == '' )
+					jQuery(this).prev().show();
+			});
+			
+			jQuery('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				jQuery.post( 'http://2000thingswpf.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					jQuery('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			jQuery('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = jQuery(this).attr('href');
+				
+				jQuery.post( 'http://2000thingswpf.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript">_qoptions={qacct:'p-18-mFEk4J448M',labels:'language.en,type.wpcom,posttag.keydown,posttag.keyup,posttag.window,posttag.wpf'};</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript><p><img class="robots-nocontent" src="http://pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cposttag.keydown%2Cposttag.keyup%2Cposttag.window%2Cposttag.wpf" style="display:none" height="1" width="1" alt="" /></p></noscript>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?o&#038;ver=MU'></script>
+	<script type="text/javascript">	
+	// <![CDATA[
+	WPGroHo = {
+		data: {},
+		renderers: {},
+		syncProfileData: function( hash, id ) {
+			if ( !WPGroHo.data[hash] ) {
+				WPGroHo.data[hash] = {};
+				a = jQuery( 'div.grofile-hash-map-' + hash + ' span' ).each( function() {
+					WPGroHo.data[hash][this.className] = jQuery( this ).text();
+				} );
+			}
+
+			WPGroHo.appendProfileData( WPGroHo.data[hash], hash, id );
+		},
+		appendProfileData: function( data, hash, id ) {
+			for ( var key in data ) {
+				if ( jQuery.isFunction( WPGroHo.renderers[key] ) ) {
+					return WPGroHo.renderers[key]( data[key], hash, id, key );
+				}
+
+				jQuery( '#' + id ).find( 'h4' ).after( jQuery( '<p class="grav-extra ' + key + '" />' ).html( data[key] ) );
+			}
+		}
+	};
+	jQuery(document).ready(function($){
+		Gravatar.profile_cb = function( h, d ) {
+			WPGroHo.syncProfileData( h, d );
+		};
+		Gravatar.attach_profiles();
+	});
+	// ]]>
+	</script>
+	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type="text/javascript" src="http://b.scorecardresearch.com/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script type='text/javascript' src='http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js?m=1268502180g&#038;ver=2.1.364b'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1268502180g&#038;ver=2.1.364b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1268502179g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s1.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1268502180g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script src="http://s.stats.wordpress.com/w.js?19" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14605478','v':'wpcom','user_id':'0','post':'1724','subd':'2000thingswpf'});
+ex_go({'crypt':'RDZ8LFkxbXEuSi5CR1drN3N5OGkwd2hWbjcxMzZXSlVGK244N01hMiVQJld2Y2hkNFk0JTh+c1AsYWgudzV5aEFCQ11jZixpZE9SQkRHV2JzcllEX3hVJnVZV25mLFtFW11lckQleXowSVc3TnVFQVRfT2pTSnx8bjNvQSwlRFVJYnZidnhUS35YTHl2L2xhSU01dlNXVlItclVdVltfLFlLRmQwSXA0ZWo3NzhWRlp2aUEvcHErTl90by5qcDFSfiYlWXhdbFd3QnlF'});
+addLoadEvent(function(){linktracker_init('14605478',1724);});
+	</script>
+
+</body>
+</html>

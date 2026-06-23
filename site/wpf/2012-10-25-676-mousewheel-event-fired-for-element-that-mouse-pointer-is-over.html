@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#676 – MouseWheel Event Is Fired for Element That Mouse Pointer Is Over</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-24-675-handling-the-previewmousewheel-and-mousewheel-events.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-26-677-why-the-standard-mouse-wheel-delta-is-120.html">Next</a></nav>
+  <h1>#676 – MouseWheel Event Is Fired for Element That Mouse Pointer Is Over</h1>
+  <p class="meta">2012-10-25 | <a href="http://wpf.2000things.com/2012/10/25/676-mousewheel-event-fired-for-element-that-mouse-pointer-is-over/">Original URL</a> | Wayback 20121029035419</p>
+  <article><div class="post-5851 post type-post status-publish format-standard hentry category-events tag-events tag-mouse tag-mouse-wheel tag-mousewheel tag-previewmousewheel tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 25, 2012</span>
+																						<span class="post-comments"><a href="2012-10-25-676-mousewheel-event-fired-for-element-that-mouse-pointer-is-over.html" title="Comment on #676 &#8211; MouseWheel Event Is Fired for Element That Mouse Pointer Is&nbsp;Over">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When the user rotates the mouse wheel, the <a href="http://wp.me/pZhye-1wc"><strong>PreviewMouseWheel</strong> and <strong>MouseWheel</strong> events</a> will fire.  The <strong>PreviewMouseWheel</strong> event tunnels down the logical tree, firing for the topmost element and working down to the element that the mouse pointer was located over when the mouse wheel was rotated.  The <strong>MouseWheel</strong> event then fires, bubbling up the logical tree and firing for each element until the topmost element is reached.</p>
+<p>In the example below, if the user rotates the mouse wheel while the mouse pointer is over the <strong>Button</strong>, the event sequence is:</p>
+<ul>
+<li><strong>PreviewMouseWheel</strong> for <strong>Window</strong></li>
+<li><strong>PreviewMouseWheel</strong> for <strong>StackPanel</strong></li>
+<li><strong>PreviewMouseWheel</strong> for <strong>Button</strong></li>
+<li><strong>MouseWheel</strong> for  <strong>Button</strong></li>
+<li><strong>MouseWheel</strong> for <strong>StackPanel</strong></li>
+<li><strong>MouseWheel</strong> for <strong>Window</strong></li>
+</ul>
+<p><pre class="brush: xml;">
+&lt;Window Name=&quot;win1&quot; x:Class=&quot;WpfApplication1.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;Mouse Wheel&quot;
+        Width=&quot;350&quot; Height=&quot;200&quot;
+        MouseWheel=&quot;Window_MouseWheel&quot; PreviewMouseWheel=&quot;Window_PreviewMouseWheel&quot;&gt;
+
+    &lt;StackPanel MouseWheel=&quot;StackPanel_MouseWheel&quot; PreviewMouseWheel=&quot;StackPanel_PreviewMouseWheel&quot;&gt;
+        &lt;Label Content=&quot;Tiberius Julius Caesar Augustus&quot; /&gt;
+        &lt;Button Content=&quot;Make Me Emperor&quot; MouseWheel=&quot;Button_MouseWheel&quot; PreviewMouseWheel=&quot;Button_PreviewMouseWheel&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/676-002.png"><img class="alignnone size-full wp-image-5855" title="676-002" alt="" src="https://web.archive.org/web/20121029035419id_/http://2000thingswpf.files.wordpress.com/2012/10/676-002.png?w=630"   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/10/676-001.png"><img class="alignnone size-full wp-image-5854" title="676-001" alt="" src="https://web.archive.org/web/20121029035419id_/http://2000thingswpf.files.wordpress.com/2012/10/676-001.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Events, Mouse, Mouse Wheel, MouseWheel, PreviewMouseWheel, WPF</p>
+  <nav class="pager"><a href="2012-10-24-675-handling-the-previewmousewheel-and-mousewheel-events.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-26-677-why-the-standard-mouse-wheel-delta-is-120.html">Next</a></nav>
+</main>
+
+</body>
+</html>

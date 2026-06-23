@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#720 – Location of Declarations within A Method Does Matter</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-21-719-location-of-declarations-within-a-class-doesnt-matter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-23-721-local-variable-declarations-can-hide-class-members.html">Next</a></nav>
+  <h1>#720 – Location of Declarations within A Method Does Matter</h1>
+  <p class="meta">2012-11-22 | <a href="http://csharp.2000things.com/2012/11/22/720-location-of-declarations-within-a-method-does-matter/">Original URL</a> | Wayback 20121204050155</p>
+  <article><div class="post-6189 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-declarations">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 22, 2012</span>
+																						<span class="post-comments"><a href="2012-11-22-720-location-of-declarations-within-a-method-does-matter.html" title="Comment on #720 &#8211; Location of Declarations within A Method Does&nbsp;Matter">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When declaring members in a class, you can <a href="http://wp.me/pXTis-1BK">declare the members anywhere in the class</a>, even placing a declaration after some code that references the declared member.</p>
+<p>When you declare variables within a method, however, a variable must be declared before it is used.  Compiling the code below will result in a compile-time error, since the <strong>leadin</strong> variable in the method <strong>RevealNames </strong>is declared after it is used.</p>
+<p><pre class="brush: csharp;">
+    public class Dog
+    {
+        public string Name { get; set; }
+
+        public Dog(string name)
+        {
+            Name = name;
+            secretName = &quot;His Great Terribleness Mr. Bites-a-Lot&quot;;
+        }
+
+        public void RevealNames()
+        {
+            Console.WriteLine(leadin);
+            Console.WriteLine(string.Format(&quot;{0} is really {1}&quot;, Name, secretName));
+            string leadin = &quot;Did you know?&quot;;
+        }
+
+        private string secretName;
+    }
+</pre></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, Declarations</p>
+  <nav class="pager"><a href="2012-11-21-719-location-of-declarations-within-a-class-doesnt-matter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-23-721-local-variable-declarations-can-hide-class-members.html">Next</a></nav>
+</main>
+
+</body>
+</html>

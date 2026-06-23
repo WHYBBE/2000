@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#508 – Displaying a Spinning Busy Indicator</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-03-05-507-expander-control-lets-you-expandcollapse-a-set-of-controls.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-03-07-509-displaying-a-busy-indicator-in-a-data-template.html">Next</a></nav>
+  <h1>#508 – Displaying a Spinning Busy Indicator</h1>
+  <p class="meta">2012-03-06 | <a href="http://wpf.2000things.com/2012/03/06/508-displaying-a-spinning-busy-indicator/">Original URL</a> | Wayback 20120321012824</p>
+  <article><div class="post-4328 post type-post status-publish format-standard hentry category-controls tag-busy-indicator tag-controls tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">March 6, 2012</span>
+                        	                        	<span class="post-comments"><a href="2012-03-06-508-displaying-a-spinning-busy-indicator.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You&#8217;ll often see a circular spinning icon used in an application to indicate that some work is in progress. You can easily do this in WPF by animating an <strong>Image</strong> control.</p>
+<p>In the example below, we have an <strong>Image</strong> control that animates (rotates) whenever a <strong>Busy</strong> property becomes <strong>true</strong>.  (The <strong>Button</strong> triggers this flag).  We start the rotation when <strong>Busy</strong> becomes true using a <strong>Storyboard</strong> and then remove the <strong>Storyboard</strong> when the flag goes back to being <strong>false</strong>.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel&gt;
+        &lt;Image Source=&quot;Images\Spinny3.jpg&quot; Height=&quot;40&quot; Width=&quot;40&quot; Stretch=&quot;None&quot;
+               HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; Margin=&quot;15&quot;&gt;
+            &lt;Image.RenderTransform&gt;
+                &lt;RotateTransform  CenterX=&quot;20&quot; CenterY=&quot;20&quot;/&gt;
+            &lt;/Image.RenderTransform&gt;
+            &lt;Image.Style&gt;
+                &lt;Style&gt;
+                    &lt;Style.Triggers&gt;
+                        &lt;DataTrigger Binding=&quot;{Binding Busy}&quot; Value=&quot;True&quot;&gt;
+                            &lt;DataTrigger.EnterActions&gt;
+                                &lt;BeginStoryboard Name=&quot;rotatingStoryboard&quot;&gt;
+                                    &lt;Storyboard&gt;
+                                        &lt;DoubleAnimation
+                                            Storyboard.Target=&quot;{Binding TemplatedParent}&quot;
+                                            Storyboard.TargetProperty=&quot;(Image.RenderTransform).(RotateTransform.Angle)&quot;
+                                            From=&quot;0&quot; To=&quot;360&quot; Duration=&quot;0:0:1&quot; RepeatBehavior=&quot;Forever&quot;/&gt;
+                                    &lt;/Storyboard&gt;
+                                &lt;/BeginStoryboard&gt;
+                            &lt;/DataTrigger.EnterActions&gt;
+                            &lt;DataTrigger.ExitActions&gt;
+                                &lt;RemoveStoryboard BeginStoryboardName=&quot;rotatingStoryboard&quot;/&gt;
+                            &lt;/DataTrigger.ExitActions&gt;
+                        &lt;/DataTrigger&gt;
+                    &lt;/Style.Triggers&gt;
+                &lt;/Style&gt;
+            &lt;/Image.Style&gt;
+        &lt;/Image&gt;
+        &lt;Button Content=&quot;Start-Stop&quot; HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot; Padding=&quot;10,5&quot; Click=&quot;Button_Click_1&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>You could also set the <strong>Visibility</strong> of the <strong>Image</strong> based on the same flag (visible when busy).</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/03/508-001.png"><img class="alignnone size-full wp-image-4334" title="508-001" src="https://web.archive.org/web/20120321012824id_/http://2000thingswpf.files.wordpress.com/2012/03/508-001.png?w=630" alt=""   /></a></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Busy Indicator, Controls, WPF</p>
+  <nav class="pager"><a href="2012-03-05-507-expander-control-lets-you-expandcollapse-a-set-of-controls.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-03-07-509-displaying-a-busy-indicator-in-a-data-template.html">Next</a></nav>
+</main>
+
+</body>
+</html>

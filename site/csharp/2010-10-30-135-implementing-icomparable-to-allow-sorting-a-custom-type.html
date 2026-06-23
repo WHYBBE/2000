@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#135 – Implementing IComparable to Allow Sorting a Custom Type</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-29-134-sorting-one-dimensional-arrays.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-31-136-sorting-an-array-of-values-based-on-an-array-of-keys.html">Next</a></nav>
+  <h1>#135 – Implementing IComparable to Allow Sorting a Custom Type</h1>
+  <p class="meta">2010-10-30 | <a href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/">Original URL</a> | Wayback 20110930131855</p>
+  <article><div class="post-1325 post type-post status-publish format-standard hentry category-data-types tag-arrays tag-c tag-icomparable tag-sorting">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 30, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2010-10-30-135-implementing-icomparable-to-allow-sorting-a-custom-type.html">2 Comments</a></span> </p>
+                    </div>
+
+                    <p>Arrays of elements that belong to a custom type cannot be sorted, unless the type implements the <strong>IComparable</strong> interface.</p>
+<p>To make elements of a custom type sortable, you need to implement <strong>IComparable</strong> in your type.  <strong>IComparable </strong>consists of the single method <strong>CompareTo</strong>, which compares two objects.</p>
+<p>Here&#8217;s an example of a <strong>Person</strong> class implementing <strong>CompareTo</strong> to sort people in LastName/FirstName order:</p>
+<pre class="brush: csharp;">
+            public int CompareTo(object obj)
+            {
+                Person other = obj as Person;
+                if (other == null)
+                    throw new ArgumentException(&quot;Object is not a Person&quot;);
+                else
+                {
+                    // Sort by LastName, then by FirstName (ignore case)
+                    int compare = this.LastName.ToLower().CompareTo(other.LastName.ToLower());
+                    if (compare == 0)
+                        compare = this.FirstName.ToLower().CompareTo(other.FirstName.ToLower());
+
+                    return compare;
+                }
+</pre>
+<p>Here&#8217;s an example of sorting an array of <strong>Person</strong> objects:</p>
+<pre class="brush: csharp;">
+            Person[] folks = new Person[4];
+            folks[0] = new Person(&quot;Bronte&quot;, &quot;Emily&quot;);
+            folks[1] = new Person(&quot;Bronte&quot;, &quot;Charlotte&quot;);
+            folks[2] = new Person(&quot;Tennyson&quot;, &quot;Alfred&quot;);
+            folks[3] = new Person(&quot;Mailer&quot;, &quot;Norman&quot;);
+            Array.Sort(folks);    // C. Bronte, E. Bronte, Mailer, Tennyson
+</pre>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: Arrays, C#, IComparable, Sorting</p>
+  <nav class="pager"><a href="2010-10-29-134-sorting-one-dimensional-arrays.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-31-136-sorting-an-array-of-values-based-on-an-array-of-keys.html">Next</a></nav>
+</main>
+
+</body>
+</html>

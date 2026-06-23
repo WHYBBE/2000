@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#936 – Visualizing Garbage Collection Generations</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2013-09-20-935-large-objects-are-allocated-on-the-large-object-heap.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-09-24-937-forcing-a-garbage-collection.html">Next</a></nav>
+  <h1>#936 – Visualizing Garbage Collection Generations</h1>
+  <p class="meta">2013-09-23 | <a href="http://csharp.2000things.com/2013/09/23/936-visualizing-garbage-collection-generations/">Original URL</a> | Wayback 20130930010446</p>
+  <article><div class="post-7714 post type-post status-publish format-standard hentry category-memory tag-c tag-garbage-collector tag-generations tag-memory">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 23, 2013</span>
+																						<span class="post-comments"><a href="2013-09-23-936-visualizing-garbage-collection-generations.html" title="Comment on #936 &#8211; Visualizing Garbage Collection&nbsp;Generations">4 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>The garbage collection <a href="2013-09-18-933-the-garbage-collector-groups-objects-into-generations.html">groups objects on the managed heap into generations</a>.  This <a href="2013-09-19-934-how-generations-help-the-garbage-collector-run-more-efficiently.html">improves the performance</a> of the garbage collector (GC), since it typically collects objects in Generation 0 (newest), only moving to older generations if necessary.</p>
+<p>Below is an example of this.  To start with, we have an empty managed heap (no objects).  The entire heap is considered Generation 0, since we haven&#8217;t yet done a garbage collection.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-0011.png"><img class="alignnone size-full wp-image-7717" alt="936-001" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-0011.png?w=630&amp;h=218" width="630" height="218" /></a></p>
+<p>We now allocate three <strong>Dog</strong> objects on the heap.  They are allocated in the first available space within Gen 0.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-0021.png"><img class="alignnone size-full wp-image-7720" alt="936-002" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-0021.png?w=630&amp;h=231" width="630" height="231" /></a></p>
+<p>We now set the <strong>yourDog</strong> reference to null, so that <strong>Jack</strong> is no longer referenced.  Before garbage collection, the heap looks like this:</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-0031.png"><img class="alignnone size-full wp-image-7721" alt="936-003" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-0031.png?w=630&amp;h=233" width="630" height="233" /></a></p>
+<p>Assume that a GC pass runs now and collects objects in Gen 0 (the only generation available).  Memory for <strong>Jack</strong> is released, everything in Gen 0 is compacted, and whatever remains is marked as Gen 1.  Gen 0 now starts again at the free space pointer.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-004.png"><img class="alignnone size-full wp-image-7722" alt="936-004" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-004.png?w=630&amp;h=223" width="630" height="223" /></a></p>
+<p>Assume that we run for a while and allocate a couple more <strong>Dog</strong> objects&#8211;<strong>Lassie</strong> and <strong>Rin Tin Tin</strong>.  Then assume that the reference to <strong>Lassie</strong> is removed and that the reference to <strong>Ruby</strong> is also removed.  Before collection, the heap looks as follows.  Notice that there are unreachable objects in both Gen 0 and Gen 1.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-005.png"><img class="alignnone size-full wp-image-7723" alt="936-005" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-005.png?w=630&amp;h=229" width="630" height="229" /></a></p>
+<p>Assume that a garbage collection now runs and collects only Gen 0.  Memory for <strong>Lassie</strong> is reclaimed, Gen 0 is compacted and and its objects are promoted to Gen 1.  The existing Gen 1, however, is not collected and its objects remain in Gen 1.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-008.png"><img class="alignnone size-full wp-image-7741" alt="936-008" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-008.png?w=630&amp;h=209" width="630" height="209" /></a></p>
+<p>Finally, let&#8217;s assume that the garbage collection runs one more time.  It begins with Gen 0, but there is nothing to collect.  Let&#8217;s assume that there are high memory demands that cause the GC to decide to also collect Gen 1.  It can now release memory for <strong>Ruby </strong>and then compacts Gen 1 and promotes its surviving objects to Gen 2.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/09/936-007.png"><img class="alignnone size-full wp-image-7725" alt="936-007" src="https://web.archive.org/web/20130930010446id_/http://2000thingscsharp.files.wordpress.com/2013/09/936-007.png?w=630&amp;h=226" width="630" height="226" /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "tips");
+GA_googleAddAttr("Tag", "memory");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "garbage-collector");
+GA_googleAddAttr("Tag", "generations");
+GA_googleAddAttr("Tag", "memory");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2013/09/23/936-visualizing-garbage-collection-generations/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2013/09/23/936-visualizing-garbage-collection-generations/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-7714"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2013/09/23/936-visualizing-garbage-collection-generations/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2013/09/23/936-visualizing-garbage-collection-generations/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Memory | Tags: C#, Garbage Collector, Generations, Memory</p>
+  <nav class="pager"><a href="2013-09-20-935-large-objects-are-allocated-on-the-large-object-heap.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-09-24-937-forcing-a-garbage-collection.html">Next</a></nav>
+</main>
+
+</body>
+</html>

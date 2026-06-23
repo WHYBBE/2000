@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#360 – Binding a ToggleButton’s IsChecked Property to a Boolean Variable</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-08-359-togglebutton-basics.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-10-361-creating-a-togglebutton-whose-content-is-an-image.html">Next</a></nav>
+  <h1>#360 – Binding a ToggleButton’s IsChecked Property to a Boolean Variable</h1>
+  <p class="meta">2011-08-09 | <a href="http://wpf.2000things.com/2011/08/09/360-binding-a-togglebuttons-ischecked-property-to-a-boolean-variable/">Original URL</a> | Wayback 20120503115504</p>
+  <article><div class="post-2941 post type-post status-publish format-standard hentry category-controls tag-binding tag-controls tag-togglebutton tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 9, 2011</span>
+																						<span class="post-comments"><a href="2011-08-09-360-binding-a-togglebuttons-ischecked-property-to-a-boolean-variable.html" title="Comment on #360 &#8211; Binding a ToggleButton&#8217;s IsChecked Property to a Boolean&nbsp;Variable">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Instead of handling the <strong>Checked</strong> and <strong>Unchecked</strong> events of a<strong> ToggleButton </strong>and then setting a boolean variable to represent the current state, you&#8217;ll most often just use data binding to bind the <strong>IsChecked</strong> property to a boolean variable.</p>
+<p>In the example below, we have three <strong>ToggleButton</strong> controls, each bound to a boolean property.</p>
+<p><pre class="brush: xml;">
+        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+            &lt;ToggleButton Content=&quot;Bold&quot; IsChecked=&quot;{Binding Bold}&quot;  FontWeight=&quot;Bold&quot; Padding=&quot;5&quot; /&gt;
+            &lt;ToggleButton Content=&quot;Italic&quot; IsChecked=&quot;{Binding Italic}&quot; FontStyle=&quot;Italic&quot; Padding=&quot;5&quot;/&gt;
+            &lt;ToggleButton IsChecked=&quot;{Binding Underline}&quot; Padding=&quot;5&quot; &gt;
+                &lt;TextBlock&gt;
+                    &lt;Underline&gt;Underline&lt;/Underline&gt;
+                &lt;/TextBlock&gt;
+            &lt;/ToggleButton&gt;
+        &lt;/StackPanel&gt;
+        &lt;Button Content=&quot;Test&quot; Click=&quot;Button_Click&quot; Margin=&quot;15&quot; Padding=&quot;3&quot;/&gt;
+</pre></p>
+<p>In the code-behind, we define the boolean properties that we can bind to and then set the data context to refer to the parent class.</p>
+<p><pre class="brush: csharp;">
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
+        public bool Underline { get; set; }
+
+		public MainWindow()
+		{
+			this.InitializeComponent();
+            this.DataContext = this;
+        }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(string.Format(&quot;Bold: {0}, Italic: {1}, Underline: {2}&quot;, Bold, Italic, Underline));
+        }
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/08/001-togglebuttonbinding.png"><img class="alignnone size-full wp-image-2943" title="001-ToggleButtonBinding" src="https://web.archive.org/web/20120503115504id_/http://2000thingswpf.files.wordpress.com/2011/08/001-togglebuttonbinding.png?w=630" alt=""   /></a></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Binding, Controls, ToggleButton, WPF</p>
+  <nav class="pager"><a href="2011-08-08-359-togglebutton-basics.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-10-361-creating-a-togglebutton-whose-content-is-an-image.html">Next</a></nav>
+</main>
+
+</body>
+</html>

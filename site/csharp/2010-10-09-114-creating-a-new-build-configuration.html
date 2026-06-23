@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#114 – Creating a New Build Configuration</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-08-113-conditionally-compiling-code-based-on-symbols.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-10-115-using-if-else-endif.html">Next</a></nav>
+  <h1>#114 – Creating a New Build Configuration</h1>
+  <p class="meta">2010-10-09 | <a href="http://csharp.2000things.com/2010/10/09/114-creating-a-new-build-configuration/">Original URL</a> | Wayback 20110515043644</p>
+  <article><div class="post-1139 post type-post status-publish format-standard hentry category-visual-studio tag-build-configurations tag-visual-studio">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 9, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-10-09-114-creating-a-new-build-configuration.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>Visual Studio projects are created with two build configurations&#8211;Debug and Release.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/debugrelease1.png"><img class="alignnone size-full wp-image-1140" title="DebugRelease" src="https://web.archive.org/web/20110515043644id_/http://2000thingscsharp.files.wordpress.com/2010/10/debugrelease1.png?w=384&amp;h=146" alt="" width="384" height="146" /></a></p>
+<p>You can also create your own build configurations.  You might do this if you wanted to easily be able to build with a particular symbol defined, which in turn triggers <a href="http://wp.me/pXTis-id">conditional compilation</a>.</p>
+<p>To create a configuration, click on the <strong>Configuration Manager&#8230;</strong> option in the configurations dropdown.  A manager window appears.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/confmgr.png"><img class="alignnone size-full wp-image-1141" title="ConfMgr" src="https://web.archive.org/web/20110515043644id_/http://2000thingscsharp.files.wordpress.com/2010/10/confmgr.png?w=630&amp;h=398" alt="" width="630" height="398" /></a></p>
+<p>Click on the configuration dropdown at the left and select <strong>New</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/new.png"><img class="alignnone size-full wp-image-1142" title="New" src="https://web.archive.org/web/20110515043644id_/http://2000thingscsharp.files.wordpress.com/2010/10/new.png?w=363&amp;h=162" alt="" width="363" height="162" /></a></p>
+<p>Give the new configuration a name and select a configuration to copy from.  Click OK.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/newconf.png"><img class="alignnone size-full wp-image-1143" title="NewConf" src="https://web.archive.org/web/20110515043644id_/http://2000thingscsharp.files.wordpress.com/2010/10/newconf.png?w=441&amp;h=232" alt="" width="441" height="232" /></a></p>
+<p>Close the configuration manager and open the project properties dialog.  You&#8217;ll see your new configuration listed in the configuration dropdown.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/newguy.png"><img class="alignnone size-full wp-image-1144" title="NewGuy" src="https://web.archive.org/web/20110515043644id_/http://2000thingscsharp.files.wordpress.com/2010/10/newguy.png?w=451&amp;h=245" alt="" width="451" height="245" /></a></p>
+<p>You can now define a symbol that exists only in this new configuration.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/newsymbol1.png"><img class="alignnone size-full wp-image-1145" title="NewSymbol" src="https://web.archive.org/web/20110515043644id_/http://2000thingscsharp.files.wordpress.com/2010/10/newsymbol1.png?w=349&amp;h=193" alt="" width="349" height="193" /></a></p>
+<p>And then define code that gets compiled if the new symbol is defined.</p>
+<pre class="brush: csharp;">
+#if LOGGING
+    DoSomeLogging();   // To assist in debugging
+#endif
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2010/10/09/114-creating-a-new-build-configuration/"
+    dc:identifier="http://csharp.2000things.com/2010/10/09/114-creating-a-new-build-configuration/"
+    dc:title="#114 &#8211; Creating a New Build&nbsp;Configuration"
+    trackback:ping="http://csharp.2000things.com/2010/10/09/114-creating-a-new-build-configuration/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/visual-studio/" title="View all posts in Visual Studio" rel="category tag">Visual Studio</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/build-configurations/" rel="tag">Build Configurations</a>, <a href="http://en.wordpress.com/tag/visual-studio/" rel="tag">Visual Studio</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Visual Studio | Tags: Build Configurations, Visual Studio</p>
+  <nav class="pager"><a href="2010-10-08-113-conditionally-compiling-code-based-on-symbols.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-10-115-using-if-else-endif.html">Next</a></nav>
+</main>
+
+</body>
+</html>

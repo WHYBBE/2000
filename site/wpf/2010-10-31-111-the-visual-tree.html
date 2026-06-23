@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#111 – The Visual Tree</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-30-110-an-application-for-viewing-a-wpf-logical-tree.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-01-112-navigating-the-visual-tree-in-code.html">Next</a></nav>
+  <h1>#111 – The Visual Tree</h1>
+  <p class="meta">2010-10-31 | <a href="http://wpf.2000things.com/2010/10/31/111-the-visual-tree/">Original URL</a> | Wayback 20120625111627</p>
+  <article><div class="post-971 post type-post status-publish format-standard hentry category-basics tag-visual-tree tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 31, 2010</span>
+																						<span class="post-comments"><a href="2010-10-31-111-the-visual-tree.html" title="Comment on #111 &#8211; The Visual&nbsp;Tree">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>A visual tree in WPF breaks down the logical tree into lower-level visual elements.  Where elements in a logical tree are typically controls, the visual tree contains all of the underlying visual elements that make up the control.  All elements in a visual tree derive from <strong>Visual</strong> or <strong>Visual3D.</strong></p>
+<p>As an example, the visual tree for the following XAML:</p>
+<p><pre class="brush: xml;">
+ &lt;Window x:Class=&quot;WpfApplication4.MainWindow&quot;
+      xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+     xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&gt;
+     &lt;StackPanel&gt;
+         &lt;Button Content=&quot;Click Me&quot; /&gt;
+         &lt;TextBox /&gt;
+         &lt;ListBox&gt;
+             &lt;ListBoxItem Content=&quot;Barley&quot;/&gt;
+             &lt;ListBoxItem Content=&quot;Oats&quot;/&gt;
+         &lt;/ListBox&gt;
+     &lt;/StackPanel&gt;
+ &lt;/Window&gt;
+</pre></p>
+<p>looks like this:</p>
+<p><pre class="brush: xml;">
+Window
+    Border
+        AdornerDecorator
+            ContentPresenter
+                StackPanel
+                    Button
+                        ButtonChrome
+                            ContentPresenter
+                                TextBlock
+                    TextBox
+                        ListBoxChrome
+                            ScrollViewer
+                                Grid
+                                    Rectangle
+                                    ScrollContentPresenter
+                                        TextBoxView
+                                            TextBoxLineDrawingVisual
+                                        AdornerLayer
+                                    Scrollbar
+                                    Scrollbar
+                    ListBox
+                        Border
+                            ScrollViewer
+                                Grid
+                                    Rectangle
+                                    ScrollContentPresenter
+                                        ItemsPresenter
+                                            VirtualizingStackPanel
+                                                ListBoxItem
+                                                    Border
+                                                        ContentPresenter
+                                                            TextBlock
+                                                ListBoxItem
+                                                    Border
+                                                        ContentPresenter
+                                                            TextBlock
+                                        AdornerLayer
+                                    ScrollBar
+                                    Scrollbar
+            AdornerLayer
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Basics | Tags: Visual Tree, WPF</p>
+  <nav class="pager"><a href="2010-10-30-110-an-application-for-viewing-a-wpf-logical-tree.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-01-112-navigating-the-visual-tree-in-code.html">Next</a></nav>
+</main>
+
+</body>
+</html>

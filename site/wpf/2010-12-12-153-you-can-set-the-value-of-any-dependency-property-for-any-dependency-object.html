@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#153 – You Can Set the Value of any Dependency Property for any Dependency Object</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-11-152-use-readlocalvalue-to-find-the-local-value-of-a-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-13-154-reusing-an-existing-dependency-property-in-your-class.html">Next</a></nav>
+  <h1>#153 – You Can Set the Value of any Dependency Property for any Dependency Object</h1>
+  <p class="meta">2010-12-12 | <a href="http://wpf.2000things.com/2010/12/12/153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object/">Original URL</a> | Wayback 20110203070704</p>
+  <article><div class="post-1289 post type-post status-publish format-standard hentry category-dependency-properties tag-dependency-properties tag-setvalue tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">December 12, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-12-12-153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>A dependency object will typically use its <strong>SetValue</strong> method internally, to set dependency property values for dependency properties that the object implements.  (See <a href="2010-11-03-114-how-dependency-properties-are-implemented.html">How Dependency Properties Are Implemented</a>).</p>
+<p>A <strong>DependencyObject</strong> can, however, store the value of <em>any</em> dependency property&#8211;not just the properties that it implements.</p>
+<p>The <strong>DependencyObject.SetValue</strong> method takes a dependency property reference and a property value (whose type should match the type of the dependency property).  Using <strong>SetValue</strong>, you can actually attach any property value you choose to the dependency object.</p>
+<p>Here&#8217;s an example, where we set various property values on a <strong>Person</strong>, which is a <strong>DependencyObject</strong>.  These properties are defined in other WPF classes, but it might be useful to attach these property values to a <strong>Person</strong> object, if it can make use of them.</p>
+<pre class="brush: csharp;">
+            Person p = new Person(&quot;Samuel&quot;, &quot;Clemens&quot;);
+
+            // Set some some arbitrary property values
+            p.SetValue(FrameworkElement.ContextMenuProperty, myMenu);
+            p.SetValue(UIElement.FocusableProperty, true);
+            p.SetValue(Control.FontSizeProperty, 12.0);
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/12/12/153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object/"
+    dc:identifier="http://wpf.2000things.com/2010/12/12/153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object/"
+    dc:title="#153 &#8211; You Can Set the Value of any Dependency Property for any Dependency&nbsp;Object"
+    trackback:ping="http://wpf.2000things.com/2010/12/12/153-you-can-set-the-value-of-any-dependency-property-for-any-dependency-object/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/setvalue/" rel="tag">SetValue</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, SetValue, WPF</p>
+  <nav class="pager"><a href="2010-12-11-152-use-readlocalvalue-to-find-the-local-value-of-a-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-13-154-reusing-an-existing-dependency-property-in-your-class.html">Next</a></nav>
+</main>
+
+</body>
+</html>

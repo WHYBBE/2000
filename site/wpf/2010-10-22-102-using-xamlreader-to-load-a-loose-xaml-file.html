@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#102 – Using XamlReader to Load a Loose XAML File</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-21-101-what-visual-studio-does-with-your-xaml.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-23-103-xaml-2009.html">Next</a></nav>
+  <h1>#102 – Using XamlReader to Load a Loose XAML File</h1>
+  <p class="meta">2010-10-22 | <a href="http://wpf.2000things.com/2010/10/22/102-using-xamlreader-to-load-a-loose-xaml-file/">Original URL</a> | Wayback 20110203032014</p>
+  <article><div class="post-896 post type-post status-publish format-standard hentry category-xaml tag-xaml tag-xamlreader">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 22, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-10-22-102-using-xamlreader-to-load-a-loose-xaml-file.html">3 Comments</a></span> </p>
+                    </div>
+
+                    <p>When you use Visual Studio to create the main <strong>Window</strong>, <strong>App</strong> and <strong>Page </strong>XAML files that make up a WPF application, code is automatically generated to cause the XAML (BAML) files to be read at runtime.</p>
+<p>You can also use the <strong>XamlReader</strong> class to read <em>loose</em> XAML files&#8211;ones that have not be converted to BAML and stored as a resource in your application.</p>
+<p>The static <strong>XamlReader.Load</strong> method will read a XAML file, instantiate all objects defined in the file, and return a reference to the top-level (root) element from the file.  (<strong>XamlReader</strong> is in the <strong>System.Windows.Markup</strong> namespace).</p>
+<p>Assuming that you have a XAML filed named <em>Stuff.xaml </em>and it has a root element that is a <strong>StackPanel</strong>, you could load the file as follows:</p>
+<pre class="brush: csharp;">
+ StackPanel sp1;
+ using (FileStream fs = new FileStream(&quot;Stuff.xaml&quot;, FileMode.Open))
+ {
+     sp1 = (StackPanel)XamlReader.Load(fs);
+ }
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/10/22/102-using-xamlreader-to-load-a-loose-xaml-file/"
+    dc:identifier="http://wpf.2000things.com/2010/10/22/102-using-xamlreader-to-load-a-loose-xaml-file/"
+    dc:title="#102 &#8211; Using XamlReader to Load a Loose XAML&nbsp;File"
+    trackback:ping="http://wpf.2000things.com/2010/10/22/102-using-xamlreader-to-load-a-loose-xaml-file/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/xaml/" title="View all posts in XAML" rel="category tag">XAML</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/xaml/" rel="tag">XAML</a>, <a href="http://en.wordpress.com/tag/xamlreader/" rel="tag">XamlReader</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: XAML | Tags: XAML, XamlReader</p>
+  <nav class="pager"><a href="2010-10-21-101-what-visual-studio-does-with-your-xaml.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-23-103-xaml-2009.html">Next</a></nav>
+</main>
+
+</body>
+</html>

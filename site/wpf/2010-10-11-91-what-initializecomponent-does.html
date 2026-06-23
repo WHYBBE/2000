@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#91 – What InitializeComponent() Does</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-10-10-90-stepping-into-net-source-code-in-visual-studio-2010.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-12-92-markup-extensions.html">Next</a></nav>
+  <h1>#91 – What InitializeComponent() Does</h1>
+  <p class="meta">2010-10-11 | <a href="http://wpf.2000things.com/2010/10/11/91-what-initializecomponent-does/">Original URL</a> | Wayback 20110123175942</p>
+  <article><div class="post-775 post type-post status-publish format-standard hentry category-basics tag-initializecomponent">
+				
+           		<div class="entry">
+                                                
+                    
+                        
+                    <div class="post-info">
+                        <p><span class="time">October 11, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-10-11-91-what-initializecomponent-does.html">1 Comment</a></span> </p> 
+                    </div>
+               
+                    <p>The entry point into a WPF application, the <strong>Main</strong> function, is quite simple.  It creates an instance of your <strong>Application</strong> object, calls its <strong>InitializeComponent</strong> method and then its <strong>Run</strong> method.</p>
+<p>The see the body of the <strong>Main </strong>function, as well as the body of <strong>InitializeComponent</strong>, do the following:</p>
+<ul>
+<li>Build your application</li>
+<li>Click on the <strong>Show All Files</strong> icon in the Solution Explorer</li>
+</ul>
+<p><a href="http://2000thingswpf.files.wordpress.com/2010/10/showallfiles.png"><img class="alignnone size-full wp-image-776" title="ShowAllFiles" src="https://web.archive.org/web/20110123175942id_/http://2000thingswpf.files.wordpress.com/2010/10/showallfiles.png?w=150&amp;h=94" alt="" width="150" height="94" /></a></p>
+<ul>
+<li>In Solution Explorer, navigate to <strong>App.g.cs</strong> file</li>
+</ul>
+<p><a href="http://2000thingswpf.files.wordpress.com/2010/10/appgcs.png"><img class="alignnone size-full wp-image-777" title="AppgCs" src="https://web.archive.org/web/20110123175942id_/http://2000thingswpf.files.wordpress.com/2010/10/appgcs.png?w=229&amp;h=217" alt="" width="229" height="217" /></a></p>
+<p>Double-click to open <strong>App.g.cs</strong>.  You&#8217;ll see the body of <strong>Main</strong>.  You&#8217;ll also see the body of <strong>InitializeComponent.</strong></p>
+<pre class="brush: csharp;">
+public void InitializeComponent() {
+
+    #line 4 &quot;..\..\..\App.xaml&quot;
+    this.StartupUri = new System.Uri(&quot;MainWindow.xaml&quot;, System.UriKind.Relative);
+
+    #line default
+    #line hidden
+ }
+</pre>
+<p>This function merely sets properties on the <strong>Application</strong> object based on values that you set in <strong>App.xaml</strong>.  By default, this includes only setting the <strong>StartupUri</strong> property to point to the application&#8217;s main window.</p>
+<p><strong><span style="text-decoration:underline;">Update, 20-Oct-2010</span></strong>:<strong> InitializeComponent()</strong> does a bit more when generated for a <strong>Window, </strong>rather than for an <strong>App.</strong> See <a href="http://wp.me/pZhye-eh">What Visual Studio Does with Your XAML</a> for details.</p>
+<div class="clear"></div>
+                                                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/10/11/91-what-initializecomponent-does/"
+    dc:identifier="http://wpf.2000things.com/2010/10/11/91-what-initializecomponent-does/"
+    dc:title="#91 &#8211; What InitializeComponent()&nbsp;Does"
+    trackback:ping="http://wpf.2000things.com/2010/10/11/91-what-initializecomponent-does/trackback/" />
+</rdf:RDF>                    -->
+                
+                </div>
+                    
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/basics/" title="View all posts in Basics" rel="category tag">Basics</a></span>  
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/initializecomponent/" rel="tag">InitializeComponent</a></span>                    </p>
+                </div>
+                                
+            </div></article>
+  <p class="meta">Categories: Basics | Tags: InitializeComponent</p>
+  <nav class="pager"><a href="2010-10-10-90-stepping-into-net-source-code-in-visual-studio-2010.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-12-92-markup-extensions.html">Next</a></nav>
+</main>
+
+</body>
+</html>

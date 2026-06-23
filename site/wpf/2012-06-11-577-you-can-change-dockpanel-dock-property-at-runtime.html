@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#577 – You Can Change DockPanel.Dock Property at Runtime</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-06-08-576-how-traditional-clr-events-work.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-12-578-grid-row-and-column-size-use-gridlength-object.html">Next</a></nav>
+  <h1>#577 – You Can Change DockPanel.Dock Property at Runtime</h1>
+  <p class="meta">2012-06-11 | <a href="http://wpf.2000things.com/2012/06/11/577-you-can-change-dockpanel-dock-property-at-runtime/">Original URL</a> | Wayback 20120620014640</p>
+  <article><div class="post-5051 post type-post status-publish format-standard hentry category-controls tag-controls tag-dockpanel tag-dockpanel-dock tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">June 11, 2012</span>
+																						<span class="post-comments"><a href="2012-06-11-577-you-can-change-dockpanel-dock-property-at-runtime.html" title="Comment on #577 &#8211; You Can Change DockPanel.Dock Property at&nbsp;Runtime">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>The attached property <strong>DockPanel.Dock</strong> dictates which side of the remaining space in a <a href="2011-10-05-401-dockpanel-element.html"><strong>DockPanel</strong></a> a child control will dock to.  You typically set <strong>DockPanel.Dock</strong> in XAML at design time, for each child of the <strong>DockPanel</strong>.</p>
+<p>You can also change any <strong>DockPanel.Dock</strong> value at runtime.  In the example below, clicking on the button selects new random values for <strong>Dock</strong>.</p>
+<p><pre class="brush: xml;">
+		&lt;DockPanel&gt;
+		    &lt;Label Name=&quot;lbl1&quot; Content=&quot;1st label&quot; DockPanel.Dock=&quot;Top&quot; Background=&quot;Bisque&quot;/&gt;
+		    &lt;Label Name=&quot;lbl2&quot; Content=&quot;2nd&quot; DockPanel.Dock=&quot;Left&quot; Background=&quot;BurlyWood&quot;/&gt;
+		    &lt;Label Name=&quot;lbl3&quot; Content=&quot;3rd&quot; DockPanel.Dock=&quot;Top&quot; Background=&quot;Cornsilk&quot;/&gt;
+		    &lt;Label Name=&quot;lbl4&quot; Content=&quot;4th&quot; DockPanel.Dock=&quot;Right&quot; Background=&quot;DarkKhaki&quot;/&gt;
+		    &lt;Label Name=&quot;lbl5&quot; Content=&quot;5th&quot; DockPanel.Dock=&quot;Bottom&quot; Background=&quot;DarkSeaGreen&quot;/&gt;
+		    &lt;Label Name=&quot;lbl6&quot; Content=&quot;6th&quot; DockPanel.Dock=&quot;Left&quot; Background=&quot;Gainsboro&quot;/&gt;
+		    &lt;Label Content=&quot;7th, fills remaining space&quot; Background=&quot;Khaki&quot;/&gt;
+		&lt;/DockPanel&gt;
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+        private Random randGen = new Random();
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DockPanel.SetDock(lbl1, RandomDock());
+            DockPanel.SetDock(lbl2, RandomDock());
+            DockPanel.SetDock(lbl3, RandomDock());
+            DockPanel.SetDock(lbl4, RandomDock());
+            DockPanel.SetDock(lbl5, RandomDock());
+            DockPanel.SetDock(lbl6, RandomDock());
+        }
+
+        private Dock RandomDock()
+        {
+            return (Dock)randGen.Next(3);
+        }
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/06/577-001.png"><img class="alignnone size-full wp-image-5057" title="577-001" src="https://web.archive.org/web/20120620014640id_/http://2000thingswpf.files.wordpress.com/2012/06/577-001.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/06/577-002.png"><img class="alignnone size-full wp-image-5058" title="577-002" src="https://web.archive.org/web/20120620014640id_/http://2000thingswpf.files.wordpress.com/2012/06/577-002.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/06/577-003.png"><img class="alignnone size-full wp-image-5059" title="577-003" src="https://web.archive.org/web/20120620014640id_/http://2000thingswpf.files.wordpress.com/2012/06/577-003.png?w=630" alt=""   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/06/577-004.png"><img class="alignnone size-full wp-image-5060" title="577-004" src="https://web.archive.org/web/20120620014640id_/http://2000thingswpf.files.wordpress.com/2012/06/577-004.png?w=630" alt=""   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5051" class="wpl-button "><a href='2012-06-11-577-you-can-change-dockpanel-dock-property-at-runtime.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, DockPanel, DockPanel.Dock, WPF</p>
+  <nav class="pager"><a href="2012-06-08-576-how-traditional-clr-events-work.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-12-578-grid-row-and-column-size-use-gridlength-object.html">Next</a></nav>
+</main>
+
+</body>
+</html>

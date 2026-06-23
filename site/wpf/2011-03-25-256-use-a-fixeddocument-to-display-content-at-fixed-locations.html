@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#256 – Use a FixedDocument to Display Content at Fixed Locations</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-24-255-flow-text-around-an-image-in-a-flowdocument.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-26-257-textbox-control-allows-basic-text-entry-and-editing.html">Next</a></nav>
+  <h1>#256 – Use a FixedDocument to Display Content at Fixed Locations</h1>
+  <p class="meta">2011-03-25 | <a href="http://wpf.2000things.com/2011/03/25/256-use-a-fixeddocument-to-display-content-at-fixed-locations/">Original URL</a> | Wayback 20111217114735</p>
+  <article><div class="post-2106 post type-post status-publish format-standard hentry category-controls tag-controls tag-fixeddocument tag-fixedpage tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">March 25, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-03-25-256-use-a-fixeddocument-to-display-content-at-fixed-locations.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>Where <strong>FlowDocument</strong> allows displaying content that flows automatically from page to page, <strong>FixedDocument</strong> allows displaying multiple pages of content in a WYSIWYG (What You See Is What You Get) format.  You add content to the document page by page, and specify exactly where each piece of content should be located.</p>
+<p>The <strong>FixedDocument</strong> includes a series of <strong>PageContent</strong> elements, each of which contains a <strong>FixedPage</strong> element.</p>
+<p><pre class="brush: xml;">
+	&lt;FixedDocument&gt;
+		&lt;PageContent&gt;
+			&lt;!-- 7&quot; x 9&quot; page --&gt;
+			&lt;FixedPage Width=&quot;672&quot; Height=&quot;864&quot;&gt;
+				&lt;StackPanel Orientation=&quot;Vertical&quot; FixedPage.Left=&quot;280&quot; FixedPage.Top=&quot;150&quot;&gt;
+					&lt;Label FontFamily=&quot;Arial&quot; FontWeight=&quot;Bold&quot; FontSize=&quot;18&quot; Content=&quot;Jane Eyre&quot; HorizontalAlignment=&quot;Center&quot;/&gt;
+					&lt;Label FontFamily=&quot;Arial&quot; FontStyle=&quot;Italic&quot; FontSize=&quot;14&quot; Content=&quot;Charlotte Brontë&quot; HorizontalAlignment=&quot;Center&quot;/&gt;
+				&lt;/StackPanel&gt;
+			&lt;/FixedPage&gt;
+		&lt;/PageContent&gt;
+		&lt;PageContent&gt;
+			&lt;FixedPage Width=&quot;672&quot; Height=&quot;864&quot;&gt;
+				&lt;StackPanel Margin=&quot;48&quot;&gt;
+					&lt;TextBlock FontFamily=&quot;Cambria&quot; FontSize=&quot;14&quot; Width=&quot;576&quot; TextWrapping=&quot;Wrap&quot;&gt;
+						There was no possibility etc.
+					&lt;/TextBlock&gt;
+					&lt;TextBlock FontFamily=&quot;Cambria&quot; FontSize=&quot;14&quot; Width=&quot;576&quot; TextWrapping=&quot;Wrap&quot; Margin=&quot;0,25,0,0&quot;&gt;
+						I was glad of it etc.
+					&lt;/TextBlock&gt;
+					&lt;Image Margin=&quot;0,25,0,0&quot; Source=&quot;Twilight.jpg&quot; /&gt;
+				&lt;/StackPanel&gt;
+			&lt;/FixedPage&gt;
+		&lt;/PageContent&gt;
+	&lt;/FixedDocument&gt;
+</pre></p>
+<p>The document shows up in a default viewer.  Here&#8217;s page 1:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/03/001-page1.png"><img class="alignnone size-full wp-image-2113" title="001-Page1" src="https://web.archive.org/web/20111217114735id_/http://2000thingswpf.files.wordpress.com/2011/03/001-page1.png?w=630&amp;h=354" alt="" width="630" height="354" /></a><br />
+And page 2:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/03/002-page2.png"><img class="alignnone size-full wp-image-2114" title="002-Page2" src="https://web.archive.org/web/20111217114735id_/http://2000thingswpf.files.wordpress.com/2011/03/002-page2.png?w=630&amp;h=516" alt="" width="630" height="516" /></a></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-03-25-256-use-a-fixeddocument-to-display-content-at-fixed-locations.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, FixedDocument, FixedPage, WPF</p>
+  <nav class="pager"><a href="2011-03-24-255-flow-text-around-an-image-in-a-flowdocument.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-26-257-textbox-control-allows-basic-text-entry-and-editing.html">Next</a></nav>
+</main>
+
+</body>
+</html>

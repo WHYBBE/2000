@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#688 – Moving an Element with the Mouse</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-09-687-what-happens-if-you-forget-to-release-the-mouse.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-13-689-an-application-can-lose-its-mouse-capture.html">Next</a></nav>
+  <h1>#688 – Moving an Element with the Mouse</h1>
+  <p class="meta">2012-11-12 | <a href="http://wpf.2000things.com/2012/11/12/688-moving-an-element-with-the-mouse/">Original URL</a> | Wayback 20121125082309</p>
+  <article><div class="post-5970 post type-post status-publish format-standard hentry category-miscellaneous tag-miscellaneous tag-mouse tag-mousemove tag-moving-an-element tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 12, 2012</span>
+																						<span class="post-comments"><a href="2012-11-12-688-moving-an-element-with-the-mouse.html" title="Comment on #688 &#8211; Moving an Element with the&nbsp;Mouse">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Here&#8217;s a short example that uses the <strong>MouseDown, MouseMove</strong> and <strong>MouseUp</strong> events to move a user interface element around on the screen.  We place a <strong>Label</strong> in a <strong>Canvas</strong> and then bind its position to a couple of properties that keep track of the desired X and Y position of the label.  The properties derive from a base position for the label, plus the current mouse position.</p>
+<p>Here&#8217;s the XAML:</p>
+<p><pre class="brush: xml;">
+    &lt;Canvas&gt;
+        &lt;Label Content=&quot;Feast&quot; Background=&quot;ForestGreen&quot; Padding=&quot;12,7&quot;
+               Canvas.Left=&quot;{Binding XPosition}&quot; Canvas.Top=&quot;{Binding YPosition}&quot;
+               MouseDown=&quot;Feast_MouseDown&quot;  MouseUp=&quot;Feast_MouseUp&quot; MouseMove=&quot;Feast_MouseMove&quot;/&gt;
+    &lt;/Canvas&gt;
+</pre></p>
+<p>And the code:</p>
+<p><pre class="brush: csharp;">
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+        }
+
+        private Point BasePoint = new Point(0.0, 0.0);
+        private double DeltaX = 0.0;
+        private double DeltaY = 0.0;
+        private bool moving = false;
+        private Point PositionInLabel;
+
+        public double XPosition
+        {
+            get { return BasePoint.X + DeltaX; }
+        }
+
+        public double YPosition
+        {
+            get { return BasePoint.Y + DeltaY; }
+        }
+
+        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Label l = e.Source as Label;
+            if (l != null)
+            {
+                l.CaptureMouse();
+                moving = true;
+                PositionInLabel = e.GetPosition(l);
+            }
+        }
+
+        private void Feast_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moving)
+            {
+                Point p = e.GetPosition(null);
+                DeltaX = p.X - BasePoint.X - PositionInLabel.X;
+                DeltaY = p.Y - BasePoint.Y - PositionInLabel.Y;
+                RaisePropertyChanged(&quot;XPosition&quot;);
+                RaisePropertyChanged(&quot;YPosition&quot;);
+            }
+        }
+
+        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Label l = e.Source as Label;
+            if (l != null)
+            {
+                l.ReleaseMouseCapture();
+                BasePoint.X += DeltaX;
+                BasePoint.Y += DeltaY;
+                DeltaX = 0.0;
+                DeltaY = 0.0;
+                moving = false;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+    }
+</pre></p>
+<p>The end result looks something like this:<br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/11/688-001.png"><img class="alignnone size-full wp-image-5974" title="688-001" alt="" src="https://web.archive.org/web/20121125082309id_/http://2000thingswpf.files.wordpress.com/2012/11/688-001.png?w=630"   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/11/688-002.png"><img class="alignnone size-full wp-image-5975" title="688-002" alt="" src="https://web.archive.org/web/20121125082309id_/http://2000thingswpf.files.wordpress.com/2012/11/688-002.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: Miscellaneous, Mouse, MouseMove, Moving an Element, WPF</p>
+  <nav class="pager"><a href="2012-11-09-687-what-happens-if-you-forget-to-release-the-mouse.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-13-689-an-application-can-lose-its-mouse-capture.html">Next</a></nav>
+</main>
+
+</body>
+</html>

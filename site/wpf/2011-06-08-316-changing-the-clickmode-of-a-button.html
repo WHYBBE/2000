@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#316 – Changing the ClickMode of a Button</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-06-07-315-setting-isdefault-and-iscancel-to-the-same-button.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-06-09-317-label-basics.html">Next</a></nav>
+  <h1>#316 – Changing the ClickMode of a Button</h1>
+  <p class="meta">2011-06-08 | <a href="http://wpf.2000things.com/2011/06/08/316-changing-the-clickmode-of-a-button/">Original URL</a> | Wayback 20110614053616</p>
+  <article><div class="post-2591 post type-post status-publish format-standard hentry category-controls tag-button tag-clickmode tag-controls tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">June 8, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-06-08-316-changing-the-clickmode-of-a-button.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>A standard <strong>Button</strong> in WPF (and in Windows in general) performs some action when you click it.  Traditionally &#8220;click it&#8221; has meant &#8220;depress and then release the left mouse button&#8221;.  The action associated with the button typically occurs only on the release of the button.</p>
+<p>In WPF, you can change when the button fires its <strong>Click</strong> event by using the <strong>Button.ClickMode</strong> property.</p>
+<ul>
+<li><strong>ClickMode.Release</strong> &#8211; fires when you release the mouse button <em> (Default)</em></li>
+<li><strong>ClickMode.Press</strong> &#8211; fires when you press the mouse button</li>
+<li><strong>ClickMode.Hover</strong> &#8211; fires when you hover over the button</li>
+</ul>
+<pre class="brush: xml;">
+&lt;StackPanel&gt;
+    &lt;Button Content=&quot;Release&quot; ClickMode=&quot;Release&quot; Height=&quot;30&quot; Width=&quot;100&quot; Margin=&quot;15&quot; Click=&quot;Button_Click&quot;/&gt;
+    &lt;Button Content=&quot;Press&quot; ClickMode=&quot;Press&quot; Height=&quot;30&quot; Width=&quot;100&quot; Margin=&quot;15&quot; Click=&quot;Button_Click&quot;/&gt;
+    &lt;Button Content=&quot;Hover&quot; ClickMode=&quot;Hover&quot; Height=&quot;30&quot; Width=&quot;100&quot; Margin=&quot;15&quot; Click=&quot;Button_Click&quot;/&gt;
+    &lt;Label Name=&quot;lblInfo&quot; Margin=&quot;15&quot;/&gt;
+&lt;/StackPanel&gt;
+</pre>
+<p>&nbsp;</p>
+<pre class="brush: csharp;">
+        private int clickNum = 1;
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+
+            lblInfo.Content = string.Format(&quot;Click {0}, Mode {1}&quot;, clickNum++, b.ClickMode.ToString());
+        }
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/06/001-buttons.png"><img class="alignnone size-full wp-image-2594" title="001-Buttons" src="https://web.archive.org/web/20110614053616id_/http://2000thingswpf.files.wordpress.com/2011/06/001-buttons.png?w=341&amp;h=320" alt="" width="341" height="320" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/06/08/316-changing-the-clickmode-of-a-button/"
+    dc:identifier="http://wpf.2000things.com/2011/06/08/316-changing-the-clickmode-of-a-button/"
+    dc:title="#316 &#8211; Changing the ClickMode of a&nbsp;Button"
+    trackback:ping="http://wpf.2000things.com/2011/06/08/316-changing-the-clickmode-of-a-button/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/controls/" title="View all posts in Controls" rel="category tag">Controls</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/button/" rel="tag">Button</a>, <a href="http://en.wordpress.com/tag/clickmode/" rel="tag">ClickMode</a>, <a href="http://en.wordpress.com/tag/controls/" rel="tag">Controls</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Controls | Tags: Button, ClickMode, Controls, WPF</p>
+  <nav class="pager"><a href="2011-06-07-315-setting-isdefault-and-iscancel-to-the-same-button.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-06-09-317-label-basics.html">Next</a></nav>
+</main>
+
+</body>
+</html>

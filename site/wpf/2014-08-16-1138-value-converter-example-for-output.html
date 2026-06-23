@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,138 – Value Converter Example for Output</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-08-15-1137-value-converter-basics.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-19-1139-value-converter-example-for-input.html">Next</a></nav>
+  <h1>#1,138 – Value Converter Example for Output</h1>
+  <p class="meta">2014-08-16 | <a href="http://wpf.2000things.com/2014/08/16/1138-value-converter-example-for-output/">Original URL</a> | Wayback 20140825161944</p>
+  <article><div class="post-9162 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-value-converter tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 16, 2014</span>
+																						<span class="post-comments"><a href="2014-08-16-1138-value-converter-example-for-output.html" title="Comment on #1,138 &#8211; Value Converter Example for&nbsp;Output">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>The <strong>Convert </strong>method of a value converter is used to convert from a binding source (e.g. a property) to a binding target (e.g. the attribute of a control).  Below is a simple example, showing how we can convert from an integer to a brush of a particular color.</p>
+<p>In XAML, we have a <strong>Slider</strong> that ranges from 0-255 and binds to a property, storing the integer value that the user selects.  We then bind to the same property for a rectangle shape&#8217;s <strong>Fill</strong> property.  The <strong>Fill</strong> property wants a <strong>Brush</strong> object, so we use a value converter to convert from the integer to a brush.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
+        Title=&quot;Value Converter&quot; SizeToContent=&quot;WidthAndHeight&quot;&gt;
+
+    &lt;Window.Resources&gt;
+        &lt;local:IntToBlueBrushValueConverter x:Key=&quot;intToBlueBrushValueConverter&quot;/&gt;
+    &lt;/Window.Resources&gt;
+
+    &lt;StackPanel Margin=&quot;15&quot;&gt;
+        &lt;Slider Minimum=&quot;0&quot; Maximum=&quot;255&quot;
+                Value=&quot;{Binding BlueValue}&quot;/&gt;
+        &lt;Label Content=&quot;{Binding BlueValue}&quot;/&gt;
+        &lt;Rectangle Height=&quot;80&quot; Width=&quot;80&quot;
+            Fill=&quot;{Binding Path=BlueValue, Converter={StaticResource intToBlueBrushValueConverter}}&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</pre>
+<p>The code-behind is straightforward.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        public MainWindow()
+        {
+            this.DataContext = this;
+            InitializeComponent();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        protected virtual void OnPropertyChanged(string prop)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        private int blueValue;
+        public int BlueValue
+        {
+            get { return blueValue; }
+            set
+            {
+                if (blueValue != value)
+                {
+                    blueValue = value;
+                    OnPropertyChanged(&quot;BlueValue&quot;);
+                }
+            }
+        }
+    }
+</pre>
+<p>In the value converter, we create a solid color brush whose R and G values are 0 and whose B value is derived from the integer (slider position).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class IntToBlueBrushValueConverter : IValueConverter
+    {
+        // Convert from int to System.Windows.Media.Brush
+        // where brush is color with R=0, G=0 and B=int
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+
+            int blueVal = (int)value;
+            blueVal = Math.Min(Math.Max(0, blueVal), 255);
+
+            return new SolidColorBrush(Color.FromRgb(0, 0, (byte)blueVal));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+</pre>
+<p>At run-time, the color of the rectangle changes as we move the slider.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1138-001.png"><img class="alignnone size-full wp-image-9167" src="https://web.archive.org/web/20140825161944id_/http://2000thingswpf.files.wordpress.com/2014/08/1138-001.png?w=630" alt="1138-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1138-002.png"><img class="alignnone size-full wp-image-9168" src="https://web.archive.org/web/20140825161944id_/http://2000thingswpf.files.wordpress.com/2014/08/1138-002.png?w=630" alt="1138-002"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1138-003.png"><img class="alignnone size-full wp-image-9169" src="https://web.archive.org/web/20140825161944id_/http://2000thingswpf.files.wordpress.com/2014/08/1138-003.png?w=630" alt="1138-003"   /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/08/16/1138-value-converter-example-for-output/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "data-binding");
+GA_googleAddAttr("Tag", "data-binding");
+GA_googleAddAttr("Tag", "value-converter");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/08/16/1138-value-converter-example-for-output/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='virool.com']").length > 0 || jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//pixel.wp.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9162-53fb62204c70b' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9162&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9162-53fb62204c70b' data-name='like-post-frame-14605478-9162-53fb62204c70b'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, Value Converter, WPF</p>
+  <nav class="pager"><a href="2014-08-15-1137-value-converter-basics.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-19-1139-value-converter-example-for-input.html">Next</a></nav>
+</main>
+
+</body>
+</html>

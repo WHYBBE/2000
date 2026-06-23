@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#709 – A Method Can Redefine a Name Present in Parent Class</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-06-708-a-name-must-be-unique-within-a-declaration-space.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-08-710-variables-declared-in-a-block-arent-visible-outside-of-the-block.html">Next</a></nav>
+  <h1>#709 – A Method Can Redefine a Name Present in Parent Class</h1>
+  <p class="meta">2012-11-07 | <a href="http://csharp.2000things.com/2012/11/07/709-a-method-can-redefine-a-name-present-in-parent-class/">Original URL</a> | Wayback 20130817164245</p>
+  <article><div class="post-6103 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-names tag-variables">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 7, 2012</span>
+																						<span class="post-comments"><a href="2012-11-07-709-a-method-can-redefine-a-name-present-in-parent-class.html" title="Comment on #709 &#8211; A Method Can Redefine a Name Present in Parent&nbsp;Class">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>Variables declared within the scope of a method can have the same name as a member of the class in which the method is declared.</p>
+<p>For example:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class Dog
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public void Bark()
+        {
+            string Name = &quot;Loud Bark&quot;;
+
+            Console.WriteLine(string.Format(&quot;{0}: WOOF!&quot;, Name));
+            Console.WriteLine(this.Name);
+        }
+    }
+</pre>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/11/709-001.png"><img class="alignnone size-full wp-image-6109" title="709-001" alt="" src="https://web.archive.org/web/20130817164245id_/http://2000thingscsharp.files.wordpress.com/2012/11/709-001.png?w=630"   /></a></p>
+<p>Assigning a value to the <strong>Name</strong> variable within the <strong>Bark</strong> method has no effect on the <strong>Name </strong>property defined in the parent class.</p>
+<p>Although this is possible in C#, reusing names in this way is not a good idea because:</p>
+<ul>
+<li>It can lead to confusion for someone trying to understand the code</li>
+<li>The method can no longer access the identically named member from the parent class (without using the <strong>this</strong> keyword)</li>
+</ul>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Tag", "basics");
+GA_googleAddAttr("Tag", "basics");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "names");
+GA_googleAddAttr("Tag", "variables");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2012/11/07/709-a-method-can-redefine-a-name-present-in-parent-class/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/11/07/709-a-method-can-redefine-a-name-present-in-parent-class/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-6103"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/11/07/709-a-method-can-redefine-a-name-present-in-parent-class/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/11/07/709-a-method-can-redefine-a-name-present-in-parent-class/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#, Names, Variables</p>
+  <nav class="pager"><a href="2012-11-06-708-a-name-must-be-unique-within-a-declaration-space.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-08-710-variables-declared-in-a-block-arent-visible-outside-of-the-block.html">Next</a></nav>
+</main>
+
+</body>
+</html>

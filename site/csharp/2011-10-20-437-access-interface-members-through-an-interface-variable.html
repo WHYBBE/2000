@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#437 – Access Interface Members through an Interface Variable</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-19-436-the-implementation-of-an-interface-can-be-a-subset-of-the-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-21-438-benefits-of-using-interfaces.html">Next</a></nav>
+  <h1>#437 – Access Interface Members through an Interface Variable</h1>
+  <p class="meta">2011-10-20 | <a href="http://csharp.2000things.com/2011/10/20/437-access-interface-members-through-an-interface-variable/">Original URL</a> | Wayback 20111023204047</p>
+  <article><div class="post-3688 post type-post status-publish format-standard hentry category-interfaces tag-net tag-c tag-interface tag-interface-variable tag-interfaces tag-software">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 20, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-10-20-437-access-interface-members-through-an-interface-variable.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>Once a class implements a particular interface, you can interact with the members of the interface through any instance of that class.</p>
+<pre class="brush: csharp;">
+            Cow bossie = new Cow(&quot;Bossie&quot;, 5);
+
+            // Cow implements IMoo, which includes Moo method
+            bossie.Moo();
+</pre>
+<p>You can also declare a variable whose type is an interface, assign it to an instance of any class that implements that interface and then interact with members of the interface through that interface variable.</p>
+<pre class="brush: csharp;">
+            // bossie is a Cow, which implements IMoo, so we can point IMoo variable at her
+            IMoo mooer = bossie;
+            mooer.Moo();
+</pre>
+<p>In either case, we end up calling the same <strong>Moo</strong> method.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/10/001-twomoos.png"><img class="alignnone size-full wp-image-3693" title="001-TwoMoos" src="https://web.archive.org/web/20111023204047id_/http://2000thingscsharp.files.wordpress.com/2011/10/001-twomoos.png?w=323&amp;h=144" alt="" width="323" height="144" /></a></p>
+<p>Notice that we can&#8217;t access members of <strong>Cow</strong> that aren&#8217;t part of <strong>IMoo</strong> using this interface variable.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/10/002-nope.png"><img class="alignnone size-full wp-image-3695" title="002-Nope" src="https://web.archive.org/web/20111023204047id_/http://2000thingscsharp.files.wordpress.com/2011/10/002-nope.png?w=486&amp;h=207" alt="" width="486" height="207" /></a></p>
+<p>Even though <strong>MakeSomeMilk</strong> is a public method in the <strong>Cow</strong> class, we can&#8217;t access it via <strong>IMoo</strong>.</p>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/10/20/437-access-interface-members-through-an-interface-variable/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/10/20/437-access-interface-members-through-an-interface-variable/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/10/20/437-access-interface-members-through-an-interface-variable/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Interfaces | Tags: .NET, C#, Interface, Interface Variable, Interfaces, Software</p>
+  <nav class="pager"><a href="2011-10-19-436-the-implementation-of-an-interface-can-be-a-subset-of-the-class.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-21-438-benefits-of-using-interfaces.html">Next</a></nav>
+</main>
+
+</body>
+</html>

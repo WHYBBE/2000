@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#928 – How Objects Are Removed from the Managed Heap</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2013-09-10-927-visualizing-how-objects-are-created-on-the-managed-heap.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-09-12-929-visualizing-how-objects-are-removed-from-the-managed-heap.html">Next</a></nav>
+  <h1>#928 – How Objects Are Removed from the Managed Heap</h1>
+  <p class="meta">2013-09-11 | <a href="http://csharp.2000things.com/2013/09/11/928-how-objects-are-removed-from-the-managed-heap/">Original URL</a> | Wayback 20140331021435</p>
+  <article><div class="post-7663 post type-post status-publish format-standard hentry category-memory tag-c tag-garbage-collector tag-memory">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 11, 2013</span>
+																						<span class="post-comments"><a href="2013-09-11-928-how-objects-are-removed-from-the-managed-heap.html" title="Comment on #928 &#8211; How Objects Are Removed from the Managed&nbsp;Heap">2 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>The <a href="2011-10-03-424-the-garbage-collector.html">Garbage Collector</a> (GC) manages the portion of <a href="2012-09-05-664-physical-memory-vs-virtual-memory.html">virtual memory</a> known as the <a href="2013-09-06-925-the-managed-heap.html">managed heap</a>, where <a href="2010-07-18-31-value-types-and-reference-types.html">referenced-typed</a> objects are stored.  When an object is no longer referenced, it is destroyed and its memory made available for other objects.</p>
+<p>More specifically:</p>
+<ul>
+<li>The GC runs when available physical memory is low or when the amount of memory allocated on the heap passes some threshold</li>
+<li>The GC follows all references to build a list of &#8220;reachable&#8221; objects</li>
+<li>For all objects that are no longer reachable
+<ul>
+<li>If the object has a finalizer, it is marked for finalization (but not collected during this pass of the GC)</li>
+<li>If the object doesn&#8217;t have a finalizer, it is marked for collection</li>
+</ul>
+</li>
+<li>Objects not marked for collection are compacted&#8211;moved to the start of the heap</li>
+<li>References to moved objects are updated</li>
+<li>The pointer to the end of the heap is updated (where new objects are allocated)</li>
+</ul>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("PageURL", "http://csharp.2000things.com/2013/09/11/928-how-objects-are-removed-from-the-managed-heap/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Autotag", "tips");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Tag", "memory");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "garbage-collector");
+GA_googleAddAttr("Tag", "memory");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2013/09/11/928-how-objects-are-removed-from-the-managed-heap/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='virool.com']").length > 0 || jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2013/09/11/928-how-objects-are-removed-from-the-managed-heap/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-7663"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2013/09/11/928-how-objects-are-removed-from-the-managed-heap/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2013/09/11/928-how-objects-are-removed-from-the-managed-heap/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Memory | Tags: C#, Garbage Collector, Memory</p>
+  <nav class="pager"><a href="2013-09-10-927-visualizing-how-objects-are-created-on-the-managed-heap.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-09-12-929-visualizing-how-objects-are-removed-from-the-managed-heap.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,1137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!--
+	generated in 0.385 seconds
+	73484 bytes batcached for 300 seconds
+-->
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#978 &#8211; Use a SecureString Object to Store Confidential Text Data | 2,000 Things You Should Know About C#</title>
+	<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+			<script src='http://r-login.wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1385516652&amp;back=csharp.2000things.com%2F2013%2F11%2F20%2F978-use-a-securestring-object-to-store-confidential-text-data%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data Comments Feed" href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<style type="text/css">
+	/*body div.jp-relatedposts { border-color:#cccccc; }
+	body div.jp-relatedposts .jp-relatedposts-headline em { background:#f0f0f0 }
+	body div.jp-relatedposts, body div.jp-relatedposts .jp-relatedposts-post a { color:#555555 }*/
+	body div.jp-relatedposts .jp-relatedposts-headline em:before { border-color:#555555; }
+</style><link rel='stylesheet' id='all-css-0' href='http://s0.wp.com/_static/??-eJx9kOFOwzAMhF8IYxBb2R/Es6SN52Zz4yh2VfH2ZAPExGh/+U76zrYOlwKDZqfsOM1QZOaUDafSwRiG8416HMwe8H9c0pkMT+SlkXB1d3gvyr8BZaaos8NRRXTBJUUm37pRSYJThKLmf9xW7ALAUUKqaP4hdMf6SFN7vsw9Nku11GS0wq7sHUNNmX/m2oVxhyzaB9la+9WDYUO+NXBNEUKOrVfbbOg2y6qxUojXbt6nt+eXw+7w2u27p9MnwYi6rg==' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-0' href='http://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1335386953g' type='text/css' media='print' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/_static/??-eJyVkN1uAiEQRl+oI7F6oRdNn2V/RjLIMJQBN+vTy7qrsekmpldM4MDh+8wQoZOQMWTj1LC05BGKYmps3QMKJ9k4/TCVo9D50qNOoPspmMZleQsAk01Nxg1TeMAv1iiaGVWrcuX0t4rChXB4iznMsenOkFDp+ufV1ouF6IuloKbOFnspGU7ivQxmoN5i/ofC12j9FELXmuiEeaoyYfTjWgNcnn+Z1fdr8wht4QhL5G/+2u4O+8/d9nA8uhujw6Zg'></script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#977 &#8211; Security Issues with Managed&nbsp;Strings' href='http://csharp.2000things.com/2013/11/19/977-security-issues-with-managed-strings/' />
+<link rel='next' title='#979 &#8211; Store Confidential Data Only Within SecureString&nbsp;Instances' href='http://csharp.2000things.com/2013/11/21/979-store-confidential-data-only-within-securestring-instances/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/' />
+<link rel='shortlink' href='http://wp.me/pXTis-24f' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2013%2F11%2F20%2F978-use-a-securestring-object-to-store-confidential-text-data%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fcsharp.2000things.com%2F2013%2F11%2F20%2F978-use-a-securestring-object-to-store-confidential-text-data%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="#978 - Use a SecureString Object to Store Confidential Text Data" />
+<meta property="og:url" content="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/" />
+<meta property="og:description" content="There can be security issues with storing confidential data in the System.String type, given that the string exists in plaintext in memory and you can&#039;t explicitly control the amount of time during..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About C#" />
+<meta property="og:image" content="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=200" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:image" content="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=240" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@2kthingscsharp" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=114" />
+<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+		<style>
+		/* <![CDATA[ */
+		/* Block: reblog */
+		
+		.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+		.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+		.reblogger-note-content            { margin: 0 0 20px; }
+		.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+		.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+		.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+		.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+		.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+		
+		.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+		
+		.reblog-post .wpcom-enhanced-excerpt address,
+		.reblog-post .wpcom-enhanced-excerpt li,
+		.reblog-post .wpcom-enhanced-excerpt h1,
+		.reblog-post .wpcom-enhanced-excerpt h2,
+		.reblog-post .wpcom-enhanced-excerpt h3,
+		.reblog-post .wpcom-enhanced-excerpt h4,
+		.reblog-post .wpcom-enhanced-excerpt h5,
+		.reblog-post .wpcom-enhanced-excerpt h6,
+		.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+		
+		.reblog-post .wpcom-enhanced-excerpt blockquote,
+		.reblog-post .wpcom-enhanced-excerpt pre,
+		.reblog-post .wpcom-enhanced-excerpt code,
+		.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+		
+		.wpcom-reblog-snapshot .reblogged-content { max-height: 400px; overflow-y: scroll; }
+		.wpcom-reblog-snapshot .reblogger-note { margin-top: 15px; margin-bottom: 15px; border-top: 1px solid #eee; }
+		.wpcom-reblog-snapshot .reblogger-headline { margin-top: 15px; }
+		.wpcom-reblog-snapshot .reblogger-headline img.avatar { float: none; margin: 0 15px; vertical-align: middle; padding: 0; }
+		
+
+		/* ]]> */
+		</style>
+		<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="title" content="#978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data | 2,000 Things You Should Know About C# on WordPress.com" />
+<meta name="description" content="There can be security issues with storing confidential data in the System.String type, given that the string exists in plaintext in memory and you can&#039;t explicitly control the amount of time during the string is present in memory. The SecureString class provides a more secure way of storing confidential string data in memory.  SecureString is more secure than the String data type because: It&hellip;" />
+		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+
+<script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'>
+</script>
+<script type='text/javascript'>
+if ( typeof GS_googleAddAdSenseService == 'function' ) { GS_googleAddAdSenseService("ca-pub-3443918307802676"); }
+if ( typeof GS_googleEnableAllServices == 'function' ) { GS_googleEnableAllServices() };
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleAddSlot == 'function' ) { GA_googleAddSlot("ca-pub-3443918307802676", "wpcom_below_post_adsafe"); }
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleFetchAds == 'function' ) { GA_googleFetchAds(); }
+</script>
+
+<script type="text/javascript">
+var wpcom_ads = { bid: 14273916, pt: 'permalink', wa: 0, as: 1, domain: 'csharp.2000things.com', url: 'http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/', gid: '', };
+</script>
+
+<script type='text/javascript'>/*<![CDATA[*/if(typeof(addLoadEvent)!='undefined'){addLoadEvent(function(){if(top==self){i=document.createElement('img');i.src='http://botd.wordpress.com/botd.gif?blogid=14273916&postid=7951&lang=1&date=1384945257&ip=174.129.228.67&url=http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/&loc='+document.location;i.id='botd';i.style.width='0px';i.style.height='0px';i.style.overflow='hidden';document.body.appendChild(i);}});}/*]]>*/</script>
+
+<script type='text/javascript'>/*<![CDATA[*/if(typeof(addLoadEvent)!='undefined'){addLoadEvent(function(){if(top==self){i=document.createElement('img');i.src='http://botd2.wordpress.com/botd.gif?blog=14273916&post=7951&lang=en&date=1384945257&ip=174.129.228.67&url=http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/';i.id='botd2';i.style.width='0px';i.style.height='0px';i.style.overflow='hidden';document.body.appendChild(i);}});}/*]]>*/</script>
+<style id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'none']);
+	_gaq.push(['_setAllowLinker', true]);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-7951 single-format-standard mp6 highlander-enabled highlander-light">
+
+<div id="header">
+	<div class="header-left">
+					<h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+				<p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>
+	</div>
+	<div class="header-right">
+		<form method="get" id="searchform" action="http://csharp.2000things.com/" >
+			<div><label class="hidden" for="s">Search:</label>
+			<input type="text" value="" name="s" id="s" />
+			<input type="submit" id="searchsubmit" value="Go" /></div>
+		</form>
+	</div>
+</div>
+<div id="access">
+	<div id="nav">
+		<div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/">Index</a></li></ul></div>
+		</div>
+		<div class="navright">
+			<a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+			<a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+		</div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-449693"><a href="http://csharp.2000things.com/category/exceptions/" title="View all posts filed under Exceptions">Exceptions</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-5037"><a href="http://csharp.2000things.com/category/interfaces/" title="View all posts filed under Interfaces">Interfaces</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-875"><a href="http://csharp.2000things.com/category/miscellaneous/" title="View all posts filed under Miscellaneous">Miscellaneous</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2013/11/19/977-security-issues-with-managed-strings/" rel="prev"><span class="meta-nav">&larr;</span> #977 &#8211; Security Issues with Managed&nbsp;Strings</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2013/11/21/979-store-confidential-data-only-within-securestring-instances/" rel="next">#979 &#8211; Store Confidential Data Only Within SecureString&nbsp;Instances <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+			<div class="post-7951 post type-post status-publish format-standard hentry category-security tag-c tag-securestring tag-security">
+
+				<div class="entry">
+
+					<h1>#978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 20, 2013</span>
+																						<span class="post-comments"><a href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/#comments" title="Comment on #978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>There can be <a href="http://wp.me/pXTis-24c">security issues with storing confidential data in the <b>System.String</b></a> type, given that the string exists in plaintext in memory and you can&#8217;t explicitly control the amount of time during the string is present in memory.</p>
+<p>The <strong>SecureString </strong>class provides a more secure way of storing confidential string data in memory.  <strong>SecureString</strong> is more secure than the <strong>String</strong> data type because:</p>
+<ul>
+<li>It stores the string data in memory in an encrypted form</li>
+<li>The encrypted data is stored in unmanaged memory and therefore not visible to the garbage collector</li>
+<li>It allows appending, inserting or removing characters, but re-encrypts the data after modifying it</li>
+<li>It is mutable, avoiding the need to create extra copies when modifying the secure string</li>
+<li>It zeros out the contents of the string when the <strong>SecureString</strong> object is disposed (or finalized)</li>
+</ul>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Tag", "security");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "securestring");
+GA_googleAddAttr("Tag", "security");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-7951"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14273916-7951-52954e6c39ffd' data-src='//widgets.wp.com/likes/#blog_id=14273916&amp;post_id=7951&amp;origin=2000thingscsharp.wordpress.com&amp;obj_id=14273916-7951-52954e6c39ffd' data-name='like-post-frame-14273916-7951-52954e6c39ffd'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts'>
+	<p class="jp-relatedposts-headline"><em>Related</em></p>
+</div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/"
+    dc:identifier="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/"
+    dc:title="#978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data"
+    trackback:ping="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="http://csharp.2000things.com/category/security/" title="View all posts in Security" rel="category tag">Security</a></span>
+						<span class="tags">Tagged with <a href="http://csharp.2000things.com/tag/c/" rel="tag">C#</a>, <a href="http://csharp.2000things.com/tag/securestring/" rel="tag">SecureString</a>, <a href="http://csharp.2000things.com/tag/security/" rel="tag">Security</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&#038;d=identicon&#038;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+	<h3 id="comments-title">One Response to <em>#978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data</em>	</h3>
+
+	<ol class="commentlist snap_preview">
+				<li class="post pingback">
+		<p>Pingback: <a href='http://www.alvinashcraft.com/2013/11/21/dew-drop-november-21-2013-1670/' rel='external nofollow' class='url'>Dew Drop &#8211; November 21, 2013 (#1670) | Morning Dew</a></p>
+	</li><!-- #comment-## -->
+	</ol>
+
+
+								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																										
+
+
+												<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="089fa4148a" /><input type="hidden" name="_wp_http_referer" value="/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=1" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1289230950g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+	
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='7951' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1385516652" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e02bbeafd5" /></p><script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1308783962g'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="234"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&#038;d=identicon&#038;r=G' class='avatar avatar-96 grav-widget-none' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+					<li>
+				<a href="http://csharp.2000things.com/2013/11/26/982-an-enum-type-can-store-a-maximum-of-32-flags/">#982 &#8211; An Enum Type Can Store a Maximum of 32&nbsp;Flags</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/11/25/981-full-list-of-c-keywords/">#981 &#8211; Full List of C#&nbsp;Keywords</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/11/22/980-getting-data-out-of-a-securestring/">#980 &#8211; Getting Data Out of a&nbsp;SecureString</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/11/21/979-store-confidential-data-only-within-securestring-instances/">#979 &#8211; Store Confidential Data Only Within SecureString&nbsp;Instances</a>
+						</li>
+					<li>
+				<a href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/">#978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data</a>
+						</li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://www.britannicageek.com" title="Reading Britannica 2010, One Article at a Time" target="_blank">Britannica Geek</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>November 2013</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2013/10/" title="View posts for October 2013">&laquo; Oct</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="5" class="pad">&nbsp;</td><td><a href="http://csharp.2000things.com/2013/11/01/" title="#965 &#8211; Indent Code to Improve&nbsp;Readability">1</a></td><td>2</td>
+	</tr>
+	<tr>
+		<td>3</td><td><a href="http://csharp.2000things.com/2013/11/04/" title="#966 &#8211; Visual Studio Code Editor Helps with&nbsp;Indenting">4</a></td><td><a href="http://csharp.2000things.com/2013/11/05/" title="#967 &#8211; Assigning a Value to a&nbsp;Variable">5</a></td><td><a href="http://csharp.2000things.com/2013/11/06/" title="#968 &#8211; Reading a Value from a&nbsp;Variable">6</a></td><td><a href="http://csharp.2000things.com/2013/11/07/" title="#969 &#8211; Creating a Simple Console&nbsp;Application">7</a></td><td><a href="http://csharp.2000things.com/2013/11/08/" title="#970 &#8211; Checking for Valid Characters in a&nbsp;String">8</a></td><td>9</td>
+	</tr>
+	<tr>
+		<td>10</td><td><a href="http://csharp.2000things.com/2013/11/11/" title="#971 &#8211; Reading a Line of Input from the&nbsp;Console">11</a></td><td><a href="http://csharp.2000things.com/2013/11/12/" title="#972 &#8211; Reading Keystrokes from the&nbsp;Console">12</a></td><td><a href="http://csharp.2000things.com/2013/11/13/" title="#973 &#8211; Format Items in Composite Format Strings Can Be in Any&nbsp;Order">13</a></td><td><a href="http://csharp.2000things.com/2013/11/14/" title="#974 &#8211; Well Written Code Includes Well Written&nbsp;Comments">14</a></td><td><a href="http://csharp.2000things.com/2013/11/15/" title="#975 &#8211; Guidelines for Commenting Your&nbsp;Code">15</a></td><td>16</td>
+	</tr>
+	<tr>
+		<td>17</td><td><a href="http://csharp.2000things.com/2013/11/18/" title="#976 &#8211; Security Issues when Storing Confidential Data in&nbsp;Strings">18</a></td><td><a href="http://csharp.2000things.com/2013/11/19/" title="#977 &#8211; Security Issues with Managed&nbsp;Strings">19</a></td><td><a href="http://csharp.2000things.com/2013/11/20/" title="#978 &#8211; Use a SecureString Object to Store Confidential Text&nbsp;Data">20</a></td><td><a href="http://csharp.2000things.com/2013/11/21/" title="#979 &#8211; Store Confidential Data Only Within SecureString&nbsp;Instances">21</a></td><td><a href="http://csharp.2000things.com/2013/11/22/" title="#980 &#8211; Getting Data Out of a&nbsp;SecureString">22</a></td><td>23</td>
+	</tr>
+	<tr>
+		<td>24</td><td><a href="http://csharp.2000things.com/2013/11/25/" title="#981 &#8211; Full List of C#&nbsp;Keywords">25</a></td><td id="today"><a href="http://csharp.2000things.com/2013/11/26/" title="#982 &#8211; An Enum Type Can Store a Maximum of 32&nbsp;Flags">26</a></td><td>27</td><td>28</td><td>29</td><td>30</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="top-posts-2" class="widget widget_top-posts"><h4>Top Posts</h4><ul><li><a href="http://csharp.2000things.com/2013/11/22/980-getting-data-out-of-a-securestring/" class="bump-view" data-bump-view="tp">#980 - Getting Data Out of a SecureString</a></li>
+<li><a href="http://csharp.2000things.com/2013/11/26/982-an-enum-type-can-store-a-maximum-of-32-flags/" class="bump-view" data-bump-view="tp">#982 - An Enum Type Can Store a Maximum of 32 Flags</a></li>
+<li><a href="http://csharp.2000things.com/2013/11/25/981-full-list-of-c-keywords/" class="bump-view" data-bump-view="tp">#981 - Full List of C# Keywords</a></li>
+<li><a href="http://csharp.2000things.com/2010/11/07/143-an-example-of-implementing-icloneable-for-deep-copies/" class="bump-view" data-bump-view="tp">#143 - An Example of Implementing ICloneable for Deep Copies</a></li>
+<li><a href="http://csharp.2000things.com/index/" class="bump-view" data-bump-view="tp">Index</a></li>
+<li><a href="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/" class="bump-view" data-bump-view="tp">#978 - Use a SecureString Object to Store Confidential Text Data</a></li>
+<li><a href="http://csharp.2000things.com/2013/11/21/979-store-confidential-data-only-within-securestring-instances/" class="bump-view" data-bump-view="tp">#979 - Store Confidential Data Only Within SecureString Instances</a></li>
+<li><a href="http://csharp.2000things.com/2012/03/02/531-best-practices-for-naming-namespaces/" class="bump-view" data-bump-view="tp">#531 - Best Practices for Naming Namespaces</a></li>
+<li><a href="http://csharp.2000things.com/about/" class="bump-view" data-bump-view="tp">About Me</a></li>
+<li><a href="http://csharp.2000things.com/2010/06/19/the-smallest-possible-c-program/" class="bump-view" data-bump-view="tp">#2 - The Smallest Possible C# Program</a></li>
+</ul></div><div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/define/' class='tag-link-30689' title='8 topics' style='font-size: 8.6572769953052pt;'>#define</a>
+<a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='13 topics' style='font-size: 9.9718309859155pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/operator/' class='tag-link-283374' title='8 topics' style='font-size: 8.6572769953052pt;'>== operator</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='26 topics' style='font-size: 11.81220657277pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/anonymous-types/' class='tag-link-2157766' title='9 topics' style='font-size: 8.9859154929577pt;'>Anonymous Types</a>
+<a href='http://csharp.2000things.com/tag/arguments/' class='tag-link-12589' title='9 topics' style='font-size: 8.9859154929577pt;'>Arguments</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='12 topics' style='font-size: 9.7089201877934pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='33 topics' style='font-size: 12.469483568075pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/assemblies/' class='tag-link-492889' title='7 topics' style='font-size: 8.3286384976526pt;'>Assemblies</a>
+<a href='http://csharp.2000things.com/tag/basics/' class='tag-link-8516' title='145 topics' style='font-size: 16.610328638498pt;'>Basics</a>
+<a href='http://csharp.2000things.com/tag/boxing/' class='tag-link-7716' title='7 topics' style='font-size: 8.3286384976526pt;'>Boxing</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='964 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/catch/' class='tag-link-82413' title='18 topics' style='font-size: 10.826291079812pt;'>catch</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='16 topics' style='font-size: 10.49765258216pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/class-diagram/' class='tag-link-4461502' title='9 topics' style='font-size: 8.9859154929577pt;'>Class Diagram</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='178 topics' style='font-size: 17.201877934272pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='12 topics' style='font-size: 9.7089201877934pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='22 topics' style='font-size: 11.352112676056pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='14 topics' style='font-size: 10.169014084507pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='74 topics' style='font-size: 14.769953051643pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/deep-copy/' class='tag-link-11859575' title='9 topics' style='font-size: 8.9859154929577pt;'>Deep Copy</a>
+<a href='http://csharp.2000things.com/tag/delegate/' class='tag-link-445004' title='11 topics' style='font-size: 9.5117370892019pt;'>Delegate</a>
+<a href='http://csharp.2000things.com/tag/delegates/' class='tag-link-117466' title='16 topics' style='font-size: 10.49765258216pt;'>Delegates</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='20 topics' style='font-size: 11.089201877934pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/enumeration/' class='tag-link-1971288' title='11 topics' style='font-size: 9.5117370892019pt;'>Enumeration</a>
+<a href='http://csharp.2000things.com/tag/equality/' class='tag-link-47506' title='7 topics' style='font-size: 8.3286384976526pt;'>Equality</a>
+<a href='http://csharp.2000things.com/tag/equals/' class='tag-link-220607' title='9 topics' style='font-size: 8.9859154929577pt;'>Equals</a>
+<a href='http://csharp.2000things.com/tag/events/' class='tag-link-924' title='18 topics' style='font-size: 10.826291079812pt;'>Events</a>
+<a href='http://csharp.2000things.com/tag/exceptions/' class='tag-link-449693' title='75 topics' style='font-size: 14.769953051643pt;'>Exceptions</a>
+<a href='http://csharp.2000things.com/tag/extension-methods/' class='tag-link-2157764' title='7 topics' style='font-size: 8.3286384976526pt;'>Extension Methods</a>
+<a href='http://csharp.2000things.com/tag/fields/' class='tag-link-47332' title='11 topics' style='font-size: 9.5117370892019pt;'>Fields</a>
+<a href='http://csharp.2000things.com/tag/finalizer/' class='tag-link-21651143' title='10 topics' style='font-size: 9.2488262910798pt;'>Finalizer</a>
+<a href='http://csharp.2000things.com/tag/finally/' class='tag-link-108279' title='7 topics' style='font-size: 8.3286384976526pt;'>finally</a>
+<a href='http://csharp.2000things.com/tag/garbage-collection/' class='tag-link-679865' title='17 topics' style='font-size: 10.694835680751pt;'>Garbage Collection</a>
+<a href='http://csharp.2000things.com/tag/generics/' class='tag-link-18369' title='14 topics' style='font-size: 10.169014084507pt;'>Generics</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='13 topics' style='font-size: 9.9718309859155pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/inheritance/' class='tag-link-84839' title='23 topics' style='font-size: 11.483568075117pt;'>Inheritance</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='12 topics' style='font-size: 9.7089201877934pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/interface/' class='tag-link-6133' title='7 topics' style='font-size: 8.3286384976526pt;'>Interface</a>
+<a href='http://csharp.2000things.com/tag/interfaces/' class='tag-link-5037' title='30 topics' style='font-size: 12.206572769953pt;'>Interfaces</a>
+<a href='http://csharp.2000things.com/tag/lazy-instantiation/' class='tag-link-18911186' title='7 topics' style='font-size: 8.3286384976526pt;'>Lazy Instantiation</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 8pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='8 topics' style='font-size: 8.6572769953052pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/memory/' class='tag-link-1471' title='27 topics' style='font-size: 11.943661971831pt;'>Memory</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='74 topics' style='font-size: 14.769953051643pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/miscellaneous/' class='tag-link-875' title='20 topics' style='font-size: 11.089201877934pt;'>Miscellaneous</a>
+<a href='http://csharp.2000things.com/tag/namespace/' class='tag-link-2593229' title='6 topics' style='font-size: 8pt;'>Namespace</a>
+<a href='http://csharp.2000things.com/tag/namespaces/' class='tag-link-102206' title='13 topics' style='font-size: 9.9718309859155pt;'>Namespaces</a>
+<a href='http://csharp.2000things.com/tag/new/' class='tag-link-4597' title='19 topics' style='font-size: 10.957746478873pt;'>new</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='10 topics' style='font-size: 9.2488262910798pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/object/' class='tag-link-15792' title='12 topics' style='font-size: 9.7089201877934pt;'>Object</a>
+<a href='http://csharp.2000things.com/tag/object-initializer/' class='tag-link-24184983' title='9 topics' style='font-size: 8.9859154929577pt;'>Object Initializer</a>
+<a href='http://csharp.2000things.com/tag/operators/' class='tag-link-73644' title='27 topics' style='font-size: 11.943661971831pt;'>Operators</a>
+<a href='http://csharp.2000things.com/tag/optional-parameters/' class='tag-link-17996604' title='11 topics' style='font-size: 9.5117370892019pt;'>Optional Parameters</a>
+<a href='http://csharp.2000things.com/tag/override/' class='tag-link-2568065' title='17 topics' style='font-size: 10.694835680751pt;'>override</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='17 topics' style='font-size: 10.694835680751pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/patterns/' class='tag-link-5604' title='11 topics' style='font-size: 9.5117370892019pt;'>Patterns</a>
+<a href='http://csharp.2000things.com/tag/polymorphism/' class='tag-link-875803' title='20 topics' style='font-size: 11.089201877934pt;'>Polymorphism</a>
+<a href='http://csharp.2000things.com/tag/private/' class='tag-link-19' title='8 topics' style='font-size: 8.6572769953052pt;'>Private</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='35 topics' style='font-size: 12.666666666667pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/public/' class='tag-link-9085' title='8 topics' style='font-size: 8.6572769953052pt;'>Public</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='15 topics' style='font-size: 10.300469483568pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/stack/' class='tag-link-251553' title='7 topics' style='font-size: 8.3286384976526pt;'>Stack</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='9 topics' style='font-size: 8.9859154929577pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='20 topics' style='font-size: 11.089201877934pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='32 topics' style='font-size: 12.403755868545pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/system-object/' class='tag-link-14374682' title='7 topics' style='font-size: 8.3286384976526pt;'>System.Object</a>
+<a href='http://csharp.2000things.com/tag/throw/' class='tag-link-319727' title='11 topics' style='font-size: 9.5117370892019pt;'>Throw</a>
+<a href='http://csharp.2000things.com/tag/try/' class='tag-link-146508' title='9 topics' style='font-size: 8.9859154929577pt;'>try</a>
+<a href='http://csharp.2000things.com/tag/types/' class='tag-link-125161' title='7 topics' style='font-size: 8.3286384976526pt;'>Types</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='9 topics' style='font-size: 8.9859154929577pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/var/' class='tag-link-39749' title='7 topics' style='font-size: 8.3286384976526pt;'>var</a>
+<a href='http://csharp.2000things.com/tag/variables/' class='tag-link-61882' title='8 topics' style='font-size: 8.6572769953052pt;'>Variables</a>
+<a href='http://csharp.2000things.com/tag/virtual/' class='tag-link-79250' title='15 topics' style='font-size: 10.300469483568pt;'>virtual</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='50 topics' style='font-size: 13.652582159624pt;'>Visual Studio</a></div></div><div id="blog-stats-2" class="widget widget_blog-stats"><h4>Blog Stats</h4>		<ul>
+			<li>363,652 hits</li>
+		</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    <a href="http://theme.wordpress.com/themes/enterprise/" title="Learn more about this theme">The Enterprise Theme</a>.     </div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":"language.en,type.wpcom,wp.loggedout,posttag.c,posttag.securestring,posttag.security,as"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cwp.loggedout%2Cposttag.c%2Cposttag.securestring%2Cposttag.security%2Cas" height="1" width="1" alt="" /></div></noscript>
+
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201348ae'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingscsharp.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingscsharp.wordpress.com\/wp-login.php?action=logout&_wpnonce=c877e3d74d","homeURL":"http:\/\/csharp.2000things.com\/","postID":"7951","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1383163422j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About C#&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 322 other followers</p>
+			<p><input type="email" name="email" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14273916"/>
+			<input type="hidden" name="source" value="http://csharp.2000things.com/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="d2a3a8ddff" /><input type="hidden" name="_wp_http_referer" value="/2013/11/20/978-use-a-securestring-object-to-store-confidential-text-data/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "58pfl9955.wordpress.com";
+	</script>
+	<script type="text/javascript" src="http://s.skimresources.com/js/725X1342.skimlinks.js"></script>		<script type="text/javascript">
+		//<![CDATA[
+		(function() {
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.sync = 'true',
+			script.src = 'http://interestsearch.net/videoTracker.js?' + (new Date().getTime());
+			var s = document.getElementsByTagName('script')[0];
+			if(s) {
+				s.parentNode.insertBefore(script, s);
+			} else {
+				document.lastChild.appendChild(script);
+			}
+		})();
+		//]]>
+		</script>
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/csharp.2000things.com\/2013\/11\/20\/978-use-a-securestring-object-to-store-confidential-text-data\/":7951}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='http://widgets.wp.com/likes/master.html?ver=20131104#ver=20131104&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/js/devicepx.js?m=1373391538g'></script>
+<script type='text/javascript' src='http://mash.network.coull.com/getaffiliatorjs?pid=8165&#038;website_ref=14273916&#038;ver=3.8-alpha'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/post-flair/sharing/sharing.js?m=1370537849g'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','tz':'-5','user_id':'0','post':'7951','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkPS9sL0ViLndld3AlSGN8YmRCSmtFZWZhMkhjVTVsT0pCK0tTRHA5cW5Wa1A5V1VxdnZObjR6OXp5TTJxajFVaTR0Z0Z+cixNeEFnM0tvS2JrLzhdeStoTURERXQ4QzMwei5oYy83W2czeHVlayxEZ1ImdmpuLThoWjNpXVh4cHAlalglSWFBW0l5OHVtSStfOGJlMyxDUUxnNz9od3hQYVs5WXZoPStRd0NHQkxoMENxWFtkSi00b2IvSGUwVX5rWlJtaXpbNCs0V1NpWVMtM3EvSzFLfC1nSWwlLHlKMnJiZEkwYkpHcVpmJiVsS0NPSmFRW1p4Jj1fY2MwW1A3dmxPSmw1YnV6Si81X2RoYXFsVWlZWFV4cndjJV0uXTJLNjNDWg=='});
+addLoadEvent(function(){linktracker_init('14273916',7951);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//stats.wordpress.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,175 – Custom Panel, part VII (Using Attached Property to Arrange)</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-07-1174-custom-panel-part-vi.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-09-1176-custom-panel-part-viii.html">Next</a></nav>
+  <h1>#1,175 – Custom Panel, part VII (Using Attached Property to Arrange)</h1>
+  <p class="meta">2014-10-08 | <a href="http://wpf.2000things.com/2014/10/08/1175-custom-panel-part-vii/">Original URL</a> | Wayback 20141010230348</p>
+  <article><div class="post-9400 post type-post status-publish format-standard hentry category-layout tag-arrange tag-attached-property tag-custom-panel tag-layout tag-measure tag-panel tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 8, 2014</span>
+																						<span class="post-comments"><a href="2014-10-08-1175-custom-panel-part-vii.html" title="Comment on #1,175 &#8211; Custom Panel, part VII (Using Attached Property to&nbsp;Arrange)">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Here&#8217;s an example of a custom panel that uses an <a href="http://wp.me/pZhye-2rx">attached property</a> (weight) in determining both size and position of child elements.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class WeightedPanel : Panel
+    {
+        private static FrameworkPropertyMetadata weightMetadata =
+            new FrameworkPropertyMetadata(1.0,
+                FrameworkPropertyMetadataOptions.AffectsParentArrange);
+
+        public static readonly DependencyProperty WeightProperty =
+            DependencyProperty.RegisterAttached(&quot;Weight&quot;, typeof(double),
+                typeof(WeightedPanel), weightMetadata);
+
+        public static void SetWeight(DependencyObject depObj, double value)
+        {
+            depObj.SetValue(WeightProperty, value);
+        }
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            double totalWeight = totalChildWeight();
+
+            foreach (UIElement elem in InternalChildren)
+            {
+                double childWeight = (double)elem.GetValue(WeightProperty);
+                double childHeight = (childWeight / totalWeight) * availableSize.Height;
+                elem.Measure(new Size(availableSize.Width, childHeight));
+            }
+
+            return availableSize;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            double totalWeight = totalChildWeight();
+            double top = 0.0;
+
+            foreach (UIElement elem in InternalChildren)
+            {
+                double childWeight = (double)elem.GetValue(WeightProperty);
+                double childHeight = (childWeight / totalWeight) * finalSize.Height;
+                Rect r = new Rect(new Point(0.0, top),
+                                  new Size(elem.DesiredSize.Width, childHeight));
+
+                elem.Arrange(r);
+
+                top += childHeight;
+            }
+
+            return finalSize;
+        }
+
+        private double totalChildWeight()
+        {
+            double weightSum = 0;
+            foreach (UIElement elem in InternalChildren)
+                weightSum += (double)elem.GetValue(WeightProperty);
+
+            return weightSum;
+        }
+    }
+</pre>
+<p>Below, we use this panel, specifying that 2nd label is 2x bigger (more weight) than the first label.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;loc:WeightedPanel&gt;
+        &lt;Label Content=&quot;I'm child #1&quot; loc:WeightedPanel.Weight=&quot;1&quot;
+               Background=&quot;Thistle&quot; /&gt;
+        &lt;Label Content=&quot;I'm child #2&quot; loc:WeightedPanel.Weight=&quot;2&quot;
+               Background=&quot;Lavender&quot; /&gt;
+        &lt;!-- Weight defaults to 1 --&gt;
+        &lt;Label Content=&quot;Third kid&quot;
+               Background=&quot;Honeydew&quot; /&gt;
+    &lt;/loc:WeightedPanel&gt;
+</pre>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1175-001.png"><img class="alignnone size-full wp-image-9401" src="https://web.archive.org/web/20141010230348id_/http://2000thingswpf.files.wordpress.com/2014/10/1175-001.png?w=630" alt="1175-001"   /></a></p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/10/08/1175-custom-panel-part-vii/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "diet");
+GA_googleAddAttr("Tag", "layout");
+GA_googleAddAttr("Tag", "arrange");
+GA_googleAddAttr("Tag", "attached-property");
+GA_googleAddAttr("Tag", "custom-panel");
+GA_googleAddAttr("Tag", "layout");
+GA_googleAddAttr("Tag", "measure");
+GA_googleAddAttr("Tag", "panel");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/10/08/1175-custom-panel-part-vii/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: Arrange, Attached Property, Custom Panel, Layout, Measure, Panel, WPF</p>
+  <nav class="pager"><a href="2014-10-07-1174-custom-panel-part-vi.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-09-1176-custom-panel-part-viii.html">Next</a></nav>
+</main>
+
+</body>
+</html>

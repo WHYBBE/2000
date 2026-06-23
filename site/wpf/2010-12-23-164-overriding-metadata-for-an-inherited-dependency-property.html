@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#164 – Overriding Metadata for an Inherited Dependency Property</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-22-163-constructing-frameworkpropertymetadata.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-24-165-overriding-metadata-can-result-in-merged-metadata.html">Next</a></nav>
+  <h1>#164 – Overriding Metadata for an Inherited Dependency Property</h1>
+  <p class="meta">2010-12-23 | <a href="http://wpf.2000things.com/2010/12/23/164-overriding-metadata-for-an-inherited-dependency-property/">Original URL</a> | Wayback 20110203043917</p>
+  <article><div class="post-1363 post type-post status-publish format-standard hentry category-dependency-properties tag-dependency-properties tag-overridemetadata tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">December 23, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>When deriving a new child class, you&#8217;ll the parent&#8217;s dependency properties.  You might also want to change the behavior of one or more of the dependency properties.  You can do this to some extent by overriding the metadata for a dependency property.</p>
+<p>Overriding the metadata in the child class doesn&#8217;t change the behavior of the dependency property in the parent class.</p>
+<p>In the example below, we create a new class and override metadata for several properties, changing the default values.</p>
+<pre class="brush: csharp;">
+    public class ThermometerSlider : Slider
+    {
+        static ThermometerSlider()
+        {
+            // Defaults for standard Slider: Min = 0, Max = 10, Value = 0
+            // Defaults for ThermometerSlider: Min = -40, Max = 120, Value = 70
+
+            // Change default Minimum to -40.0
+            MinimumProperty.OverrideMetadata(typeof(ThermometerSlider), new FrameworkPropertyMetadata(-40.0));
+
+            // Change default Maximum to 120
+            MaximumProperty.OverrideMetadata(typeof(ThermometerSlider), new FrameworkPropertyMetadata(120.0));
+
+            // Change default Value to 70
+            ValueProperty.OverrideMetadata(typeof(ThermometerSlider), new FrameworkPropertyMetadata(70.0));
+        }
+    }
+</pre>
+<p>The metadata type must match the type in the original property (e.g. <strong>FrameworkPropertyMetadata</strong>, <strong>UIPropertyMetadata</strong>, or <strong>PropertyMetadata</strong>).</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/12/23/164-overriding-metadata-for-an-inherited-dependency-property/"
+    dc:identifier="http://wpf.2000things.com/2010/12/23/164-overriding-metadata-for-an-inherited-dependency-property/"
+    dc:title="#164 &#8211; Overriding Metadata for an Inherited Dependency&nbsp;Property"
+    trackback:ping="http://wpf.2000things.com/2010/12/23/164-overriding-metadata-for-an-inherited-dependency-property/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/overridemetadata/" rel="tag">OverrideMetadata</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, OverrideMetadata, WPF</p>
+  <nav class="pager"><a href="2010-12-22-163-constructing-frameworkpropertymetadata.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-24-165-overriding-metadata-can-result-in-merged-metadata.html">Next</a></nav>
+</main>
+
+</body>
+</html>

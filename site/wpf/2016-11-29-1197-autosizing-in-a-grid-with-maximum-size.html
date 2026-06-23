@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,197 – Autosizing in a Grid with Maximum Size</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-11-07-back-soon.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2016-12-15-1198-selectively-enabling-child-elements-in-a-disabled-panel.html">Next</a></nav>
+  <h1>#1,197 – Autosizing in a Grid with Maximum Size</h1>
+  <p class="meta">2016-11-29 | <a href="http://wpf.2000things.com/2016/11/29/1197-autosizing-in-a-grid-with-maximum-size/">Original URL</a> | Wayback 20161221234347</p>
+  <article><div class="post-9540 post type-post status-publish format-standard hentry category-layout tag-wpf tag-layout tag-maxheight tag-grid tag-autosize">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 29, 2016</span>
+																						<span class="post-comments"><a href="2016-11-29-1197-autosizing-in-a-grid-with-maximum-size.html">3 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>You can <a href="2011-10-26-416-setting-grid-rows-and-columns-to-autosize.html">use autosizing</a> for grid rows or columns to have the row or column automatically size to fit its contents. There are times, however, when you want the row or column to fit its contents, but only up to a limit. E.g. Autosize a row height, but only to a maximum of 20% of the size of the entire grid.</p>
+<p>You can autosize within limits by using the <strong>MaxHeight</strong> attribute and a value converter.</p>
+<p>Below, we have a grid with two rows, each containing a <strong>ListBox</strong>. The second row is set to autosize and the first to use all remaining space.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window.Resources&gt;
+    &lt;ResourceDictionary&gt;
+        &lt;local:MaxHeightConverter x:Key=&quot;MaxHeightConverter&quot;/&gt;
+        &lt;sys:Double x:Key=&quot;adjMaxHeightRatio&quot;&gt;0.2&lt;/sys:Double&gt;
+    &lt;/ResourceDictionary&gt;
+&lt;/Window.Resources&gt;
+
+&lt;Grid x:Name=&quot;grdRoot&quot;&gt;
+    &lt;Grid.RowDefinitions&gt;
+        &lt;RowDefinition Height=&quot;*&quot;/&gt;
+        &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+    &lt;/Grid.RowDefinitions&gt;
+
+    &lt;ListBox Grid.Row=&quot;0&quot; ItemsSource=&quot;{Binding Dogs}&quot; /&gt;
+
+    &lt;ListBox Grid.Row=&quot;1&quot; ItemsSource=&quot;{Binding MoreDogs}&quot; MaxHeight=&quot;{Binding ElementName=grdRoot, Path=ActualHeight, Converter={StaticResource MaxHeightConverter}, ConverterParameter={StaticResource adjMaxHeightRatio}}&quot; /&gt;
+&lt;/Grid&gt;
+</pre>
+<p>The second <strong>ListBox </strong>will take as much room as it needs (grow to fit all elements), until it reaches 20% of the height of the parent grid. At that point, it will be constrained and get a vertical scrollbar.</p>
+<p>Here&#8217;s the code for the converter:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+public class MaxHeightConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        double pctHeight = (double)parameter;
+
+        if ((pctHeight &lt;= 0.0) || (pctHeight &gt; 100.0))
+            throw new Exception(&quot;MaxHeightConverter expects parameter in the range (0,100]&quot;);
+
+        return ((double)value * pctHeight);
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+</pre>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
+				        <div id="crt-279367126" style="width:300px;height:250px;"></div>
+        <script type="text/javascript">
+        var o = document.getElementById('crt-279367126');
+        if ("undefined"!=typeof Criteo) {
+            var p = o.parentNode;
+            p.style.setProperty('display', 'inline-block', 'important');
+            o.style.setProperty('display', 'block', 'important');
+            Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-279367126",collapseContainerIfNotAdblocked:true});
+        } else {
+            o.style.setProperty('display', 'none', 'important');
+        }
+        </script>
+				<div class="u">
+					<script type='text/javascript'>
+					(function(g){if("undefined"!=typeof g.__ATA){g.__ATA.initAd({sectionId:26942, width:300, height:250});}})(window);
+					</script>
+				</div>
+			</div></article>
+  <p class="meta">Categories: Layout | Tags: WPF, Layout, MaxHeight, Grid, Autosize</p>
+  <nav class="pager"><a href="2014-11-07-back-soon.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2016-12-15-1198-selectively-enabling-child-elements-in-a-disabled-panel.html">Next</a></nav>
+</main>
+
+</body>
+</html>

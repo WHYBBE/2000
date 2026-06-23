@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#701 – Centralize Business Rules Logic in set Accessors</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-25-700-using-a-set-accessor-to-enforce-casing.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-29-702-an-automatic-property-must-define-both-get-and-set-accessors.html">Next</a></nav>
+  <h1>#701 – Centralize Business Rules Logic in set Accessors</h1>
+  <p class="meta">2012-10-26 | <a href="http://csharp.2000things.com/2012/10/26/701-centralize-business-rules-logic-in-set-accessors/">Original URL</a> | Wayback 20121101072608</p>
+  <article><div class="post-6021 post type-post status-publish format-standard hentry category-classes tag-business-rules tag-c tag-classes tag-properties tag-set-accessor">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 26, 2012</span>
+																						<span class="post-comments"><a href="2012-10-26-701-centralize-business-rules-logic-in-set-accessors.html" title="Comment on #701 &#8211; Centralize Business Rules Logic in set&nbsp;Accessors">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use a property&#8217;s <strong>set</strong> accessor to <a href="2011-02-22-250-using-a-set-accessor-to-convert-or-validate-property-data.html">enforce business rules</a> for that property, e.g. min/max values for the property.</p>
+<p>If you have a constructor that accepts initial values for some properties of a class, or methods that accept values, you can avoid checking constraints on these parameters by delegating the enforcement of the rules to the <strong>set</strong> accessor.</p>
+<p>For example:</p>
+<p><pre class="brush: csharp;">
+    public class Dog
+    {
+        // Public properties
+        public string Name { get; set; }
+
+        private int age;
+        public int Age
+        {
+            get { return age; }
+
+            // Set accessor checks for valid Age values
+            set
+            {
+                if (value != age)
+                {
+                    if ((value &gt; 0) &amp;&amp; (value &lt; 30))
+                        age = value;
+                    else
+                        throw new Exception(&quot;Age is out of range&quot;);
+                }
+            }
+        }
+
+        // Constructor
+        public Dog(string name, int age)
+        {
+            Name = name;
+
+            // Don't validate age value here, but let set accessor do it
+            Age = age;
+        }
+    }
+</pre></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Classes | Tags: Business Rules, C#, Classes, Properties, Set Accessor</p>
+  <nav class="pager"><a href="2012-10-25-700-using-a-set-accessor-to-enforce-casing.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-29-702-an-automatic-property-must-define-both-get-and-set-accessors.html">Next</a></nav>
+</main>
+
+</body>
+</html>

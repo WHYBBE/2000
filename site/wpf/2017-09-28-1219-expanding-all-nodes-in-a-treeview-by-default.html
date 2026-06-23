@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,219 – Expanding All Nodes in a TreeView by Default</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-09-23-1218-stretching-items-in-treeview-across-entire-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a></nav>
+  <h1>#1,219 – Expanding All Nodes in a TreeView by Default</h1>
+  <p class="meta">2017-09-28 | <a href="http://wpf.2000things.com/2017/09/28/1219-expanding-all-nodes-in-a-treeview-by-default/">Original URL</a> | Wayback 20180224205313</p>
+  <article><div class="post-9824 post type-post status-publish format-standard hentry category-controls tag-controls tag-isexpanded tag-treeview tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 28, 2017</span>
+																						<span class="post-comments"><a href="2017-09-28-1219-expanding-all-nodes-in-a-treeview-by-default.html">4 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>Normally, when you display a <strong>TreeView</strong>, the nodes are collapsed by default and the user clicks on the expander widgets to expand nodes that they want to look at.</p>
+<p><a href="https://wpf.2000things.com/2017/09/28/1219-expanding-all-nodes-in-a-treeview-by-default/1219-01/" rel="attachment wp-att-9825"><img data-attachment-id="9825" data-permalink="https://wpf.2000things.com/2017/09/28/1219-expanding-all-nodes-in-a-treeview-by-default/1219-01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png?w=630" data-orig-size="303,196" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1219-01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png?w=630?w=303" class="alignnone size-full wp-image-9825" src="https://web.archive.org/web/20180224205313id_/https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png?w=630" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png 303w, https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/09/1219-01.png?w=300 300w" sizes="(max-width: 303px) 100vw, 303px"   /></a></p>
+<p>You can expand all nodes in the <strong>TreeView</strong> by default by setting up an <strong>ItemContainerStyle</strong> for the <strong>TreeView</strong> and specifying that you want each <strong>TreeViewItem </strong>expanded.</p>
+<p>Below, we show the first part of a <strong>TreeView</strong> definition in XAML, referencing an <strong>ItemContainerStyle</strong> (data templates are not shown).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; 
+          ItemsSource=&quot;{Binding Breeds}&quot; 
+          ItemContainerStyle=&quot;{StaticResource TreeViewItemStyle_ExpandAll}&quot; 
+          HorizontalContentAlignment=&quot;Stretch&quot;&gt;
+&lt;!-- remainder of TreeView definition goes here --&gt;
+</pre>
+<p>In the style, we simply set the <strong>IsExpanded</strong> property to true.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Style x:Key=&quot;TreeViewItemStyle_ExpandAll&quot; TargetType=&quot;{x:Type TreeViewItem}&quot;&gt;
+    &lt;Setter Property=&quot;IsExpanded&quot; Value=&quot;True&quot;/&gt;
+&lt;/Style&gt;
+</pre>
+<p>Now, at runtime, all of the nodes in the <strong>TreeView</strong> are expanded by default.<br />
+<a href="https://wpf.2000things.com/2017/09/28/1219-expanding-all-nodes-in-a-treeview-by-default/1219-02/" rel="attachment wp-att-9829"><img data-attachment-id="9829" data-permalink="https://wpf.2000things.com/2017/09/28/1219-expanding-all-nodes-in-a-treeview-by-default/1219-02/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png?w=630" data-orig-size="302,340" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1219-02" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png?w=630?w=266" data-large-file="https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png?w=630?w=302" src="https://web.archive.org/web/20180224205313id_/https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png?w=630" alt=""   class="alignnone size-full wp-image-9829" srcset="https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png 302w, https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png?w=133 133w, https://2000thingswpf.files.wordpress.com/2017/09/1219-02.png?w=266 266w" sizes="(max-width: 302px) 100vw, 302px" /></a></p>
+<div id="atatags-370373-5a91d0b9d3943">
+        <script type="text/javascript">
+            __ATA.cmd.push(function() {
+                __ATA.initVideoSlot('atatags-370373-5a91d0b9d3943', {
+                    sectionId: '370373',
+                    format: 'inread'
+                });
+            });
+        </script>
+    </div>		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-right:5px;margin-top:0px">
+		<div id="atatags-26942-5a91d0b9d39a8">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-26942-5a91d0b9d39a8',  {
+					collapseEmpty: 'before',
+					sectionId: '26942',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, IsExpanded, TreeView, WPF</p>
+  <nav class="pager"><a href="2017-09-23-1218-stretching-items-in-treeview-across-entire-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#370 – Binding a Label’s Content to the Current Date and Time, part II</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-22-369-binding-a-labels-content-to-the-current-date-and-time.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-24-371-specifying-a-default-date-for-a-calendar-control-to-display.html">Next</a></nav>
+  <h1>#370 – Binding a Label’s Content to the Current Date and Time, part II</h1>
+  <p class="meta">2011-08-23 | <a href="http://wpf.2000things.com/2011/08/23/370-binding-a-labels-content-to-the-current-date-and-time-part-ii/">Original URL</a> | Wayback 20120320060117</p>
+  <article><div class="post-3024 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-datetime tag-timer tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">August 23, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-08-23-370-binding-a-labels-content-to-the-current-date-and-time-part-ii.html">4 Comments</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You can <a href="http://wp.me/pZhye-MC">bind a <strong>Label</strong> control&#8217;s <strong>Content</strong> property to the <strong>DateTime.Now</strong> property</a> to display the current date or time, but the label will not update when the time changes.</p>
+<p>To get a <strong>Label</strong> control that continuously updates with the current time, you can bind to a property that updates periodically and notifies us using the <strong>INotifyPropertyChanged</strong> interface.  We can do this by creating a timer that updates a <strong>DateTime</strong> property whenever it ticks.</p>
+<p>Here&#8217;s the XAML:</p>
+<p><pre class="brush: xml;">
+        &lt;Label Content=&quot;{Binding CurrentDateAndTime}&quot; ContentStringFormat=&quot;Current time - {0:T}&quot;/&gt;
+</pre></p>
+<p>In the code-behind, we define the property and set up a timer.</p>
+<p><pre class="brush: csharp;">
+        public DateTime CurrentDateAndTime { get; set; }
+
+        public MainWindow()
+        {
+            this.InitializeComponent();
+            this.DataContext = this;
+
+            DispatcherTimer dayTimer = new DispatcherTimer();
+            dayTimer.Interval = TimeSpan.FromMilliseconds(500);
+            dayTimer.Tick += new EventHandler(dayTimer_Tick);
+            dayTimer.Start();
+        }
+</pre></p>
+<p>Whenever the timer fires, we update our property and fire the <strong>INotifyPropertyChanged.PropertyChanged</strong> event.</p>
+<p><pre class="brush: csharp;">
+        void dayTimer_Tick(object sender, EventArgs e)
+        {
+            CurrentDateAndTime = DateTime.Now;
+
+            PropertyChanged(this, new PropertyChangedEventArgs(&quot;CurrentDateAndTime&quot;));
+        }
+</pre></p>
+<p>The end result:<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/08/001-bindtonow.png"><img class="alignnone size-full wp-image-3038" title="001-BindToNow" src="https://web.archive.org/web/20120320060117id_/http://2000thingswpf.files.wordpress.com/2011/08/001-bindtonow.png?w=630" alt=""   /></a></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, DateTime, Timer, WPF</p>
+  <nav class="pager"><a href="2011-08-22-369-binding-a-labels-content-to-the-current-date-and-time.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-24-371-specifying-a-default-date-for-a-calendar-control-to-display.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#722 – Local Variable Declarations May Not Always Hide Class Members</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-23-721-local-variable-declarations-can-hide-class-members.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-27-723-new-methods-in-subclass-may-not-be-visible-in-derived-classes.html">Next</a></nav>
+  <h1>#722 – Local Variable Declarations May Not Always Hide Class Members</h1>
+  <p class="meta">2012-11-26 | <a href="http://csharp.2000things.com/2012/11/26/722-local-variable-declarations-may-not-always-hide-class-members/">Original URL</a> | Wayback 20121204054103</p>
+  <article><div class="post-6207 post type-post status-publish format-standard hentry category-basics tag-basics tag-c">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 26, 2012</span>
+																						<span class="post-comments"><a href="2012-11-26-722-local-variable-declarations-may-not-always-hide-class-members.html" title="Comment on #722 &#8211; Local Variable Declarations May Not Always Hide Class&nbsp;Members">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>A <a href="http://wp.me/pXTis-1BW">local variable declaration in a method may hide a class member</a> in the containing class, if the two names are the same.  In general, a declaration within an inner scope may hide a member within the outer (containing) scope.</p>
+<p>A inner declaration might not hide an outer member, however, if one of the names can be invoked (e.g. a method) and one cannot be invoked (e.g. a variable declaration).</p>
+<p>In the example below, the local variable <strong>Name</strong> in the inner scope does not hide the method <strong>Name</strong> in the outer scope.</p>
+<p><pre class="brush: csharp;">
+    public class Dog
+    {
+        public string MyName { get; set; }
+
+        public void Name(string name)
+        {
+            MyName = name;
+
+            Console.WriteLine(string.Format(&quot;New name is {0}&quot;, MyName));
+        }
+
+        public void Bark()
+        {
+            // Local variable does not hide Dog.Name method
+            string Name = &quot;Franklin Roosevelt&quot;;
+
+            Console.WriteLine(Name);
+
+            this.Name(&quot;Bob&quot;);
+        }
+    }
+</pre></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/11/722-001.png"><img class="alignnone size-full wp-image-6210" title="722-001" alt="" src="https://web.archive.org/web/20121204054103id_/http://2000thingscsharp.files.wordpress.com/2012/11/722-001.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#</p>
+  <nav class="pager"><a href="2012-11-23-721-local-variable-declarations-can-hide-class-members.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-27-723-new-methods-in-subclass-may-not-be-visible-in-derived-classes.html">Next</a></nav>
+</main>
+
+</body>
+</html>

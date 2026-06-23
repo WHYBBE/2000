@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#229 – Using a Gradient Brush for a Window’s Border</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-02-25-228-startingending-a-gradient-fill-outside-a-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-27-230-changing-a-radial-gradient-as-mouse-moves-over-a-control.html">Next</a></nav>
+  <h1>#229 – Using a Gradient Brush for a Window’s Border</h1>
+  <p class="meta">2011-02-26 | <a href="http://wpf.2000things.com/2011/02/26/229-using-a-gradient-brush-for-a-windows-border/">Original URL</a> | Wayback 20110303133103</p>
+  <article><div class="post-1906 post type-post status-publish format-standard hentry category-graphics tag-borderbrush tag-graphics tag-linear-gradient-brush tag-window-border tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">February 26, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-02-26-229-using-a-gradient-brush-for-a-windows-border.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>The <strong>Window</strong> class has <strong>BorderBrush</strong> and <strong>BorderThickness</strong> properties that allow creating a thick border around the window&#8217;s client area.  (Just inside the standard window chrome).</p>
+<p>You can use any brush you like as a border brush.  In the example below, we use a linear gradient brush that starts in the upper left corner of the window and cycles through the colors of the rainbow until it reaches the lower right corner of the window.  Note that we set the <strong>BorderThickness</strong> to 10.</p>
+<pre class="brush: xml;">
+&lt;Window
+	xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+	xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+	xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+	xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+	mc:Ignorable=&quot;d&quot;
+	xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
+    xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+    x:Class=&quot;WpfApplication1.MainWindow&quot;
+	x:Name=&quot;Window&quot;
+	Title=&quot;Rainbow Border&quot;
+	BorderThickness=&quot;10&quot;&gt;
+
+	&lt;Window.BorderBrush&gt;
+		&lt;LinearGradientBrush StartPoint=&quot;0,0&quot; EndPoint=&quot;1,1&quot;&gt;
+		    &lt;GradientStop Color=&quot;Red&quot; Offset=&quot;0.0&quot;/&gt;
+		    &lt;GradientStop Color=&quot;Orange&quot; Offset=&quot;0.17&quot;/&gt;
+		    &lt;GradientStop Color=&quot;Yellow&quot; Offset=&quot;0.33&quot;/&gt;
+		    &lt;GradientStop Color=&quot;Green&quot; Offset=&quot;0.5&quot;/&gt;
+		    &lt;GradientStop Color=&quot;Blue&quot; Offset=&quot;0.67&quot;/&gt;
+		    &lt;GradientStop Color=&quot;Indigo&quot; Offset=&quot;0.83&quot;/&gt;
+		    &lt;GradientStop Color=&quot;Violet&quot; Offset=&quot;1.0&quot;/&gt;
+		&lt;/LinearGradientBrush&gt;
+	&lt;/Window.BorderBrush&gt;
+
+	&lt;StackPanel VerticalAlignment=&quot;Center&quot;&gt;
+		&lt;Button Content=&quot;Click Me&quot; Width=&quot;100&quot; Margin=&quot;10&quot;/&gt;
+		&lt;Label Content=&quot;I'm a label, you know&quot; HorizontalAlignment=&quot;Center&quot; Margin=&quot;10&quot;/&gt;
+	&lt;/StackPanel&gt;
+&lt;/Window&gt;
+</pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/02/rainbowborder.png"><img class="alignnone size-full wp-image-1907" title="RainbowBorder" src="https://web.archive.org/web/20110303133103id_/http://2000thingswpf.files.wordpress.com/2011/02/rainbowborder.png?w=338&amp;h=247" alt="" width="338" height="247" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/02/26/229-using-a-gradient-brush-for-a-windows-border/"
+    dc:identifier="http://wpf.2000things.com/2011/02/26/229-using-a-gradient-brush-for-a-windows-border/"
+    dc:title="#229 &#8211; Using a Gradient Brush for a Window&#8217;s&nbsp;Border"
+    trackback:ping="http://wpf.2000things.com/2011/02/26/229-using-a-gradient-brush-for-a-windows-border/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/graphics/" title="View all posts in Graphics" rel="category tag">Graphics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/borderbrush/" rel="tag">BorderBrush</a>, <a href="http://en.wordpress.com/tag/graphics/" rel="tag">Graphics</a>, <a href="http://en.wordpress.com/tag/linear-gradient-brush/" rel="tag">Linear Gradient Brush</a>, <a href="http://en.wordpress.com/tag/window-border/" rel="tag">Window Border</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Graphics | Tags: BorderBrush, Graphics, Linear Gradient Brush, Window Border, WPF</p>
+  <nav class="pager"><a href="2011-02-25-228-startingending-a-gradient-fill-outside-a-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-27-230-changing-a-radial-gradient-as-mouse-moves-over-a-control.html">Next</a></nav>
+</main>
+
+</body>
+</html>

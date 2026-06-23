@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#299 – Controls Do Not Need a Name</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-05-12-298-button-basics-content-and-click.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-16-300-button-is-a-contentcontrol.html">Next</a></nav>
+  <h1>#299 – Controls Do Not Need a Name</h1>
+  <p class="meta">2011-05-13 | <a href="http://wpf.2000things.com/2011/05/13/299-controls-do-not-need-a-name/">Original URL</a> | Wayback 20120706162221</p>
+  <article><div class="post-2480 post type-post status-publish format-standard hentry category-controls tag-controls tag-name tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 13, 2011</span>
+																						<span class="post-comments"><a href="2011-05-13-299-controls-do-not-need-a-name.html" title="Comment on #299 &#8211; Controls Do Not Need a&nbsp;Name">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>In WPF, giving a control a name is optional.  You name a control a name using the <strong>Name</strong> attribute.  (You can also use the <strong>x:Name</strong> attribute to name XAML elements that do not derive from <strong>FrameworkElement</strong>).</p>
+<p><pre class="brush: xml;">
+&lt;Button Name=&quot;btnSave&quot; Content=&quot;Save&quot; Height=&quot;25&quot; Width=&quot;80&quot; Click=&quot;Save_Click&quot;/&gt;
+</pre></p>
+<p>You should give a control a name only if you need to access the control from your code-behind.  When a control has a name, you can use that name to interact with the control from the code-behind.</p>
+<p><pre class="brush: csharp;">
+double buttonArea = btnSave.Height * btnSave.Width;
+btnSave.Focus();
+</pre></p>
+<p>Notice that you don&#8217;t need to name a control in order to attach an event handler to it. You only need to define the name of the handler in the XAML.</p>
+<p><pre class="brush: xml;">
+		&lt;Button Content=&quot;Save&quot; Height=&quot;25&quot; Width=&quot;80&quot; Click=&quot;Save_Click&quot;/&gt;
+</pre></p>
+<p>The code-behind then defines the handler using the same name.</p>
+<p><pre class="brush: csharp;">
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(&quot;You clicked on the Save button&quot;);
+        }
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Name, WPF</p>
+  <nav class="pager"><a href="2011-05-12-298-button-basics-content-and-click.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-16-300-button-is-a-contentcontrol.html">Next</a></nav>
+</main>
+
+</body>
+</html>

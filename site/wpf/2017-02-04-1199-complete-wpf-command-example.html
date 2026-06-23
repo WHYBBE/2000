@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,199 – Complete WPF Command Example</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2016-12-15-1198-selectively-enabling-child-elements-in-a-disabled-panel.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-02-26-1200-overriding-a-default-style.html">Next</a></nav>
+  <h1>#1,199 – Complete WPF Command Example</h1>
+  <p class="meta">2017-02-04 | <a href="http://wpf.2000things.com/2017/02/04/1199-complete-wpf-command-example/">Original URL</a> | Wayback 20170705201439</p>
+  <article><div class="post-9574 post type-post status-publish format-standard hentry category-commands tag-commands tag-contextmenu tag-routeduicommand tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">February 4, 2017</span>
+																						<span class="post-comments"><a href="2017-02-04-1199-complete-wpf-command-example.html">3 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>Below is a cheat sheet for creating a custom command in WPF.</p>
+<p>Use a static property to expose a command object from the ViewModel or code-behind. <strong>RoutedUICommand</strong> allows for associating control text with the command itself.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+private static RoutedUICommand _pressMeCommand = 
+    new RoutedUICommand(&quot;Press Me&quot;, &quot;PressMe&quot;, typeof(MainWindow));
+public static RoutedUICommand PressMeCommand
+{
+    get { return _pressMeCommand; }
+}
+</pre>
+<p>Add command handlers (in code-behind or ViewModel).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+private void PressMe_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+{
+    e.CanExecute = CowboyCanTalk;
+}
+ 
+private void PressMe_Executed(object sender, ExecutedRoutedEventArgs e)
+{
+    MessageBox.Show(&quot;Howdy howdy I'm a cowboy&quot;);
+}
+</pre>
+<p>Bind the command to its handlers, done here in XAML for a window.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window.CommandBindings&gt;
+    &lt;CommandBinding Command=&quot;local:MainWindow.PressMeCommand&quot; 
+                    CanExecute=&quot;PressMe_CanExecute&quot; 
+                    Executed=&quot;PressMe_Executed&quot;/&gt;
+&lt;/Window.CommandBindings&gt;
+</pre>
+<p>Wire a button up to the command. Note use of command&#8217;s <strong>Text</strong> property for the button&#8217;s <strong>Content</strong> (text).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Button Command=&quot;local:MainWindow.PressMeCommand&quot; 
+        Content=&quot;{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}&quot; /&gt;
+</pre>
+<p>We can also wire up the command to other GUI elements, e.g. a menu item in a context menu. The menu item&#8217;s text is set up automatically.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window.ContextMenu&gt;
+    &lt;ContextMenu&gt;
+        &lt;MenuItem Command=&quot;{x:Static local:MainWindow.PressMeCommand}&quot; /&gt;
+    &lt;/ContextMenu&gt;
+&lt;/Window.ContextMenu&gt;
+</pre>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9574-595d48afd367d' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9574&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9574-595d48afd367d' data-name='like-post-frame-14605478-9574-595d48afd367d'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Commands | Tags: Commands, ContextMenu, RoutedUICommand, WPF</p>
+  <nav class="pager"><a href="2016-12-15-1198-selectively-enabling-child-elements-in-a-disabled-panel.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-02-26-1200-overriding-a-default-style.html">Next</a></nav>
+</main>
+
+</body>
+</html>

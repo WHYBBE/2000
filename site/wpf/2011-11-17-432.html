@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#432 – Height and Width vs. ActualHeight and ActualWidth</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-11-16-431-binding-a-controls-width-to-its-height.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-18-433-preservation-of-margins-while-editing-grid-in-blend.html">Next</a></nav>
+  <h1>#432 – Height and Width vs. ActualHeight and ActualWidth</h1>
+  <p class="meta">2011-11-17 | <a href="http://wpf.2000things.com/2011/11/17/432/">Original URL</a> | Wayback 20111123192623</p>
+  <article><div class="post-3604 post type-post status-publish format-standard hentry category-layout tag-actualheight tag-actualwidth tag-layout tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">November 17, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-11-17-432.html">1 Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>Specifying the height and width of a control using the <strong>Height</strong> and <strong>Width</strong> properties indicates the <em>desired</em> height and width.  The layout system will take the requested height and width into account, but the actual height and width depends on a number of factors.</p>
+<p>You can use the <strong>ActualHeight</strong> and <strong>ActualWidth</strong> properties to get at the actual height and width, after layout.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel&gt;
+        &lt;Button Name=&quot;btnA&quot; HorizontalAlignment=&quot;Stretch&quot; Content=&quot;Get Info&quot;
+                Click=&quot;btnA_Click&quot;/&gt;
+        &lt;Button Name=&quot;btnB&quot; HorizontalAlignment=&quot;Center&quot; Width=&quot;1in&quot; Content=&quot;Push or Pull Me&quot;/&gt;
+        &lt;Button Name=&quot;btnC&quot; Width=&quot;175&quot; MaxWidth=&quot;{Binding ElementName=btnB, Path=ActualWidth}&quot; Content=&quot;Push Me&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/11/432-001.png"><img class="alignnone size-full wp-image-3609" title="432-001" src="https://web.archive.org/web/20111123192623id_/http://2000thingswpf.files.wordpress.com/2011/11/432-001.png?w=302&amp;h=280" alt="" width="302" height="280" /></a><br />
+Clicking on <strong>GetInfo</strong>, we display info about the third button.  <strong>ActualWidth</strong> is smaller than the requested <strong>Width</strong>, because it can&#8217;t be wider than the second button.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/11/432-0021.png"><img class="alignnone size-full wp-image-3610" title="432-002" src="https://web.archive.org/web/20111123192623id_/http://2000thingswpf.files.wordpress.com/2011/11/432-0021.png?w=430&amp;h=282" alt="" width="430" height="282" /></a><br />
+The first button&#8217;s <strong>Width</strong> is set to &#8220;NaN&#8221; (Not a Number), indicating that <strong>Width</strong> is set to <strong>Auto</strong>.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/11/432-003.png"><img class="alignnone size-full wp-image-3612" title="432-003" src="https://web.archive.org/web/20111123192623id_/http://2000thingswpf.files.wordpress.com/2011/11/432-003.png?w=457&amp;h=284" alt="" width="457" height="284" /></a><br />
+The second button&#8217;s width was set to 1 inch, which is 96 units on my 96 dpi display.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/11/432-004.png"><img class="alignnone size-full wp-image-3613" title="432-004" src="https://web.archive.org/web/20111123192623id_/http://2000thingswpf.files.wordpress.com/2011/11/432-004.png?w=477&amp;h=286" alt="" width="477" height="286" /></a></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-11-17-432.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Layout | Tags: ActualHeight, ActualWidth, Layout, WPF</p>
+  <nav class="pager"><a href="2011-11-16-431-binding-a-controls-width-to-its-height.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-18-433-preservation-of-margins-while-editing-grid-in-blend.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,043 – Using a DockPanel as the Items Panel for a ListBox</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-04-02-build-2014-day-1-keynote.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-04-04-1044-placing-more-than-one-element-in-a-grid-cell.html">Next</a></nav>
+  <h1>#1,043 – Using a DockPanel as the Items Panel for a ListBox</h1>
+  <p class="meta">2014-04-03 | <a href="http://wpf.2000things.com/2014/04/03/1043-using-a-dockpanel-as-the-items-panel-for-a-listbox/">Original URL</a> | Wayback 20140617200705</p>
+  <article><div class="post-8512 post type-post status-publish format-standard hentry category-controls tag-binding tag-controls tag-dockpanel tag-listbox tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">April 3, 2014</span>
+																						<span class="post-comments"><a href="2014-04-03-1043-using-a-dockpanel-as-the-items-panel-for-a-listbox.html" title="Comment on #1,043 &#8211; Using a DockPanel as the Items Panel for a&nbsp;ListBox">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can replace the default <strong>StackPanel</strong> used as the items panel for a <strong>ListBox</strong> with any other panel element.  Below is an example of displaying some news stories in a <strong>DockPanel</strong>.</p>
+<p>Assume that we have a <strong>NewsStory</strong> class as follow:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class NewsStory
+    {
+        public string Story { get; set; }
+        public Brush Color { get; set; }
+        public Dock Dock { get; set; }
+        public double Rotate { get; set; }
+
+        public NewsStory(string story, Color color, Dock dock, double rotate)
+        {
+            Story = story;
+            Color = new SolidColorBrush(color);
+            Dock = dock;
+            Rotate = rotate;
+        }
+
+        public override string ToString()
+        {
+            return Story;
+        }
+    }
+</pre>
+<p>We can then create a collection of <strong>NewsStory</strong> items that we&#8217;ll bind to.  Notice that we create a spiral pattern by setting consecutive <strong>Dock</strong> properties to Bottom/Left/Top/Right.  We also use the <strong>Angle</strong> property to rotate every other element.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+
+            Stories = new ObservableCollection&lt;NewsStory&gt;
+            {
+                new NewsStory(&quot;Diaper Market Bottoms Out&quot;, Colors.AliceBlue, Dock.Bottom, 0.0),
+                new NewsStory(&quot;Antique Stripper to Display Wares&quot;, Colors.AntiqueWhite, Dock.Left, -90.0),
+                new NewsStory(&quot;Cancer Society Honors Marlboro Man&quot;, Colors.Aqua, Dock.Top, 0.0),
+                new NewsStory(&quot;War Dims Hope for Peace&quot;, Colors.Aquamarine, Dock.Right, -90.0)
+                // more entries go here..
+            };
+            RaisePropertyChanged(&quot;Stories&quot;);
+
+        }
+
+        public ObservableCollection&lt;NewsStory&gt; Stories { get; protected set; }
+
+        // INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private void RaisePropertyChanged(string propName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+    }
+</pre>
+<p>In XAML, we set the <strong>ItemContainerStyle</strong> to do the docking and specify a <strong>DockPanel</strong> as the <strong>ItemsPanel.</strong></p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;ListBox ItemsSource=&quot;{Binding Stories}&quot;&gt;
+            &lt;ListBox.ItemContainerStyle&gt;
+                &lt;Style TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+                    &lt;Setter Property=&quot;DockPanel.Dock&quot; Value=&quot;{Binding Dock}&quot;/&gt;
+                    &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;Stretch&quot;/&gt;
+                    &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;Stretch&quot;/&gt;
+                &lt;/Style&gt;
+            &lt;/ListBox.ItemContainerStyle&gt;
+            &lt;ListBox.ItemsPanel&gt;
+                &lt;ItemsPanelTemplate&gt;
+                    &lt;DockPanel IsItemsHost=&quot;True&quot;/&gt;
+                &lt;/ItemsPanelTemplate&gt;
+            &lt;/ListBox.ItemsPanel&gt;
+            &lt;ListBox.ItemTemplate&gt;
+                &lt;DataTemplate&gt;
+                    &lt;Label Content=&quot;{Binding Story}&quot;
+                           Background=&quot;{Binding Color}&quot;&gt;
+                        &lt;Label.LayoutTransform&gt;
+                            &lt;RotateTransform Angle=&quot;{Binding Rotate}&quot;/&gt;
+                        &lt;/Label.LayoutTransform&gt;
+                    &lt;/Label&gt;
+                &lt;/DataTemplate&gt;
+            &lt;/ListBox.ItemTemplate&gt;
+        &lt;/ListBox&gt;
+</pre>
+<p>Here&#8217;s what the end result looks like:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/04/1044-001.png"><img class="alignnone size-full wp-image-8516" src="https://web.archive.org/web/20140617200705id_/http://2000thingswpf.files.wordpress.com/2014/04/1044-001.png?w=630" alt="1044-001"   /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/04/03/1043-using-a-dockpanel-as-the-items-panel-for-a-listbox/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "binding");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "dockpanel");
+GA_googleAddAttr("Tag", "listbox");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/04/03/1043-using-a-dockpanel-as-the-items-panel-for-a-listbox/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='virool.com']").length > 0 || jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-8512-53a09fe8e298f' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=8512&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-8512-53a09fe8e298f' data-name='like-post-frame-14605478-8512-53a09fe8e298f'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Binding, Controls, DockPanel, ListBox, WPF</p>
+  <nav class="pager"><a href="2014-04-02-build-2014-day-1-keynote.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-04-04-1044-placing-more-than-one-element-in-a-grid-cell.html">Next</a></nav>
+</main>
+
+</body>
+</html>

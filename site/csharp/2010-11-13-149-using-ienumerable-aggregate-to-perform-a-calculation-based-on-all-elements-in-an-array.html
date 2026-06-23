@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#149 – Using IEnumerable.Aggregate to Perform a Calculation Based on All Elements in an Array</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-12-148-getting-the-average-of-an-array-of-custom-objects.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-14-150-other-aggregate-functions-you-can-apply-to-numeric-arrays.html">Next</a></nav>
+  <h1>#149 – Using IEnumerable.Aggregate to Perform a Calculation Based on All Elements in an Array</h1>
+  <p class="meta">2010-11-13 | <a href="http://csharp.2000things.com/2010/11/13/149-using-ienumerable-aggregate-to-perform-a-calculation-based-on-all-elements-in-an-array/">Original URL</a> | Wayback 20110128094653</p>
+  <article><div class="post-1461 post type-post status-publish format-standard hentry category-data-types tag-arrays tag-c tag-ienumerable-aggregate">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">November 13, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-11-13-149-using-ienumerable-aggregate-to-perform-a-calculation-based-on-all-elements-in-an-array.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p><strong>IEnumerable.Average </strong>can be used to perform an average across all elements in an array.  Instead of doing an average, we can perform our own custom calculation across all elements, using the <strong>IEnumerable.Aggregate</strong> function.</p>
+<p><strong>Aggregate</strong> works by specifying a function that will get called once for each element in the array (except for the first element).  The function&#8217;s arguments are:</p>
+<ul>
+<li>On 1st pass: 1st and 2nd elements are passed to the function</li>
+<li>On 2nd thru (n-1)th pass: result of previous pass is passed as 1st parameter, next element as 2nd parameter</li>
+</ul>
+<p>The return value is used to store the result of your aggregate function and is passed back to the function on the next pass.</p>
+<p>Here&#8217;s an example:</p>
+<pre class="brush: csharp;">
+        public static Person CombinePeople(Person prevResult, Person next)
+        {
+            return new Person(prevResult.FirstName + next.FirstName,
+                prevResult.LastName + next.LastName,
+                prevResult.Age + next.Age);
+        }
+
+        // Example of calling Aggregate
+        Person pCombined = folks.Aggregate((Func&lt;Person,Person,Person&gt;)CombinePeople);
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2010/11/13/149-using-ienumerable-aggregate-to-perform-a-calculation-based-on-all-elements-in-an-array/"
+    dc:identifier="http://csharp.2000things.com/2010/11/13/149-using-ienumerable-aggregate-to-perform-a-calculation-based-on-all-elements-in-an-array/"
+    dc:title="#149 &#8211; Using IEnumerable.Aggregate to Perform a Calculation Based on All Elements in an&nbsp;Array"
+    trackback:ping="http://csharp.2000things.com/2010/11/13/149-using-ienumerable-aggregate-to-perform-a-calculation-based-on-all-elements-in-an-array/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/data-types/" title="View all posts in Data Types" rel="category tag">Data Types</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/arrays/" rel="tag">Arrays</a>, <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/ienumerable-aggregate/" rel="tag">IEnumerable.Aggregate</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Data Types | Tags: Arrays, C#, IEnumerable.Aggregate</p>
+  <nav class="pager"><a href="2010-11-12-148-getting-the-average-of-an-array-of-custom-objects.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-14-150-other-aggregate-functions-you-can-apply-to-numeric-arrays.html">Next</a></nav>
+</main>
+
+</body>
+</html>

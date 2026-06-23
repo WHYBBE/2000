@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#585 – Tunneling Events Propagate Down the Logical Tree</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-06-20-584-handling-an-event-that-has-already-been-handled.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-22-586-bubbling-and-tunneling-events-are-typically-paired.html">Next</a></nav>
+  <h1>#585 – Tunneling Events Propagate Down the Logical Tree</h1>
+  <p class="meta">2012-06-21 | <a href="http://wpf.2000things.com/2012/06/21/585-tunneling-events-propagate-down-the-logical-tree/">Original URL</a> | Wayback 20120630121807</p>
+  <article><div class="post-5139 post type-post status-publish format-standard hentry category-events tag-events tag-routed-events tag-tunneling-events tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">June 21, 2012</span>
+																						<span class="post-comments"><a href="2012-06-21-585-tunneling-events-propagate-down-the-logical-tree.html" title="Comment on #585 &#8211; Tunneling Events Propagate Down the Logical&nbsp;Tree">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In WPF, <a href="2012-06-15-581-an-example-of-a-routed-event.html">bubbling events</a> originate in the control where the event occurred and then propagate up the logical or visual tree.  By contrast, <em>tunneling events</em> will be seen first by controls at the top of the hierarchy and then propagate down until they reach the control where the event originated.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/06/585-0011.png"><img class="alignnone size-full wp-image-5145" title="585-001" src="https://web.archive.org/web/20120630121807id_/http://2000thingswpf.files.wordpress.com/2012/06/585-0011.png?w=630" alt=""   /></a></p>
+<p><pre class="brush: csharp;">
+&lt;Window
+    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+    xmlns:Microsoft_Windows_Themes=&quot;clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero&quot;
+    xmlns:loc=&quot;clr-namespace:WpfApplication11&quot;
+    xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+    xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot; xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+    x:Class=&quot;WpfApplication11.MainWindow&quot;
+    x:Name=&quot;Window&quot; Title=&quot;Routed Events&quot; Width=&quot;400&quot;
+    PreviewKeyDown=&quot;winMain_PreviewKeyDown&quot;&gt;
+
+    &lt;StackPanel Name=&quot;spMain&quot; Orientation=&quot;Vertical&quot; PreviewKeyDown=&quot;spMain_PreviewKeyDown&quot;&gt;
+        &lt;Label Content=&quot;Some good movies:&quot;/&gt;
+        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot; PreviewKeyDown=&quot;spLawrence_PreviewKeyDown&quot;&gt;
+            &lt;Label Content=&quot;Lawrence of Arabia&quot; FontWeight=&quot;Bold&quot;/&gt;
+            &lt;Label Content=&quot;David Lean&quot;/&gt;
+            &lt;Button Content=&quot;Like&quot; Padding=&quot;8,0&quot;/&gt;
+            &lt;TextBox Width=&quot;75&quot; Margin=&quot;5,2&quot; PreviewKeyDown=&quot;tbLawrence_PreviewKeyDown&quot;/&gt;
+        &lt;/StackPanel&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/06/585-002.png"><img class="alignnone size-full wp-image-5141" title="585-002" src="https://web.archive.org/web/20120630121807id_/http://2000thingswpf.files.wordpress.com/2012/06/585-002.png?w=630&amp;h=248" alt="" width="630" height="248" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5139" class="wpl-button "><a href='2012-06-21-585-tunneling-events-propagate-down-the-logical-tree.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, Routed Events, Tunneling Events, WPF</p>
+  <nav class="pager"><a href="2012-06-20-584-handling-an-event-that-has-already-been-handled.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-22-586-bubbling-and-tunneling-events-are-typically-paired.html">Next</a></nav>
+</main>
+
+</body>
+</html>

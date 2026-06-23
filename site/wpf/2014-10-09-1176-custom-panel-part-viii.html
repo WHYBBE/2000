@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,176 – Custom Panel, part VIII (Treemap-like Visualization)</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-08-1175-custom-panel-part-vii.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-10-1177-uielement-vs-frameworkelement-vs-control.html">Next</a></nav>
+  <h1>#1,176 – Custom Panel, part VIII (Treemap-like Visualization)</h1>
+  <p class="meta">2014-10-09 | <a href="http://wpf.2000things.com/2014/10/09/1176-custom-panel-part-viii/">Original URL</a> | Wayback 20141011065751</p>
+  <article><div class="post-9403 post type-post status-publish format-standard hentry category-layout tag-layout tag-panel tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 9, 2014</span>
+																						<span class="post-comments"><a href="2014-10-09-1176-custom-panel-part-viii.html" title="Comment on #1,176 &#8211; Custom Panel, part VIII (Treemap-like&nbsp;Visualization)">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>Here&#8217;s one more example of a custom panel.  The code below is for a panel that arranges its children in a very simple treemap sort of structure.  (This implementation isn&#8217;t really a treemap, but vaguely similar to what has been described in the <a href="http://hcil2.cs.umd.edu/trs/91-06/91-06.html">literature</a>).</p>
+<p>The panel defines a <strong>Weight</strong> attached property that the child elements use to indicate a relative weight.  The panel then sorts the children based on weight and arranges them such their final area is proportional to their weight.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class ChildAndRect
+    {
+        public UIElement Element { get; set; }
+        public Rect Rectangle { get; set; }
+    }
+
+    public class WeightedPanel : Panel
+    {
+        private static FrameworkPropertyMetadata weightMetadata =
+            new FrameworkPropertyMetadata(1.0,
+                FrameworkPropertyMetadataOptions.AffectsParentArrange);
+
+        public static readonly DependencyProperty WeightProperty =
+            DependencyProperty.RegisterAttached(&quot;Weight&quot;, typeof(double),
+                typeof(WeightedPanel), weightMetadata);
+
+        public static void SetWeight(DependencyObject depObj, double value)
+        {
+            depObj.SetValue(WeightProperty, value);
+        }
+
+        // Measure phase
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            double totalWeight = totalChildWeight();
+
+            foreach (ChildAndRect child in ChildrenTreemapOrder(InternalChildren.Cast&lt;UIElement&gt;(), availableSize))
+                child.Element.Measure(child.Rectangle.Size);
+
+            return availableSize;
+        }
+
+        // Arrange phase
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            foreach (ChildAndRect child in ChildrenTreemapOrder(InternalChildren.Cast&lt;UIElement&gt;(), finalSize))
+                child.Element.Arrange(child.Rectangle);
+
+            return finalSize;
+        }
+
+        private double totalChildWeight()
+        {
+            double weightSum = 0;
+            foreach (UIElement elem in InternalChildren)
+                weightSum += (double)elem.GetValue(WeightProperty);
+
+            return weightSum;
+        }
+
+        /// &lt;summary&gt;
+        /// Return child elements orderd by weight (largest to
+        /// smallest), passing back Rect for each child
+        /// (size and location), implementing a (crude)
+        /// treemap.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;elems&quot;&gt;Child elements to measure/arrange&lt;/param&gt;
+        /// &lt;param name=&quot;containerSize&quot;&gt;Available container size&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private IEnumerable&lt;ChildAndRect&gt; ChildrenTreemapOrder(IEnumerable&lt;UIElement&gt; elems, Size containerSize)
+        {
+            double remainingWeight = totalChildWeight();
+
+            double top = 0.0;
+            double left = 0.0;
+
+            // Alternate between left edge and top edge
+            bool leftEdge;
+
+            // Sort by weight
+            var childrenByWeight = elems.OrderByDescending(
+                e =&gt; (double)e.GetValue(WeightProperty));
+
+            // Allocate space for each child, one at a time.
+            // Moving left to right, top to bottom
+            foreach (var child in childrenByWeight)
+            {
+                leftEdge = (containerSize.Width - left) &gt; (containerSize.Height - top);
+
+                Size size;
+
+                double childWeight = (double)child.GetValue(WeightProperty);
+                double pctArea =  childWeight / remainingWeight;
+                remainingWeight -= childWeight;
+
+                // Entire height, proportionate width
+                if (leftEdge)
+                    size = new Size(pctArea * (containerSize.Width - left), containerSize.Height - top);
+
+                // Top edge - Entire width, proportionate height
+                else
+                    size = new Size(containerSize.Width - left, pctArea * (containerSize.Height - top));
+
+                yield return new ChildAndRect { Element = child, Rectangle = new Rect(new Point(left, top), size) };
+
+                if (leftEdge)
+                    left += size.Width;
+                else
+                    top += size.Height;
+            }
+        }
+    }
+</pre>
+<p>Below, we use the panel to create labels representing several states. The <strong>Weight</strong> property is used to record the states&#8217; area.  (The states are in no particular order).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;loc:WeightedPanel&gt;
+        &lt;Label Content=&quot;Oregon&quot; loc:WeightedPanel.Weight=&quot;93381&quot;
+               Background=&quot;Bisque&quot; /&gt;
+        &lt;Label Content=&quot;California&quot; loc:WeightedPanel.Weight=&quot;163696&quot;
+               Background=&quot;Lavender&quot; /&gt;
+        &lt;Label Content=&quot;Colorado&quot; loc:WeightedPanel.Weight=&quot;104094&quot;
+               Background=&quot;LightCoral&quot; /&gt;
+        &lt;Label Content=&quot;Montana&quot; loc:WeightedPanel.Weight=&quot;147042&quot;
+               Background=&quot;Honeydew&quot; /&gt;
+        &lt;Label Content=&quot;Nevada&quot; loc:WeightedPanel.Weight=&quot;110561&quot;
+               Background=&quot;Goldenrod&quot; /&gt;
+        &lt;Label Content=&quot;New Mexico&quot; loc:WeightedPanel.Weight=&quot;121589&quot;
+               Background=&quot;Silver&quot; /&gt;
+        &lt;Label Content=&quot;Texas&quot; loc:WeightedPanel.Weight=&quot;268581&quot;
+               Background=&quot;Thistle&quot; /&gt;
+        &lt;Label Content=&quot;Arizona&quot; loc:WeightedPanel.Weight=&quot;113998&quot;
+               Background=&quot;GhostWhite&quot; /&gt;
+    &lt;/loc:WeightedPanel&gt;
+</pre>
+<p>Here&#8217;s what this looks like at run-time:<br />
+<a href="https://2000thingswpf.files.wordpress.com/2014/10/1176-001.png"><img class="alignnone size-full wp-image-9405" src="https://web.archive.org/web/20141011065751id_/https://2000thingswpf.files.wordpress.com/2014/10/1176-001.png?w=630" alt="1176-001"   /></a><br />
+Note: One improvement that could be made to this algorithm is to adopt a true implementation of a treemap algorithm that includes &#8220;squarifying&#8221; elements to reduce the number of &#8220;long skinny&#8221; child objects.</p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/10/09/1176-custom-panel-part-viii/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "diet");
+GA_googleAddAttr("Tag", "layout");
+GA_googleAddAttr("Tag", "layout");
+GA_googleAddAttr("Tag", "panel");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/10/09/1176-custom-panel-part-viii/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: Layout, Panel, WPF</p>
+  <nav class="pager"><a href="2014-10-08-1175-custom-panel-part-vii.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-10-1177-uielement-vs-frameworkelement-vs-control.html">Next</a></nav>
+</main>
+
+</body>
+</html>

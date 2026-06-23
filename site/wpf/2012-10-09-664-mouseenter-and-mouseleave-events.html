@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#664 – MouseEnter and MouseLeave Events</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-08-663-how-ismouseover-works-for-nested-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-10-665-reacting-to-mouseenter-mouseleave-events.html">Next</a></nav>
+  <h1>#664 – MouseEnter and MouseLeave Events</h1>
+  <p class="meta">2012-10-09 | <a href="http://wpf.2000things.com/2012/10/09/664-mouseenter-and-mouseleave-events/">Original URL</a> | Wayback 20121013183931</p>
+  <article><div class="post-5740 post type-post status-publish format-standard hentry category-events tag-events tag-mouse-input tag-mouseenter tag-mouseleave tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 9, 2012</span>
+																						<span class="post-comments"><a href="2012-10-09-664-mouseenter-and-mouseleave-events.html" title="Comment on #664 &#8211; MouseEnter and MouseLeave&nbsp;Events">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>An <strong>UIElement</strong> will fire a <strong>MouseEnter</strong> event when its <a href="2012-10-05-662-ismouseover-property.html"><strong>IsMouseOver</strong> property</a> becomes true.  It will fire a <strong>MouseLeave</strong> event when its <strong>IsMouseOver</strong> property becomes false.</p>
+<p>These are both <em><a href="2012-07-10-598-three-flavors-of-routed-events.html">direct</a></em><a href="2012-07-10-598-three-flavors-of-routed-events.html"> events</a>, i.e. they don&#8217;t bubble or tunnel, but fire only for the <strong>UIElement</strong> whose <strong>IsMouseOver</strong> property is changing.</p>
+<p>Suppose that we have a <strong>Button </strong>contained in a <strong>StackPanel</strong> that is in a <strong>Window</strong>.</p>
+<p>If we move the mouse into the area of the <strong>Window</strong> that is not covered by the <strong>StackPanel</strong>, the <strong>MouseEnter </strong>for the <strong>Window</strong> will fire.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/664-001.png"><img class="alignnone size-full wp-image-5741" title="664-001" src="https://web.archive.org/web/20121013183931id_/http://2000thingswpf.files.wordpress.com/2012/10/664-001.png?w=630" alt=""   /></a></p>
+<p>If we then move into the <strong>StackPanel</strong>, we&#8217;ll get a <strong>MouseEnter</strong> for the <strong>StackPanel</strong>, but we will <em>not</em> get a <strong>MouseLeave</strong> event for the <strong>Window</strong>&#8211;because the pointer is still located in the <strong>Window</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/664-002.png"><img class="alignnone size-full wp-image-5742" title="664-002" src="https://web.archive.org/web/20121013183931id_/http://2000thingswpf.files.wordpress.com/2012/10/664-002.png?w=630" alt=""   /></a></p>
+<p>&nbsp;</p>
+<p>Moving over the <strong>Button</strong> fires its <strong>MouseEnter</strong> event.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/664-003.png"><img class="alignnone size-full wp-image-5743" title="664-003" src="https://web.archive.org/web/20121013183931id_/http://2000thingswpf.files.wordpress.com/2012/10/664-003.png?w=630" alt=""   /></a></p>
+<p>&nbsp;</p>
+<p>Moving out of the <strong>Button</strong> along its top edge triggers <strong>MouseLeave</strong> events for the <strong>Button</strong>, the <strong>StackPanel</strong>, and the <strong>Window</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/664-004.png"><img class="alignnone size-full wp-image-5744" title="664-004" src="https://web.archive.org/web/20121013183931id_/http://2000thingswpf.files.wordpress.com/2012/10/664-004.png?w=630" alt=""   /></a></p>
+<p>&nbsp;</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5740" class="wpl-button "><a href='2012-10-09-664-mouseenter-and-mouseleave-events.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/lesleycarter" title="lesleycarter" class="wpl-liker" rel="nofollow"><img src='http://1.gravatar.com/avatar/4fa9e9d40d90ed2c8c4cc5c0594da739?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='lesleycarter' width='30' height='30' /></a></li></ul></div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, Mouse Input, MouseEnter, MouseLeave, WPF</p>
+  <nav class="pager"><a href="2012-10-08-663-how-ismouseover-works-for-nested-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-10-665-reacting-to-mouseenter-mouseleave-events.html">Next</a></nav>
+</main>
+
+</body>
+</html>

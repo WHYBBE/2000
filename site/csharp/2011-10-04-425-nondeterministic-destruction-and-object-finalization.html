@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#425 – Nondeterministic Destruction and Object Finalization</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-03-424-the-garbage-collector.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-05-426-use-a-destructor-to-free-unmanaged-resources.html">Next</a></nav>
+  <h1>#425 – Nondeterministic Destruction and Object Finalization</h1>
+  <p class="meta">2011-10-04 | <a href="http://csharp.2000things.com/2011/10/04/425-nondeterministic-destruction-and-object-finalization/">Original URL</a> | Wayback 20111007192621</p>
+  <article><div class="post-3599 post type-post status-publish format-standard hentry category-basics tag-basics tag-c tag-destruction tag-finalization">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 4, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-10-04-425-nondeterministic-destruction-and-object-finalization.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>In .NET, the CLR (Common Language Runtime) is <a href="2011-10-03-424-the-garbage-collector.html">responsible for reclaiming memory</a> for objects that are no longer being referenced, through garbage collection.</p>
+<p>Garbage collection <em>can</em> be done on an object as soon as it&#8217;s no longer being referenced by any other objects.  However, the garbage collector may not free memory for an object immediately.  It can choose to free up memory for an object whenever it likes.</p>
+<p>Every object has a <strong>Finalize</strong> method that you can override, which will be called when the object is being destroyed.  This method allows cleaning up any unmanaged resources the object might hold, before the object is destroyed.</p>
+<p>The CLR implements <em>nondeterministic destruction&#8211;y</em>ou can&#8217;t explicitly force an object&#8217;s <strong>Finalize</strong> method to be called and you&#8217;d can&#8217;t predict when it is called.  There&#8217;s also no guarantee that the finalizer will <em>ever</em> be called&#8211;an application might crash before the finalizer is called.</p>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/10/04/425-nondeterministic-destruction-and-object-finalization/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/10/04/425-nondeterministic-destruction-and-object-finalization/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/10/04/425-nondeterministic-destruction-and-object-finalization/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Basics | Tags: Basics, C#, Destruction, Finalization</p>
+  <nav class="pager"><a href="2011-10-03-424-the-garbage-collector.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-05-426-use-a-destructor-to-free-unmanaged-resources.html">Next</a></nav>
+</main>
+
+</body>
+</html>

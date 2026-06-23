@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#112 &#8211; Conditionally Compiling Code in Debug Builds &laquo; 2,000 Things You Should Know About C#</title>
+
+<link rel="stylesheet" href="http://s2.wp.com/wp-content/themes/pub/enterprise/style.css?m=1293710997g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1296170399&amp;back=csharp.2000things.com%2F2010%2F10%2F07%2F112-conditionally-compiling-code-in-debug-builds%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #112 &#8211; Conditionally Compiling Code in Debug&nbsp;Builds Comments Feed" href="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1296073727g" type="text/css" />
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/l10n.js?m=1295648996g&amp;ver=20101110'></script>
+<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.js?m=1293710943g&amp;ver=1.4.4'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/comment-reply.js?m=1293710945g&amp;ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='2,000 Things You Should Know About C#' href='http://csharp.2000things.com/' />
+<link rel='prev' title='#111 &#8211; Combining the Logical or Shift Operators with the Assignment&nbsp;Operator' href='http://csharp.2000things.com/2010/10/06/111-combining-the-logical-or-shift-operators-with-the-assignment-operator/' />
+<link rel='next' title='#113 &#8211; Conditionally Compiling Code Based on&nbsp;Symbols' href='http://csharp.2000things.com/2010/10/08/113-conditionally-compiling-code-based-on-symbols/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/' />
+<link rel='shortlink' href='http://wp.me/pXTis-hV' />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=158" />
+	<style type="text/css">
+	/* <![CDATA[ */
+				div#likes { margin-top: 15px; }
+		.like-button { border: 1px solid #eee; padding: 2px 6px; font-size: 13px; font-family: arial, tahoma, sans-serif; }
+		#wpl-likebox { clear: left; font-size: 11px; font-family: arial, tahoma, verdana, sans-serif !important; min-height: 30px; margin: 10px 0 !important; padding: 5px 0 10px 0 !important; }
+		#wpl-button { float: left; background: url( /i/buttonbg.png ) top left repeat-x; margin-right: 7px; border: 1px solid #d4d4d4; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-button a { color: #666 !important; line-height: 130% !important; text-decoration: none !important; outline: none; float: left; padding: 3px 6px 2px 24px !important; font-size: 11px !important; background: url( /i/likestar.png ) 6px 49.8% no-repeat; }
+		#wpl-button.liked { background: #feffce; border: 1px solid #f3e389; }
+		#wpl-button.liked a { color: #ba871b !important; }
+		#wpl-likebox #wpl-count { min-height: 25px; line-height: 130% !important; float: left; padding-top: 4px; }
+		#wpl-likebox #wpl-avatars { clear: left; max-height: 98px; overflow: hidden; margin-top: 15px; line-height: 130% !important; }
+		#wpl-likebox #wpl-avatars img { border: none !important; }
+		#wpl-likebox #wpl-mustlogin { line-height: 14px !important; font-size: 11px; clear: left; margin-top: 5px; background: #f0f0f0; padding: 10px; width: 65%; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-likebox #wpl-mustlogin a { color: #888; text-decoration: underline; }
+		#wpl-likebox #wpl-mustlogin p { margin: 5px 0; padding: 0 }
+		#wpl-likebox #wpl-mustlogin input.input { padding: 2px; background: #fff; font-size: 11px; font-family: inherit; border: 1px solid #ccc; -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin input#wp-submit { border: 1px solid #ccc; font-size: 11px; background: #fafafa; repeat-x; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 2px 4px !important; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin label { position: relative; cursor: text; }
+		#wpl-likebox #wpl-mustlogin label span { position: absolute; top: 0px; left: 5px; padding: 0 !important; }
+		#wpl-likebox #wpl-mustlogin label span { top /*\**/: -10px\9; }
+	/* ]]> */
+	</style>
+	<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+<style type="text/css">
+#header {
+	background: #FFFFFF url() no-repeat;
+}
+#header h1, #header h1 a, #header h1 a:visited, #header h4, #header h4 a, #header h4 a:visited, .header-left {
+	color: #333333;
+}
+</style>
+<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Programmer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+</head>
+
+<body class="single single-post postid-1111 single-format-standard">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+         
+        <p id="description">Everything a C# Programmer Needs to Know, in Bite-Sized Chunks</p>  
+    </div>
+    <div class="header-right">   
+        <form method="get" id="searchform" action="http://csharp.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/" title="About&nbsp;Me">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/" title="Index">Index</a></li></ul></div>
+	
+	    </div>  
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+	
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-492889"><a href="http://csharp.2000things.com/category/assemblies/" title="View all posts filed under Assemblies">Assemblies</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-4349673"><a href="http://csharp.2000things.com/category/inputoutput/" title="View all posts filed under Input/Output">Input/Output</a>
+</li>
+	<li class="cat-item cat-item-70886"><a href="http://csharp.2000things.com/category/debugging/" title="View all posts filed under Debugging">Debugging</a>
+</li>
+		</ul>
+	</div>
+	
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+        
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2010/10/06/111-combining-the-logical-or-shift-operators-with-the-assignment-operator/" rel="prev"><span class="meta-nav">&larr;</span> #111 &#8211; Combining the Logical or Shift Operators with the Assignment&nbsp;Operator</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2010/10/08/113-conditionally-compiling-code-based-on-symbols/" rel="next">#113 &#8211; Conditionally Compiling Code Based on&nbsp;Symbols <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+            <div class="post-1111 post type-post status-publish format-standard hentry category-debugging tag-if tag-debug">
+
+           		<div class="entry">
+
+                    <h1>#112 &#8211; Conditionally Compiling Code in Debug&nbsp;Builds</h1>
+
+                    <div class="post-info">
+                        <p><span class="time">October 7, 2010</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/#respond">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>By default, the C# project wizard sets up every project to have two different build configurations&#8211;<strong>Debug</strong> and <strong>Release</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2010/10/debugrelease.png"><img class="alignnone size-full wp-image-1112" title="DebugRelease" src="http://2000thingscsharp.files.wordpress.com/2010/10/debugrelease.png?w=218&#038;h=128" alt="" width="218" height="128" /></a></p>
+<p>Debug builds (as compared with Release builds):</p>
+<ul>
+<li>Create executables in \bin\Debug directory</li>
+<li>Do <em>not</em> optimize code</li>
+<li>Define the DEBUG symbol</li>
+<li>Write out full debug info</li>
+</ul>
+<p>You build your projects in the Debug configuration during development, for the best debugging experience.  Then, when your program is ready to ship, you build the Release configuration and ship that version.</p>
+<p>You may want to include certain code in your program that you use only for debugging purposes&#8211;so you include it in only the Debug build.  You do this using the <strong>#if</strong> directive, checking the DEBUG variable.</p>
+<pre class="brush: csharp;">
+ static void Main(string[] args)
+ {
+#if DEBUG
+     DoSomeLogging();   // Only do this in Debug build
+#endif
+    uint x = 0x1234;
+    x &amp;= 0x0020;
+ }
+</pre>
+<p>Code within the #if/#endif directives will not be included in the release build.</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/"
+    dc:identifier="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/"
+    dc:title="#112 &#8211; Conditionally Compiling Code in Debug&nbsp;Builds"
+    trackback:ping="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/debugging/" title="View all posts in Debugging" rel="category tag">Debugging</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/if/" rel="tag">#if</a>, <a href="http://en.wordpress.com/tag/debug/" rel="tag">DEBUG</a></span>                    </p>
+                </div>
+
+            </div>
+
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+            
+                        <p></p>
+
+            <div id="wpl-likebox"><div id="wpl-button"><a href='http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/?like=1&amp;_wpnonce=4e51f94275' title='I like this post' class='like needs-login' rel='nofollow'><span>Like</span></a></div><div id="wpl-count">Be the first to like this post.</div></div><div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2010/10/07/112-conditionally-compiling-code-in-debug-builds/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='1111' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1296170401" />
+<p><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p><p><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of site updates</label></p><input type="hidden" name="sub-type" value="comment-form-text4" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="60f38677d7" /></p>					</form>
+							</div><!-- #respond -->
+						
+</div><!-- #comments -->
+    </div>
+
+<div id="sidebar">
+    	
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://csharp.2000things.com/2011/01/27/224-one-example-of-a-problem-that-code-analysis-would-catch/" title="#224 &#8211; One Example of a Problem that Code Analysis Would&nbsp;Catch">#224 &#8211; One Example of a Problem that Code Analysis Would&nbsp;Catch</a></li>
+				<li><a href="http://csharp.2000things.com/2011/01/26/223-enabling-code-analysis-for-your-project/" title="#223 &#8211; Enabling Code Analysis for Your&nbsp;Project">#223 &#8211; Enabling Code Analysis for Your&nbsp;Project</a></li>
+				<li><a href="http://csharp.2000things.com/2011/01/25/222-c-is-pronounced-c-sharp/" title="#222 &#8211; C# Is Pronounced &#8220;C&nbsp;Sharp&#8221;">#222 &#8211; C# Is Pronounced &#8220;C&nbsp;Sharp&#8221;</a></li>
+				<li><a href="http://csharp.2000things.com/2011/01/24/221-when-unboxing-you-must-match-the-original-type-exactly/" title="#221 &#8211; When Unboxing, You Must Match the Original Type&nbsp;Exactly">#221 &#8211; When Unboxing, You Must Match the Original Type&nbsp;Exactly</a></li>
+				<li><a href="http://csharp.2000things.com/2011/01/23/220-boxing-can-happen-automatically/" title="#220 &#8211; Boxing Can Happen&nbsp;Automatically">#220 &#8211; Boxing Can Happen&nbsp;Automatically</a></li>
+				</ul>
+		</div><div id="calendar-3" class="widget widget_calendar"><h4>&nbsp;</h4><div id="calendar_wrap"><table id="wp-calendar" summary="Calendar">
+	<caption>October 2010</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2010/09/" title="View posts for September 2010">&laquo; Sep</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://csharp.2000things.com/2010/11/" title="View posts for November 2010">Nov &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="5" class="pad">&nbsp;</td><td><a href="http://csharp.2000things.com/2010/10/01/" title="#106 &#8211; Using String.Split to Parse A String into&nbsp;Substrings">1</a></td><td><a href="http://csharp.2000things.com/2010/10/02/" title="#107 &#8211; Defining and Using a&nbsp;Struct">2</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/10/03/" title="#108 &#8211; Defining a Constructor for a&nbsp;Struct">3</a></td><td><a href="http://csharp.2000things.com/2010/10/04/" title="#109 &#8211; Defining and Using&nbsp;Enums">4</a></td><td><a href="http://csharp.2000things.com/2010/10/05/" title="#110 &#8211; Combining the Arithmetic Operators with the Assignment&nbsp;Operator">5</a></td><td><a href="http://csharp.2000things.com/2010/10/06/" title="#111 &#8211; Combining the Logical or Shift Operators with the Assignment&nbsp;Operator">6</a></td><td><a href="http://csharp.2000things.com/2010/10/07/" title="#112 &#8211; Conditionally Compiling Code in Debug&nbsp;Builds">7</a></td><td><a href="http://csharp.2000things.com/2010/10/08/" title="#113 &#8211; Conditionally Compiling Code Based on&nbsp;Symbols">8</a></td><td><a href="http://csharp.2000things.com/2010/10/09/" title="#114 &#8211; Creating a New Build&nbsp;Configuration">9</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/10/10/" title="#115 &#8211; Using #if, #else,&nbsp;#endif">10</a></td><td><a href="http://csharp.2000things.com/2010/10/11/" title="#116 &#8211; Use #region Directive to Create Code&nbsp;Regions">11</a></td><td><a href="http://csharp.2000things.com/2010/10/12/" title="#117 &#8211; Use #define to Define a&nbsp;Symbol">12</a></td><td><a href="http://csharp.2000things.com/2010/10/13/" title="#118 &#8211; Disabling Specific Compiler&nbsp;Warnings">13</a></td><td><a href="http://csharp.2000things.com/2010/10/14/" title="#119 &#8211;&nbsp;Arrays">14</a></td><td><a href="http://csharp.2000things.com/2010/10/15/" title="#120 &#8211; Array Declaration and&nbsp;Instantiation">15</a></td><td><a href="http://csharp.2000things.com/2010/10/16/" title="#121 &#8211; Array&nbsp;Initialization">16</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/10/17/" title="#122 &#8211; Arrays Can Contain Any Type of&nbsp;Object">17</a></td><td><a href="http://csharp.2000things.com/2010/10/18/" title="#123 &#8211; Storing Arbitrary Objects in an&nbsp;Array">18</a></td><td><a href="http://csharp.2000things.com/2010/10/19/" title="#124 &#8211; Declaring and Instantiating Multidimensional&nbsp;Arrays">19</a></td><td><a href="http://csharp.2000things.com/2010/10/20/" title="#125 &#8211; Initializing Multidimensional&nbsp;Arrays">20</a></td><td><a href="http://csharp.2000things.com/2010/10/21/" title="#126 &#8211; Initializing Arrays of Reference-Type&nbsp;Objects">21</a></td><td><a href="http://csharp.2000things.com/2010/10/22/" title="#127 &#8211; Declaring and Instantiating Jagged&nbsp;Arrays">22</a></td><td><a href="http://csharp.2000things.com/2010/10/23/" title="#128 &#8211; Accessing Elements in Jagged&nbsp;Arrays">23</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/10/24/" title="#129 &#8211; Initializing Jagged&nbsp;Arrays">24</a></td><td><a href="http://csharp.2000things.com/2010/10/25/" title="#130 &#8211; Default Values of Array&nbsp;Elements">25</a></td><td><a href="http://csharp.2000things.com/2010/10/26/" title="#131 &#8211; Arrays Derive from&nbsp;System.Array">26</a></td><td><a href="http://csharp.2000things.com/2010/10/27/" title="#132 &#8211; Arrays That Are Both Multidimensional and&nbsp;Jagged">27</a></td><td><a href="http://csharp.2000things.com/2010/10/28/" title="#133 &#8211; An Array&#8217;s Length Is&nbsp;Fixed">28</a></td><td><a href="http://csharp.2000things.com/2010/10/29/" title="#134 &#8211; Sorting One-Dimensional&nbsp;Arrays">29</a></td><td><a href="http://csharp.2000things.com/2010/10/30/" title="#135 &#8211; Implementing IComparable to Allow Sorting a Custom&nbsp;Type">30</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2010/10/31/" title="#136 &#8211; Sorting an Array of Values Based on an Array of&nbsp;Keys">31</a></td>
+		<td class="pad" colspan="6">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://csharp.2000things.com/2010/07/01/composite-format-strings-in-c/'>#14 - Composite Format Strings in C#</a></li><li><a href='http://csharp.2000things.com/2010/09/08/84-jit-compilation-in-net/'>#83 - JIT Compilation in .NET</a></li><li><a href='http://csharp.2000things.com/2011/01/26/223-enabling-code-analysis-for-your-project/'>#223 - Enabling Code Analysis for Your Project</a></li><li><a href='http://csharp.2000things.com/2011/01/27/224-one-example-of-a-problem-that-code-analysis-would-catch/'>#224 - One Example of a Problem that Code Analysis Would Catch</a></li><li><a href='http://csharp.2000things.com/2010/09/07/82-some-common-datetime-and-timespan-functions/'>#82 - Some Common DateTime and TimeSpan Functions</a></li><li><a href='http://csharp.2000things.com/2010/09/06/81-datetime-and-timespan-types/'>#81 - DateTime and TimeSpan Types</a></li><li><a href='http://csharp.2000things.com/2010/12/05/171-ifelse-statement-can-have-one-or-more-statements-in-body/'>#171 - if/else Statement Can Have One or More Statements in Body</a></li><li><a href='http://csharp.2000things.com/2010/12/04/170-the-else-portion-of-an-if-statement/'>#170 - The else Portion of an if Statement</a></li><li><a href='http://csharp.2000things.com/2010/06/18/what-the-main-signature-looks-like/'>#1 - What the Main() Signature Looks Like</a></li><li><a href='http://csharp.2000things.com/2011/01/03/200-static-data-and-constants-are-stored-on-the-heap/'>#200 - Static Data and Constants Are Stored on the Heap</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/else/' class='tag-link-722' title='3 topics' style='font-size: 8.9081081081081pt;'>#else</a>
+<a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='6 topics' style='font-size: 10.8pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/arguments/' class='tag-link-12589' title='4 topics' style='font-size: 9.6648648648649pt;'>Arguments</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='4 topics' style='font-size: 9.6648648648649pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='26 topics' style='font-size: 15.189189189189pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/boxing/' class='tag-link-7716' title='4 topics' style='font-size: 9.6648648648649pt;'>Boxing</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='211 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/clone/' class='tag-link-317782' title='3 topics' style='font-size: 8.9081081081081pt;'>Clone</a>
+<a href='http://csharp.2000things.com/tag/composite-format-strings/' class='tag-link-38359641' title='4 topics' style='font-size: 9.6648648648649pt;'>Composite Format Strings</a>
+<a href='http://csharp.2000things.com/tag/composite-formatting/' class='tag-link-38359644' title='4 topics' style='font-size: 9.6648648648649pt;'>Composite Formatting</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='3 topics' style='font-size: 8.9081081081081pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/continue/' class='tag-link-831836' title='3 topics' style='font-size: 8.9081081081081pt;'>continue</a>
+<a href='http://csharp.2000things.com/tag/csharp/' class='tag-link-20740' title='3 topics' style='font-size: 8.9081081081081pt;'>CSharp</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='2 topics' style='font-size: 8pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/deep-copy/' class='tag-link-11859575' title='5 topics' style='font-size: 10.27027027027pt;'>Deep Copy</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='9 topics' style='font-size: 11.935135135135pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/flags/' class='tag-link-67489' title='5 topics' style='font-size: 10.27027027027pt;'>Flags</a>
+<a href='http://csharp.2000things.com/tag/for/' class='tag-link-309817' title='4 topics' style='font-size: 9.6648648648649pt;'>for</a>
+<a href='http://csharp.2000things.com/tag/for-loop/' class='tag-link-885520' title='4 topics' style='font-size: 9.6648648648649pt;'>For Loop</a>
+<a href='http://csharp.2000things.com/tag/format-strings/' class='tag-link-38359643' title='4 topics' style='font-size: 9.6648648648649pt;'>Format Strings</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='8 topics' style='font-size: 11.556756756757pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/icloneable/' class='tag-link-6523459' title='3 topics' style='font-size: 8.9081081081081pt;'>ICloneable</a>
+<a href='http://csharp.2000things.com/tag/jagged-arrays/' class='tag-link-41890510' title='4 topics' style='font-size: 9.6648648648649pt;'>Jagged Arrays</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 10.8pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='6 topics' style='font-size: 10.8pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/namespace/' class='tag-link-2593229' title='2 topics' style='font-size: 8pt;'>Namespace</a>
+<a href='http://csharp.2000things.com/tag/nan/' class='tag-link-70629' title='3 topics' style='font-size: 8.9081081081081pt;'>NaN</a>
+<a href='http://csharp.2000things.com/tag/null/' class='tag-link-53983' title='3 topics' style='font-size: 8.9081081081081pt;'>null</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='8 topics' style='font-size: 11.556756756757pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/object/' class='tag-link-15792' title='3 topics' style='font-size: 8.9081081081081pt;'>Object</a>
+<a href='http://csharp.2000things.com/tag/operators/' class='tag-link-73644' title='3 topics' style='font-size: 8.9081081081081pt;'>Operators</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='8 topics' style='font-size: 11.556756756757pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/return-value/' class='tag-link-20832906' title='2 topics' style='font-size: 8pt;'>Return Value</a>
+<a href='http://csharp.2000things.com/tag/sorting/' class='tag-link-286523' title='5 topics' style='font-size: 10.27027027027pt;'>Sorting</a>
+<a href='http://csharp.2000things.com/tag/stack/' class='tag-link-251553' title='4 topics' style='font-size: 9.6648648648649pt;'>Stack</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='12 topics' style='font-size: 12.767567567568pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/strong-typing/' class='tag-link-13425049' title='3 topics' style='font-size: 8.9081081081081pt;'>Strong Typing</a>
+<a href='http://csharp.2000things.com/tag/switch/' class='tag-link-21233' title='6 topics' style='font-size: 10.8pt;'>Switch</a>
+<a href='http://csharp.2000things.com/tag/tostring/' class='tag-link-2530922' title='3 topics' style='font-size: 8.9081081081081pt;'>ToString</a>
+<a href='http://csharp.2000things.com/tag/types/' class='tag-link-125161' title='3 topics' style='font-size: 8.9081081081081pt;'>Types</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='5 topics' style='font-size: 10.27027027027pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/variables/' class='tag-link-61882' title='3 topics' style='font-size: 8.9081081081081pt;'>Variables</a>
+<a href='http://csharp.2000things.com/tag/variable-substitution/' class='tag-link-31818860' title='3 topics' style='font-size: 8.9081081081081pt;'>Variable Substitution</a>
+<a href='http://csharp.2000things.com/tag/while/' class='tag-link-391504' title='4 topics' style='font-size: 9.6648648648649pt;'>While</a>
+<a href='http://csharp.2000things.com/tag/while-loop/' class='tag-link-2987489' title='4 topics' style='font-size: 9.6648648648649pt;'>While Loop</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>4,258 hits</li>
+			</ul>
+		</div>		
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a rel="designer" href="http://www.studiopress.com/">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery( function() {
+			
+			jQuery('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				jQuery('#wpl-mustlogin').remove();
+
+				jQuery.post( 'http://2000thingscsharp.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=c4319f827c; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+				
+				jQuery('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="http://2000thingscsharp.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="c4319f827c" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+				
+				jQuery('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			jQuery('#wpl-mustlogin input.input').live( 'focus', function() {
+				jQuery(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( jQuery(this).val() == '' )
+					jQuery(this).prev().show();
+			});
+			
+			jQuery('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				jQuery.post( 'http://2000thingscsharp.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					jQuery('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			jQuery('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = jQuery(this).attr('href');
+				
+				jQuery.post( 'http://2000thingscsharp.wordpress.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript">_qoptions={qacct:'p-18-mFEk4J448M',labels:'language.en,type.wpcom,posttag.if,posttag.debug'};</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript><p><img class="robots-nocontent" src="http://pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cposttag.if%2Cposttag.debug" style="display:none" height="1" width="1" alt="" /></p></noscript>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?o&#038;ver=MU'></script>
+	<script type="text/javascript">	
+	// <![CDATA[
+	WPGroHo = {
+		data: {},
+		renderers: {},
+		syncProfileData: function( hash, id ) {
+			if ( !WPGroHo.data[hash] ) {
+				WPGroHo.data[hash] = {};
+				a = jQuery( 'div.grofile-hash-map-' + hash + ' span' ).each( function() {
+					WPGroHo.data[hash][this.className] = jQuery( this ).text();
+				} );
+			}
+
+			WPGroHo.appendProfileData( WPGroHo.data[hash], hash, id );
+		},
+		appendProfileData: function( data, hash, id ) {
+			for ( var key in data ) {
+				if ( jQuery.isFunction( WPGroHo.renderers[key] ) ) {
+					return WPGroHo.renderers[key]( data[key], hash, id, key );
+				}
+
+				jQuery( '#' + id ).find( 'h4' ).after( jQuery( '<p class="grav-extra ' + key + '" />' ).html( data[key] ) );
+			}
+		}
+	};
+	jQuery(document).ready(function($){
+		Gravatar.profile_cb = function( h, d ) {
+			WPGroHo.syncProfileData( h, d );
+		};
+		Gravatar.attach_profiles();
+	});
+	// ]]>
+	</script>
+	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type="text/javascript" src="http://b.scorecardresearch.com/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script type='text/javascript' src='http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js?m=1293710963g&#038;ver=2.1.364b'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1293710963g&#038;ver=2.1.364b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1293710960g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s1.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1293710963g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script src="http://s.stats.wordpress.com/w.js?19" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','user_id':'0','post':'1111','subd':'2000thingscsharp'});
+ex_go({'crypt':'RDZ8LFkxbXEuSi5CR1drN3N5OGkwd2hWbjcxMzZXSlVGK3ZTcSxXX2lSanJfdy4/MXhOLkNQbFkrYkZ6SStdYlQ2ZU1JMnFCeUtORC5FaS9KNlBGMmNKNjBlJm1dMDg9WEhZNmJEfFdad2hXW3FJVUp5bi52Vl1TTWYvcXEmaXVbb09CSFAsP3dZeW1tdCtEOD85Zkg2OWNxNmxmc1lNQXdfSiY2PzhUX2I3QXotVzFDOHRQX2w5elJRU2NKc0c4Yy9KWjlzclU4VlhufFFZ'});
+addLoadEvent(function(){linktracker_init('14273916',1111);});
+	</script>
+
+</body>
+</html>

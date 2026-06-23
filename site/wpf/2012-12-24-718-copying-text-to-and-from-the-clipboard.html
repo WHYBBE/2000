@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#718 – Copying Text To and From the Clipboard</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-12-21-717-drag-and-drop-with-touch-on-windows-7.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-25-719-ascii-art-generator.html">Next</a></nav>
+  <h1>#718 – Copying Text To and From the Clipboard</h1>
+  <p class="meta">2012-12-24 | <a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/">Original URL</a> | Wayback 20121229194130</p>
+  <article><div class="post-6267 post type-post status-publish format-standard hentry category-miscellaneous tag-clipboard tag-copy tag-miscellaneous tag-paste tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 24, 2012</span>
+																						<span class="post-comments"><a href="2012-12-24-718-copying-text-to-and-from-the-clipboard.html" title="Comment on #718 &#8211; Copying Text To and From the&nbsp;Clipboard">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can copy data to or from the Windows clipboard using static methods in the <strong>System.Windows.Clipboard</strong> class.</p>
+<p>Here&#8217;s an example that copies text from a <strong>TextBox</strong> onto the clipboard and pastes text from the clipboard into a <strong>Label</strong>.</p>
+<p><pre class="brush: xml;">
+    &lt;Grid&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        &lt;TextBox Name=&quot;txtFrom&quot; Text=&quot;Twas the Night Before Christmas..&quot; Margin=&quot;10&quot;/&gt;
+        &lt;Button Grid.Column=&quot;1&quot; Content=&quot;Copy&quot;
+                HorizontalAlignment=&quot;Left&quot; Padding=&quot;10,5&quot; Margin=&quot;10&quot;
+                Click=&quot;btnCopy_Click&quot;/&gt;
+
+        &lt;Label Name=&quot;lblTo&quot; Grid.Row=&quot;1&quot; Content=&quot;Paste something here&quot;
+               Margin=&quot;10&quot;/&gt;
+        &lt;Button Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Content=&quot;Paste&quot;
+                VerticalAlignment=&quot;Top&quot; HorizontalAlignment=&quot;Left&quot;
+                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
+                Click=&quot;btnPaste_Click&quot;/&gt;
+    &lt;/Grid&gt;
+</pre></p>
+<p>The <strong>Click</strong> handlers use the <strong>SetText</strong> and <strong>GetText</strong> methods of the <strong>Clipboard</strong> class to interact with the clipboard.  The <strong>SetText</strong> method copies data to the clipboard.  The <strong>GetText</strong> method pastes data from the clipboard.</p>
+<p><pre class="brush: csharp;">
+        private void btnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(txtFrom.Text);
+        }
+
+        private void btnPaste_Click(object sender, RoutedEventArgs e)
+        {
+            lblTo.Content = Clipboard.GetText();
+        }
+</pre></p>
+<p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-001/" rel="attachment wp-att-6269"><img class="alignnone size-full wp-image-6269" alt="718-001" src="https://web.archive.org/web/20121229194130id_/http://2000thingswpf.files.wordpress.com/2012/12/718-001.png?w=630"   /></a></p>
+<p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-002/" rel="attachment wp-att-6270"><img class="alignnone size-full wp-image-6270" alt="718-002" src="https://web.archive.org/web/20121229194130id_/http://2000thingswpf.files.wordpress.com/2012/12/718-002.png?w=630"   /></a></p>
+<p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-003/" rel="attachment wp-att-6271"><img class="alignnone size-full wp-image-6271" alt="718-003" src="https://web.archive.org/web/20121229194130id_/http://2000thingswpf.files.wordpress.com/2012/12/718-003.png?w=630"   /></a></p>
+<p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-004/" rel="attachment wp-att-6272"><img class="alignnone size-full wp-image-6272" alt="718-004" src="https://web.archive.org/web/20121229194130id_/http://2000thingswpf.files.wordpress.com/2012/12/718-004.png?w=630"   /></a></p>
+<p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-005/" rel="attachment wp-att-6273"><img class="alignnone size-full wp-image-6273" alt="718-005" src="https://web.archive.org/web/20121229194130id_/http://2000thingswpf.files.wordpress.com/2012/12/718-005.png?w=630"   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: Clipboard, Copy, Miscellaneous, Paste, WPF</p>
+  <nav class="pager"><a href="2012-12-21-717-drag-and-drop-with-touch-on-windows-7.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-25-719-ascii-art-generator.html">Next</a></nav>
+</main>
+
+</body>
+</html>

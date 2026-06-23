@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#395 – Rich ListBox Content using Data Binding, part I</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-09-26-394-specify-canvas-child-element-position-using-two-properties.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-28-396-rich-listbox-content-using-data-binding-part-ii.html">Next</a></nav>
+  <h1>#395 – Rich ListBox Content using Data Binding, part I</h1>
+  <p class="meta">2011-09-27 | <a href="http://wpf.2000things.com/2011/09/27/395-rich-listbox-content-using-data-binding-part-i/">Original URL</a> | Wayback 20120505144941</p>
+  <article><div class="post-3286 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-inotifypropertychanged tag-listbox tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 27, 2011</span>
+																						<span class="post-comments"><a href="2011-09-27-395-rich-listbox-content-using-data-binding-part-i.html" title="Comment on #395 &#8211; Rich ListBox Content using Data Binding, part&nbsp;I">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In talking about the <strong>SnapsToDevicePixels</strong> property, I used as an example a <strong>ListBox</strong> that contained a list of movies.  Each entry in the <strong>ListBox</strong> had a number of data items related to the movie, including a thumbnail.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/09/001-better1.png"><img class="alignnone size-full wp-image-3287" title="001-Better" src="https://web.archive.org/web/20120505144941id_/http://2000thingswpf.files.wordpress.com/2011/09/001-better1.png?w=630" alt=""   /></a></p>
+<p>Let&#8217;s look at how to create this in WPF.  To start with, we need a class that stores information about an individual movie.  We&#8217;re going to use data binding to bind to instances of this class, and we want the binding to update when elements of the class change, so we implement the <strong>INotifyPropertyChanged</strong> interface.</p>
+<p><pre class="brush: csharp;">
+    public class Movie : INotifyPropertyChanged
+    {
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                if (value != title)
+                {
+                    title = value;
+                    OnPropertyChanged(&quot;Title&quot;);
+                }
+            }
+        }
+
+        public int year;
+        public int Year
+        {
+            get { return year; }
+            set
+            {
+                if (value != year)
+                {
+                    year = value;
+                    OnPropertyChanged(&quot;Year&quot;);
+                }
+            }
+        }
+
+        private Uri image;
+        public Uri Image
+        {
+            get { return image; }
+            set
+            {
+                if (value != image)
+                {
+                    image = value;
+                    OnPropertyChanged(&quot;Image&quot;);
+                }
+            }
+        }
+
+        private string actorLead;
+        public string ActorLead
+        {
+            get { return actorLead; }
+            set
+            {
+                if (value != actorLead)
+                {
+                    actorLead = value;
+                    OnPropertyChanged(&quot;ActorLead&quot;);
+                }
+            }
+        }
+
+        private string actressLead;
+        public string ActressLead
+        {
+            get { return actressLead; }
+            set
+            {
+                if (value != actressLead)
+                {
+                    actressLead = value;
+                    OnPropertyChanged(&quot;ActressLead&quot;);
+                }
+            }
+        }
+
+        private string director;
+        public string Director
+        {
+            get { return director; }
+            set
+            {
+                if (value != director)
+                {
+                    director = value;
+                    OnPropertyChanged(&quot;Director&quot;);
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private void OnPropertyChanged(string prop)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public Movie(string title, int year, Uri image, string actorLead, string actressLead, string director)
+        {
+            Title = title;
+            Year = year;
+            Image = image;
+            ActorLead = actorLead;
+            ActressLead = actressLead;
+            Director = director;
+        }
+    }
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, INotifyPropertyChanged, ListBox, WPF</p>
+  <nav class="pager"><a href="2011-09-26-394-specify-canvas-child-element-position-using-two-properties.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-28-396-rich-listbox-content-using-data-binding-part-ii.html">Next</a></nav>
+</main>
+
+</body>
+</html>

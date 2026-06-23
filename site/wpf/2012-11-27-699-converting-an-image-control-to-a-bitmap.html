@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#699 – Converting an Image Control to a Bitmap</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-26-698-playing-an-mp3-file-using-a-mediaplayer-object.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-28-700-dragging-an-image-to-microsoft-word.html">Next</a></nav>
+  <h1>#699 – Converting an Image Control to a Bitmap</h1>
+  <p class="meta">2012-11-27 | <a href="http://wpf.2000things.com/2012/11/27/699-converting-an-image-control-to-a-bitmap/">Original URL</a> | Wayback 20121205042911</p>
+  <article><div class="post-6070 post type-post status-publish format-standard hentry category-graphics tag-bitmap tag-graphics tag-image tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 27, 2012</span>
+																						<span class="post-comments"><a href="2012-11-27-699-converting-an-image-control-to-a-bitmap.html" title="Comment on #699 &#8211; Converting an Image Control to a&nbsp;Bitmap">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You may want to work with the image from an <strong>Image</strong> control as a standard Windows bitmap.  You can convert the <strong>System.Windows.Controls.Image</strong> to a <strong>System.Drawing.Bitmap</strong> as follows (<strong>imgLife</strong> is an <strong>Image</strong> control):</p>
+<p><pre class="brush: csharp;">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RenderTargetBitmap rtBmp = new RenderTargetBitmap((int)imgLife.ActualWidth, (int)imgLife.ActualHeight,
+                96.0, 96.0, PixelFormats.Pbgra32);
+
+            imgLife.Measure(new System.Windows.Size((int)imgLife.ActualWidth, (int)imgLife.ActualHeight));
+            imgLife.Arrange(new Rect(new System.Windows.Size((int)imgLife.ActualWidth, (int)imgLife.ActualHeight)));
+
+            rtBmp.Render(imgLife);
+
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            MemoryStream stream = new MemoryStream();
+            encoder.Frames.Add(BitmapFrame.Create(rtBmp));
+
+            // Save to memory stream and create Bitamp from stream
+            encoder.Save(stream);
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(stream);
+
+            // Demonstrate that we can do something with the Bitmap
+            bitmap.Save(@&quot;D:\Temp\Life.png&quot;, ImageFormat.Png);
+
+            // Optionally, if we didn't need Bitmap object, but
+            // just wanted to render to file, we could:
+            //encoder.Save(new FileStream(@&quot;D:\Temp\Life-Other.png&quot;, FileMode.Create));
+        }
+</pre></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Graphics | Tags: Bitmap, Graphics, Image, WPF</p>
+  <nav class="pager"><a href="2012-11-26-698-playing-an-mp3-file-using-a-mediaplayer-object.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-28-700-dragging-an-image-to-microsoft-word.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#723 – New Methods in Subclass May Not Be Visible in Derived Classes</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-11-26-722-local-variable-declarations-may-not-always-hide-class-members.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-28-724-fully-qualified-names-for-types.html">Next</a></nav>
+  <h1>#723 – New Methods in Subclass May Not Be Visible in Derived Classes</h1>
+  <p class="meta">2012-11-27 | <a href="http://csharp.2000things.com/2012/11/27/723-new-methods-in-subclass-may-not-be-visible-in-derived-classes/">Original URL</a> | Wayback 20121201052916</p>
+  <article><div class="post-6216 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-inheritance tag-new">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 27, 2012</span>
+																						<span class="post-comments"><a href="2012-11-27-723-new-methods-in-subclass-may-not-be-visible-in-derived-classes.html" title="Comment on #723 &#8211; New Methods in Subclass May Not Be Visible in Derived&nbsp;Classes">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <a href="2011-06-10-343-use-the-new-keyword-to-replace-a-method-in-a-base-class.html"><strong>new</strong> keyword in a subclass to hide a method</a> in the parent class.  The new implementation of the method will now be used in the context of the subclass.</p>
+<p>If you call this method in a subclass of the subclass, however, the method called depends on the accessibility of the new method.  If the <strong>new </strong>method is private, it is not visible in the lowest level class and so the original member in the base class is called.</p>
+<p><pre class="brush: csharp;">
+    public class Dog
+    {
+        public void Bark()
+        {
+            Console.WriteLine(&quot;Dog: Woof&quot;);
+        }
+    }
+
+    public class Terrier : Dog
+    {
+        public void DoBark()
+        {
+            Bark();
+        }
+
+        private new void Bark()
+        {
+            Console.WriteLine(&quot;Terrier: Woof&quot;);
+        }
+    }
+
+    public class Yorkshire : Terrier
+    {
+        public void DoBark()
+        {
+            // Dog.Bark is called
+            Bark();
+        }
+    }
+</pre></p>
+<p>&nbsp;</p>
+<p><pre class="brush: csharp;">
+            Dog d = new Dog();
+            d.Bark();
+
+            Terrier t = new Terrier();
+            t.DoBark();
+
+            Yorkshire y = new Yorkshire();
+            y.DoBark();
+</pre></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, Inheritance, new</p>
+  <nav class="pager"><a href="2012-11-26-722-local-variable-declarations-may-not-always-hide-class-members.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-11-28-724-fully-qualified-names-for-types.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,118 – An Example of Input that Obeys CurrentCulture</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-07-18-1117-internationalization-ii-obey-currentculture-for-input.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-07-22-1119-localization-i-set-uiculture-tag.html">Next</a></nav>
+  <h1>#1,118 – An Example of Input that Obeys CurrentCulture</h1>
+  <p class="meta">2014-07-21 | <a href="http://wpf.2000things.com/2014/07/21/1118-an-example-of-input-that-obeys-currentculture/">Original URL</a> | Wayback 20150316182345</p>
+  <article><div class="post-9025 post type-post status-publish format-standard hentry category-localization tag-input tag-localization tag-parse tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 21, 2014</span>
+																						<span class="post-comments"><a href="2014-07-21-1118-an-example-of-input-that-obeys-currentculture.html" title="Comment on #1,118 &#8211; An Example of Input that Obeys&nbsp;CurrentCulture">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>One step in internationalizing an application is to <a href="http://wp.me/pZhye-2lx">respect the current regional settings when reading</a> numeric or date/time values from a user.</p>
+<p>If you are parsing user-entered text and converting to numeric or date/time data, the <strong>Parse</strong> methods associated with individual data types respect the current regional settings.</p>
+<p>Below, we read text from two <strong>TextBox</strong> controls, interpreting the first value as a <strong>double</strong> and the second as a <strong>DateTime </strong>using the corresponding <strong>Parse</strong> method.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                double num = double.Parse(txt1.Text);
+                DateTime dt = DateTime.Parse(txt2.Text);
+            }
+            catch (Exception xx)
+            {
+                MessageBox.Show(xx.ToString());
+            }
+        }
+</pre>
+<p>On an English/US system, we can enter the data as &#8220;1.1&#8221; and &#8220;5/2/12&#8243;.  The date is interpreted as May 2nd.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1118-0011.png"><img class="alignnone size-full wp-image-9033" src="https://web.archive.org/web/20150316182345id_/http://2000thingswpf.files.wordpress.com/2014/07/1118-0011.png?w=630" alt="1118-001"   /></a></p>
+<p>For French/France, we must enter &#8220;1,1&#8221; for the double.  &#8220;5/2/12&#8243; is interpreted as Feb 5th.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1118-002.png"><img class="alignnone size-full wp-image-9034" src="https://web.archive.org/web/20150316182345id_/http://2000thingswpf.files.wordpress.com/2014/07/1118-002.png?w=630" alt="1118-002"   /></a></p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/07/21/1118-an-example-of-input-that-obeys-currentculture/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "input");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "parse");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/07/21/1118-an-example-of-input-that-obeys-currentculture/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Localization | Tags: Input, Localization, Parse, WPF</p>
+  <nav class="pager"><a href="2014-07-18-1117-internationalization-ii-obey-currentculture-for-input.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-07-22-1119-localization-i-set-uiculture-tag.html">Next</a></nav>
+</main>
+
+</body>
+</html>

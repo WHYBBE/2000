@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#47 – Detecting When the Windows Session is Ending</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-08-27-46-processing-command-line-arguments-in-a-wpf-application.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-08-29-48-handling-an-applications-exit-event.html">Next</a></nav>
+  <h1>#47 – Detecting When the Windows Session is Ending</h1>
+  <p class="meta">2010-08-28 | <a href="http://wpf.2000things.com/2010/08/28/47-detecting-when-the-windows-session-is-ending/">Original URL</a> | Wayback 20110614154210</p>
+  <article><div class="post-390 post type-post status-publish format-standard hentry category-basics tag-sessionending tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">August 28, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2010-08-28-47-detecting-when-the-windows-session-is-ending.html">1 Comment</a></span> </p>
+                    </div>
+
+                    <p>In WPF, you can detect when a user is ending their Windows session by handling the <strong>Application.SessionEnding</strong> event.  This occurs when the user is logging out of Windows or shutting down the machine.</p>
+<p>In your event handler, you have the ability to cancel the termination of the Windows session by setting <strong>SessionEndingCancelEventArgs.Cancel</strong> to true.</p>
+<pre class="brush: csharp;">
+ private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+ {
+    MessageBoxResult res = MessageBox.Show(&quot;Exiting Windows will terminate this app.  Are you sure?&quot;, &quot;End Session&quot;, MessageBoxButton.YesNo);
+    if (res == MessageBoxResult.No)
+    {
+        e.Cancel = true;
+    }
+ }
+</pre>
+<p>Note that this event fires when Windows is exiting, but not when the application is closed in the normal manner.</p>
+<p>On Windows 7, if your application cancels the <strong>SessionEnding </strong>event for a shutdown, Windows will inform the user that your application is preventing Windows from shutting down:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2010/08/shutdown.png"><img class="alignnone size-full wp-image-392" title="Shutdown" src="https://web.archive.org/web/20110614154210id_/http://2000thingswpf.files.wordpress.com/2010/08/shutdown.png?w=520&amp;h=534" alt="" width="520" height="534" /></a></p>
+<p><strong>Update (Jan-2011)</strong>: It&#8217;s probably cleaner to <a href="http://wp.me/pZhye-qP">just override</a> the <strong>OnSessionEnding</strong> method in your <strong>Application</strong>-derived class, rather than adding an event handler.</p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/08/28/47-detecting-when-the-windows-session-is-ending/"
+    dc:identifier="http://wpf.2000things.com/2010/08/28/47-detecting-when-the-windows-session-is-ending/"
+    dc:title="#47 &#8211; Detecting When the Windows Session is&nbsp;Ending"
+    trackback:ping="http://wpf.2000things.com/2010/08/28/47-detecting-when-the-windows-session-is-ending/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/basics/" title="View all posts in Basics" rel="category tag">Basics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/sessionending/" rel="tag">SessionEnding</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Basics | Tags: SessionEnding, WPF</p>
+  <nav class="pager"><a href="2010-08-27-46-processing-command-line-arguments-in-a-wpf-application.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-08-29-48-handling-an-applications-exit-event.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#241 – Rendering Text Using DrawText</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-09-240-shape-vs-drawingvisual.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-11-242-drawing-text-using-drawglyphrun.html">Next</a></nav>
+  <h1>#241 – Rendering Text Using DrawText</h1>
+  <p class="meta">2011-03-10 | <a href="http://wpf.2000things.com/2011/03/10/241-rendering-text-using-drawtext/">Original URL</a> | Wayback 20110317171812</p>
+  <article><div class="post-2005 post type-post status-publish format-standard hentry category-graphics tag-wpf tag-graphics tag-drawingvisual tag-drawingcontext tag-drawtext tag-typeface tag-fonts">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">March 10, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-03-10-241-rendering-text-using-drawtext.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You can render text into a visual using the <strong>DrawText</strong> method of a <strong>DrawingContext</strong>.  <strong>DrawText</strong> renders text that is represented by an instance of <strong>FormattedText</strong> into the drawing context at a specified location.</p>
+<p>Below is an example of drawing some text into a custom <strong>DrawingVisual</strong>.</p>
+<pre class="brush: csharp;">
+    class MyDrawingVisual : DrawingVisual
+    {
+        public MyDrawingVisual()
+        {
+            using (DrawingContext dc = RenderOpen())
+            {
+                // Create formatted text--in a particular font at a particular size
+                FormattedText ft = new FormattedText(
+                    &quot;When things are at their worst I find something always happens.&quot;,
+                    CultureInfo.CurrentCulture,
+                    FlowDirection.LeftToRight,
+                    new Typeface(new FontFamily(&quot;Century&quot;), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal),
+                    24,    // 36 pt type
+                    Brushes.Black);
+
+                // Draw the text at a location
+                dc.DrawText(ft, new Point(10.0, 10.0));
+            }
+        }
+    }
+</pre>
+<p>Once we host this <strong>DrawingVisual</strong> in an <strong>UIElement</strong>, we can see the text in a window:</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/03/001-somethinghappens.png"><img class="alignnone size-full wp-image-2007" title="001-SomethingHappens" src="https://web.archive.org/web/20110317171812id_/http://2000thingswpf.files.wordpress.com/2011/03/001-somethinghappens.png?w=630&amp;h=131" alt="" width="630" height="131" /></a></p>
+<div class="tpp">
+						<a href="http://poppressed.com" rel="tppcpop_A_entertainment">
+							<span class="tppl">
+								The freshest in culture.
+							</span>
+							<img src="https://web.archive.org/web/20110317171812id_/http://poppressed.files.wordpress.com/2011/03/screen-shot-2011-03-16-at-10-36-41-pm.png?w=126&amp;h=78&amp;crop=true" width="126" height="78" alt="PopPressed" class="tppi" />
+							<span class="tpph">
+								Featured on PopPressed
+							</span>
+							<span class="tppt">
+								Modern Architecture Pop-Up
+							</span>
+						</a>
+					</div>
+					<div style="clear: both;"></div><div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/03/10/241-rendering-text-using-drawtext/"
+    dc:identifier="http://wpf.2000things.com/2011/03/10/241-rendering-text-using-drawtext/"
+    dc:title="#241 &#8211; Rendering Text Using&nbsp;DrawText"
+    trackback:ping="http://wpf.2000things.com/2011/03/10/241-rendering-text-using-drawtext/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/graphics/" title="View all posts in Graphics" rel="category tag">Graphics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a>, <a href="http://en.wordpress.com/tag/graphics/" rel="tag">Graphics</a>, <a href="http://en.wordpress.com/tag/drawingvisual/" rel="tag">DrawingVisual</a>, <a href="http://en.wordpress.com/tag/drawingcontext/" rel="tag">DrawingContext</a>, <a href="http://en.wordpress.com/tag/drawtext/" rel="tag">DrawText</a>, <a href="http://en.wordpress.com/tag/typeface/" rel="tag">Typeface</a>, <a href="http://en.wordpress.com/tag/fonts/" rel="tag">Fonts</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Graphics | Tags: WPF, Graphics, DrawingVisual, DrawingContext, DrawText, Typeface, Fonts</p>
+  <nav class="pager"><a href="2011-03-09-240-shape-vs-drawingvisual.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-11-242-drawing-text-using-drawglyphrun.html">Next</a></nav>
+</main>
+
+</body>
+</html>

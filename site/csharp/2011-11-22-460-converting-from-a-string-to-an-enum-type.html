@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#460 – Converting from a String to an Enum Type</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-11-21-459-assigning-a-value-of-a-different-type-to-an-enum.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-23-461-enumeration-elements-dont-need-to-be-sequential.html">Next</a></nav>
+  <h1>#460 – Converting from a String to an Enum Type</h1>
+  <p class="meta">2011-11-22 | <a href="http://csharp.2000things.com/2011/11/22/460-converting-from-a-string-to-an-enum-type/">Original URL</a> | Wayback 20120719074418</p>
+  <article><div class="post-3872 post type-post status-publish format-standard hentry category-data-types tag-c tag-data-types tag-enum tag-enum-parse">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 22, 2011</span>
+																						<span class="post-comments"><a href="2011-11-22-460-converting-from-a-string-to-an-enum-type.html" title="Comment on #460 &#8211; Converting from a String to an Enum&nbsp;Type">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can convert a <strong>string </strong>to the corresponding enumerator in an <strong>enum</strong> type by using the <strong>Enum.Parse</strong> method.  This is a static method that takes the specific enumerated type and a string value and returns the corresponding enumerated value of the type.</p>
+<p><pre class="brush: csharp;">
+        public enum Mood { Crabby, Happy, Petulant, Elated };
+
+        static void Main()
+        {
+            string myMood = &quot;elated&quot;;
+            Mood mood = (Mood)Enum.Parse(typeof(Mood), myMood, true);
+
+        }
+</pre></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/11/460-001.png"><img class="alignnone size-full wp-image-3874" title="460-001" src="https://web.archive.org/web/20120719074418id_/http://2000thingscsharp.files.wordpress.com/2011/11/460-001.png?w=630" alt=""   /></a></p>
+<p>The third parameter indicates whether case should be ignored when searching for a value.</p>
+<p>Because <strong>Enum.Parse</strong> returns a value of type <strong>object</strong>, you need to cast the return value to the desired enumerated type.</p>
+<p>If an enumerator in the <strong>enum</strong> type that matches the specified string value can&#8217;t be found, the method will throw an <strong>ArgumentException</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/11/460-002.png"><img class="alignnone size-full wp-image-3875" title="460-002" src="https://web.archive.org/web/20120719074418id_/http://2000thingscsharp.files.wordpress.com/2011/11/460-002.png?w=630&amp;h=144" alt="" width="630" height="144" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/11/22/460-converting-from-a-string-to-an-enum-type/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-3872"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/11/22/460-converting-from-a-string-to-an-enum-type/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/11/22/460-converting-from-a-string-to-an-enum-type/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: C#, Data Types, Enum, Enum.Parse</p>
+  <nav class="pager"><a href="2011-11-21-459-assigning-a-value-of-a-different-type-to-an-enum.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-11-23-461-enumeration-elements-dont-need-to-be-sequential.html">Next</a></nav>
+</main>
+
+</body>
+</html>

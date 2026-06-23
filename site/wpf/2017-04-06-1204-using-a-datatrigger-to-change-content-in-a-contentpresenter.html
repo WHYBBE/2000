@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,204 – Using a DataTrigger to Change Content in a ContentPresenter</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-03-31-1203-create-a-reusable-group-of-elements-with-a-contentpresenter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">Next</a></nav>
+  <h1>#1,204 – Using a DataTrigger to Change Content in a ContentPresenter</h1>
+  <p class="meta">2017-04-06 | <a href="http://wpf.2000things.com/2017/04/06/1204-using-a-datatrigger-to-change-content-in-a-contentpresenter/">Original URL</a> | Wayback 20170408033905</p>
+  <article><div class="post-9632 post type-post status-publish format-standard hentry category-triggers tag-contentpresenter tag-contenttemplate tag-datatrigger tag-triggers tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">April 6, 2017</span>
+																						<span class="post-comments"><a href="2017-04-06-1204-using-a-datatrigger-to-change-content-in-a-contentpresenter.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can set the <strong>ContentTemplate</strong> property of a <strong>ContentPresenter</strong> to a panel containing some content, <a href="2017-03-31-1203-create-a-reusable-group-of-elements-with-a-contentpresenter.html">using a <strong>DataTemplate</strong></a>.</p>
+<p>This technique becomes even more useful when you have different types of content to display, depending on a particular state in your application. In the example below, we set up a <strong>Style</strong> for a <strong>ContentPresenter</strong> that sets default content for the <strong>ContentPresenter</strong> and then swaps in entirely different content when the <strong>JobDone</strong> property in the data context becomes true.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;Window.Resources&gt;
+        &lt;DataTemplate x:Key=&quot;DefaultContent&quot;&gt;
+            &lt;StackPanel&gt;
+                &lt;TextBlock Margin=&quot;10&quot; Text=&quot;Some default content here..&quot;/&gt;
+                &lt;TextBlock Margin=&quot;10&quot; Text=&quot;Maybe show progress for operation&quot;/&gt;
+            &lt;/StackPanel&gt;
+        &lt;/DataTemplate&gt;
+
+        &lt;DataTemplate x:Key=&quot;AllDoneContent&quot;&gt;
+            &lt;StackPanel&gt;
+                &lt;TextBlock Margin=&quot;10&quot; Text=&quot;** This is the ALL DONE content...&quot;
+                           Foreground=&quot;Green&quot;/&gt;
+                &lt;TextBlock Margin=&quot;10&quot; Text=&quot;Put anything you like here&quot;/&gt;
+                &lt;Button Margin=&quot;10&quot; Content=&quot;Click Me&quot; HorizontalAlignment=&quot;Left&quot;/&gt;
+            &lt;/StackPanel&gt;
+        &lt;/DataTemplate&gt;
+
+        &lt;Style x:Key=&quot;MyContentStyle&quot; TargetType=&quot;ContentPresenter&quot;&gt;
+            &lt;Setter Property=&quot;ContentTemplate&quot; Value=&quot;{StaticResource DefaultContent}&quot;/&gt;
+            &lt;Style.Triggers&gt;
+                &lt;DataTrigger Binding=&quot;{Binding JobDone}&quot; Value=&quot;True&quot;&gt;
+                    &lt;Setter Property=&quot;ContentTemplate&quot; Value=&quot;{StaticResource AllDoneContent}&quot;/&gt;
+                &lt;/DataTrigger&gt;
+            &lt;/Style.Triggers&gt;
+        &lt;/Style&gt;
+        
+    &lt;/Window.Resources&gt;
+    
+    &lt;Grid Margin=&quot;10&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;ContentPresenter Grid.Row=&quot;0&quot; Style=&quot;{StaticResource MyContentStyle}&quot; Content=&quot;{Binding}&quot;/&gt;
+        
+        &lt;Separator Grid.Row=&quot;1&quot;/&gt;
+
+        &lt;CheckBox Grid.Row=&quot;2&quot; Margin=&quot;10&quot; Content=&quot;Mark job done&quot; IsChecked=&quot;{Binding JobDone}&quot;/&gt;
+    &lt;/Grid&gt;
+</pre>
+<p>Here&#8217;s how the application looks in the two states. Note that we can toggle between the two states using the <strong>CheckBox</strong>.<br />
+<a href="https://wpf.2000things.com/?attachment_id=9637" rel="attachment wp-att-9637"><img data-attachment-id="9637" data-permalink="https://wpf.2000things.com/2017/04/06/1204-using-a-datatrigger-to-change-content-in-a-contentpresenter/1204_1/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg?w=630" data-orig-size="378,292" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1204_1" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg?w=630?w=378" src="https://web.archive.org/web/20170408033905id_/https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg?w=630" alt=""   class="alignnone size-full wp-image-9637" srcset="https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg 378w, https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/04/1204_1.jpg?w=300 300w" sizes="(max-width: 378px) 100vw, 378px" /></a><a href="https://wpf.2000things.com/?attachment_id=9638" rel="attachment wp-att-9638"><img data-attachment-id="9638" data-permalink="https://wpf.2000things.com/2017/04/06/1204-using-a-datatrigger-to-change-content-in-a-contentpresenter/1204_2/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg?w=630" data-orig-size="379,296" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1204_2" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg?w=630?w=379" src="https://web.archive.org/web/20170408033905id_/https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg?w=630" alt=""   class="alignnone size-full wp-image-9638" srcset="https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg 379w, https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/04/1204_2.jpg?w=300 300w" sizes="(max-width: 379px) 100vw, 379px" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9632-58e85b609eea3' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9632&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9632-58e85b609eea3' data-name='like-post-frame-14605478-9632-58e85b609eea3'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Triggers | Tags: ContentPresenter, ContentTemplate, DataTrigger, Triggers, WPF</p>
+  <nav class="pager"><a href="2017-03-31-1203-create-a-reusable-group-of-elements-with-a-contentpresenter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">Next</a></nav>
+</main>
+
+</body>
+</html>

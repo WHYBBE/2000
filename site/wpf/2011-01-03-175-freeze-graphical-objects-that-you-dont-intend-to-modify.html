@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#175 – Freeze Graphical Objects That You Don’t Intend to Modify</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-01-02-174-predefined-brushes-are-already-frozen.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-04-176-two-kinds-of-template.html">Next</a></nav>
+  <h1>#175 – Freeze Graphical Objects That You Don’t Intend to Modify</h1>
+  <p class="meta">2011-01-03 | <a href="http://wpf.2000things.com/2011/01/03/175-freeze-graphical-objects-that-you-dont-intend-to-modify/">Original URL</a> | Wayback 20120706161942</p>
+  <article><div class="post-1440 post type-post status-publish format-standard hentry category-basics tag-freeze tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">January 3, 2011</span>
+																						<span class="post-comments"><a href="2011-01-03-175-freeze-graphical-objects-that-you-dont-intend-to-modify.html" title="Comment on #175 &#8211; Freeze Graphical Objects That You Don&#8217;t Intend to&nbsp;Modify">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>For performance purposes, it&#8217;s best to freeze graphical objects (e.g. brushes) if you don&#8217;t intend to modify them.  You must also freeze an object if you intend to reference it from a thread other than the thread that created it.</p>
+<p>You can freeze an object in code, using the <strong>Freeze</strong> method.</p>
+<p><pre class="brush: csharp;">
+            // SolidColorBrush, created in XAML, not frozen
+            bool frozen = tealBrush.IsFrozen;    // frozen = false
+
+            if (tealBrush.CanFreeze)
+                tealBrush.Freeze();
+
+            frozen = tealBrush.IsFrozen;         // frozen = true
+</pre></p>
+<p>You can also freeze an object in XAML, when it is declared, with the addition of an XML namespace.</p>
+<p><pre class="brush: xml;">
+&lt;Window x:Class=&quot;WpfApplication4.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:po=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation/options&quot;
+        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot; &gt;
+    &lt;Window.Resources&gt;
+        &lt;SolidColorBrush x:Key=&quot;tealBrush&quot; Color=&quot;Teal&quot; po:Freeze=&quot;True&quot;/&gt;
+    &lt;/Window.Resources&gt;
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+if ( typeof googletag != 'undefined' ) {
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Basics | Tags: Freeze, WPF</p>
+  <nav class="pager"><a href="2011-01-02-174-predefined-brushes-are-already-frozen.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-04-176-two-kinds-of-template.html">Next</a></nav>
+</main>
+
+</body>
+</html>

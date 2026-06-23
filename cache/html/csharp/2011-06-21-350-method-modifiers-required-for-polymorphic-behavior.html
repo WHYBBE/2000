@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#350 &#8211; Method Modifiers Required for Polymorphic Behavior &laquo; 2,000 Things You Should Know About C#</title>
+
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/pub/enterprise/style.css?m=1352691612g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1330291983&amp;back=csharp.2000things.com%2F2011%2F06%2F21%2F350-method-modifiers-required-for-polymorphic-behavior%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #350 &#8211; Method Modifiers Required for Polymorphic&nbsp;Behavior Comments Feed" href="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1352408494g" type="text/css" />
+<link rel='stylesheet' id='loggedout-subscribe-css'  href='http://s1.wp.com/wp-content/blog-plugins/loggedout-follow/widget.css?m=1330044119g&#038;ver=20120104' type='text/css' media='all' />
+<link rel='stylesheet' id='post-reactions-css'  href='http://s2.wp.com/wp-content/mu-plugins/post-flair/style.css?m=1354474399g&#038;ver=3' type='text/css' media='all' />
+<link rel='stylesheet' id='wordads-generic-css'  href='http://s1.wp.com/wp-content/blog-plugins/wordads/general.css?m=1354472924g&#038;ver=2011-11-18' type='text/css' media='all' />
+<link rel='stylesheet' id='wordads-enterprise-css'  href='http://s0.wp.com/wp-content/blog-plugins/wordads/enterprise.css?m=1352718639g&#038;ver=2011-11-18' type='text/css' media='all' />
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/jquery/jquery.js?m=1352653157g&#038;ver=1.7.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/blog-plugins/loggedout-follow/widget.js?m=1354470057g&#038;ver=20120215'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/comment-reply.js?m=1346531579g&#038;ver=3.4-alpha-19904'></script>
+<link rel='stylesheet' id='highlander-comments-css'  href='http://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1330128801g&#038;ver=20110620' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1352186683g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#349 &#8211; The Difference Between Virtual and Non-Virtual&nbsp;Methods' href='http://csharp.2000things.com/2011/06/20/349-the-difference-between-virtual-and-non-virtual-methods/' />
+<link rel='next' title='#351 &#8211; An Abstract Method Has No&nbsp;Implementation' href='http://csharp.2000things.com/2011/06/22/351-an-abstract-method-has-no-implementation/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/' />
+<link rel='shortlink' href='http://wp.me/pXTis-LN' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&url=http%3A%2F%2Fcsharp.2000things.com%2F2011%2F06%2F21%2F350-method-modifiers-required-for-polymorphic-behavior%2F&for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&url=http%3A%2F%2Fcsharp.2000things.com%2F2011%2F06%2F21%2F350-method-modifiers-required-for-polymorphic-behavior%2F&for=wpcom-auto-discovery" /><meta property="og:type" content="article" />
+<meta property="og:title" content="#350 &#8211; Method Modifiers Required for Polymorphic&nbsp;Behavior" />
+<meta property="og:url" content="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/" />
+<meta property="og:description" content="There are three combinations of method modifiers that make sense, in determining whether methods in a class are virtual or non-virtual.
+
+Typical combinations of modifiers for base class / derived..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About C#" />
+<meta property="og:image" content="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=300" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=114" />
+<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+	<style type="text/css">
+	/* <![CDATA[ */
+			/* ]]> */
+	</style>
+			<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+<script type="text/javascript">
+	var fmwp = { cat: 'enterprisetech',
+							 bid: 14273916,
+							 pt: 'permalink',
+							 theme: 'enterprise',
+							 colorscheme: 'light',
+							 url: escape('http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/') };
+</script>
+<script type='text/javascript'>
+  (function() {
+    var useSSL = 'https:' == document.location.protocol;
+    var src = (useSSL ? 'https:' : 'http:') +       '//www.googletagservices.com/tag/js/gpt.js';
+    document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+  })();
+</script>	
+
+
+<script type='text/javascript'>
+  googletag.cmd.push(function() {
+googletag.pubads().setTargeting("WordAds", "1");
+googletag.pubads().setTargeting("WordAds-FM", "1");
+googletag.pubads().setTargeting("DarkClass", "");
+googletag.pubads().setTargeting("Autotag", "technology");
+googletag.pubads().setTargeting("Tag", "classes");
+googletag.pubads().setTargeting("Tag", "c");
+googletag.pubads().setTargeting("Tag", "classes");
+googletag.pubads().setTargeting("Tag", "new");
+googletag.pubads().setTargeting("Tag", "override");
+googletag.pubads().setTargeting("Tag", "polymorphism");
+googletag.pubads().setTargeting("Tag", "virtual");
+
+  });
+</script>
+
+<script type='text/javascript'>
+googletag.cmd.push(function() {
+googletag.defineSlot('/9240792/Wordads_Leaderboard', [728, 90], 'div-gpt-ad-1330047761659-0').addService(googletag.pubads());
+googletag.defineSlot('/9240792/Wordads_Mrec', [300, 250], 'div-gpt-ad-1330047806923-0').addService(googletag.pubads());
+googletag.defineSlot('/9240792/Wordads_ContentWell', [468, 60], 'div-gpt-ad-1330229685952-0').addService(googletag.pubads());
+
+googletag.pubads().enableSingleRequest();
+googletag.pubads().enableSyncRendering();
+googletag.enableServices();
+});
+</script>
+
+</head>
+
+<body class="single single-post postid-2963 single-format-standard highlander-enabled highlander-light">
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330047761659-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330047761659-0'); });
+</script>
+</div>
+</div>
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+                <p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>
+    </div>
+    <div class="header-right">
+        <form method="get" id="searchform" action="http://csharp.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/">Index</a></li></ul></div>
+	    </div>
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-5037"><a href="http://csharp.2000things.com/category/interfaces/" title="View all posts filed under Interfaces">Interfaces</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="http://csharp.2000things.com/category/events/" title="View all posts filed under Events">Events</a>
+</li>
+	<li class="cat-item cat-item-73644"><a href="http://csharp.2000things.com/category/operators/" title="View all posts filed under Operators">Operators</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+        
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2011/06/20/349-the-difference-between-virtual-and-non-virtual-methods/" rel="prev"><span class="meta-nav">&larr;</span> #349 &#8211; The Difference Between Virtual and Non-Virtual&nbsp;Methods</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2011/06/22/351-an-abstract-method-has-no-implementation/" rel="next">#351 &#8211; An Abstract Method Has No&nbsp;Implementation <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+            <div class="post-2963 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-new tag-override tag-polymorphism tag-virtual">
+
+           		<div class="entry">
+
+                    <h1>#350 &#8211; Method Modifiers Required for Polymorphic&nbsp;Behavior</h1>
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">June 21, 2011</span>
+                        	                        	<span class="post-comments"><a href="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/#respond">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>There are three combinations of method modifiers that make sense, in determining whether methods in a class are <a href="http://wp.me/pXTis-LH">virtual or non-virtual</a>.</p>
+<p>Typical combinations of modifiers for base class / derived class (assuming that method signature is the same in both the base and derived class):</p>
+<ul>
+<li>(no modifier) / <strong>new</strong> &#8211; Both methods are non-virtual, derived class method hides the base class method</li>
+<li><strong>virtual</strong> / <strong>override</strong> &#8211; Both methods are virtual, support polymorphic behavior</li>
+<li><strong>virtual</strong> / <strong>new</strong> &#8211; Base class method virtual, derived class method non-virtual, derived class method hides base class method</li>
+</ul>
+<p>There are two other combinations that are allowed, but result in a compiler warning indicating that you should use <strong>new</strong> in the derived class to be explicit:</p>
+<ul>
+<li>(no modifier) / (no modifier) &#8211; effectively (no modifier) / <strong>new</strong></li>
+<li><strong>virtual</strong> / (no modifier) &#8211; effectively <strong>virtual </strong>/ <strong>new</strong></li>
+</ul>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2963"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></div><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/?like=1&amp;_wpnonce=f7be228cac' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></div></div><div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/"
+    dc:identifier="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/"
+    dc:title="#350 &#8211; Method Modifiers Required for Polymorphic&nbsp;Behavior"
+    trackback:ping="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://csharp.2000things.com/category/classes/" title="View all posts in Classes" rel="category tag">Classes</a></span>
+                    	<span class="tags">Tagged with <a href="http://csharp.2000things.com/tag/c/" rel="tag">C#</a>, <a href="http://csharp.2000things.com/tag/classes/" rel="tag">Classes</a>, <a href="http://csharp.2000things.com/tag/new/" rel="tag">new</a>, <a href="http://csharp.2000things.com/tag/override/" rel="tag">override</a>, <a href="http://csharp.2000things.com/tag/polymorphism/" rel="tag">Polymorphism</a>, <a href="http://csharp.2000things.com/tag/virtual/" rel="tag">virtual</a></span>                    </p>
+                </div>
+
+            </div>
+
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+            
+                        <p></p>
+
+            <div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																										
+
+
+												
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment"></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&forcedefault=1&d=identicon" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div> 
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1299909784g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+	
+	
+</div>
+
+
+<div id="comment-form-subscribe"> 
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='2963' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1330291983" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b6733c205b" /></p><script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1352243162g&#038;ver=1'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="155"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+    </div>
+
+<div id="sidebar">
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330047806923-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330047806923-0'); });
+</script>
+</div>
+</div>
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://csharp.2000things.com/2012/02/24/526-using-statements-can-alias-nested-namespaces/" title="#526 &#8211; Using Statements Can Alias Nested&nbsp;Namespaces">#526 &#8211; Using Statements Can Alias Nested&nbsp;Namespaces</a></li>
+				<li><a href="http://csharp.2000things.com/2012/02/23/525-namespaces-can-be-nested/" title="#525 &#8211; Namespaces Can Be&nbsp;Nested">#525 &#8211; Namespaces Can Be&nbsp;Nested</a></li>
+				<li><a href="http://csharp.2000things.com/2012/02/22/524-all-types-within-a-namespace-must-be-unique/" title="#524 &#8211; All Types Within a Namespace Must Be&nbsp;Unique">#524 &#8211; All Types Within a Namespace Must Be&nbsp;Unique</a></li>
+				<li><a href="http://csharp.2000things.com/2012/02/21/no-post-today/" title="No Post&nbsp;Today">No Post&nbsp;Today</a></li>
+				<li><a href="http://csharp.2000things.com/2012/02/20/523-the-using-directive-allows-omitting-namespace/" title="#523 &#8211; The using Directive Allows Omitting&nbsp;Namespace">#523 &#8211; The using Directive Allows Omitting&nbsp;Namespace</a></li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>June 2011</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2011/05/" title="View posts for May 2011">&laquo; May</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://csharp.2000things.com/2011/07/" title="View posts for July 2011">Jul &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="3" class="pad">&nbsp;</td><td><a href="http://csharp.2000things.com/2011/06/01/" title="#336 &#8211; Declaring and Using a readonly&nbsp;Field">1</a></td><td><a href="http://csharp.2000things.com/2011/06/02/" title="#337 &#8211; Declaring and Using Static readonly&nbsp;Fields">2</a></td><td><a href="http://csharp.2000things.com/2011/06/03/" title="#338 &#8211; Static Readonly Fields vs.&nbsp;Constants">3</a></td><td>4</td>
+	</tr>
+	<tr>
+		<td>5</td><td><a href="http://csharp.2000things.com/2011/06/06/" title="#339 &#8211; Readonly Fields vs. Read-Only&nbsp;Properties">6</a></td><td><a href="http://csharp.2000things.com/2011/06/07/" title="#340 &#8211; Use the params Keyword to Pass a Variable Number of&nbsp;Arguments">7</a></td><td><a href="http://csharp.2000things.com/2011/06/08/" title="#341 &#8211; Defining and Using Local&nbsp;Variables">8</a></td><td><a href="http://csharp.2000things.com/2011/06/09/" title="#342 &#8211; Using a Static Variable to Count Instances of a&nbsp;Class">9</a></td><td><a href="http://csharp.2000things.com/2011/06/10/" title="#343 &#8211; Use the new Keyword to Replace a Method in a Base&nbsp;Class">10</a></td><td>11</td>
+	</tr>
+	<tr>
+		<td>12</td><td><a href="http://csharp.2000things.com/2011/06/13/" title="#344 &#8211; Hidden Base Class Member Is Invoked Based on Declared Type of&nbsp;Object">13</a></td><td><a href="http://csharp.2000things.com/2011/06/14/" title="#345 &#8211; Method in Derived Class Hides Base Class Method by&nbsp;Default">14</a></td><td><a href="http://csharp.2000things.com/2011/06/15/" title="#346 &#8211;&nbsp;Polymorphism">15</a></td><td><a href="http://csharp.2000things.com/2011/06/16/" title="#347 &#8211; Another Example of&nbsp;Polymorphism">16</a></td><td><a href="http://csharp.2000things.com/2011/06/17/" title="#348 &#8211; Virtual Methods Support&nbsp;Polymorphism">17</a></td><td>18</td>
+	</tr>
+	<tr>
+		<td>19</td><td><a href="http://csharp.2000things.com/2011/06/20/" title="#349 &#8211; The Difference Between Virtual and Non-Virtual&nbsp;Methods">20</a></td><td><a href="http://csharp.2000things.com/2011/06/21/" title="#350 &#8211; Method Modifiers Required for Polymorphic&nbsp;Behavior">21</a></td><td><a href="http://csharp.2000things.com/2011/06/22/" title="#351 &#8211; An Abstract Method Has No&nbsp;Implementation">22</a></td><td><a href="http://csharp.2000things.com/2011/06/23/" title="#352 &#8211; You Can&#8217;t Instantiate an Abstract&nbsp;Class">23</a></td><td><a href="http://csharp.2000things.com/2011/06/24/" title="#353 &#8211; Why You Might Define an Abstract&nbsp;Class">24</a></td><td>25</td>
+	</tr>
+	<tr>
+		<td>26</td><td><a href="http://csharp.2000things.com/2011/06/27/" title="#354 &#8211; Correct Overloaded Method Is Automatically&nbsp;Called">27</a></td><td><a href="http://csharp.2000things.com/2011/06/28/" title="#355 &#8211; Use the new Keyword to Replace a Property in a Base&nbsp;Class">28</a></td><td><a href="http://csharp.2000things.com/2011/06/29/" title="#356 &#8211; Hidden Base Class Property Is Used Based on Declared Type of&nbsp;Object">29</a></td><td><a href="http://csharp.2000things.com/2011/06/30/" title="#357 &#8211; Property in Derived Class Hides Base Class Property by&nbsp;Default">30</a></td>
+		<td class="pad" colspan="2">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://csharp.2000things.com/2010/06/30/specify-command-line-arguments-in-visual-studio-2010/'>#13 - Specify Command Line Arguments in Visual Studio 2010</a></li><li><a href='http://csharp.2000things.com/2010/07/09/22-integer-literals/'>#22 - Integer Literals</a></li><li><a href='http://csharp.2000things.com/2010/07/07/20-literals/'>#20 - Literals</a></li><li><a href='http://csharp.2000things.com/2010/07/08/21-boolean-literals/'>#21 - Boolean Literals</a></li><li><a href='http://csharp.2000things.com/2010/10/05/110-combining-the-arithmetic-operators-with-the-assignment-operator/'>#110 - Combining the Arithmetic Operators with the Assignment Operator</a></li><li><a href='http://csharp.2000things.com/2010/10/06/111-combining-the-logical-or-shift-operators-with-the-assignment-operator/'>#111 - Combining the Logical or Shift Operators with the Assignment Operator</a></li><li><a href='http://csharp.2000things.com/2010/10/07/112-conditionally-compiling-code-in-debug-builds/'>#112 - Conditionally Compiling Code in Debug Builds</a></li><li><a href='http://csharp.2000things.com/2010/07/10/23-real-literals/'>#23 - Real Literals</a></li><li><a href='http://csharp.2000things.com/2012/02/24/526-using-statements-can-alias-nested-namespaces/'>#526 - Using Statements Can Alias Nested Namespaces</a></li><li><a href='http://csharp.2000things.com/2010/10/04/109-defining-and-using-enums/'>#109 - Defining and Using Enums</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/define/' class='tag-link-30689' title='8 topics' style='font-size: 8.752688172043pt;'>#define</a>
+<a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='13 topics' style='font-size: 10.258064516129pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/operator/' class='tag-link-283374' title='8 topics' style='font-size: 8.752688172043pt;'>== operator</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='10 topics' style='font-size: 9.4301075268817pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='6 topics' style='font-size: 8pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='29 topics' style='font-size: 12.741935483871pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/attributes/' class='tag-link-372028' title='6 topics' style='font-size: 8pt;'>Attributes</a>
+<a href='http://csharp.2000things.com/tag/basics/' class='tag-link-8516' title='59 topics' style='font-size: 15pt;'>Basics</a>
+<a href='http://csharp.2000things.com/tag/build-configuration/' class='tag-link-30598608' title='6 topics' style='font-size: 8pt;'>Build Configuration</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='509 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='14 topics' style='font-size: 10.483870967742pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='72 topics' style='font-size: 15.602150537634pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='10 topics' style='font-size: 9.4301075268817pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='7 topics' style='font-size: 8.3763440860215pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='13 topics' style='font-size: 10.258064516129pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='29 topics' style='font-size: 12.741935483871pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/deep-copy/' class='tag-link-11859575' title='6 topics' style='font-size: 8pt;'>Deep Copy</a>
+<a href='http://csharp.2000things.com/tag/delegate/' class='tag-link-445004' title='8 topics' style='font-size: 8.752688172043pt;'>Delegate</a>
+<a href='http://csharp.2000things.com/tag/delegates/' class='tag-link-117466' title='12 topics' style='font-size: 9.9569892473118pt;'>Delegates</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='18 topics' style='font-size: 11.236559139785pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/equality/' class='tag-link-47506' title='7 topics' style='font-size: 8.3763440860215pt;'>Equality</a>
+<a href='http://csharp.2000things.com/tag/equals/' class='tag-link-220607' title='9 topics' style='font-size: 9.1290322580645pt;'>Equals</a>
+<a href='http://csharp.2000things.com/tag/events/' class='tag-link-924' title='18 topics' style='font-size: 11.236559139785pt;'>Events</a>
+<a href='http://csharp.2000things.com/tag/fields/' class='tag-link-47332' title='6 topics' style='font-size: 8pt;'>Fields</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='8 topics' style='font-size: 8.752688172043pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/inheritance/' class='tag-link-84839' title='8 topics' style='font-size: 8.752688172043pt;'>Inheritance</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='6 topics' style='font-size: 8pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/interfaces/' class='tag-link-5037' title='22 topics' style='font-size: 11.838709677419pt;'>Interfaces</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 8pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='6 topics' style='font-size: 8pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='33 topics' style='font-size: 13.118279569892pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/new/' class='tag-link-4597' title='10 topics' style='font-size: 9.4301075268817pt;'>new</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='8 topics' style='font-size: 8.752688172043pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/operators/' class='tag-link-73644' title='20 topics' style='font-size: 11.537634408602pt;'>Operators</a>
+<a href='http://csharp.2000things.com/tag/override/' class='tag-link-2568065' title='6 topics' style='font-size: 8pt;'>override</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='10 topics' style='font-size: 9.4301075268817pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/polymorphism/' class='tag-link-875803' title='10 topics' style='font-size: 9.4301075268817pt;'>Polymorphism</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='22 topics' style='font-size: 11.838709677419pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='13 topics' style='font-size: 10.258064516129pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='7 topics' style='font-size: 8.3763440860215pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='16 topics' style='font-size: 10.860215053763pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='14 topics' style='font-size: 10.483870967742pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/switch/' class='tag-link-21233' title='6 topics' style='font-size: 8pt;'>Switch</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='7 topics' style='font-size: 8.3763440860215pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='24 topics' style='font-size: 12.139784946237pt;'>Visual Studio</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>63,429 hits</li>
+			</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a href="http://www.studiopress.com/" rel="designer">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?aa&#038;ver=3.4-alpha-19904'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1352576748g&#038;ver=3.4-alpha-19904'></script>
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.c,posttag.classes,posttag.new,posttag.override,posttag.polymorphism,posttag.virtual,wa.pv.noads.2000thingscsharp,wa.as.fm.enterprisetech,wa.pv.ads.2000thingscsharp"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.c%2Cposttag.classes%2Cposttag.new%2Cposttag.override%2Cposttag.polymorphism%2Cposttag.virtual%2Cwa.pv.noads.2000thingscsharp%2Cwa.as.fm.enterprisetech%2Cwa.pv.ads.2000thingscsharp" height="1" width="1" alt="" /></div></noscript>
+
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery(document).ready( function($) {
+
+			// Remove the login box when clicking the page
+			$( document ).mousedown( function( e ) {
+				if ( null == $( e.target ).closest( '#wpl-mustlogin' ).get( 0 ) ) {
+					$( '#wpl-mustlogin' ).remove();
+				}
+			});
+
+			// Handle clicking the like button itself
+			$('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=2f4fcd7ce9; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+
+				$('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="https://2000thingscsharp.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="2f4fcd7ce9" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+
+				$('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			$('#wpl-mustlogin input.input').live( 'focus', function() {
+				$(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( $(this).val() == '' )
+					$(this).prev().show();
+			});
+			
+			$('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					$('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			$('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = $(this).attr('href');
+				
+				$.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+		<style type="text/css">
+			
+				.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+				.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+				.reblogger-note-content            { margin: 0 0 20px 35px; }
+				.reblog-post                       { border-left: 3px solid #eee; padding-left: 15px; }
+				.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+				.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+				.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+				.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+				.reblog-post                       { border-left: 3px solid #eee; padding-left: 15px; }
+					</style><script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingscsharp.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingscsharp.wordpress.com\/wp-login.php?action=logout&_wpnonce=17efb71278","homeURL":"http:\/\/csharp.2000things.com\/","postID":"2963","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/script.js?m=1330133177g&#038;ver=20110804'></script>
+	<script type="text/javascript">
+	WPCOM_sharing_counts = {'http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/':'2963'};
+	</script>
+		
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+			
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About C#&rdquo;</label></h3>
+		
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+			
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 37 other followers</p>		
+			
+			<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14273916"/>
+			<input type="hidden" name="source" value="http://csharp.2000things.com/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="363357881d" /><input type="hidden" name="_wp_http_referer" value="/2011/06/21/350-method-modifiers-required-for-polymorphic-behavior/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/sharing.js?m=1354486432g&#038;ver=20120131'></script>
+		<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function(){
+			jQuery( '.share-twitter' ).click(function(){
+				window.open( jQuery(this).attr( 'href' ), 'wpcom-twitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+		<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','user_id':'0','post':'2963','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1LZ2xfJXEyPWZCW2RIR0FaYVJPd0I3eHhGayxPW2ZUWkkzJmxvVUNlcFlWVC9VLDRxfDNyJUEraislK11VZm9PdG5CNEpZWXVJNXd3SjVHMj8vQmVyQmZ3ZStVeDNKN1RqaG49SkRvTmVEZElmYVtibXpDLElrMWxbdStPQjZWOVI4bW1+eEt3ZDZBL0Z2RDJSWXIwT1VWQ2haMVFsYU5aZzNhP0ZGbHFnflN5MHI5am53LXg9RHJJVjhoMDA4T2V+Z2k2Rjd+bHkwVC5NUl9Xc1NhLk41OXhrK1lEWEJ6VTkwckwybW0mLEtWYndyQ25CcS9qOHRNNzR1ZHE='});
+addLoadEvent(function(){linktracker_init('14273916',2963);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,205 – Use CallerMemberName Attribute to Make INotifyPropertyChanged Implementation Cleaner</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-04-06-1204-using-a-datatrigger-to-change-content-in-a-contentpresenter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-04-28-1206-changing-color-of-custom-circular-progress.html">Next</a></nav>
+  <h1>#1,205 – Use CallerMemberName Attribute to Make INotifyPropertyChanged Implementation Cleaner</h1>
+  <p class="meta">2017-04-24 | <a href="http://wpf.2000things.com/2017/04/24/1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner/">Original URL</a> | Wayback 20170628170542</p>
+  <article><div class="post-9640 post type-post status-publish format-standard hentry category-data-binding tag-callermembername tag-data-binding tag-inotifypropertychanged tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">April 24, 2017</span>
+																						<span class="post-comments"><a href="2017-04-24-1205-use-callermembername-attribute-to-make-inotifypropertychanged-implementation-cleaner.html">3 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>The <b>INotifyPropertyChanged</b> interface is central to using data binding in WPF. You typically create ViewModels containing properties that fire a <b>PropertyChanged</b> event whenever a property value changes. Implementing this plumbing over and over for every property can become tedious. This argues for a reusable pattern to make the per-property code cleaner.</p>
+<p>Specifying string-based property names when raising the <b>PropertyChanged</b> event can also be error-prone. When, passing property names as string literals, a misspelled property name doesn&#8217;t lead to a compiler warning, but just a quiet data binding failure.</p>
+<p>Below is a pattern you can use to make property change code cleaner. It relies on the <b>CallerMemberName</b> attribute, which can be used to default a method parameter to the name of a caller&#8211;the property name in this case.</p>
+<p>We have a generic method that compares a new property value to the current value in the backing variable. If the value has changed, it assigns the new value and fires the property changed event.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        protected bool SetProp&lt;T&gt;(ref T backingField, T value, [CallerMemberName] string propName = null)
+        {
+            bool valueChanged = false;
+
+            // Can't use equality operator on generic types
+            if (!EqualityComparer&lt;T&gt;.Default.Equals(backingField, value))
+            {
+                backingField = value;
+                RaisePropertyChanged(propName);
+                valueChanged = true;
+            }
+
+            return valueChanged;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        protected void RaisePropertyChanged(string propName)
+        {
+            if (!string.IsNullOrWhiteSpace(propName) &amp;&amp; (PropertyChanged != null))
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+</pre>
+<p>A standard property implementation can now look pretty clean. (Note: We&#8217;re not checking the return value of <b>SetProp</b>, but we could do that if we wanted to perform other logic when the property value changes).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private Dog _selectedDog;
+        public Dog SelectedDog
+        {
+            get { return _selectedDog; }
+            set { SetProp(ref _selectedDog, value); }
+        }
+</pre>
+<p>You would generally put this sort of code in a common base class that all of your ViewModel classes could inherit from.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9640-5953e1e71a204' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9640&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9640-5953e1e71a204' data-name='like-post-frame-14605478-9640-5953e1e71a204'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: CallerMemberName, Data Binding, INotifyPropertyChanged, WPF</p>
+  <nav class="pager"><a href="2017-04-06-1204-using-a-datatrigger-to-change-content-in-a-contentpresenter.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-04-28-1206-changing-color-of-custom-circular-progress.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#76 – Arithmetic Operations with Small Integers</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-08-31-75-new-bits-when-shifting.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-09-02-77-special-floating-point-values.html">Next</a></nav>
+  <h1>#76 – Arithmetic Operations with Small Integers</h1>
+  <p class="meta">2010-09-01 | <a href="http://csharp.2000things.com/2010/09/01/76-arithmetic-operations-with-small-integers/">Original URL</a> | Wayback 20120511184624</p>
+  <article><div class="post-741 post type-post status-publish format-standard hentry category-data-types tag-arithmetic tag-c">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 1, 2010</span>
+																						<span class="post-comments"><a href="2010-09-01-76-arithmetic-operations-with-small-integers.html" title="Comment on #76 &#8211; Arithmetic Operations with Small&nbsp;Integers">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When doing arithmetic operations on variables of type <strong>byte</strong>, <strong>sbyte</strong>, <strong>short</strong> or <strong>ushort</strong>, the data values are first converted to <strong>int</strong> and the operations are performed on <strong>int</strong> types.</p>
+<p>As an example, note that the following code does not compile.  You receive the compiler error <em>&#8220;Cannot implicitly convert type &#8216;int&#8217; to &#8216;byte&#8217;</em>&#8220;.</p>
+<p><pre class="brush: csharp;">
+ byte b1 = 5;
+ byte b2 = 6;
+ byte b3 = b1 + b2;
+</pre></p>
+<p>The problem is that the &#8220;b1 + b2&#8243; expression is evaluated as an <strong>int</strong>.  The two <strong>byte </strong>variables are first converted to <strong>int</strong> and the sum is calculated as an <strong>int</strong>.  But then we try to assign this <strong>int</strong> result back to a <strong>byte</strong>.  Because <strong>byte</strong> is smaller than <strong>int</strong>, we can&#8217;t do an implicit cast from <strong>int</strong> to <strong>byte</strong>.</p>
+<p>We can avoid the compilation error by doing an explicit cast:</p>
+<p><pre class="brush: csharp;">
+ byte b1 = 5;
+ byte b2 = 6;
+ byte b3 = (byte)(b1 + b2);
+</pre></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/09/01/76-arithmetic-operations-with-small-integers/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-741"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/09/01/76-arithmetic-operations-with-small-integers/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/09/01/76-arithmetic-operations-with-small-integers/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: Arithmetic, C#</p>
+  <nav class="pager"><a href="2010-08-31-75-new-bits-when-shifting.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-09-02-77-special-floating-point-values.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#242 – Drawing Text Using DrawGlyphRun</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-03-10-241-rendering-text-using-drawtext.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-12-243-display-text-using-a-label-control.html">Next</a></nav>
+  <h1>#242 – Drawing Text Using DrawGlyphRun</h1>
+  <p class="meta">2011-03-11 | <a href="http://wpf.2000things.com/2011/03/11/242-drawing-text-using-drawglyphrun/">Original URL</a> | Wayback 20110317171516</p>
+  <article><div class="post-2011 post type-post status-publish format-standard hentry category-graphics tag-wpf tag-graphics tag-fonts tag-drawglyphrun tag-glyphs">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">March 11, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-03-11-242-drawing-text-using-drawglyphrun.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>If you want an even lower-level mechanism for drawing text than provided by <strong>DrawingContext.DrawText</strong>, you can use <strong>DrawingContext.DrawGlyphRun</strong>.</p>
+<p><strong>DrawGlyphRun</strong> lets you draw text based on <em>glyphs</em>, which are individual characters within a font that typically represent a single character in a language.</p>
+<p>Below is an example of rendering the word &#8220;Wow&#8221; using <strong>DrawGlyphRun</strong>, in a custom <strong>DrawingVisual</strong>.</p>
+<pre class="brush: csharp;">
+    class MyDrawingVisual : DrawingVisual
+    {
+        public MyDrawingVisual()
+        {
+            using (DrawingContext dc = RenderOpen())
+            {
+                GlyphRun gr = new GlyphRun(
+                    new GlyphTypeface(new Uri(@&quot;C:\Windows\Fonts\BKANT.TTF&quot;)),
+                    0,       // Bi-directional nesting level
+                    false,   // isSideways
+                    96,      // pt size
+                    new ushort[] { 58, 82, 90 },   // glyphIndices
+                    new Point(100.0, 100.0),           // baselineOrigin
+                    new double[] { 80.0, 45.0, 0.0 },  // advanceWidths
+                    null,    // glyphOffsets
+                    null,    // characters
+                    null,    // deviceFontName
+                    null,    // clusterMap
+                    null,    // caretStops
+                    null);   // xmlLanguage
+
+                // Draw the text at a location
+                dc.DrawGlyphRun(Brushes.Black, gr);
+            }
+        }
+    }
+</pre>
+<p>The <strong>glyphIndices</strong> parameter specifies a list of indexes into the font for the glyphs that are to be rendered.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/03/001-wow.png"><img class="alignnone size-full wp-image-2014" title="001-Wow" src="https://web.archive.org/web/20110317171516id_/http://2000thingswpf.files.wordpress.com/2011/03/001-wow.png?w=346&amp;h=178" alt="" width="346" height="178" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2011/03/11/242-drawing-text-using-drawglyphrun/"
+    dc:identifier="http://wpf.2000things.com/2011/03/11/242-drawing-text-using-drawglyphrun/"
+    dc:title="#242 &#8211; Drawing Text Using&nbsp;DrawGlyphRun"
+    trackback:ping="http://wpf.2000things.com/2011/03/11/242-drawing-text-using-drawglyphrun/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/graphics/" title="View all posts in Graphics" rel="category tag">Graphics</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a>, <a href="http://en.wordpress.com/tag/graphics/" rel="tag">Graphics</a>, <a href="http://en.wordpress.com/tag/fonts/" rel="tag">Fonts</a>, <a href="http://en.wordpress.com/tag/drawglyphrun/" rel="tag">DrawGlyphRun</a>, <a href="http://en.wordpress.com/tag/glyphs/" rel="tag">Glyphs</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Graphics | Tags: WPF, Graphics, Fonts, DrawGlyphRun, Glyphs</p>
+  <nav class="pager"><a href="2011-03-10-241-rendering-text-using-drawtext.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-12-243-display-text-using-a-label-control.html">Next</a></nav>
+</main>
+
+</body>
+</html>

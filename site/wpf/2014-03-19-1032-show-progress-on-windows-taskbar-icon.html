@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,032 – Show Progress on Windows Taskbar Icon</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-03-18-1031-update-a-progressbar-from-a-background-thread.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-03-20-1033-progressbar-can-be-horizontal-or-vertical.html">Next</a></nav>
+  <h1>#1,032 – Show Progress on Windows Taskbar Icon</h1>
+  <p class="meta">2014-03-19 | <a href="http://wpf.2000things.com/2014/03/19/1032-show-progress-on-windows-taskbar-icon/">Original URL</a> | Wayback 20140319225402</p>
+  <article><div class="post-8417 post type-post status-publish format-standard hentry category-windows tag-progress tag-taskbar tag-windows tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">March 19, 2014</span>
+																						<span class="post-comments"><a href="2014-03-19-1032-show-progress-on-windows-taskbar-icon.html" title="Comment on #1,032 &#8211; Show Progress on Windows Taskbar&nbsp;Icon">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>When your application is doing some work in the background, it&#8217;s common to show progress in a <strong>ProgressBar</strong> within your application.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1032-001.png"><img class="alignnone size-full wp-image-8425" alt="1032-001" src="https://web.archive.org/web/20140319225402id_/http://2000thingswpf.files.wordpress.com/2014/03/1032-001.png?w=630"   /></a></p>
+<p>In Windows 7 and Windows 8, you can also make use of the underlying Windows API to show an integrated progress bar on the application&#8217;s taskbar icon.  The progress is rendered using a green bar that moves across the width of the icon.  This is helpful for showing progress while your application is minimized.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1032-002.png"><img class="alignnone size-full wp-image-8426" alt="1032-002" src="https://web.archive.org/web/20140319225402id_/http://2000thingswpf.files.wordpress.com/2014/03/1032-002.png?w=630"   /></a></p>
+<p>Below is a complete example of how you can update the taskbar icon to show progress.  Some of the low-level API code was taken from the <a href="http://archive.msdn.microsoft.com/WindowsAPICodePack">Windows API Code Pack on MSDN</a>, which contains examples of many more API functions that you can call.  You can use the Windows API Code Pack as an external library, or you can call the low-level Windows API yourself.  The code below does the latter and is the minimum code required to show progress on the taskbar.</p>
+<p>To start with, we define the following code in a <strong>TaskbarAPI.cs</strong> file.  This provides a managed wrapper around the underlying Windows API calls.  The main thing is the <strong>ITaskbarList4</strong> interface, in its entirety.  We then define some extra stuff for the types that appear in the interface.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WpfApplication1
+{
+    internal enum HResult
+    {
+        Ok = 0x0000
+
+        // Add more constants here, if necessary
+    }
+
+    public enum TaskbarProgressBarStatus
+    {
+        NoProgress = 0,
+        Indeterminate = 0x1,
+        Normal = 0x2,
+        Error = 0x4,
+        Paused = 0x8
+    }
+
+    internal enum ThumbButtonMask
+    {
+        Bitmap = 0x1,
+        Icon = 0x2,
+        Tooltip = 0x4,
+        THB_FLAGS = 0x8
+    }
+
+    [Flags]
+    internal enum ThumbButtonOptions
+    {
+        Enabled = 0x00000000,
+        Disabled = 0x00000001,
+        DismissOnClick = 0x00000002,
+        NoBackground = 0x00000004,
+        Hidden = 0x00000008,
+        NonInteractive = 0x00000010
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct ThumbButton
+    {
+        ///
+/// WPARAM value for a THUMBBUTTON being clicked.
+        ///
+        internal const int Clicked = 0x1800;
+
+        [MarshalAs(UnmanagedType.U4)]
+        internal ThumbButtonMask Mask;
+        internal uint Id;
+        internal uint Bitmap;
+        internal IntPtr Icon;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+        internal string Tip;
+        [MarshalAs(UnmanagedType.U4)]
+        internal ThumbButtonOptions Flags;
+    }
+
+    internal enum SetTabPropertiesOption
+    {
+        None = 0x0,
+        UseAppThumbnailAlways = 0x1,
+        UseAppThumbnailWhenActive = 0x2,
+        UseAppPeekAlways = 0x4,
+        UseAppPeekWhenActive = 0x8
+    }
+
+    // using System.Runtime.InteropServices
+    [ComImportAttribute()]
+    [GuidAttribute(&quot;c43dc798-95d1-4bea-9030-bb99e2983a1a&quot;)]
+    [InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ITaskbarList4
+    {
+        // ITaskbarList
+        [PreserveSig]
+        void HrInit();
+        [PreserveSig]
+        void AddTab(IntPtr hwnd);
+        [PreserveSig]
+        void DeleteTab(IntPtr hwnd);
+        [PreserveSig]
+        void ActivateTab(IntPtr hwnd);
+        [PreserveSig]
+        void SetActiveAlt(IntPtr hwnd);
+
+        // ITaskbarList2
+        [PreserveSig]
+        void MarkFullscreenWindow(
+            IntPtr hwnd,
+            [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+
+        // ITaskbarList3
+        [PreserveSig]
+        void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
+        [PreserveSig]
+        void SetProgressState(IntPtr hwnd, TaskbarProgressBarStatus tbpFlags);
+        [PreserveSig]
+        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        [PreserveSig]
+        void UnregisterTab(IntPtr hwndTab);
+        [PreserveSig]
+        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        [PreserveSig]
+        void SetTabActive(IntPtr hwndTab, IntPtr hwndInsertBefore, uint dwReserved);
+        [PreserveSig]
+        HResult ThumbBarAddButtons(
+            IntPtr hwnd,
+            uint cButtons,
+            [MarshalAs(UnmanagedType.LPArray)] ThumbButton[] pButtons);
+        [PreserveSig]
+        HResult ThumbBarUpdateButtons(
+            IntPtr hwnd,
+            uint cButtons,
+            [MarshalAs(UnmanagedType.LPArray)] ThumbButton[] pButtons);
+        [PreserveSig]
+        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+        [PreserveSig]
+        void SetOverlayIcon(
+          IntPtr hwnd,
+          IntPtr hIcon,
+          [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        [PreserveSig]
+        void SetThumbnailTooltip(
+            IntPtr hwnd,
+            [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        [PreserveSig]
+        void SetThumbnailClip(
+            IntPtr hwnd,
+            IntPtr prcClip);
+
+        // ITaskbarList4
+        void SetTabProperties(IntPtr hwndTab, SetTabPropertiesOption stpFlags);
+    }
+
+    [GuidAttribute(&quot;56FDF344-FD6D-11d0-958A-006097C9A090&quot;)]
+    [ClassInterfaceAttribute(ClassInterfaceType.None)]
+    [ComImportAttribute()]
+    internal class CTaskbarList { }
+}
+</pre>
+<p>Next, we define a little helper class that calls the API on our behalf.  We use a <strong>Dispatcher</strong> so that we can get access to the application&#8217;s main window, doing this on the UI thread.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+using System;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Threading;
+
+namespace WpfApplication1
+{
+    public static class TaskbarUtility
+    {
+        private static ITaskbarList4 _taskbarList;
+
+        static TaskbarUtility()
+        {
+            if (!IsSupported())
+                throw new Exception(&quot;Taskbar functions not available&quot;);
+
+            _taskbarList = (ITaskbarList4)new CTaskbarList();
+            _taskbarList.HrInit();
+        }
+
+        private static bool IsSupported()
+        {
+            return Environment.OSVersion.Platform == PlatformID.Win32NT &amp;&amp;
+                Environment.OSVersion.Version.CompareTo(new Version(6, 1)) &gt;= 0;
+        }
+
+        public static void SetProgressState(TaskbarProgressBarStatus state)
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =&gt;
+            {
+                _taskbarList.SetProgressState((new WindowInteropHelper(Application.Current.MainWindow)).Handle, state);
+            }));
+        }
+
+        public static void SetProgressValue(int currentValue, int maximumValue)
+        {
+            // using System.Windows.Interop
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =&gt;
+            {
+                _taskbarList.SetProgressValue(
+                    (new WindowInteropHelper(Application.Current.MainWindow)).Handle,
+                    Convert.ToUInt64(currentValue),
+                    Convert.ToUInt64(maximumValue));
+            }));
+        }
+    }
+}
+</pre>
+<p>The XAML for the example just contains a <strong>ProgressBar</strong> and a <strong>Button</strong> to start the background operation.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
+        Title=&quot;ProgressBar&quot;
+        Width=&quot;280&quot; Height=&quot;140&quot;&gt;
+
+    &lt;StackPanel&gt;
+        &lt;ProgressBar Value=&quot;{Binding TheProgress}&quot;
+                     Height=&quot;15&quot; Margin=&quot;15,15,15,0&quot;/&gt;
+        &lt;Label Content=&quot;Doing some work...&quot;
+               Margin=&quot;10,0&quot;/&gt;
+        &lt;Button Margin=&quot;15&quot; Padding=&quot;15,3&quot; HorizontalAlignment=&quot;Center&quot;
+            Content=&quot;Start&quot; Click=&quot;Button_Click&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</pre>
+<p>Our code-behind is also fairly simple.  When the user clicks the <strong>Button</strong>, we start an operation on the background thread and periodically update both the <strong>ProgressBar</strong> control and the progress bar built into the taskbar icon.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+using System.ComponentModel;
+using System.Threading;
+using System.Windows;
+
+namespace WpfApplication1
+{
+    /// &lt;summary&gt;
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        private int theProgress = 0;
+        public int TheProgress
+        {
+            get { return theProgress; }
+            protected set
+            {
+                theProgress = value;
+                RaisePropertyChanged(&quot;TheProgress&quot;);
+            }
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new Thread(() =&gt;
+            {
+                TaskbarUtility.SetProgressState(TaskbarProgressBarStatus.Normal);
+
+                for (int i = 1; i &lt;= 100; i++)
+                {
+                    TheProgress = i;
+                    TaskbarUtility.SetProgressValue(i, 100);
+                    Thread.Sleep(50);
+                }
+
+                TheProgress = 0;
+                TaskbarUtility.SetProgressState(TaskbarProgressBarStatus.NoProgress);
+            }).Start();
+        }
+
+        // INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private void RaisePropertyChanged(string propName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+    }
+}
+</pre>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/03/19/1032-show-progress-on-windows-taskbar-icon/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "windows");
+GA_googleAddAttr("Tag", "progress");
+GA_googleAddAttr("Tag", "taskbar");
+GA_googleAddAttr("Tag", "windows");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/03/19/1032-show-progress-on-windows-taskbar-icon/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='virool.com']").length > 0 || jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-8417-532a200b00acd' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=8417&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-8417-532a200b00acd' data-name='like-post-frame-14605478-8417-532a200b00acd'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Windows | Tags: Progress, Taskbar, Windows, WPF</p>
+  <nav class="pager"><a href="2014-03-18-1031-update-a-progressbar-from-a-background-thread.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-03-20-1033-progressbar-can-be-horizontal-or-vertical.html">Next</a></nav>
+</main>
+
+</body>
+</html>

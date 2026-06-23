@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#138 – Searching a Sorted Array</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-11-01-137-sorting-an-array-using-an-independent-comparer-method.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-03-139-using-the-array-clone-method-to-make-a-shallow-copy-of-an-array.html">Next</a></nav>
+  <h1>#138 – Searching a Sorted Array</h1>
+  <p class="meta">2010-11-02 | <a href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/">Original URL</a> | Wayback 20120219120644</p>
+  <article><div class="post-1351 post type-post status-publish format-standard hentry category-data-types tag-array tag-c tag-searching tag-sorting">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">November 2, 2010</span>
+                        	                        	<span class="post-comments"><a href="2010-11-02-138-searching-a-sorted-array.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>If an array is already sorted and if the type that its elements belong to has implemented <strong>IComparable</strong>, you can use the <strong>BinarySearch</strong> method to quickly search for a particular element.</p>
+<p>Using our <a href="2010-10-30-135-implementing-icomparable-to-allow-sorting-a-custom-type.html" target="_blank">earlier example</a>, with a <strong>Person</strong> class that implements <strong>IComparable</strong> (sorts by LastName/FirstName), we can search for a particular <strong>Person</strong> in a sorted array:</p>
+<p><pre class="brush: csharp;">
+            Person[] folks = new Person[4];
+            folks[0] = new Person(&quot;Bronte&quot;, &quot;Emily&quot;);
+            folks[1] = new Person(&quot;Bronte&quot;, &quot;Charlotte&quot;);
+            folks[2] = new Person(&quot;Tennyson&quot;, &quot;Alfred&quot;);
+            folks[3] = new Person(&quot;Mailer&quot;, &quot;Norman&quot;);
+
+            // Sort
+            Array.Sort(folks);    // C. Bronte, E. Bronte, Mailer, Tennyson
+
+            // Now search - returns index of 2 (3rd element)
+            int normIndex = Array.BinarySearch(folks, new Person(&quot;Mailer&quot;, &quot;Norman&quot;));
+            Person norm = folks[normIndex];     // Get reference to Normal
+</pre></p>
+<p>If you have a property not used for sorting purposes (e.g. <strong>Person.Age</strong>), you can&#8217;t be guaranteed that the object returned as a match actually matches your specified object&#8211;for that property.  Only properties used for comparison are guaranteed to match in the object returned.</p>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-1351"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: Array, C#, Searching, Sorting</p>
+  <nav class="pager"><a href="2010-11-01-137-sorting-an-array-using-an-independent-comparer-method.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-03-139-using-the-array-clone-method-to-make-a-shallow-copy-of-an-array.html">Next</a></nav>
+</main>
+
+</body>
+</html>

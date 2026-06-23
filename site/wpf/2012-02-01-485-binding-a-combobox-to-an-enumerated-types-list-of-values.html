@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#485 – Binding a ComboBox to an Enumerated Type’s List of Values</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-01-31-484-inkcanvas-contains-a-collection-of-strokes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-02-02-486-inkcanvas-supports-different-editing-modes.html">Next</a></nav>
+  <h1>#485 – Binding a ComboBox to an Enumerated Type’s List of Values</h1>
+  <p class="meta">2012-02-01 | <a href="http://wpf.2000things.com/2012/02/01/485-binding-a-combobox-to-an-enumerated-types-list-of-values/">Original URL</a> | Wayback 20120208010755</p>
+  <article><div class="post-4093 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-enumerated-type tag-objectdataprovider tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">February 1, 2012</span>
+                        	                        	<span class="post-comments"><a href="2012-02-01-485-binding-a-combobox-to-an-enumerated-types-list-of-values.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You can easily bind a <strong>ComboBox</strong> (or <strong>ListBox</strong>) to an enumerated type&#8217;s values using an <strong>ObjectDataProvider</strong>.  The <strong>ObjectDataProvider </strong>allows calling a method and then using the result of the method call as a binding source.</p>
+<p>To get the list of values for an enumerated type, we call the <strong><a href="http://csharp.2000things.com/2011/11/30/465-dumping-all-names-and-values-for-an-enumerated-type/">Enum.GetValues</a></strong> method, passing in the specific enumerated type.  In the example below, we do this in an <strong>ObjectDataProvider</strong>.</p>
+<p><pre class="brush: xml;">
+    &lt;Window.Resources&gt;
+        &lt;ObjectDataProvider x:Key=&quot;dateTimeKindValues&quot; MethodName=&quot;GetValues&quot; ObjectType=&quot;{x:Type sys:Enum}&quot;&gt;
+            &lt;ObjectDataProvider.MethodParameters&gt;
+                &lt;x:Type TypeName=&quot;sys:DateTimeKind&quot;/&gt;
+            &lt;/ObjectDataProvider.MethodParameters&gt;
+        &lt;/ObjectDataProvider&gt;
+    &lt;/Window.Resources&gt;
+</pre></p>
+<p>(This assumes that we&#8217;ve defined the <strong>sys</strong> namespace):</p>
+<p><pre class="brush: xml;">
+    xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+</pre></p>
+<p>The <strong>ObjectDataProvider</strong> is equivalent to the following code:</p>
+<p><pre class="brush: csharp;">
+            DateTimeKind[] values = (DateTimeKind[])Enum.GetValues(typeof(DateTimeKind));
+</pre></p>
+<p>We can now use the output of the <strong>ObjectDataProvider</strong> as a data source for our binding.</p>
+<p><pre class="brush: xml;">
+    &lt;ComboBox Height=&quot;25&quot; Width=&quot;150&quot;
+              ItemsSource=&quot;{Binding Source={StaticResource dateTimeKindValues}}&quot;/&gt;
+</pre></p>
+<p>This gives us a <strong>ComboBox</strong> that lists the possible values of the <strong>DateTimeKind</strong> enumerated type.<br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/02/485-001.png"><img class="alignnone size-full wp-image-4099" title="485-001" src="https://web.archive.org/web/20120208010755id_/http://2000thingswpf.files.wordpress.com/2012/02/485-001.png?w=630" alt=""   /></a></p>
+<div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2012-02-01-485-binding-a-combobox-to-an-enumerated-types-list-of-values.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, Enumerated Type, ObjectDataProvider, WPF</p>
+  <nav class="pager"><a href="2012-01-31-484-inkcanvas-contains-a-collection-of-strokes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-02-02-486-inkcanvas-supports-different-editing-modes.html">Next</a></nav>
+</main>
+
+</body>
+</html>

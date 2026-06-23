@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#268 &#8211; You Must Set the Value of All out Parameters Before Returning from a Method &laquo; 2,000 Things You Should Know About C#</title>
+
+<link rel="stylesheet" href="http://s2.wp.com/wp-content/themes/pub/enterprise/style.css?m=1302617695g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://csharp.2000things.com/xmlrpc.php" />
+
+		<script src='http://wordpress.com/remote-login.php?action=js&amp;host=csharp.2000things.com&amp;id=14273916&amp;t=1305617302&amp;back=csharp.2000things.com%2F2011%2F03%2F12%2F268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Feed" href="http://csharp.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; Comments Feed" href="http://csharp.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About C# &raquo; #268 &#8211; You Must Set the Value of All out Parameters Before Returning from a&nbsp;Method Comments Feed" href="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/h4/global.css?m=1297799136g" type="text/css" />
+<script type='text/javascript' src='http://s2.wp.com/wp-includes/js/l10n.js?m=1295648996g&amp;ver=20101110'></script>
+<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.js?m=1304458003g&amp;ver=1.5.2'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-includes/js/comment-reply.js?m=1231878779g&amp;ver=20090102'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingscsharp.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingscsharp.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='2,000 Things You Should Know About C#' href='http://csharp.2000things.com/' />
+<link rel='prev' title='#267 &#8211; Passing Data Back from a Method Using out&nbsp;Parameters' href='http://csharp.2000things.com/2011/03/11/267-passing-data-back-from-a-method-using-out-parameters/' />
+<link rel='next' title='#269 &#8211; Use ref Modifier on Parameters that Are&nbsp;Input/Output' href='http://csharp.2000things.com/2011/03/13/269-use-ref-modifier-on-parameters-that-are-inputoutput/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/' />
+<link rel='shortlink' href='http://wp.me/pXTis-BE' />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" sizes="16x16" />
+<link rel="apple-touch-icon" href="http://1.gravatar.com/blavatar/5021f502b3504edbf7e6bf53c55000e0?s=158" />
+	<style type="text/css">
+	/* <![CDATA[ */
+				div#likes { margin-top: 15px; }
+		.like-button { border: 1px solid #eee; padding: 2px 6px; font-size: 13px; font-family: arial, tahoma, sans-serif; }
+		#wpl-likebox { clear: left; font-size: 11px; font-family: arial, tahoma, verdana, sans-serif !important; min-height: 30px; margin: 10px 0 !important; padding: 5px 0 10px 0 !important; }
+		#wpl-button { float: left; background: url( http://s2.wp.com/i/buttonbg.png ) top left repeat-x; margin-right: 7px; border: 1px solid #d4d4d4; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-button a { color: #666 !important; line-height: 130% !important; text-decoration: none !important; outline: none; float: left; padding: 3px 6px 2px 24px !important; font-size: 11px !important; background: url( http://s1.wp.com/i/likestar.png ) 6px 49.8% no-repeat; }
+		#wpl-button.liked { background: #feffce; border: 1px solid #f3e389; }
+		#wpl-button.liked a { color: #ba871b !important; }
+		#wpl-likebox #wpl-count { min-height: 25px; line-height: 130% !important; float: left; padding-top: 4px; }
+		#wpl-likebox #wpl-avatars { clear: left; max-height: 98px; overflow: hidden; margin-top: 15px; line-height: 130% !important; }
+		#wpl-likebox #wpl-avatars img { border: none !important; }
+		#wpl-likebox #wpl-mustlogin { line-height: 14px !important; font-size: 11px; clear: left; margin-top: 5px; background: #f0f0f0; padding: 10px; width: 65%; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+		#wpl-likebox #wpl-mustlogin a { color: #888; text-decoration: underline; }
+		#wpl-likebox #wpl-mustlogin p { margin: 5px 0; padding: 0 }
+		#wpl-likebox #wpl-mustlogin input.input { padding: 2px; background: #fff; font-size: 11px; font-family: inherit; border: 1px solid #ccc; -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin input#wp-submit { border: 1px solid #ccc; font-size: 11px; background: #fafafa; repeat-x; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 2px 4px !important; line-height: 12px; }
+		#wpl-likebox #wpl-mustlogin label { position: relative; cursor: text; }
+		#wpl-likebox #wpl-mustlogin label span { position: absolute; top: 0px; left: 5px; padding: 0 !important; }
+		#wpl-likebox #wpl-mustlogin label span { top /*\**/: -10px\9; }
+	/* ]]> */
+	</style>
+	<link rel='openid.server' href='http://2000thingscsharp.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingscsharp.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://csharp.2000things.com/osd.xml" title="2,000 Things You Should Know About C#" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+	<script type="text/javascript" charset="utf-8">
+		try{
+			var id = location.hash.match( /\#\!\/entry\/(\d+)/ )[1];
+			if ( id ) {
+				window.location = "http://csharp.2000things.com?p=" + id;
+			};
+		}catch( error ){
+		}
+	</script>		
+<style type="text/css">
+#header {
+	background: #FFFFFF url() no-repeat;
+}
+#header h1, #header h1 a, #header h1 a:visited, #header h4, #header h4 a, #header h4 a:visited, .header-left {
+	color: #333333;
+}
+</style>
+<meta name="application-name" content="2,000 Things You Should Know About C#" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a C# Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://csharp.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/010311edf5ea16dcb9d47083f097032f?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />
+</head>
+
+<body class="single single-post postid-2334 single-format-standard">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://csharp.2000things.com/">2,000 Things You Should Know About C#</a></h4>
+         
+        <p id="description">Everything a C# Developer Needs to Know, in Bite-Sized Chunks</p>  
+    </div>
+    <div class="header-right">   
+        <form method="get" id="searchform" action="http://csharp.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://csharp.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://csharp.2000things.com/about/" title="About&nbsp;Me">About&nbsp;Me</a></li><li class="page_item page-item-123"><a href="http://csharp.2000things.com/index/" title="Index">Index</a></li></ul></div>
+	
+	    </div>  
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://csharp.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+	
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-680638"><a href="http://csharp.2000things.com/category/data-types/" title="View all posts filed under Data Types">Data Types</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="http://csharp.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-1325"><a href="http://csharp.2000things.com/category/classes/" title="View all posts filed under Classes">Classes</a>
+</li>
+	<li class="cat-item cat-item-176356"><a href="http://csharp.2000things.com/category/strings/" title="View all posts filed under Strings">Strings</a>
+</li>
+	<li class="cat-item cat-item-20811"><a href="http://csharp.2000things.com/category/statements/" title="View all posts filed under Statements">Statements</a>
+</li>
+	<li class="cat-item cat-item-22400"><a href="http://csharp.2000things.com/category/methods/" title="View all posts filed under Methods">Methods</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://csharp.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-492889"><a href="http://csharp.2000things.com/category/assemblies/" title="View all posts filed under Assemblies">Assemblies</a>
+</li>
+	<li class="cat-item cat-item-4349673"><a href="http://csharp.2000things.com/category/inputoutput/" title="View all posts filed under Input/Output">Input/Output</a>
+</li>
+	<li class="cat-item cat-item-70886"><a href="http://csharp.2000things.com/category/debugging/" title="View all posts filed under Debugging">Debugging</a>
+</li>
+		</ul>
+	</div>
+	
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+        
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://csharp.2000things.com/2011/03/11/267-passing-data-back-from-a-method-using-out-parameters/" rel="prev"><span class="meta-nav">&larr;</span> #267 &#8211; Passing Data Back from a Method Using out&nbsp;Parameters</a></div>
+				<div class="nav-next"><a href="http://csharp.2000things.com/2011/03/13/269-use-ref-modifier-on-parameters-that-are-inputoutput/" rel="next">#269 &#8211; Use ref Modifier on Parameters that Are&nbsp;Input/Output <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+            <div class="post-2334 post type-post status-publish format-standard hentry category-methods tag-c tag-methods tag-out tag-output-parameters tag-parameters">
+
+           		<div class="entry">
+
+                    <h1>#268 &#8211; You Must Set the Value of All out Parameters Before Returning from a&nbsp;Method</h1>
+
+                    <div class="post-info">
+                        <p><span class="time">March 12, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/#respond">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You can use <strong>out</strong> parameters as a way of <a href="http://csharp.2000things.com/2011/03/11/267-passing-data-back-from-a-method-using-out-parameters/">returning multiple data values</a> from a method to its caller.  Because the intention of an output parameter is to return data to the caller, you must assign some value to every parameter marked as <strong>out</strong> before you can return from a method.  The compiler will enforce this rule.</p>
+<p>In the example below, we&#8217;ve failed to set a value for the <strong>barkPhrase</strong> output parameter.</p>
+<pre class="brush: csharp;">
+        public void GetDogVitals(out string fullName, out int age, out string barkPhrase)
+        {
+            fullName = string.Format(&quot;{0}, {1}&quot;, Name, Title);
+            age = Age;
+            //barkPhrase = BarkPhrase;
+        }
+</pre>
+<p>When we try to compile the code, we&#8217;ll get an error telling us that we must assign a value to the <strong>barkPhrase</strong> output parameter before control leaves the method.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/03/001-mustassign.png"><img class="alignnone size-full wp-image-2336" title="001-MustAssign" src="http://2000thingscsharp.files.wordpress.com/2011/03/001-mustassign.png?w=630&#038;h=242" alt="" width="630" height="242" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/"
+    dc:identifier="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/"
+    dc:title="#268 &#8211; You Must Set the Value of All out Parameters Before Returning from a&nbsp;Method"
+    trackback:ping="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/methods/" title="View all posts in Methods" rel="category tag">Methods</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/methods/" rel="tag">Methods</a>, <a href="http://en.wordpress.com/tag/out/" rel="tag">Out</a>, <a href="http://en.wordpress.com/tag/output-parameters/" rel="tag">Output Parameters</a>, <a href="http://en.wordpress.com/tag/parameters/" rel="tag">Parameters</a></span>                    </p>
+                </div>
+
+            </div>
+
+			            <div class="author-box">
+                <p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+            </div>
+            
+                        <p></p>
+
+            <div id="wpl-likebox"><div id="wpl-button"><a href='http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/?like=1&amp;_wpnonce=ed132e8481' title='I like this post' class='like needs-login' rel='nofollow'><span>Like</span></a></div><div id="wpl-count">Be the first to like this post.</div></div><div id="comments">
+	
+
+
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://csharp.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;pre&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='2334' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1305617302" />
+<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Subscribe by email to this site</label></p><input type="hidden" name="sub-type" value="comment-form-text1" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="871408238d" /></p>					</form>
+							</div><!-- #respond -->
+						
+</div><!-- #comments -->
+    </div>
+
+<div id="sidebar">
+    	
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://0.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-4" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://csharp.2000things.com/2011/05/16/325-intellisense-understands-generic-classes/" title="#325 &#8211; Intellisense Understands Generic&nbsp;Classes">#325 &#8211; Intellisense Understands Generic&nbsp;Classes</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/13/324-a-generic-class-can-have-more-than-one-type-parameter/" title="#324 &#8211; A Generic Class Can Have More than One Type&nbsp;Parameter">#324 &#8211; A Generic Class Can Have More than One Type&nbsp;Parameter</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/12/323-a-generic-class-is-a-template-for-a-class/" title="#323 &#8211; A Generic Class is a Template for a&nbsp;Class">#323 &#8211; A Generic Class is a Template for a&nbsp;Class</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/11/322-class-accessibility/" title="#322 &#8211; Class&nbsp;Accessibility">#322 &#8211; Class&nbsp;Accessibility</a></li>
+				<li><a href="http://csharp.2000things.com/2011/05/10/321-accessibility-of-constants/" title="#321 &#8211; Accessibility of&nbsp;Constants">#321 &#8211; Accessibility of&nbsp;Constants</a></li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://wpf.2000things.com/" title="Everything a WPF Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About WPF</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar" summary="Calendar">
+	<caption>March 2011</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://csharp.2000things.com/2011/02/" title="View posts for February 2011">&laquo; Feb</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://csharp.2000things.com/2011/04/" title="View posts for April 2011">Apr &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="2" class="pad">&nbsp;</td><td><a href="http://csharp.2000things.com/2011/03/01/" title="#257 &#8211; Private Static&nbsp;Fields">1</a></td><td><a href="http://csharp.2000things.com/2011/03/02/" title="#258 &#8211; Initializing a Static Variable as Part of Its&nbsp;Declaration">2</a></td><td><a href="http://csharp.2000things.com/2011/03/03/" title="#259 &#8211; Static vs. Instance&nbsp;Properties">3</a></td><td><a href="http://csharp.2000things.com/2011/03/04/" title="#260 &#8211; How Properties Look&nbsp;Under-the-Covers">4</a></td><td><a href="http://csharp.2000things.com/2011/03/05/" title="#261 &#8211; How Automatic Properties Look&nbsp;Under-the-Covers">5</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2011/03/06/" title="#262 &#8211; Passing Data to a Method Using&nbsp;Parameters">6</a></td><td><a href="http://csharp.2000things.com/2011/03/07/" title="#263 &#8211; A Method&#8217;s Signature Must Be Unique Within Its&nbsp;Type">7</a></td><td><a href="http://csharp.2000things.com/2011/03/08/" title="#264 &#8211; By Default, Parameters Are Passed by&nbsp;Value">8</a></td><td><a href="http://csharp.2000things.com/2011/03/09/" title="#265 &#8211; Passing Reference Types by&nbsp;Value">9</a></td><td><a href="http://csharp.2000things.com/2011/03/10/" title="#266 &#8211; You Can&#8217;t Prevent a Method from Changing the Contents of Reference&nbsp;Types">10</a></td><td><a href="http://csharp.2000things.com/2011/03/11/" title="#267 &#8211; Passing Data Back from a Method Using out&nbsp;Parameters">11</a></td><td><a href="http://csharp.2000things.com/2011/03/12/" title="#268 &#8211; You Must Set the Value of All out Parameters Before Returning from a&nbsp;Method">12</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2011/03/13/" title="#269 &#8211; Use ref Modifier on Parameters that Are&nbsp;Input/Output">13</a></td><td><a href="http://csharp.2000things.com/2011/03/14/" title="#270 &#8211; Passing a Reference Type by&nbsp;Reference">14</a></td><td><a href="http://csharp.2000things.com/2011/03/15/" title="#271 &#8211; Passing a Reference Type as an Output&nbsp;Parameter">15</a></td><td><a href="http://csharp.2000things.com/2011/03/16/" title="#272 &#8211; Differences Between ref and out&nbsp;Parameters">16</a></td><td><a href="http://csharp.2000things.com/2011/03/17/" title="#273 &#8211; Parameter Modifier&nbsp;Summary">17</a></td><td><a href="http://csharp.2000things.com/2011/03/18/" title="#274 &#8211; Can&#8217;t Overload if Methods Differ Only by Parameter&nbsp;Modifiers">18</a></td><td><a href="http://csharp.2000things.com/2011/03/19/" title="#275 &#8211; Passing a struct to a&nbsp;Method">19</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2011/03/20/" title="#276 &#8211; Passing a struct by&nbsp;Reference">20</a></td><td><a href="http://csharp.2000things.com/2011/03/21/" title="#277 &#8211; Passing an Array to a&nbsp;Method">21</a></td><td><a href="http://csharp.2000things.com/2011/03/22/" title="#278 &#8211; Passing an Array by&nbsp;Reference">22</a></td><td><a href="http://csharp.2000things.com/2011/03/23/" title="#279 &#8211; Passing a Multidimensional Array to a&nbsp;Method">23</a></td><td><a href="http://csharp.2000things.com/2011/03/24/" title="#280 &#8211; Implicitly-Typed&nbsp;Arrays">24</a></td><td><a href="http://csharp.2000things.com/2011/03/25/" title="#281 &#8211; Declaring and Using Static Methods in a&nbsp;Class">25</a></td><td><a href="http://csharp.2000things.com/2011/03/26/" title="#282 &#8211; Creating Private Static&nbsp;Methods">26</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://csharp.2000things.com/2011/03/27/" title="#283 &#8211; Instance Methods Can Call Static&nbsp;Methods">27</a></td><td><a href="http://csharp.2000things.com/2011/03/28/" title="#284 &#8211; Static Methods Can Call Instance&nbsp;Methods">28</a></td><td><a href="http://csharp.2000things.com/2011/03/29/" title="#285 &#8211; Class Member&nbsp;Overview">29</a></td><td><a href="http://csharp.2000things.com/2011/03/30/" title="#286 &#8211; A Constructor is Called When an Instance of a Class Is&nbsp;Created">30</a></td><td><a href="http://csharp.2000things.com/2011/03/31/" title="#287 &#8211; You Don&#8217;t Have to Define a&nbsp;Constructor">31</a></td>
+		<td class="pad" colspan="2">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>		<div id="top-posts" class="widget widget_stats_topposts">			<h4>Top Posts</h4>			<ul><li><a href='http://csharp.2000things.com/2010/06/30/specify-command-line-arguments-in-visual-studio-2010/'>#13 - Specify Command Line Arguments in Visual Studio 2010</a></li><li><a href='http://csharp.2000things.com/index/'>Index</a></li><li><a href='http://csharp.2000things.com/2010/07/21/34-the-object-type/'>#34 - The object Type</a></li><li><a href='http://csharp.2000things.com/2011/02/06/234-multiple-return-statements/'>#234 - Multiple return Statements</a></li><li><a href='http://csharp.2000things.com/2010/08/26/70-the-stringbuilder-class/'>#70 - The StringBuilder Class</a></li><li><a href='http://csharp.2000things.com/2010/08/25/69-strings-are-immutable/'>#69 - Strings Are Immutable</a></li><li><a href='http://csharp.2000things.com/2010/08/19/63-use-stringbuilder-for-more-efficient-string-concatentation/'>#63 - Use StringBuilder for More Efficient String Concatentation</a></li><li><a href='http://csharp.2000things.com/2010/07/12/25-string-literals/'>#25 - String Literals</a></li><li><a href='http://csharp.2000things.com/2010/06/26/main-should-not-be-public/'>#9 - Main() Should Not Be Public</a></li><li><a href='http://csharp.2000things.com/2011/05/11/322-class-accessibility/'>#322 - Class Accessibility</a></li></ul>		</div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://csharp.2000things.com/tag/if/' class='tag-link-54874' title='6 topics' style='font-size: 9.1666666666667pt;'>#if</a>
+<a href='http://csharp.2000things.com/tag/accessibility/' class='tag-link-3471' title='10 topics' style='font-size: 10.644444444444pt;'>Accessibility</a>
+<a href='http://csharp.2000things.com/tag/arguments/' class='tag-link-12589' title='4 topics' style='font-size: 8pt;'>Arguments</a>
+<a href='http://csharp.2000things.com/tag/array/' class='tag-link-271798' title='6 topics' style='font-size: 9.1666666666667pt;'>Array</a>
+<a href='http://csharp.2000things.com/tag/arrays/' class='tag-link-584090' title='29 topics' style='font-size: 14.066666666667pt;'>Arrays</a>
+<a href='http://csharp.2000things.com/tag/c/' class='tag-link-2426' title='312 topics' style='font-size: 22pt;'>C#</a>
+<a href='http://csharp.2000things.com/tag/class/' class='tag-link-6376' title='12 topics' style='font-size: 11.188888888889pt;'>Class</a>
+<a href='http://csharp.2000things.com/tag/classes/' class='tag-link-1325' title='37 topics' style='font-size: 14.844444444444pt;'>Classes</a>
+<a href='http://csharp.2000things.com/tag/clone/' class='tag-link-317782' title='4 topics' style='font-size: 8pt;'>Clone</a>
+<a href='http://csharp.2000things.com/tag/composite-format-strings/' class='tag-link-38359641' title='4 topics' style='font-size: 8pt;'>Composite Format Strings</a>
+<a href='http://csharp.2000things.com/tag/composite-formatting/' class='tag-link-38359644' title='4 topics' style='font-size: 8pt;'>Composite Formatting</a>
+<a href='http://csharp.2000things.com/tag/constants/' class='tag-link-250093' title='9 topics' style='font-size: 10.333333333333pt;'>Constants</a>
+<a href='http://csharp.2000things.com/tag/constructor/' class='tag-link-12182' title='7 topics' style='font-size: 9.5555555555556pt;'>Constructor</a>
+<a href='http://csharp.2000things.com/tag/constructors/' class='tag-link-47331' title='11 topics' style='font-size: 10.955555555556pt;'>Constructors</a>
+<a href='http://csharp.2000things.com/tag/data-types/' class='tag-link-680638' title='12 topics' style='font-size: 11.188888888889pt;'>Data Types</a>
+<a href='http://csharp.2000things.com/tag/deep-copy/' class='tag-link-11859575' title='6 topics' style='font-size: 9.1666666666667pt;'>Deep Copy</a>
+<a href='http://csharp.2000things.com/tag/enum/' class='tag-link-106916' title='9 topics' style='font-size: 10.333333333333pt;'>Enum</a>
+<a href='http://csharp.2000things.com/tag/flags/' class='tag-link-67489' title='5 topics' style='font-size: 8.6222222222222pt;'>Flags</a>
+<a href='http://csharp.2000things.com/tag/format-strings/' class='tag-link-38359643' title='4 topics' style='font-size: 8pt;'>Format Strings</a>
+<a href='http://csharp.2000things.com/tag/heap/' class='tag-link-290308' title='8 topics' style='font-size: 9.9444444444444pt;'>Heap</a>
+<a href='http://csharp.2000things.com/tag/intellisense/' class='tag-link-98072' title='5 topics' style='font-size: 8.6222222222222pt;'>Intellisense</a>
+<a href='http://csharp.2000things.com/tag/jagged-arrays/' class='tag-link-41890510' title='4 topics' style='font-size: 8pt;'>Jagged Arrays</a>
+<a href='http://csharp.2000things.com/tag/literals/' class='tag-link-9966509' title='6 topics' style='font-size: 9.1666666666667pt;'>Literals</a>
+<a href='http://csharp.2000things.com/tag/main/' class='tag-link-1520' title='6 topics' style='font-size: 9.1666666666667pt;'>Main</a>
+<a href='http://csharp.2000things.com/tag/methods/' class='tag-link-22400' title='25 topics' style='font-size: 13.522222222222pt;'>Methods</a>
+<a href='http://csharp.2000things.com/tag/nullable/' class='tag-link-2612820' title='8 topics' style='font-size: 9.9444444444444pt;'>Nullable</a>
+<a href='http://csharp.2000things.com/tag/object/' class='tag-link-15792' title='4 topics' style='font-size: 8pt;'>Object</a>
+<a href='http://csharp.2000things.com/tag/objects/' class='tag-link-28270' title='4 topics' style='font-size: 8pt;'>Objects</a>
+<a href='http://csharp.2000things.com/tag/out/' class='tag-link-98840' title='5 topics' style='font-size: 8.6222222222222pt;'>Out</a>
+<a href='http://csharp.2000things.com/tag/parameters/' class='tag-link-162626' title='9 topics' style='font-size: 10.333333333333pt;'>Parameters</a>
+<a href='http://csharp.2000things.com/tag/private/' class='tag-link-19' title='5 topics' style='font-size: 8.6222222222222pt;'>Private</a>
+<a href='http://csharp.2000things.com/tag/properties/' class='tag-link-30255' title='14 topics' style='font-size: 11.733333333333pt;'>Properties</a>
+<a href='http://csharp.2000things.com/tag/public/' class='tag-link-9085' title='5 topics' style='font-size: 8.6222222222222pt;'>Public</a>
+<a href='http://csharp.2000things.com/tag/ref/' class='tag-link-128683' title='5 topics' style='font-size: 8.6222222222222pt;'>Ref</a>
+<a href='http://csharp.2000things.com/tag/reference-types/' class='tag-link-9810698' title='13 topics' style='font-size: 11.5pt;'>Reference Types</a>
+<a href='http://csharp.2000things.com/tag/sorting/' class='tag-link-286523' title='5 topics' style='font-size: 8.6222222222222pt;'>Sorting</a>
+<a href='http://csharp.2000things.com/tag/static/' class='tag-link-50318' title='6 topics' style='font-size: 9.1666666666667pt;'>Static</a>
+<a href='http://csharp.2000things.com/tag/static-data/' class='tag-link-6211721' title='4 topics' style='font-size: 8pt;'>Static Data</a>
+<a href='http://csharp.2000things.com/tag/strings/' class='tag-link-176356' title='12 topics' style='font-size: 11.188888888889pt;'>Strings</a>
+<a href='http://csharp.2000things.com/tag/struct/' class='tag-link-3237489' title='7 topics' style='font-size: 9.5555555555556pt;'>struct</a>
+<a href='http://csharp.2000things.com/tag/switch/' class='tag-link-21233' title='6 topics' style='font-size: 9.1666666666667pt;'>Switch</a>
+<a href='http://csharp.2000things.com/tag/value-types/' class='tag-link-9640498' title='5 topics' style='font-size: 8.6222222222222pt;'>Value Types</a>
+<a href='http://csharp.2000things.com/tag/visual-studio/' class='tag-link-6678' title='4 topics' style='font-size: 8pt;'>Visual Studio</a>
+<a href='http://csharp.2000things.com/tag/while/' class='tag-link-391504' title='4 topics' style='font-size: 8pt;'>While</a>
+<a href='http://csharp.2000things.com/tag/while-loop/' class='tag-link-2987489' title='4 topics' style='font-size: 8pt;'>While Loop</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>11,536 hits</li>
+			</ul>
+		</div>		
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/">Enterprise</a> by <a rel="designer" href="http://www.studiopress.com/">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery( function() {
+			
+			jQuery('#wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+				
+				jQuery('#wpl-mustlogin').remove();
+
+				jQuery.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=5f4193ee92; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+				
+				jQuery('#wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="http://2000thingscsharp.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this post:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="redirect_to" value="http://csharp.2000things.com/2011/03/12/268-you-must-set-the-value-of-all-out-parameters-before-returning-from-a-method/?like=1" /> \
+							<input type="hidden" name="wpl_rand" value="5f4193ee92" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+				
+				jQuery('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+			
+			jQuery('#wpl-mustlogin input.input').live( 'focus', function() {
+				jQuery(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( jQuery(this).val() == '' )
+					jQuery(this).prev().show();
+			});
+			
+			jQuery('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+				
+				jQuery.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					jQuery('#wpl-mustlogin form').submit();
+				} );
+			});			
+			
+			jQuery('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+				
+				var link = jQuery(this).attr('href');
+				
+				jQuery.post( 'http://csharp.2000things.com/wp-admin/admin-ajax.php', { 
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});					
+			
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript">_qoptions={qacct:'p-18-mFEk4J448M',labels:'language.en,type.wpcom,posttag.c,posttag.methods,posttag.out,posttag.output-parameters,posttag.parameters'};</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript><p><img class="robots-nocontent" src="http://pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=language.en%2Ctype.wpcom%2Cposttag.c%2Cposttag.methods%2Cposttag.out%2Cposttag.output-parameters%2Cposttag.parameters" style="display:none" height="1" width="1" alt="" /></p></noscript>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?v&#038;ver=MU'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {
+	my_hash: ""
+};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1298424233g&amp;ver=MU'></script>
+	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+<script type="text/javascript" src="http://b.scorecardresearch.com/beacon.js"></script><script type="text/javascript">try{COMSCORE.beacon({c1:2,c2:7518284});}catch(e){}</script><noscript><p class="robots-nocontent"><img src="http://b.scorecardresearch.com/p?cj=1c1=2&#038;c2=7518284" alt="" style="display:none" width="1" height="1" /></p></noscript><script type='text/javascript' src='http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js?m=1258143671g&#038;ver=2.1.364b'></script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1258143671g&#038;ver=2.1.364b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1267535107g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s1.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1253219630g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<script src="http://s.stats.wordpress.com/w.js?19" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14273916','v':'wpcom','user_id':'0','post':'2334','subd':'2000thingscsharp'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1oVEcmQyVLQXJDYWRsdW1Ycy55SXZNSzk0YUd0dklXeV82UT12MENoPzl5LmN+aFdlfk1KQk9IL3x6KyU0bndSdnNIbHgrUnJ2RWNycFZMNV1sJn4yaC45VlgueS5yT2FNdGF6V19IaUt4ZTYvLy4wQT0yeVtdYnM5akh8M3VmSm4/W3p0eWU5LC0xN3VOP2EzP0haRU1Tb2tJaWtJSU5wWERmNkRsUjhPL3hDN1M2Y2ZlbmxYWiY2TTMtenFlakZD'});
+addLoadEvent(function(){linktracker_init('14273916',2334);});
+	</script>
+
+</body>
+</html>

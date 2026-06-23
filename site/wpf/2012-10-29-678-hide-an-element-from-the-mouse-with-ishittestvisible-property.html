@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#678 – Hide an Element from the Mouse with IsHitTestVisible Property</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-10-26-677-why-the-standard-mouse-wheel-delta-is-120.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-30-679-setting-ishittestvisible-to-false-prevents-interaction-with-controls.html">Next</a></nav>
+  <h1>#678 – Hide an Element from the Mouse with IsHitTestVisible Property</h1>
+  <p class="meta">2012-10-29 | <a href="http://wpf.2000things.com/2012/10/29/678-hide-an-element-from-the-mouse-with-ishittestvisible-property/">Original URL</a> | Wayback 20130819113934</p>
+  <article><div class="post-5866 post type-post status-publish format-standard hentry category-events tag-events tag-ishittestvisible tag-mouse tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 29, 2012</span>
+																						<span class="post-comments"><a href="2012-10-29-678-hide-an-element-from-the-mouse-with-ishittestvisible-property.html" title="Comment on #678 &#8211; Hide an Element from the Mouse with IsHitTestVisible&nbsp;Property">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can completely hide a user interface element from the mouse by setting its <strong>IsHitTestVisible</strong> property to false.  When this property is false, no mouse related events will be fired for that control.</p>
+<p>In the example below, one <strong>Label</strong> has its <strong>IsHitTestVisible</strong> property set to <strong>false</strong>.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;StackPanel&gt;
+        &lt;Label Content=&quot;Mouse Sees Me&quot; Background=&quot;AliceBlue&quot; Margin=&quot;10&quot;
+               MouseMove=&quot;Label_MouseMove_1&quot;/&gt;
+        &lt;Label Content=&quot;Mouse Doesn't see Me&quot; Background=&quot;Beige&quot; Margin=&quot;10&quot;
+               IsHitTestVisible=&quot;False&quot;
+               MouseMove=&quot;Label_MouseMove_2&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre>
+<p>Assume that we try to report the mouse position in both event handlers:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private void ReportMouse(string element, MouseEventArgs e)
+        {
+            Point p = e.GetPosition(null);
+            Console.WriteLine(string.Format(&quot;{0} sees mouse at ({1},{2})&quot;, element, p.X, p.Y));
+        }
+
+        private void Label_MouseMove_1(object sender, MouseEventArgs e)
+        {
+            ReportMouse(&quot;Label 1&quot;, e);
+        }
+
+        private void Label_MouseMove_2(object sender, MouseEventArgs e)
+        {
+            ReportMouse(&quot;Label 2&quot;, e);
+        }
+</pre>
+<p>When we move the mouse over both labels at runtime, we only see output when it moves over label #1, which does not set <strong>IsHitTestVisible</strong> to <strong>false</strong>.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/678-001.png"><img class="alignnone size-full wp-image-5870" title="678-001" alt="" src="https://web.archive.org/web/20130819113934id_/http://2000thingswpf.files.wordpress.com/2012/10/678-001.png?w=630"   /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "movies");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Tag", "events");
+GA_googleAddAttr("Tag", "events");
+GA_googleAddAttr("Tag", "ishittestvisible");
+GA_googleAddAttr("Tag", "mouse");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2012/10/29/678-hide-an-element-from-the-mouse-with-ishittestvisible-property/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-5866-521203f71b1b4' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=5866&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-5866-521203f71b1b4' data-name='like-post-frame-14605478-5866-521203f71b1b4'><h3 class='sd-title'>Like this:</h3><div class='post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div></article>
+  <p class="meta">Categories: Events | Tags: Events, IsHitTestVisible, Mouse, WPF</p>
+  <nav class="pager"><a href="2012-10-26-677-why-the-standard-mouse-wheel-delta-is-120.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-30-679-setting-ishittestvisible-to-false-prevents-interaction-with-controls.html">Next</a></nav>
+</main>
+
+</body>
+</html>

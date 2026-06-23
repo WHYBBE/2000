@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#679 – Hide An Inherited Method with A Virtual Method</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-09-25-678-a-sealed-method-cannot-be-overridden.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-27-680-virtual-modifier-combinations.html">Next</a></nav>
+  <h1>#679 – Hide An Inherited Method with A Virtual Method</h1>
+  <p class="meta">2012-09-26 | <a href="http://csharp.2000things.com/2012/09/26/679-hide-an-inherited-method-with-a-virtual-method/">Original URL</a> | Wayback 20120928044124</p>
+  <article><div class="post-5804 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-polymorphism tag-new tag-virtual tag-override tag-virtual-new">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 26, 2012</span>
+																						<span class="post-comments"><a href="2012-09-26-679-hide-an-inherited-method-with-a-virtual-method.html" title="Comment on #679 &#8211; Hide An Inherited Method with A Virtual&nbsp;Method">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You typically hide an inherited method using the <strong>new</strong> keyword, indicating that the method should not behave polymorphically.  If you later inherit this method in a subclass, you won&#8217;t be able to override the method marked as <strong>new</strong>.</p>
+<p>For example:</p>
+<ul>
+<li><strong>virtual Dog.Bark</strong>  - can override</li>
+<li><strong>new Terrier.Bark</strong> &#8211; hides Dog.Bark</li>
+<li><strong>new Yorkshire.Bark</strong> &#8211; must hide, can&#8217;t override</li>
+</ul>
+<p>However, if you want to hide an inherited method, but still allow overriding in a subclass, you can use the <strong>virtual new</strong> combination:</p>
+<ul>
+<li><strong>virtual Dog.Bark</strong> &#8211; can override</li>
+<li><strong>virtual new Terrier.Bark</strong> &#8211; hides Dog.Bark, but allows overriding</li>
+<li><strong>override Yorkshire.Bark</strong> &#8211; overrides Terrier.Bark</li>
+</ul>
+<p>In this case, <strong>Terrier </strong>and <strong>Yorkshire</strong> objects referenced by variables of type <strong>Dog</strong> will not behave polymorphically.  But a <strong>Yorkshire</strong> object referenced by a <strong>Terrier</strong> variable will behave polymorphically.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/679-001.png"><img class="alignnone size-full wp-image-5805" title="679-001" src="https://web.archive.org/web/20120928044124id_/http://2000thingscsharp.files.wordpress.com/2012/09/679-001.png?w=630" alt=""   /></a></p>
+<p>&nbsp;</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/09/26/679-hide-an-inherited-method-with-a-virtual-method/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5804"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/09/26/679-hide-an-inherited-method-with-a-virtual-method/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/09/26/679-hide-an-inherited-method-with-a-virtual-method/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, Polymorphism, new, virtual, override, virtual new</p>
+  <nav class="pager"><a href="2012-09-25-678-a-sealed-method-cannot-be-overridden.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-27-680-virtual-modifier-combinations.html">Next</a></nav>
+</main>
+
+</body>
+</html>

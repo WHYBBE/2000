@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#984 – The Birthday Problem</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2013-11-27-983-using-a-bitarray-to-store-a-large-collection-of-boolean-values.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-11-29-985-why-its-useful-for-conditional-operators-to-short-circuit-evaluation.html">Next</a></nav>
+  <h1>#984 – The Birthday Problem</h1>
+  <p class="meta">2013-11-28 | <a href="http://csharp.2000things.com/2013/11/28/984-the-birthday-problem/">Original URL</a> | Wayback 20131128173714</p>
+  <article><div class="post-7979 post type-post status-publish format-standard hentry category-miscellaneous tag-birthday-problem tag-c tag-miscellaneous">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">November 28, 2013</span>
+																						<span class="post-comments"><a href="2013-11-28-984-the-birthday-problem.html" title="Comment on #984 &#8211; The Birthday&nbsp;Problem">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>To celebrate today&#8217;s Thanksgiving holiday in the United States, the post today is just a fun little code fragment for exploring the <a href="http://en.wikipedia.org/wiki/Birthday_problem"><em>birthday problem</em></a>.  The idea of the birthday problem is to look at the probability of having at least one shared birthday in a group of <em>n</em> people.</p>
+<p>Instead of calculating the actual probability of a collision, the code below empirically creates a group of people, assigns them birthdays, and then looks for shared birthdays.  It does this 100,000 times and then reports what percentage of time there actually was a match.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Console.Write(&quot;Enter # people: &quot;);
+                int numPeople = int.Parse(Console.ReadLine());
+
+                const double NumTrials = 100000.0;
+
+                int numBirthdayMatches = 0;
+                double numUniqueBirthdaySum = 0;
+
+                List&lt;int&gt; personBirthdays;
+                Random rnd = new Random();
+
+                for (int trialNum = 1; trialNum &lt;= NumTrials; trialNum++)
+                {
+                    // Generate birthdays
+                    personBirthdays = new List&lt;int&gt;(numPeople);
+                    for (int personNum = 1; personNum &lt;= numPeople; personNum++)
+                        personBirthdays.Add(rnd.Next(1, 366));
+
+                    if (personBirthdays.Count != personBirthdays.Distinct().Count())
+                        numBirthdayMatches++;
+
+                    numUniqueBirthdaySum += personBirthdays.Distinct().Count();
+                }
+
+                double percentMatched =
+                    numBirthdayMatches / NumTrials * 100.0;
+                double numUniquePerTrial = numUniqueBirthdaySum / NumTrials;
+                Console.WriteLine(string.Format(&quot;For {0} people, there was at least one matching birthday {1}% of the time.  Avg # unique birthdays={2}&quot;,
+                    numPeople,
+                    percentMatched,
+                    numUniquePerTrial));
+            }
+
+            Console.ReadLine();
+        }
+</pre>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/11/984-001.png"><img class="alignnone size-full wp-image-7982" alt="984-001" src="https://web.archive.org/web/20131128173714id_/http://2000thingscsharp.files.wordpress.com/2013/11/984-001.png?w=630&amp;h=116" width="630" height="116" /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "family");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "miscellaneous");
+GA_googleAddAttr("Tag", "birthday-problem");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "miscellaneous");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2013/11/28/984-the-birthday-problem/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2013/11/28/984-the-birthday-problem/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-7979"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2013/11/28/984-the-birthday-problem/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2013/11/28/984-the-birthday-problem/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: Birthday Problem, C#, Miscellaneous</p>
+  <nav class="pager"><a href="2013-11-27-983-using-a-bitarray-to-store-a-large-collection-of-boolean-values.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-11-29-985-why-its-useful-for-conditional-operators-to-short-circuit-evaluation.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#405 – Equals Method for Equivalence, == Operator for Identity</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-09-05-404-equals-method-vs-operator-for-value-types.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-07-406-overriding-the-equals-method.html">Next</a></nav>
+  <h1>#405 – Equals Method for Equivalence, == Operator for Identity</h1>
+  <p class="meta">2011-09-06 | <a href="http://csharp.2000things.com/2011/09/06/405-equals-method-for-equivalence-operator-for-identity/">Original URL</a> | Wayback 20120222161201</p>
+  <article><div class="post-3430 post type-post status-publish format-standard hentry category-operators tag-operator tag-c tag-equality tag-equals tag-equivalence tag-identity tag-operators tag-overloading">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">September 6, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-09-06-405-equals-method-for-equivalence-operator-for-identity.html">Leave a Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>You can check for equality between two objects by calling the <strong>Equals</strong> method or by using the == operator.  There are some <a href="http://wp.me/pXTis-SX">differences</a> between how the methods work, but both <strong>Equals</strong> and == can be overloaded in a user-defined type.</p>
+<p>You can therefore change the behavior of one of these methods, or both.  The question is&#8211;how should these two behaviors work for a custom class?</p>
+<p>Roughly speaking, the desired behavior, from a client&#8217;s point of view is:</p>
+<ul>
+<li>Use <strong>Equals</strong> method to determine value equality, or equivalence&#8211;do the two objects represent the same thing?</li>
+<li>Use == operator to determine reference equality, or identity&#8211;do the two references point to exactly the same object?</li>
+</ul>
+<p>This argues for overloading <strong>Equals</strong> for a user-defined reference type, but not overloading the == operator.</p>
+<p>This would result in the following behavior:</p>
+<p><pre class="brush: csharp;">
+            Dog d1 = new Dog(&quot;Lassie&quot;, 7);
+            Dog d2 = new Dog(&quot;Lassie&quot;, 7);
+
+            bool bValueEquality = d1.Equals(d2);    // true
+            bool bRefEquality = d1 == d2;    // false
+</pre></p>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/09/06/405-equals-method-for-equivalence-operator-for-identity/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-3430"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/09/06/405-equals-method-for-equivalence-operator-for-identity/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/09/06/405-equals-method-for-equivalence-operator-for-identity/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Operators | Tags: == operator, C#, Equality, Equals, equivalence, identity, Operators, Overloading</p>
+  <nav class="pager"><a href="2011-09-05-404-equals-method-vs-operator-for-value-types.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-07-406-overriding-the-equals-method.html">Next</a></nav>
+</main>
+
+</body>
+</html>

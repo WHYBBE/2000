@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,212 – Viewing WPF Trace Output Outside of Visual Studio</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-06-18-1211-catching-exceptions-originating-in-property-accessors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-07-16-1213-why-you-may-want-to-name-xaml-elements.html">Next</a></nav>
+  <h1>#1,212 – Viewing WPF Trace Output Outside of Visual Studio</h1>
+  <p class="meta">2017-06-29 | <a href="http://wpf.2000things.com/2017/06/29/1212-viewing-wpf-trace-output-outside-of-visual-studio/">Original URL</a> | Wayback 20171129225357</p>
+  <article><div class="post-9700 post type-post status-publish format-standard hentry category-miscellaneous tag-debugging tag-miscellaneous tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">June 29, 2017</span>
+																						<span class="post-comments"><a href="2017-06-29-1212-viewing-wpf-trace-output-outside-of-visual-studio.html">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you&#8217;re running a WPF application from within Visual Studio, you can view trace output in Visual Studio&#8217;s <strong>Output</strong> window. That is, you&#8217;ll see any trace output that you generate using <strong>Trace.WriteLine</strong>. This doesn&#8217;t work, however, if you&#8217;re not running in Debug mode or when you run your application outside of Visual Studio.</p>
+<p>There&#8217;s a tool that you can use, however, to capture <strong>Trace</strong> output for a WPF application, even if it it&#8217;s a Release build and is running outside of Visual Studio.</p>
+<p>The <strong>DebugView</strong> tool, available for download <a href="https://technet.microsoft.com/en-us/sysinternals/debugview.aspx">here</a>, will display debug output for all applications in Windows. This includes .NET <strong>Trace</strong> output, which means that the application will display all trace output while your application is running.</p>
+<p>Note that <strong>DebugView</strong> shows debug output for all applications, which means that you may need to filter out applications that you don&#8217;t care about. (See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa363362(v=vs.85).aspx"><strong>OutputDebugString</strong></a> call in the Win32 library).</p>
+<p>Let&#8217;s say that we do the following in a <strong>Button_Click</strong> event:</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine($&quot;You clicked a button at {DateTime.Now.ToLongTimeString()}&quot;);
+        }
+</pre>
+<p>We can now build and run the WPF application (i.e. after shutting down Visual Studio). Running DebugView, you can see the output.<br />
+<a href="https://wpf.2000things.com/2017/06/29/1212-viewing-wpf-trace-output-outside-of-visual-studio/1212_01/" rel="attachment wp-att-9701"><img data-attachment-id="9701" data-permalink="https://wpf.2000things.com/2017/06/29/1212-viewing-wpf-trace-output-outside-of-visual-studio/1212_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png?w=630" data-orig-size="622,300" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1212_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png?w=630?w=622" class="alignnone size-full wp-image-9701" src="https://web.archive.org/web/20171129225357id_/https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png?w=630" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png 622w, https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/06/1212_01.png?w=300 300w" sizes="(max-width: 622px) 100vw, 622px"   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9700-5a1f3a888959c' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9700&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9700-5a1f3a888959c' data-name='like-post-frame-14605478-9700-5a1f3a888959c'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Miscellaneous | Tags: Debugging, Miscellaneous, WPF</p>
+  <nav class="pager"><a href="2017-06-18-1211-catching-exceptions-originating-in-property-accessors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-07-16-1213-why-you-may-want-to-name-xaml-elements.html">Next</a></nav>
+</main>
+
+</body>
+</html>

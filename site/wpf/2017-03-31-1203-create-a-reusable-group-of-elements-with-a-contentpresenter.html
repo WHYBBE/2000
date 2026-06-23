@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,203 – Create a Reusable Group of Elements with a ContentPresenter</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-03-19-1202-using-a-color-animation-to-draw-emphasis-to-something.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-04-06-1204-using-a-datatrigger-to-change-content-in-a-contentpresenter.html">Next</a></nav>
+  <h1>#1,203 – Create a Reusable Group of Elements with a ContentPresenter</h1>
+  <p class="meta">2017-03-31 | <a href="http://wpf.2000things.com/2017/03/31/1203-create-a-reusable-group-of-elements-with-a-contentpresenter/">Original URL</a> | Wayback 20170401211420</p>
+  <article><div class="post-9623 post type-post status-publish format-standard hentry category-controls tag-contentpresenter tag-contenttemplate tag-controls tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">March 31, 2017</span>
+																						<span class="post-comments"><a href="2017-03-31-1203-create-a-reusable-group-of-elements-with-a-contentpresenter.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>There are several ways to achieve reuse in WPF. You can create a reusable control by creating shared data and control templates for a single type of control. You can also create custom controls, providing custom code and layout.</p>
+<p>One simple way to reuse a group of controls is by using a <b>ContentPresenter</b> with a reusable <b>ContentTemplate</b>.</p>
+<p>In the example below, we have a small grid displaying a person&#8217;s name and address. To use this set of controls in multiple places in an application, we place them in a <b>DataTemplate</b> and then use a <b>ContentPresenter</b> wherever we want the set of controls to appear.</p>
+<p>The <b>DataTemplate</b> is defined in the resources section for a window. The main body of the <b>Window</b> includes two instances of the set of controls. Note that we need to set the <b>Content</b> of each <b>ContentPresenter</b> to the bound data context of the window. Not shown here, but assumed, is that our <b>Window</b> is bound to an object having <b>MyName</b> and <b>Address</b> properties.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;Window.Resources&gt;
+        &lt;DataTemplate x:Key=&quot;MyGridContentTemplate&quot;&gt;
+            &lt;Grid Margin=&quot;8&quot;&gt;
+                &lt;Grid.RowDefinitions&gt;
+                    &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+                    &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+                &lt;/Grid.RowDefinitions&gt;
+                &lt;Grid.ColumnDefinitions&gt;
+                    &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+                    &lt;ColumnDefinition/&gt;
+                &lt;/Grid.ColumnDefinitions&gt;
+
+                &lt;TextBlock Text=&quot;Your name is:&quot;/&gt;
+                &lt;TextBlock Grid.Column=&quot;1&quot; Margin=&quot;8,0,0,0&quot;
+                           FontWeight=&quot;Bold&quot;
+                           Text=&quot;{Binding MyName}&quot;/&gt;
+
+                &lt;TextBlock Grid.Row=&quot;1&quot; Text=&quot;Your address is:&quot;/&gt;
+                &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Margin=&quot;8,0,0,0&quot;
+                           FontWeight=&quot;Bold&quot;
+                           Text=&quot;{Binding Address}&quot;/&gt;
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/Window.Resources&gt;
+    
+    &lt;Grid Margin=&quot;10&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;ContentPresenter Grid.Row=&quot;0&quot; ContentTemplate=&quot;{StaticResource MyGridContentTemplate}&quot; Content=&quot;{Binding}&quot;/&gt;
+        
+        &lt;Separator Grid.Row=&quot;1&quot;/&gt;
+
+        &lt;ContentPresenter Grid.Row=&quot;2&quot; ContentTemplate=&quot;{StaticResource MyGridContentTemplate}&quot; Content=&quot;{Binding}&quot;/&gt;
+    &lt;/Grid&gt;
+</pre>
+<p>Here&#8217;s what the application looks like at run-time:</p>
+<p><a href="https://wpf.2000things.com/2017/03/31/1203-create-a-reusable-group-of-elements-with-a-contentpresenter/1203_01/" rel="attachment wp-att-9627"><img data-attachment-id="9627" data-permalink="https://wpf.2000things.com/2017/03/31/1203-create-a-reusable-group-of-elements-with-a-contentpresenter/1203_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg?w=630" data-orig-size="549,358" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1203_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg?w=630?w=549" src="https://web.archive.org/web/20170401211420id_/https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg?w=630" alt=""   class="alignnone size-full wp-image-9627" srcset="https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg 549w, https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/03/1203_01.jpg?w=300 300w" sizes="(max-width: 549px) 100vw, 549px" /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9623-58e018301d93a' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9623&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9623-58e018301d93a' data-name='like-post-frame-14605478-9623-58e018301d93a'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Controls | Tags: ContentPresenter, ContentTemplate, Controls, WPF</p>
+  <nav class="pager"><a href="2017-03-19-1202-using-a-color-animation-to-draw-emphasis-to-something.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-04-06-1204-using-a-datatrigger-to-change-content-in-a-contentpresenter.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#376 – Getting Text to Wrap in a Tooltip</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-30-375-binding-something-in-a-tooltip-to-a-property-on-the-parent-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-01-377-reuse-tooltips-by-defining-them-as-resources.html">Next</a></nav>
+  <h1>#376 – Getting Text to Wrap in a Tooltip</h1>
+  <p class="meta">2011-08-31 | <a href="http://wpf.2000things.com/2011/08/31/376-getting-text-to-wrap-in-a-tooltip/">Original URL</a> | Wayback 20120120192323</p>
+  <article><div class="post-3082 post type-post status-publish format-standard hentry category-controls tag-controls tag-tooltip tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p>
+                        	<span class="time">August 31, 2011</span>
+                        	                        	<span class="post-comments"><a href="2011-08-31-376-getting-text-to-wrap-in-a-tooltip.html">1 Comment</a></span>
+                        	                        </p>
+                    </div>
+
+                    <p>When you specify the value of a tooltip by setting the <strong>Tooltip</strong> property for a control, a popup window for the tooltip is created and the window contains a single label.  By default, this label does not wrap, but displays in a single long line.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/08/001-notwrapped.png"><img class="alignnone size-full wp-image-3094" title="001-NotWrapped" src="https://web.archive.org/web/20120120192323id_/http://2000thingswpf.files.wordpress.com/2011/08/001-notwrapped.png?w=630&amp;h=75" alt="" width="630" height="75" /></a></p>
+<p>If you want the text in a tooltip to wrap, you can specify an explicit <strong>Tooltip</strong> control in XAML and set it up to contain a <strong>TextBlock</strong>.  The <strong>TextBlock</strong> has a <strong>TextWrapping</strong> property that lets you wrap the text.</p>
+<p><pre class="brush: xml;">
+        &lt;TextBox Text=&quot;Now is the winter of our discontent Made glorious summer by this sun of York; And all the clouds that lour'd upon our house In the deep bosom of the ocean buried.&quot;
+            Width=&quot;100&quot; Margin=&quot;10&quot;&gt;
+            &lt;TextBox.ToolTip&gt;
+                &lt;ToolTip DataContext=&quot;{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}&quot;&gt;
+                    &lt;TextBlock Text=&quot;{Binding Text}&quot; TextWrapping=&quot;Wrap&quot; Width=&quot;200&quot;/&gt;
+                &lt;/ToolTip&gt;
+            &lt;/TextBox.ToolTip&gt;
+        &lt;/TextBox&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/08/002-wrapped.png"><img class="alignnone size-full wp-image-3095" title="002-Wrapped" src="https://web.archive.org/web/20120120192323id_/http://2000thingswpf.files.wordpress.com/2011/08/002-wrapped.png?w=630" alt=""   /></a></pre>
+
+<div  class="wpadvert" style="text-align: center; padding: 5px; background: #; padding: 5px; margin: 10px auto; width: 410px;">
+<span style="text-align: left; letter-spacing: 1px; font: 8px/1em Verdana, sans-serif; color: #ccc; text-transform: uppercase; display: block; padding: 0 1px;">Advertisement</span>
+<script type="text/javascript">
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("theme_bg", "f0f0f0"); 
+GA_googleAddAttr("theme_border", "cccccc"); 
+GA_googleAddAttr("theme_text", "555555"); 
+GA_googleAddAttr("theme_link", "008DCF"); 
+GA_googleAddAttr("theme_url", "008DCF"); 
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Autotag", "food");
+GA_googleAddAttr("Autotag", "books");
+GA_googleAddAttr("Autotag", "entertainment");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "tooltip");
+GA_googleAddAttr("Tag", "wpf");
+
+GA_googleFillSlot("wpcom_sharethrough");
+</script>
+</div><div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-08-31-376-getting-text-to-wrap-in-a-tooltip.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, Tooltip, WPF</p>
+  <nav class="pager"><a href="2011-08-30-375-binding-something-in-a-tooltip-to-a-property-on-the-parent-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-01-377-reuse-tooltips-by-defining-them-as-resources.html">Next</a></nav>
+</main>
+
+</body>
+</html>

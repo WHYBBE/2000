@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,134 – Localization XV – Localizing Other Content</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-08-11-1133-localization-xiv-add-content-to-already-localized-application.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-13-1135-alternatives-to-creating-a-custom-control.html">Next</a></nav>
+  <h1>#1,134 – Localization XV – Localizing Other Content</h1>
+  <p class="meta">2014-08-12 | <a href="http://wpf.2000things.com/2014/08/12/1134-localization-xv-localizing-other-content/">Original URL</a> | Wayback 20140920020313</p>
+  <article><div class="post-9137 post type-post status-publish format-standard hentry category-localization tag-localization tag-strings tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 12, 2014</span>
+																						<span class="post-comments"><a href="2014-08-12-1134-localization-xv-localizing-other-content.html" title="Comment on #1,134 &#8211; Localization XV &#8211; Localizing Other&nbsp;Content">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You&#8217;ll sometimes have content in an application that needs to be localized but is not already present in a XAML file.  Below, a <strong>MessageBox</strong> uses a hard-coded string.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string message = &quot;Apples are crunchy, portable and taste great!&quot;;
+            MessageBox.Show(message, &quot;Apples&quot;);
+        }
+</pre>
+<p>One approach to this is to move the string into a XAML file as a resource and then localize the string when localizing all of the other content in the XAML file.</p>
+<p>We start by including an XML namespace that defines an alias for the <strong>System</strong> namespace.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+</pre>
+<p>We can now add the string as a resource (e.g. within a <strong>&lt;Window&gt;</strong> element).</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;Window.Resources&gt;
+        &lt;sys:String x:Uid=&quot;sys:String_1&quot; x:Key=&quot;AppleMessage&quot;&gt;Apples are crunchy, portable and taste great!&lt;/sys:String&gt;
+    &lt;/Window.Resources&gt;
+</pre>
+<p>At run-time, we can load the resource rather than a hard-coded string.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+            string message = (string)this.Resources[&quot;AppleMessage&quot;];
+            MessageBox.Show(message, &quot;Apples&quot;);
+</pre>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/08/12/1134-localization-xv-localizing-other-content/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "food");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "strings");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/08/12/1134-localization-xv-localizing-other-content/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Localization | Tags: Localization, Strings, WPF</p>
+  <nav class="pager"><a href="2014-08-11-1133-localization-xiv-add-content-to-already-localized-application.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-13-1135-alternatives-to-creating-a-custom-control.html">Next</a></nav>
+</main>
+
+</body>
+</html>

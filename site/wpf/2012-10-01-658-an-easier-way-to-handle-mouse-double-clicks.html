@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#658 – An Easier Way to Handle Mouse Double Clicks</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-09-28-657-detecting-double-clicks-in-user-interface-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-02-659-detecting-a-triple-click.html">Next</a></nav>
+  <h1>#658 – An Easier Way to Handle Mouse Double Clicks</h1>
+  <p class="meta">2012-10-01 | <a href="http://wpf.2000things.com/2012/10/01/658-an-easier-way-to-handle-mouse-double-clicks/">Original URL</a> | Wayback 20121008040718</p>
+  <article><div class="post-5682 post type-post status-publish format-standard hentry category-events tag-double-click tag-events tag-mouse tag-mousedoubleclick tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 1, 2012</span>
+																						<span class="post-comments"><a href="2012-10-01-658-an-easier-way-to-handle-mouse-double-clicks.html" title="Comment on #658 &#8211; An Easier Way to Handle Mouse Double&nbsp;Clicks">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can detect mouse double clicks on user interface elements by handling one of the the mouse button events (e.g. <strong>MouseDown</strong>) on the element and checking to see if the <strong>MouseButtonEventArgs.ClickCount</strong> property has a value of 2.  The various mouse button events are defined for anything that derives from <strong>UIElement</strong> or <strong>ContentElement</strong>.</p>
+<p>If your user interface element derives from <strong>Control</strong><strong>, </strong>you can instead just handle the <strong>MouseDoubleClick</strong> (or <strong>PreviewMouseDoubleClick</strong>) event.</p>
+<p>The sequence of events that fire when the user double-clicks a control with the left mouse button is shown below.  (For simplicity, I&#8217;m omitting the <strong>MouseLeftButtonDown </strong>and <strong>MouseLeftButtonUp</strong> events and their associated preview events.</p>
+<ul>
+<li><strong>PreviewMouseDown</strong>, with <strong>ClickCount = 1</strong></li>
+<li><strong>MouseDown</strong>, with <strong>ClickCount = 1</strong></li>
+<li><strong>PreviewMouseUp</strong></li>
+<li><strong>MouseUp</strong></li>
+<li><strong>PreviewMouseDoubleClick</strong></li>
+<li><strong>PreviewMouseDown</strong>, with <strong>ClickCount = 2</strong></li>
+<li><strong>MouseDoubleClick</strong></li>
+<li><strong>MouseDown</strong>, with <strong>ClickCount = 2</strong></li>
+<li><strong>PreviewMouseUp</strong></li>
+<li><strong>MouseUp</strong></li>
+</ul>
+<p>The <strong>MouseDoubleClick</strong> event does send an instance of <strong>MouseButtonEventArgs</strong>, but its <strong>ClickCount</strong> property will always be equal to 1.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/658-001.png"><img class="alignnone size-full wp-image-5684" title="658-001" src="https://web.archive.org/web/20121008040718id_/http://2000thingswpf.files.wordpress.com/2012/10/658-001.png?w=630" alt=""   /></a></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Double-Click, Events, Mouse, MouseDoubleClick, WPF</p>
+  <nav class="pager"><a href="2012-09-28-657-detecting-double-clicks-in-user-interface-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-02-659-detecting-a-triple-click.html">Next</a></nav>
+</main>
+
+</body>
+</html>

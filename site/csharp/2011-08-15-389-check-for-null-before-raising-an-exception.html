@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#389 – Check for Null Before Raising an Event</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-12-388-declaring-and-using-private-events.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-16-390-using-the-same-handler-for-multiple-events.html">Next</a></nav>
+  <h1>#389 – Check for Null Before Raising an Event</h1>
+  <p class="meta">2011-08-15 | <a href="http://csharp.2000things.com/2011/08/15/389-check-for-null-before-raising-an-exception/">Original URL</a> | Wayback 20130116190551</p>
+  <article><div class="post-3281 post type-post status-publish format-standard hentry category-events tag-c tag-events">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 15, 2011</span>
+																						<span class="post-comments"><a href="2011-08-15-389-check-for-null-before-raising-an-exception.html" title="Comment on #389 &#8211; Check for Null Before Raising an&nbsp;Event">3 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>You should always check to see if an event is null, before trying to raise it.</p>
+<p><pre class="brush: csharp;">
+            if (Barked != null)
+                Barked(this, new SomebodyBarkedEventArgs(Name, barkSound));
+</pre></p>
+<p>When no handlers are attached to the event, it will have a null value. If you try raising the event when it is null, you&#8217;ll get a <strong>NullReferenceException</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/08/001-nullreferenceexception.png"><img class="alignnone size-full wp-image-3285" title="001-NullReferenceException" src="https://web.archive.org/web/20130116190551id_/http://2000thingscsharp.files.wordpress.com/2011/08/001-nullreferenceexception.png?w=630&amp;h=321" alt="" width="630" height="321" /></a></p>
+<p>Alternatively, you could avoid having to check for null if you attach an empty handler to the event when you declare it.</p>
+<p><pre class="brush: csharp;">
+        public event EventHandler&lt;SomebodyBarkedEventArgs&gt; Barked = delegate { };
+</pre></p>
+		<div class="wpcnt" style="text-align: center;">
+			<div class="wpadvert wpalt" style="text-align: center; position: relative; margin: 10px auto; overflow: hidden; display: inline-block;">
+				<a class="wpadvert-about" style="position: absolute; padding: 0 1px; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<script type='text/javascript'>
+					GA_googleFillSlot("Wordads_MIS_Mrec_Below_adsafe");
+
+				</script>
+				<style type='text/css'>
+				div.wpadvert>div { margin-top: 1em; }
+				body.highlander-light .wpadvert>a { color: #222; }
+				body.highlander-dark .wpadvert>a { color: #ddd; }
+				</style>
+			</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: C#, Events</p>
+  <nav class="pager"><a href="2011-08-12-388-declaring-and-using-private-events.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-16-390-using-the-same-handler-for-multiple-events.html">Next</a></nav>
+</main>
+
+</body>
+</html>

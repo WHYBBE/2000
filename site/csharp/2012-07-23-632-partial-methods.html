@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#632 – Partial Methods</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-07-20-631-code-generation-tools-and-partial-classes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-24-633-the-implementation-of-a-partial-method-is-optional.html">Next</a></nav>
+  <h1>#632 – Partial Methods</h1>
+  <p class="meta">2012-07-23 | <a href="http://csharp.2000things.com/2012/07/23/632-partial-methods/">Original URL</a> | Wayback 20121101155632</p>
+  <article><div class="post-5327 post type-post status-publish format-standard hentry category-methods tag-c tag-methods tag-partial-class tag-partial-method">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 23, 2012</span>
+																						<span class="post-comments"><a href="2012-07-23-632-partial-methods.html" title="Comment on #632 &#8211; Partial&nbsp;Methods">5 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>A partial method is a method in a partial class that is declared in one part of the class and implemented in another part.</p>
+<p>In the example below, we declare a <strong>Growl</strong> method in part 1 of a class without implementing it.</p>
+<p><pre class="brush: csharp;">
+    // In Dog-1.cs
+    public partial class Dog
+    {
+        public string Name { get; set; }
+
+        public void Bark()
+        {
+            Console.WriteLine(&quot;Woof&quot;);
+            this.Growl();
+        }
+
+        // Partial method declaration
+        partial void Growl();
+    }
+</pre></p>
+<p>We can then include the implementation of the <strong>Growl</strong> method in part 2 of the class.</p>
+<p><pre class="brush: csharp;">
+    // Dog-2.cs
+    public partial class Dog
+    {
+        public void Fetch()
+        {
+            Console.WriteLine(&quot;Fetching..&quot;);
+        }
+
+        // Partial method implementation
+        partial void Growl()
+        {
+            Console.WriteLine(&quot;Growling..&quot;);
+        }
+    }
+</pre></p>
+<p>The code in <strong>Dog-1.cs </strong>is saying that there is a <strong>Growl</strong> method in the <strong>Dog </strong>class, but that it will be implemented elsewhere.</p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Methods | Tags: C#, Methods, Partial Class, Partial Method</p>
+  <nav class="pager"><a href="2012-07-20-631-code-generation-tools-and-partial-classes.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-24-633-the-implementation-of-a-partial-method-is-optional.html">Next</a></nav>
+</main>
+
+</body>
+</html>

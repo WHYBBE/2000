@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,186 – Default ItemContainerStyle for a ListBox</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-10-22-1185-itemscontrol-customization-summary.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-24-1187-using-an-itemcontainerstyle-to-change-items-in-an-itemscontrol.html">Next</a></nav>
+  <h1>#1,186 – Default ItemContainerStyle for a ListBox</h1>
+  <p class="meta">2014-10-23 | <a href="http://wpf.2000things.com/2014/10/23/1186-default-itemcontainerstyle-for-a-listbox/">Original URL</a> | Wayback 20141024201745</p>
+  <article><div class="post-9469 post type-post status-publish format-standard hentry category-controls tag-controls tag-itemcontainerstyle tag-listbox tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">October 23, 2014</span>
+																						<span class="post-comments"><a href="2014-10-23-1186-default-itemcontainerstyle-for-a-listbox.html" title="Comment on #1,186 &#8211; Default ItemContainerStyle for a&nbsp;ListBox">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>The default style for the <strong>ItemContainerStyle </strong>of a <strong>ListBox</strong> (version 4.5.1 of the .NET Framework) is shown below.  The template is included within a style that includes some other default property values.</p>
+<p>This style is applied to each <strong>ListBoxItem</strong> rendered in the <strong>ListBox</strong>.  The structure of each <strong>ListBoxItem</strong> is a <strong>Border</strong> surrounding a <strong>ContentPresenter</strong>.  More importantly, the style shows the default triggers that control how items are rendered when you move the mouse over an item or select an item.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;Style x:Key=&quot;lbDefaultItemContainerStyle&quot; TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+            &lt;Setter Property=&quot;SnapsToDevicePixels&quot; Value=&quot;True&quot;/&gt;
+            &lt;Setter Property=&quot;Padding&quot; Value=&quot;4,1&quot;/&gt;
+            &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
+            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
+            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
+            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Transparent&quot;/&gt;
+            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
+            &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{StaticResource FocusVisual}&quot;/&gt;
+            &lt;Setter Property=&quot;Template&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;ControlTemplate TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+                        &lt;Border x:Name=&quot;Bd&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
+                            &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
+                        &lt;/Border&gt;
+                        &lt;ControlTemplate.Triggers&gt;
+                            &lt;MultiTrigger&gt;
+                                &lt;MultiTrigger.Conditions&gt;
+                                    &lt;Condition Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;/&gt;
+                                &lt;/MultiTrigger.Conditions&gt;
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Background}&quot;/&gt;
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Border}&quot;/&gt;
+                            &lt;/MultiTrigger&gt;
+                            &lt;MultiTrigger&gt;
+                                &lt;MultiTrigger.Conditions&gt;
+                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;False&quot;/&gt;
+                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
+                                &lt;/MultiTrigger.Conditions&gt;
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Background}&quot;/&gt;
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Border}&quot;/&gt;
+                            &lt;/MultiTrigger&gt;
+                            &lt;MultiTrigger&gt;
+                                &lt;MultiTrigger.Conditions&gt;
+                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;True&quot;/&gt;
+                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
+                                &lt;/MultiTrigger.Conditions&gt;
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Background}&quot;/&gt;
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Border}&quot;/&gt;
+                            &lt;/MultiTrigger&gt;
+                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
+                                &lt;Setter Property=&quot;TextElement.Foreground&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
+                            &lt;/Trigger&gt;
+                        &lt;/ControlTemplate.Triggers&gt;
+                    &lt;/ControlTemplate&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+</pre>
+<p>The style references some other predefined resources, shown below:</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;Style x:Key=&quot;FocusVisual&quot;&gt;
+            &lt;Setter Property=&quot;Control.Template&quot;&gt;
+                &lt;Setter.Value&gt;
+                    &lt;ControlTemplate&gt;
+                        &lt;Rectangle Margin=&quot;2&quot; SnapsToDevicePixels=&quot;true&quot; Stroke=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot; StrokeThickness=&quot;1&quot; StrokeDashArray=&quot;1 2&quot;/&gt;
+                    &lt;/ControlTemplate&gt;
+                &lt;/Setter.Value&gt;
+            &lt;/Setter&gt;
+        &lt;/Style&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Background&quot; Color=&quot;#1F26A0DA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Border&quot; Color=&quot;#a826A0Da&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Background&quot; Color=&quot;#3DDADADA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Border&quot; Color=&quot;#FFDADADA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Background&quot; Color=&quot;#3D26A0DA&quot;/&gt;
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Border&quot; Color=&quot;#FF26A0DA&quot;/&gt;
+</pre>
+<p>You would use the main style as follows:</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;ListBox Margin=&quot;5&quot; ItemsSource=&quot;{Binding MovieList}&quot;
+                 ItemContainerStyle=&quot;{DynamicResource lbDefaultItemContainerStyle}&quot; /&gt;
+</pre>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/10/23/1186-default-itemcontainerstyle-for-a-listbox/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "business");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "controls");
+GA_googleAddAttr("Tag", "itemcontainerstyle");
+GA_googleAddAttr("Tag", "listbox");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/10/23/1186-default-itemcontainerstyle-for-a-listbox/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, ItemContainerStyle, ListBox, WPF</p>
+  <nav class="pager"><a href="2014-10-22-1185-itemscontrol-customization-summary.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-10-24-1187-using-an-itemcontainerstyle-to-change-items-in-an-itemscontrol.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,208 – Catching Data Binding Errors Part 1</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-05-20-1209-catching-data-binding-errors-part-2.html">Next</a></nav>
+  <h1>#1,208 – Catching Data Binding Errors Part 1</h1>
+  <p class="meta">2017-05-16 | <a href="http://wpf.2000things.com/2017/05/16/1208-catching-data-binding-errors-part-1/">Original URL</a> | Wayback 20170705204145</p>
+  <article><div class="post-9671 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-errors tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 16, 2017</span>
+																						<span class="post-comments"><a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In WPF, <a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">data binding errors by default are quietly swallowed</a>, rather than throwing an exception.</p>
+<p>Happily, there is a <strong>TraceSource</strong> that we can use to intercept all binding errors. All data binding errors will go through this trace source and we can therefore add a <strong>TraceListener</strong> to the trace source&#8217;s <strong>Listeners</strong> collection in order to intercept the error.</p>
+<p>We start by creating a simple class deriving from <strong>TraceListener</strong> that overrides <strong>Write </strong>and <strong>WriteLine</strong> methods. These methods will be invoked when messages come from the trace source. Note that we don&#8217;t yet do anything useful with these messages, but just dump them to standard trace output (to prove to ourselves that we got them).</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+   public class BindingErrorTraceListener : TraceListener
+    {
+        public override void Write(string message)
+        {
+            Trace.WriteLine(string.Format(&quot;==[Write]{0}==&quot;, message));
+        }
+
+        public override void WriteLine(string message)
+        {
+            Trace.WriteLine(string.Format(&quot;==[WriteLine]{0}==&quot;, message));
+        }
+    }
+}
+</pre>
+<p>We can now wire our listener into the standard data binding trace source. Below, we do this at application startup.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class App : Application
+    {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
+            PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorTraceListener());
+        }
+    }
+</pre>
+<p>At this point, we&#8217;re not doing anything with the binding errors. But if you watch the output window, you&#8217;ll see that we&#8217;re now capturing them.</p>
+<p><a href="https://wpf.2000things.com/2017/05/16/1208-catching-data-binding-errors-part-1/1208_01/" rel="attachment wp-att-9676"><img data-attachment-id="9676" data-permalink="https://wpf.2000things.com/2017/05/16/1208-catching-data-binding-errors-part-1/1208_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=630&#038;h=114" data-orig-size="806,146" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1208_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=630&#038;h=114?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=630&#038;h=114?w=630" class="alignnone size-full wp-image-9676" src="https://web.archive.org/web/20170705204145id_/https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=630&amp;h=114" alt="" width="630" height="114" srcset="https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=630&amp;h=114 630w, https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=150&amp;h=27 150w, https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=300&amp;h=54 300w, https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png?w=768&amp;h=139 768w, https://2000thingswpf.files.wordpress.com/2017/05/1208_01.png 806w" sizes="(max-width: 630px) 100vw, 630px" /></a></p>
+<p>Next time, we&#8217;ll look at converting these errors into exceptions that you can catch.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9671-595d4f096b2df' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9671&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9671-595d4f096b2df' data-name='like-post-frame-14605478-9671-595d4f096b2df'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, Errors, WPF</p>
+  <nav class="pager"><a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-05-20-1209-catching-data-binding-errors-part-2.html">Next</a></nav>
+</main>
+
+</body>
+</html>

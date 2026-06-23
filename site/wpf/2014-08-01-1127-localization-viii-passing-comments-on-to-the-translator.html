@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,127 – Localization VIII – Passing Comments On to the Translator</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2014-07-31-1126-localization-vii-preventing-translator-from-modifying-certain-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-04-1128-localization-ix-localizing-content.html">Next</a></nav>
+  <h1>#1,127 – Localization VIII – Passing Comments On to the Translator</h1>
+  <p class="meta">2014-08-01 | <a href="http://wpf.2000things.com/2014/08/01/1127-localization-viii-passing-comments-on-to-the-translator/">Original URL</a> | Wayback 20141208040830</p>
+  <article><div class="post-9091 post type-post status-publish format-standard hentry category-localization tag-localization tag-locbaml tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 1, 2014</span>
+																						<span class="post-comments"><a href="2014-08-01-1127-localization-viii-passing-comments-on-to-the-translator.html" title="Comment on #1,127 &#8211; Localization VIII &#8211; Passing Comments On to the&nbsp;Translator">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you have an application that will be localizable, you use localization attributes to explicitly <a href="http://wp.me/pZhye-2mv">mark which elements need to be localized</a>.  You may want to also add a comment for a particular element, to help the translator in localizing the content.</p>
+<p>You can add a comment for the translator in a XAML file using the <strong>Localization.Comments</strong> attribute.  The property can contain comments for multiple attributes and the comments will be written to the .csv file with the corresponding attribute.</p>
+<p>Below, we specify a comment to be associated with the <strong>Content </strong>property.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+        &lt;Button x:Uid=&quot;Button_1&quot; Content=&quot;Learn More&quot; Margin=&quot;5&quot;
+                Click=&quot;Button_Click&quot;
+                Localization.Attributes=&quot;$Content(Unmodifiable) Margin(Unmodifiable)&quot;
+                Localization.Comments=&quot;Content(Should be an imperative--a command)&quot;/&gt;
+</pre>
+<p>Now, after <a href="http://wp.me/pZhye-2mg">generating the .csv file with LocBaml</a>, we see that the comment shows up.</p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1127-001.png"><img class="alignnone size-full wp-image-9093" src="https://web.archive.org/web/20141208040830id_/http://2000thingswpf.files.wordpress.com/2014/08/1127-001.png?w=630&amp;h=117" alt="1127-001" width="630" height="117" /></a></p>
+
+<div class="wpcnt">
+<div class="wpa">
+<a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//pixel.wp.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "wpf.2000things.com");
+GA_googleAddAttr("BlogId", "14605478");
+GA_googleAddAttr("PageURL", "http://wpf.2000things.com/2014/08/01/1127-localization-viii-passing-comments-on-to-the-translator/");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "localization");
+GA_googleAddAttr("Tag", "locbaml");
+GA_googleAddAttr("Tag", "wpf");
+GA_googleAddAttr("Partner", "AOL");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://wpf.2000things.com/2014/08/01/1127-localization-viii-passing-comments-on-to-the-translator/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Localization | Tags: Localization, LocBaml, WPF</p>
+  <nav class="pager"><a href="2014-07-31-1126-localization-vii-preventing-translator-from-modifying-certain-elements.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2014-08-04-1128-localization-ix-localizing-content.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#430 – A Dispose Pattern Example</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-10-10-429-use-the-dispose-pattern-for-deterministic-destruction.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-12-431-the-using-statement-automates-invocation-of-the-dispose-method.html">Next</a></nav>
+  <h1>#430 – A Dispose Pattern Example</h1>
+  <p class="meta">2011-10-11 | <a href="http://csharp.2000things.com/2011/10/11/430-a-dispose-pattern-example/">Original URL</a> | Wayback 20111015043452</p>
+  <article><div class="post-3640 post type-post status-publish format-standard hentry category-basics tag-c tag-basics tag-dispose tag-dispose-pattern tag-disposable">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">October 11, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-10-11-430-a-dispose-pattern-example.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>If you want to control when an object&#8217;s unmanaged resources are released, you can follow the <a href="2011-10-10-429-use-the-dispose-pattern-for-deterministic-destruction.html">dispose pattern</a>, implementing a <strong>Dispose</strong> method.</p>
+<p>Here&#8217;s a complete example.  We create a method to release resources that is called either when a client invokes <strong>Dispose</strong> directly or when the CLR is finalizing the object.</p>
+<pre class="brush: csharp;">
+    public class Dog : IDisposable
+    {
+        // Prevent dispose from happening more than once
+        private bool disposed = false;
+
+        // IDisposable.Dispose
+        public void Dispose()
+        {
+            // Explicitly dispose of resources
+            DoDispose(true);
+
+            // Tell GC not to finalize us--we've already done it manually
+            GC.SuppressFinalize(this);
+        }
+
+        // Function called via Dispose method or via Finalizer
+        protected virtual void DoDispose(bool explicitDispose)
+        {
+            if (!disposed)
+            {
+                // Free some resources only when invoking via Dispose
+                if (explicitDispose)
+                    FreeManagedResources();   // Define this method
+
+                // Free unmanaged resources here--whether via Dispose
+                //   or via finalizer
+                FreeUnmanagedResources();
+
+                disposed = true;
+            }
+        }
+
+        // Finalizer
+        ~Dog()
+        {
+            DoDispose(false);
+        }
+    }
+</pre>
+<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/10/11/430-a-dispose-pattern-example/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/10/11/430-a-dispose-pattern-example/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/10/11/430-a-dispose-pattern-example/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Basics | Tags: C#, Basics, Dispose, Dispose Pattern, Disposable</p>
+  <nav class="pager"><a href="2011-10-10-429-use-the-dispose-pattern-for-deterministic-destruction.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-10-12-431-the-using-statement-automates-invocation-of-the-dispose-method.html">Next</a></nav>
+</main>
+
+</body>
+</html>

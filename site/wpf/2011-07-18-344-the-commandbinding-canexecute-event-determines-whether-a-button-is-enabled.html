@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#344 – The CommandBinding CanExecute Event Determines Whether a Button is Enabled</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-07-15-343-associating-multiple-controls-with-the-same-command.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-07-19-345-wpf-command-model-is-preferred-over-traditional-event-handler-model.html">Next</a></nav>
+  <h1>#344 – The CommandBinding CanExecute Event Determines Whether a Button is Enabled</h1>
+  <p class="meta">2011-07-18 | <a href="http://wpf.2000things.com/2011/07/18/344-the-commandbinding-canexecute-event-determines-whether-a-button-is-enabled/">Original URL</a> | Wayback 20120427190648</p>
+  <article><div class="post-2795 post type-post status-publish format-standard hentry category-commands tag-canexecute tag-commandbinding tag-commands tag-executed tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 18, 2011</span>
+																						<span class="post-comments"><a href="2011-07-18-344-the-commandbinding-canexecute-event-determines-whether-a-button-is-enabled.html" title="Comment on #344 &#8211; The CommandBinding CanExecute Event Determines Whether a Button is&nbsp;Enabled">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>When you associate a button&#8217;s <strong>Command</strong> property with a <strong>CommandBinding</strong> object,and bind the <strong>CommandBinding </strong>object to both <strong>Executed</strong> and <strong>CanExecute</strong> handlers, the <strong>Button</strong> control will automatically toggle between enabled/disabled, depending on the code in the <strong>CanExecute</strong> method.</p>
+<p>Suppose we create two buttons, binding them to open/close commands.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
+        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;
+                VerticalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
+        &lt;Button Content=&quot;Close&quot; Command=&quot;ApplicationCommands.Close&quot;
+                VerticalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/07/001-layout.png"><img class="alignnone size-full wp-image-2804" title="001-Layout" src="https://web.archive.org/web/20120427190648id_/http://2000thingswpf.files.wordpress.com/2011/07/001-layout.png?w=630" alt=""   /></a></p>
+<p>Then we create a <strong>CommandBinding</strong> and associated handlers.</p>
+<p><pre class="brush: csharp;">
+		public MainWindow()
+		{
+			this.InitializeComponent();
+
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Open_Executed, Open_CanExecute));
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, Close_Executed, Close_CanExecute));
+        }
+
+        private bool isOpen = false;
+
+        public void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show(&quot;Open&quot;);
+            isOpen = true;
+        }
+
+        public void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !isOpen;
+        }
+
+        public void Close_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show(&quot;Close&quot;);
+            isOpen = false;
+        }
+
+        public void Close_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = isOpen;
+        }
+</pre></p>
+<p>The buttons will now automatically be enabled/disabled, depending on the value of <strong>isOpen</strong>.</p>
+<div class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-2795" class="wpl-button "><a href='2011-07-18-344-the-commandbinding-canexecute-event-determines-whether-a-button-is-enabled.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
+  <p class="meta">Categories: Commands | Tags: CanExecute, CommandBinding, Commands, Executed, WPF</p>
+  <nav class="pager"><a href="2011-07-15-343-associating-multiple-controls-with-the-same-command.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-07-19-345-wpf-command-model-is-preferred-over-traditional-event-handler-model.html">Next</a></nav>
+</main>
+
+</body>
+</html>

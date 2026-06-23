@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,209 – Catching Data Binding Errors Part 2</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-06-05-1210-exceptions-in-property-accessors-can-be-ignored-in-production-code.html">Next</a></nav>
+  <h1>#1,209 – Catching Data Binding Errors Part 2</h1>
+  <p class="meta">2017-05-20 | <a href="http://wpf.2000things.com/2017/05/20/1209-catching-data-binding-errors-part-2/">Original URL</a> | Wayback 20170705210227</p>
+  <article><div class="post-9679 post type-post status-publish format-standard hentry category-data-binding tag-data-binding tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 20, 2017</span>
+																						<span class="post-comments"><a href="2017-05-20-1209-catching-data-binding-errors-part-2.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In <a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">Part 1</a>, I described how to use a <strong>TraceSource</strong> to intercept data binding errors. Below, we convert these binding errors into exceptions. You then can know that the error will get reported at runtime and you can catch and handle the exception as you like.</p>
+<p>(Code below is inspired by <a href="https://github.com/bblanchon/WpfBindingErrors">WpfBindingErrors project</a> and <a href="http://www.jasonbock.net/News/Item/0f221e04-7de7-40ee-9072-2b248933a28d">Jason Bock&#8217;s blog post</a>).</p>
+<p>Building on the code in the earlier post, we modify the <strong>WriteLine</strong> method to parse the resulting error message and build up a custom exception type.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class BindingErrorException : Exception
+    {
+        public string SourceObject { get; set; }
+        public string SourceProperty { get; set; }
+        public string TargetElement { get; set; }
+        public string TargetProperty { get; set; }
+
+        public BindingErrorException() 
+            : base() { }
+
+        public BindingErrorException(string message)
+            : base(message) { }
+
+    }
+
+    public class BindingErrorTraceListener : TraceListener
+    {
+        private const string BindingErrorPattern = @&quot;^BindingExpression path error(?:.+)'(.+)' property not found(?:.+)object[\s']+(.+?)'(?:.+)target element is '(.+?)'(?:.+)target property is '(.+?)'(?:.+)$&quot;;
+
+        public override void Write(string s) { }
+
+        public override void WriteLine(string message)
+        {
+            var xx = new BindingErrorException(message);
+
+            var match = Regex.Match(message, BindingErrorPattern);
+            if (match.Success)
+            {
+                xx.SourceObject = match.Groups[2].ToString();
+                xx.SourceProperty = match.Groups[1].ToString();
+                xx.TargetElement = match.Groups[3].ToString();
+                xx.TargetProperty = match.Groups[4].ToString();
+            }
+
+            throw xx;
+        }
+    }
+</pre>
+<p>As before, we attach a listener at startup. We also catch unhandled binding exceptions and display a <strong>MessageBox</strong>.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public partial class App : Application
+    {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            PresentationTraceSources.Refresh();
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
+            PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorTraceListener());
+
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            var bex = e.Exception as BindingErrorException;
+            if (bex != null)
+            {
+                MessageBox.Show($&quot;Binding error. {bex.SourceObject}.{bex.SourceProperty} =&gt; {bex.TargetElement}.{bex.TargetProperty}&quot;);
+            }
+        }
+    }
+</pre>
+<p>For a bad property name that leads to a binding error, we then get a nice little error.<br />
+<a href="https://wpf.2000things.com/2017/05/20/1209-catching-data-binding-errors-part-2/1209_01/" rel="attachment wp-att-9681"><img data-attachment-id="9681" data-permalink="https://wpf.2000things.com/2017/05/20/1209-catching-data-binding-errors-part-2/1209_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg?w=630" data-orig-size="376,158" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1209_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg?w=630?w=376" class="alignnone size-full wp-image-9681" src="https://web.archive.org/web/20170705210227id_/https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg?w=630" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg 376w, https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/05/1209_01.jpg?w=300 300w" sizes="(max-width: 376px) 100vw, 376px"   /></a><br />
+&nbsp;</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9679-595d53e3cd06c' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9679&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9679-595d53e3cd06c' data-name='like-post-frame-14605478-9679-595d53e3cd06c'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Data Binding | Tags: Data Binding, WPF</p>
+  <nav class="pager"><a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-06-05-1210-exceptions-in-property-accessors-can-be-ignored-in-production-code.html">Next</a></nav>
+</main>
+
+</body>
+</html>

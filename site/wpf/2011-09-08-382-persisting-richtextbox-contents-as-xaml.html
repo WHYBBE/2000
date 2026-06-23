@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#382 – Persisting RichTextBox Contents as XAML</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-09-07-381-loading-rtf-files-into-a-richtextbox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-09-383-the-problems-with-coordinate-based-layout.html">Next</a></nav>
+  <h1>#382 – Persisting RichTextBox Contents as XAML</h1>
+  <p class="meta">2011-09-08 | <a href="http://wpf.2000things.com/2011/09/08/382-persisting-richtextbox-contents-as-xaml/">Original URL</a> | Wayback 20120509034347</p>
+  <article><div class="post-3149 post type-post status-publish format-standard hentry category-controls tag-controls tag-richtextbox tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">September 8, 2011</span>
+																						<span class="post-comments"><a href="2011-09-08-382-persisting-richtextbox-contents-as-xaml.html" title="Comment on #382 &#8211; Persisting RichTextBox Contents as&nbsp;XAML">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <strong>Save</strong> method of a <strong>TextRange</strong> object to save the contents of a <strong>RichTextBox</strong> control.</p>
+<p>In the example below, I enter some formatted text into a <strong>RichTextBox</strong> and then click the <strong>Save</strong> button.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/09/mydogs.png"><img class="alignnone size-full wp-image-3150" title="MyDogs" src="https://web.archive.org/web/20120509034347id_/http://2000thingswpf.files.wordpress.com/2011/09/mydogs.png?w=630" alt=""   /></a></p>
+<p>Here&#8217;s the code that does the save behavior.</p>
+<p><pre class="brush: csharp;">
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TextRange allText = new TextRange(rtfMain.Document.ContentStart, rtfMain.Document.ContentEnd);
+
+            FileStream stream = new FileStream(@&quot;D:\AboutMyDog.xaml&quot;, FileMode.Create);
+
+            allText.Save(stream, DataFormats.Xaml);
+
+            if (stream != null)
+                stream.Close();
+        }
+</pre></p>
+<p>The resulting XAML file consists of an outer <strong>Section</strong> element that in turn contains multiple <strong>Paragraph</strong> elements.</p>
+<p><pre class="brush: xml;">
+    &lt;Paragraph&gt;
+        &lt;Run FontStyle=&quot;Italic&quot;&gt;Kirby&lt;/Run&gt;
+        &lt;Run&gt; is a &lt;/Run&gt;
+        &lt;Run FontWeight=&quot;Bold&quot;&gt;Border Collie&lt;/Run&gt;
+        &lt;Run&gt;.&lt;/Run&gt;
+    &lt;/Paragraph&gt;
+    &lt;Paragraph&gt;
+        &lt;Run FontStyle=&quot;Italic&quot;&gt;Jack&lt;/Run&gt;
+        &lt;Run&gt; is a &lt;/Run&gt;
+        &lt;Run FontWeight=&quot;Bold&quot;&gt;Jack Russell Terrier&lt;/Run&gt;
+        &lt;Run&gt;.&lt;/Run&gt;
+    &lt;/Paragraph&gt;
+</pre></p>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Controls, RichTextBox, WPF</p>
+  <nav class="pager"><a href="2011-09-07-381-loading-rtf-files-into-a-richtextbox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-09-09-383-the-problems-with-coordinate-based-layout.html">Next</a></nav>
+</main>
+
+</body>
+</html>

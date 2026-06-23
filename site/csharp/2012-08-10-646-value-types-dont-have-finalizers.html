@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#646 – Value Types Don’t Have Finalizers</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-08-09-645-you-can-chain-to-the-default-constructor-for-a-struct.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-13-647-a-struct-can-implement-an-interface.html">Next</a></nav>
+  <h1>#646 – Value Types Don’t Have Finalizers</h1>
+  <p class="meta">2012-08-10 | <a href="http://csharp.2000things.com/2012/08/10/646-value-types-dont-have-finalizers/">Original URL</a> | Wayback 20121014151801</p>
+  <article><div class="post-5449 post type-post status-publish format-standard hentry category-data-types tag-c tag-data-types tag-dispose-pattern tag-finalizer tag-value-types">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 10, 2012</span>
+																						<span class="post-comments"><a href="2012-08-10-646-value-types-dont-have-finalizers.html" title="Comment on #646 &#8211; Value Types Don&#8217;t Have&nbsp;Finalizers">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In .NET, you override the <strong>Object.Finalize</strong> method to dispose of any unmanaged resources when the object is being garbage collected.  In C#, you write this <a href="2011-10-05-426-use-a-destructor-to-free-unmanaged-resources.html">finalizer</a> using the destructor (~) syntax.  You can also <a href="2011-10-10-429-use-the-dispose-pattern-for-deterministic-destruction.html">implement the <strong>Dispose</strong></a> pattern to allow users of your object to deterministically dispose of  resources.</p>
+<p>You cannot implement a finalizer or the dispose pattern for a value type.  A finalizer makes no sense for a value type because value typed objects are not garbage collected&#8211;they simply die when they go out of scope.</p>
+<p>Since the finalizer and the dispose pattern exist for the purpose of releasing unmanaged resources, and you can&#8217;t implement either for a value type, you should avoid using unmanaged resources in value types.  A user would have to explicitly call some method to do the cleanup and there is no guarantee that they would remember to call the method.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/08/10/646-value-types-dont-have-finalizers/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5449"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/08/10/646-value-types-dont-have-finalizers/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/08/10/646-value-types-dont-have-finalizers/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Data Types | Tags: C#, Data Types, Dispose Pattern, Finalizer, Value Types</p>
+  <nav class="pager"><a href="2012-08-09-645-you-can-chain-to-the-default-constructor-for-a-struct.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-13-647-a-struct-can-implement-an-interface.html">Next</a></nav>
+</main>
+
+</body>
+</html>

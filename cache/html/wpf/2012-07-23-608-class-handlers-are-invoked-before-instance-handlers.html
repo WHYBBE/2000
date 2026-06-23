@@ -1,0 +1,759 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>#608 &#8211; Class Handlers Are Invoked Before Instance Handlers &laquo; 2,000 Things You Should Know About WPF</title>
+
+<link rel="stylesheet" href="http://s0.wp.com/wp-content/themes/pub/enterprise/style.css?m=1340030681g" type="text/css" media="screen" />
+
+<link rel="pingback" href="http://wpf.2000things.com/xmlrpc.php" />
+
+		<script src='http://r-login.wordpress.com/remote-login.php?action=js&amp;host=wpf.2000things.com&amp;id=14605478&amp;t=1343611803&amp;back=wpf.2000things.com%2F2012%2F07%2F23%2F608-class-handlers-are-invoked-before-instance-handlers%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Feed" href="http://wpf.2000things.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; Comments Feed" href="http://wpf.2000things.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="2,000 Things You Should Know About WPF &raquo; #608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers Comments Feed" href="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/_static/??/wp-content/blog-plugins/loggedout-follow/widget.css,/wp-content/mu-plugins/infinity/themes/pub/enterprise.css,/wp-content/mu-plugins/post-flair/style.css,/wp-content/themes/h4/global.css,/wp-content/mu-plugins/widgets/css/widget-grid-and-list.css?m=1343404847j' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/_static/??/wp-includes/js/jquery/jquery.js,/wp-content/blog-plugins/loggedout-follow/widget.js,/wp-includes/js/comment-reply.js,/wp-content/mu-plugins/widgets/js/widget-bump-view.js?m=1342269540j'></script>
+<link rel='stylesheet' id='all-css-0' href='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1341918462g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1307172283g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2000thingswpf.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2000thingswpf.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='#607 &#8211; An Instance Handler vs. A Class&nbsp;Handler' href='http://wpf.2000things.com/2012/07/20/607-an-instance-handler-vs-a-class-handler/' />
+<link rel='next' title='#609 &#8211; Perform Initialization in Window.Loaded&nbsp;Handler' href='http://wpf.2000things.com/2012/07/24/609-perform-initialization-in-window-loaded-handler/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/' />
+<link rel='shortlink' href='http://wp.me/pZhye-1nX' />
+<link rel="alternate" type="application/json+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fwpf.2000things.com%2F2012%2F07%2F23%2F608-class-handlers-are-invoked-before-instance-handlers%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="http://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fwpf.2000things.com%2F2012%2F07%2F23%2F608-class-handlers-are-invoked-before-instance-handlers%2F&amp;for=wpcom-auto-discovery" /><meta property="og:type" content="article" />
+<meta property="og:title" content="#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers" />
+<meta property="og:url" content="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/" />
+<meta property="og:description" content="If you have a class handler defined for a particular routed event, as well as one or more instance handlers on different elements, when the event fires, the class handler will be invoked before any..." />
+<meta property="og:site_name" content="2,000 Things You Should Know About WPF" />
+<meta property="og:image" content="http://2000thingswpf.files.wordpress.com/2012/07/608-001.png" />
+<meta name="twitter:image" content="http://2000thingswpf.files.wordpress.com/2012/07/608-001.png" />
+<meta name="twitter:card" content="photo" />
+<meta name="twitter:creator:id" content="10372992" />
+<link rel="shortcut icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="http://1.gravatar.com/blavatar/96cfc0c116be8a3fdedb05f3d276adb4?s=114" />
+<link rel='openid.server' href='http://2000thingswpf.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://2000thingswpf.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wpf.2000things.com/osd.xml" title="2,000 Things You Should Know About WPF" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="2,000 Things You Should Know About WPF" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Everything a WPF Developer Needs to Know, in Bite-Sized Chunks" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://wpf.2000things.com/feed/;icon-uri=http://0.gravatar.com/blavatar/0b620bd0a738bd75311e75b40509e24e?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" />		<style type="text/css">
+			#header h1,
+			#header h1 a,
+			#header h1 a:visited,
+			#header h4,
+			#header h4 a,
+			#header h4 a:visited,
+			.header-left {
+				color: #333333;
+			}
+		</style>
+
+<script type='text/javascript'>/*<![CDATA[*/if(typeof(addLoadEvent)!='undefined'){addLoadEvent(function(){if(top==self){i=document.createElement('img');i.src='http://botd2.wordpress.com/botd.gif?blog=14605478&post=5329&lang=en&date=1343041232&ip=174.129.228.67&url=http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/';i.style.width='0px';i.style.height='0px';i.style.overflow='hidden';document.body.appendChild(i);}});}/*]]>*/</script>
+
+</head>
+
+<body class="single single-post postid-5329 single-format-standard highlander-enabled highlander-light">
+
+<div id="header">
+    <div class="header-left">
+                    <h4><a href="http://wpf.2000things.com/">2,000 Things You Should Know About WPF</a></h4>
+                <p id="description">Everything a WPF Developer Needs to Know, in Bite-Sized Chunks</p>
+    </div>
+    <div class="header-right">
+        <form method="get" id="searchform" action="http://wpf.2000things.com/" >
+            <div><label class="hidden" for="s">Search:</label>
+            <input type="text" value="" name="s" id="s" />
+            <input type="submit" id="searchsubmit" value="Go" /></div>
+        </form>
+    </div>
+</div>
+<div id="access">
+	<div id="nav">
+	    <div id="supernav" class="navleft nav">
+			<div class="menu"><ul><li ><a href="http://wpf.2000things.com/" title="Home">Home</a></li><li class="page_item page-item-2"><a href="http://wpf.2000things.com/about/">About&nbsp;Me</a></li><li class="page_item page-item-17"><a href="http://wpf.2000things.com/index/">Index</a></li></ul></div>
+	    </div>
+	    <div class="navright">
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/feed/">Posts</a>
+	        <a class="rsslink" rel="nofollow" href="http://wpf.2000things.com/comments/feed/">Comments</a>
+	    </div>
+	</div>
+
+	<div id="subnav" class="subnav nav">
+			<div class="menu">
+		<ul>
+				<li class="cat-item cat-item-100823"><a href="http://wpf.2000things.com/category/controls/" title="View all posts filed under Controls">Controls</a>
+</li>
+	<li class="cat-item cat-item-26060"><a href="http://wpf.2000things.com/category/layout/" title="View all posts filed under Layout">Layout</a>
+</li>
+	<li class="cat-item cat-item-8516"><a href="http://wpf.2000things.com/category/basics/" title="View all posts filed under Basics">Basics</a>
+</li>
+	<li class="cat-item cat-item-20948"><a href="http://wpf.2000things.com/category/blend/" title="View all posts filed under Blend">Blend</a>
+</li>
+	<li class="cat-item cat-item-103962"><a href="http://wpf.2000things.com/category/xaml/" title="View all posts filed under XAML">XAML</a>
+</li>
+	<li class="cat-item cat-item-658"><a href="http://wpf.2000things.com/category/graphics/" title="View all posts filed under Graphics">Graphics</a>
+</li>
+	<li class="cat-item cat-item-4859017"><a href="http://wpf.2000things.com/category/dependency-properties/" title="View all posts filed under Dependency Properties">Dependency Properties</a>
+</li>
+	<li class="cat-item cat-item-924"><a href="http://wpf.2000things.com/category/events/" title="View all posts filed under Events">Events</a>
+</li>
+	<li class="cat-item cat-item-6678"><a href="http://wpf.2000things.com/category/visual-studio/" title="View all posts filed under Visual Studio">Visual Studio</a>
+</li>
+	<li class="cat-item cat-item-24938"><a href="http://wpf.2000things.com/category/fonts/" title="View all posts filed under Fonts">Fonts</a>
+</li>
+		</ul>
+	</div>
+	</div>
+</div>
+
+<div id="wrap">
+<div id="content">
+
+	<div id="content-left">
+
+		
+			<div id="nav-above">
+				<div class="nav-previous"><a href="http://wpf.2000things.com/2012/07/20/607-an-instance-handler-vs-a-class-handler/" rel="prev"><span class="meta-nav">&larr;</span> #607 &#8211; An Instance Handler vs. A Class&nbsp;Handler</a></div>
+				<div class="nav-next"><a href="http://wpf.2000things.com/2012/07/24/609-perform-initialization-in-window-loaded-handler/" rel="next">#609 &#8211; Perform Initialization in Window.Loaded&nbsp;Handler <span class="meta-nav">&rarr;</span></a></div>
+			</div>
+
+			<div class="post-5329 post type-post status-publish format-standard hentry category-events tag-class-handler tag-events tag-instance-handler tag-wpf">
+
+				<div class="entry">
+
+					<h1>#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers</h1>
+
+					<div class="post-info">
+						<p>
+							<span class="time">July 23, 2012</span>
+																						<span class="post-comments"><a href="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/#comments" title="Comment on #608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>If you have a <a href="http://wp.me/pZhye-1nQ">class handler</a> defined for a particular routed event, as well as one or more instance handlers on different elements, when the event fires, the class handler will be invoked before any instance handlers.</p>
+<p><pre class="brush: csharp;">
+        public MainWindow()
+        {
+            this.InitializeComponent();
+
+            // Class handler--called when user clicks on ANY Button
+            EventManager.RegisterClassHandler(
+                typeof(Button),
+                ButtonBase.ClickEvent,
+                new RoutedEventHandler(HandleAllButtons));
+        }
+
+        private void HandleAllButtons(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)e.Source;
+            Trace.WriteLine(string.Format(&quot;* (CLASS handler) You clicked on [{0}] button&quot;, b.Content));
+        }
+
+        // Click handler for Eliot button
+        private void btnEliot_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine(&quot;* (INSTANCE handler) You clicked on Eliot button&quot;);
+        }
+</pre><br />
+<a href="http://2000thingswpf.files.wordpress.com/2012/07/608-001.png"><img class="alignnone size-full wp-image-5332" title="608-001" src="http://2000thingswpf.files.wordpress.com/2012/07/608-001.png?w=630" alt=""   /></a></pre>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5329" class="wpl-button "><a href='http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/?like=1&amp;_wpnonce=cc686bf652' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/mihaicristiandaniel" title="Cristian Mihai" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/c87b0e5b32e3383df7109d0c4a544dce?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='Cristian Mihai' width='30' height='30' /></a></li></ul></div></div></div><div class="clear"></div>
+					
+					<!--
+					<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/"
+    dc:identifier="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/"
+    dc:title="#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers"
+    trackback:ping="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/trackback/" />
+</rdf:RDF>					-->
+
+				</div>
+
+				<div class="post-meta">
+					<p>
+						<span class="categories">Filed under <a href="http://wpf.2000things.com/category/events/" title="View all posts in Events" rel="category tag">Events</a></span>
+						<span class="tags">Tagged with <a href="http://wpf.2000things.com/tag/class-handler/" rel="tag">Class Handler</a>, <a href="http://wpf.2000things.com/tag/events/" rel="tag">Events</a>, <a href="http://wpf.2000things.com/tag/instance-handler/" rel="tag">Instance Handler</a>, <a href="http://wpf.2000things.com/tag/wpf/" rel="tag">WPF</a></span>					</p>
+				</div>
+
+			</div>
+
+						<div class="author-box">
+				<p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=70&amp;d=identicon&amp;r=G' class='avatar avatar-70' height='70' width='70' /><strong>About Sean</strong><br />Software developer in the Twin Cities area, passionate about .NET technologies.  Equally passionate about my own personal projects related to family history and preservation of family stories and photos.</p>
+			</div>
+			
+						<p></p>
+
+			<div id="comments">
+	
+
+	<h3 id="comments-title">One Response to <em>#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers</em>	</h3>
+
+	<ol class="commentlist snap_preview">
+				<li class="post pingback">
+		<p>Pingback: <a href='http://www.alvinashcraft.com/2012/07/23/dew-drop-july-23-2012-1369/' rel='external nofollow' class='url'>Dew Drop &ndash; July 23, 2012 (#1,369) | Alvin Ashcraft&#039;s Morning Dew</a></p>
+	</li>
+	</ol>
+
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://wpf.2000things.com/wp-comments-post.php" method="post" id="commentform">
+																										
+
+
+												
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment"></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&forcedefault=y&d=identicon" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div> 
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1289230950g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&d=identicon" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+	
+	
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+});
+</script>
+
+<div id="comment-form-subscribe"> 
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='5329' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						
+<input type="hidden" name="genseq" value="1343611803" />
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8dd92506db" /></p><script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/akismet-2.5/form.js?m=1308783962g'></script>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="215"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>			
+</div><!-- #comments -->
+	</div>
+
+<div id="sidebar">
+
+	<div id="gravatar-3" class="widget widget_gravatar"><h4>Sean Sexton</h4><p><img alt='' src='http://2.gravatar.com/avatar/8922e4d5254d602ba3ed32dd073b5a4e?s=96&amp;d=identicon&amp;r=G' class='avatar avatar-96' height='96' width='96' /></p>
+</div>		<div id="recent-posts-3" class="widget widget_recent_entries">		<h4>Recent Posts</h4>		<ul>
+				<li><a href="http://wpf.2000things.com/2012/07/27/612-application-event-sequence-for-page-based-applications/" title="#612 &#8211; Application Event Sequence for Page-Based&nbsp;Applications">#612 &#8211; Application Event Sequence for Page-Based&nbsp;Applications</a></li>
+				<li><a href="http://wpf.2000things.com/2012/07/26/611-set-application-exit-code-in-exit-event-handler/" title="#611 &#8211; Set Application Exit Code in Exit Event&nbsp;Handler">#611 &#8211; Set Application Exit Code in Exit Event&nbsp;Handler</a></li>
+				<li><a href="http://wpf.2000things.com/2012/07/25/610-application-event-sequence/" title="#610 &#8211; Application Event&nbsp;Sequence">#610 &#8211; Application Event&nbsp;Sequence</a></li>
+				<li><a href="http://wpf.2000things.com/2012/07/24/609-perform-initialization-in-window-loaded-handler/" title="#609 &#8211; Perform Initialization in Window.Loaded&nbsp;Handler">#609 &#8211; Perform Initialization in Window.Loaded&nbsp;Handler</a></li>
+				<li><a href="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/" title="#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers">#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers</a></li>
+				</ul>
+		</div><div id="linkcat-1356" class="widget widget_links"><h4>Blogroll</h4>
+	<ul class='xoxo blogroll'>
+<li><a href="http://csharp.2000things.com/" title="Everything a C# Programmer Needs to Know, in Bite-Sized Chunks">2,000 Things You Should Know About C#</a></li>
+<li><a href="http://twitter.com/#!/spsexton" target="_blank">Sean on Twitter</a></li>
+<li><a href="http://stuff.seans.com/" title="Learning new software development technologies out loud">Sean&#039;s Stuff</a></li>
+
+	</ul>
+</div>
+<div id="calendar-3" class="widget widget_calendar"><h4>Calendar</h4><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>July 2012</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Sunday">S</th>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://wpf.2000things.com/2012/06/" title="View posts for June 2012">&laquo; Jun</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr><td>1</td><td><a href="http://wpf.2000things.com/2012/07/02/" title="#592 &#8211; Adding an Event Handler in&nbsp;Code">2</a></td><td><a href="http://wpf.2000things.com/2012/07/03/" title="#593 &#8211; AddHandler Method Can Add Handler for Any&nbsp;Event">3</a></td><td><a href="http://wpf.2000things.com/2012/07/04/" title="#594 &#8211; Routed Events Under the&nbsp;Covers">4</a></td><td><a href="http://wpf.2000things.com/2012/07/05/" title="#595 &#8211; Syntax Choices for Defining an Event&nbsp;Handler">5</a></td><td><a href="http://wpf.2000things.com/2012/07/06/" title="#596 &#8211; Using Lamba Expressions When Declaring Event&nbsp;Handlers">6</a></td><td>7</td>
+	</tr>
+	<tr>
+		<td>8</td><td><a href="http://wpf.2000things.com/2012/07/09/" title="#597 &#8211; Naming Conventions for Event&nbsp;Handlers">9</a></td><td><a href="http://wpf.2000things.com/2012/07/10/" title="#598 &#8211; Three Flavors of Routed&nbsp;Events">10</a></td><td><a href="http://wpf.2000things.com/2012/07/11/" title="#599 &#8211; A Complete Example of a Routed&nbsp;Event, #600 &#8211; Registering a Routed&nbsp;Event">11</a></td><td><a href="http://wpf.2000things.com/2012/07/12/" title="#601 &#8211; The RoutedEventHandler Delegate&nbsp;Type">12</a></td><td><a href="http://wpf.2000things.com/2012/07/13/" title="#602 &#8211; Accessing Information in&nbsp;RoutedEventArgs">13</a></td><td>14</td>
+	</tr>
+	<tr>
+		<td>15</td><td><a href="http://wpf.2000things.com/2012/07/16/" title="#603 &#8211; Sender, Source and OriginalSource&nbsp;Example">16</a></td><td><a href="http://wpf.2000things.com/2012/07/17/" title="#604 &#8211; Defining a New Routed&nbsp;Event">17</a></td><td><a href="http://wpf.2000things.com/2012/07/18/" title="#605 &#8211; Using Subclasses of&nbsp;RoutedEventArgs">18</a></td><td><a href="http://wpf.2000things.com/2012/07/19/" title="#606 &#8211; Reusing an Existing Routed Event in Your&nbsp;Class">19</a></td><td><a href="http://wpf.2000things.com/2012/07/20/" title="#607 &#8211; An Instance Handler vs. A Class&nbsp;Handler">20</a></td><td>21</td>
+	</tr>
+	<tr>
+		<td>22</td><td><a href="http://wpf.2000things.com/2012/07/23/" title="#608 &#8211; Class Handlers Are Invoked Before Instance&nbsp;Handlers">23</a></td><td><a href="http://wpf.2000things.com/2012/07/24/" title="#609 &#8211; Perform Initialization in Window.Loaded&nbsp;Handler">24</a></td><td><a href="http://wpf.2000things.com/2012/07/25/" title="#610 &#8211; Application Event&nbsp;Sequence">25</a></td><td><a href="http://wpf.2000things.com/2012/07/26/" title="#611 &#8211; Set Application Exit Code in Exit Event&nbsp;Handler">26</a></td><td><a href="http://wpf.2000things.com/2012/07/27/" title="#612 &#8211; Application Event Sequence for Page-Based&nbsp;Applications">27</a></td><td>28</td>
+	</tr>
+	<tr>
+		<td id="today">29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="4">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="top-posts-2" class="widget widget_top-posts"><h4>Top Posts</h4><ul><li><a href="http://wpf.2000things.com/2012/07/27/612-application-event-sequence-for-page-based-applications/" class="bump-view" data-bump-view="tp">#612 - Application Event Sequence for Page-Based Applications</a></li>
+<li><a href="http://wpf.2000things.com/2011/03/08/239-creating-a-custom-shape-by-overriding-the-shape-class/" class="bump-view" data-bump-view="tp">#239 - Creating a Custom Shape by Overriding the Shape Class</a></li>
+<li><a href="http://wpf.2000things.com/2011/10/04/400-using-a-wrappanel-as-the-items-panel-for-a-listbox/" class="bump-view" data-bump-view="tp">#400 - Using a WrapPanel as the Items Panel for a ListBox</a></li>
+<li><a href="http://wpf.2000things.com/2011/08/08/359-togglebutton-basics/" class="bump-view" data-bump-view="tp">#359 - ToggleButton Basics</a></li>
+<li><a href="http://wpf.2000things.com/2011/02/19/222-example-changing-a-color-using-rgb-sliders/" class="bump-view" data-bump-view="tp">#222 - Example: Changing a Color Using RGB Sliders</a></li>
+<li><a href="http://wpf.2000things.com/2010/12/09/150-an-example-of-using-propertychanged-and-coercevalue-callbacks/" class="bump-view" data-bump-view="tp">#150 - An Example of Using PropertyChanged and CoerceValue Callbacks</a></li>
+<li><a href="http://wpf.2000things.com/2011/08/05/358-binding-a-radiobutton-to-an-enumerated-type/" class="bump-view" data-bump-view="tp">#358 - Binding a RadioButton to an Enumerated Type</a></li>
+<li><a href="http://wpf.2000things.com/2011/03/25/256-use-a-fixeddocument-to-display-content-at-fixed-locations/" class="bump-view" data-bump-view="tp">#256 - Use a FixedDocument to Display Content at Fixed Locations</a></li>
+<li><a href="http://wpf.2000things.com/2011/07/27/351-binding-a-checkboxs-ischecked-property-to-a-boolean-variable/" class="bump-view" data-bump-view="tp">#351 - Binding a CheckBox&#039;s IsChecked Property to a Boolean Variable</a></li>
+<li><a href="http://wpf.2000things.com/2011/02/07/210-specifying-colors-in-xaml-as-rgb-values/" class="bump-view" data-bump-view="tp">#210 - Specifying Colors in XAML As RGB Values</a></li>
+</ul></div><div id="wp_tag_cloud" class="widget wp_widget_tag_cloud"><h4>Tags</h4><div style="overflow:hidden"><a href='http://wpf.2000things.com/tag/application/' class='tag-link-3370' title='7 topics' style='font-size: 8.3664921465969pt;'>Application</a>
+<a href='http://wpf.2000things.com/tag/blend/' class='tag-link-20948' title='73 topics' style='font-size: 15.476439790576pt;'>Blend</a>
+<a href='http://wpf.2000things.com/tag/border/' class='tag-link-75704' title='9 topics' style='font-size: 9.0994764397906pt;'>Border</a>
+<a href='http://wpf.2000things.com/tag/brush/' class='tag-link-324237' title='8 topics' style='font-size: 8.7329842931937pt;'>Brush</a>
+<a href='http://wpf.2000things.com/tag/button/' class='tag-link-94913' title='9 topics' style='font-size: 9.0994764397906pt;'>Button</a>
+<a href='http://wpf.2000things.com/tag/calendar/' class='tag-link-7155' title='7 topics' style='font-size: 8.3664921465969pt;'>Calendar</a>
+<a href='http://wpf.2000things.com/tag/canvas/' class='tag-link-53176' title='9 topics' style='font-size: 9.0994764397906pt;'>Canvas</a>
+<a href='http://wpf.2000things.com/tag/checkbox/' class='tag-link-760947' title='7 topics' style='font-size: 8.3664921465969pt;'>CheckBox</a>
+<a href='http://wpf.2000things.com/tag/color/' class='tag-link-11835' title='6 topics' style='font-size: 8pt;'>Color</a>
+<a href='http://wpf.2000things.com/tag/colors/' class='tag-link-6915' title='8 topics' style='font-size: 8.7329842931937pt;'>Colors</a>
+<a href='http://wpf.2000things.com/tag/commands/' class='tag-link-319' title='9 topics' style='font-size: 9.0994764397906pt;'>Commands</a>
+<a href='http://wpf.2000things.com/tag/contentcontrol/' class='tag-link-6435769' title='8 topics' style='font-size: 8.7329842931937pt;'>ContentControl</a>
+<a href='http://wpf.2000things.com/tag/controls/' class='tag-link-100823' title='132 topics' style='font-size: 17.30890052356pt;'>Controls</a>
+<a href='http://wpf.2000things.com/tag/data-binding/' class='tag-link-725408' title='18 topics' style='font-size: 11.151832460733pt;'>Data Binding</a>
+<a href='http://wpf.2000things.com/tag/dependency-properties/' class='tag-link-4859017' title='48 topics' style='font-size: 14.157068062827pt;'>Dependency Properties</a>
+<a href='http://wpf.2000things.com/tag/dependency-property/' class='tag-link-12411431' title='7 topics' style='font-size: 8.3664921465969pt;'>Dependency property</a>
+<a href='http://wpf.2000things.com/tag/dockpanel/' class='tag-link-4486568' title='8 topics' style='font-size: 8.7329842931937pt;'>DockPanel</a>
+<a href='http://wpf.2000things.com/tag/drawingvisual/' class='tag-link-3264714' title='7 topics' style='font-size: 8.3664921465969pt;'>DrawingVisual</a>
+<a href='http://wpf.2000things.com/tag/event-handler/' class='tag-link-4364007' title='7 topics' style='font-size: 8.3664921465969pt;'>Event Handler</a>
+<a href='http://wpf.2000things.com/tag/events/' class='tag-link-924' title='37 topics' style='font-size: 13.350785340314pt;'>Events</a>
+<a href='http://wpf.2000things.com/tag/flowdocument/' class='tag-link-27472306' title='11 topics' style='font-size: 9.6858638743456pt;'>FlowDocument</a>
+<a href='http://wpf.2000things.com/tag/fonts/' class='tag-link-24938' title='14 topics' style='font-size: 10.418848167539pt;'>Fonts</a>
+<a href='http://wpf.2000things.com/tag/gradient/' class='tag-link-751135' title='9 topics' style='font-size: 9.0994764397906pt;'>Gradient</a>
+<a href='http://wpf.2000things.com/tag/graphics/' class='tag-link-658' title='22 topics' style='font-size: 11.738219895288pt;'>Graphics</a>
+<a href='http://wpf.2000things.com/tag/grid/' class='tag-link-11403' title='27 topics' style='font-size: 12.397905759162pt;'>Grid</a>
+<a href='http://wpf.2000things.com/tag/gridsplitter/' class='tag-link-13631504' title='10 topics' style='font-size: 9.3926701570681pt;'>GridSplitter</a>
+<a href='http://wpf.2000things.com/tag/image/' class='tag-link-686' title='15 topics' style='font-size: 10.565445026178pt;'>Image</a>
+<a href='http://wpf.2000things.com/tag/inkcanvas/' class='tag-link-6285586' title='9 topics' style='font-size: 9.0994764397906pt;'>InkCanvas</a>
+<a href='http://wpf.2000things.com/tag/intellisense/' class='tag-link-98072' title='7 topics' style='font-size: 8.3664921465969pt;'>Intellisense</a>
+<a href='http://wpf.2000things.com/tag/layout/' class='tag-link-26060' title='105 topics' style='font-size: 16.649214659686pt;'>Layout</a>
+<a href='http://wpf.2000things.com/tag/lineargradientbrush/' class='tag-link-28580558' title='8 topics' style='font-size: 8.7329842931937pt;'>LinearGradientBrush</a>
+<a href='http://wpf.2000things.com/tag/margin/' class='tag-link-162270' title='11 topics' style='font-size: 9.6858638743456pt;'>Margin</a>
+<a href='http://wpf.2000things.com/tag/panel/' class='tag-link-6950' title='7 topics' style='font-size: 8.3664921465969pt;'>Panel</a>
+<a href='http://wpf.2000things.com/tag/path/' class='tag-link-113640' title='7 topics' style='font-size: 8.3664921465969pt;'>Path</a>
+<a href='http://wpf.2000things.com/tag/radial-gradient/' class='tag-link-11753633' title='8 topics' style='font-size: 8.7329842931937pt;'>Radial Gradient</a>
+<a href='http://wpf.2000things.com/tag/resources/' class='tag-link-1784' title='7 topics' style='font-size: 8.3664921465969pt;'>Resources</a>
+<a href='http://wpf.2000things.com/tag/routed-events/' class='tag-link-4814299' title='22 topics' style='font-size: 11.738219895288pt;'>Routed Events</a>
+<a href='http://wpf.2000things.com/tag/stackpanel/' class='tag-link-25056137' title='8 topics' style='font-size: 8.7329842931937pt;'>StackPanel</a>
+<a href='http://wpf.2000things.com/tag/text/' class='tag-link-5117' title='6 topics' style='font-size: 8pt;'>Text</a>
+<a href='http://wpf.2000things.com/tag/tooltip/' class='tag-link-796127' title='7 topics' style='font-size: 8.3664921465969pt;'>Tooltip</a>
+<a href='http://wpf.2000things.com/tag/visual-studio/' class='tag-link-6678' title='20 topics' style='font-size: 11.44502617801pt;'>Visual Studio</a>
+<a href='http://wpf.2000things.com/tag/window/' class='tag-link-43058' title='12 topics' style='font-size: 9.9057591623037pt;'>Window</a>
+<a href='http://wpf.2000things.com/tag/wpf/' class='tag-link-46652' title='575 topics' style='font-size: 22pt;'>WPF</a>
+<a href='http://wpf.2000things.com/tag/wrappanel/' class='tag-link-4321068' title='8 topics' style='font-size: 8.7329842931937pt;'>WrapPanel</a>
+<a href='http://wpf.2000things.com/tag/xaml/' class='tag-link-103962' title='51 topics' style='font-size: 14.376963350785pt;'>XAML</a></div></div>		<div id="blog-stats" class="widget widget_statscounter">			<h4>Blog Stats</h4>			<ul>
+			<li>238,776 hits</li>
+			</ul>
+		</div>
+</div>
+</div>
+
+
+<div id="footer">
+	<div class="footerleft">
+		<p><a href="http://wordpress.com/?ref=footer" rel="generator">Blog at WordPress.com</a>.</p>
+    </div>
+    <div class="footerright">
+	    Theme: <a href="http://theme.wordpress.com/themes/enterprise/" title="Learn more about this theme">Enterprise</a> by <a href="http://www.studiopress.com/" rel="designer">StudioPress</a>.    </div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+var _qevents = _qevents || [], wpcomQuantcastData = {"qacct":"p-18-mFEk4J448M","labels":",language.en,type.wpcom,posttag.class-handler,posttag.events,posttag.instance-handler,posttag.wpf,wa.pv.noads.2000thingswpf,wa.pv.noads.2000thingswpf"};
+function wpcomQuantcastPixel( labels, options ) {
+	var i, defaults = wpcomQuantcastData, data = { event: 'ajax' };
+
+	labels  = labels  || '';
+	options = options || {};
+
+	if ( typeof labels != 'string' )
+		options = labels;
+
+	for ( i in defaults ) {
+		data[i] = defaults[i];
+	}
+
+	for ( i in options ) {
+		data[i] = options[i];
+	}
+
+	if ( data.labels ) {
+		data.labels += ',' + labels;
+	} else {
+		data.labels = labels;
+	}
+
+	_qevents.push( data );
+};
+(function() {var elem = document.createElement('script');elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";elem.async = true;elem.type = "text/javascript";var scpt = document.getElementsByTagName('script')[0];scpt.parentNode.insertBefore(elem, scpt);  })();
+_qevents.push( wpcomQuantcastData );
+</script>
+<noscript><div style="display: none;"><img src="//pixel.quantserve.com/pixel/p-18-mFEk4J448M.gif?labels=%2Clanguage.en%2Ctype.wpcom%2Cposttag.class-handler%2Cposttag.events%2Cposttag.instance-handler%2Cposttag.wpf%2Cwa.pv.noads.2000thingswpf%2Cwa.pv.noads.2000thingswpf" height="1" width="1" alt="" /></div></noscript>
+
+
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	(function($){
+		$(document).on( 'ready post-load', function() {
+
+			// Remove the login box when clicking the page
+			$( document ).mousedown( function( e ) {
+				if ( null == $( e.target ).closest( '#wpl-mustlogin' ).get( 0 ) ) {
+					$( '#wpl-mustlogin' ).remove();
+				}
+			});
+
+			// Handle clicking the like button itself
+			$('.wpl-button > a.like').click( function(e) {
+				e.preventDefault();
+
+				var postid = $(this).parent().attr('id').split('like-')[1];
+				$.post( 'http://wpf.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_like_click'
+				} );
+
+				var tenMins = new Date();
+				tenMins.setTime( tenMins.getTime() + 600000 );
+				document.cookie = 'wpl_rand=e0d812c1f9; expires=' + tenMins.toGMTString() + '; domain=wordpress.com; path=/;';
+
+				$(this).parent().siblings('.wpl-count').after( '\
+					<div id="wpl-mustlogin"> \
+						<form action="https://2000thingswpf.wordpress.com/wp-login.php" method="post"> \
+							<p>Just one more step to like this:</p> \
+							<label><span>Username</span> <input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="80" /></label> \
+							<label><span>Password</span> <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="81" /></label> \
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" tabindex="82" /> \
+							<input type="hidden" name="postid" value="' + postid + '" /> \
+							<input type="hidden" name="redirect_to" value="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers?year=2012&#038;monthnum=07&#038;day=23&#038;name=608-class-handlers-are-invoked-before-instance-handlers&#038;like=1" /> \
+							<input type="hidden" name="wpl_rand" value="e0d812c1f9" /> \
+							<p>Not a member yet? <a href="http://wordpress.com/signup/?ref=likebox" id="wpl-signup-link">Sign up with WordPress.com</a></p> \
+						</form> \
+					</div> \
+				');
+
+				$('#wpl-mustlogin').hide().slideDown('fast');
+			} );
+
+			$('#wpl-mustlogin input.input').live( 'focus', function() {
+				$(this).prev().hide();
+			}).live( 'blur', function() {
+				if ( $(this).val() == '' ) {
+					$(this).prev().show();
+				}
+			});
+
+			$('#wpl-mustlogin input#wp-submit').live( 'click', function(e) {
+				e.preventDefault();
+
+				$.post( 'http://wpf.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_login_submit'
+				}, function() {
+					$('#wpl-mustlogin form').submit();
+				} );
+			});
+
+			$('#wpl-mustlogin a#wpl-signup-link').live( 'click', function(e) {
+				e.preventDefault();
+
+				var link = $(this).attr('href');
+
+				$.post( 'http://wpf.2000things.com/wp-admin/admin-ajax.php', {
+					'action': 'wpl_record_stat',
+					'stat_name': 'loggedout_signup_click'
+				}, function() {
+					location.href = link;
+				} );
+			});
+		})
+	})(jQuery);
+	/* ]]> */
+	</script>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?aa&#038;ver=3.5-alpha-21304'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1318621548g'></script>
+<script>jQuery(document).ready(function($){ Gravatar.profile_cb = function( h, d ) { WPGroHo.syncProfileData( h, d );	}; Gravatar.my_hash = WPGroHo.my_hash; Gravatar.init( 'body', '#wp-admin-bar-my-account' ); });</script>	<div style="display:none">
+	<div class="grofile-hash-map-8922e4d5254d602ba3ed32dd073b5a4e">
+	</div>
+	</div>
+		<style type="text/css">
+			
+				.reblog-from img                   { margin: 0 10px 0 0; vertical-align: middle; padding: 0; border: 0; }
+				.reblogger-note img.avatar         { float: left; padding: 0; border: 0; }
+				.reblogger-note-content            { margin: 0 0 20px; }
+				.reblog-post .wpcom-enhanced-excerpt-content { border-left: 3px solid #eee; padding-left: 15px; }
+				.reblog-post ul.thumb-list         { display: block; list-style: none; margin: 2px 0; padding: 0; clear: both; }
+				.reblog-post ul.thumb-list li      { display: inline; margin: 0; padding: 0 1px; border: 0; }
+				.reblog-post ul.thumb-list li a    { margin: 0; padding: 0; border: 0; }
+				.reblog-post ul.thumb-list li img  { margin: 0; padding: 0; border: 0; }
+
+				.reblog-post .wpcom-enhanced-excerpt { clear: both; }
+
+				.reblog-post .wpcom-enhanced-excerpt address,
+				.reblog-post .wpcom-enhanced-excerpt li,
+				.reblog-post .wpcom-enhanced-excerpt h1,
+				.reblog-post .wpcom-enhanced-excerpt h2,
+				.reblog-post .wpcom-enhanced-excerpt h3,
+				.reblog-post .wpcom-enhanced-excerpt h4,
+				.reblog-post .wpcom-enhanced-excerpt h5,
+				.reblog-post .wpcom-enhanced-excerpt h6,
+				.reblog-post .wpcom-enhanced-excerpt p { font-size: 100% !important; }
+
+				.reblog-post .wpcom-enhanced-excerpt blockquote,
+				.reblog-post .wpcom-enhanced-excerpt pre,
+				.reblog-post .wpcom-enhanced-excerpt code,
+				.reblog-post .wpcom-enhanced-excerpt q { font-size: 98% !important; }
+					</style><script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/2000thingswpf.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/2000thingswpf.wordpress.com\/wp-login.php?action=logout&_wpnonce=49daa3cfbe","homeURL":"http:\/\/wpf.2000things.com\/","postID":"5329","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/mu-plugins/highlander-comments/script.js?m=1342824083g'></script>
+	
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+			
+					<h3><label for="loggedout-follow-field">Follow &ldquo;2,000 Things You Should Know About WPF&rdquo;</label></h3>
+		
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+			
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 140 other followers</p>		
+			
+			<p><input type="email" name="email" style="width: 95%; padding: 1px 2px" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="14605478"/>
+			<input type="hidden" name="source" value="http://wpf.2000things.com/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="4d0ff717ab" /><input type="hidden" name="_wp_http_referer" value="/2012/07/23/608-class-handlers-are-invoked-before-instance-handlers/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type='text/javascript' src='http://s2.wp.com/_static/??/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js,/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js?m=1338000963j'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter-wpcom/shThemeDefault.css?m=1267535107g&amp;ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf?m=1303859744g';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.all();
+</script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/i/noticons/noticons.css?m=1343386206g' type='text/css' media='all' />
+<script type='text/javascript' src='http://s0.wp.com/wp-content/js/devicepx.js?m=1343337233g'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'14605478','v':'wpcom','user_id':'0','post':'5329','subd':'2000thingswpf'});
+ex_go({'crypt':'UE40eW5QN0p8M2Y/RE1LZ2xfJXEyPWZCW2RIR0FaYVJPd0I3eHhGayxPW2ZUWkkzJmxvVUNlcFlWVC9VLDRxfDNyJUEraislK11VZm9PdG5CNEpZWXVJNXd3SjVHMj8vQmVyQmZ3ZStVeDNKN1RqaG49elh8cWZqRzlBbnl5dC1NaVZYdVJiWTVsVVF+V0ktLTBVY0lsV2puMHRvTCZfL0c0R1E4Z0d5WG9tREF3a2dBLTJKQmhHfF18T3JvWkIvSmZZaiZyZGtJXXNFbS9GbGxrc2VoK1orckp+bEQ4M0hHcnFSNE9FcG9VWGVTWGsycHFOZUc4aXJqLytYZ3h+dUVrQ2R1Ri9wMkl+dkJ2XVA0N1hXWWxxWWZ1OCw3SU5HMGdUUV9nTVM='});
+addLoadEvent(function(){linktracker_init('14605478',5329);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+
+</body>
+</html>

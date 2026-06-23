@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#1,201 – How to Share Star Sized Column Sizes</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2017-02-26-1200-overriding-a-default-style.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-03-19-1202-using-a-color-animation-to-draw-emphasis-to-something.html">Next</a></nav>
+  <h1>#1,201 – How to Share Star Sized Column Sizes</h1>
+  <p class="meta">2017-03-04 | <a href="http://wpf.2000things.com/2017/03/04/1201-how-to-share-star-sized-column-sizes/">Original URL</a> | Wayback 20170305183243</p>
+  <article><div class="post-9596 post type-post status-publish format-standard hentry category-layout tag-grid tag-layout tag-sharedsizegroup tag-star-sizing tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">March 4, 2017</span>
+																						<span class="post-comments"><a href="2017-03-04-1201-how-to-share-star-sized-column-sizes.html">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <a href="2011-11-08-425-sharedsizegroup-allows-sharing-column-sizes-across-different-grids.html"><strong>SharedSizeGroup</strong></a> attribute to share column sizes across different grids. You <a href="2014-04-17-1053-how-sharedsizegroup-relates-to-column-sizing.html">can&#8217;t normally share sizes of star-sized columns</a> across multiple grids, however, since star sizing works only in the context of the current grid.</p>
+<p>Below is an example of how to get a star sized column to be the same size as a star sized column in a different grid. In the example, we have two grids. In the first, we have two auto-sized <strong>TextBlocks</strong> and then a star-sized <strong>TextBox</strong> that takes up the remaining space. In the second grid, we have just a <strong>TextBlock </strong>and a <strong>TextBox</strong>, but we want the <strong>TextBox</strong> to be the same size as the one in the first grid. Using <strong>SharedSizeGroup</strong> on the <strong>TextBox</strong> columns won&#8217;t work, since the columns would then get auto-sized.</p>
+<p>The solution is to set up a <strong>SharedSizeGroup</strong> on every column except for the <strong>TextBox</strong> columns and to add a dummy third column in the second grid. The <strong>TextBox</strong> columns will then each independently use star sizing and end up the same size.</p>
+<pre class="brush: xml; title: ; notranslate" title="">
+    &lt;StackPanel Margin=&quot;15&quot; Grid.IsSharedSizeScope=&quot;True&quot;&gt;
+        &lt;Grid&gt;
+            &lt;Grid.ColumnDefinitions&gt;
+                &lt;ColumnDefinition Width=&quot;Auto&quot; SharedSizeGroup=&quot;A&quot;/&gt;
+                &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+                &lt;ColumnDefinition Width=&quot;Auto&quot; SharedSizeGroup=&quot;B&quot;/&gt;
+            &lt;/Grid.ColumnDefinitions&gt;
+
+            &lt;TextBlock Grid.Column=&quot;0&quot; Text=&quot;Col 1&quot;/&gt;
+            &lt;TextBox Grid.Column=&quot;1&quot; /&gt;
+            &lt;TextBlock Grid.Column=&quot;2&quot; Text=&quot;3rd column here&quot;/&gt;
+        &lt;/Grid&gt;
+
+        &lt;Separator Margin=&quot;0,20&quot;/&gt;
+
+        &lt;Grid&gt;
+            &lt;Grid.ColumnDefinitions&gt;
+                &lt;ColumnDefinition Width=&quot;Auto&quot; SharedSizeGroup=&quot;A&quot;/&gt;
+                &lt;ColumnDefinition /&gt;
+                &lt;ColumnDefinition SharedSizeGroup=&quot;B&quot;/&gt;
+            &lt;/Grid.ColumnDefinitions&gt;
+
+            &lt;TextBlock Grid.Column=&quot;0&quot; Text=&quot;1&quot;/&gt;
+            &lt;TextBox Grid.Column=&quot;1&quot;/&gt;
+        &lt;/Grid&gt;
+    &lt;/StackPanel&gt;
+</pre>
+<p><a href="https://wpf.2000things.com/2017/03/04/1201-how-to-share-star-sized-column-sizes/attachment/1201/" rel="attachment wp-att-9598"><img data-attachment-id="9598" data-permalink="https://wpf.2000things.com/2017/03/04/1201-how-to-share-star-sized-column-sizes/attachment/1201/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg?w=630" data-orig-size="538,179" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1201" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg?w=630?w=538" class="alignnone size-full wp-image-9598" src="https://web.archive.org/web/20170305183243id_/https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg?w=630" alt="1201" srcset="https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg 538w, https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg?w=150 150w, https://2000thingswpf.files.wordpress.com/2017/03/1201.jpg?w=300 300w" sizes="(max-width: 538px) 100vw, 538px"   /></a></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9596-58bc59ce33925' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9596&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9596-58bc59ce33925' data-name='like-post-frame-14605478-9596-58bc59ce33925'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div></article>
+  <p class="meta">Categories: Layout | Tags: Grid, Layout, SharedSizeGroup, Star Sizing, WPF</p>
+  <nav class="pager"><a href="2017-02-26-1200-overriding-a-default-style.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2017-03-19-1202-using-a-color-animation-to-draw-emphasis-to-something.html">Next</a></nav>
+</main>
+
+</body>
+</html>

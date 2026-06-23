@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#331 – Calling a Base Class Constructor Implicitly vs. Explicitly</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-05-23-330-derived-classes-do-not-inherit-constructors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-25-332-every-class-inherits-from-exactly-one-class.html">Next</a></nav>
+  <h1>#331 – Calling a Base Class Constructor Implicitly vs. Explicitly</h1>
+  <p class="meta">2011-05-24 | <a href="http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/">Original URL</a> | Wayback 20130817184051</p>
+  <article><div class="post-2813 post type-post status-publish format-standard hentry category-classes tag-base tag-c tag-classes tag-constructors tag-derived-class">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">May 24, 2011</span>
+																						<span class="post-comments"><a href="2011-05-24-331-calling-a-base-class-constructor-implicitly-vs-explicitly.html" title="Comment on #331 &#8211; Calling a Base Class Constructor Implicitly vs.&nbsp;Explicitly">Leave a comment</a></span>
+																				</p>
+					</div>
+
+					<p>In a derived class, you can call a constructor in the base class explicitly using the <strong>base</strong> keyword.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+    public class Terrier : Dog
+    {
+        public string Attitude { get; set; }
+
+        public Terrier(string name, int age, string attitude)
+            : base(name, age)
+        {
+            Attitude = attitude;
+        }
+</pre>
+<p>If you don&#8217;t explicitly call a base class constructor, the default (parameterless) constructor is called implicitly.</p>
+<pre class="brush: csharp; title: ; notranslate" title="">
+        public Terrier(string name, int age, string attitude)
+        {
+            // Default Dog constructor has already been called
+            //   at this point.
+            Name = name;
+            Age = age;
+            Attitude = attitude;
+        }
+</pre>
+<p>If you do omit the <strong>base</strong> keyword, the base class must define a default (parameterless) constructor.  If it doesn&#8217;t, the compiler will complain that the base class doesn&#8217;t have a constructor that takes 0 arguments.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/05/001-nodefaultconstructor.png"><img class="alignnone size-full wp-image-2817" title="001-NoDefaultConstructor" src="https://web.archive.org/web/20130817184051id_/http://2000thingscsharp.files.wordpress.com/2011/05/001-nodefaultconstructor.png?w=630" alt=""   /></a></p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Enterprise";
+		var wpcom_adclk_slot = "wpcom_below_post_adsafe";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "csharp.2000things.com");
+GA_googleAddAttr("BlogId", "14273916");
+GA_googleAddAttr("AdSafe", "1");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Autotag", "children");
+GA_googleAddAttr("Autotag", "science");
+GA_googleAddAttr("Tag", "classes");
+GA_googleAddAttr("Tag", "base");
+GA_googleAddAttr("Tag", "c");
+GA_googleAddAttr("Tag", "classes");
+GA_googleAddAttr("Tag", "constructors");
+GA_googleAddAttr("Tag", "derived-class");
+GA_googleAddAttr("theme_bg", "f0f0f0");
+GA_googleAddAttr("theme_border", "cccccc");
+GA_googleAddAttr("theme_text", "555555");
+GA_googleAddAttr("theme_link", "008DCF");
+GA_googleAddAttr("theme_url", "008DCF");
+GA_googleAddAdSensePageAttr("google_page_url", "http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/");
+GA_googleFillSlot("wpcom_below_post_adsafe");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2813"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/05/24/331-calling-a-base-class-constructor-implicitly-vs-explicitly/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul></div></div></article>
+  <p class="meta">Categories: Classes | Tags: base, C#, Classes, Constructors, Derived Class</p>
+  <nav class="pager"><a href="2011-05-23-330-derived-classes-do-not-inherit-constructors.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-25-332-every-class-inherits-from-exactly-one-class.html">Next</a></nav>
+</main>
+
+</body>
+</html>

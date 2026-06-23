@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#295 – When Is a Static Constructor Called?</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-04-07-294-make-all-constructors-private-to-prevent-object-creation.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-04-09-296-you-must-assign-a-value-to-all-fields-before-using-a-struct.html">Next</a></nav>
+  <h1>#295 – When Is a Static Constructor Called?</h1>
+  <p class="meta">2011-04-08 | <a href="http://csharp.2000things.com/2011/04/08/295-when-is-a-static-constructor-called/">Original URL</a> | Wayback 20110528042353</p>
+  <article><div class="post-2553 post type-post status-publish format-standard hentry category-classes tag-c tag-classes tag-constructor tag-constructors tag-static-constructors">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">April 8, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-04-08-295-when-is-a-static-constructor-called.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>You cannot dictate when a static constructor will be called and you  can&#8217;t call it directly.</p>
+<p>More specifically, a static constructor will be called just <em>before</em> you do one of the following:</p>
+<ul>
+<li>Create an instance of the type</li>
+<li>Access any static data in the type</li>
+<li>Start executing <strong>Main</strong> method (in the same class as the static constructor)</li>
+</ul>
+<p>If we have the following implementation in the <strong>Dog</strong> class:</p>
+<pre class="brush: csharp;">
+        public Dog(string name)
+        {
+            Console.WriteLine(&quot;Dog constructor&quot;);
+            Name = name;
+        }
+
+        public static string Motto = &quot;Wag all the time&quot;;
+
+        static Dog()
+        {
+            Console.WriteLine(&quot;Static Dog constructor&quot;);
+        }
+</pre>
+<p>And we create a <strong>Dog</strong> instance:</p>
+<pre class="brush: csharp;">
+ Console.WriteLine(&quot;Here 1&quot;);
+ Dog d1 = new Dog(&quot;Kirby&quot;);
+ Console.WriteLine(&quot;Here 2&quot;);
+</pre>
+<p>We get this output (static constructor called before object instantiation):<br />
+<a href="http://2000thingscsharp.files.wordpress.com/2011/04/001-output1.png"><img class="alignnone size-full wp-image-2556" title="001-Output1" src="https://web.archive.org/web/20110528042353id_/http://2000thingscsharp.files.wordpress.com/2011/04/001-output1.png?w=253&amp;h=134" alt="" width="253" height="134" /></a><br />
+Or if we access static data:</p>
+<pre class="brush: csharp;">
+            Console.WriteLine(&quot;Here 1&quot;);
+            string s = Dog.Motto;
+            Console.WriteLine(&quot;Here 2&quot;);
+</pre>
+<p>The output is (static constructor called before accessing static data):<br />
+<a href="http://2000thingscsharp.files.wordpress.com/2011/04/002-output2.png"><img class="alignnone size-full wp-image-2557" title="002-Output2" src="https://web.archive.org/web/20110528042353id_/http://2000thingscsharp.files.wordpress.com/2011/04/002-output2.png?w=216&amp;h=104" alt="" width="216" height="104" /></a></p>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://csharp.2000things.com/2011/04/08/295-when-is-a-static-constructor-called/"
+    dc:identifier="http://csharp.2000things.com/2011/04/08/295-when-is-a-static-constructor-called/"
+    dc:title="#295 &#8211; When Is a Static Constructor&nbsp;Called?"
+    trackback:ping="http://csharp.2000things.com/2011/04/08/295-when-is-a-static-constructor-called/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/classes/" title="View all posts in Classes" rel="category tag">Classes</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/c/" rel="tag">C#</a>, <a href="http://en.wordpress.com/tag/classes/" rel="tag">Classes</a>, <a href="http://en.wordpress.com/tag/constructor/" rel="tag">Constructor</a>, <a href="http://en.wordpress.com/tag/constructors/" rel="tag">Constructors</a>, <a href="http://en.wordpress.com/tag/static-constructors/" rel="tag">Static Constructors</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Classes | Tags: C#, Classes, Constructor, Constructors, Static Constructors</p>
+  <nav class="pager"><a href="2011-04-07-294-make-all-constructors-private-to-prevent-object-creation.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-04-09-296-you-must-assign-a-value-to-all-fields-before-using-a-struct.html">Next</a></nav>
+</main>
+
+</body>
+</html>

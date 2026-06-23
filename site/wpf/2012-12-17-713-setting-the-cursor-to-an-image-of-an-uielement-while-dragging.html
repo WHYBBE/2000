@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#713 – Setting the Cursor to an Image of an UIElement While Dragging</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-12-14-712-showing-a-custom-mouse-cursor-while-dragging.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-18-714-setting-the-cursor-to-render-some-text-while-dragging.html">Next</a></nav>
+  <h1>#713 – Setting the Cursor to an Image of an UIElement While Dragging</h1>
+  <p class="meta">2012-12-17 | <a href="http://wpf.2000things.com/2012/12/17/713-setting-the-cursor-to-an-image-of-an-uielement-while-dragging/">Original URL</a> | Wayback 20121220124356</p>
+  <article><div class="post-6211 post type-post status-publish format-standard hentry category-events tag-cursor tag-drag-and-drop tag-events tag-image tag-uielement tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 17, 2012</span>
+																						<span class="post-comments"><a href="2012-12-17-713-setting-the-cursor-to-an-image-of-an-uielement-while-dragging.html" title="Comment on #713 &#8211; Setting the Cursor to an Image of an UIElement While&nbsp;Dragging">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>You can use the <strong>GiveFeedback</strong> to <a href="http://wp.me/pZhye-1C2">change the cursor</a> during a drag-and-drop operation.  You can go a bit further and set the cursor to an image that represents the user interface element that you are dragging by rendering the <strong>UIElement</strong> to a bitmap and then converting that bitmap to a cursor.</p>
+<p>This example is based on code written by Brandon Cannaday, at <a href="http://www.switchonthecode.com/tutorials/wpf-tutorial-how-to-use-custom-cursors">http://www.switchonthecode.com/tutorials/wpf-tutorial-how-to-use-custom-cursors </a>.  To start with, here is Brandon&#8217;s code, as modified by reader &#8220;Swythan&#8221;:</p>
+<p><pre class="brush: csharp;">
+    public class CursorHelper
+    {
+        private static class NativeMethods
+        {
+            public struct IconInfo
+            {
+                public bool fIcon;
+                public int xHotspot;
+                public int yHotspot;
+                public IntPtr hbmMask;
+                public IntPtr hbmColor;
+            }
+
+            [DllImport(&quot;user32.dll&quot;)]
+            public static extern SafeIconHandle CreateIconIndirect(ref IconInfo icon);
+
+            [DllImport(&quot;user32.dll&quot;)]
+            public static extern bool DestroyIcon(IntPtr hIcon);
+
+            [DllImport(&quot;user32.dll&quot;)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool GetIconInfo(IntPtr hIcon, ref IconInfo pIconInfo);
+        }
+
+        [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
+        private class SafeIconHandle : SafeHandleZeroOrMinusOneIsInvalid
+        {
+            public SafeIconHandle()
+                : base(true)
+            {
+            }
+
+            override protected bool ReleaseHandle()
+            {
+                return NativeMethods.DestroyIcon(handle);
+            }
+        }
+
+        private static Cursor InternalCreateCursor(System.Drawing.Bitmap bmp)
+        {
+            var iconInfo = new NativeMethods.IconInfo();
+            NativeMethods.GetIconInfo(bmp.GetHicon(), ref iconInfo);
+
+            iconInfo.xHotspot = 0;
+            iconInfo.yHotspot = 0;
+            iconInfo.fIcon = false;
+
+            SafeIconHandle cursorHandle = NativeMethods.CreateIconIndirect(ref iconInfo);
+            return CursorInteropHelper.Create(cursorHandle);
+        }
+
+        public static Cursor CreateCursor(UIElement element)
+        {
+            element.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            element.Arrange(new Rect(new Point(), element.DesiredSize));
+
+            RenderTargetBitmap rtb =
+              new RenderTargetBitmap(
+                (int)element.DesiredSize.Width,
+                (int)element.DesiredSize.Height,
+                96, 96, PixelFormats.Pbgra32);
+
+            rtb.Render(element);
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+
+            using (var ms = new MemoryStream())
+            {
+                encoder.Save(ms);
+                using (var bmp = new System.Drawing.Bitmap(ms))
+                {
+                    return InternalCreateCursor(bmp);
+                }
+            }
+        }
+    }
+</pre></p>
+<p>Now that we have the helper class, we can use it to set the cursor to the image of a <strong>Label</strong> that we are dragging. Here&#8217;s the XAML defining a label to drag from and one to drag to.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel Orientation=&quot;Vertical&quot; HorizontalAlignment=&quot;Center&quot; Margin=&quot;45&quot;&gt;
+        &lt;Label Content=&quot;Data to drag&quot; Background=&quot;AliceBlue&quot; Padding=&quot;15,10&quot;
+               MouseLeftButtonDown=&quot;Label_MouseLeftButtonDown&quot;
+               GiveFeedback=&quot;Label_GiveFeedback&quot;/&gt;
+        &lt;Label Content=&quot;Drag to here&quot; Background=&quot;MediumSpringGreen&quot; Padding=&quot;15,10&quot; Margin=&quot;20&quot;
+               AllowDrop=&quot;True&quot; Drop=&quot;Label_Drop&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>Here&#8217;s the relevant drag-and-drop related code:</p>
+<p><pre class="brush: csharp;">
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataObject data = new DataObject(DataFormats.Text, ((Label)e.Source).Content);
+
+            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+        }
+
+        private void Label_Drop(object sender, DragEventArgs e)
+        {
+            ((Label)e.Source).Content = (string)e.Data.GetData(DataFormats.Text);
+        }
+
+        private Cursor customCursor = null;
+
+        private void Label_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            if (e.Effects == DragDropEffects.Copy)
+            {
+                if (customCursor == null)
+                    customCursor = CursorHelper.CreateCursor(e.Source as UIElement);
+
+                if (customCursor != null)
+                {
+                    e.UseDefaultCursors = false;
+                    Mouse.SetCursor(customCursor);
+                }
+            }
+            else
+                e.UseDefaultCursors = true;
+
+            e.Handled = true;
+        }
+</pre></p>
+
+		<div class="wpadvert">
+		
+		<div id='div-gpt-ad-1330229685952-0'>
+		<script type='text/javascript'>
+		if ( typeof googletag != 'undefined' ) {
+			googletag.cmd.push( function() {
+				googletag.display( 'div-gpt-ad-1330229685952-0');
+			} );
+		}
+		</script>
+		</div>
+		</div></article>
+  <p class="meta">Categories: Events | Tags: Cursor, Drag-and-Drop, Events, Image, UIElement, WPF</p>
+  <nav class="pager"><a href="2012-12-14-712-showing-a-custom-mouse-cursor-while-dragging.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-12-18-714-setting-the-cursor-to-render-some-text-while-dragging.html">Next</a></nav>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#163 – Constructing FrameworkPropertyMetadata</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2010-12-21-162-uipropertymetadata-and-frameworkpropertymetadata.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">Next</a></nav>
+  <h1>#163 – Constructing FrameworkPropertyMetadata</h1>
+  <p class="meta">2010-12-22 | <a href="http://wpf.2000things.com/2010/12/22/163-constructing-frameworkpropertymetadata/">Original URL</a> | Wayback 20110205023811</p>
+  <article><div class="post-1355 post type-post status-publish format-standard hentry category-dependency-properties tag-dependency-properties tag-frameworkpropertymetadata tag-metadata tag-wpf">
+
+           		<div class="entry">
+
+                    
+
+                    <div class="post-info">
+                        <p><span class="time">December 22, 2010</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2010-12-22-163-constructing-frameworkpropertymetadata.html">Leave a Comment</a></span> </p>
+                    </div>
+
+                    <p>When you look at the metadata for a dependency property that is storing its metadata as an instance of <strong>FrameworkPropertyMetadata</strong>, you&#8217;ll see a series of boolean properties.</p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2010/12/frameworkpropertymetadata1.png"><img class="alignnone size-full wp-image-1356" title="FrameworkPropertyMetadata" src="https://web.archive.org/web/20110205023811id_/http://2000thingswpf.files.wordpress.com/2010/12/frameworkpropertymetadata1.png?w=630&amp;h=237" alt="" width="630" height="237" /></a></p>
+<p>As a convenience, when constructing an instance of <strong>FrameworkPropertyMetadata</strong>, you don&#8217;t have to pass all of these boolean values into the constructor individually.  Instead, the constructor accepts a flags parameter that is a logical OR of a series of enumeration values.  The individual enumeration values come from the <strong>FrameworkPropertyMetadataOptions</strong> enum.</p>
+<pre class="brush: csharp;">
+        // Register ZHeightProperty dependency property
+        private static FrameworkPropertyMetadata meta = new FrameworkPropertyMetadata(1,   // default = 1
+            FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentArrange | FrameworkPropertyMetadataOptions.AffectsParentMeasure |
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault);
+
+        public static readonly DependencyProperty ZHeightProperty =
+            DependencyProperty.Register(&quot;ZHeightProperty&quot;, typeof(int), typeof(ThreeDButton), meta);
+</pre>
+<div class="clear"></div>
+                    
+                    <!--
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://wpf.2000things.com/2010/12/22/163-constructing-frameworkpropertymetadata/"
+    dc:identifier="http://wpf.2000things.com/2010/12/22/163-constructing-frameworkpropertymetadata/"
+    dc:title="#163 &#8211; Constructing&nbsp;FrameworkPropertyMetadata"
+    trackback:ping="http://wpf.2000things.com/2010/12/22/163-constructing-frameworkpropertymetadata/trackback/" />
+</rdf:RDF>                    -->
+
+                </div>
+
+                <div class="post-meta">
+                    <p>
+                    	<span class="categories">Filed under <a href="http://en.wordpress.com/tag/dependency-properties/" title="View all posts in Dependency Properties" rel="category tag">Dependency Properties</a></span>
+                    	<span class="tags">Tagged with <a href="http://en.wordpress.com/tag/dependency-properties/" rel="tag">Dependency Properties</a>, <a href="http://en.wordpress.com/tag/frameworkpropertymetadata/" rel="tag">FrameworkPropertyMetadata</a>, <a href="http://en.wordpress.com/tag/metadata/" rel="tag">Metadata</a>, <a href="http://en.wordpress.com/tag/wpf/" rel="tag">WPF</a></span>                    </p>
+                </div>
+
+            </div></article>
+  <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, FrameworkPropertyMetadata, Metadata, WPF</p>
+  <nav class="pager"><a href="2010-12-21-162-uipropertymetadata-and-frameworkpropertymetadata.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-23-164-overriding-metadata-for-an-inherited-dependency-property.html">Next</a></nav>
+</main>
+
+</body>
+</html>

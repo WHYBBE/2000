@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#366 – Binding a Calendar Control’s SelectedDate Property to a Nullable DateTime</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-08-16-365-selecteddate-and-selecteddates-properties-of-calendar-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-18-367-you-cant-bind-to-a-calendar-controls-selecteddates-property.html">Next</a></nav>
+  <h1>#366 – Binding a Calendar Control’s SelectedDate Property to a Nullable DateTime</h1>
+  <p class="meta">2011-08-17 | <a href="http://wpf.2000things.com/2011/08/17/366-binding-a-calendar-controls-selecteddate-property-to-a-nullable-datetime/">Original URL</a> | Wayback 20120503093945</p>
+  <article><div class="post-2969 post type-post status-publish format-standard hentry category-controls tag-calendar tag-controls tag-selecteddate tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">August 17, 2011</span>
+																						<span class="post-comments"><a href="2011-08-17-366-binding-a-calendar-controls-selecteddate-property-to-a-nullable-datetime.html" title="Comment on #366 &#8211; Binding a Calendar Control&#8217;s SelectedDate Property to a Nullable&nbsp;DateTime">1 Comment</a></span>
+																				</p>
+					</div>
+
+					<p>The <strong>SelectedDate</strong> <strong></strong> property of a <strong>Calendar</strong> control reflects the currently selected date, if the <strong>SelectionMode</strong> is <strong>SingleDate</strong>, or the first date selected if the mode is <strong>SingleRange</strong> or <strong>MultipleRange</strong>.</p>
+<p>You can use data binding to bind the <strong>SelectedDate </strong>property to a variable of type <strong>DateTime?</strong> (nullable <strong>DateTime</strong>).</p>
+<p>In the example below, we bind <strong>SelectedDate</strong> to the <strong>FavoriteDay</strong> property of our data context.</p>
+<p><pre class="brush: xml;">
+    &lt;StackPanel&gt;
+        &lt;Calendar SelectionMode=&quot;SingleDate&quot; SelectedDate=&quot;{Binding FavoriteDay}&quot;/&gt;
+        &lt;Button Content=&quot;Test&quot; Click=&quot;Button_Click&quot; Width=&quot;80&quot; Margin=&quot;20&quot;/&gt;
+    &lt;/StackPanel&gt;
+</pre></p>
+<p>In the code-behind, we define the <strong>FavoriteDay</strong> property and set the data context to the parent class that contains the property.</p>
+<p><pre class="brush: csharp;">
+        public DateTime? FavoriteDay { get; set; }
+
+        public MainWindow()
+        {
+            this.InitializeComponent();
+            this.DataContext = this;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string msg;
+
+            if (FavoriteDay == null)
+                msg = &quot;I don't have a favorite day&quot;;
+            else
+                msg = string.Format(&quot;My favorite day is {0:D}&quot;, FavoriteDay);
+
+            MessageBox.Show(msg);
+        }
+</pre></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/08/001-bindingselecteddate.png"><img class="alignnone size-full wp-image-2993" title="001-BindingSelectedDate" src="https://web.archive.org/web/20120503093945id_/http://2000thingswpf.files.wordpress.com/2011/08/001-bindingselecteddate.png?w=630" alt=""   /></a></pre>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Controls | Tags: Calendar, Controls, SelectedDate, WPF</p>
+  <nav class="pager"><a href="2011-08-16-365-selecteddate-and-selecteddates-properties-of-calendar-control.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-18-367-you-cant-bind-to-a-calendar-controls-selecteddates-property.html">Next</a></nav>
+</main>
+
+</body>
+</html>

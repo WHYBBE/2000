@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#604 – The Problem with Reading/Writing Shared Data from Different Threads</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About C#</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2012-06-12-603-using-constants-can-force-recompilation.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-14-605-the-causes-of-problems-with-readingwriting-shared-data-from-multiple-threads.html">Next</a></nav>
+  <h1>#604 – The Problem with Reading/Writing Shared Data from Different Threads</h1>
+  <p class="meta">2012-06-13 | <a href="http://csharp.2000things.com/2012/06/13/604-the-problem-with-readingwriting-shared-data-from-different-threads/">Original URL</a> | Wayback 20120822083757</p>
+  <article><div class="post-5120 post type-post status-publish format-standard hentry category-memory tag-c tag-memory tag-threads">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">June 13, 2012</span>
+																						<span class="post-comments"><a href="2012-06-13-604-the-problem-with-readingwriting-shared-data-from-different-threads.html" title="Comment on #604 &#8211; The Problem with Reading/Writing Shared Data from Different&nbsp;Threads">4 Comments</a></span>
+																				</p>
+					</div>
+
+					<p>Reading shared data from a thread different to the one where you wrote the data, you may see unexpected results.  Consider the following:</p>
+<p><pre class="brush: csharp;">
+    public class Program
+    {
+        public static bool runFlag = true;
+
+        private static void RunUntilYouStopMe()
+        {
+            int i = 0;
+
+            while (runFlag)
+            {
+                i++;
+            }
+
+            Console.WriteLine(&quot;I'm stopping&quot;);
+        }
+
+        static void Main()
+        {
+            Thread runThread = new Thread(new ThreadStart(RunUntilYouStopMe));
+            runThread.Start();
+
+            Thread.Sleep(1000);
+
+            runFlag = false;
+            Console.WriteLine(&quot;Main() has set runFlag to false&quot;);
+
+            while (true)
+            {
+                Console.ReadLine();
+                Console.WriteLine(&quot;.. runThread.IsAlive={0}&quot;, runThread.IsAlive);
+            }
+        }
+    }
+</pre></p>
+<p>The background thread should run until the <strong>runFlag</strong> variable gets set to <strong>false.  </strong>We start the background thread and then set the flag to <strong>false </strong>on the main thread.  But running this code in Release|x86<strong> </strong>mode, it turns out that the loop never exits, even though we set <strong>runFlag</strong> to <strong>false</strong>.</p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/06/604-001.png"><img class="alignnone size-full wp-image-5126" title="604-001" src="https://web.archive.org/web/20120822083757id_/http://2000thingscsharp.files.wordpress.com/2012/06/604-001.png?w=630" alt=""   /></a></p>
+<p>This is caused by a compiler optimization related to our <strong>runFlag</strong> variable.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/06/13/604-the-problem-with-readingwriting-shared-data-from-different-threads/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5120"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/06/13/604-the-problem-with-readingwriting-shared-data-from-different-threads/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/06/13/604-the-problem-with-readingwriting-shared-data-from-different-threads/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+  <p class="meta">Categories: Memory | Tags: C#, Memory, Threads</p>
+  <nav class="pager"><a href="2012-06-12-603-using-constants-can-force-recompilation.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-14-605-the-causes-of-problems-with-readingwriting-shared-data-from-multiple-threads.html">Next</a></nav>
+</main>
+
+</body>
+</html>

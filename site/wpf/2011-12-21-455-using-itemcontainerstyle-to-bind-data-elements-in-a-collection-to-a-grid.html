@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#455 – Using ItemContainerStyle to Bind Data Elements in a Collection to a Grid</title>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.58; margin: 0; color: #1d1d1d; background: #f7f4ed; }
+    main, .site-header { max-width: 880px; margin: 0 auto; padding: 24px; background: #fffdf8; }
+    .site-header { margin-top: 24px; border-bottom: 1px solid #ded7c8; font-family: Arial, sans-serif; }
+    h1, h2, h3 { line-height: 1.2; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    a { color: #245f9b; }
+    img { max-width: 100%; height: auto; }
+    pre, code { font-family: Consolas, 'Courier New', monospace; }
+    pre { overflow-x: auto; padding: 12px; background: #f0eee8; }
+    .meta, .pager { color: #666; font-family: Arial, sans-serif; font-size: 0.92rem; }
+    .pager { margin: 18px 0; }
+    ol { padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html">2,000 Things You Should Know About WPF</a>
+</header>
+<main class="post">
+  <nav class="pager"><a href="2011-12-20-454-uselayoutrounding-vs-snapstodevicepixels.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-12-22-456-an-element-in-a-grid-can-span-multiple-rows-or-columns.html">Next</a></nav>
+  <h1>#455 – Using ItemContainerStyle to Bind Data Elements in a Collection to a Grid</h1>
+  <p class="meta">2011-12-21 | <a href="http://wpf.2000things.com/2011/12/21/455-using-itemcontainerstyle-to-bind-data-elements-in-a-collection-to-a-grid/">Original URL</a> | Wayback 20120503141209</p>
+  <article><div class="post-3819 post type-post status-publish format-standard hentry category-layout tag-itemcontainerstyle tag-itemscontrol tag-layout tag-wpf">
+
+				<div class="entry">
+
+					
+
+					<div class="post-info">
+						<p>
+							<span class="time">December 21, 2011</span>
+																						<span class="post-comments"><a href="2011-12-21-455-using-itemcontainerstyle-to-bind-data-elements-in-a-collection-to-a-grid.html" title="Comment on #455 &#8211; Using ItemContainerStyle to Bind Data Elements in a Collection to a&nbsp;Grid">17 Comments</a></span>
+																				</p>
+					</div>
+
+					<p><a href="2011-12-15-451-data-binding-elements-in-a-collection-to-a-grid-part-iv.html">I showed earlier</a> that to bind <strong>Grid.Row </strong>and <strong>Grid.Column</strong> properties on child items in an <strong>ItemsControl,</strong>  we need to set up the binding on the <strong>ContentPresenter</strong> elements that contain the individual items.  I did this by creating a class that inherited from <strong>ItemsControl</strong> and then set the bindings at runtime, programmatically.</p>
+<p>There is a much easier way to do this, pointed out by reader Bruno (thanks Bruno)!</p>
+<p>You can set up the bindings by specifying the <strong>ItemContainerStyle</strong> of the <strong>ItemsControl</strong> and using property setters to do the binding.</p>
+<p><pre class="brush: xml;">
+        &lt;ItemsControl ItemsSource=&quot;{Binding ChessPieces}&quot; Height=&quot;500&quot; Width=&quot;500&quot;&gt;
+            &lt;ItemsControl.ItemsPanel&gt;
+                &lt;ItemsPanelTemplate&gt;
+                    &lt;Grid ShowGridLines=&quot;True&quot;&gt;
+                        &lt;Grid.RowDefinitions&gt;
+                            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+                            &lt;!-- 7 more rows --&gt;
+                        &lt;/Grid.RowDefinitions&gt;
+                        &lt;Grid.ColumnDefinitions&gt;
+                            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+                            &lt;!-- 7 more columns --&gt;
+                        &lt;/Grid.ColumnDefinitions&gt;
+                    &lt;/Grid&gt;
+                &lt;/ItemsPanelTemplate&gt;
+            &lt;/ItemsControl.ItemsPanel&gt;
+            &lt;ItemsControl.ItemTemplate&gt;
+                &lt;DataTemplate&gt;
+                    &lt;Label Content=&quot;{Binding Text}&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+                &lt;/DataTemplate&gt;
+            &lt;/ItemsControl.ItemTemplate&gt;
+            &lt;ItemsControl.ItemContainerStyle&gt;
+                &lt;Style&gt;
+                    &lt;Setter Property=&quot;Grid.Row&quot; Value=&quot;{Binding Row}&quot;/&gt;
+                    &lt;Setter Property=&quot;Grid.Column&quot; Value=&quot;{Binding Column}&quot;/&gt;
+                &lt;/Style&gt;
+            &lt;/ItemsControl.ItemContainerStyle&gt;
+        &lt;/ItemsControl&gt;
+</pre><br />
+<a href="http://2000thingswpf.files.wordpress.com/2011/12/452-0011.png"><img class="alignnone size-full wp-image-3823" title="452-001" src="https://web.archive.org/web/20120503141209id_/http://2000thingswpf.files.wordpress.com/2011/12/452-0011.png?w=630" alt=""   /></a></pre>
+
+<div class="wpadvert">
+
+<div id='div-gpt-ad-1330229685952-0'>
+<script type='text/javascript'>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330229685952-0'); });
+</script>
+</div>
+</div></article>
+  <p class="meta">Categories: Layout | Tags: ItemContainerStyle, ItemsControl, Layout, WPF</p>
+  <nav class="pager"><a href="2011-12-20-454-uselayoutrounding-vs-snapstodevicepixels.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-12-22-456-an-element-in-a-grid-can-span-multiple-rows-or-columns.html">Next</a></nav>
+</main>
+
+</body>
+</html>
