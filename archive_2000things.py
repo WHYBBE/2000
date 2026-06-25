@@ -390,6 +390,10 @@ def page_filename(post: Post) -> str:
     return f"{post.slug}.html"
 
 
+def wayback_snapshot_url(post: Post) -> str:
+    return f"https://web.archive.org/web/{post.timestamp}id_/{post.original_url}"
+
+
 def write_site(site: str, config: dict[str, str], posts: list[Post], out_dir: Path) -> None:
     site_dir = out_dir / site
     site_dir.mkdir(parents=True, exist_ok=True)
@@ -426,7 +430,7 @@ def render_page(site_title: str, post: Post, content: str, previous_link: str, n
 <main class="post">
   <nav class="pager">{' | '.join(nav)}</nav>
   <h1>{html.escape(post.title)}</h1>
-  <p class="meta">{html.escape(post.date)} | <a href="{html.escape(post.original_url)}">Original URL</a> | Wayback {html.escape(post.timestamp)}</p>
+  <p class="meta">{html.escape(post.date)} | <a href="{html.escape(post.original_url)}">Original URL</a> | <a href="{html.escape(wayback_snapshot_url(post))}">Wayback {html.escape(post.timestamp)}</a></p>
   <article>{content}</article>
   {'<p class="meta">' + ' | '.join(meta) + '</p>' if meta else ''}
   <nav class="pager">{' | '.join(nav)}</nav>
