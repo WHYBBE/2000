@@ -45,28 +45,47 @@
 
 					<p>You can <a href="http://wp.me/pZhye-1xR">capture the mouse</a> on one mouse button event and then release it on another, with your application in some state while the mouse is captured.</p>
 <p>For example, changing the background color of a label while the left mouse button is down.</p>
-<p><pre class="brush: csharp;">
-        private Brush savedBrush;
-
-        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(&quot;Feast_MouseDown&quot;);
-            Label l = e.Source as Label;
-            l.CaptureMouse();
-            savedBrush = l.Background;
-            l.Background = Brushes.Cyan;
-        }
-
-        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(&quot;Feast_MouseUp&quot;);
-            Label l = e.Source as Label;
-            l.ReleaseMouseCapture();
-            l.Background = savedBrush;
-        }
+<p><pre class="brush: csharp;">
+
+        private Brush savedBrush;
+
+
+
+        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
+
+        {
+
+            Console.WriteLine(&quot;Feast_MouseDown&quot;);
+
+            Label l = e.Source as Label;
+
+            l.CaptureMouse();
+
+            savedBrush = l.Background;
+
+            l.Background = Brushes.Cyan;
+
+        }
+
+
+
+        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
+
+        {
+
+            Console.WriteLine(&quot;Feast_MouseUp&quot;);
+
+            Label l = e.Source as Label;
+
+            l.ReleaseMouseCapture();
+
+            l.Background = savedBrush;
+
+        }
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/689-001.png"><img class="alignnone size-full wp-image-5983" title="689-001" alt="" src="https://web.archive.org/web/20121125073559id_/http://2000thingswpf.files.wordpress.com/2012/11/689-001.png?w=630"   /></a></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/689-002.png"><img class="alignnone size-full wp-image-5984" title="689-002" alt="" src="https://web.archive.org/web/20121125073559id_/http://2000thingswpf.files.wordpress.com/2012/11/689-002.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/689-001.png"><img class="alignnone size-full wp-image-5983" title="689-001" alt="" src="data:image/png;base64,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"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/689-002.png"><img class="alignnone size-full wp-image-5984" title="689-002" alt="" src="data:image/png;base64,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"   /></a></p>
 <p>Although your code normally releases the mouse capture, it&#8217;s also possible that some system event causes the mouse capture to be lost.  (E.g. A system dialog pops up).  In this case, you won&#8217;t get the expected event, so your event handler never gets a chance to release the mouse capture.  Your application then ends up in an unacceptable state.  (E.g. Label&#8217;s background color wrong).</p>
 
 		<div class="wpadvert">

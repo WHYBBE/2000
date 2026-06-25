@@ -45,39 +45,68 @@
 
 					<p>By default, a custom element deriving from <strong>FrameworkElement</strong> <a href="http://wp.me/pZhye-2sb">has no desired size</a>.  Most elements should override <strong>MeasureOverride</strong> as a way of indicating what their desired size should be.  This would typically be based on the control&#8217;s content, but also might be some minimum size.</p>
 <p>Below, we have a custom element that indicates that it has a minimum size of 20 x 20.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class MyFrameworkElement : FrameworkElement
-    {
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            return new Size(20.0, 20.0);
-        }
-
-        protected override void OnRender(DrawingContext dc)
-        {
-            dc.DrawLine(new Pen(Brushes.Blue, 2.0),
-                new Point(0.0, 0.0),
-                new Point(ActualWidth, ActualHeight));
-            dc.DrawLine(new Pen(Brushes.Green, 2.0),
-                new Point(ActualWidth, 0.0),
-                new Point(0.0, ActualHeight));
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class MyFrameworkElement : FrameworkElement
+
+    {
+
+        protected override Size MeasureOverride(Size availableSize)
+
+        {
+
+            return new Size(20.0, 20.0);
+
+        }
+
+
+
+        protected override void OnRender(DrawingContext dc)
+
+        {
+
+            dc.DrawLine(new Pen(Brushes.Blue, 2.0),
+
+                new Point(0.0, 0.0),
+
+                new Point(ActualWidth, ActualHeight));
+
+            dc.DrawLine(new Pen(Brushes.Green, 2.0),
+
+                new Point(ActualWidth, 0.0),
+
+                new Point(0.0, ActualHeight));
+
+        }
+
+    }
+
 </pre>
 <p>We can still specify a desired size when consuming the element, overriding the default size.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Grid ShowGridLines=&quot;True&quot;&gt;
-        &lt;Grid.RowDefinitions&gt;
-            &lt;RowDefinition/&gt;
-            &lt;RowDefinition/&gt;
-        &lt;/Grid.RowDefinitions&gt;
-
-        &lt;loc:MyFrameworkElement HorizontalAlignment=&quot;Center&quot;
-                                VerticalAlignment=&quot;Top&quot;/&gt;
-        &lt;loc:MyFrameworkElement Grid.Row=&quot;1&quot; Margin=&quot;20,10&quot;/&gt;
-    &lt;/Grid&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Grid ShowGridLines=&quot;True&quot;&gt;
+
+        &lt;Grid.RowDefinitions&gt;
+
+            &lt;RowDefinition/&gt;
+
+            &lt;RowDefinition/&gt;
+
+        &lt;/Grid.RowDefinitions&gt;
+
+
+
+        &lt;loc:MyFrameworkElement HorizontalAlignment=&quot;Center&quot;
+
+                                VerticalAlignment=&quot;Top&quot;/&gt;
+
+        &lt;loc:MyFrameworkElement Grid.Row=&quot;1&quot; Margin=&quot;20,10&quot;/&gt;
+
+    &lt;/Grid&gt;
+
 </pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1181-001.png"><img class="alignnone size-full wp-image-9443" src="https://web.archive.org/web/20141020102341id_/https://2000thingswpf.files.wordpress.com/2014/10/1181-001.png?w=630" alt="1181-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1181-001.png"><img class="alignnone size-full wp-image-9443" src="data:image/png;base64,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" alt="1181-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

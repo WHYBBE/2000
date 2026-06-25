@@ -45,67 +45,123 @@
 
 					<p>Below is a complete example of throwing an exception from a method and catching/handling that exception further up the call stack.</p>
 <p>Code for <strong>Dog</strong> class that throws an exception if we ask a dog to bark too many times:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        // Dog constructor
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
-
-        // Dog.Bark
-        public void Bark(int numTimes)
-        {
-            if (numTimes &gt; 10)
-                throw new ArgumentException(
-                    string.Format(&quot;{0} is just too many times to bark&quot;, numTimes));
-
-            for (int i = 1; i &lt;= numTimes; i++)
-                Console.WriteLine(&quot;Woof&quot;);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+
+
+        // Dog constructor
+
+        public Dog(string name, int age)
+
+        {
+
+            Name = name;
+
+            Age = age;
+
+        }
+
+
+
+        // Dog.Bark
+
+        public void Bark(int numTimes)
+
+        {
+
+            if (numTimes &gt; 10)
+
+                throw new ArgumentException(
+
+                    string.Format(&quot;{0} is just too many times to bark&quot;, numTimes));
+
+
+
+            for (int i = 1; i &lt;= numTimes; i++)
+
+                Console.WriteLine(&quot;Woof&quot;);
+
+        }
+
+    }
+
 </pre>
 <p>Code that calls the <strong>Bark</strong> method, with an exception handler in the <strong>Main()</strong> method:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main(string[] args)
-        {
-            try
-            {
-                Console.WriteLine(&quot;Before MethodA call&quot;);
-                MethodA();
-                Console.WriteLine(&quot;After MethodA call&quot;);
-            }
-            catch (Exception xx)
-            {
-                Console.WriteLine(
-                    string.Format(&quot;Caught in Main(): {0}&quot;,
-                                  xx.Message));
-            }
-
-            Console.ReadLine();
-        }
-
-        private static void MethodA()
-        {
-            Console.WriteLine(&quot;Before MethodB call&quot;);
-            MethodB();
-            Console.WriteLine(&quot;After MethodB call&quot;);
-        }
-
-        private static void MethodB()
-        {
-            Dog d = new Dog(&quot;Kirby&quot;, 15);
-            d.Bark(99);
-            Console.WriteLine(&quot;I barked 99 times&quot;);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Main(string[] args)
+
+        {
+
+            try
+
+            {
+
+                Console.WriteLine(&quot;Before MethodA call&quot;);
+
+                MethodA();
+
+                Console.WriteLine(&quot;After MethodA call&quot;);
+
+            }
+
+            catch (Exception xx)
+
+            {
+
+                Console.WriteLine(
+
+                    string.Format(&quot;Caught in Main(): {0}&quot;,
+
+                                  xx.Message));
+
+            }
+
+
+
+            Console.ReadLine();
+
+        }
+
+
+
+        private static void MethodA()
+
+        {
+
+            Console.WriteLine(&quot;Before MethodB call&quot;);
+
+            MethodB();
+
+            Console.WriteLine(&quot;After MethodB call&quot;);
+
+        }
+
+
+
+        private static void MethodB()
+
+        {
+
+            Dog d = new Dog(&quot;Kirby&quot;, 15);
+
+            d.Bark(99);
+
+            Console.WriteLine(&quot;I barked 99 times&quot;);
+
+        }
+
 </pre>
 <p>Below is the output.<br />
-<a href="http://2000thingscsharp.files.wordpress.com/2013/06/873-001.png"><img class="alignnone size-full wp-image-7365" alt="873-001" src="https://web.archive.org/web/20130629033601id_/http://2000thingscsharp.files.wordpress.com/2013/06/873-001.png?w=630"   /></a></p>
+<a href="http://2000thingscsharp.files.wordpress.com/2013/06/873-001.png"><img class="alignnone size-full wp-image-7365" alt="873-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

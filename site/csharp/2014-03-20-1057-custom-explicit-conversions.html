@@ -45,31 +45,51 @@
 
 					<p>You can define both <a href="http://wp.me/pXTis-2aE">implicit</a> and explicit custom conversions for a type that you author.</p>
 <p>In the code fragment below, we&#8217;ve defined an implicit conversion from <strong>int </strong>to <strong>Dog</strong> and an explicit conversion from <strong>Cow</strong> to <strong>Dog</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Implicitly convert from int to Dog
-        public static implicit operator Dog(int value)
-        {
-            return new Dog(string.Format(&quot;Dog-&quot; + value.ToString()), value);
-        }
-
-        // Explicitly convert from Cow to Dog
-        public static explicit operator Dog(Cow cow)
-        {
-            return new Dog(string.Format(cow.Name + &quot; IWasACow&quot;), cow.Age);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        // Implicitly convert from int to Dog
+
+        public static implicit operator Dog(int value)
+
+        {
+
+            return new Dog(string.Format(&quot;Dog-&quot; + value.ToString()), value);
+
+        }
+
+
+
+        // Explicitly convert from Cow to Dog
+
+        public static explicit operator Dog(Cow cow)
+
+        {
+
+            return new Dog(string.Format(cow.Name + &quot; IWasACow&quot;), cow.Age);
+
+        }
+
 </pre>
 <p>We can now do the following:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Cow someCow = new Cow(&quot;Bessie&quot;, 3);
-
-            // Implicit conversion from int to Dog
-            Dog anotherDog = 42;
-
-            // Explicit conversion from Cow to Dog
-            Dog nowADog = (Dog)someCow;
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Cow someCow = new Cow(&quot;Bessie&quot;, 3);
+
+
+
+            // Implicit conversion from int to Dog
+
+            Dog anotherDog = 42;
+
+
+
+            // Explicit conversion from Cow to Dog
+
+            Dog nowADog = (Dog)someCow;
+
 </pre>
 <p>If we try assigning a <strong>Cow</strong> instance to a variable of type <strong>Dog </strong>without the cast operator, we&#8217;ll get a compile-time error indicating that there is no implicit conversion between <strong>Cow</strong> and <b>Dog</b>.</p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1057-001.png"><img class="alignnone size-full wp-image-8359" alt="1057-001" src="https://web.archive.org/web/20140321080710id_/http://2000thingscsharp.files.wordpress.com/2014/03/1057-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1057-001.png"><img class="alignnone size-full wp-image-8359" alt="1057-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -45,59 +45,106 @@
 
 					<p>While WPF provides a number of predefined routed commands that you can use, it can also be useful to define your own command to use in your application.</p>
 <p>We start by defining an instance of a <strong>RoutedCommand</strong>, in this case defined as a static member of our main <strong>Window</strong> class.  We also define code for the <strong>CanExecute</strong> and <strong>Executed</strong> events that will perform the logic that we bind the command to.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-        }
-
-        public static RoutedCommand GreetUserCommand = new RoutedCommand();
-
-        private void GreetUser_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void GreetUser_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show(&quot;Howdy howdy I'm a cowboy&quot;);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class MainWindow : Window
+
+    {
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+            this.DataContext = this;
+
+        }
+
+
+
+        public static RoutedCommand GreetUserCommand = new RoutedCommand();
+
+
+
+        private void GreetUser_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+        {
+
+            e.CanExecute = true;
+
+        }
+
+
+
+        private void GreetUser_Executed(object sender, ExecutedRoutedEventArgs e)
+
+        {
+
+            MessageBox.Show(&quot;Howdy howdy I'm a cowboy&quot;);
+
+        }
+
+    }
+
 </pre>
 <p>We can now set up a command binding from XAML and set the <strong>Command</strong> property for controls that should execute our command.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        xmlns:loc=&quot;clr-namespace:WpfApplication1&quot;
-        Title=&quot;Commands&quot; Width=&quot;320&quot; Height=&quot;220&quot;&gt;
-
-    &lt;Window.CommandBindings&gt;
-        &lt;CommandBinding Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
-                        CanExecute=&quot;GreetUser_CanExecute&quot;
-                        Executed=&quot;GreetUser_Executed&quot;/&gt;
-    &lt;/Window.CommandBindings&gt;
-
-    &lt;Window.ContextMenu&gt;
-        &lt;ContextMenu&gt;
-            &lt;MenuItem Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
-                          Header=&quot;Say Howdy&quot;/&gt;
-        &lt;/ContextMenu&gt;
-    &lt;/Window.ContextMenu&gt;
-
-    &lt;StackPanel&gt;
-        &lt;Button Content=&quot;Howdy&quot; HorizontalAlignment=&quot;Center&quot;
-                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
-                Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
-    &lt;/StackPanel&gt;
-&lt;/Window&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
+
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+
+        xmlns:loc=&quot;clr-namespace:WpfApplication1&quot;
+
+        Title=&quot;Commands&quot; Width=&quot;320&quot; Height=&quot;220&quot;&gt;
+
+
+
+    &lt;Window.CommandBindings&gt;
+
+        &lt;CommandBinding Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
+
+                        CanExecute=&quot;GreetUser_CanExecute&quot;
+
+                        Executed=&quot;GreetUser_Executed&quot;/&gt;
+
+    &lt;/Window.CommandBindings&gt;
+
+
+
+    &lt;Window.ContextMenu&gt;
+
+        &lt;ContextMenu&gt;
+
+            &lt;MenuItem Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
+
+                          Header=&quot;Say Howdy&quot;/&gt;
+
+        &lt;/ContextMenu&gt;
+
+    &lt;/Window.ContextMenu&gt;
+
+
+
+    &lt;StackPanel&gt;
+
+        &lt;Button Content=&quot;Howdy&quot; HorizontalAlignment=&quot;Center&quot;
+
+                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
+
+                Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
+&lt;/Window&gt;
+
 </pre>
 <p>We now have a command that executes when we click a button or a menu item in a context menu.</p>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1095-001.png"><img class="alignnone size-full wp-image-8885" src="https://web.archive.org/web/20140701052410id_/http://2000thingswpf.files.wordpress.com/2014/06/1095-001.png?w=630" alt="1095-001"   /></a></p>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1095-002.png"><img class="alignnone size-full wp-image-8886" src="https://web.archive.org/web/20140701052410id_/http://2000thingswpf.files.wordpress.com/2014/06/1095-002.png?w=630" alt="1095-002"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1095-001.png"><img class="alignnone size-full wp-image-8885" src="data:image/png;base64,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" alt="1095-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1095-002.png"><img class="alignnone size-full wp-image-8886" src="data:image/png;base64,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" alt="1095-002"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

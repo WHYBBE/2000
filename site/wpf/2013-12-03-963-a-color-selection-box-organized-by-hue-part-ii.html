@@ -45,62 +45,113 @@
 
 					<p>In <a href="2013-12-02-962-a-color-selection-box-organized-by-hue-part-i.html">part I</a>, I included source code for generating a list of sample colors.</p>
 <p>To bind to a generated color list, we can call <strong>ColorUtil.GenerateColorList</strong> and make the result available via a property.  In the code sample below, we generate a list of 4,096 colors (16 values for red, green and blue).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-public partial class MainWindow : Window, INotifyPropertyChanged
-{
-    public MainWindow()
-    {
-        this.InitializeComponent();
-        this.DataContext = this;
-
-         ColorList = ColorUtil.GenerateColorList(16);
-    }
-
-    private List&lt;ColorWithInfo&gt; colorList;
-    public List&lt;ColorWithInfo&gt; ColorList
-    {
-        get { return colorList; }
-        protected set
-        {
-            colorList = value;
-            RaisePropertyChanged(&quot;ColorList&quot;);
-        }
-    }
-
-    // INotifyPropertyChanged
-    public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-    private void RaisePropertyChanged(string propName)
-    {
-        PropertyChanged(this, new PropertyChangedEventArgs(propName));
-    }
-}
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+public partial class MainWindow : Window, INotifyPropertyChanged
+
+{
+
+    public MainWindow()
+
+    {
+
+        this.InitializeComponent();
+
+        this.DataContext = this;
+
+
+
+         ColorList = ColorUtil.GenerateColorList(16);
+
+    }
+
+
+
+    private List&lt;ColorWithInfo&gt; colorList;
+
+    public List&lt;ColorWithInfo&gt; ColorList
+
+    {
+
+        get { return colorList; }
+
+        protected set
+
+        {
+
+            colorList = value;
+
+            RaisePropertyChanged(&quot;ColorList&quot;);
+
+        }
+
+    }
+
+
+
+    // INotifyPropertyChanged
+
+    public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
+
+    private void RaisePropertyChanged(string propName)
+
+    {
+
+        PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+    }
+
+}
+
 </pre>
 <p>In our XAML, we can create a simple <strong>ComboBox</strong> that binds to this list.  We set the <strong>ItemTemplate</strong> to display each color as a simple rectangle and the <strong>ItemsPanel</strong> as a <strong>WrapPanel </strong>with a fixed width.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;ComboBox Margin=&quot;15&quot; Height=&quot;30&quot; Width=&quot;200&quot;
-                ItemsSource=&quot;{Binding ColorList}&quot;
-                ScrollViewer.HorizontalScrollBarVisibility=&quot;Disabled&quot;&gt;
-        &lt;ComboBox.ItemTemplate&gt;
-            &lt;DataTemplate&gt;
-                &lt;Grid&gt;
-                    &lt;Rectangle Height=&quot;55&quot; Width=&quot;55&quot;&gt;
-                        &lt;Rectangle.Fill&gt;
-                            &lt;SolidColorBrush Color=&quot;{Binding Color}&quot;/&gt;
-                        &lt;/Rectangle.Fill&gt;
-                    &lt;/Rectangle&gt;
-                &lt;/Grid&gt;
-            &lt;/DataTemplate&gt;
-        &lt;/ComboBox.ItemTemplate&gt;
-        &lt;ComboBox.ItemsPanel&gt;
-            &lt;ItemsPanelTemplate&gt;
-                &lt;WrapPanel IsItemsHost=&quot;True&quot; Orientation=&quot;Horizontal&quot; Width=&quot;1000&quot;/&gt;
-            &lt;/ItemsPanelTemplate&gt;
-        &lt;/ComboBox.ItemsPanel&gt;
-    &lt;/ComboBox&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;ComboBox Margin=&quot;15&quot; Height=&quot;30&quot; Width=&quot;200&quot;
+
+                ItemsSource=&quot;{Binding ColorList}&quot;
+
+                ScrollViewer.HorizontalScrollBarVisibility=&quot;Disabled&quot;&gt;
+
+        &lt;ComboBox.ItemTemplate&gt;
+
+            &lt;DataTemplate&gt;
+
+                &lt;Grid&gt;
+
+                    &lt;Rectangle Height=&quot;55&quot; Width=&quot;55&quot;&gt;
+
+                        &lt;Rectangle.Fill&gt;
+
+                            &lt;SolidColorBrush Color=&quot;{Binding Color}&quot;/&gt;
+
+                        &lt;/Rectangle.Fill&gt;
+
+                    &lt;/Rectangle&gt;
+
+                &lt;/Grid&gt;
+
+            &lt;/DataTemplate&gt;
+
+        &lt;/ComboBox.ItemTemplate&gt;
+
+        &lt;ComboBox.ItemsPanel&gt;
+
+            &lt;ItemsPanelTemplate&gt;
+
+                &lt;WrapPanel IsItemsHost=&quot;True&quot; Orientation=&quot;Horizontal&quot; Width=&quot;1000&quot;/&gt;
+
+            &lt;/ItemsPanelTemplate&gt;
+
+        &lt;/ComboBox.ItemsPanel&gt;
+
+    &lt;/ComboBox&gt;
+
 </pre>
 <p>Below is an image showing the <strong>ComboBox</strong> in action. Note that the colors are sorted by hue, given that the <strong>GenerateColorList </strong>method sorted the color values this way.</p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/12/963-001.png"><img class="alignnone size-full wp-image-7975" alt="963-001" src="https://web.archive.org/web/20131203173815id_/http://2000thingswpf.files.wordpress.com/2013/12/963-001.png?w=630&amp;h=282" width="630" height="282" /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/12/963-001.png"><img class="alignnone size-full wp-image-7975" alt="963-001" src="data:image/png;base64,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" width="630" height="282" /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

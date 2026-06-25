@@ -45,33 +45,58 @@
 
 					<p>By default, you <a href="http://wp.me/pXTis-2iz">can&#8217;t use equality operators</a> on objects whose type is a type argument within a generic class.  If you constrain an argument to be a reference type, you can <a href="http://wp.me/pXTis-2iG">use equality operators</a> to do reference equality checks.  But you can<a href="http://wp.me/pXTis-2iR">&#8216;t make use of overloaded</a> equality functionality.</p>
 <p>You can do a true equality check between objects using the EqualityComparer&lt;T&gt; class.  Below is an example.  EqualityComparer&lt;T&gt; makes use of overloaded equality logic in the <strong>Dog</strong> class, even though we haven&#8217;t constrained the <strong>T</strong> argument.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Pile&lt;T&gt;
-    {
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-        EqualityComparer&lt;T&gt; comparer = EqualityComparer&lt;T&gt;.Default;
-
-        public void Add(T item)
-        {
-            if (!pile.Contains(item))
-                pile.Add(item);
-        }
-
-        public bool IsFirst(T item)
-        {
-            // Reference equality only, if we do
-            //   where T : class
-            //bool equalStd = (pile[0] == item);
-
-            // Makes use of overloaded Equality
-            // functionality in T
-            bool equalBetter = comparer.Equals(pile[0], item);
-
-            return equalBetter;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Pile&lt;T&gt;
+
+    {
+
+        List&lt;T&gt; pile = new List&lt;T&gt;();
+
+        EqualityComparer&lt;T&gt; comparer = EqualityComparer&lt;T&gt;.Default;
+
+
+
+        public void Add(T item)
+
+        {
+
+            if (!pile.Contains(item))
+
+                pile.Add(item);
+
+        }
+
+
+
+        public bool IsFirst(T item)
+
+        {
+
+            // Reference equality only, if we do
+
+            //   where T : class
+
+            //bool equalStd = (pile[0] == item);
+
+
+
+            // Makes use of overloaded Equality
+
+            // functionality in T
+
+            bool equalBetter = comparer.Equals(pile[0], item);
+
+
+
+            return equalBetter;
+
+        }
+
+    }
+
 </pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1142-001.png"><img class="alignnone size-full wp-image-8864" src="https://web.archive.org/web/20140802165004id_/http://2000thingscsharp.files.wordpress.com/2014/07/1142-001.png?w=630" alt="1142-001"   /></a></p>
+<p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1142-001.png"><img class="alignnone size-full wp-image-8864" src="data:image/png;base64,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" alt="1142-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

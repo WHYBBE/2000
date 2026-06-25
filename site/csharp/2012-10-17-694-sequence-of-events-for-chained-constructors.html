@@ -46,23 +46,40 @@
 					<p>When you <a href="2011-04-03-290-chaining-constructors.html">chain constructors</a> together using the <strong>this </strong>keyword, one constructor calls another while an object is being created.</p>
 <p>When one constructor chains to another, the constructor being chained to is executed first, followed by the body of the original constructor.</p>
 <p>For example, assume that we have three <strong>Dog</strong> constructors, as shown below.</p>
-<p><pre class="brush: csharp;">
-        public Dog(string name, int age, string favToy)
-        {
-            Console.WriteLine(&amp;quot;name/age/favToy constructor executing&amp;quot;);
-        }
-
-        public Dog(string name, int age)
-            : this(name, age, &amp;quot;ball&amp;quot;)
-        {
-            Console.WriteLine(&amp;quot;name/age constructor executing&amp;quot;);
-        }
-
-        public Dog(string name)
-            : this(name, 1)
-        {
-            Console.WriteLine(&amp;quot;name constructor executing&amp;quot;);
-        }
+<p><pre class="brush: csharp;">
+
+        public Dog(string name, int age, string favToy)
+
+        {
+
+            Console.WriteLine(&amp;quot;name/age/favToy constructor executing&amp;quot;);
+
+        }
+
+
+
+        public Dog(string name, int age)
+
+            : this(name, age, &amp;quot;ball&amp;quot;)
+
+        {
+
+            Console.WriteLine(&amp;quot;name/age constructor executing&amp;quot;);
+
+        }
+
+
+
+        public Dog(string name)
+
+            : this(name, 1)
+
+        {
+
+            Console.WriteLine(&amp;quot;name constructor executing&amp;quot;);
+
+        }
+
 </pre></p>
 <p>If we create a <strong>Dog</strong> object and pass it only a single argument, of type <strong>string, </strong>the code in the body of each constructor will be executed in the following order:</p>
 <ul>
@@ -70,7 +87,7 @@
 <li>name/age constructor</li>
 <li>name constructor</li>
 </ul>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/694-001.png"><img class="alignnone size-full wp-image-5944" title="694-001" alt="" src="https://web.archive.org/web/20121022010248id_/http://2000thingscsharp.files.wordpress.com/2012/10/694-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/694-001.png"><img class="alignnone size-full wp-image-5944" title="694-001" alt="" src="data:image/png;base64,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"   /></a></p>
 <p>&nbsp;</p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/10/17/694-sequence-of-events-for-chained-constructors/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5941"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/10/17/694-sequence-of-events-for-chained-constructors/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/10/17/694-sequence-of-events-for-chained-constructors/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Classes, Constructor, Constructor Chaining</p>

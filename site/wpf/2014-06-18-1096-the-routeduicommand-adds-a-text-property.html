@@ -45,61 +45,112 @@
 
 					<p>When <a href="https://2000thingswpf.wordpress.com/wp-admin/post.php?post=8880&amp;action=edit#">creating a custom command object</a>, you can use either a <strong>RoutedCommand</strong> or a <strong>RoutedUICommand</strong> object.  Using the <strong>RoutedUICommand</strong> object allows you to associate some text with the command, using its <strong>Text</strong> property.  This text is typically the text that you want the user to see in the user interface.</p>
 <p>Below, we create a new command and set its text.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-        }
-
-        public static RoutedCommand GreetUserCommand = new RoutedUICommand(&quot;Howdy!&quot;, &quot;GreetUser&quot;, typeof(MainWindow));
-
-        private void GreetUser_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void GreetUser_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show(&quot;Howdy howdy I'm a cowboy&quot;);
-        }
-
-        private void txtSomeText_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (e.Command == ApplicationCommands.Paste)
-            {
-                e.Handled = true;
-            }
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class MainWindow : Window
+
+    {
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+            this.DataContext = this;
+
+        }
+
+
+
+        public static RoutedCommand GreetUserCommand = new RoutedUICommand(&quot;Howdy!&quot;, &quot;GreetUser&quot;, typeof(MainWindow));
+
+
+
+        private void GreetUser_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+        {
+
+            e.CanExecute = true;
+
+        }
+
+
+
+        private void GreetUser_Executed(object sender, ExecutedRoutedEventArgs e)
+
+        {
+
+            MessageBox.Show(&quot;Howdy howdy I'm a cowboy&quot;);
+
+        }
+
+
+
+        private void txtSomeText_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+
+        {
+
+            if (e.Command == ApplicationCommands.Paste)
+
+            {
+
+                e.Handled = true;
+
+            }
+
+        }
+
+    }
+
 </pre>
 <p>In XAML, we reference the <strong>Text</strong> property for a button&#8217;s content. Note that we don&#8217;t need to specify text for the <strong>MenuItem&#8211;</strong>it will automatically get the text from the <strong>RoutedUICommand</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.CommandBindings&gt;
-        &lt;CommandBinding Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
-                        CanExecute=&quot;GreetUser_CanExecute&quot;
-                        Executed=&quot;GreetUser_Executed&quot;/&gt;
-    &lt;/Window.CommandBindings&gt;
-
-    &lt;Window.ContextMenu&gt;
-        &lt;ContextMenu&gt;
-            &lt;MenuItem Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
-        &lt;/ContextMenu&gt;
-    &lt;/Window.ContextMenu&gt;
-
-    &lt;StackPanel&gt;
-        &lt;TextBox Name=&quot;txtSomeText&quot;
-         CommandManager.PreviewExecuted=&quot;txtSomeText_PreviewExecuted&quot;
-         Width=&quot;220&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
-        &lt;Button HorizontalAlignment=&quot;Center&quot;
-                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
-                Content=&quot;{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}&quot;
-                Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Window.CommandBindings&gt;
+
+        &lt;CommandBinding Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
+
+                        CanExecute=&quot;GreetUser_CanExecute&quot;
+
+                        Executed=&quot;GreetUser_Executed&quot;/&gt;
+
+    &lt;/Window.CommandBindings&gt;
+
+
+
+    &lt;Window.ContextMenu&gt;
+
+        &lt;ContextMenu&gt;
+
+            &lt;MenuItem Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
+
+        &lt;/ContextMenu&gt;
+
+    &lt;/Window.ContextMenu&gt;
+
+
+
+    &lt;StackPanel&gt;
+
+        &lt;TextBox Name=&quot;txtSomeText&quot;
+
+         CommandManager.PreviewExecuted=&quot;txtSomeText_PreviewExecuted&quot;
+
+         Width=&quot;220&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
+
+        &lt;Button HorizontalAlignment=&quot;Center&quot;
+
+                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
+
+                Content=&quot;{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}&quot;
+
+                Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1096-001.png"><img class="alignnone size-full wp-image-8893" src="https://web.archive.org/web/20140701025208id_/http://2000thingswpf.files.wordpress.com/2014/06/1096-001.png?w=630" alt="1096-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1096-001.png"><img class="alignnone size-full wp-image-8893" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAU8AAADnCAIAAAARl0OSAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAC2NJREFUeNrt3WuPVPUdwPF9A76BvgBDH/JkExMf0qS1obWs6YpobwmbtmmKkrQJpNLQxivVrShBbRHEWs2q2IVaROWyIGnqLa4CbTE2RWIbllnY++y19r9zZs6cmb3MXmZn5+x+vvnFXWbOzCLs55z/Obs7NHwhaXXUMNMd/5OU2uaqPdp6ItG4pLovaXZa8w1TqUdbj42NjYyMDA8PZ7PZIUl1X6AawAa2AW9svoL2sJMIDxgcHOzp6clkMl1dXVck1X2BagAb2Aa8gXCAXFl72CWETQ+23GKMSekEwhWO7RH1sAwI+4bwgHP3f98YM9P89dZb62Gm/sYC3kA4Ws8nwTdMe2APiwHajUmv9kB4dHS0svZwoh9W/7Qbk17t3d3dAXJl7dlsNpzu025MerUHwgFyBe3j4+NDQ0NXrlyh3Zj0ag+EA+Syy/K0G0M77WbVzJpZW+3a/3L/PW33/Wwu89r9Wz6673s+nwzt8UTcZr+ljrS//Orh9z48/96H56bM+fc7J+fwsdOHX+8I88e2Q2fvvcPnk6lz7Qu4azEH5CTvxVCvhfYTJzuGR0aywxUmbPPmiY6T25p9Ps117v7KlxNHlR1b0vM737JuzZqb9m6nfX7gF0m9Fto7Ok7/4+LlB/edeGj/8YeffWvXH9585IU3Llz417XuzGeXLoXp7s483f5uGNrnPHfsXVcqPMhvbqJ9pWpf/FG9RtpPnTr9z0/+88NHD/9od/tPnjz0030v33OwrbPzk2uZrqT2fUf/Rvsc58Tmmya1bEvt/wLtK/XY/sZbJ4P2ew8e+/GTL9/1+IGNe57a+NQTOe1XL03276D94OkzL7x7gva5TdOO8Gk1y5G8ZIW/ri3xqE2b1+9IrPxze43Szbav3xTu2jz531yT+5S25nir9SdKFxdRmzbfUbyxeX3xruRvckvxATuaE9q3xx9r1v+pJbiu5rx9qbQ37dr3tQcfX9/621v3/Kbp6QejY3ugHh3bX/n4aPvfD9M+p8nx2LR548yH/XiFn+O3bv3xeB+Rv6tgNbor8hZJy9uLFg75h+TvynHNww6bFeTnFxrbi0+b3ya3ff53knxs/mmjh0T7oMJzpkS7a/IVtH991+5vPPbot/buuu33D9x+8FfRsT1eyZ//7/kwtM/94twM1+SmHPajY/WWKXeVPslLzSXy411J6SlDdOhumnbvU9yJFI//8Ucsuz2xgyg+1nfXrIivt0fav/nEI01PPfTtZ+7b+NzOu178RdDenThvHxnOhqF9sdqnwRMdPDcm3omfpHjmX6Y9foYcy/hcoFR7cgWe1F7cHcS/TBzAp5y3508TEvsC2lOv/bbfPdD87K83Pf/L77Zt/8GhnwftmasF7ZnMwEB/z/XrtM99JT/9KW6ttJecL5Qd2+epPbG2L92G9lRqP37qo3OfPvxq2672Fx858nzra889dvTZd975KNaeuXq1r7enu7ub9jnOJM7pr8lXWMlXSXup6uL5+Uzay08BEqf6ZVcc4o9Fezq1v/7mybGx0b7ea309k9Pf19ff19Pfez07NDicHQpH9d7e3uvXr4WhfX6X5ZPgC19vn/0qXbWO7bnld3R78iv/M2mfZi1QPG8vbN/WvJLX86tF+wsHngmMp87xU2dOnj57/OTp+Jbn9z9zatvtMM/rG2zWJL5UlrwsH3/N7Hj5kr4a5+2Jk/ZNzesqreQT5+fRb3XzuuRVuilfLKQ9tdrf3/mdYDgctCtO2CxsTLIxNRs/8WoM7bQbQ7s/NWNoN8bQboyh3RhDuzGGdmPMcmn/89YmY0xdzRJq/0JS3US7RDvtEu20S7TTLtEuiXZJtEuiXRLtklaj9pdeOWJMXQ3tS6jd7lz1E+20i3baaRfttNMu2mmnXbTTLtFOu0Q77RLttEu00y7RTrtop5120U477aKddtpFO+20i3baJdppl2inXaKddol22iXaaRfttNMu2mmnXbTTPrc/XGO8nvyq0C6Jdol22iXaaZdop12inXaJdkm0S6JdEu2SaJdEu0Q77RLttEu00y7R7s9Xol0S7ZJol0S7JNpXTXenNn93tGve2j9NYbTTLtpFu2gX7bTTLtppp12000477bTTTjvttNNOO+2000477aoL7W/v/urare3nk7/e8MQHi9T6p3u+dMsMTzLLXbTTLtpFu2gX7aqK9iCzIerG3CaJbcNdN8bv3ly494b8xjtbJklP3hDLLvyCdtq1jNpvaCgt0jhJveByCtUgfO3aSH7+tsTmuafMvV+kHe8o3t7dsi2xc6Gddi37sb1sRV80Hb25eevTD+c2yG9XunlirxC9U/wotNOudGiP3h7Nic1tcTS/WekCveSYviG3pp/XxQDaaVctz9unW8lHa/gNd965rXAav3bthsLt8Yl8cSWff75tO0uuBdy4tdLBnXbaVdurdIlT+gTQMtbFI3p8Ta9wla54YWD6h9NOu2qqfckr351YydOuFap9Tsdy2mlXurVHZwK3LOB7dWinXWlcyfupGNpFO+20i3baaRftol20i3ba/ctQol0S7RLttEu00y7RTrtEuyTaJdEuiXZJtEuiXRLtEu20S7TTLtFOu0S7JNol0S6Jdkm0S6JdEu0S7bRLtNMu0U67RLsk2iXRLol2SbRLol2inXaJdtol2mmXaKddol0S7ZJol0S7JNol0S7RTrtEO+0S7bRLtNMu0S6Jdkm0S6JdEu2SaJdop12inXaJdtol2mlPfXtyNTQ07FF9RLuWUPvg4GBDrkEtd7SrFton/9aBp532VaI9At9bjfr7+wcGBj67fDk8J8O0qx61VxF8X18f7bSrrrVXETztC9A+MTGRpEi7llZ7tcDTvgDtYU00PDwczNOuGmmvCnjaF6D94sWLXV1d2Wx2MeBp1/y0Lx487QvQfuzYsXPnzmUymdHRUdpVO+2LBE/7ArQfOHDgzJkzn3/+eVjP066aal8M+Jm1d7Y2NrZ2lvy65chiqRxpaZjpSWa5q96079+/v6Oj4/Lly2ExT7tqd96ejHbaaV9p2qv4nTa006761R4dxpdXe5CZL9oksW24q/hufG9h49Yc6ckb4ucq/IJ22lX+ffKR0mqBn1V72YlCXuMk9YLLKVSD8Ma8/Pxtic1zT5l7v0g73lF0trYkdy60076qtSdh10T7tMf2shV90XT0prH1SLRBZ8mb8uV64Z3iR6GddhW1l0GtCvhqaY/eRmJzWxQ2K12glxzTozV9KpbvtKuW2kP1oX3alXy0hm9paYlP4xsb49vjE/niSj7/fK2l1wIa03Bwp13LoL0q4Bd0lS5xSp/YpIx18ZgdX9MrXKUrPsv0D6eddtprqn3JK9+dWMnTrlm0R+DT+Z2zaTmW06660Z7Gn4GLzgTSdnmOdtG++n4qhnYtufa+vr7qUvdKVbSrTrUPDAxUl3p/fz/ttKsetYt22mkX7bSvFO2qq2hXjQp/0T09PRcuXGhvb9+7d+9u1TyvVKUaNTExEdaTly5dOnv2bAB/SDXPq1CqRoW/6/BJFg7vAXw4wn+smucVplVr8OEIH8xfU83zr0eo1uDDZ9u4liP/MpQk2iXRLtFOu0Q77RLttEu00y7RLol2SbRLol1SnWg3xtTVLJV2Y0z9D+3G0F6qfWJiIpvNdnV10W5MerXHr5NRQfvw8HAmk6HdmPRq7+7ujl4qo4L2kZGRnp4e2o1Jr/ZAeHR0tLL2sbGxwcFB2o1Jr/ZAOECeTXvy8B4eYIxJ6QTCU18Jaxrt4+PjYdPoxQnD6j+c7l+RlIaC1mA2yA1+g+LZrsnHx/ZoPR/W/eFEP5vNDklKQ0FrMBvkRsv4Civ5CHxsPsrLg0ppeR3buAjybCv5MvOSUtpU1A1+rkBaJdEurZb+D3HbzUxczm6+AAAAAElFTkSuQmCC" alt="1096-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

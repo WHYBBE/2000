@@ -45,33 +45,56 @@
 
 					<p>You can use a <a href="2014-08-21-1165-lambda-expression-basics.html">lambda expression</a> anywhere that a delegate instance is expected.  This includes passing a lambda expression as a parameter to a method that takes a delegate type.</p>
 <p>In the example below, we have a method that has two parameters that are delegate types.  It takes a transformer function that accepts and <strong>int</strong> and returns an <strong>int.  </strong>It also accepts a delegate that reports something about two different <strong>int </strong>values.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Transform one int to another int and report the result
-            static void TransformAndReport(Func&lt;int,int&gt; transformer, Action&lt;int,int&gt; reporter, int[] data)
-            {
-                foreach (int ival in data)
-                {
-                    int newVal = transformer(ival);
-                    reporter(ival, newVal);
-                }
-            }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            // Transform one int to another int and report the result
+
+            static void TransformAndReport(Func&lt;int,int&gt; transformer, Action&lt;int,int&gt; reporter, int[] data)
+
+            {
+
+                foreach (int ival in data)
+
+                {
+
+                    int newVal = transformer(ival);
+
+                    reporter(ival, newVal);
+
+                }
+
+            }
+
 </pre>
 <p>We can call this method by passing in two different lambda expressions.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            TransformAndReport(
-                (i) =&gt; i * 3,
-                (inVal,outVal) =&gt; Console.WriteLine(&quot;{0} became {1}&quot;, inVal, outVal),
-                new int[]{1, 2, 3});
-
-            TransformAndReport(
-                (i) =&gt; {
-                    double cosVal = Math.Cos(i);
-                    return (int)Math.Truncate((cosVal * 100) - i);
-                },
-                (inVal, outVal) =&gt; Console.WriteLine(&quot;{0} yields {1}&quot;, inVal, outVal),
-                new int[] { 20, 40, 60, 90 });
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            TransformAndReport(
+
+                (i) =&gt; i * 3,
+
+                (inVal,outVal) =&gt; Console.WriteLine(&quot;{0} became {1}&quot;, inVal, outVal),
+
+                new int[]{1, 2, 3});
+
+
+
+            TransformAndReport(
+
+                (i) =&gt; {
+
+                    double cosVal = Math.Cos(i);
+
+                    return (int)Math.Truncate((cosVal * 100) - i);
+
+                },
+
+                (inVal, outVal) =&gt; Console.WriteLine(&quot;{0} yields {1}&quot;, inVal, outVal),
+
+                new int[] { 20, 40, 60, 90 });
+
 </pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1167-001.png"><img class="alignnone size-full wp-image-9015" src="https://web.archive.org/web/20141013175507id_/http://2000thingscsharp.files.wordpress.com/2014/08/1167-001.png?w=630" alt="1167-001"   /></a></p>
+<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1167-001.png"><img class="alignnone size-full wp-image-9015" src="data:image/png;base64,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" alt="1167-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

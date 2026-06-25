@@ -45,27 +45,43 @@
 
 					<p>In a derived class, you can override a member of the base class if it&#8217;s declared as <a href="2011-06-17-348-virtual-methods-support-polymorphism.html"><strong>virtual</strong></a>.  In Visual Studio, the Intellisense feature can help you to discover the methods that can be overridden.</p>
 <p>Suppose that we have the following definition for <strong>Dog:</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public virtual string Prop1 { get; set; }
-        public string Prop2 { get; set; }
-
-        public virtual void Method1()
-        {
-            Console.WriteLine(&quot;Dog.Method1&quot;);
-        }
-
-        public void Method2()
-        {
-            Console.WriteLine(&quot;Dog.Method2&quot;);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public virtual string Prop1 { get; set; }
+
+        public string Prop2 { get; set; }
+
+
+
+        public virtual void Method1()
+
+        {
+
+            Console.WriteLine(&quot;Dog.Method1&quot;);
+
+        }
+
+
+
+        public void Method2()
+
+        {
+
+            Console.WriteLine(&quot;Dog.Method2&quot;);
+
+        }
+
+    }
+
 </pre>
 <p>Now when we are adding code to a child class of <strong>Dog, </strong>we can just enter the keyword <strong>override, </strong>followed by a space, to see a list of candidate members that can be overridden.</p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/01/770-001.png"><img class="alignnone size-full wp-image-6615" alt="770-001" src="https://web.archive.org/web/20130604030300id_/http://2000thingscsharp.files.wordpress.com/2013/01/770-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/01/770-001.png"><img class="alignnone size-full wp-image-6615" alt="770-001" src="data:image/png;base64,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"   /></a></p>
 <p>To add the code for one of these members, just use the down arrow to select the method and then press TAB.  The body of the method will be generated for you.</p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/01/770-002.png"><img class="alignnone size-full wp-image-6616" alt="770-002" src="https://web.archive.org/web/20130604030300id_/http://2000thingscsharp.files.wordpress.com/2013/01/770-002.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/01/770-002.png"><img class="alignnone size-full wp-image-6616" alt="770-002" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

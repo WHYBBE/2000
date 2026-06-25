@@ -45,33 +45,56 @@
 
 					<p>If you define a generic type that includes more than one type parameter, you can specify <a href="http://wp.me/pXTis-28T">type parameter constraints</a> for each parameter independently.</p>
 <p>In the example below, we define a generic class that accepts two type parameters.  We specify that the first type must be one that implements the <strong>IMoo</strong> interface and that the second type must implement <strong>IBark</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class MooBarkPile&lt;T1,T2&gt; where T1 : IMoo
-                                   where T2 : IBark
-    {
-        private List&lt;T1&gt; mooPile = new List&lt;T1&gt;();
-        private List&lt;T2&gt; barkPile = new List&lt;T2&gt;();
-
-        public void AddMooThing(T1 thing)
-        {
-            mooPile.Add(thing);
-            mooPile[mooPile.Count - 1].Moo();
-        }
-
-        public void AddBarkThing(T2 thing)
-        {
-            barkPile.Add(thing);
-            barkPile[barkPile.Count - 1].Bark(&quot;Woof&quot;);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class MooBarkPile&lt;T1,T2&gt; where T1 : IMoo
+
+                                   where T2 : IBark
+
+    {
+
+        private List&lt;T1&gt; mooPile = new List&lt;T1&gt;();
+
+        private List&lt;T2&gt; barkPile = new List&lt;T2&gt;();
+
+
+
+        public void AddMooThing(T1 thing)
+
+        {
+
+            mooPile.Add(thing);
+
+            mooPile[mooPile.Count - 1].Moo();
+
+        }
+
+
+
+        public void AddBarkThing(T2 thing)
+
+        {
+
+            barkPile.Add(thing);
+
+            barkPile[barkPile.Count - 1].Bark(&quot;Woof&quot;);
+
+        }
+
+    }
+
 </pre>
 <p>We can now use the type as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            MooBarkPile&lt;Cow,Dog&gt; aPile = new MooBarkPile&lt;Cow,Dog&gt;();
-            aPile.AddBarkThing(new Dog(&quot;Kirby&quot;, 10));
-            aPile.AddMooThing(new Cow(&quot;Bessie&quot;));
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            MooBarkPile&lt;Cow,Dog&gt; aPile = new MooBarkPile&lt;Cow,Dog&gt;();
+
+            aPile.AddBarkThing(new Dog(&quot;Kirby&quot;, 10));
+
+            aPile.AddMooThing(new Cow(&quot;Bessie&quot;));
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/02/1037-001.png"><img class="alignnone size-full wp-image-8245" alt="1037-001" src="https://web.archive.org/web/20140220141249id_/http://2000thingscsharp.files.wordpress.com/2014/02/1037-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/02/1037-001.png"><img class="alignnone size-full wp-image-8245" alt="1037-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

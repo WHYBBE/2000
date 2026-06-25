@@ -44,30 +44,49 @@
 					</div>
 
 					<p>In a derived class, you can call a constructor in the base class explicitly using the <strong>base</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Terrier : Dog
-    {
-        public string Attitude { get; set; }
-
-        public Terrier(string name, int age, string attitude)
-            : base(name, age)
-        {
-            Attitude = attitude;
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Terrier : Dog
+
+    {
+
+        public string Attitude { get; set; }
+
+
+
+        public Terrier(string name, int age, string attitude)
+
+            : base(name, age)
+
+        {
+
+            Attitude = attitude;
+
+        }
+
 </pre>
 <p>If you don&#8217;t explicitly call a base class constructor, the default (parameterless) constructor is called implicitly.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public Terrier(string name, int age, string attitude)
-        {
-            // Default Dog constructor has already been called
-            //   at this point.
-            Name = name;
-            Age = age;
-            Attitude = attitude;
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        public Terrier(string name, int age, string attitude)
+
+        {
+
+            // Default Dog constructor has already been called
+
+            //   at this point.
+
+            Name = name;
+
+            Age = age;
+
+            Attitude = attitude;
+
+        }
+
 </pre>
 <p>If you do omit the <strong>base</strong> keyword, the base class must define a default (parameterless) constructor.  If it doesn&#8217;t, the compiler will complain that the base class doesn&#8217;t have a constructor that takes 0 arguments.</p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2011/05/001-nodefaultconstructor.png"><img class="alignnone size-full wp-image-2817" title="001-NoDefaultConstructor" src="https://web.archive.org/web/20130817184051id_/http://2000thingscsharp.files.wordpress.com/2011/05/001-nodefaultconstructor.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/05/001-nodefaultconstructor.png"><img class="alignnone size-full wp-image-2817" title="001-NoDefaultConstructor" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

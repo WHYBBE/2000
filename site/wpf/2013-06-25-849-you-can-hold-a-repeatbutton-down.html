@@ -45,54 +45,97 @@
 
 					<p>A <strong>Button</strong> fires its <strong>Click</strong> event when you press and release the left mouse button.  A <strong>RepeatButton</strong>, on the other hand, fires <strong>Click </strong>events continuously, as long as you continue holding the left mouse button down.</p>
 <p>For example:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;RepeatButton Content=&quot;Hold Me Down&quot;
-                      HorizontalAlignment=&quot;Center&quot;
-                      Margin=&quot;10&quot; Padding=&quot;10,5&quot;
-                      Click=&quot;RepeatButton_Click&quot;/&gt;
-        &lt;TextBlock Text=&quot;{Binding MyCounter, Mode=OneWay}&quot;
-                   HorizontalAlignment=&quot;Center&quot;
-                   FontSize=&quot;48&quot; Margin=&quot;20&quot;/&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+        &lt;RepeatButton Content=&quot;Hold Me Down&quot;
+
+                      HorizontalAlignment=&quot;Center&quot;
+
+                      Margin=&quot;10&quot; Padding=&quot;10,5&quot;
+
+                      Click=&quot;RepeatButton_Click&quot;/&gt;
+
+        &lt;TextBlock Text=&quot;{Binding MyCounter, Mode=OneWay}&quot;
+
+                   HorizontalAlignment=&quot;Center&quot;
+
+                   FontSize=&quot;48&quot; Margin=&quot;20&quot;/&gt;
+
 </pre>
 <p>In the code-behind, we increment a counter every time the <strong>Click</strong> event is fired.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-
-        private int myCounter = 0;
-        public int MyCounter
-        {
-            get { return myCounter; }
-            protected set
-            {
-                if (value != myCounter)
-                {
-                    myCounter = value;
-                    RaisePropertyChanged(&quot;MyCounter&quot;);
-                }
-            }
-        }
-
-        private void RepeatButton_Click(object sender, RoutedEventArgs e)
-        {
-            MyCounter++;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class MainWindow : Window, INotifyPropertyChanged
+
+    {
+
+        public MainWindow()
+
+        {
+
+            this.InitializeComponent();
+
+            this.DataContext = this;
+
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
+
+        private void RaisePropertyChanged(string propName)
+
+        {
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+        }
+
+
+
+        private int myCounter = 0;
+
+        public int MyCounter
+
+        {
+
+            get { return myCounter; }
+
+            protected set
+
+            {
+
+                if (value != myCounter)
+
+                {
+
+                    myCounter = value;
+
+                    RaisePropertyChanged(&quot;MyCounter&quot;);
+
+                }
+
+            }
+
+        }
+
+
+
+        private void RepeatButton_Click(object sender, RoutedEventArgs e)
+
+        {
+
+            MyCounter++;
+
+        }
+
+    }
+
 </pre>
 <p>The number increases while we hold the left mouse button down.<br />
-<a href="http://2000thingswpf.files.wordpress.com/2013/06/849-0011.png"><img class="alignnone size-full wp-image-7251" alt="849-001" src="https://web.archive.org/web/20130819125108id_/http://2000thingswpf.files.wordpress.com/2013/06/849-0011.png?w=630"   /></a></p>
+<a href="http://2000thingswpf.files.wordpress.com/2013/06/849-0011.png"><img class="alignnone size-full wp-image-7251" alt="849-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

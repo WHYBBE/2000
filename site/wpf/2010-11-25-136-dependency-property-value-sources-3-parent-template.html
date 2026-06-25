@@ -45,22 +45,36 @@
 
 					<p>The third source in the list of <a href="http://wp.me/pZhye-io">sources for the base value of a dependency property</a> is a <em>parent template</em>.   A property obtains its value from a parent template if the element for which the property is being set was created as part of a template and it doesn&#8217;t obtain its value through a trigger.</p>
 <p>In the example below, the <strong>excitedLabel</strong> template has two child <strong>Label</strong> controls.  The first one has its <strong>Background</strong> property set in the template, so the source of the base value is the parent template.</p>
-<p><pre class="brush: xml;">
-    &lt;Window.Resources&gt;
-        &lt;ControlTemplate x:Key=&quot;excitedLabel&quot; TargetType=&quot;Label&quot;&gt;
-            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-                &lt;Label Name=&quot;theYee&quot; Background=&quot;AliceBlue&quot; Content=&quot;Yee!&quot;/&gt;
-                &lt;ContentPresenter /&gt;
-                &lt;Label Name=&quot;theHaw&quot; Content=&quot;Haw!&quot;/&gt;
-            &lt;/StackPanel&gt;
-        &lt;/ControlTemplate&gt;
-    &lt;/Window.Resources&gt;
-    &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
-        &lt;Label Content=&quot;Run&quot; /&gt;
-        &lt;Label Content=&quot;Skip&quot; Template=&quot;{StaticResource excitedLabel}&quot;/&gt;
-    &lt;/StackPanel&gt;
+<p><pre class="brush: xml;">
+
+    &lt;Window.Resources&gt;
+
+        &lt;ControlTemplate x:Key=&quot;excitedLabel&quot; TargetType=&quot;Label&quot;&gt;
+
+            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+
+                &lt;Label Name=&quot;theYee&quot; Background=&quot;AliceBlue&quot; Content=&quot;Yee!&quot;/&gt;
+
+                &lt;ContentPresenter /&gt;
+
+                &lt;Label Name=&quot;theHaw&quot; Content=&quot;Haw!&quot;/&gt;
+
+            &lt;/StackPanel&gt;
+
+        &lt;/ControlTemplate&gt;
+
+    &lt;/Window.Resources&gt;
+
+    &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
+
+        &lt;Label Content=&quot;Run&quot; /&gt;
+
+        &lt;Label Content=&quot;Skip&quot; Template=&quot;{StaticResource excitedLabel}&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2010/11/parenttemplate.png"><img class="alignnone size-full wp-image-1165" title="ParentTemplate" src="https://web.archive.org/web/20120706161709id_/http://2000thingswpf.files.wordpress.com/2010/11/parenttemplate.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2010/11/parenttemplate.png"><img class="alignnone size-full wp-image-1165" title="ParentTemplate" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpadvert">
 

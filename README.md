@@ -28,12 +28,14 @@ https://web.archive.org/
 ## Contents
 
 - `archive_2000things.py` - repeatable fetch/generation script.
+- `inline_images.py` - repeatable best-effort image caching and base64 inlining script.
 - `site/` - rebuilt static HTML site, with one HTML page per tip.
 - `site/index.html` - root index for both archives.
 - `site/csharp/bookmarks.html` - Netscape-style bookmark file for C# tips.
 - `site/wpf/bookmarks.html` - Netscape-style bookmark file for WPF tips.
 - `cache/cdx/` - saved Wayback CDX API responses.
 - `cache/html/` - saved raw Wayback HTML snapshots used to generate pages.
+- `cache/images/` - saved images fetched while converting external image links to base64 data URLs.
 - `cache/available/` - saved Wayback availability API responses for extra discovered URLs.
 
 ## Generated Counts
@@ -51,9 +53,23 @@ python archive_2000things.py --proxy socks5://127.0.0.1:8123 --out site --cache 
 
 The script is cache-aware. Existing files in `cache/` are reused, and missing files are fetched from Wayback.
 
+After regenerating pages, inline images on a best-effort basis:
+
+```powershell
+python inline_images.py --proxy socks5://127.0.0.1:8123 --site site --cache cache/images --manifest cache/images/manifest.json
+```
+
+Use `--retry-failed` only when you explicitly want to spend extra time retrying URLs already known to fail. The script intentionally keeps failed images as their original Wayback links instead of embedding broken HTML/error responses.
+
+Current image inlining result:
+
+- 2524 image references embedded as `data:image/...;base64,...`.
+- 107 image references left as external Wayback URLs because they could not be fetched or did not return recognizable image bytes.
+
 ## Notes
 
 - Article links between recovered posts are rewritten to local HTML files where possible.
 - Image links point to Wayback archived resources.
+- Most image links have been converted to local base64 data URLs. A small number remain external because the archived image bytes were unavailable.
 - The CDX responses are versioned so the discovered URL set is preserved.
 - Raw snapshot HTML is versioned so the static site can be regenerated even if future Wayback responses change.

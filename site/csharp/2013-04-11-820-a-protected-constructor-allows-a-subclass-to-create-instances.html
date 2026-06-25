@@ -45,35 +45,60 @@
 
 					<p>You can <a href="2011-04-06-293-you-can-declare-a-private-constructor.html">declare a constructor as private</a> to prevent client code from directly instantiating an object.  But then you <a href="http://wp.me/pXTis-1OX">can no longer subclass the class</a>, because the derived class won&#8217;t have access to the constructor.</p>
 <p>If you want private constructor semantics, but still be able to create a subclass, you can make a constructor <strong>protected</strong>.  Other code won&#8217;t be able to construct instances of the base class, but your subclass will be able to call the constructor.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        protected Dog()
-        {
-            Console.WriteLine(&quot;Constructing Dog&quot;);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+
+
+        protected Dog()
+
+        {
+
+            Console.WriteLine(&quot;Constructing Dog&quot;);
+
+        }
+
+    }
+
 </pre>
 <p>&nbsp;</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Terrier : Dog
-    {
-        public double FeistyFactor { get; set; }
-
-        // Implicitly invokes default constructor in base class
-        public Terrier(string name, int age, double feistyFactor)
-        {
-            Console.WriteLine(&quot;Constructing Terrier&quot;);
-            Name = name;
-            Age = age;
-            FeistyFactor = feistyFactor;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Terrier : Dog
+
+    {
+
+        public double FeistyFactor { get; set; }
+
+
+
+        // Implicitly invokes default constructor in base class
+
+        public Terrier(string name, int age, double feistyFactor)
+
+        {
+
+            Console.WriteLine(&quot;Constructing Terrier&quot;);
+
+            Name = name;
+
+            Age = age;
+
+            FeistyFactor = feistyFactor;
+
+        }
+
+    }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/04/820-001.png"><img class="alignnone size-full wp-image-7014" alt="820-001" src="https://web.archive.org/web/20130506233716id_/http://2000thingscsharp.files.wordpress.com/2013/04/820-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/04/820-001.png"><img class="alignnone size-full wp-image-7014" alt="820-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

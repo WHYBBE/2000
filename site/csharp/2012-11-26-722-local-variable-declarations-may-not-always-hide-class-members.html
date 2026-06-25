@@ -46,30 +46,52 @@
 					<p>A <a href="http://wp.me/pXTis-1BW">local variable declaration in a method may hide a class member</a> in the containing class, if the two names are the same.  In general, a declaration within an inner scope may hide a member within the outer (containing) scope.</p>
 <p>A inner declaration might not hide an outer member, however, if one of the names can be invoked (e.g. a method) and one cannot be invoked (e.g. a variable declaration).</p>
 <p>In the example below, the local variable <strong>Name</strong> in the inner scope does not hide the method <strong>Name</strong> in the outer scope.</p>
-<p><pre class="brush: csharp;">
-    public class Dog
-    {
-        public string MyName { get; set; }
-
-        public void Name(string name)
-        {
-            MyName = name;
-
-            Console.WriteLine(string.Format(&quot;New name is {0}&quot;, MyName));
-        }
-
-        public void Bark()
-        {
-            // Local variable does not hide Dog.Name method
-            string Name = &quot;Franklin Roosevelt&quot;;
-
-            Console.WriteLine(Name);
-
-            this.Name(&quot;Bob&quot;);
-        }
-    }
+<p><pre class="brush: csharp;">
+
+    public class Dog
+
+    {
+
+        public string MyName { get; set; }
+
+
+
+        public void Name(string name)
+
+        {
+
+            MyName = name;
+
+
+
+            Console.WriteLine(string.Format(&quot;New name is {0}&quot;, MyName));
+
+        }
+
+
+
+        public void Bark()
+
+        {
+
+            // Local variable does not hide Dog.Name method
+
+            string Name = &quot;Franklin Roosevelt&quot;;
+
+
+
+            Console.WriteLine(Name);
+
+
+
+            this.Name(&quot;Bob&quot;);
+
+        }
+
+    }
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/11/722-001.png"><img class="alignnone size-full wp-image-6210" title="722-001" alt="" src="https://web.archive.org/web/20121204054103id_/http://2000thingscsharp.files.wordpress.com/2012/11/722-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/11/722-001.png"><img class="alignnone size-full wp-image-6210" title="722-001" alt="" src="data:image/png;base64,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"   /></a></p>
 
 		<div class="wpadvert">
 		

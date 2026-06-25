@@ -45,24 +45,40 @@
 
 					<p>Once you&#8217;ve <a href="http://wp.me/pXTis-1LE">implemented the <strong>INotifyPropertyChanged</strong> interface</a> in a class, you can subscribe to the <strong>PropertyChanged</strong> event for an instance of your class.  Assuming that you&#8217;ve implemented <strong>INotifyPropertyChanged</strong> properly, the event will fire whenever any property value in the object changes.</p>
 <p>The code below assumes that the <strong>Dog</strong> class implements <strong>INotifyPropertyChanged</strong>.</p>
-<p><pre class="brush: csharp;">
-        static void Main(string[] args)
-        {
-            Dog d = new Dog(&quot;Bob&quot;, 5);
-
-            d.PropertyChanged += d_PropertyChanged;
-
-            d.Name = &quot;Bob Jr.&quot;;
-            d.AgeThisDog();
-            d.Age = 10;
-        }
-
-        static void d_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Console.WriteLine(string.Format(&quot;Property {0} just changed&quot;, e.PropertyName));
-        }
+<p><pre class="brush: csharp;">
+
+        static void Main(string[] args)
+
+        {
+
+            Dog d = new Dog(&quot;Bob&quot;, 5);
+
+
+
+            d.PropertyChanged += d_PropertyChanged;
+
+
+
+            d.Name = &quot;Bob Jr.&quot;;
+
+            d.AgeThisDog();
+
+            d.Age = 10;
+
+        }
+
+
+
+        static void d_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+
+        {
+
+            Console.WriteLine(string.Format(&quot;Property {0} just changed&quot;, e.PropertyName));
+
+        }
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/03/793-001.png"><img class="alignnone size-full wp-image-6808" alt="793-001" src="https://web.archive.org/web/20130314070739id_/http://2000thingscsharp.files.wordpress.com/2013/03/793-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/03/793-001.png"><img class="alignnone size-full wp-image-6808" alt="793-001" src="data:image/png;base64,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"   /></a></p>
 <p>The <strong>PropertyChanged</strong> event handler receives an instance of a <strong>PropertyChangedEventArgs </strong>object, which just contains a <strong>PropertyName</strong> property that tells you which property changed.  It pass any information about either the old or the new values of the property.  The assumption is that client code can read the updated property value on their own.</p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

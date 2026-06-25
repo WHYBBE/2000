@@ -45,44 +45,78 @@
 
 					<p>You&#8217;ll typically define an event <a href="2011-08-08-384-the-difference-between-delegates-and-events.html">rather than</a> using a public delegate.  Although either method will work, events provide some benefits over using delegates directly.</p>
 <p>Below, we define a delegate type and a <strong>Barked</strong> event of that type in a <strong>Dog</strong> class:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public delegate void DogDelegate(string dogName);
-
-    public class Dog
-    {
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Name = name;
-        }
-
-        public event DogDelegate Barked = delegate { };
-
-        public void Bark()
-        {
-            Console.WriteLine(&quot;Woof&quot;);
-            Barked(Name);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public delegate void DogDelegate(string dogName);
+
+
+
+    public class Dog
+
+    {
+
+        public string Name { get; set; }
+
+
+
+        public Dog(string name)
+
+        {
+
+            Name = name;
+
+        }
+
+
+
+        public event DogDelegate Barked = delegate { };
+
+
+
+        public void Bark()
+
+        {
+
+            Console.WriteLine(&quot;Woof&quot;);
+
+            Barked(Name);
+
+        }
+
+    }
+
 </pre>
 <p>We can now handle the event as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main(string[] args)
-        {
-            Dog d = new Dog(&quot;Bob&quot;);
-            d.Barked += d_Barked;
-            d.Bark();
-
-            Console.ReadLine();
-        }
-
-        static void d_Barked(string dogName)
-        {
-            Console.WriteLine(dogName + &quot; just barked&quot;);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Main(string[] args)
+
+        {
+
+            Dog d = new Dog(&quot;Bob&quot;);
+
+            d.Barked += d_Barked;
+
+            d.Bark();
+
+
+
+            Console.ReadLine();
+
+        }
+
+
+
+        static void d_Barked(string dogName)
+
+        {
+
+            Console.WriteLine(dogName + &quot; just barked&quot;);
+
+        }
+
 </pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1158-001.png"><img class="alignnone size-full wp-image-8963" src="https://web.archive.org/web/20140815043232id_/http://2000thingscsharp.files.wordpress.com/2014/08/1158-001.png?w=630" alt="1158-001"   /></a><br />
+<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1158-001.png"><img class="alignnone size-full wp-image-8963" src="data:image/png;base64,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" alt="1158-001"   /></a><br />
 This code would all work the same if we simply removed the <strong>event</strong> keyword, making the delegate available to the client code.  (See part II for more information).</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

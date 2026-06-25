@@ -45,42 +45,73 @@
 
 					<p>A <a href="2011-03-03-259-static-vs-instance-properties.html">static property</a> is a property that allows access to a data item that is shared across all instances of a class, as opposed to an instance property, where there is a separate copy of the data for each instance.</p>
 <p>One common use for a static property is to count the total number of instances of a particular class.  In the example below, the static <strong>NumDogs</strong> property keeps track of the total number of <strong>Dog</strong> objects.</p>
-<p><pre class="brush: csharp;">
-    public class Dog
-    {
-        // Name / Age properties go here
-
-        // Instance constructor
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-            NumDogs++;
-            Console.WriteLine(string.Format(&amp;quot;Constructor, # dogs now = {0}&amp;quot;, NumDogs));
-        }
-
-        // Finalizer
-        ~Dog()
-        {
-            NumDogs--;
-            Console.WriteLine(string.Format(&amp;quot;Finalizer, # dogs now = {0}&amp;quot;, NumDogs));
-        }
-
-        // Static properties
-        public static int NumDogs { get; protected set; }
-    }
+<p><pre class="brush: csharp;">
+
+    public class Dog
+
+    {
+
+        // Name / Age properties go here
+
+
+
+        // Instance constructor
+
+        public Dog(string name, int age)
+
+        {
+
+            Name = name;
+
+            Age = age;
+
+            NumDogs++;
+
+            Console.WriteLine(string.Format(&amp;quot;Constructor, # dogs now = {0}&amp;quot;, NumDogs));
+
+        }
+
+
+
+        // Finalizer
+
+        ~Dog()
+
+        {
+
+            NumDogs--;
+
+            Console.WriteLine(string.Format(&amp;quot;Finalizer, # dogs now = {0}&amp;quot;, NumDogs));
+
+        }
+
+
+
+        // Static properties
+
+        public static int NumDogs { get; protected set; }
+
+    }
+
 </pre></p>
 <p>If we do the following:</p>
-<p><pre class="brush: csharp;">
-            Dog d = new Dog(&amp;quot;Kirby&amp;quot;, 15);
-
-            Dog d2 = new Dog(&amp;quot;Ruby&amp;quot;, 2);
-            d = d2;
-
-            GC.Collect();
+<p><pre class="brush: csharp;">
+
+            Dog d = new Dog(&amp;quot;Kirby&amp;quot;, 15);
+
+
+
+            Dog d2 = new Dog(&amp;quot;Ruby&amp;quot;, 2);
+
+            d = d2;
+
+
+
+            GC.Collect();
+
 </pre></p>
 <p>We get:</p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/696-001.png"><img class="alignnone size-full wp-image-5969" title="696-001" alt="" src="https://web.archive.org/web/20121022010234id_/http://2000thingscsharp.files.wordpress.com/2012/10/696-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/696-001.png"><img class="alignnone size-full wp-image-5969" title="696-001" alt="" src="data:image/png;base64,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"   /></a></p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/10/19/696-using-a-static-property-to-count-instances/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5963"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/10/19/696-using-a-static-property-to-count-instances/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/10/19/696-using-a-static-property-to-count-instances/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Classes, Instance Counting, Static Property</p>
   <nav class="pager"><a href="2012-10-18-695-static-methods-can-access-static-members.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-10-22-697-encapsulation-is-managed-through-the-use-of-access-modifiers.html">Next</a></nav>

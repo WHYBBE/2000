@@ -45,36 +45,60 @@
 
 					<p>When you pass a value-typed object to a function that accepts a parameter of type <strong>object</strong>, the value-typed object is <a href="2011-01-23-220-boxing-can-happen-automatically.html">boxed</a>.  That is, it is copied into a temporary reference-typed object, which is actually passed into the function.  This boxing happens automatically.</p>
 <p>If we look at an object that represents a boxed value type, we&#8217;ll see that its reported type is the value type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Test(object o)
-        {
-            Console.WriteLine(string.Format(&quot;Value = {0}, Type = {1}&quot;, o, o.GetType()));
-        }
-
-        static void Main()
-        {
-            int x = 12;
-            Test(x);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Test(object o)
+
+        {
+
+            Console.WriteLine(string.Format(&quot;Value = {0}, Type = {1}&quot;, o, o.GetType()));
+
+        }
+
+
+
+        static void Main()
+
+        {
+
+            int x = 12;
+
+            Test(x);
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/657-001.png"><img class="alignnone size-full wp-image-5562" title="657-001" src="https://web.archive.org/web/20130817174142id_/http://2000thingscsharp.files.wordpress.com/2012/08/657-001.png?w=630" alt=""   /><br />
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/657-001.png"><img class="alignnone size-full wp-image-5562" title="657-001" src="data:image/png;base64,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" alt=""   /><br />
 </a><br />
 However, if we try changing the object within the method, the original <strong>int</strong> that was passed in is unaffected.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Test(object o)
-        {
-            Console.WriteLine(string.Format(&quot;Value = {0}, Type = {1}&quot;, o, o.GetType()));
-            o = 100;
-        }
-
-        static void Main()
-        {
-            int x = 12;
-            Test(x);
-            Console.WriteLine(string.Format(&quot;After call, x = {0}&quot;, x));
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Test(object o)
+
+        {
+
+            Console.WriteLine(string.Format(&quot;Value = {0}, Type = {1}&quot;, o, o.GetType()));
+
+            o = 100;
+
+        }
+
+
+
+        static void Main()
+
+        {
+
+            int x = 12;
+
+            Test(x);
+
+            Console.WriteLine(string.Format(&quot;After call, x = {0}&quot;, x));
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/657-002.png"><img class="alignnone size-full wp-image-5566" title="657-002" src="https://web.archive.org/web/20130817174142id_/http://2000thingscsharp.files.wordpress.com/2012/08/657-002.png?w=630" alt=""   /><br />
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/657-002.png"><img class="alignnone size-full wp-image-5566" title="657-002" src="data:image/png;base64,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" alt=""   /><br />
 </a>The boxed object is passed into the function using value type semantics.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

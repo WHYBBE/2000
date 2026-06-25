@@ -45,38 +45,68 @@
 
 					<p>When you invoke a delegate, it will call each of the methods in its invocation list, one at a time.  If an exception is thrown from within one of those methods, the delegate will stop invoking methods in its invocation list and throw an exception up to the caller that initiated the invocation.  Methods on the invocation list that haven&#8217;t already been called will not get called.</p>
 <p>In the example below, the delegate&#8217;s invocation list has two methods&#8211;<strong>Method1</strong> and <strong>Method2</strong>.  <strong>Method1</strong> raises an exception and <strong>Method2</strong> is never called.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private delegate void StringHandlerDelegate(string s);
-
-        static void Main()
-        {
-            try
-            {
-                // Add two methods to delegate instance
-                StringHandlerDelegate del = Method1;
-                del += Method2;
-
-                // Invoke
-                del(&quot;Yooper&quot;);
-            }
-            catch (Exception xx)
-            {
-                Console.WriteLine(&quot;Exception: {0}&quot;, xx.Message);
-            }
-        }
-
-        static void Method1(string text)
-        {
-            Console.WriteLine(&quot;Method1, {0}&quot;, text);
-            throw new Exception(&quot;Problem in Method1&quot;);
-        }
-
-        static void Method2(string name)
-        {
-            Console.WriteLine(&quot;Method2, {0}&quot;, name);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private delegate void StringHandlerDelegate(string s);
+
+
+
+        static void Main()
+
+        {
+
+            try
+
+            {
+
+                // Add two methods to delegate instance
+
+                StringHandlerDelegate del = Method1;
+
+                del += Method2;
+
+
+
+                // Invoke
+
+                del(&quot;Yooper&quot;);
+
+            }
+
+            catch (Exception xx)
+
+            {
+
+                Console.WriteLine(&quot;Exception: {0}&quot;, xx.Message);
+
+            }
+
+        }
+
+
+
+        static void Method1(string text)
+
+        {
+
+            Console.WriteLine(&quot;Method1, {0}&quot;, text);
+
+            throw new Exception(&quot;Problem in Method1&quot;);
+
+        }
+
+
+
+        static void Method2(string name)
+
+        {
+
+            Console.WriteLine(&quot;Method2, {0}&quot;, name);
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2011/07/001-method2notcalled.png"><img class="alignnone size-full wp-image-3172" title="001-Method2NotCalled" src="https://web.archive.org/web/20130315113534id_/http://2000thingscsharp.files.wordpress.com/2011/07/001-method2notcalled.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/07/001-method2notcalled.png"><img class="alignnone size-full wp-image-3172" title="001-Method2NotCalled" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

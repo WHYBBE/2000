@@ -45,22 +45,34 @@
 
 					<p>The <strong>System.Linq</strong> namespace includes an <strong>OrderBy</strong> method that makes it easy to reorder an enumerable sequence, based on a particular key.  For a key, we can use a newly generated <strong>Guid</strong> to achieve a random order.  (See Jeff Atwood&#8217;s post on <a href="http://www.codinghorror.com/blog/2007/12/shuffling.html">Shuffling</a>).</p>
 <p>We can encapsulate this shuffling behavior in a method that returns the resulting shuffled sequence as an <strong>IEnumerable</strong><strong>. </strong>We&#8217;ll use an iterator in the body of this method to return the shuffled sequence of elements.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Two line shuffle
-        static IEnumerable&lt;int&gt; Shuffle(List&lt;int&gt; theList)
-        {
-            foreach (int next in theList.OrderBy(x =&gt; Guid.NewGuid()))
-                yield return next;
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        // Two line shuffle
+
+        static IEnumerable&lt;int&gt; Shuffle(List&lt;int&gt; theList)
+
+        {
+
+            foreach (int next in theList.OrderBy(x =&gt; Guid.NewGuid()))
+
+                yield return next;
+
+        }
+
 </pre>
 <p>You can now use this method to iterate through the original sequence in a random order.  You can also view this as moving through a newly shuffled sequence.  Note that the original list is not re-ordered.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            List&lt;int&gt; myList = new List&lt;int&gt; { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-            foreach (int i in Shuffle(myList))
-                Console.WriteLine(i);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            List&lt;int&gt; myList = new List&lt;int&gt; { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+
+
+            foreach (int i in Shuffle(myList))
+
+                Console.WriteLine(i);
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/04/565-001.png"><img class="alignnone size-full wp-image-4790" title="565-001" src="https://web.archive.org/web/20130817160412id_/http://2000thingscsharp.files.wordpress.com/2012/04/565-001.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/04/565-001.png"><img class="alignnone size-full wp-image-4790" title="565-001" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

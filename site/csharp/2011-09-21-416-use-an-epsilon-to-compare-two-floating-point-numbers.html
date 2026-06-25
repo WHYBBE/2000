@@ -45,23 +45,36 @@
 
                     <p>Because of <a href="http://wp.me/pXTis-Uv">problems with the precision</a> of floating point numbers, two numbers that would ought to be considered equal might actually have different values.  Because of this, you typically don&#8217;t want to use the == operator on floating point numbers, when checking for equality.  Instead, you likely want to see if the difference between the two numbers is small enough that the numbers can be considered equal.</p>
 <p>Here&#8217;s helper function that determines if two <strong>float</strong> values are <em>nearly equal<strong>.</strong></em></p>
-<p><pre class="brush: csharp;">
-        public static bool NearlyEqual(float f1, float f2)
-        {
-            // Equal if they are within 0.00001 of each other
-            return Math.Abs(f1 - f2) &lt; 0.00001;
-        }
+<p><pre class="brush: csharp;">
+
+        public static bool NearlyEqual(float f1, float f2)
+
+        {
+
+            // Equal if they are within 0.00001 of each other
+
+            return Math.Abs(f1 - f2) &lt; 0.00001;
+
+        }
+
 </pre></p>
 <p>We then get the following results:</p>
-<p><pre class="brush: csharp;">
-            float f1 = 1.0f / 6.0f;
-            float f2 = (f1 * 6.0f) - 1.0f;   // Should be 0.0
-            float f3 = 0.0f;
-
-            bool check = (f2 == f3);       // false !
-            check = NearlyEqual(f2, f3);   // true
+<p><pre class="brush: csharp;">
+
+            float f1 = 1.0f / 6.0f;
+
+            float f2 = (f1 * 6.0f) - 1.0f;   // Should be 0.0
+
+            float f3 = 0.0f;
+
+
+
+            bool check = (f2 == f3);       // false !
+
+            check = NearlyEqual(f2, f3);   // true
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2011/09/001-nearlyequal1.png"><img class="alignnone size-full wp-image-3515" title="001-NearlyEqual" src="https://web.archive.org/web/20120122064107id_/http://2000thingscsharp.files.wordpress.com/2011/09/001-nearlyequal1.png?w=630" alt=""   /></a></pre>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/09/001-nearlyequal1.png"><img class="alignnone size-full wp-image-3515" title="001-NearlyEqual" src="data:image/png;base64,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" alt=""   /></a></pre>
 <p>The value that you choose for epsilon will typically depend on your application.</p>
 <div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/09/21/416-use-an-epsilon-to-compare-two-floating-point-numbers/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-3511"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/09/21/416-use-an-epsilon-to-compare-two-floating-point-numbers/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/09/21/416-use-an-epsilon-to-compare-two-floating-point-numbers/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Operators | Tags: C#, Epsilon, Floating Point, Operators, Precision</p>

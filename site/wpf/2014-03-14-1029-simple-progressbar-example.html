@@ -44,78 +44,146 @@
 					</div>
 
 					<p>Here&#8217;s an example of how we could use a <strong>ProgressBar</strong> in an application to show # records processed.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;StackPanel&gt;
-        &lt;ProgressBar Value=&quot;{Binding NumRecsLoaded}&quot; Maximum=&quot;{Binding TotalNumRecs}&quot;
-                     Height=&quot;15&quot; Margin=&quot;15,15,15,0&quot;/&gt;
-        &lt;Label Content=&quot;{Binding RecsLoadedMessage}&quot;
-               Margin=&quot;10,0&quot;/&gt;
-        &lt;Button Margin=&quot;15&quot; Padding=&quot;15,3&quot; HorizontalAlignment=&quot;Center&quot;
-            Content=&quot;Start&quot; Click=&quot;Button_Click&quot;/&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;StackPanel&gt;
+
+        &lt;ProgressBar Value=&quot;{Binding NumRecsLoaded}&quot; Maximum=&quot;{Binding TotalNumRecs}&quot;
+
+                     Height=&quot;15&quot; Margin=&quot;15,15,15,0&quot;/&gt;
+
+        &lt;Label Content=&quot;{Binding RecsLoadedMessage}&quot;
+
+               Margin=&quot;10,0&quot;/&gt;
+
+        &lt;Button Margin=&quot;15&quot; Padding=&quot;15,3&quot; HorizontalAlignment=&quot;Center&quot;
+
+            Content=&quot;Start&quot; Click=&quot;Button_Click&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
 <p>In code, we declare properties for total number of records and number already loaded. When the user clicks on the <strong>Button</strong>, we set up a timer that increments the # records loaded each time that it ticks (twice a second).  (Note&#8211;to use the <strong>DispatcherTimer</strong>, you need to use namespace <strong>System.Windows.Threading</strong>).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        private int numRecsLoaded = 0;
-        public int NumRecsLoaded
-        {
-            get { return numRecsLoaded; }
-            protected set
-            {
-                numRecsLoaded = value;
-                RaisePropertyChanged(&quot;NumRecsLoaded&quot;);
-                RaisePropertyChanged(&quot;RecsLoadedMessage&quot;);
-            }
-        }
-
-        private int totalNumRecs = 12;
-        public int TotalNumRecs
-        {
-            get { return totalNumRecs; }
-            protected set
-            {
-                totalNumRecs = value;
-                RaisePropertyChanged(&quot;TotalNumRecs&quot;);
-            }
-        }
-
-        public string RecsLoadedMessage
-        {
-            get { return string.Format(&quot;Loaded {0} records...&quot;, numRecsLoaded);  }
-        }
-
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-
-        }
-
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += (s,ea) =&gt;
-            {
-                NumRecsLoaded++;
-                if (NumRecsLoaded == TotalNumRecs)
-                    timer.Stop();
-            };
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);  // 2/sec
-            timer.Start();
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class MainWindow : Window, INotifyPropertyChanged
+
+    {
+
+        private int numRecsLoaded = 0;
+
+        public int NumRecsLoaded
+
+        {
+
+            get { return numRecsLoaded; }
+
+            protected set
+
+            {
+
+                numRecsLoaded = value;
+
+                RaisePropertyChanged(&quot;NumRecsLoaded&quot;);
+
+                RaisePropertyChanged(&quot;RecsLoadedMessage&quot;);
+
+            }
+
+        }
+
+
+
+        private int totalNumRecs = 12;
+
+        public int TotalNumRecs
+
+        {
+
+            get { return totalNumRecs; }
+
+            protected set
+
+            {
+
+                totalNumRecs = value;
+
+                RaisePropertyChanged(&quot;TotalNumRecs&quot;);
+
+            }
+
+        }
+
+
+
+        public string RecsLoadedMessage
+
+        {
+
+            get { return string.Format(&quot;Loaded {0} records...&quot;, numRecsLoaded);  }
+
+        }
+
+
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+            this.DataContext = this;
+
+
+
+        }
+
+
+
+        // INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
+
+        private void RaisePropertyChanged(string propName)
+
+        {
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+        }
+
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+
+        {
+
+            DispatcherTimer timer = new DispatcherTimer();
+
+            timer.Tick += (s,ea) =&gt;
+
+            {
+
+                NumRecsLoaded++;
+
+                if (NumRecsLoaded == TotalNumRecs)
+
+                    timer.Stop();
+
+            };
+
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);  // 2/sec
+
+            timer.Start();
+
+        }
+
+    }
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1074-001.png"><img class="alignnone size-full wp-image-8398" alt="1074-001" src="https://web.archive.org/web/20140701102927id_/http://2000thingswpf.files.wordpress.com/2014/03/1074-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1074-001.png"><img class="alignnone size-full wp-image-8398" alt="1074-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAACYCAMAAAB3RhQjAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAApRQTFRFAAAAAAAKAAAUAAA4AAo5KQAAOAAAKCgoKCg6AApDAABqABRsKRRsKChGAGpqKFNPKHBVKXFWTgAAVCgoagAAagA4dSkAdSkKdSkUcygoagBqcyhGdTFDXFUxc3Aoc3A6XFxOVHBGc1NPcHBwADiVODiVCkOPAGq6FGysOGq6BrAlVIZcW6V/X6p6Xah8c5ZkYq52OJWVOJXaSYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCapWVaI6yapisbJiubp2saZKxeLiDcaKqfaK5Q4/DbKzdarr/lTgAlTg4lThql04Al04UiVMolWoAmnAoumoAumo4s3Ups3Uxl1xsgXtOx1BQiYY6qoY6kY1MlZVqn592iaZkmrlkop1VvpZGq6ZPq6darKhbvqZPsaxdvrlVvrlWvrlcp6VxqKZzqrlkt7Jgvbhjvrlk2pU40pdO17N1/7pqiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbehs4GIo6WfpKeepqqurK+yuLu/ury/vLy8mrHLnbfJsrjBsrnCur3Au77Bvb/CktKep8u+rdO3sdeyj8Pdldr/osLDrN3dvsDBv8DCvcDDv8LFuv//3dKXw9ez3dez/9qV//+6wcLCysrSw93Sw93dzNDUzNDV0dHb0tTd1tbe3d3S3d3X3d3d2Nrj2dvm1efV2v/a2v/////a4eHg4eHh5ubm6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+vr6+/v7/Pz8/f39/v7+////BTElawAAAAlwSFlzAAAOwwAADsMBx2+oZAAABnBJREFUeNrt2otfU2Ucx/FTpjOMxDALMy0zoVZZ636/36+zi23diFm0lJaFDaSy+9XMsptEFwrpBqWEpcTKhtkqFys3trF/pt/zPAfc4sBvZ7F2Bt/P6yXucs7kvH1+zwDVUohJK/QnYP1AxCaIBpFhw0SDg0kqgTISJjqSRkDxWDTSjzKKRGNxQlJEiVg4FAz0oowCwVA4ltCJkjEPMiymr6JkPOzxT/yqzaRO8YTj0khLxkIgMiYKDehE0SCIjIn6ojpRJAAiY6JARBEl+ntBZEzU258A0SQmsg037kSP3pfeI48V+lLzSpRK7fuYPdErHV/JOjo63tiw4eWHCn2pORONuFE9ipGR0JhEH8T+2lds44rsPiGX+OsqM38hdeV0XmltwYiqxdfOZgfts28ff2LtU09/E+zpCa5fnzXRzHq/NwejuvIlfl9FPoyyJDJeQ2MTfdh95bVXX3N9505B9LoZIr9r+v25EPlrzJ83bkS5rKJ13TdcdclFF3f+3LMj+P47pojoUmtK59NaeriCxoeu3V9js01fUFrrqzi6nBhc6lEv/WantWOzzaxXRLSKvGrgvNMX2MRLZQ3xry3ZLFFOe9G67rNOPf2cCzt37ugJvvueuVVUWlsjhq2uvEwtjRoS8doEkVgn9LR4VKh47auWlfl9CyVRXbmdnhQDN4uONgM0JlH+3tHWdZ92xtnnXU6rqCe4bZu5vciuZkZY+MnAVyE2J5cgKtNnyldh98qxohviPLldD6nQi3jl4stP1WYam+jMC86/7CS5F+3da+odTZ8ZsUDkBT9YLodNENnVfIkRW7VMbus18o1MurlsS9QrEFE+tqXxJzr30hNOPLnzRyLa84upQfOPTTR89bR0lohlRlT60prlq6AXcBUJ0ZtfP/ncM88+/zkR/RTqy4UobdDEMLl0IrnlZBzuVRuTIBI0q5YVCdGrA7t37/7j91///HvPb7t25UQ0vF2LrwLUdm0XZnTPd0St1y75FtaLg4cGTfh5i2XQXtqo+ujjt+jjiytzIJKbsLhWmiVb6b06kbxns8s9aWa9eM+nQ+R2Lbd4OnJ+kRCtXrkirZWr//Nn5jL3Nm6p/p8fhuTzbTzv5Z9o6EuBom1i/0htXAIRG4jYQMQGIjYQsRkQPYD0Ricq9H8qtEogYgMRG4jYQMQGIjYQsYGIDURsIGIDERuI2EDEBiI2ELFlT3R8vrvuNYtkXaK3f7BGIAIRiEBkhUAEIhCByAqBCEQgApEVsjBR8X+nP2kDERuI2EDEBiI2ELGBiA1EbCBiy55o+83NRi/QPrc17Z7bKR+brWmLvs/iT2+qLPT1F4po87HZ+ExuouOy/NMnJlGDppW0pjZP0zSnvHMKETXJuaLHFt0uiej+lGZ1znI6zK1pDnlspRxBuu2+Yppj+1JtyvJK/VwrZ5aoga6nSV4TTVMTYTWUtIq10OBon+0kJad+tHiKzllaKVcWnStPEsdsX0podMddKZ4eZW1aKbNEdzSrW26xmBqcctBofdAKkdPldmYcLT7SaqGc8hl5DIkKtVta1c2S1uw/22IicjuEjVsncqRS+r5iRDR8K4NI7mHinPbZE3LQvqNhoVESwyMGTS6E9kOb0wdNXrc8xy335IaMQaPDSFnOoTiIxnRuq1X3bhNEYmAcasLEJnswLQO32q7FpDnlxqu2a7WlDxGJE0vksZVym3eoxUY7N23X4klHaoIQTdpAxAYiNhCxgYgNRGwgYgMRG4jYQMQGIjYQsYGIDURsIGIDERuI2EDEBiI2ELGBiA1EbCBiswDRMTk2mYi6cgpEIAIRiEAEIhAVO9GWWzWtCkRjEG29s6pr6wstW267Kf3RxioQ7VtEygZEoxN1NR64SU3b4i/Ehy/b5t2z/1GaJh4Fkd6aqTNa0hZT25wqrKIRNc5Qe9Gaqdp+N7bN2wSiEZGPIFpzUMvWu0A0cru+u6Wr7XBJ1Egb0WEgGrmK5HQRirb40znaAUcqok8OwXZtOhCBCEQgAhGIrEaEfyQq9kDEBiI2ELGBiA1EbGMQIb1RiVBmIGIbJkpGAiAyzBOIJBVRNAgiwzx9UZ0oFgKRYZ7QgE4UD4PIME84rogGkzEPMiwmhYgoEQuH+gK9KLNAXygcS+irKBkfiEb6UWaR6EA8qQYtNUhIyWQCZSZQBtWg0a9BZJz6lk0r9PeM1u8fEe0dPsMWPQkAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg=="   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

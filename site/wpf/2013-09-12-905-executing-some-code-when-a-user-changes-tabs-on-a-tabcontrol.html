@@ -44,44 +44,77 @@
 					</div>
 
 					<p>You can execute some code whenever a user changes tabs on a <strong>TabControl</strong> by handling the <strong>TabControl&#8217;s</strong> <strong>SelectionChanged </strong>event.  Below we have a <strong>TabControl</strong> and we define a handler for its <strong>SelectionChanged</strong> event.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Grid Margin=&quot;10&quot;&gt;
-        &lt;Grid.RowDefinitions&gt;
-            &lt;RowDefinition/&gt;
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-        &lt;/Grid.RowDefinitions&gt;
-
-        &lt;TabControl SelectionChanged=&quot;TabControl_SelectionChanged&quot;&gt;
-            &lt;TabItem Header=&quot;Breakfast&quot;&gt;
-                &lt;StackPanel&gt;
-                    &lt;RadioButton Content=&quot;Eggs&quot;/&gt;
-                    &lt;RadioButton Content=&quot;Cereal&quot;/&gt;
-                    &lt;RadioButton Content=&quot;Spam&quot;/&gt;
-                &lt;/StackPanel&gt;
-            &lt;/TabItem&gt;
-            &lt;TabItem Header=&quot;Lunch&quot;&gt;
-                &lt;StackPanel&gt;
-                    &lt;RadioButton Content=&quot;Ham Sandwich&quot;/&gt;
-                    &lt;RadioButton Content=&quot;Soup&quot;/&gt;
-                    &lt;RadioButton Content=&quot;Wimpy Burger&quot;/&gt;
-                &lt;/StackPanel&gt;
-            &lt;/TabItem&gt;
-        &lt;/TabControl&gt;
-        &lt;TextBlock Grid.Row=&quot;1&quot; Name=&quot;txtMessage&quot; Margin=&quot;0,5,0,0&quot;/&gt;
-    &lt;/Grid&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Grid Margin=&quot;10&quot;&gt;
+
+        &lt;Grid.RowDefinitions&gt;
+
+            &lt;RowDefinition/&gt;
+
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+
+        &lt;/Grid.RowDefinitions&gt;
+
+
+
+        &lt;TabControl SelectionChanged=&quot;TabControl_SelectionChanged&quot;&gt;
+
+            &lt;TabItem Header=&quot;Breakfast&quot;&gt;
+
+                &lt;StackPanel&gt;
+
+                    &lt;RadioButton Content=&quot;Eggs&quot;/&gt;
+
+                    &lt;RadioButton Content=&quot;Cereal&quot;/&gt;
+
+                    &lt;RadioButton Content=&quot;Spam&quot;/&gt;
+
+                &lt;/StackPanel&gt;
+
+            &lt;/TabItem&gt;
+
+            &lt;TabItem Header=&quot;Lunch&quot;&gt;
+
+                &lt;StackPanel&gt;
+
+                    &lt;RadioButton Content=&quot;Ham Sandwich&quot;/&gt;
+
+                    &lt;RadioButton Content=&quot;Soup&quot;/&gt;
+
+                    &lt;RadioButton Content=&quot;Wimpy Burger&quot;/&gt;
+
+                &lt;/StackPanel&gt;
+
+            &lt;/TabItem&gt;
+
+        &lt;/TabControl&gt;
+
+        &lt;TextBlock Grid.Row=&quot;1&quot; Name=&quot;txtMessage&quot; Margin=&quot;0,5,0,0&quot;/&gt;
+
+    &lt;/Grid&gt;
+
 </pre>
 <p>In our event handler, we simply change a text message, based on the tab that&#8217;s currently selected.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-    if ((sender as TabControl).SelectedIndex == 0)
-        txtMessage.Text = &quot;Start the day with a good breakfast&quot;;
-    else
-        txtMessage.Text = &quot;Have something healthy for lunch&quot;;
-}
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+{
+
+    if ((sender as TabControl).SelectedIndex == 0)
+
+        txtMessage.Text = &quot;Start the day with a good breakfast&quot;;
+
+    else
+
+        txtMessage.Text = &quot;Have something healthy for lunch&quot;;
+
+}
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/09/905-001.png"><img class="alignnone size-full wp-image-7605" alt="905-001" src="https://web.archive.org/web/20130919002019id_/http://2000thingswpf.files.wordpress.com/2013/09/905-001.png?w=630"   /></a><br />
-<a href="http://2000thingswpf.files.wordpress.com/2013/09/905-002.png"><img class="alignnone size-full wp-image-7606" alt="905-002" src="https://web.archive.org/web/20130919002019id_/http://2000thingswpf.files.wordpress.com/2013/09/905-002.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/09/905-001.png"><img class="alignnone size-full wp-image-7605" alt="905-001" src="data:image/png;base64,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"   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2013/09/905-002.png"><img class="alignnone size-full wp-image-7606" alt="905-002" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

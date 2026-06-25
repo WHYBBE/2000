@@ -45,42 +45,74 @@
 
 					<p>The <strong>QueryContinueDrag</strong> event lets you know when a mouse button changes during a drag-drop operation.  It will also indicate whether the state of the Shift, Ctrl, or Alt keys change while dragging.  You wire up an event handler to the control that the drag-drop operation originates from.</p>
 <p>In the example below, the source control waits for the left mouse button to be released and then cleans out its content.</p>
-<p><pre class="brush: xml;">
-        &lt;Label Content=&quot;Drag from here&quot; Background=&quot;LavenderBlush&quot;
-               HorizontalAlignment=&quot;Center&quot; Margin=&quot;10&quot; Padding=&quot;10&quot;
-               MouseDown=&quot;Label1_MouseDown&quot;
-               QueryContinueDrag=&quot;Label1_QueryContinueDrag&quot;/&gt;
-        &lt;Label Content=&quot;To here&quot; Background=&quot;SandyBrown&quot; AllowDrop=&quot;True&quot;
-               HorizontalAlignment=&quot;Center&quot; Margin=&quot;10&quot; Padding=&quot;10&quot;
-               Drop=&quot;Label2_Drop&quot;/&gt;
+<p><pre class="brush: xml;">
+
+        &lt;Label Content=&quot;Drag from here&quot; Background=&quot;LavenderBlush&quot;
+
+               HorizontalAlignment=&quot;Center&quot; Margin=&quot;10&quot; Padding=&quot;10&quot;
+
+               MouseDown=&quot;Label1_MouseDown&quot;
+
+               QueryContinueDrag=&quot;Label1_QueryContinueDrag&quot;/&gt;
+
+        &lt;Label Content=&quot;To here&quot; Background=&quot;SandyBrown&quot; AllowDrop=&quot;True&quot;
+
+               HorizontalAlignment=&quot;Center&quot; Margin=&quot;10&quot; Padding=&quot;10&quot;
+
+               Drop=&quot;Label2_Drop&quot;/&gt;
+
 </pre><br />
-<pre class="brush: csharp;">
-        private void Label1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Label lblFrom = e.Source as Label;
-
-            if (e.LeftButton == MouseButtonState.Pressed)
-                DragDrop.DoDragDrop(lblFrom, lblFrom.Content, DragDropEffects.Copy);
-        }
-
-        private void Label1_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
-        {
-            Label lblFrom = e.Source as Label;
-
-            if (!e.KeyStates.HasFlag(DragDropKeyStates.LeftMouseButton))
-                lblFrom.Content = &quot;...&quot;;
-        }
-
-        private void Label2_Drop(object sender, DragEventArgs e)
-        {
-            string draggedText = (string)e.Data.GetData(DataFormats.StringFormat);
-
-            Label toLabel = e.Source as Label;
-            toLabel.Content = draggedText;
-        }
+<pre class="brush: csharp;">
+
+        private void Label1_MouseDown(object sender, MouseButtonEventArgs e)
+
+        {
+
+            Label lblFrom = e.Source as Label;
+
+
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+
+                DragDrop.DoDragDrop(lblFrom, lblFrom.Content, DragDropEffects.Copy);
+
+        }
+
+
+
+        private void Label1_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+
+        {
+
+            Label lblFrom = e.Source as Label;
+
+
+
+            if (!e.KeyStates.HasFlag(DragDropKeyStates.LeftMouseButton))
+
+                lblFrom.Content = &quot;...&quot;;
+
+        }
+
+
+
+        private void Label2_Drop(object sender, DragEventArgs e)
+
+        {
+
+            string draggedText = (string)e.Data.GetData(DataFormats.StringFormat);
+
+
+
+            Label toLabel = e.Source as Label;
+
+            toLabel.Content = draggedText;
+
+        }
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/730-001.png"><img class="alignnone size-full wp-image-6378" alt="730-001" src="https://web.archive.org/web/20130303155156id_/http://2000thingswpf.files.wordpress.com/2013/01/730-001.png?w=630"   /></a><br />
-<a href="http://2000thingswpf.files.wordpress.com/2013/01/730-002.png"><img class="alignnone size-full wp-image-6379" alt="730-002" src="https://web.archive.org/web/20130303155156id_/http://2000thingswpf.files.wordpress.com/2013/01/730-002.png?w=630"   /></a></pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/730-001.png"><img class="alignnone size-full wp-image-6378" alt="730-001" src="data:image/png;base64,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"   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2013/01/730-002.png"><img class="alignnone size-full wp-image-6379" alt="730-002" src="data:image/png;base64,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"   /></a></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

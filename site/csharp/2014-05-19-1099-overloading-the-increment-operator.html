@@ -45,43 +45,76 @@
 
 					<p>You can overload the increment (++) operator in a class, providing custom increment functionality for an object.</p>
 <p>The example below shows an overloaded increment operator defined in a <strong>Dog</strong> class.  The effect is to add 1 to the age of the dog.  We are careful to return a reference to the object that was passed in so that no other data in the instance changes.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog 
-    {
-        // Increment a Dog
-        public static Dog operator ++(Dog d)
-        {
-            d.Age++;
-            return d;
-        }
-
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Nickname { get; set; }
-
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-            Nickname = &quot;?&quot;;
-        }
-
-        public override string ToString()
-        {
-            return string.Format(&quot;{0}, Age {1}, Nickname [{2}]&quot;, Name, Age, Nickname);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog 
+
+    {
+
+        // Increment a Dog
+
+        public static Dog operator ++(Dog d)
+
+        {
+
+            d.Age++;
+
+            return d;
+
+        }
+
+
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        public string Nickname { get; set; }
+
+
+
+        public Dog(string name, int age)
+
+        {
+
+            Name = name;
+
+            Age = age;
+
+            Nickname = &quot;?&quot;;
+
+        }
+
+
+
+        public override string ToString()
+
+        {
+
+            return string.Format(&quot;{0}, Age {1}, Nickname [{2}]&quot;, Name, Age, Nickname);
+
+        }
+
+    }
+
 </pre>
 <p>We can use the operator as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog kirby = new Dog(&quot;Kirby&quot;, 10);
-            kirby.Nickname = &quot;Ball Chaser&quot;;
-            Console.WriteLine(kirby);
-
-            kirby++;
-            Console.WriteLine(kirby);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Dog kirby = new Dog(&quot;Kirby&quot;, 10);
+
+            kirby.Nickname = &quot;Ball Chaser&quot;;
+
+            Console.WriteLine(kirby);
+
+
+
+            kirby++;
+
+            Console.WriteLine(kirby);
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1099-001.png"><img class="alignnone size-full wp-image-8604" src="https://web.archive.org/web/20140522011430id_/http://2000thingscsharp.files.wordpress.com/2014/05/1099-001.png?w=630" alt="1099-001"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1099-001.png"><img class="alignnone size-full wp-image-8604" src="data:image/png;base64,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" alt="1099-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

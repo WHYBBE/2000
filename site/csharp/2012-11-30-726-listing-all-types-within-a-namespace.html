@@ -44,61 +44,114 @@
 					</div>
 
 					<p>You can&#8217;t directly list out all types within a namespace.  But you can get all types within a particular assembly and then filter out only the types that match a particular namespace.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main()
-        {
-            // Dump all types from in a specified namespace
-            DumpTypesForNamespace(Assembly.GetExecutingAssembly(), &quot;ConsoleApplication1&quot;);
-            DumpTypesForNamespace(Assembly.GetExecutingAssembly(), &quot;ConsoleApplication1.Dog&quot;);
-
-            int i = 1;
-        }
-
-        private static void DumpTypesForNamespace (Assembly assem, string theNamespace)
-        {
-            Console.WriteLine(string.Format(&quot;[{0}]&quot;, theNamespace));
-
-            foreach (Type t in assem.GetTypes())
-            {
-                if (t.Namespace == theNamespace)
-                {
-                    string dump =
-                        string.Format(&quot;{0}\n  ({1} in {2})\n&quot;, t.FullName, TypeIndicator(t), t.Namespace);
-
-                    Console.WriteLine(dump);
-                }
-            }
-            Console.WriteLine(&quot;\n&quot;);
-        }
-
-        private static string TypeIndicator(Type t)
-        {
-            string typeIndicator = &quot;?&quot;;
-
-            if ((t.BaseType != null) &amp;&amp;
-                (t.BaseType.FullName == &quot;System.MulticastDelegate&quot;))
-                typeIndicator = &quot;delegate&quot;;
-
-            else if (t.IsClass)
-            {
-                if (t.IsNested)
-                    typeIndicator = &quot;Nested class&quot;;
-                else
-                    typeIndicator = &quot;class&quot;;
-            }
-            else if (t.IsInterface)
-                typeIndicator = &quot;interface&quot;;
-
-            else if (t.IsValueType)
-                typeIndicator = &quot;struct&quot;;
-
-            else if (t.IsEnum)
-                typeIndicator = &quot;enum&quot;;
-
-            return typeIndicator;
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Main()
+
+        {
+
+            // Dump all types from in a specified namespace
+
+            DumpTypesForNamespace(Assembly.GetExecutingAssembly(), &quot;ConsoleApplication1&quot;);
+
+            DumpTypesForNamespace(Assembly.GetExecutingAssembly(), &quot;ConsoleApplication1.Dog&quot;);
+
+
+
+            int i = 1;
+
+        }
+
+
+
+        private static void DumpTypesForNamespace (Assembly assem, string theNamespace)
+
+        {
+
+            Console.WriteLine(string.Format(&quot;[{0}]&quot;, theNamespace));
+
+
+
+            foreach (Type t in assem.GetTypes())
+
+            {
+
+                if (t.Namespace == theNamespace)
+
+                {
+
+                    string dump =
+
+                        string.Format(&quot;{0}\n  ({1} in {2})\n&quot;, t.FullName, TypeIndicator(t), t.Namespace);
+
+
+
+                    Console.WriteLine(dump);
+
+                }
+
+            }
+
+            Console.WriteLine(&quot;\n&quot;);
+
+        }
+
+
+
+        private static string TypeIndicator(Type t)
+
+        {
+
+            string typeIndicator = &quot;?&quot;;
+
+
+
+            if ((t.BaseType != null) &amp;&amp;
+
+                (t.BaseType.FullName == &quot;System.MulticastDelegate&quot;))
+
+                typeIndicator = &quot;delegate&quot;;
+
+
+
+            else if (t.IsClass)
+
+            {
+
+                if (t.IsNested)
+
+                    typeIndicator = &quot;Nested class&quot;;
+
+                else
+
+                    typeIndicator = &quot;class&quot;;
+
+            }
+
+            else if (t.IsInterface)
+
+                typeIndicator = &quot;interface&quot;;
+
+
+
+            else if (t.IsValueType)
+
+                typeIndicator = &quot;struct&quot;;
+
+
+
+            else if (t.IsEnum)
+
+                typeIndicator = &quot;enum&quot;;
+
+
+
+            return typeIndicator;
+
+        }
+
 </pre>
-<p><a href="http://csharp.2000things.com/2012/11/30/726-listing-all-types-within-a-namespace/726-002/" rel="attachment wp-att-6247"><img class="alignnone size-full wp-image-6247" alt="726-002" src="https://web.archive.org/web/20130817170351id_/http://2000thingscsharp.files.wordpress.com/2012/11/726-002.png?w=630"   /></a></p>
+<p><a href="http://csharp.2000things.com/2012/11/30/726-listing-all-types-within-a-namespace/726-002/" rel="attachment wp-att-6247"><img class="alignnone size-full wp-image-6247" alt="726-002" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYQAAAGFCAMAAADKP3REAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAeNQTFRFAAAAKCgoKCg5KChFKE85KE9FKE9OKGpFKGpOKGpVXSgoXig5XU8oXk9OXWpFXmpVXX5OXX5bW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5gikogik5gilFglAonFAonFA5gmoogmo6sWsoglBOnH5FxX46go1bnJtbgo1jnJtjqIRMsJxOu5NUrpl2up5xu59ysK1jxI1GxJxOxpxZx51a3I1G3JxOxK1VxK1bzKFc3K1V3K1bxK1j1Kdg2qxi3K1jiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqOeqKWepqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////k40QugAAAAlwSFlzAAAOwwAADsMBx2+oZAAAE8RJREFUeNrtXX1vG8edfvgmUVZjKpEtpm58iO8lwBWofImj2K2PRS+S04NDoMmdP8p8jPkQ/QBC/E/PBs6GGsh3lh2f5UqGXdjAoeoxUSPHgi2gFkntUrw/dpfcXQ7J5evuLJ/fPxJ3Z2dn5pn5zcyz88wkfgta2JZkERAEGkEgCDSCEB1L23/rLIqwQaijTiBCBqFex/Fx3SQI4baEWsU4MghCqCAk8BWLIlwQ6vXjCk6zLEIeoh4bLInQQagfsSRCB8FkSwgdhHqdA6PwWwKNIBAEWkQma157fez+lZhLsJjGD8LfnK7b82gc1HG0P8ViGj8IM39rugJsHdkglO4nLm3MrezeW855w1tXSpvFFMzSkyLM0kMgU0zZj21+uv5xHnaADmbs/Hnl8AaQKCx0CFXa/HVpC0DSn4o+7fDmifJyDsDuxuXyozaRmqUnRTuNW8DcijrE7t1C3hv3DasczNJDO73Gzsl887qTHSUI//c8kUwk3v9RFdN/QsaJ8X4hj2uqFFancoBRmU0BxtMlHN7IfJkyv923itKozKaDFYexXdi9W8hjt9N42ajMpjC3ArN0S1UWQcxbi/bTl/+zkgPMavp06lyXR8tr9Wso32mC4rEzvtIxdn+5YOzcLOIvj66c2Pm6mDJLD1FwXXeyo+yYE4+fbm8/Pj62fZJztU3fYPzxEwDG4yUAr8xTxnfZ36SQft+uztb1ILY//U41cwo4k+8Egh1d+tzFgxdDaAhG5dLM+QcAjKezqa6hX1U+AWY+Cxh35u8XkJk9OjAql3OZn5j7ePHoVzOu643sKDvmd6cM4ziBBOqYrdUcZ4T1jO1YgNJ9oJAvr02vAC+NecDcm8oBxpvZ1N52wWmMhTzMvalc2dtA51awexeYWzFLj/9xq/DOzhYyxRTK20tA7a9WJbUC4PAGkFzOHd68tGF5KXNvKmfP7ufr21ZEToNHoXZvOYfde8sndnbe30KhdhfJ5RyMnS1XJO+UHuJWpli1EoIfHi9nskcHObyqLKG0WUwd3gDmfmV51SdFs/TQ436sWW15rYzVuZ/ab8uZpYdILwKHNwsLTpJ9TRxIZOs4829lnxOxsqN2FS+NZCaDej2B46QNwtn5m4UFJ47Sgyu53f8qvNVwEDCeLtmvqyWm3Ql46m4I5d8X8od3sbvxy4XDG3vzODp5zSw9u2bsAXhVzabfnb5dWACcAPn9Qt7YuVNE/f6V2dJGMeWOLnP+GUrfWA3bLD26ktt1vejg5BelO5kvj9buFI2dZ9fM0teNSM5N31vO2QmxXOn8cSVnVtPzrhQ2kv/sy9Tuxot37J8LF+7MrQAzvy49KWK30R08upLbvZu1a08hb5a+bvR+ZnUqt5uYBtIfPM63+nArO+p5gplKJ6eQSAC5kyrXuH05h9OL2zOfrwDG9qJVhAD20/OmmfqRFerEtbxzvVGRKgmcWDHe5BYwdeEBkDmFuplF5r2UlaqZzxbXvzpAI8DZPDLZWg24nEtPm/v+6MrbuQVkflJ9cbT5zzmPG8vm03lcSs0s1mo/PC4gnTf3m5E0EmKXQub8g4Y3cm443eO/pvB2ttFJpc9dfL265yuNo4eXczh93gLtTTaP9Lvpl87Nv2x+oixh67qdHXVLSE3Xp1+iDuAM9ltv18t3AGDOduULgFk9mQOMyqWU6eu0T7pb5tRH69kizOflVQBZIJVCZvb1V8s5p2fJ/MN7a7cLbzUClO4DGas7mmuJLluvLAFIZOv7VjV23Wr2YbXjW1bX5kTSTAjwyjwFZLJHB28qS54bza7Y60HO/rh0xzcieJ3MAgmrIM3nS3DVerO0qRzq2dft7LxWg5DOvEwkcQygWlX23M2oy9tLAI42CwB+eLyMdNrcb77Xut6M99y7a6uFk7CGchZeZ74o3coWrZ4FwMxnOxuf2gGMnadfpkqbUEZnbBUC9o+WbzhsTUjeeDObAjB/fFidXnDdaEC6e7eQL695n0x/03BP3Xr9nadfpIC5ehUwn3/sv+5kRzk6ytR+cenq1as1ADXzWIVBdrs5YHD8kOPnTmW/cQ8A54H0Bw8afcfM5xfvJT544M3W1eoL6y4AJNLI2AGM7Z+nTHfTctV4cy9zykpHvZJIOV6mCtT8rdrcVxXQzOcX79UsV4rM+XvNvmbm84v3aqjVUDdhVrN51H29aWMQZb9trl4F6lYyrayaz38GAOa3z36TspoqUG86Uud6IzsqEI7OXfjZ+Qv/tDCXf/uEqRqXZn568ALG/x6U/+N20w85HmXmw8rvAHPnxeHqnnU9M1vZA77fXsThbZhmKput7MHcsUaYxrc1vE5MG4+XYF07ejjrBEhkt3H00DOedErA+NPmz1MziwcvYHw3vXB6caOG3b23s9sob/sS+3Z2o4bD37m9adVOSGrfqv+ZbM0pIuvG9LS5jx+2kE4fHZiuPmD3NmC8Sc8DtRqct2UWN2r4fssqmdnKHszvzVPNsTsws/jfB8Z3UznvmN6VHZU7qv3B+judODoG3rTCkD6LdWDu78qA8cePARiPlwG8sjzKmas3VoFs8dC5jjO/uAMkV3LA61VkijiLO0C2aFWe8nUkCrnSVA5AfR3A3IoTAIv3V5NLf3BNEpYtL7wKZP8dwFmsA9kiMu/jOhKFmQ/vriaW/sdX5T9du46Ey3WdXlzP/MvrVWSKht0RYB6NIrJSuPDROtIfPcWp6Vt4a8bl/1ct95Y3rs+t2G/LvPf8OqYvPEEjq7YDrB+uA0Ah/+MPb8HV0zjX37Kzg8Rvgfpxef/3rg/9x2X3nDUxk+zIIjhkBYydP6+0me13tfLax/mugYJH19fcedzWzI6qJSRne5hweicJvrtPg86WvUPPdi8LHF3AUqhOhYiBKzuqlkDjRx2CQCMIBIFGEAgCjSBMtrVM1vZZJuGDgDUWSvggAAKAdP3tYi3BhPqpZjjRJdp294VUvzCefYK0MJASonsUUrYUtggSTolSkPtSTkBLQKDq2uk5ITo+K7tgIPuBKJYgNIrDbv3C97vFK/h+C0gByMbftt6uGb9ovEjxXhlfGJJBaradf+uv8P1tDefgJ6S02oXvhvSGl9Zfaf3Xej+gV4xvS1A1DiFkZ38SvMRkzP3McEBQdQyyXXchXQF67EM4Y25XS9VFIzqUmuixNP3hxWSi0fJlbX9N1TNKp8ZKdcfqYOYP1/K3AaB0Py+dBzrEJ/wjhXiDMCQTAadmtNEReM6cTbDrHf7oqKeRT9wcx/i5o6hxRt74RBuIhX64JzvNziLGGTWblrT/qNIp49ASyBlFpU/QiTNqhpeNCqTXiCypM2ckhPO0aHY7Go6Kg4+OIsgZWf5PuDpwLTFoB4JGnJErHmknRXbpm6LvjqLLGYnAr9GMEuzAHUWRM5KKeYIdjztazRzSCLgjckbhc0fkjCLAHZEzGhEIwhlUyoBtQfYSrSbc1ejca3LAwhrB2DOq3NXohlzpXjCQQdMesMrIXqpj+NzVyKYf6eAYiJaRp/AOZV3cTQeuSMH5tGY/mtzVqFDoYXTUaNZezkfAy90IZ+4lO3NO/vg05K6iNDoSHu5GCg+X5mrng+Uoxuud0sFyH8y1S59b8OVT9oJrFLmrUY2PkoHqjejCAXUjdYKGizh3NaoxajDaQrjImgZHpOByPP2maARu36F64lP02FHirkY3TxjhuqOwTD/uKn7CQQ25q3TsQNCQu6KEliDQCAJBoBEEgkAjCASBRhAIAo0gEARaO9NPs6bQqqmf67SQIPItIeKaNdn1C7zwZEODDWJioVlTrodyX4y4YEFjzVqb8EI/Fa2WmjX7m38jnuYL3PHZkjZNO+Y2jSM6634Cr7LURDalv2YtlvOEOGjWhPDGGXG/pJ9mzb2uyf1cp/VQEe8bqFmLJW1BzdoIR0e9Dl3YDIYMwoCehdq0IbgjAdk/1xNgNhgtjmr8I+f0ODCgNm1gEFo1azY31BwWCq92TckZUZs2hNGR8HEzfgmUaOFu/G5i4rVpI+GOnP2FeiV1dOGoIgSC0zhbuSM5cKlPljZtEHdkZcLNHYkuHBK1aSOgLYSftJEdtGn+byrUpoXAHY3L4sNR6bvkJUYclb6atRhxVFz8RRBoBIEg0AgCQaARBIJAIwgEgUYQCAKtnemoWZMdVGoyJi0h6uesWRvgKt8Um5aggWYtbmtc46NZ0xgaHTVr0i5zRbpi1RJUWddOs6Y7CNSsheuO4qBZ08x01KzJZjPypUfqufyFmrVY0hbUrI1wdNTr0IXNYMggULMWvjuiZi38lkDNWvggULMWndERNWvR5I6oWRsbCNSsRcEdUbMWCdqCmjXduKNxGTVrUcCAmrXQjZo1GkEgCDSCQBBoBIEg0AgCQaARBIJAIwgTYJqesyaVr5GqdIk+vxG0vCdgsQynJWhwzprqEdn2faIvrrvlPQPnowcQBlgP1A072W3Bj1KSqSxw0XOlRl9AiDG8JQaaNddnU/X7ury/5TNol/y1C9+Sj2F0zFFfD6RoeZ4Lrnjaa9xc6RCQ0nN+W5v3uJ8XTupd+RC9r2PSUrPWq3+Q7t9OPhr5Ed38SpffYmC/FGfNmlT/dvIhvaKfrs+1+d39+T7ckQ6ataCDB9V7nHz48yNdoRvrp5xRryIeqUh1L+uuXKbnOWuqDrUxEFDE007j5te6+RY2d8yvO3xLPuTAIAzsirVcDyTa+9uhhB8rCO1Gshqg0FuCh5dBjVfgxZs7authOk+GendYenBWo3erPWnW5HA5IU04q9FLSNL9V9z+uRRq2HoGQfiUUYNyKdSw9eWOmt5iGFwKNWz9c0dj5FI056xGAUJLYxwhlzKZGrbgmrVunMygXMoEa9h606xJPwfTD5dCDdvoZsxD5FImirPCMJe8SMtxhEn96KphI3cUq5ZAIwgEgUYQCAKNIBAEGkEgCDSCQBBoBCFupqlmLV7boeupWYvZQTBanrM2Ce4IWmjW3F8pvUvkvdc1cF9aataEaGxOLFrWPTVWqkm3Zk1o2BJUjSN656y17NXtuS50d0d6aNba7dUt1Vo0jdyRruesSWh7DJuemjXP+MC37sm/h7cIZ//rQUEY0EJa/xP6uqco0RZhrf8Je91TtFoCbTRDVNGfVo3atCG6I2/yBj17muer9dMS+q4i1KYNDQSh3tas7TYFvvvUpg1xdKTQnnXklKhNGwF3hNZ+0sMpteeWtOOmIghCm0bamM369g/qe9w0eeer9eKOmplRsTPt9g/qHlvkuKmwxqh9nLPm4nikah8hrxehNi2WM+b4nK82Ou5o9BjE5ny1/kZHUbAYna+mb0uIoREEgkAjCASBRhAIAo0gEAQaQSAINIIQUdNRs9byCU74vmcI9Tls6m8GojWzYsz0oH6atbbXFeer+X8LxX1F6mToLUEbzVr752SbB0VP2IfrjqCLZq3bXtzCfxCb8j6Un2/HeQqHvues+Z/zv6dx3/WE+7w1130hfdq3Xrzy6FqCKtP6rwuSbdIpe8vvuECIxTlrvXVNwfM7Bnekk2at23PC8ust6pEge3iL8dUS/TRrXlEa1PHDFS88aZP+551RRNeDUMcLwoAWvXVBUV+hFB/NWicnFvHlMdSsRXey1qk9U7MWijuiZi38lkDNWvggULMWndERNWsR4I4AatbCA4GatSi4I2rWIjFZo2aNM+aoc1PR445GjwE1a6EbNWs0gkAQaASBINAIAkGgEQSCQCMIBIFGEAgCjSAQBBpBIAg0gkAQaASBINAIAkGgEQQaQSAINIJAEGgEgSDQCAJBoBEEgkAjCASB1tY67ZUd9T2zgYH2U4p6S5DuXVy7WUh7ZrffPFjqJuxM9lwduzeMrtjJbhsPKffSUMQp4yFl7qJj1mDP7NZtFGLYMUd9XyJ3ejTdaaF3Rf8E70sUEgix3jNbA3ekw57Z7toge357ZKzDXtkR3zO7ZaCA1sN1NAZhSDbmfYnEGPfa14a2GPe+RIod+tkSaEPhjnTjjILd18MdacsZBbuvBQhx4Iw0Q0Hfc9a6ckb6cEr6nrPWjTPSiFOaqHPWNAOBnFG47khfzkhbTkm/c9Y6ckYd70/SjDlinJEGnNLwQehxrcZQSKqOL4o+qUruSJsh6kScs9aNexqdT+M5a4G5qdGNqJP9V+jei1FzbmpkKPCctR64qVGdw8Zz1vrlpkLhjgCesxYeCJNzztrIOschuKOJOWetGzc1KqfEc9YCc1Oj6xh4ztqg3NRYR0fRwSB265nIHUXAKBwkCDSCQBBoBIEg0AgCQaARBIJAIwgEgdbOJk+zFnifpPEtJZw8zVrb+y0rCmTA9I8AhBhr1hpRqe6HuGh4gjVrqvud3E8zXcNeAjNBmjUhPM2q3fNtW3QzvRjyR70J0qwN+qnYhZ8U43BHk6pZ6wCTK71yyN3HRGnWGi1ZdT/EKjF5mrWu+ySp8udaZzWCaQM1axHQtFGzFgFNG9cdRZQ76tBkg7Vboaxa1Lr1PlkLHo1oN2btkUManBeJJKfVPdG9aNZEf2ntY1o1YVq3dC/tQEgE5H46uQdq3fpyR574/RySw/14rneqidS69c8dAVK422krlyQ6c0W+YNS69QJCszFJ4S7SljlO8KEPtW49u6NmoqSrU3JzSUJ05oCodRvCZM0zT2jpCEVLxyb9ZA21bpwxR5HT6nt0pDcGkdW6kTuKgHHxF0GgEQSCQCMIBIFGEAgCjSAQBBpBIAg0gkAQaASBINAIAkGgEQSCQCMIGtn/A8TlOjR8f7GGAAAAAElFTkSuQmCC"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

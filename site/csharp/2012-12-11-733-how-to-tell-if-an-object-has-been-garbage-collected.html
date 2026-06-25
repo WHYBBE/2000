@@ -46,18 +46,28 @@
 					<p>You normally can&#8217;t tell whether an object has been garbage collected by using some reference to the object&#8211;because once you have a reference to the object, it won&#8217;t be garbage collected.</p>
 <p>You can instead create a <em>weak reference</em> to an object using the <strong>WeakReference</strong> object.  The weak reference is one that won&#8217;t be counted as a reference, for purposes of garbage collection.</p>
 <p>In the code below, we check before and after garbage collection to show that a <strong>Dog</strong> object is garbage collected.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog dog = new Dog(&quot;Bowser&quot;);
-
-            WeakReference dogRef = new WeakReference(dog);
-            Console.WriteLine(dogRef.IsAlive);
-
-            dog = null;
-            GC.Collect();
-
-            Console.WriteLine(dogRef.IsAlive);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Dog dog = new Dog(&quot;Bowser&quot;);
+
+
+
+            WeakReference dogRef = new WeakReference(dog);
+
+            Console.WriteLine(dogRef.IsAlive);
+
+
+
+            dog = null;
+
+            GC.Collect();
+
+
+
+            Console.WriteLine(dogRef.IsAlive);
+
 </pre>
-<p><a href="http://csharp.2000things.com/2012/12/11/733-how-to-tell-if-an-object-has-been-garbage-collected/733-001/" rel="attachment wp-att-6318"><img class="alignnone size-full wp-image-6318" alt="733-001" src="https://web.archive.org/web/20130328200853id_/http://2000thingscsharp.files.wordpress.com/2012/12/733-001.png?w=630"   /></a></p>
+<p><a href="http://csharp.2000things.com/2012/12/11/733-how-to-tell-if-an-object-has-been-garbage-collected/733-001/" rel="attachment wp-att-6318"><img class="alignnone size-full wp-image-6318" alt="733-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

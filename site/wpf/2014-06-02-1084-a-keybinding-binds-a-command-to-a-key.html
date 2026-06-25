@@ -46,27 +46,45 @@
 					<p>A user interface element has a <strong>CommandBindings</strong> collection containing command binding objects that indicate which commands are supported for the element and the code that the command is bound to.</p>
 <p>User interface elements also have an <strong>InputBindings</strong> collection that contains <strong>KeyBinding</strong> and <strong>MouseBinding</strong> instances, each of which maps keyboard or mouse input to a command that is also present in the <strong>CommandBindings </strong>collection.</p>
 <p>In the code below, we wire up the Open command for both key (Ctrl+O) and mouse (Ctrl+Left Click) input.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open,
-               (sender, e) =&gt; { MessageBox.Show(&quot;Executing the Open command&quot;); },
-               (sender, e) =&gt; { e.CanExecute = CanOpenIsChecked; }));
-
-            // Ctrl+O = Open
-            this.InputBindings.Add(new KeyBinding(ApplicationCommands.Open,
-                new KeyGesture(Key.O, ModifierKeys.Control)));
-
-            // Ctrl+Left Mouse Click = Open
-            this.InputBindings.Add(new MouseBinding(ApplicationCommands.Open,
-                new MouseGesture(MouseAction.LeftClick, ModifierKeys.Control)));
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+            this.DataContext = this;
+
+
+
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open,
+
+               (sender, e) =&gt; { MessageBox.Show(&quot;Executing the Open command&quot;); },
+
+               (sender, e) =&gt; { e.CanExecute = CanOpenIsChecked; }));
+
+
+
+            // Ctrl+O = Open
+
+            this.InputBindings.Add(new KeyBinding(ApplicationCommands.Open,
+
+                new KeyGesture(Key.O, ModifierKeys.Control)));
+
+
+
+            // Ctrl+Left Mouse Click = Open
+
+            this.InputBindings.Add(new MouseBinding(ApplicationCommands.Open,
+
+                new MouseGesture(MouseAction.LeftClick, ModifierKeys.Control)));
+
+        }
+
 </pre>
 <p>We can now use either form of input to execute the Open command.</p>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1084-001.png"><img class="alignnone size-full wp-image-8814" src="https://web.archive.org/web/20140605033123id_/http://2000thingswpf.files.wordpress.com/2014/06/1084-001.png?w=630" alt="1084-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1084-001.png"><img class="alignnone size-full wp-image-8814" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWkAAAElCAIAAACpg4QOAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAF91JREFUeNrt3Xt0VOW5x/Fnz4VLKTZYpIElnpJLgRqMxXrq0EZtOWlJahey1PS09rgIR4jFoImV66qpBsup0SNBsDZgky5b1ipgF7hqJ9Y5VG1a0i4rx5RIgATwCDWB6iKI3DKXff7YMzuTmVzfzGRnZr6fP7Iy7+x55907mV+e992TPZqu6wIAQ2SzegAAEhLZAUAF2QFABdkBQAXZAUAF2QFABdkBQAXZAUCFo687mpubrR4bAEU5OTnxfgpHP/elp6dbfQSA0aupqcnqIYiI5ObmRrR0dHSMwPMyZwGgguwAoILsAKCC7ACgguwAoMIx/C6ARJeXl9fPvQ0NDVYPcDRSzI7DR9o+OnduMFteMfGT2VmZNhsFDhA0f/58Edm7d28/LaOfYnac+ueH//LZGSLR1xzTNE1E5B8dH4qui8h7/+iYctXkSZMmWb2nQH/6Ki76L0nU7N27d/78+fPnzzfCIhGDQ5Sz48pJaTmzs/q5XOHnZ2aJiKZJw5//0tXVZfVuJo6muptLa83jWrylYUnucLobyZHX5pUeqthZlT/V6pEkAjM+zJtWj2jIFLPDbtPe/b/TexpaNZuu2XTNrtvsekFuVvpnrvj44/MiMuGTE37zp+MiMmOi1buYMNo9q4sq94XlRVPdzW81LclNlPDA0BjxIYkZHKKcHYFAQNPs7579WHPo9jF+mzNgdwa8Xr/ogfDN7GMCav2noHZPdeU+V8WOqvxpoabc4j+SG8nLLDrMyUtiUcyOLq9PRK6aPPbDC+fOej/2+S+LzysiIpouYqyDjJt0yTneK+fsVu9jQmh6Zf0+Kd7SHRyR94fPZczSpKnu5tKWRypmra+s04N3FJxeXVS5r8dm7Z7VRZUzKyoOVxp3uCp2VE15Ja+0ToxboXlGu2dVUWVj8DlCze2eVUWVsyoqDlUG7wqfRzXVhnqR4uLi7tGG9xSfeVdfyxCJck4kvOIIX/tIIMM6R3vw1MkL/guOsX77GJ9d84mIiC6ia6KJyIRJHzscXjn3Kav3MRG0nz6ki2v6Vb3f6VldVLkvPAlKV003C5TGyspZWxoacts9q4sqS/PqXBU7Gp6YZtyqvcF83dZVeip2NDwxranu5tLKb+dJ8ZaGhlxpqs0rrdzoyanKnyrtzR6p2NlgBkawOfTgnQ1VU6WpNq801GtTbV5pXShimmrzSkVcIiLSVFtUGeyp3bOq3upjOzjxWBPtS8RUJWLpNFEMKzsuyXnneJ99jN/u9DnGBOsOIzhEZNbka0Tk/fYPrN7HRHD6ZKPI4im9Vh3BkiQUAlPzyyr+p6jylab8YEvwrqn5312yfl/t4rvzp5m3Wk6/L2J06qooy58mIrkLHplXW6lXLMgVEcktqHDVVZ44LTJVpuZXVQWfcmpOvkuCzcaDy40Uyb2hWOrq3mpakjvFs72uuz3YkYiItJ8+JDJrylRjsFVL4nLAYltfjHC1Ep0RiZUahmG97cIx3usc53WO7XKO7XKO6RIRPeysbdakjKxJGVbvYOJrP31Il+Ibwsr+qVNmaXLo9PvGrZ7VSl+1i8zqEUyzeo+pds+qvLy8vLy87rlLcPPQyZMp043aQk6faBRXfo55UmXqlFmh7/LvLpa60ry8VZ52qw8e4mdY2eEc2+UY1+Uc2zVm7OVgdpjRoYvX57t48ZLVO5ggplztEql7y8rrQbR7VuUVVc7a0tDQ0NCws8I1jK5ylzQ0NGwpbqwsIkCSl2p2aNrlyxf/dXLmF9Oy517xuesnzM4df+3lyxfN+3VdD/j9/gDnWQZnav53l2hSt93zfvRdU2ZpPWOl/fQhva/KQVl7s6exe2Z0+kTjANtPme6SxhOnwwfVc4PcJQ0NOytcjZX1o+IKOYg1xewIBPTZM6ff97V/K7nl60vzCu7NW7jkywtnz5w+YcKEKVOuuvLTVzrHjPEHAjabZvUOJozc4s1LtMbKb6/qjo+muptrm4wVCqkrrQ2+BIMncxfE+NzF1CmzzMqn3bO9bsDtc/Jd3aNq92w0ZzntnlWhsZ4+0Siu6VOsPraIB8W10o8+Ovt6Qy9/mWw2m81mC/j9gdDs5cMPPpj2mclW72ZCyC3+486rVxdVfjuvMtjiqthRLCJT85/YKauLSvPqzOaq/NhWHRJa7TSexFVc7GocID6m5ldtOZFXGhyVq6KiuLEyVHrUmWMt3tLAG02Tk6b38cby5ubmfq5XeunSpY8++kjv503p5hNo2hVXXDFu3Dir9xRIFR0dHRZf67gf48aNIw6AVMa/xgNQQXYAUEF2AFBBdgBQQXYAUEF2AFBBdgBQMbT3d5w5c8bqAQPowaoLiQ/5vWHZ2dmWDBRAtNbWVquemjkLABVkBwAVZAcAFWQHABVkBwAVZAcAFWQHABVkBwAVZAcAFcP6XDiMpPLycquH0KeNGzdaPQSMNLIjkaxYscLqIfRi8+bNVg8BFmDOAkAF2QFABdkBQAXZAUAF2QFABdkBQAXZkXQ63CuuzwxasOXARavHgyRFdiSXDveKBc/M/GXzUcNTWmlOqbvT6lEhGZEdyaTD/eN1+oZfl84ZH2zIuX/HZq32VxQfiD2yI5l8cPzvXymclxbelH7NrH8eOnFZpPnZW0rdf3r2lsi5THOwKdTWYztqFvSJ7EgiHe8dumrW9LE9GyfPuK7j2ImLIiL1K34946WjR48efelbu1b+/MBFkeZnb/mZ0XT0zw8cfuznB3ps99JDB56hZkEfyI4kYtYYEWZkTB8vIlKw+fHCNBGRnDtWZ7/+RtvFjvcOna1fcUNmZmZm5pdXuP83+ODQdjm3FF3srT9A+F+45DJ5xnV/cu/rLDQSQkREOvbXt//LsrF9PiSrfM8vu9dHRKTZ6p1AgqDuSCbphSVLD6z4d3Mxo8O9YsEKfcn3gtlQ797XKSIizb95ovXWW7LGp18z658ba17rtHrcSETUHckl5/43/jxjxYKczHMiIpJdvqe5u6oo+PRfF2auOCkiBZvf2jJnvHEeZsWCGzKNf+0v2PzWlkKr9wCJguxIOumFm98u7P2KGl8qf+OxxwbYOu3+N7aEvs8J+x7oiTkLABVkBwAVzFlSBfMPxBZ1BwAVZAcAFcxZEglXJMfoQXYkDD4DBaMKcxYAKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACpif63j8vLyQW7JxXuBxBWX66QPJhQGHzEARqERnbNcvnz5/vvvP3LkSD/b+Fs23agZPvGD11WfKawXzfnV54+N5F4CKWFEs+Ppp5+ur69/4IEH+rjf37LpRscN7z2pG87mH1R61ftbNt103Z6So8FuLqz8a+YwYghAb0YuO7Zv375t27Zp06atWbOm9y28v3967c2vXfjvW4O3nQuW35sx5Ofxt2y5Z+3NntfMhzoLf3bwv/Y9RvEBxFIcs+PgwYPm9xcuXKipqRGRBQsW3Hrrrb1u7/Xs3v79b0Xf53Uv7Tn78Ldscn215hVjVhI1Iwkcb34noht7VnbOX1veE/G6l37iB55gf92P7J7hBOuTHttRswC9iFd2bN++feHChbW1tcbNRx999OTJk5mZmStXruzjEf621uYvzb4m+g5n4TZj8tH1UtYDz74uIiK+10ufmLBD130Hn/o41NZPN7YZObn7246JiFx8euHeu4O9ff8/nz8m/pZNX1k+YYfxDC9+VPgDo7fQdl2/u/sZahYgSryy4/jx436///HHH1+7du2rr7764osv2u32qqqqsWPH9vEIsziIEioLxnzzeW8wARy3PvfzezNE7J/7+vdCqdB/N465WRkiIuMfchuTIuc3Hnrq0vY/HAscb/7L60sztYhnCG3nzF+0uPdhASktXtnxwx/+cO3atVdeeeWOHTvuu+8+EVm3bt0XvvCF/oYyI+fa5377ekSrv2XTTcHlU9/B6i8OYo+iu/EfefXXjt5KmqDxD72mh3hfU1hjAVJPHNc7li5dumbNmszMTBG54447vvOd7/S/vX328sfufjo/bBVi84PPHwscb37bmIP4j7z6q78N/LTR3Wy66fNr5/0oGAkXQ7ni/f3TD4+7+2sZthk51zIrAYYqvudZ7rzzzk2bNl199dX33XffuHHjBtrcWbjN9/fba4z5gzZu+fgH781wfuOhpz5emqlp2rhlR24YRN0R2Y3juj0lR7tP3owvvrTdmJ/ceYXntXszxD77wX0vZQUnLbwZBBgkTdf1Xu9obm5OT0+PaDxz5kx2dnb/PZaXlw/yfaUj/550r3vpp/be3R0kQIJrbW2dNGlSRGNHR0dOTk68nzou70nn/eZA0ot9dvAfbkAqiEvdMWo5C7ddKLR6EEBS4PodAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdKUfTNKuHgGRAdqQi4gPDR3akIl3XiQ8ME9mRoogPDBPZkbqIDwwH2ZHSiA8oIztSHfEBNWQHiA+oIDsgQnxg6MgOBBEfGBKyA92IDwxeal03DH0JjwxN6/MK2ICJ7Ehp4TFBXmBIyA7LWP5ajZieWD4eKDA+zXAwjcPR60yW7LCA8XMN/+mO/OtW0zSfzyeh0sNY6TBakEACgUAgEIho1HU9unGoovMiooXsGGnm3wTjp25+EO5IjkHTtAsXLnR1dUW0R7dglPN6vV6vN7px+D9KLcRms9lsNrPR3IDssICu636/3+fzeb1en89nJMhIDuDUqVPnzp0zvw8vPU6dOmX14cEQnD9/3ul0RjeaP19lRmo4HA6n0+lwOOx2e0TdEfvPlET/jFepz+f75WNlVo8l6N4Nzxm/BpqmPb/u+1YPB6POf/yo2uFwGGWI2UjdMaKM4AgEAsbKwvXZn7V6RCIif6t7Irz0+FvdE1aPCP3xvtQYv86dC10RLW+3vuvz+cyZixkfvDfMAoFAIHqOCoxaXq83eoJCdljAmLNYPYoejNKDogO98vv90SdumLNYICan0GKO1EBf/H4/dYf1LDkpCwxHr7+0ZAcAFWQHABVkB5CEbtq9+6bdu/tvGSayA0hCf1m0SETMsDC+MRpjhewAkpMZH/EIDiE7gCRm5kXMg0PIDiCJRcxZYovsAJKTOVWJWPuIFbIDSEIRaxzxiA/ekw4koegFDtZKAYwKZAcAFWQHABVkBwAVZAcAFZxnARJM9CVFLUHdAUAF2QFABdkBQAXZAUAF2QFABdkBQAXZAUAF2QFABe8NG13e6/jA6iEgpV2TPnmQW5Ido86iNVVWDwEpavdPVg1+Y+YsAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQBUkB0AVJAdAFSQHQmqvkTrVlIfnydpq56nzatui8loh95P2C7GZBAJQulYWYHsSFyuja26oaYght2G/e5mle3T95VlDbsftUcXHgjtYGvRzuzEeD2lErIDo1Bb9fqty9xmbGWVvbBRyp+MU3UFNWRHcgibXZh/79uq50XOaSKawksD4/v6Eq1wqzSWZxtbmBvUl2jzqqtLImcQof7mVVf3rDIi+hERkVZz47beh9O9Ny/vbFx2e3gxlXVbkevAYXMk9QN21ceAex6xHs/d3WCOpsdzldR3bxLqcMANwiZewU4HPJKHrf5dGiyyI3E1lmebv5VZZfvcc8qfrJf6kkJx7yvLkvqS7J1FRs3vlvXVbSJt1fPMpr6mOQU1unuZMRuK3KKxvOV2Xdd197LGYAlQX5JdPset67r+guzcOkA/jeXr5YXIh0eMMIxrdnbU/ra0So+uWjdK+T3BaOulq+gBm6IPRfe+6K0bDxSaL+ruYW8t1O6RF6I6HGCDghrjSdzLtq7v7nMIR3L0IjsSl7neYbw6C2rcUqgVirumQETaDh8ww6Vwa2NLq/HH/BHV1QsR18aVxvPcvkwOHG4TaTt8INSWVfbIsgEf/kJZVsTDI0YYLvK2hMVJqKusskeWNba09tVV1IBN0Yei7fABCVU6ZreRw3YV3ZYV1eFAGwQLj8KwRBjmkRwtyI4ktsyt6/FYTY37CLNuK3Jt3RNeKrS9vLNxzszI3Gs7fGB072xb9bxCcRvFjMvqwcQa2ZE06ksKxa27pbCkXkSyZs6RrT0mAlm3Fbl6tkj2bFfoD2z9niGXylkz54Rq7rbq9SoPjxhh2H1ljyzbWmgugtSXZJdL8A+ziDTufLlNJGxZpL+ueu0+6lBkzZwjobRqq16/tedqi7LWlkajWmp7eWdj3I6kRciOxGWudxjrdYUHNq4skIKVwdl6QU3rRjG3KKmX4JpIdtjKnfES1TRN0/ZIqFQuuH1ZzzXOPhXUuIMPv0eKoirtAfuJHmGPO3W3FAbvKxR3+Lli15yWezRN07LL57hD87V+uupF9KEoqGndeMB4vuydRa0xKl0KVgaHdU/LnP7qjv6P5Cil6bre6x3Nzc3p6ekRjWfOnMnOzh64V/RB1/VAINDV1XXu3Lnfbnr0+uzPRmzwXscHi9ZUWT3MoWurnpfd8shIzBbqS7T1s1uV33WC/uz+yapr0idHNL7d+u63Hnx04sSJY8aMsdlsmqYZ7dQdiIH6J8sbezkzgmTmsHoASFxt1fOyy4PT+GVunVIgtZAdUJZVtk8vG+knLajRR81plNTGnAWACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4AKsgOACrIDgAqyA4CKIV+/o7W1dagPgcm45qDX6z1//rzVYwGGZWjZMWnSJKsHnNjM7HA6nVaPBRgW5iwAVJAdAFSQHQBUkB0AVJAdAFT0d56lo6PD6uElG+OzljlHiyTQZ3bk5ORYPbYkFP6Zkq2/t3o0wDAwZwGggs+FG3XOnj1r9RCAgVF3AFBBdgBQQXYAUEF2AFBBdgBQQXYAUEF2AFBBdgBQQXYAUEF2AFBBdgBQwf+zIIU8/PDDVg9hVHjqqaeG3wnZgdSybds2q4dgpeXLl3u93ph0RXYg5Zw8edLqIVhj7969MeyN7EAqmjhxotVDSHislSJ1paWlpdTX2CI7kKLS0tI6OztFJHW+xhbZgRQVj5fTqEXdAcRMPF5OoxZ1BxAzI1R3eMrSQvJ/eiys1bx17Kf5aWllnriOgroDiJmRqDs8ZWl3vbNhf2dnZ2dn5/5Fu+eGxYe5ydzdi/Z3VufHdSDUHUDMxL/uOPbTql8s3uVZnmHczFhes0HWPePpsUX+XdK9RfxQdwAxE/e649gru99c/M3weiJjwaIb32k1K49XyubuXrQ/zhWHIR5ByXvDkKJGYr3jxs9lRja9eeSoSIaIvLlu3ZuLd3XGveQQkbAT0jFE3YEUNRLrHW8eORrZZMbJjRt2bXjnrugFkLhgvQOImbjXHRkLFt34i9/1WN54Zfeb12ablUbmcs+ua9fNjfMpFhFhvQOIofjXHRnLVy3+xV1mNHjK5q6TDQ/0WN7Ir94/IsUH6x1AzIzEekd+deeuMjOkFu/q9EQtjGYs9+w6kjY3X/bH83RLPNY7yA6kqHi8nHqRX93ZWd1ba36PTeI8CtY7gJjh/1mGiexAiuL/WYaJ7ECKou4YJrIDKWo0XIxnxL5SdwAxMxouxpO4F/4RzrMgBcX2kr8pi+xAalm+fLnVQ0gSZAdSS6w+nQRkB1JITD4PDQbWSgGoIDsAqCA7AKggOwCoIDsAqCA7AKggOwCoIDsAqCA7AKggOwCo4D3po84fnvux1UMABkZ2jC7XpE+2egjAoDBnAaCC7BhpWojVAwEGq9dfWrLDApqm2WwceSQMu90e/deO32ALaJrmcLDShIRht9uj/9qRHRaw2WxOp9PqUQCD5XQ6o+sO/vqNKOMHYLPZjLrj7dZ3rR4RMDCHw2Gz2SKWPDRd160eWGrRdT0QCPj9fp/P5/V6/X6/3+/np4BRSNM0u91ut9udTqfD4TBmLmZ8kB0jTdd145gHAgEjR8wWYFQxCg0jL4z1jvDSg+ywgHHMw488PwWMQj1mKJoW2cJvrVU48kgg0WulZAcAFf8PIF0EYlyPsBkAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1084-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -46,33 +46,57 @@
 					<p>You can <a href="2014-05-14-1072-adding-custom-triggers-related-to-keyboard-focus.html">set up a trigger</a> that fires whenever a control&#8217;s <strong>IsKeyboardFocused</strong> property becomes <strong>true</strong><strong>, </strong>changing the value of some other property when the control gains <a href="2011-05-24-306-keyboard-focus.html">keyboard focus</a>.</p>
 <p>You can also trigger on the <strong>IsKeyboardFocusWithin</strong> property.  This property will get set to <strong>true</strong> for an element when any child of that element has keyboard focus.</p>
 <p>In the example below, we set the background color of either <b>StackPanel</b> when any element within the <strong>StackPanel</strong> has focus.  This technique may be useful when you want to keep track of what section of a window the user is working in and do something based on that knowledge.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.Resources&gt;
-        &lt;Style x:Key=&quot;HoneydewFocus&quot; TargetType=&quot;StackPanel&quot;&gt;
-            &lt;Style.Triggers&gt;
-                &lt;Trigger Property=&quot;IsKeyboardFocusWithin&quot; Value=&quot;true&quot;&gt;
-                    &lt;Setter Property=&quot;Background&quot; Value=&quot;Honeydew&quot;/&gt;
-                &lt;/Trigger&gt;
-            &lt;/Style.Triggers&gt;
-        &lt;/Style&gt;
-    &lt;/Window.Resources&gt;
-    
-    &lt;StackPanel&gt;
-        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot;
-                    Style=&quot;{StaticResource HoneydewFocus}&quot;&gt;
-            &lt;Button Content=&quot;Click Me&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-            &lt;TextBox Width=&quot;200&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
-        &lt;/StackPanel&gt;
-
-        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot;
-                    Style=&quot;{StaticResource HoneydewFocus}&quot;&gt;
-            &lt;Button Content=&quot;Or Me&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-            &lt;TextBox Width=&quot;200&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
-        &lt;/StackPanel&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Window.Resources&gt;
+
+        &lt;Style x:Key=&quot;HoneydewFocus&quot; TargetType=&quot;StackPanel&quot;&gt;
+
+            &lt;Style.Triggers&gt;
+
+                &lt;Trigger Property=&quot;IsKeyboardFocusWithin&quot; Value=&quot;true&quot;&gt;
+
+                    &lt;Setter Property=&quot;Background&quot; Value=&quot;Honeydew&quot;/&gt;
+
+                &lt;/Trigger&gt;
+
+            &lt;/Style.Triggers&gt;
+
+        &lt;/Style&gt;
+
+    &lt;/Window.Resources&gt;
+
+    
+
+    &lt;StackPanel&gt;
+
+        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot;
+
+                    Style=&quot;{StaticResource HoneydewFocus}&quot;&gt;
+
+            &lt;Button Content=&quot;Click Me&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+
+            &lt;TextBox Width=&quot;200&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
+
+        &lt;/StackPanel&gt;
+
+
+
+        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot;
+
+                    Style=&quot;{StaticResource HoneydewFocus}&quot;&gt;
+
+            &lt;Button Content=&quot;Or Me&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+
+            &lt;TextBox Width=&quot;200&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
+
+        &lt;/StackPanel&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1075-001.png"><img class="alignnone size-full wp-image-8750" src="https://web.archive.org/web/20140522033209id_/http://2000thingswpf.files.wordpress.com/2014/05/1075-001.png?w=630" alt="1075-001"   /></a></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1075-002.png"><img class="alignnone size-full wp-image-8751" src="https://web.archive.org/web/20140522033209id_/http://2000thingswpf.files.wordpress.com/2014/05/1075-002.png?w=630" alt="1075-002"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1075-001.png"><img class="alignnone size-full wp-image-8750" src="data:image/png;base64,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" alt="1075-001"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1075-002.png"><img class="alignnone size-full wp-image-8751" src="data:image/png;base64,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" alt="1075-002"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

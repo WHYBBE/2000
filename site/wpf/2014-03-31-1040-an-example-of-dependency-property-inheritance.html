@@ -46,33 +46,58 @@
 					<p>One of the attributes of <a href="2010-08-10-29-dependencyobject.html">dependency properties</a> in WPF is that they support inheritance of property values within a tree of user interface elements.  Controls (dependency objects) within the tree that make use of a particular dependency property can set a property value locally or retrieve a value from an element higher up in the tree.  The local value takes precedence over the inherited value and then in turn applies to all elements &#8220;further down&#8221;.</p>
 <p>(There are a number of other <a href="2010-11-22-133-where-a-dependency-property-gets-its-value.html">places from which a dependency property can get its value</a>).</p>
 <p>Below is an example.  <strong>FontSize</strong> is set to 20 for the top-level <strong>Window</strong><strong>.  </strong>This value is use for lower-level elements unless they set their own value.  The <strong>GroupBox</strong> sets <strong>FontSize</strong> to 14, which then applies to it and elements under it.  Within the <strong>GroupBox</strong>, the second <strong>Label</strong> sets its own value for <strong>FontSize</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
-        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
-        Title=&quot;Dependency Properties&quot; 
-        Width=&quot;280&quot; Height=&quot;252&quot;
-        FontSize=&quot;20&quot;&gt;
-
-    &lt;StackPanel Name=&quot;spOuter&quot; 
-                Margin=&quot;5&quot;&gt;
-        &lt;Label Name=&quot;lbl1&quot; Content=&quot;Label 1&quot;/&gt;
-        &lt;Label Name=&quot;lbl2&quot; Content=&quot;Label 2&quot;/&gt;
-        &lt;GroupBox Name=&quot;gb1&quot; Header=&quot;Stuff&quot; FontSize=&quot;14&quot;&gt;
-            &lt;StackPanel Name=&quot;spInner&quot; Orientation=&quot;Horizontal&quot;&gt;
-                &lt;Label Name=&quot;lbl3&quot; Content=&quot;Label 3&quot;/&gt;
-                &lt;Label Name=&quot;lbl4&quot; Content=&quot;Label 4&quot; FontSize=&quot;10&quot;/&gt;
-            &lt;/StackPanel&gt;
-        &lt;/GroupBox&gt;
-        &lt;Button Name=&quot;btn1&quot; Content=&quot;I'm a Button&quot;
-                            Padding=&quot;10,5&quot; HorizontalAlignment=&quot;Center&quot;
-                            Click=&quot;btn1_Click&quot;/&gt;
-    &lt;/StackPanel&gt;
-&lt;/Window&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
+
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+
+        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
+
+        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
+
+        Title=&quot;Dependency Properties&quot; 
+
+        Width=&quot;280&quot; Height=&quot;252&quot;
+
+        FontSize=&quot;20&quot;&gt;
+
+
+
+    &lt;StackPanel Name=&quot;spOuter&quot; 
+
+                Margin=&quot;5&quot;&gt;
+
+        &lt;Label Name=&quot;lbl1&quot; Content=&quot;Label 1&quot;/&gt;
+
+        &lt;Label Name=&quot;lbl2&quot; Content=&quot;Label 2&quot;/&gt;
+
+        &lt;GroupBox Name=&quot;gb1&quot; Header=&quot;Stuff&quot; FontSize=&quot;14&quot;&gt;
+
+            &lt;StackPanel Name=&quot;spInner&quot; Orientation=&quot;Horizontal&quot;&gt;
+
+                &lt;Label Name=&quot;lbl3&quot; Content=&quot;Label 3&quot;/&gt;
+
+                &lt;Label Name=&quot;lbl4&quot; Content=&quot;Label 4&quot; FontSize=&quot;10&quot;/&gt;
+
+            &lt;/StackPanel&gt;
+
+        &lt;/GroupBox&gt;
+
+        &lt;Button Name=&quot;btn1&quot; Content=&quot;I'm a Button&quot;
+
+                            Padding=&quot;10,5&quot; HorizontalAlignment=&quot;Center&quot;
+
+                            Click=&quot;btn1_Click&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
+&lt;/Window&gt;
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1040-001.png"><img class="alignnone size-full wp-image-8489" src="https://web.archive.org/web/20140331163116id_/http://2000thingswpf.files.wordpress.com/2014/03/1040-001.png?w=630" alt="1040-001"   /></a><br />
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1040-001.png"><img class="alignnone size-full wp-image-8489" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAScAAAEGCAIAAACoyMSFAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAG8VJREFUeNrt3XtAVGXeB/DfmRshw0VBFG+NjowmloWEYGm9JhRkluZ228TuGnjNLDd7U9t0W9tKU6bWdjXNdPXNy5YLu+CWSgUSkiVkzjQy3hhBsIFBkbmd94+5MFwdbs8R5vv5a+acZ855zmG+PM+5zHM4nucJABiSNJ2EHAJ0HMdxLc1qkDpH3jxThwQCeK9p0prNXn3qeJ53ZMxut9vtdt5F6A0B6DY4F5FIJBKJ3BMbFWvc1tlsNqvVarFYrFarI3tCbwhAt+HIm0QikUqlEolELBZfo60jVygfen2j0JUH6Pb2v53a0qGdM3WOzqTdbrdarUTUVzla6DoDXNu8A+lCV4GIaP3ktEZTLuqKrFaru5/ZKH4izzd2u91isQi9CQA9gcViaekArUHqeJ53tHUA0EE2m81utzc7q3HqWioHAG1is9mu3dbhUgFAJ2olUKK2Lw0AOkTS8UUAdFzhhnmtzI2eu17oCnamNqcu2HJJYqvzpqRVJDNK+7RyNxqAUOL27iWivGnTWpnSddqcukmKXkOHjiZq2lt15uv8hUrieSKqqa7co6+R9QpksBnQA7TUoLXeDLZP3rRpcXv3xu3d64gZy8hRO1LXOyRk9E3DWznnMmrEcCLiOMr5Ns+mvdC0QE3+fE1+g89HTF8fMYDN9jajJn++pjwlakqMH6MVVl7av0Kvr38fnLhcqQoTbPt9lTt47rfMVt3m1IlFnP50+b4cLSfiORHPiXmRmE8aM7x/v6CamstEFCAP2P1NCRENbaWRU8xyf8vNmr8W7Zln8JjiE2IXRMcOd25+1kodIXgCcASP2EaO2nMOk7dznFhfVaM31ZyprT5bV3XOYrRYbMQ3uNAnlnl73U+mmh09PZn0W85pKlhu+XVCppqhUFBVVn6N0DXxQe6Gzv2CjTa3dRarjYj6hvlVXjFVWWqstjqyOm4i43gix/HeDb2vSv0tZBJ7u9ABqgjKMGj0daowPyIqzSzck+Gc5WoTHP1ARfhWvbN3GqVImdMnyFHIs8/mml5doNu6pVfirCtZW6qIqGE/1qOXmxQR61kVnWHDWoPzdZJqbrLcWZ/TisQh+qzMJqtu0GEOTpzVK2uLwVVncjZlg53LaV6oLJwjvWtR5fdFUKZB7+p2Vhfotjrr77Heykv7V+jDZynKt7i2OsljFS1uQkQsZ8gvok7qVrR0uNVdzjd6tnKex3gMtPPKwc9l567Yrkj8bGKZVcw5biLjiXiOOCIK6F0jkVjIFOz18pSBsZwhv9xC5FeaWbgnw5mQ6gLd1nW6EFfvS79FH74geu5w59dua4ZsbrLc8ZpmRc2N8XN8cZ3TiYgMWQWKlPXKIKrJn6/ZkxE4N1nuzMko5ze4NLNwD08KRzV0hg1rXZmpvLR/hWZ/uOsLWqzPGqKau965usMFAVNcq/NYlK5GERjLGfI1NbHD5URElTWaIoq9R97atleay3lShEuJLESkz7ySuDx6ShiR879PcOLyaFUYNdk0yt/ym7OkzrBhrauqrW2CoXxW1NzZ1203vivOmrSkUcey0cmVrtbO1F2ly1J/q1hmE0utEpmzrXNEjohGhg0holJDO3qMlZcKMyh2gbNRCorpF7tVo9HXOY95klTONiS0z8RZv+m3mEqT5ZSv10cpUpz/vOUjU4Lzt5hKk+VyIqLgxBmORkk+KInyM0ylyXJ5QVk+755OA2IVigw9ERGZNQcMnquITtbvKbhc7VxyxHTH1z1UrhpNWY7pBWX5fMR0V7s3IElJRKWuFQ0gqi75TR+lmDi8lQ02az7X6ylieoyfI3WU1M+5sZWXCjNIMWuQ63hPHrsgIn9tmSZWruKIyGOWMmJ6smFPweXqGO5Cq5sQ3ZlHzp3bpjFuIZum67o+m+L8mL9FIrWKpVax1CqRWoiI97iWMLz3MCIqpTamThEuJaNJT6RfV5jvOd2zgEtQ715EV2oqzHSGqFi/dZ7e4xO93C/krlMU8r7OlrfmYhVFKfq7T12EysI5KiciMhuLiYo0GzI9lhTlfuHnarBk8iFEp4nIfOFoFSX1a3T21RHjc79GDBhuvnC0ShEzKIiake/exihFynp3f9VjG411egpOVHjkJMRPQQajkag3EVF4SP0sed9gyqirIZl3mwDCamfqpH5mscwqkVglUotYYiWi+msJPFmsVqulTb9d0JnyeYp1fo2aPZPe6g+Qkpo5cKpu14Y1e8zTthMdjsZQUxPb26wpClY93Hzz4nHs18k6YROga7X9HCbH1dXVxoYpY0Iio4NUtwbcNMY/qq6u1j2f53m7zWZry28XzJoDBopSjBzu+HdepdE3f/OLvrw+e6UaA1EveZhMPoQo01Tq9crkfYOpuK7+W1hpLnf+w5CFRJG+4LLXcW1p1bL+Y4Mp06Qp+U0f1bt/u68HNN0Vxjo9BYeEON+VG92zzBeOVlGUn7zNmwCCaHPq7Hb+phGD50yaPPuuxOcnJD034cFn7njwphGDAwICwsP79gntI5XJbHa7SOTtjWA1+fOLsopcB1qhctVoz6sINfnzDfVf60xN/q9ERKQz7Mkgxaw+AxznP8mwJ8OZo+oC3f6C1u5YCxraW1Ff3nFY5SDrPzaYivWHXR8vzSx0rq4FA2IVHoui0kydo9qOVWRtqVLEBARRe4X2iU5uuCvWGeqP+qh+VnXB2awiip3cJ8jrTSjNLNwwz1BKVF2g2zBPp6kg0hk2zLvG9kInaXMPs8Rw8WBObtPpjh+r2202u6uveeqsocWbMPVbijdscb1p0D+UqWaPpr8WZa0szCIiIsWsKPeZfUVSRPm6wg2u6c5+lDJi7kLasNZ9MBMxfX2r5wxC+0xZWOcur5iliC3WlxMRUVCMMoV0W911i1KkJNE1FrWC9q/wWLWjvON/R1FHz14MSIqeToV7XLuiUUc6NqmXey+5+6tt3gQQAOceA9Nut5vNZpPJ9OTb21sZN8VmqbPUXvbmV3gcR1L/ALG0c06bMb9vq0O8uEzXEY7rdV12ZAgddlFXtG3pE4GBgTKZTCQSNWp+2n5HmNSvs4LUc+kqs655mQ58F35f17lcd8koZkWhIYIWdJvUyWM/iBa6Dl4I7TNlfZ8eshboKhjBAYA1pA6ANaQOgDWkDoA1pA6ANW/PYZrKzwldVYDrVGD4oDaVb8OVgy9WPiX01gFcd6Yu/6StH0EPE4A1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoC16yV12WkcF6/WdmAJWnU8x6VlC70hANfUqanTquM7mh0WLGVfLxvjh4CCUK6Xto6R2vPfqB8dMWTS6p/MQlcFfJcPpe6nDXf2DRk0YdH3t98fJ3RdwKf5UOrKfj054plNuWdO7nyxOzwxAXoudqmrLNj88tSYgYEcx3GcX98xT6oLKpsr9OI9jjKBA+95cXOjIpbTGSumjunr55z/8pe6Wm9XT5Sw9uI3Hz4d10/KbJMBmsUudT/+Z5f8yY25pWae56/8nH7robQ7pm1scOKl8h/P3v7sj8nqXy7xvLm64P1B+5+5Y5r6hOtZ5JYT6ntU0/be/JdjRp7nr/zySVz2jFH31s8H6CbYpW7SsswVj0QPCZQSkb/ykdf/EGfO2Zh5wqOE9sigd79a+8CIQCmRNHDEI3/b+Vp4zqJluy845n78TNqRh//x1aqEgf5E5D8wYcXfl92Ys2jDQcQOuhfBjusiI6OJjp5sMKL0rCenhHq8lY6/PyXMvPerQgsR/fD52rxGBaQx8Qlkzi4oEmobANqF4VMjLaaT3+/+YvfxY8e+/P7sZYO2tHGBsaOHNjrm6jtwONFxvZ4osuKclkh7v+zjJss9V8F6pwF0CKu2rjJ74YiwW57cWaaMe/adfx88eLw8K7VxGamk2f8BoUGBzleRqwv5ptIThNp5AO3CqK3T7nxjXcldm85kPj3YNam4SaFCzVmiSI8JFu2xPAp7bVh/IgoICSPtcX013RYk8C4D6CBGbd1ZTSFR5CB35MiSc2BX40Lmz/6T43lm5OxO9RYa9ML9txMR3X7fM2G0Y8226/12M4BrYpS6mEmPyehvf/zgmMnivC1r8fYbGhcKu2H7rEfV35yvJbKYTn65cMqz/wpP3fTSeCkRkXTCK9tTB+Utuvf5XT9fqiUii6n85y9XJK36SuhdCNBGnZ+6vDQV10C8WktBU9/7Nv13VX8cFyTj/IYkr7k878u/Tm38yeF/2LvrgeNLbw3hOFlQzJzj4z/6/lh6gvukZWjC2oLcj+49tWhcaC+O4+TD4lI+pqcfHCP0LgRoI47neSLied5ut5vNZpPJ9OTb2/sqRzcqZyo/h+fXATQ1dfknTZ8aeVFXtG3pE4GBgTKZTCQScRznOdeH7sMEuE4gdQCsIXUArCF1AKwhdQCsIXUArCF1AKwhdQCsIXUArCF1AKwhdQCsIXUArCF1AKwhdQCsIXUArCF1AKwhdQCsIXUArCF1AKwhdQCsXS+pw3PJwXf40HPJK4t2vXzPMPfD717cnFeGpwGBEK6Xtq7LlWycNnbp2Ye3HjPyvLm6+JO47+bExyz5qlroeoEP8pnU0fClR4t3pt450J9IGjgkYdW2VaPOrVuGEdyBPZ9J3dBJyaP9PSfcPOZuorxivdAVA9/jQ88lB7hO+OxzyS0FudlE98ffzGwHADj56HPJa4s+fGmVdtCCl6b2Z7YDAJx88LnklrKvl8WNXXBk3Oq9/zsJj6AE9nzsueSW0xlLpk5b91P4tE1HP3u64ekVAEZ86bnklTnLYlT3f2h6aNNxzR5EDgTjM88lt5xQT5u8+tSE9KNfpiJwIChfeS752W0L0nKGrz6ciciB4HzkueSW47nZFPnkfbdJvSkN0KV85Lnkev1xIu1r0VwT1+3N2tBz4bnkAB2C55IDdANIHQBrSB0Aa0gdAGtIHQBrSB0Aa0gdAGtIHQBrSB0Aa0gdAGtIHQBrSB0Aa0gdAGtIHQBrSB0Aa12XOq06vv0/HXV+2PG5Bm8Aur0uSl12GqcqftM1ipdmJund070Ij1adkhadxfN8bmpkwzcAPUDXpE6rLaTUh9wj5kWmpno7eh4REemL8+KiFM29AegBuiZ1kZHRpN7X6LmpWnU8l6h2jKsSr9aSVh3v8WxV17sGpdLSGn4EoCfooh5mQromvTCRa/DI4sjUXD4rleLSNa31FhuUSk/35iMA3UtHR6G9fLWuwlhz1Wyx2e1ENEoxwDkjMjWXT6XsNI7jKDXL+wGavWGx2rTnyoTZYeB7xCKRn0wSGiQP7HVDx5dGHUzd5at1pRVViohQqVjcfImEdJ5fqI5Xxas1ndhWSSXi+ngDdD2rzXam7BLP80EBnTCKcYd6mBXGmtYi5xSZMDMOz0SFbk0iFiv6h5UbTZ2ytA6l7qrZ0nzktOq0+nMf2uxPmz0L6XnKRatOScvrwp0G0FEiEWe2WDtnUR35sONYrhmRkVQ/ArTq05nu7mXCwnRyn5BMSM9KVSdyHMdxKfRmehzbnQgglC56pk9COs+nNzfDcZKl2WKpvMfkBGr2DUAPgPswAVhD6gBYQ+oAWEPqAFhD6gBYQ+oAWEPqAFhD6gBYQ+oAWEPqAFhD6gBYQ+oAWPPx1OW8krb/assz73qv2Nrqp5srkPNKcEzrnwMf17Wp824gPmo0cFF7i2entX8Azk5Tsnn3kVFSgVYO3UMPauuy91GWc/zNdEpLaUfucl4JdoT2GXcDeOjlYI7jOFfj5SrRUmNWsvmFvMmvT5AJvS/gutaDUpeQ7hoSqb1jRkxYU8XzPH9q09kvD1wlIjq2uGByGc/zp9Iyn/ug2Jrzyuv9v7PwPM+/f0H976Y905LNL+QtWDelc0a0gZ5LgNS12BGsH6Pds/voMXK7t53Q7LVplL6w7b+FLdmccAPHccOeOXBUo7MS0a3vLr7vBiIaevcT8pMlv/76w5HFo6Ucx3ET3zniKNHg08gceIV96uo7glmpeWlr3UFSJ6bQVmcHsTDRmUetOl716UyNe3LruXPled9D7Rk9s2TzOtPaGp7nT22a7DwwO1ZUYiUiKjm4vWbE0OHDbxv3bpHFUfmCl6Ia/g4/58OFBzY+4M9x3MR3Di8eHYcTKtAS9qmr7wgmPJRKhVpXa5ea5UpKZOqbqXmfZmsdAx2lvukxucmA0o0W7UjEQ/u8P5+y7QF/55HalRtl/ztaynHc7zbWOGfeemJVCMdx3LD0pL/Nj5JMWPPWhfHSFg7snN1TnucPL5n4blFe41QCuAjwzdCq41XuAcHimh1dRRHlGLpIX5xH6kROXT8nLkpL1+w6JqRr0uNVa7NTrzn27YQ1Vfya+rcN3hCtOZTbevk1hyY0u9BmJwM4sW7rtOr4+of9ZKW2UEpf7EilIiouLl3De8C469D9sU6d5xN6svd5NGKkfsPVJ8xOS1Q7+pWRCTO9vgaQneY+6NOqU9LyPJ4pBHBd6fLU5dUPjMnFq7WuATE5juP2kWdblzqTUhzTEwvTNc6+YWRqbla0xxJaOZuiiCpMdI3AmRbdyU9WAOhEXXtc19ywmJGeA2I6Z0am5vJERKmpXi3DVbzJxJZ6rADXkx50lRygm0DqAFhD6gBYQ+oAWEPqAFhD6gBYQ+oAWEPqAFjrUOpEIo7nO7IAAF/UodT5SaV23t6RJQB0F3ael0rEnbKoDqUuNCjgTNklO9o76OnsPH/+4m+hQfJOWVqH7sMMCvC387zufLnFamO5C6RiscXGdI3g46QScWiQvE9QQKcsraN3P4fIe4XIewm9TwC6E18cZWDRokVCVwHo/fffF7oKgvHF1BHRvHnzhK6CT1u/fr3QVRASrtcBsIbUAbCG1AGwhtQBsIbUAbCG1AGwhtQBsIbUAbCG1AGwhtQBsIbUAbCG1AGwhtS1wPjdygnKO1d+Z3S+P7vjUeUjO84IXCEPI8dOWfzZsUr8zLAbQuq6lYiUT4/qdDqdTvPTV+qphjWPzFiVU9GGMTSuaPYtf3z+7rMNJlbkqmc//d4Ro9Ab5zuQuu5JHDBg3FNvzB1xZten35V5/zFzxY9f5V8wNxxyo1Z/6IDWhEaTHaSu+5IFyHtRrfGyReiKQBshdV4a/PhO3a7Hhzjfnd3xqPLOlTmni/6xeMrYkUql6pa7n/rg2zKb3eiaohw5fuZ7/z1d2/IS7caivW/Pnjr+FpXrMG1HkbEtI65V/HqsRDzm3uj+jrfG71ZOaHzo6THN+N3KCcqxM7eW0tHX/0epVCqVj+w4c3bHo0rl3a8XkGHrzLFKpdLjSNZec+rgh/Od1VPdMn7qfPUhz81x7oJzpw6899Tdt6jq94HQf6luAKlrN2Pma7P/LnluW/4vmqN7Xx76w7rZz6U+O2Ph8Xs+OPSzTpO//Snblhdnf1Roaunz1ScPF/aa+ubnuSd0Ou2PGW+NKVz++5c+15m9Wbf9atkP29544+CYN//8xAiZV9UNGb88R3f005QBNPatr3U6nU636/Ehgx/fqdMdfCvGfcD4zfLxIURkr/h2zcPJC/47cO6Wwyd0Ou1P2R/N8vu/56e+uEPr+X+ktiB94fKjt7yx/5hGc/Rff7rj9IanX/zkpFdb4NOQunartY9bvHT6TSFiEodEPfbq3FG1Px84c++flyYPk4tIHBo9Y86DYdrMQ7rLLXw+ZFzqH+fff+uAADGRSD7s3hdeGFt7aNe351tr7lxNUmTU+BmrtPELnx8f4dcFm2bMS1/68eVH13+0JDEyREwkuqHfLQ+/mb5E8d2qt/99tr6CxpKA369eMnmYXETikMikOfMnyn7cmfHz5Q6s2icgde0mjowd2c+1/2T9o2IGUMTEO5SBrvl9ht40mEpPnKn2bnGi4BtH9qMLJYbWyrvPYWqL8//5Stju5yc/8FabTmJ6pfz73V+Ujkp5PC7M8+vhPzLxsbHmnM9zz9fvgjH3xgx2lxENvHXiSKq5VF3XRXu8x/DR0Yo6Q7hqUOA1C7V6ssNmPFVw+L+Hfyj+Ie+4oeri+bLLFOHlykU3hKoSXk7/S/kDc1Zsvn/fkrHXror36irOGUMih/Zp1HUVBd84sp/tK21pFQ0Obm4XiCRSMZWdPF9D1KcTq9PzoK0TiL3i27eT45Jf3VsRcfsjyzZu35WRvSllQNuWIeo3cuxQ0n+v+a3z6+cX4If/yF0Fe1YY9rPZGzadv+PPmR9Pc3XRjNr2LUosFXPuN7WmK2YidyNVW1najkT6hQ0KKTv2S7l5YoPmzl51+pcy/xE3DwkWeu91d2jrhGG6UGKwhQzpF+j+A5h03x4ubdtC7GW/HC0Rj540ph8RUa8+A0Ko5MiJMnv9/KJDPzS9dmG8cKnJ+Q7j+Yr6guG3TZkc+vPWHXkNjhhrtYf2H/e/c8rYfkLvvG4PqRNGsDJ+XKhhz8Yviow2x3WAPyz78rK/9wuwGbXZf0l7eX/vZ1992HHtQDbsnpl3i3Pe+cueE45lFvxt8R9zRQ2WGTT4lhH++oO5p2o88hSiilHUHvv62Hn3pbawu5a895R0x7w572RpjTYi+9Wyn3a/MWd16SMb3poyEN+ZjsIeFEjYXX/YtGpyxboZY1XKUXc8u7l25gdvJfW+1qdcVw6USlXcY+vOTVqbsXvJuBDnTNmwGe9+9ma87k/THMvcEfDy5j81XKZo8H2vrZ529cOHx0QqR87afY6IiAJve3r1SyOPLJqoUqom/zm/iohEYXcu2/vP1TG/vPNYnEqpjLw1+bVDg1/du/f1CWH4xnQcx/M8EfE8b7fbzWazyWR68u3tfZWjG5UzlZ/7YuVTQte2cyxatAgjrgtr/fr1PeY5B1OXfxIYPqjRxIu6om1LnwgMDJTJZCKRiOM4z7n4zwXAGlIHwBpSB8AaUgfAGlIHwBpSB8AaUgfAGlIHwBpSB8Caj/7mwMefRg/C8sXU9Zh7kaCbQg8TgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1pA6ANaQOgDWkDoA1ifdFpy7/ROjaAvQE3qYuMHyQ0FUF6CHQwwRgrT51nIvQVQLoCVoJlKhROZEIrR9AJxCLxS21YY1TJ5G04fwKALRELBa31IY1mCoSiaRSqdC1BegJpFJpS22ds2VzzBaJRI627qKuSOg6A3RvEolEJBI1e2jH8TzveMXzvN1ut9lsVqvVYrHYbDabzeaeCwDe4DhOLBaLxWKpVCqRSBz9zEbBa5A6x2u73e5IoHsKAHjJ0bg5kuY4rmva3HGeuXK8bjoFALzkGTDH69Z6mG5IGkCnaOlsCoeMATD2/+bGRCuCjCaBAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAAAASUVORK5CYII=" alt="1040-001"   /></a><br />
 See <a href="2010-12-03-144-dependency-property-value-sources-10-inheritance.html">this post</a> for another example of dependency property inheritance.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

@@ -45,23 +45,38 @@
 
 					<p>Because .NET uses the IEEE 754 standard to represent floating point numbers, it allows representing both positive and negative zero values.  (+0.0 and -0.0).</p>
 <p>Mathematically, +0.0 is equal to -0.0 and an equality check in C# will return a <strong>true</strong> result.  However, although the values are considered equal, either value can be represented in C# and they are stored differently in memory.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            float zero = 0.0f;
-            float negZero = -0.0f;
-
-            bool theyAreEqual = zero == negZero;   // true
-
-            // 00-00-00-00
-            Console.WriteLine(BitConverter.ToString(BitConverter.GetBytes(zero)));
-
-            // 00-00-00-80
-            Console.WriteLine(BitConverter.ToString(BitConverter.GetBytes(negZero)));
-
-            float sum1 = zero + 1.0f;
-            float sum2 = negZero + 1.0f;
-            bool sumsEqual = sum1 == sum2;    // true
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            float zero = 0.0f;
+
+            float negZero = -0.0f;
+
+
+
+            bool theyAreEqual = zero == negZero;   // true
+
+
+
+            // 00-00-00-00
+
+            Console.WriteLine(BitConverter.ToString(BitConverter.GetBytes(zero)));
+
+
+
+            // 00-00-00-80
+
+            Console.WriteLine(BitConverter.ToString(BitConverter.GetBytes(negZero)));
+
+
+
+            float sum1 = zero + 1.0f;
+
+            float sum2 = negZero + 1.0f;
+
+            bool sumsEqual = sum1 == sum2;    // true
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1092-001.png"><img class="alignnone size-full wp-image-8564" src="https://web.archive.org/web/20140701224625id_/http://2000thingscsharp.files.wordpress.com/2014/05/1092-001.png?w=630" alt="1092-001"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1092-001.png"><img class="alignnone size-full wp-image-8564" src="data:image/png;base64,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" alt="1092-001"   /></a></p>
 <p>&nbsp;</p>
 <p>You can think of  a floating point representation of zero as being either zero or a very small positive number that rounds to zero when stored as a floating point.  If the value was a tiny bit above zero before rounding, it&#8217;s stored as +0.0.  If it was a bit below zero before rounding, it&#8217;s stored as -0.0.</p>
 

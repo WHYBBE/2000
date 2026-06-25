@@ -45,35 +45,60 @@
 
 					<p>A set accessor allows client code to give a property a new value.  You typically use the set accessor to do any <a href="2011-02-22-250-using-a-set-accessor-to-convert-or-validate-property-data.html">required validation or conversion</a> of the input value.  This is the point where you impose any business rules related to the value of the property being set.</p>
 <p>For example, you might enforce a requirement that a particular string-based property always be uppercase.  Instead of throwing an exception if some calling code tries to set a property that is not uppercase, you can just automatically convert all values to uppercase.</p>
-<p><pre class="brush: csharp;">
-    public class Car
-    {
-        private string licPlate;
-        public string LicPlate
-        {
-            get { return licPlate; }
-            set
-            {
-                if (value != licPlate)
-                {
-                    if (value.Length != 7)
-                        throw new Exception(&quot;Invalid license plate number&quot;);
-                    else
-                        licPlate = value.ToUpper();
-                }
-            }
-        }
-
-    }
+<p><pre class="brush: csharp;">
+
+    public class Car
+
+    {
+
+        private string licPlate;
+
+        public string LicPlate
+
+        {
+
+            get { return licPlate; }
+
+            set
+
+            {
+
+                if (value != licPlate)
+
+                {
+
+                    if (value.Length != 7)
+
+                        throw new Exception(&quot;Invalid license plate number&quot;);
+
+                    else
+
+                        licPlate = value.ToUpper();
+
+                }
+
+            }
+
+        }
+
+
+
+    }
+
 </pre></p>
 <p>&nbsp;</p>
-<p><pre class="brush: csharp;">
-            Car c = new Car();
-            c.LicPlate = &quot;vpn 123&quot;;
-
-            Console.WriteLine(c.LicPlate);
+<p><pre class="brush: csharp;">
+
+            Car c = new Car();
+
+            c.LicPlate = &quot;vpn 123&quot;;
+
+
+
+            Console.WriteLine(c.LicPlate);
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/700-001.png"><img class="alignnone size-full wp-image-6007" title="700-001" alt="" src="https://web.archive.org/web/20121101164207id_/http://2000thingscsharp.files.wordpress.com/2012/10/700-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/700-001.png"><img class="alignnone size-full wp-image-6007" title="700-001" alt="" src="data:image/png;base64,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"   /></a></p>
 
 		<div class="wpadvert">
 		

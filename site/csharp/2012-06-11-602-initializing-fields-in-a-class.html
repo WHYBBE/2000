@@ -45,35 +45,61 @@
 
 					<p>You can initialize instance-level fields in a class when you declare them.  If you do not initialize them, all fields are <a href="2011-01-05-202-all-fields-in-an-object-are-automatically-initialized.html">initialized to default values</a> (0 for numeric types, null for reference types).</p>
 <p>In the fragment of the <strong>Dog</strong> class below, we initialize two instance-level fields and one static field.</p>
-<p><pre class="brush: csharp;">
-    public class Dog
-    {
-        // Instance fields
-        public string Name = &quot;Bowser&quot;;
-        public int Age = 1;
-
-        // Static fields (one for entire type, rather than 1/instance)
-        public static string CanineMotto = &quot;We're here to serve you&quot;;
-
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
-
-        public Dog() { }
-    }
+<p><pre class="brush: csharp;">
+
+    public class Dog
+
+    {
+
+        // Instance fields
+
+        public string Name = &quot;Bowser&quot;;
+
+        public int Age = 1;
+
+
+
+        // Static fields (one for entire type, rather than 1/instance)
+
+        public static string CanineMotto = &quot;We're here to serve you&quot;;
+
+
+
+        public Dog(string name, int age)
+
+        {
+
+            Name = name;
+
+            Age = age;
+
+        }
+
+
+
+        public Dog() { }
+
+    }
+
 </pre><br />
-<pre class="brush: csharp;">
-            Dog myDog = new Dog();
-            Console.WriteLine(&quot;My dog {0} is aged {1}&quot;, myDog.Name, myDog.Age);
-
-            Dog yourDog = new Dog(&quot;Kirby&quot;, 15);
-            Console.WriteLine(&quot;Your dog {0} is aged {1}&quot;, yourDog.Name, yourDog.Age);
-
-            Console.WriteLine(&quot;Dog motto: {0}&quot;, Dog.CanineMotto);
+<pre class="brush: csharp;">
+
+            Dog myDog = new Dog();
+
+            Console.WriteLine(&quot;My dog {0} is aged {1}&quot;, myDog.Name, myDog.Age);
+
+
+
+            Dog yourDog = new Dog(&quot;Kirby&quot;, 15);
+
+            Console.WriteLine(&quot;Your dog {0} is aged {1}&quot;, yourDog.Name, yourDog.Age);
+
+
+
+            Console.WriteLine(&quot;Dog motto: {0}&quot;, Dog.CanineMotto);
+
 </pre><br />
-<a href="http://2000thingscsharp.files.wordpress.com/2012/06/602-001.png"><img class="alignnone size-full wp-image-5106" title="602-001" src="https://web.archive.org/web/20120822083525id_/http://2000thingscsharp.files.wordpress.com/2012/06/602-001.png?w=630" alt=""   /></a></pre>
+<a href="http://2000thingscsharp.files.wordpress.com/2012/06/602-001.png"><img class="alignnone size-full wp-image-5106" title="602-001" src="data:image/png;base64,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" alt=""   /></a></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/06/11/602-initializing-fields-in-a-class/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5100"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/06/11/602-initializing-fields-in-a-class/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/06/11/602-initializing-fields-in-a-class/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Classes, Fields, Instance Fields</p>
   <nav class="pager"><a href="2012-06-08-601-a-class-can-both-inherit-and-implement-an-interface.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-12-603-using-constants-can-force-recompilation.html">Next</a></nav>

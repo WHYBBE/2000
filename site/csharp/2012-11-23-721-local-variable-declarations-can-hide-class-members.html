@@ -44,29 +44,50 @@
 					</div>
 
 					<p>It&#8217;s possible to declare a variable in a method that has the same name as one of the class members in the class where the method is defined.  The local variable is said to <em>hide</em> the class member.</p>
-<p><pre class="brush: csharp;">
-    public class Dog
-    {
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Name = name;
-        }
-
-        public void Bark()
-        {
-            // Local variable Hides Dog's Name property
-            string Name = &quot;Franklin Roosevelt&quot;;
-
-            Console.WriteLine(string.Format(&quot;{0} says WOOF&quot;, Name));
-
-            // Can still access Dog.Name via this pointer
-            Console.WriteLine(string.Format(&quot;I'm {0}&quot;, this.Name));
-        }
-    }
+<p><pre class="brush: csharp;">
+
+    public class Dog
+
+    {
+
+        public string Name { get; set; }
+
+
+
+        public Dog(string name)
+
+        {
+
+            Name = name;
+
+        }
+
+
+
+        public void Bark()
+
+        {
+
+            // Local variable Hides Dog's Name property
+
+            string Name = &quot;Franklin Roosevelt&quot;;
+
+
+
+            Console.WriteLine(string.Format(&quot;{0} says WOOF&quot;, Name));
+
+
+
+            // Can still access Dog.Name via this pointer
+
+            Console.WriteLine(string.Format(&quot;I'm {0}&quot;, this.Name));
+
+        }
+
+    }
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/11/721-001.png"><img class="alignnone size-full wp-image-6197" title="721-001" alt="" src="https://web.archive.org/web/20121205042906id_/http://2000thingscsharp.files.wordpress.com/2012/11/721-001.png?w=630"   /><br />
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/11/721-001.png"><img class="alignnone size-full wp-image-6197" title="721-001" alt="" src="data:image/png;base64,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"   /><br />
 </a></p>
 <p>Notice that you can still access the class-level <strong>Name</strong> property by using the <strong>this</strong> keyword.</p>
 <p>While it&#8217;s possible to hide a class member in this way, it&#8217;s generally considered to be bad practice.  When you make <strong>Name</strong> mean different things, depending on what part of the code you&#8217;re in, this can lead to confusion.</p>

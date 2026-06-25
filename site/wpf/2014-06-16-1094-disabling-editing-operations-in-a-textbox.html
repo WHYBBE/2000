@@ -46,26 +46,41 @@
 					<p>You can disable the cut/copy/paste features in a <strong>TextBox</strong> by handling the <strong>CommandManager.PreviewCanExecute</strong> event and checking for the associated editing commands.</p>
 <p>A <strong>TextBox </strong>has implicit command bindings to support cut, copy, and paste commands.  When the user executes one of these commands, using the context menu or a keyboard shortcut, the associated routed command is executed, with the <strong>TextBox</strong> as the source.  You can short-circuit the command by intercepting <strong>PreviewCanExecute</strong> and making sure that <strong>CanExecute</strong> returns false.</p>
 <pre>Markup:</pre>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;TextBox Name=&quot;txtSomeText&quot;
-                 CommandManager.PreviewCanExecute=&quot;txtSomeText_PreviewCanExecute&quot;
-                 Width=&quot;220&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+        &lt;TextBox Name=&quot;txtSomeText&quot;
+
+                 CommandManager.PreviewCanExecute=&quot;txtSomeText_PreviewCanExecute&quot;
+
+                 Width=&quot;220&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
+
 </pre>
 <p>Code-behind:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void txtSomeText_PreviewCanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if ((e.Command == ApplicationCommands.Cut) ||
-                (e.Command == ApplicationCommands.Copy) ||
-                (e.Command == ApplicationCommands.Paste))
-            {
-                e.Handled = true;
-                e.CanExecute = false;
-            }
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private void txtSomeText_PreviewCanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+        {
+
+            if ((e.Command == ApplicationCommands.Cut) ||
+
+                (e.Command == ApplicationCommands.Copy) ||
+
+                (e.Command == ApplicationCommands.Paste))
+
+            {
+
+                e.Handled = true;
+
+                e.CanExecute = false;
+
+            }
+
+        }
+
 </pre>
 <p>The editing functions are now disabled. The context menu in the <strong>TextBox</strong> shows the commands greyed out and corresponding keyboard shortcuts do nothing.</p>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1094-001.png"><img class="alignnone size-full wp-image-8878" src="https://web.archive.org/web/20140617192713id_/http://2000thingswpf.files.wordpress.com/2014/06/1094-001.png?w=630" alt="1094-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1094-001.png"><img class="alignnone size-full wp-image-8878" src="data:image/png;base64,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" alt="1094-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

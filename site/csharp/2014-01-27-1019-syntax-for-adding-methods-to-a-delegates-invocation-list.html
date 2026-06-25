@@ -46,23 +46,38 @@
 					<p>If you have a delegate instance, it will have zero or more methods in its invocation list.  When you <em>invoke</em> the delegate instance, these are the methods that will be called.</p>
 <p>For a given delegate instance, you can add or remove methods to its invocation list.  In actuality, since a delegate is immutable, you&#8217;re actually creating a new delegate instance that has the specified methods added or removed.</p>
 <p>Below are several examples of how you might add a new method to the invocation list of an existing delegate instance.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Add Method2 to original invocation list
-            StringHandlerDelegate del1 = Method1;
-            del1 += Method2;
-            del1(&quot;Howdy 1&quot;);
-
-            // Does the same thing
-            del1 = Method1;
-            del1 = del1 + Method2;
-            del1(&quot;Howdy 2&quot;);
-
-            // Does the same thing
-            del1 = Method1;
-            del1 = (StringHandlerDelegate)Delegate.Combine(del1, new StringHandlerDelegate(Method2));
-            del1(&quot;Howdy 3&quot;);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            // Add Method2 to original invocation list
+
+            StringHandlerDelegate del1 = Method1;
+
+            del1 += Method2;
+
+            del1(&quot;Howdy 1&quot;);
+
+
+
+            // Does the same thing
+
+            del1 = Method1;
+
+            del1 = del1 + Method2;
+
+            del1(&quot;Howdy 2&quot;);
+
+
+
+            // Does the same thing
+
+            del1 = Method1;
+
+            del1 = (StringHandlerDelegate)Delegate.Combine(del1, new StringHandlerDelegate(Method2));
+
+            del1(&quot;Howdy 3&quot;);
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1019-001.png"><img class="alignnone size-full wp-image-8160" alt="1019-001" src="https://web.archive.org/web/20140129141433id_/http://2000thingscsharp.files.wordpress.com/2014/01/1019-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1019-001.png"><img class="alignnone size-full wp-image-8160" alt="1019-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -45,25 +45,40 @@
 
 					<p>When you declare a field in a class and initialize the field when it is declared, the initialization of the field will happen when an instance of the class is created, but before the constructor is invoked.  All fields are initialized before the constructor executes, in the order in which they are declared.</p>
 <p>Assume that we have a <strong>Dog</strong> class defined as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public string Sound = &quot;Woof&quot;;
-        public Cat Friend = new Cat(&quot;Garfield&quot;);
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Console.WriteLine(&quot;Dog constructor for {0}, Sound is {1}&quot;, name, Sound);
-            Name = name;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public string Sound = &quot;Woof&quot;;
+
+        public Cat Friend = new Cat(&quot;Garfield&quot;);
+
+        public string Name { get; set; }
+
+
+
+        public Dog(string name)
+
+        {
+
+            Console.WriteLine(&quot;Dog constructor for {0}, Sound is {1}&quot;, name, Sound);
+
+            Name = name;
+
+        }
+
+    }
+
 </pre>
 <p>When we create an instance of a <strong>Dog</strong>, the <strong>Sound</strong> and <strong>Friend</strong> fields are initialized before the <strong>Dog</strong> constructor is invoked.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog d = new Dog(&quot;Kirby&quot;);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Dog d = new Dog(&quot;Kirby&quot;);
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1023-001.png"><img class="alignnone size-full wp-image-8184" alt="1023-001" src="https://web.archive.org/web/20140201102413id_/http://2000thingscsharp.files.wordpress.com/2014/01/1023-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1023-001.png"><img class="alignnone size-full wp-image-8184" alt="1023-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

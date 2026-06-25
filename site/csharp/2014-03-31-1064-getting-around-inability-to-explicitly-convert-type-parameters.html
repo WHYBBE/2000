@@ -45,51 +45,94 @@
 
 					<p>You <a href="http://wp.me/pXTis-2bi">can&#8217;t explicitly convert a type parameter</a> to either a value type or a reference type (you can convert to an interface).</p>
 <p>To get around this restriction, you can use the <strong>as</strong> operator on the type parameter.  This gives you a way to effectively convert the type parameter, get the code to compile, and avoid runtime exceptions.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    class Program
-    {
-        public class ThingContainer&lt;T&gt;
-        {
-            private T thing;
-
-            public void SetThing(T t)
-            {
-                thing = t;
-
-                // Won't compile
-                //int i = (int)t;
-
-                // Do this instead
-                int? i = t as int?;
-                if (i.HasValue)
-                    Console.WriteLine(&quot;Your int: &quot; + i);
-
-                // Won't compile
-                //Dog d = (Dog)t;
-
-                // Do this instead
-                Dog d = t as Dog;
-                if (d != null)
-                    Console.WriteLine(&quot;Your Dog: &quot; + d.Name);
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            ThingContainer&lt;int&gt; intcont = new ThingContainer&lt;int&gt;();
-            intcont.SetThing(5);
-
-            ThingContainer&lt;Dog&gt; dogcont = new ThingContainer&lt;Dog&gt;();
-            dogcont.SetThing(new Dog(&quot;Bowser&quot;));
-
-            ThingContainer&lt;Cow&gt; cowcont = new ThingContainer&lt;Cow&gt;();
-            cowcont.SetThing(new Cow(&quot;Bessie&quot;));
-
-            Console.ReadLine();
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    class Program
+
+    {
+
+        public class ThingContainer&lt;T&gt;
+
+        {
+
+            private T thing;
+
+
+
+            public void SetThing(T t)
+
+            {
+
+                thing = t;
+
+
+
+                // Won't compile
+
+                //int i = (int)t;
+
+
+
+                // Do this instead
+
+                int? i = t as int?;
+
+                if (i.HasValue)
+
+                    Console.WriteLine(&quot;Your int: &quot; + i);
+
+
+
+                // Won't compile
+
+                //Dog d = (Dog)t;
+
+
+
+                // Do this instead
+
+                Dog d = t as Dog;
+
+                if (d != null)
+
+                    Console.WriteLine(&quot;Your Dog: &quot; + d.Name);
+
+            }
+
+        }
+
+
+
+        static void Main(string[] args)
+
+        {
+
+            ThingContainer&lt;int&gt; intcont = new ThingContainer&lt;int&gt;();
+
+            intcont.SetThing(5);
+
+
+
+            ThingContainer&lt;Dog&gt; dogcont = new ThingContainer&lt;Dog&gt;();
+
+            dogcont.SetThing(new Dog(&quot;Bowser&quot;));
+
+
+
+            ThingContainer&lt;Cow&gt; cowcont = new ThingContainer&lt;Cow&gt;();
+
+            cowcont.SetThing(new Cow(&quot;Bessie&quot;));
+
+
+
+            Console.ReadLine();
+
+        }
+
+    }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1064-001.png"><img class="alignnone size-full wp-image-8393" src="https://web.archive.org/web/20140331155805id_/http://2000thingscsharp.files.wordpress.com/2014/03/1064-001.png?w=630" alt="1064-001"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1064-001.png"><img class="alignnone size-full wp-image-8393" src="data:image/png;base64,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" alt="1064-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

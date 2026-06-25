@@ -44,51 +44,92 @@
 					</div>
 
 					<p>We can use a <strong>StreamGeometryContext</strong> to <a href="2014-08-27-1145-using-rendersize-in-custom-shape.html">render some geometry in a custom </a><strong><a href="2014-08-27-1145-using-rendersize-in-custom-shape.html">Shape</a> </strong>element that we can then use in XAML.  Below is an example that draws a simple arc from 0 degress to 90 degrees.  It uses a <a href="2014-09-01-1148-sample-code-to-convert-from-polar-to-cartesian-coordinates.html"><strong>PolarPoint</strong> class</a> to allow describing the arc start and finish as polar coordinates.  (A future post will allow a user to specify arc start and end).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Arc : Shape
-    {
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-                double maxWidth = RenderSize.Width;
-                double maxHeight = RenderSize.Height;
-                double maxRadius = Math.Min(maxWidth, maxHeight) / 2.0;
-
-                PolarPoint arcStart = new PolarPoint(maxRadius, 0.0);
-                PolarPoint arcFinish = new PolarPoint(maxRadius, 90.0);
-
-                StreamGeometry geom = new StreamGeometry();
-                using (StreamGeometryContext ctx = geom.Open())
-                {
-                    ctx.BeginFigure(
-                        new Point((maxWidth / 2.0) + arcStart.X,
-                                   (maxHeight / 2.0) - arcStart.Y),
-                        false,
-                        false);
-                    ctx.ArcTo(
-                        new Point((maxWidth / 2.0) + arcFinish.X,
-                                  (maxHeight / 2.0) - arcFinish.Y),
-                        new Size(maxRadius, maxRadius),
-                        0.0,     // rotationAngle
-                        false,   // greater than 180 deg?
-                        SweepDirection.Counterclockwise,
-                        true,    // isStroked
-                        true);
-                }
-
-                return geom;
-            }
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Arc : Shape
+
+    {
+
+        protected override Geometry DefiningGeometry
+
+        {
+
+            get
+
+            {
+
+                double maxWidth = RenderSize.Width;
+
+                double maxHeight = RenderSize.Height;
+
+                double maxRadius = Math.Min(maxWidth, maxHeight) / 2.0;
+
+
+
+                PolarPoint arcStart = new PolarPoint(maxRadius, 0.0);
+
+                PolarPoint arcFinish = new PolarPoint(maxRadius, 90.0);
+
+
+
+                StreamGeometry geom = new StreamGeometry();
+
+                using (StreamGeometryContext ctx = geom.Open())
+
+                {
+
+                    ctx.BeginFigure(
+
+                        new Point((maxWidth / 2.0) + arcStart.X,
+
+                                   (maxHeight / 2.0) - arcStart.Y),
+
+                        false,
+
+                        false);
+
+                    ctx.ArcTo(
+
+                        new Point((maxWidth / 2.0) + arcFinish.X,
+
+                                  (maxHeight / 2.0) - arcFinish.Y),
+
+                        new Size(maxRadius, maxRadius),
+
+                        0.0,     // rotationAngle
+
+                        false,   // greater than 180 deg?
+
+                        SweepDirection.Counterclockwise,
+
+                        true,    // isStroked
+
+                        true);
+
+                }
+
+
+
+                return geom;
+
+            }
+
+        }
+
+    }
+
 </pre>
 <p>Using the arc:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;loc:Arc Stroke=&quot;Black&quot; StrokeThickness=&quot;1&quot;
-                 Height=&quot;100&quot; Width=&quot;100&quot; Margin=&quot;5&quot;
-                 HorizontalAlignment=&quot;Center&quot;/&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+        &lt;loc:Arc Stroke=&quot;Black&quot; StrokeThickness=&quot;1&quot;
+
+                 Height=&quot;100&quot; Width=&quot;100&quot; Margin=&quot;5&quot;
+
+                 HorizontalAlignment=&quot;Center&quot;/&gt;
+
 </pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1149-001.png"><img class="alignnone size-full wp-image-9239" src="https://web.archive.org/web/20140908052928id_/http://2000thingswpf.files.wordpress.com/2014/09/1149-001.png?w=630" alt="1149-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1149-001.png"><img class="alignnone size-full wp-image-9239" src="data:image/png;base64,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" alt="1149-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

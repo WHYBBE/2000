@@ -45,33 +45,56 @@
 
 					<p>If a derived class does not provide its own version of a method that it inherits from the base class, it can call the method in the base class <a href="http://wp.me/pXTis-1mp">directly</a>, by name.</p>
 <p>However, if the derived class <a href="2011-06-10-343-use-the-new-keyword-to-replace-a-method-in-a-base-class.html">replaces</a> (using the <strong>new</strong> keyword) or <a href="2011-06-17-348-virtual-methods-support-polymorphism.html">overrides</a> the base class method, it can still call the version of the method that exists in the base class, using the <strong>base</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public virtual void Bark()
-        {
-            Console.WriteLine(&quot;Dog barking: Woof&quot;);
-        }
-    }
-
-    public class Terrier : Dog
-    {
-        public override void Bark()
-        {
-            Console.WriteLine(&quot;Terrier barking: Growf&quot;);
-            base.Bark();   // Call Dog.Bark
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public virtual void Bark()
+
+        {
+
+            Console.WriteLine(&quot;Dog barking: Woof&quot;);
+
+        }
+
+    }
+
+
+
+    public class Terrier : Dog
+
+    {
+
+        public override void Bark()
+
+        {
+
+            Console.WriteLine(&quot;Terrier barking: Growf&quot;);
+
+            base.Bark();   // Call Dog.Bark
+
+        }
+
+    }
+
 </pre>
 <p>Now when we call <strong>Bark</strong> on an instance of a <strong>Terrier, </strong>its version of <strong>Bark</strong> will call the version defined in <strong>Dog.</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main()
-        {
-            Terrier jack = new Terrier();
-            jack.Bark();
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Main()
+
+        {
+
+            Terrier jack = new Terrier();
+
+            jack.Bark();
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/07/618-001.png"><img class="alignnone size-full wp-image-5241" title="618-001" src="https://web.archive.org/web/20130817180818id_/http://2000thingscsharp.files.wordpress.com/2012/07/618-001.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/07/618-001.png"><img class="alignnone size-full wp-image-5241" title="618-001" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

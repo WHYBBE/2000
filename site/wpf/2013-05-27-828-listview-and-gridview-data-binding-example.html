@@ -45,71 +45,130 @@
 
 					<p>A <strong>ListView</strong> control contains a collection of items that you can view in different ways.  The current view can be set using the <strong>View</strong> property, which can be set to an instance of a <strong>GridView</strong>.  A <strong>GridView</strong> is an object that can display the data in columns.</p>
 <p>Below is a complete example of a bound <strong>ListView </strong>that uses a<strong> GridView </strong>to display its items.  The <strong>ListView</strong> is bound to a collection and the <strong>GridView </strong>contains <strong>GridViewColumn</strong> instances, each of which is bound to a property of the items contained in the collection.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;StackPanel&gt;
-        &lt;Label Content=&quot;Ad eundum quo nemo ante iit&quot;
-               Margin=&quot;5&quot;
-               Background=&quot;LightCoral&quot;/&gt;
-        &lt;ListView ItemsSource=&quot;{Binding Guys}&quot;&gt;
-            &lt;ListView.View&gt;
-                &lt;GridView&gt;
-                    &lt;GridViewColumn DisplayMemberBinding=&quot;{Binding Name}&quot;
-                                    Header=&quot;Guy&quot;/&gt;
-                    &lt;GridViewColumn DisplayMemberBinding=&quot;{Binding Age}&quot;
-                                    Header=&quot;Age&quot;/&gt;
-                &lt;/GridView&gt;
-            &lt;/ListView.View&gt;
-        &lt;/ListView&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;StackPanel&gt;
+
+        &lt;Label Content=&quot;Ad eundum quo nemo ante iit&quot;
+
+               Margin=&quot;5&quot;
+
+               Background=&quot;LightCoral&quot;/&gt;
+
+        &lt;ListView ItemsSource=&quot;{Binding Guys}&quot;&gt;
+
+            &lt;ListView.View&gt;
+
+                &lt;GridView&gt;
+
+                    &lt;GridViewColumn DisplayMemberBinding=&quot;{Binding Name}&quot;
+
+                                    Header=&quot;Guy&quot;/&gt;
+
+                    &lt;GridViewColumn DisplayMemberBinding=&quot;{Binding Age}&quot;
+
+                                    Header=&quot;Age&quot;/&gt;
+
+                &lt;/GridView&gt;
+
+            &lt;/ListView.View&gt;
+
+        &lt;/ListView&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
 <p>The code-behind for the top-level<strong> Window</strong> sets the data context and creates the collection.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        public ObservableCollection&lt;Person&gt; Guys { get; protected set; }
-
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-
-            Guys = new ObservableCollection&lt;Person&gt;();
-            Guys.Add(new Person(&quot;Julius Caesar&quot;, 40));
-            Guys.Add(new Person(&quot;Pompeius Magnus&quot;, 46));
-            Guys.Add(new Person(&quot;Marcus Crassus&quot;, 55));
-            RaisePropertyChanged(&quot;Guys&quot;);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class MainWindow : Window, INotifyPropertyChanged
+
+    {
+
+        public ObservableCollection&lt;Person&gt; Guys { get; protected set; }
+
+
+
+        public MainWindow()
+
+        {
+
+            this.InitializeComponent();
+
+            this.DataContext = this;
+
+
+
+            Guys = new ObservableCollection&lt;Person&gt;();
+
+            Guys.Add(new Person(&quot;Julius Caesar&quot;, 40));
+
+            Guys.Add(new Person(&quot;Pompeius Magnus&quot;, 46));
+
+            Guys.Add(new Person(&quot;Marcus Crassus&quot;, 55));
+
+            RaisePropertyChanged(&quot;Guys&quot;);
+
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
+
+        private void RaisePropertyChanged(string propName)
+
+        {
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+        }
+
+    }
+
 </pre>
 <p>For completeness, here is the implementation of the <strong>Person</strong> class.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Person :  INotifyPropertyChanged
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        public Person(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Person :  INotifyPropertyChanged
+
+    {
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+
+
+        public Person(string name, int age)
+
+        {
+
+            Name = name;
+
+            Age = age;
+
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+        private void RaisePropertyChanged(string propName)
+
+        {
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+        }
+
+    }
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/05/828-001.png"><img class="alignnone size-full wp-image-7100" alt="828-001" src="https://web.archive.org/web/20130819144145id_/http://2000thingswpf.files.wordpress.com/2013/05/828-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/05/828-001.png"><img class="alignnone size-full wp-image-7100" alt="828-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

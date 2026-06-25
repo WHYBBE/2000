@@ -44,28 +44,50 @@
 					</div>
 
 					<p>Because a derived class does not inherit any of the constructors of the base class, it must do all of the initialization that the base class normally does.  It normally does this by using the <strong>base</strong> keyword to call the constructor of the base class.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Console.WriteLine(&quot;In Dog constructor&quot;);
-            Name = name;
-        }
-    }
-
-    public class Terrier : Dog
-    {
-        public string Temperament { get; set; }
-
-        public Terrier(string name, string temperament) : base(name)
-        {
-            Console.WriteLine(&quot;In Terrier constructor&quot;);
-            Temperament = temperament;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public string Name { get; set; }
+
+
+
+        public Dog(string name)
+
+        {
+
+            Console.WriteLine(&quot;In Dog constructor&quot;);
+
+            Name = name;
+
+        }
+
+    }
+
+
+
+    public class Terrier : Dog
+
+    {
+
+        public string Temperament { get; set; }
+
+
+
+        public Terrier(string name, string temperament) : base(name)
+
+        {
+
+            Console.WriteLine(&quot;In Terrier constructor&quot;);
+
+            Temperament = temperament;
+
+        }
+
+    }
+
 </pre>
 <p>In the example above, the sequence when creating a <strong>Terrier</strong> object is:</p>
 <ul>
@@ -74,7 +96,7 @@
 <li><strong>Dog</strong> constructor does its initialization</li>
 <li><strong>Terrier </strong>constructor does its initialization</li>
 </ul>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/07/619-001.png"><img class="alignnone size-full wp-image-5248" title="619-001" src="https://web.archive.org/web/20130817170453id_/http://2000thingscsharp.files.wordpress.com/2012/07/619-001.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/07/619-001.png"><img class="alignnone size-full wp-image-5248" title="619-001" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

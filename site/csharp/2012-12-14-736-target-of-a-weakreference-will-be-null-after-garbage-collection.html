@@ -45,25 +45,42 @@
 
 					<p>You can <a href="http://wp.me/pXTis-1DT">create a <strong>WeakReference</strong> object</a> that refers to a regular reference-typed object and lets you discover whether the original object has been garbage collected or not.  The <strong>IsAlive</strong> property of the <strong>WeakReference</strong> can be used to determine whether the object has been garbage collected or not.  (Although a value of <strong>true</strong> <a href="http://wp.me/pXTis-1E1">can&#8217;t be trusted</a>).</p>
 <p>You can use the <strong>Target</strong> property of the <strong>WeakReference</strong> to reference the original object, if it&#8217;s still alive.  However, if the original object has already been garbage collected, the <strong>Target</strong> property will be <strong>null</strong> and you can then no longer reference the original object.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog dog = new Dog(&quot;Bowser&quot;);
-
-            WeakReference dogRef = new WeakReference(dog);
-
-            // Bowser gets garbage collected
-            dog = null;
-            GC.Collect();
-
-            Console.WriteLine(string.Format(&quot;Object still alive: {0}&quot;, dogRef.IsAlive));
-
-            // dogRef.Target will now return null, since
-            // original Dog object was garbage collected
-            Dog origDog = (Dog)dogRef.Target;
-            if (origDog != null)
-                origDog.Bark();
-            Console.WriteLine(&quot;Bowser is gone..&quot;);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Dog dog = new Dog(&quot;Bowser&quot;);
+
+
+
+            WeakReference dogRef = new WeakReference(dog);
+
+
+
+            // Bowser gets garbage collected
+
+            dog = null;
+
+            GC.Collect();
+
+
+
+            Console.WriteLine(string.Format(&quot;Object still alive: {0}&quot;, dogRef.IsAlive));
+
+
+
+            // dogRef.Target will now return null, since
+
+            // original Dog object was garbage collected
+
+            Dog origDog = (Dog)dogRef.Target;
+
+            if (origDog != null)
+
+                origDog.Bark();
+
+            Console.WriteLine(&quot;Bowser is gone..&quot;);
+
 </pre>
-<p><a href="http://csharp.2000things.com/2012/12/14/736-target-of-a-weakreference-will-be-null-after-garbage-collection/736-001/" rel="attachment wp-att-6343"><img class="alignnone size-full wp-image-6343" alt="736-001" src="https://web.archive.org/web/20130506105643id_/http://2000thingscsharp.files.wordpress.com/2012/12/736-001.png?w=630"   /></a></p>
+<p><a href="http://csharp.2000things.com/2012/12/14/736-target-of-a-weakreference-will-be-null-after-garbage-collection/736-001/" rel="attachment wp-att-6343"><img class="alignnone size-full wp-image-6343" alt="736-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

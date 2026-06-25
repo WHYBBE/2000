@@ -45,36 +45,62 @@
 
 					<p>If you are handling the <strong>DragOver</strong> event during a drag-and-drop operation and you want to find the current mouse position, you need to use <strong>DragEventArgs.GetPosition</strong>, rather than the static <strong>Mouse.GetPosition</strong> method.</p>
 <p>In the example below, we initiate a drag-and-drop operation in a window and then try reporting the mouse&#8217;s position in the window&#8217;s <strong>DragOver</strong> handler.  We try using both methods to get the mouse position, but only the <strong>DragEventArgs.GetPosition</strong> method works.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window x:Class=&quot;WpfApplication2.MainWindow&quot;
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        Title=&quot;Application 2&quot; Height=&quot;350&quot; Width=&quot;325&quot;
-        MouseDown=&quot;Window_MouseDown&quot;
-        AllowDrop=&quot;True&quot; DragOver=&quot;Window_DragOver&quot;&gt;
-    &lt;StackPanel&gt;
-        &lt;Label Name=&quot;lblInfo1&quot; Content=&quot;Info 1&quot;/&gt;
-        &lt;Label Name=&quot;lblInfo2&quot; Content=&quot;Info 2&quot;/&gt;
-    &lt;/StackPanel&gt;
-&lt;/Window&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+&lt;Window x:Class=&quot;WpfApplication2.MainWindow&quot;
+
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+
+        Title=&quot;Application 2&quot; Height=&quot;350&quot; Width=&quot;325&quot;
+
+        MouseDown=&quot;Window_MouseDown&quot;
+
+        AllowDrop=&quot;True&quot; DragOver=&quot;Window_DragOver&quot;&gt;
+
+    &lt;StackPanel&gt;
+
+        &lt;Label Name=&quot;lblInfo1&quot; Content=&quot;Info 1&quot;/&gt;
+
+        &lt;Label Name=&quot;lblInfo2&quot; Content=&quot;Info 2&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
+&lt;/Window&gt;
+
 </pre>
 <p>&nbsp;</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragDrop.DoDragDrop((DependencyObject)e.Source, &quot;Sample&quot;, DragDropEffects.Copy);
-        }
-
-        private void Window_DragOver(object sender, DragEventArgs e)
-        {
-            System.Windows.Point p1 = Mouse.GetPosition(this);
-            lblInfo1.Content = string.Format(&quot;Mouse.GetPosition: {0}, {1}&quot;, p1.X, p1.Y);
-
-            System.Windows.Point p2 = e.GetPosition(this);
-            lblInfo2.Content = string.Format(&quot;DragEventArgs.GetPosition: {0}, {1}&quot;, p2.X, p2.Y);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+
+        {
+
+            DragDrop.DoDragDrop((DependencyObject)e.Source, &quot;Sample&quot;, DragDropEffects.Copy);
+
+        }
+
+
+
+        private void Window_DragOver(object sender, DragEventArgs e)
+
+        {
+
+            System.Windows.Point p1 = Mouse.GetPosition(this);
+
+            lblInfo1.Content = string.Format(&quot;Mouse.GetPosition: {0}, {1}&quot;, p1.X, p1.Y);
+
+
+
+            System.Windows.Point p2 = e.GetPosition(this);
+
+            lblInfo2.Content = string.Format(&quot;DragEventArgs.GetPosition: {0}, {1}&quot;, p2.X, p2.Y);
+
+        }
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/729-001.png"><img class="alignnone size-full wp-image-6362" alt="729-001" src="https://web.archive.org/web/20130819114536id_/http://2000thingswpf.files.wordpress.com/2013/01/729-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/729-001.png"><img class="alignnone size-full wp-image-6362" alt="729-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

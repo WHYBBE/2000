@@ -45,47 +45,83 @@
 
 					<p>Recall that <a href="2010-07-23-11-commands.html">commands</a> in WPF are objects that you <a href="2011-07-14-342-binding-a-button-to-a-command.html">bind UI elements to</a> and that are in turn bound to code for executing the command and for knowing whether a command can be executed.</p>
 <p>Below is an example that sets up a command binding using lambda expressions.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.ContextMenu&gt;
-        &lt;ContextMenu&gt;
-            &lt;MenuItem Header=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;/&gt;
-        &lt;/ContextMenu&gt;
-    &lt;/Window.ContextMenu&gt;
-
-    &lt;StackPanel&gt;
-        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;
-                Margin=&quot;10&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
-        &lt;CheckBox Content=&quot;Can Open&quot; IsChecked=&quot;{Binding CanOpenIsChecked}&quot;
-                  Margin=&quot;10&quot;/&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Window.ContextMenu&gt;
+
+        &lt;ContextMenu&gt;
+
+            &lt;MenuItem Header=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;/&gt;
+
+        &lt;/ContextMenu&gt;
+
+    &lt;/Window.ContextMenu&gt;
+
+
+
+    &lt;StackPanel&gt;
+
+        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;
+
+                Margin=&quot;10&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+
+        &lt;CheckBox Content=&quot;Can Open&quot; IsChecked=&quot;{Binding CanOpenIsChecked}&quot;
+
+                  Margin=&quot;10&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
 <p>We set up the command binding in the window&#8217;s constructor.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Open,
-                (sender, e) =&gt; { MessageBox.Show(&quot;Executing the Open command&quot;); },
-                (sender, e) =&gt; { e.CanExecute = CanOpenIsChecked; }));
-        }
-
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-
-        public bool CanOpenIsChecked { get; set; }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public partial class MainWindow : Window, INotifyPropertyChanged
+
+    {
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+            this.DataContext = this;
+
+
+
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Open,
+
+                (sender, e) =&gt; { MessageBox.Show(&quot;Executing the Open command&quot;); },
+
+                (sender, e) =&gt; { e.CanExecute = CanOpenIsChecked; }));
+
+        }
+
+
+
+        // INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
+
+        private void RaisePropertyChanged(string propName)
+
+        {
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+        }
+
+
+
+        public bool CanOpenIsChecked { get; set; }
+
+    }
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1078-001.png"><img class="alignnone size-full wp-image-8769" src="https://web.archive.org/web/20140525154215id_/http://2000thingswpf.files.wordpress.com/2014/05/1078-001.png?w=630" alt="1078-001"   /></a><br />
-<a href="http://2000thingswpf.files.wordpress.com/2014/05/1078-002.png"><img class="alignnone size-full wp-image-8770" src="https://web.archive.org/web/20140525154215id_/http://2000thingswpf.files.wordpress.com/2014/05/1078-002.png?w=630" alt="1078-002"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1078-001.png"><img class="alignnone size-full wp-image-8769" src="data:image/png;base64,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" alt="1078-001"   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2014/05/1078-002.png"><img class="alignnone size-full wp-image-8770" src="data:image/png;base64,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4fV6vV5vUKOu66GNygkNrKCWyIdXUVHRMHtG9msjMEzmr2Xjda/7WV0XwuF2u91ud2hjd3e31aWNluZns9lsNpvZaHYYk5nXcFJp+BmHiNN13ePx9PT0uN3unp4eI8KsLgrhOHfunMPhCG3s6uqyurTRMmIrLi7O4XDExcXZ7fYxn3kN4tKlSxs2bFi/fv3VV189UB9P047rFxb+UURkyoZXzv/7srAeKWAUiVu25+QrdyeN54lGO+NFcOtDu60uBGPnmNUFRNJLP14Xuooc1/Datm1bVVVVa2vr4cOH+zvuadpx/cLipa/o+jIREffh/3j21LKRx46nacf11xzKa9X/kCQi4natmfSpprBzMLYYK0Sv19vT0yMiVyanWV0R1FPwm6fHbvCdX78vqOW91saenh5z8Wim2PhdpLp37949e/bMmjXrgQce6L+H++VtxUsDQsaxYl0YEyZP0667ipdW9861HM6fHH+s9pFnT43bqUY9r9cbulECRC232x26szGG4XX8+HHz5/Pnz5eXl4vIihUrli1b1n991Qf33vvN0GNu1xrfxp3jq8+eEhFP046Mr5Yf3vGPAW29vKcb/zdoGHtKatrvm94RcbvWfOoH1b7xeu/paTLG0rRP/eBV30P29vO1xRJd142ZF6AEj8cT+v7pWIXX3r17b7nlloqKCuPmj370o7NnzyYnJ2/cuHGg8lqaG7+04KrQAw7nHmOx0/1iyvefflVERHpezX986j5d7zn+5Cf+tkGGsc1NSz/WckpE5MK2W47e6Rvt3n959pR4mnZ8Zd3UfcYjvPCx8wfGaP5+3b++86mYm7XFxlvpmDg8Hs/4zbxOnz7t8XgeffTR4uLiI0eOvPDCC3a7fevWrZMnTx7gHub0KLRw38Ro0jeedfsiKG7ZMz+9O0nEfvWN3/PH0uDDxC1OSRIRmbLBZaxLHTdtePLi3v8+5T3d+Mara5K1oEfw93NkrVzVf1mq4toIKKffF+1YhddDDz1UXFx8+eWX79u375577hGRBx988Atf+MIgd7HNTfvcM//1alCrp2nH9de+84Su63rP8bIvDv3I/QzjefvIL+L6m9T5TNnwivnkuHljElDCGO55rVmz5oEHHkhOThaR22677Tvf+c7g/e0L1j1y57asgJ2oneufPeU93fgnYxnoefvIz/849MOGDrPj+oXFS37o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" alt="1078-002"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

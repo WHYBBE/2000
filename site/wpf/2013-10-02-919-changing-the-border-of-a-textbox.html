@@ -45,60 +45,112 @@
 
 					<p>You can change the border displayed around a <strong>TextBox</strong> using the <strong>BorderBrush</strong> and <strong>BorderThickness</strong> properties.</p>
 <p>In the example below, we use a trigger to change the border of the <strong>TextBox</strong> that has focus.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.Resources&gt;
-        &lt;Style TargetType=&quot;{x:Type TextBox}&quot;&gt;
-            &lt;Setter Property=&quot;Template&quot;&gt;
-                &lt;Setter.Value&gt;
-                    &lt;!-- Modify default template, to change triggers --&gt;
-                    &lt;ControlTemplate TargetType=&quot;{x:Type TextBoxBase}&quot;&gt;
-                        &lt;Border x:Name=&quot;border&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; SnapsToDevicePixels=&quot;True&quot;&gt;
-                            &lt;ScrollViewer x:Name=&quot;PART_ContentHost&quot; Focusable=&quot;False&quot; HorizontalScrollBarVisibility=&quot;Hidden&quot; VerticalScrollBarVisibility=&quot;Hidden&quot;/&gt;
-                        &lt;/Border&gt;
-                        &lt;ControlTemplate.Triggers&gt;
-                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
-                                &lt;Setter Property=&quot;Opacity&quot; TargetName=&quot;border&quot; Value=&quot;0.56&quot;/&gt;
-                            &lt;/Trigger&gt;
-                            &lt;!-- Original triggers --&gt;
-                            &lt;!--&lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;border&quot; Value=&quot;#FF7EB4EA&quot;/&gt;
-                            &lt;/Trigger&gt;
-                            &lt;Trigger Property=&quot;IsKeyboardFocused&quot; Value=&quot;True&quot;&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;border&quot; Value=&quot;#FF569DE5&quot;/&gt;
-                            &lt;/Trigger&gt;--&gt;
-                            &lt;!-- MY trigger --&gt;
-                            &lt;Trigger Property=&quot;IsFocused&quot; Value=&quot;True&quot;&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Green&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;2&quot;/&gt;
-                            &lt;/Trigger&gt;
-                        &lt;/ControlTemplate.Triggers&gt;
-                    &lt;/ControlTemplate&gt;
-                &lt;/Setter.Value&gt;
-            &lt;/Setter&gt;
-        &lt;/Style&gt;
-    &lt;/Window.Resources&gt;
-
-    &lt;Grid Margin=&quot;5&quot;&gt;
-        &lt;Grid.RowDefinitions&gt;
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-        &lt;/Grid.RowDefinitions&gt;
-        &lt;Grid.ColumnDefinitions&gt;
-            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
-            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
-        &lt;/Grid.ColumnDefinitions&gt;
-
-        &lt;Label Content=&quot;Your hobo name:&quot;/&gt;
-        &lt;TextBox
-            Grid.Column=&quot;1&quot; Height=&quot;25&quot;
-            Margin=&quot;5&quot;/&gt;
-        &lt;Label Grid.Row=&quot;1&quot; Content=&quot;Favorite cheese:&quot; /&gt;
-        &lt;TextBox
-            Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Height=&quot;25&quot;
-            Margin=&quot;5&quot;/&gt;
-    &lt;/Grid&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Window.Resources&gt;
+
+        &lt;Style TargetType=&quot;{x:Type TextBox}&quot;&gt;
+
+            &lt;Setter Property=&quot;Template&quot;&gt;
+
+                &lt;Setter.Value&gt;
+
+                    &lt;!-- Modify default template, to change triggers --&gt;
+
+                    &lt;ControlTemplate TargetType=&quot;{x:Type TextBoxBase}&quot;&gt;
+
+                        &lt;Border x:Name=&quot;border&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; SnapsToDevicePixels=&quot;True&quot;&gt;
+
+                            &lt;ScrollViewer x:Name=&quot;PART_ContentHost&quot; Focusable=&quot;False&quot; HorizontalScrollBarVisibility=&quot;Hidden&quot; VerticalScrollBarVisibility=&quot;Hidden&quot;/&gt;
+
+                        &lt;/Border&gt;
+
+                        &lt;ControlTemplate.Triggers&gt;
+
+                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
+
+                                &lt;Setter Property=&quot;Opacity&quot; TargetName=&quot;border&quot; Value=&quot;0.56&quot;/&gt;
+
+                            &lt;/Trigger&gt;
+
+                            &lt;!-- Original triggers --&gt;
+
+                            &lt;!--&lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
+
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;border&quot; Value=&quot;#FF7EB4EA&quot;/&gt;
+
+                            &lt;/Trigger&gt;
+
+                            &lt;Trigger Property=&quot;IsKeyboardFocused&quot; Value=&quot;True&quot;&gt;
+
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;border&quot; Value=&quot;#FF569DE5&quot;/&gt;
+
+                            &lt;/Trigger&gt;--&gt;
+
+                            &lt;!-- MY trigger --&gt;
+
+                            &lt;Trigger Property=&quot;IsFocused&quot; Value=&quot;True&quot;&gt;
+
+                                &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Green&quot;/&gt;
+
+                                &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;2&quot;/&gt;
+
+                            &lt;/Trigger&gt;
+
+                        &lt;/ControlTemplate.Triggers&gt;
+
+                    &lt;/ControlTemplate&gt;
+
+                &lt;/Setter.Value&gt;
+
+            &lt;/Setter&gt;
+
+        &lt;/Style&gt;
+
+    &lt;/Window.Resources&gt;
+
+
+
+    &lt;Grid Margin=&quot;5&quot;&gt;
+
+        &lt;Grid.RowDefinitions&gt;
+
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;Grid.ColumnDefinitions&gt;
+
+            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+
+            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+
+        &lt;/Grid.ColumnDefinitions&gt;
+
+
+
+        &lt;Label Content=&quot;Your hobo name:&quot;/&gt;
+
+        &lt;TextBox
+
+            Grid.Column=&quot;1&quot; Height=&quot;25&quot;
+
+            Margin=&quot;5&quot;/&gt;
+
+        &lt;Label Grid.Row=&quot;1&quot; Content=&quot;Favorite cheese:&quot; /&gt;
+
+        &lt;TextBox
+
+            Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Height=&quot;25&quot;
+
+            Margin=&quot;5&quot;/&gt;
+
+    &lt;/Grid&gt;
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/919-0011.png"><img class="alignnone size-full wp-image-7721" alt="919-001" src="https://web.archive.org/web/20140331075046id_/http://2000thingswpf.files.wordpress.com/2013/10/919-0011.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/919-0011.png"><img class="alignnone size-full wp-image-7721" alt="919-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

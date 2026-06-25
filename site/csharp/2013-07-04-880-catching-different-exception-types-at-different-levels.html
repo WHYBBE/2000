@@ -46,64 +46,119 @@
 					<p>You can include <strong>catch</strong> blocks at different points in the call stack, to catch different types of exceptions.</p>
 <p>In the example below, <strong>Main</strong> calls <strong>CreateSomeDogs, </strong>which in turn creates <strong>Dog</strong> instances and calls the <strong>Dog.Bark</strong> method.  <strong>CreateSomeDogs</strong> catches exceptions of type <strong>ArgumentException</strong>, but allows other exceptions to bubble back up to the <strong>Main</strong> method, where they are caught.</p>
 <p>When we pass in a bad age for Kirby, the exception is caught in <strong>CreateSomeDogs</strong> and we continue with the <strong>for</strong> loop.  But when we ask <strong>Jack</strong> to bark, an exception is thrown that we then catch in <strong>Main</strong>.  This means that we exit <strong>CreateSomeDogs</strong> before we get a chance to create the Ruby <strong>Dog</strong> object.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main(string[] args)
-        {
-            try
-            {
-                string[] names = { &quot;Kirby&quot;, &quot;Jack&quot;, &quot;Ruby&quot; };
-                int[] ages = { 150, 13, 1 };
-
-                CreateSomeDogs(names, ages);
-            }
-            catch (Exception xx)
-            {
-                Console.WriteLine(xx.Message);
-            }
-
-            Console.ReadLine();
-        }
-
-        static void CreateSomeDogs(string[] names, int[] ages)
-        {
-            if (names.Count() != ages.Count())
-                throw new Exception(&quot;# Names doesn't match # Ages&quot;);
-
-            for (int i = 0; i &lt; names.Count(); i++)
-            {
-                try
-                {
-                    Dog d = new Dog(names[i], ages[i]);
-                    d.Bark();
-                }
-                catch (ArgumentException exc)
-                {
-                    Console.WriteLine(string.Format(&quot;Bad age {0} for dog {1}&quot;, ages[i], names[i]));
-                }
-            }
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Main(string[] args)
+
+        {
+
+            try
+
+            {
+
+                string[] names = { &quot;Kirby&quot;, &quot;Jack&quot;, &quot;Ruby&quot; };
+
+                int[] ages = { 150, 13, 1 };
+
+
+
+                CreateSomeDogs(names, ages);
+
+            }
+
+            catch (Exception xx)
+
+            {
+
+                Console.WriteLine(xx.Message);
+
+            }
+
+
+
+            Console.ReadLine();
+
+        }
+
+
+
+        static void CreateSomeDogs(string[] names, int[] ages)
+
+        {
+
+            if (names.Count() != ages.Count())
+
+                throw new Exception(&quot;# Names doesn't match # Ages&quot;);
+
+
+
+            for (int i = 0; i &lt; names.Count(); i++)
+
+            {
+
+                try
+
+                {
+
+                    Dog d = new Dog(names[i], ages[i]);
+
+                    d.Bark();
+
+                }
+
+                catch (ArgumentException exc)
+
+                {
+
+                    Console.WriteLine(string.Format(&quot;Bad age {0} for dog {1}&quot;, ages[i], names[i]));
+
+                }
+
+            }
+
+        }
+
 </pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Dog constructor
-        public Dog(string name, int age)
-        {
-            if (age &gt; 30)
-                throw new ArgumentException(&quot;Age too big&quot;);
-
-            Name = name;
-            Age = age;
-        }
-
-        // Dog.Bark
-        public void Bark()
-        {
-            if (Name.Equals(&quot;Jack&quot;))
-                throw new Exception(&quot;Jack can't bark&quot;);
-
-            Console.WriteLine(string.Format(&quot;{0}: Woof&quot;, Name));
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        // Dog constructor
+
+        public Dog(string name, int age)
+
+        {
+
+            if (age &gt; 30)
+
+                throw new ArgumentException(&quot;Age too big&quot;);
+
+
+
+            Name = name;
+
+            Age = age;
+
+        }
+
+
+
+        // Dog.Bark
+
+        public void Bark()
+
+        {
+
+            if (Name.Equals(&quot;Jack&quot;))
+
+                throw new Exception(&quot;Jack can't bark&quot;);
+
+
+
+            Console.WriteLine(string.Format(&quot;{0}: Woof&quot;, Name));
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/07/880-001.png"><img class="alignnone size-full wp-image-7403" alt="880-001" src="https://web.archive.org/web/20130709161258id_/http://2000thingscsharp.files.wordpress.com/2013/07/880-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/07/880-001.png"><img class="alignnone size-full wp-image-7403" alt="880-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQsAAABeCAMAAAADv8GQAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAc5QTFRFAAAAKCgoKCg5KChFKEU5KEVOKFhFKFhVWygoXCgoXCg5fygoW0Uof1gof1g6W2dOW2dbXGdbf3Fbf3FjW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5gCgogChFmUUomUU5rVkogEVOmWdFmXxjpGlMt3VUwGc6wHJGwHxOwnxZw3xayH9c13JG13xOrIljrId2t4dxuIhywIlV14lV14lbwIljz4Rg1Yhi14ljiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqCeqKCepqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////GLkgxAAAAAlwSFlzAAAOwwAADsMBx2+oZAAABlVJREFUeNrtmml7GzUQgNcOYQnlMCz3fd+ncRdSFhrW4bBdlvs+SqHcLJAAbdNCa0oI0NJCaxrg36IZSbuSVnvYboLBow9OrGM082pmNMoT529qsjmEgFgQC2IxNIu/pr45CYk/WVuf6iZYMBKnBiePH5vqJlmsD46u9Q/sn+qW+MVg29Q3R6A4dXRbNO1NshisEQvJ4mSfWEgWxw8QC8Fi/dh+YkEsiAWxGIXFk4+r7Ymnp5nFm0tfYltaWnp31643HptmFu8PfkvbYPd20e3X6g/VGlEws2hI4T3+bC+Kui0XPmq1Gnzjy2YfnfMiOaGgdZqNKGQr6/NFs/zZp5psUi2jxYgtrJ/DRdlZfP7NM88+/8KLX/dXVvo7d0oWYc1TLFca2o+WRFGbmR0Ch+7W+cTCdjUWYX0+gD0CrxgY7sR4N0a0XjfAn30EDevmsNhz571333Pf8kFg8U7CQpxXhkX7bBgIsTuY7XWarmbhzGJFFr7bbZVMQXGceuQX+09FFp2mxxVu21m8vef+u269+ZblQyv7+p98KFj44Pfg7SgKvnnMCxpacKBzBFJHdCToV1hADLA1Af7ots7cUmOq8IBis7otqSafgNNZV8iCk4cOiBMsQimIbw8KoWoB0Dp/C3zlkQQbpEJEAAtF0Bofl+WxuPqyK669afngvpX+Rx+rftEWLGA1sxlZpMHB5/jSHmQB/SkLDKELEBcbZWp53LoHe1yr9hwHKSZEvhfBqYXMFu4zIECwgAHwDfiJEAOFBQqH/VwxDtYLIXwjVIQfYYhq5LG4/Mprrr+D+cVKf+9eCws0TqgkYifJn4afy435IJ8rAp6HhBQjHQuOUE6I5DJMI7A2kKPIgvslEyriN2UhLITF2AlzpJAAnYQ7r7AEfDePxVU33nD7JZgvTpywsAAHEz4GYY6WNHjwRToL7E9ZsMNy4Tsud7m1Ab8SeNaJ0DXkBBGZHCF8oLiERYNbxMSLVJSyaIgzYgM+yhK8QsGCK4L5DTSbWQzqeSyuu+2iiy9d/paxOPKDjYWSttLgELpoOQ371dzJzPTEd3nyXK8ks3aa8hKGX3uJO8EH/pLkC68aCyFYY8EVSUVd2HLtLN776rlXXnr51S8Yi+/WvrfGSCO3uIggRpUbq8d9MI0pKBBclQWKlqPQm0zgrqCwEOIafFoviZEgTTNwyBoLmcsNFkrMMolnnOXZWbz1x+rq6i8///jr70d+OnzYwqLbgpz1ADBJgyNx8wCOmdUXIdwRHu/xuL+wdAUAfEhWW+eRBeRNcDVQEIsSuB/EBLA1VGKEi0NLO000VeROdKDAg/ntOYNFew7uL1dhoSjiyjJyZtHO4vXdvH362Qfs87WF7D2CFxPs2zCKC3GBYLCDE4sjCEShGIor0McJnEUTr0uRdWQa8pN0MXNuyoKL6zRFMknnSSlsn/p5BgtMTzK+QoRXY/UVKCKOCvRyc+rOHQvblbawo7gk7umVZ7YirdJkCils1cWNUnWN/WY3i4sRLLQXsyMDG6LpbOnvF8SCWBALYkEsiAWx2AQWD09rs7FwprVZWMTYtFnm97IWi0V8XUZeqbjCCTgYiy3GULIKCyfdS9lnKBSaooKHNlwOo2TQwsKZQBbSC1QWscGiGs38Qev4RrJIjYpNZ5T92rx8v4itLNIQyjh7EluOZYL8aq5P143Gxc4i1s80K1rtz47rCEFVdUJGZQ6rULb1LBTocbFCp8cv8nTRts3mRt2u7Lk6OguDVSkLVYTqnxvGIk90+bYZFk4Ji1KfK2FhX7iJLHL9RlHRau+QLCz5SqdgssgmsPHrCyU3GrboB2NJrWbuM5bHRu7MVjNGTja3V4NTubeMRHIa/GKIKmLca2yD9hlNrXFq8DjeDBRD7zOyWvQeKWNhRVsdt31i3vpN8q6R/WK8GjfJYNXWTwOL+H/EQr0TbQndGI+NR1lse8fY3xGTwaPEL8x6yVpzOfn1Yd7lqL1DKrzh/72/5WTrSttlpfUPw8JSy8XOZLPI2Gd/YhW+G2wsMrX3f8AvLO8CZ8T3ZCmLic0XOX+riQtyp2ZjTuWQvBeS+enySc6dVHcSC2JBLIgFsSAWxIJYEAtisZlvM8t/YBALYkEsKF8QC2JBLIgFsSAWxIJYEAtiQSyIBbEgFsRiIts//R9zMCLkYI0AAAAASUVORK5CYII="   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

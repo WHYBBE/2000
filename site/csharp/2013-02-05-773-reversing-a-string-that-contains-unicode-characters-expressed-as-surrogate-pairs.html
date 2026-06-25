@@ -47,17 +47,26 @@
 <p>UTF16 can represent Unicode code points outside the BMP through the use of surrogate pairs.  Within a series of 16-bit characters, a 32-bit character can appear, stored as a pair of normal UTF16 words.</p>
 <p>In practice, it&#8217;s quite rare to encounter Unicode characters outside of the BMP, given that this plane can represent characters from most living languages.</p>
 <p>To reverse a string that contains surrogate pairs, you can use the <strong>Microsoft.VisualBasic.Strings.StrReverse</strong> method.</p>
-<p><pre class="brush: csharp;">
-            // 8 byte string includes surrogate pair
-            string s = &quot;A𠈓C&quot;;
-
-            // Won't handle surrogate pair
-            string s2 = new string(s.Reverse().ToArray());
-
-            // Will handle surrogate pair
-            string s3 = Microsoft.VisualBasic.Strings.StrReverse(s);
+<p><pre class="brush: csharp;">
+
+            // 8 byte string includes surrogate pair
+
+            string s = &quot;A𠈓C&quot;;
+
+
+
+            // Won't handle surrogate pair
+
+            string s2 = new string(s.Reverse().ToArray());
+
+
+
+            // Will handle surrogate pair
+
+            string s3 = Microsoft.VisualBasic.Strings.StrReverse(s);
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/773-001.png"><img class="alignnone size-full wp-image-6640" alt="773-001" src="https://web.archive.org/web/20130210015741id_/http://2000thingscsharp.files.wordpress.com/2013/02/773-001.png?w=630"   /></a></pre>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/773-001.png"><img class="alignnone size-full wp-image-6640" alt="773-001" src="data:image/png;base64,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"   /></a></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

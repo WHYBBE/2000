@@ -46,31 +46,53 @@
 					<p>If you have multiple threads increment or decrementing a variable using the increment or decrement operators, you may not get the desired result.  These operators are not thread-safe.</p>
 <p>Imagine two threads that increment a variable.  If they do the operation serially, the variable ends up correctly incremented twice.  If the two threads read the value at the same time, however, they may both end up writing the same value back to the variable.  The variable ends up incremented just once.</p>
 <p>You can do a safe increment operation using <strong>System.Threading.Threadlocked.Increment.</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private static int counter1 = 0;
-        private static int counter2 = 0;
-
-        static void Main(string[] args)
-        {
-            int maxExclusive = 1001;
-
-            Parallel.For(1, maxExclusive, n =&gt;
-            {
-                // Do some work here.
-                Thread.Sleep(4);
-                counter1++;
-                Interlocked.Increment(ref counter2);
-            });
-
-            Console.WriteLine(
-                &quot;Ran {0} iterations, counter 1 = {1}, counter 2 = {2}&quot;,
-                maxExclusive - 1, counter1, counter2);
-
-            Console.ReadLine();
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private static int counter1 = 0;
+
+        private static int counter2 = 0;
+
+
+
+        static void Main(string[] args)
+
+        {
+
+            int maxExclusive = 1001;
+
+
+
+            Parallel.For(1, maxExclusive, n =&gt;
+
+            {
+
+                // Do some work here.
+
+                Thread.Sleep(4);
+
+                counter1++;
+
+                Interlocked.Increment(ref counter2);
+
+            });
+
+
+
+            Console.WriteLine(
+
+                &quot;Ran {0} iterations, counter 1 = {1}, counter 2 = {2}&quot;,
+
+                maxExclusive - 1, counter1, counter2);
+
+
+
+            Console.ReadLine();
+
+        }
+
 </pre>
 <p>Note below that Counter #1 is not incremented properly.<br />
-<a href="http://2000thingscsharp.files.wordpress.com/2014/05/1100-0011.png"><img class="alignnone size-full wp-image-8613" src="https://web.archive.org/web/20140522011435id_/http://2000thingscsharp.files.wordpress.com/2014/05/1100-0011.png?w=630" alt="1100-001"   /></a></p>
+<a href="http://2000thingscsharp.files.wordpress.com/2014/05/1100-0011.png"><img class="alignnone size-full wp-image-8613" src="data:image/png;base64,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" alt="1100-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

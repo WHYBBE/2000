@@ -45,30 +45,51 @@
 
 					<p>You can <a href="2012-08-30-660-the-typeof-operator-gets-information-about-a-type.html">use the <strong>typeof </strong>operator</a> to get information about a particular type.  The operator returns an instance of the <strong>Type</strong> class, which you can then query to get info about the type.</p>
 <p>You can get type information about generic types in two different ways.  You can use the name of the type with empty angle brackets to get information about the generic type.  Or you can supply type arguments to get information about a particular <a href="2011-05-17-326-generic-type-vs-constructed-type.html">constructed type</a>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private static void DumpInfoForType(Type t)
-        {
-            Console.WriteLine(&quot;Type {0}:&quot;, t.Name);
-            Console.WriteLine(&quot;  IsGenericType: {0}&quot;, t.IsGenericType);
-            Console.WriteLine(&quot;  IsGenericTypeDefinition: {0}&quot;, t.IsGenericTypeDefinition);
-            Console.WriteLine(&quot;  IsConstructedGenericType: {0}&quot;, t.IsConstructedGenericType);
-            Console.WriteLine(&quot;  ContainsGenericParameters: {0}&quot;, t.ContainsGenericParameters);
-
-            if (t.IsConstructedGenericType)
-            {
-                foreach (Type targ in t.GenericTypeArguments)
-                    Console.WriteLine(&quot;Arg: {0}&quot;, targ.Name);
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            DumpInfoForType(typeof(Pile&lt;&gt;));
-            DumpInfoForType(typeof(Pile&lt;Dog&gt;));
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private static void DumpInfoForType(Type t)
+
+        {
+
+            Console.WriteLine(&quot;Type {0}:&quot;, t.Name);
+
+            Console.WriteLine(&quot;  IsGenericType: {0}&quot;, t.IsGenericType);
+
+            Console.WriteLine(&quot;  IsGenericTypeDefinition: {0}&quot;, t.IsGenericTypeDefinition);
+
+            Console.WriteLine(&quot;  IsConstructedGenericType: {0}&quot;, t.IsConstructedGenericType);
+
+            Console.WriteLine(&quot;  ContainsGenericParameters: {0}&quot;, t.ContainsGenericParameters);
+
+
+
+            if (t.IsConstructedGenericType)
+
+            {
+
+                foreach (Type targ in t.GenericTypeArguments)
+
+                    Console.WriteLine(&quot;Arg: {0}&quot;, targ.Name);
+
+            }
+
+        }
+
+
+
+        static void Main(string[] args)
+
+        {
+
+            DumpInfoForType(typeof(Pile&lt;&gt;));
+
+            DumpInfoForType(typeof(Pile&lt;Dog&gt;));
+
+        }
+
 </pre>
 <p>The first type is a generic type definition with generic parameters. The second is a constructed generic type with a <strong>Dog</strong> argument.</p>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1144-001.png"><img class="alignnone size-full wp-image-8880" src="https://web.archive.org/web/20140802165221id_/http://2000thingscsharp.files.wordpress.com/2014/07/1144-001.png?w=630" alt="1144-001"   /></a></p>
+<p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1144-001.png"><img class="alignnone size-full wp-image-8880" src="data:image/png;base64,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" alt="1144-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

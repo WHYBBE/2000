@@ -45,44 +45,79 @@
 
 					<p>The <a href="2012-08-03-641-using-the-this-keyword-in-a-struct.html"><strong>this</strong> keyword in a <strong>struct</strong></a> refers to the current instance of the object represented by the <strong>struct.  </strong></p>
 <p>You can actually assign a new value to the <strong>this</strong> keyword, provided that the new value is an instance of the same <strong>struct</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public struct BoxSize
-    {
-        public double x;
-        public double y;
-        public double z;
-
-        public BoxSize(double x, double y, double z)
-        {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        public void CopyFrom(BoxSize newBoxSize)
-        {
-            // Overwrite existing BoxSize with a new one
-            //   by assigning new value to this keyword
-            this = newBoxSize;
-        }
-
-        public void PrintBoxSize()
-        {
-            Console.WriteLine(string.Format(&quot;X={0}, Y={1}, Z={2}&quot;, x, y, z));
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public struct BoxSize
+
+    {
+
+        public double x;
+
+        public double y;
+
+        public double z;
+
+
+
+        public BoxSize(double x, double y, double z)
+
+        {
+
+            this.x = x;
+
+            this.y = y;
+
+            this.z = z;
+
+        }
+
+
+
+        public void CopyFrom(BoxSize newBoxSize)
+
+        {
+
+            // Overwrite existing BoxSize with a new one
+
+            //   by assigning new value to this keyword
+
+            this = newBoxSize;
+
+        }
+
+
+
+        public void PrintBoxSize()
+
+        {
+
+            Console.WriteLine(string.Format(&quot;X={0}, Y={1}, Z={2}&quot;, x, y, z));
+
+        }
+
+    }
+
 </pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main()
-        {
-            BoxSize myBox = new BoxSize(5, 2, 3);
-            myBox.PrintBoxSize();
-
-            myBox.CopyFrom(new BoxSize(10, 20, 30));
-            myBox.PrintBoxSize();
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        static void Main()
+
+        {
+
+            BoxSize myBox = new BoxSize(5, 2, 3);
+
+            myBox.PrintBoxSize();
+
+
+
+            myBox.CopyFrom(new BoxSize(10, 20, 30));
+
+            myBox.PrintBoxSize();
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/642-001.png"><img class="alignnone size-full wp-image-5423" title="642-001" src="https://web.archive.org/web/20130817205134id_/http://2000thingscsharp.files.wordpress.com/2012/08/642-001.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/642-001.png"><img class="alignnone size-full wp-image-5423" title="642-001" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

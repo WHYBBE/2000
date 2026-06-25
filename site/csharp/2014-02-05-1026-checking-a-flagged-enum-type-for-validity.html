@@ -45,34 +45,56 @@
 
 					<p>You normally use the <a href="2011-11-18-458-errors-while-converting-between-enum-and-underlying-type.html"><strong>Enum.IsDefined</strong> method</a> to check whether a particular enum value is a valid value.  This method does not work on flagged enums.</p>
 <p>Assuming the following <strong>enum</strong> type:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    [Flags]
-    public enum Talents
-    {
-        Singing = 1,
-        Dancing = 2,
-        Juggling = 4,
-        JokeTelling = 8
-    };
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    [Flags]
+
+    public enum Talents
+
+    {
+
+        Singing = 1,
+
+        Dancing = 2,
+
+        Juggling = 4,
+
+        JokeTelling = 8
+
+    };
+
 </pre>
 <p><strong>Enum.IsDefined</strong> will not work for all values of the flagged <strong>enum</strong>:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Talents myTalent = Talents.JokeTelling | Talents.Juggling;
-            // Returns false
-            bool isDefCheck = Enum.IsDefined(typeof(Talents), myTalent);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Talents myTalent = Talents.JokeTelling | Talents.Juggling;
+
+            // Returns false
+
+            bool isDefCheck = Enum.IsDefined(typeof(Talents), myTalent);
+
 </pre>
 <p>To properly check for validity, you can convert the <strong>enum</strong> to a string and then try parsing as an integer. If the value is invalid, <strong>ToString() </strong>will convert to a simple integer and the parse will then succeed.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private static void CheckTalents(Talents t)
-        {
-            int intTest;
-            if (int.TryParse(t.ToString(), out intTest))
-                Console.WriteLine(&quot;Talents not ok&quot;);
-            else
-                Console.WriteLine(&quot;Talents ok&quot;);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private static void CheckTalents(Talents t)
+
+        {
+
+            int intTest;
+
+            if (int.TryParse(t.ToString(), out intTest))
+
+                Console.WriteLine(&quot;Talents not ok&quot;);
+
+            else
+
+                Console.WriteLine(&quot;Talents ok&quot;);
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/02/1026-001.png"><img class="alignnone size-full wp-image-8201" alt="1026-001" src="https://web.archive.org/web/20140205160821id_/http://2000thingscsharp.files.wordpress.com/2014/02/1026-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/02/1026-001.png"><img class="alignnone size-full wp-image-8201" alt="1026-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

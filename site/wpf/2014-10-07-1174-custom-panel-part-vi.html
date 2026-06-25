@@ -44,69 +44,128 @@
 					</div>
 
 					<p>You can define an attached dependency property in a custom panel.  The attached property can be used by child elements of the panel and in a way that affects how the child elements are laid out.  In the example below, we define a boolean <strong>SecondColumn</strong> property.  If set, this property indicates that a child element should appear in a second column.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class TwoColPanel : Panel
-    {
-        private static FrameworkPropertyMetadata secColMetadata =
-            new FrameworkPropertyMetadata(false,
-                FrameworkPropertyMetadataOptions.AffectsParentArrange);
-
-        public static readonly DependencyProperty SecondColumnProperty =
-            DependencyProperty.RegisterAttached(&quot;SecondColumn&quot;, typeof(bool),
-                typeof(TwoColPanel), secColMetadata);
-
-        public static void SetSecondColumn(DependencyObject depObj, bool value)
-        {
-            depObj.SetValue(SecondColumnProperty, value);
-        }
-
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            foreach (UIElement elem in InternalChildren)
-                elem.Measure(availableSize);
-
-            return availableSize;
-        }
-
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            double topCol1 = 0.0;
-            double topCol2 = 0.0;
-
-            for (int i = 0; i &lt; InternalChildren.Count; i++)
-            {
-                bool col2 = (bool)InternalChildren[i].GetValue(SecondColumnProperty);
-
-                double left = col2 ? (finalSize.Width / 2.0) : 0.0;
-                double top = col2 ? topCol2 : topCol1;
-
-                Rect r = new Rect(new Point(left, top),
-                                  InternalChildren[i].DesiredSize);
-
-                InternalChildren[i].Arrange(r);
-
-                if (col2)
-                    topCol2 += InternalChildren[i].DesiredSize.Height;
-                else
-                    topCol1 += InternalChildren[i].DesiredSize.Height;
-            }
-
-            return finalSize;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class TwoColPanel : Panel
+
+    {
+
+        private static FrameworkPropertyMetadata secColMetadata =
+
+            new FrameworkPropertyMetadata(false,
+
+                FrameworkPropertyMetadataOptions.AffectsParentArrange);
+
+
+
+        public static readonly DependencyProperty SecondColumnProperty =
+
+            DependencyProperty.RegisterAttached(&quot;SecondColumn&quot;, typeof(bool),
+
+                typeof(TwoColPanel), secColMetadata);
+
+
+
+        public static void SetSecondColumn(DependencyObject depObj, bool value)
+
+        {
+
+            depObj.SetValue(SecondColumnProperty, value);
+
+        }
+
+
+
+        protected override Size MeasureOverride(Size availableSize)
+
+        {
+
+            foreach (UIElement elem in InternalChildren)
+
+                elem.Measure(availableSize);
+
+
+
+            return availableSize;
+
+        }
+
+
+
+        protected override Size ArrangeOverride(Size finalSize)
+
+        {
+
+            double topCol1 = 0.0;
+
+            double topCol2 = 0.0;
+
+
+
+            for (int i = 0; i &lt; InternalChildren.Count; i++)
+
+            {
+
+                bool col2 = (bool)InternalChildren[i].GetValue(SecondColumnProperty);
+
+
+
+                double left = col2 ? (finalSize.Width / 2.0) : 0.0;
+
+                double top = col2 ? topCol2 : topCol1;
+
+
+
+                Rect r = new Rect(new Point(left, top),
+
+                                  InternalChildren[i].DesiredSize);
+
+
+
+                InternalChildren[i].Arrange(r);
+
+
+
+                if (col2)
+
+                    topCol2 += InternalChildren[i].DesiredSize.Height;
+
+                else
+
+                    topCol1 += InternalChildren[i].DesiredSize.Height;
+
+            }
+
+
+
+            return finalSize;
+
+        }
+
+    }
+
 </pre>
 <p>We use the attached property as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;loc:TwoColPanel Margin=&quot;5&quot;&gt;
-        &lt;Label Content=&quot;I'm child #1&quot; loc:TwoColPanel.SecondColumn=&quot;True&quot;
-               Background=&quot;Thistle&quot; /&gt;
-        &lt;Label Content=&quot;I'm child #2&quot; loc:TwoColPanel.SecondColumn=&quot;False&quot;
-               Background=&quot;Lavender&quot; /&gt;
-        &lt;Label Content=&quot;Third kid&quot;
-               Background=&quot;Honeydew&quot; /&gt;
-    &lt;/loc:TwoColPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;loc:TwoColPanel Margin=&quot;5&quot;&gt;
+
+        &lt;Label Content=&quot;I'm child #1&quot; loc:TwoColPanel.SecondColumn=&quot;True&quot;
+
+               Background=&quot;Thistle&quot; /&gt;
+
+        &lt;Label Content=&quot;I'm child #2&quot; loc:TwoColPanel.SecondColumn=&quot;False&quot;
+
+               Background=&quot;Lavender&quot; /&gt;
+
+        &lt;Label Content=&quot;Third kid&quot;
+
+               Background=&quot;Honeydew&quot; /&gt;
+
+    &lt;/loc:TwoColPanel&gt;
+
 </pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1174-001.png"><img class="alignnone size-full wp-image-9396" src="https://web.archive.org/web/20141010130943id_/http://2000thingswpf.files.wordpress.com/2014/10/1174-001.png?w=630" alt="1174-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1174-001.png"><img class="alignnone size-full wp-image-9396" src="data:image/png;base64,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" alt="1174-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

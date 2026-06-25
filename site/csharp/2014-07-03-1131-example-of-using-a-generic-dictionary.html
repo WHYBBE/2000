@@ -44,28 +44,48 @@
 					</div>
 
 					<p>Below is an example of using a generic dictionary to count how many times each type of letter appears in a passage of text.  The keys are of type <strong>char</strong> (the letter found) and the values are of type <strong>int</strong> (# times found).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            string someText = &quot;One cannot think well, love well, &quot; +
-                &quot;sleep well, if one has not dined well.&quot;;
-
-            Dictionary&lt;char, int&gt; charCounter = new Dictionary&lt;char, int&gt;();
-
-            foreach (char c in someText)
-            {
-                if (!charCounter.ContainsKey(c))
-                    charCounter.Add(c, 1);
-                else
-                    // charCounter[c] is of type int,
-                    //   c is of type char
-                    charCounter[c]++;
-            }
-
-            Console.WriteLine(&quot;Found {0} unique characters&quot;, charCounter.Keys.Count);
-
-            foreach (KeyValuePair&lt;char, int&gt; kvp in charCounter)
-                Console.WriteLine(&quot;[{0}] - {1} instances&quot;, kvp.Key, kvp.Value);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            string someText = &quot;One cannot think well, love well, &quot; +
+
+                &quot;sleep well, if one has not dined well.&quot;;
+
+
+
+            Dictionary&lt;char, int&gt; charCounter = new Dictionary&lt;char, int&gt;();
+
+
+
+            foreach (char c in someText)
+
+            {
+
+                if (!charCounter.ContainsKey(c))
+
+                    charCounter.Add(c, 1);
+
+                else
+
+                    // charCounter[c] is of type int,
+
+                    //   c is of type char
+
+                    charCounter[c]++;
+
+            }
+
+
+
+            Console.WriteLine(&quot;Found {0} unique characters&quot;, charCounter.Keys.Count);
+
+
+
+            foreach (KeyValuePair&lt;char, int&gt; kvp in charCounter)
+
+                Console.WriteLine(&quot;[{0}] - {1} instances&quot;, kvp.Key, kvp.Value);
+
 </pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1131-001.png"><img class="alignnone size-full wp-image-8794" src="https://web.archive.org/web/20140802164941id_/http://2000thingscsharp.files.wordpress.com/2014/06/1131-001.png?w=630" alt="1131-001"   /></a></p>
+<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1131-001.png"><img class="alignnone size-full wp-image-8794" src="data:image/png;base64,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" alt="1131-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

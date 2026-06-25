@@ -46,119 +46,226 @@
 					<p>In the <a href="http://wp.me/pZhye-1vQ">previous post</a>, we used the mouse position to map to the Hue and Saturation portions of an HSV color value and then set the background color of a window based on the mouse position.</p>
 <p>This post adds to the example, by using the mouse wheel to control the Value portion of the color (which ranges from 0.0 to 1.0).</p>
 <p>Here&#8217;s the updated XAML:</p>
-<p><pre class="brush: xml;">
-&lt;Window Name=&quot;win1&quot; x:Class=&quot;WpfApplication1.MainWindow&quot;
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        Title=&quot;Color from Mouse Position&quot;
-        SizeToContent=&quot;WidthAndHeight&quot;
-        MouseMove=&quot;win1_MouseMove_1&quot; MouseWheel=&quot;win1_MouseWheel_1&quot;&gt;
-
-    &lt;Canvas x:Name=&quot;canv1&quot; Width=&quot;400&quot; Height=&quot;400&quot;&gt;
-        &lt;Label x:Name=&quot;lblInfo&quot; Content=&quot;{Binding RGBInfo}&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
-        &lt;Ellipse x:Name=&quot;ellipseCenter&quot; Stroke=&quot;Black&quot; Width=&quot;2&quot; Height=&quot;2&quot; Fill=&quot;Black&quot; Canvas.Left=&quot;199&quot; Canvas.Top=&quot;199&quot;/&gt;
-    &lt;/Canvas&gt;
+<p><pre class="brush: xml;">
+
+&lt;Window Name=&quot;win1&quot; x:Class=&quot;WpfApplication1.MainWindow&quot;
+
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+
+        Title=&quot;Color from Mouse Position&quot;
+
+        SizeToContent=&quot;WidthAndHeight&quot;
+
+        MouseMove=&quot;win1_MouseMove_1&quot; MouseWheel=&quot;win1_MouseWheel_1&quot;&gt;
+
+
+
+    &lt;Canvas x:Name=&quot;canv1&quot; Width=&quot;400&quot; Height=&quot;400&quot;&gt;
+
+        &lt;Label x:Name=&quot;lblInfo&quot; Content=&quot;{Binding RGBInfo}&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
+
+        &lt;Ellipse x:Name=&quot;ellipseCenter&quot; Stroke=&quot;Black&quot; Width=&quot;2&quot; Height=&quot;2&quot; Fill=&quot;Black&quot; Canvas.Left=&quot;199&quot; Canvas.Top=&quot;199&quot;/&gt;
+
+    &lt;/Canvas&gt;
+
 &lt;/Window&gt;</pre></p>
 <p>And the updated code-behind:</p>
-<p><pre class="brush: csharp;">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        SolidColorBrush backBrush = new SolidColorBrush();
-        double value = 1.0;
-
-        public MainWindow()
-        {
-            InitializeComponent();
-
-            this.DataContext = this;
-            win1.Background = backBrush;
-        }
-
-        private string rgbInfo;
-        public string RGBInfo
-        {
-            get { return rgbInfo; }
-            set
-            {
-                if (value != rgbInfo)
-                {
-                    rgbInfo = value;
-                    RaisePropertyChanged(&quot;RGBInfo&quot;);
-                }
-            }
-        }
-
-        private void win1_MouseMove_1(object sender, MouseEventArgs e)
-        {
-            RecalcColor(e.GetPosition(canv1));
-        }
-
-        private void win1_MouseWheel_1(object sender, MouseWheelEventArgs e)
-        {
-            if ((e.Delta &gt; 0) &amp;&amp; (value &lt; 1.0))
-                value += 0.1;
-            else if ((e.Delta &lt; 0) &amp;&amp; (value &gt; 0.0))
-                value -= 0.1;
-
-            RecalcColor(Mouse.GetPosition(canv1));
-        }
-
-        private void RecalcColor(Point mousePos)
-        {
-            double radius = (canv1.ActualWidth / 2);
-
-            double hue;
-            double saturation;
-            Color c = ColorFromMousePosition(mousePos, radius, out hue, out saturation);
-            backBrush.Color = c;
-            RGBInfo = string.Format(&quot;R={0}, G={1}, B={2}.  H={3:F1}, S={4:F1}, V={5:F1}&quot;,
-                c.R, c.G, c.B,
-                hue, saturation, value);
-
-            if (value &lt; 0.5)
-            {
-                lblInfo.Foreground = Brushes.White;
-                ellipseCenter.Stroke = Brushes.White;
-            }
-            else
-            {
-                lblInfo.Foreground = Brushes.Black;
-                ellipseCenter.Stroke = Brushes.Black;
-            }
-        }
-
-        private Color ColorFromMousePosition(Point mousePos, double radius, out double hue, out double saturation)
-        {
-            // Position relative to center of canvas
-            double xRel = mousePos.X - radius;
-            double yRel = mousePos.Y - radius;
-
-            // Hue is angle in deg, 0-360
-            double angleRadians = Math.Atan2(yRel, xRel);
-            hue = angleRadians * (180 / Math.PI);
-            if (hue &lt; 0)
-                hue = 360 + hue;
-
-            // Saturation is distance from center
-            saturation = Math.Min(Math.Sqrt(xRel * xRel + yRel * yRel) / radius, 1.0);
-
-            byte r, g, b;
-            ColorUtil.HsvToRgb(hue, saturation, value, out r, out g, out b);
-            return Color.FromRgb(r, g, b);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string prop)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-    }
+<p><pre class="brush: csharp;">
+
+    public partial class MainWindow : Window, INotifyPropertyChanged
+
+    {
+
+        SolidColorBrush backBrush = new SolidColorBrush();
+
+        double value = 1.0;
+
+
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+
+
+            this.DataContext = this;
+
+            win1.Background = backBrush;
+
+        }
+
+
+
+        private string rgbInfo;
+
+        public string RGBInfo
+
+        {
+
+            get { return rgbInfo; }
+
+            set
+
+            {
+
+                if (value != rgbInfo)
+
+                {
+
+                    rgbInfo = value;
+
+                    RaisePropertyChanged(&quot;RGBInfo&quot;);
+
+                }
+
+            }
+
+        }
+
+
+
+        private void win1_MouseMove_1(object sender, MouseEventArgs e)
+
+        {
+
+            RecalcColor(e.GetPosition(canv1));
+
+        }
+
+
+
+        private void win1_MouseWheel_1(object sender, MouseWheelEventArgs e)
+
+        {
+
+            if ((e.Delta &gt; 0) &amp;&amp; (value &lt; 1.0))
+
+                value += 0.1;
+
+            else if ((e.Delta &lt; 0) &amp;&amp; (value &gt; 0.0))
+
+                value -= 0.1;
+
+
+
+            RecalcColor(Mouse.GetPosition(canv1));
+
+        }
+
+
+
+        private void RecalcColor(Point mousePos)
+
+        {
+
+            double radius = (canv1.ActualWidth / 2);
+
+
+
+            double hue;
+
+            double saturation;
+
+            Color c = ColorFromMousePosition(mousePos, radius, out hue, out saturation);
+
+            backBrush.Color = c;
+
+            RGBInfo = string.Format(&quot;R={0}, G={1}, B={2}.  H={3:F1}, S={4:F1}, V={5:F1}&quot;,
+
+                c.R, c.G, c.B,
+
+                hue, saturation, value);
+
+
+
+            if (value &lt; 0.5)
+
+            {
+
+                lblInfo.Foreground = Brushes.White;
+
+                ellipseCenter.Stroke = Brushes.White;
+
+            }
+
+            else
+
+            {
+
+                lblInfo.Foreground = Brushes.Black;
+
+                ellipseCenter.Stroke = Brushes.Black;
+
+            }
+
+        }
+
+
+
+        private Color ColorFromMousePosition(Point mousePos, double radius, out double hue, out double saturation)
+
+        {
+
+            // Position relative to center of canvas
+
+            double xRel = mousePos.X - radius;
+
+            double yRel = mousePos.Y - radius;
+
+
+
+            // Hue is angle in deg, 0-360
+
+            double angleRadians = Math.Atan2(yRel, xRel);
+
+            hue = angleRadians * (180 / Math.PI);
+
+            if (hue &lt; 0)
+
+                hue = 360 + hue;
+
+
+
+            // Saturation is distance from center
+
+            saturation = Math.Min(Math.Sqrt(xRel * xRel + yRel * yRel) / radius, 1.0);
+
+
+
+            byte r, g, b;
+
+            ColorUtil.HsvToRgb(hue, saturation, value, out r, out g, out b);
+
+            return Color.FromRgb(r, g, b);
+
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+        private void RaisePropertyChanged(string prop)
+
+        {
+
+            if (PropertyChanged != null)
+
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+
+        }
+
+    }
+
 </pre></p>
 <p>(See the <a href="http://wp.me/pZhye-1vQ">earlier post</a> for the <strong>ColorUtil</strong> code).<br />
 We can now roll the mouse wheel down to reduce the value, making the colors darker.<br />
-<a href="http://2000thingswpf.files.wordpress.com/2012/10/673-0011.png"><img class="alignnone size-full wp-image-5832" title="673-001" alt="" src="https://web.archive.org/web/20121029035346id_/http://2000thingswpf.files.wordpress.com/2012/10/673-0011.png?w=630"   /></a></p>
+<a href="http://2000thingswpf.files.wordpress.com/2012/10/673-0011.png"><img class="alignnone size-full wp-image-5832" title="673-001" alt="" src="data:image/png;base64,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"   /></a></p>
 
 		<div class="wpadvert">
 		

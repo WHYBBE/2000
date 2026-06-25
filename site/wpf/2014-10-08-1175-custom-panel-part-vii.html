@@ -44,79 +44,148 @@
 					</div>
 
 					<p>Here&#8217;s an example of a custom panel that uses an <a href="http://wp.me/pZhye-2rx">attached property</a> (weight) in determining both size and position of child elements.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class WeightedPanel : Panel
-    {
-        private static FrameworkPropertyMetadata weightMetadata =
-            new FrameworkPropertyMetadata(1.0,
-                FrameworkPropertyMetadataOptions.AffectsParentArrange);
-
-        public static readonly DependencyProperty WeightProperty =
-            DependencyProperty.RegisterAttached(&quot;Weight&quot;, typeof(double),
-                typeof(WeightedPanel), weightMetadata);
-
-        public static void SetWeight(DependencyObject depObj, double value)
-        {
-            depObj.SetValue(WeightProperty, value);
-        }
-
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            double totalWeight = totalChildWeight();
-
-            foreach (UIElement elem in InternalChildren)
-            {
-                double childWeight = (double)elem.GetValue(WeightProperty);
-                double childHeight = (childWeight / totalWeight) * availableSize.Height;
-                elem.Measure(new Size(availableSize.Width, childHeight));
-            }
-
-            return availableSize;
-        }
-
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            double totalWeight = totalChildWeight();
-            double top = 0.0;
-
-            foreach (UIElement elem in InternalChildren)
-            {
-                double childWeight = (double)elem.GetValue(WeightProperty);
-                double childHeight = (childWeight / totalWeight) * finalSize.Height;
-                Rect r = new Rect(new Point(0.0, top),
-                                  new Size(elem.DesiredSize.Width, childHeight));
-
-                elem.Arrange(r);
-
-                top += childHeight;
-            }
-
-            return finalSize;
-        }
-
-        private double totalChildWeight()
-        {
-            double weightSum = 0;
-            foreach (UIElement elem in InternalChildren)
-                weightSum += (double)elem.GetValue(WeightProperty);
-
-            return weightSum;
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class WeightedPanel : Panel
+
+    {
+
+        private static FrameworkPropertyMetadata weightMetadata =
+
+            new FrameworkPropertyMetadata(1.0,
+
+                FrameworkPropertyMetadataOptions.AffectsParentArrange);
+
+
+
+        public static readonly DependencyProperty WeightProperty =
+
+            DependencyProperty.RegisterAttached(&quot;Weight&quot;, typeof(double),
+
+                typeof(WeightedPanel), weightMetadata);
+
+
+
+        public static void SetWeight(DependencyObject depObj, double value)
+
+        {
+
+            depObj.SetValue(WeightProperty, value);
+
+        }
+
+
+
+        protected override Size MeasureOverride(Size availableSize)
+
+        {
+
+            double totalWeight = totalChildWeight();
+
+
+
+            foreach (UIElement elem in InternalChildren)
+
+            {
+
+                double childWeight = (double)elem.GetValue(WeightProperty);
+
+                double childHeight = (childWeight / totalWeight) * availableSize.Height;
+
+                elem.Measure(new Size(availableSize.Width, childHeight));
+
+            }
+
+
+
+            return availableSize;
+
+        }
+
+
+
+        protected override Size ArrangeOverride(Size finalSize)
+
+        {
+
+            double totalWeight = totalChildWeight();
+
+            double top = 0.0;
+
+
+
+            foreach (UIElement elem in InternalChildren)
+
+            {
+
+                double childWeight = (double)elem.GetValue(WeightProperty);
+
+                double childHeight = (childWeight / totalWeight) * finalSize.Height;
+
+                Rect r = new Rect(new Point(0.0, top),
+
+                                  new Size(elem.DesiredSize.Width, childHeight));
+
+
+
+                elem.Arrange(r);
+
+
+
+                top += childHeight;
+
+            }
+
+
+
+            return finalSize;
+
+        }
+
+
+
+        private double totalChildWeight()
+
+        {
+
+            double weightSum = 0;
+
+            foreach (UIElement elem in InternalChildren)
+
+                weightSum += (double)elem.GetValue(WeightProperty);
+
+
+
+            return weightSum;
+
+        }
+
+    }
+
 </pre>
 <p>Below, we use this panel, specifying that 2nd label is 2x bigger (more weight) than the first label.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;loc:WeightedPanel&gt;
-        &lt;Label Content=&quot;I'm child #1&quot; loc:WeightedPanel.Weight=&quot;1&quot;
-               Background=&quot;Thistle&quot; /&gt;
-        &lt;Label Content=&quot;I'm child #2&quot; loc:WeightedPanel.Weight=&quot;2&quot;
-               Background=&quot;Lavender&quot; /&gt;
-        &lt;!-- Weight defaults to 1 --&gt;
-        &lt;Label Content=&quot;Third kid&quot;
-               Background=&quot;Honeydew&quot; /&gt;
-    &lt;/loc:WeightedPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;loc:WeightedPanel&gt;
+
+        &lt;Label Content=&quot;I'm child #1&quot; loc:WeightedPanel.Weight=&quot;1&quot;
+
+               Background=&quot;Thistle&quot; /&gt;
+
+        &lt;Label Content=&quot;I'm child #2&quot; loc:WeightedPanel.Weight=&quot;2&quot;
+
+               Background=&quot;Lavender&quot; /&gt;
+
+        &lt;!-- Weight defaults to 1 --&gt;
+
+        &lt;Label Content=&quot;Third kid&quot;
+
+               Background=&quot;Honeydew&quot; /&gt;
+
+    &lt;/loc:WeightedPanel&gt;
+
 </pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1175-001.png"><img class="alignnone size-full wp-image-9401" src="https://web.archive.org/web/20141010230348id_/http://2000thingswpf.files.wordpress.com/2014/10/1175-001.png?w=630" alt="1175-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1175-001.png"><img class="alignnone size-full wp-image-9401" src="data:image/png;base64,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" alt="1175-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

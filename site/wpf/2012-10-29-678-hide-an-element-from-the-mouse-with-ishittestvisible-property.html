@@ -45,35 +45,59 @@
 
 					<p>You can completely hide a user interface element from the mouse by setting its <strong>IsHitTestVisible</strong> property to false.  When this property is false, no mouse related events will be fired for that control.</p>
 <p>In the example below, one <strong>Label</strong> has its <strong>IsHitTestVisible</strong> property set to <strong>false</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;StackPanel&gt;
-        &lt;Label Content=&quot;Mouse Sees Me&quot; Background=&quot;AliceBlue&quot; Margin=&quot;10&quot;
-               MouseMove=&quot;Label_MouseMove_1&quot;/&gt;
-        &lt;Label Content=&quot;Mouse Doesn't see Me&quot; Background=&quot;Beige&quot; Margin=&quot;10&quot;
-               IsHitTestVisible=&quot;False&quot;
-               MouseMove=&quot;Label_MouseMove_2&quot;/&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;StackPanel&gt;
+
+        &lt;Label Content=&quot;Mouse Sees Me&quot; Background=&quot;AliceBlue&quot; Margin=&quot;10&quot;
+
+               MouseMove=&quot;Label_MouseMove_1&quot;/&gt;
+
+        &lt;Label Content=&quot;Mouse Doesn't see Me&quot; Background=&quot;Beige&quot; Margin=&quot;10&quot;
+
+               IsHitTestVisible=&quot;False&quot;
+
+               MouseMove=&quot;Label_MouseMove_2&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
 <p>Assume that we try to report the mouse position in both event handlers:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void ReportMouse(string element, MouseEventArgs e)
-        {
-            Point p = e.GetPosition(null);
-            Console.WriteLine(string.Format(&quot;{0} sees mouse at ({1},{2})&quot;, element, p.X, p.Y));
-        }
-
-        private void Label_MouseMove_1(object sender, MouseEventArgs e)
-        {
-            ReportMouse(&quot;Label 1&quot;, e);
-        }
-
-        private void Label_MouseMove_2(object sender, MouseEventArgs e)
-        {
-            ReportMouse(&quot;Label 2&quot;, e);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private void ReportMouse(string element, MouseEventArgs e)
+
+        {
+
+            Point p = e.GetPosition(null);
+
+            Console.WriteLine(string.Format(&quot;{0} sees mouse at ({1},{2})&quot;, element, p.X, p.Y));
+
+        }
+
+
+
+        private void Label_MouseMove_1(object sender, MouseEventArgs e)
+
+        {
+
+            ReportMouse(&quot;Label 1&quot;, e);
+
+        }
+
+
+
+        private void Label_MouseMove_2(object sender, MouseEventArgs e)
+
+        {
+
+            ReportMouse(&quot;Label 2&quot;, e);
+
+        }
+
 </pre>
 <p>When we move the mouse over both labels at runtime, we only see output when it moves over label #1, which does not set <strong>IsHitTestVisible</strong> to <strong>false</strong>.</p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/678-001.png"><img class="alignnone size-full wp-image-5870" title="678-001" alt="" src="https://web.archive.org/web/20130819113934id_/http://2000thingswpf.files.wordpress.com/2012/10/678-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/10/678-001.png"><img class="alignnone size-full wp-image-5870" title="678-001" alt="" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

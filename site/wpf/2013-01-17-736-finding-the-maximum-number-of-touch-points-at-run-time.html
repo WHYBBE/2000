@@ -44,41 +44,74 @@
 					</div>
 
 					<p>You can write code that discovers at run-time the number of touch points supported by the hardware that you&#8217;re running on.  You do this by calling the <strong>GetSystemMetrics</strong> Win32 API call.</p>
-<p><pre class="brush: csharp;">
-    class Program
-    {
-        [DllImport(&quot;user32.dll&quot;)]
-        static extern int GetSystemMetrics(int nIndex);
-
-        // Index passed in to GetSystemMetrics() indicates
-        // what data we're asking for.
-        private const int SM_DIGITIZER = 94;
-        private const int SM_MAXIMUMTOUCHES = 95;
-
-        // Masks used to check results from SM_DIGITIZER check
-        private const int NID_READY = 0x80;
-        private const int NID_MULTI_INPUT = 0x40;
-
-        static void Main(string[] args)
-        {
-            string info;
-
-            int digitizer = GetSystemMetrics(SM_DIGITIZER);
-
-            if ((digitizer &amp; (NID_READY + NID_MULTI_INPUT)) == NID_READY + NID_MULTI_INPUT)
-            {
-                int numTouchPoints = GetSystemMetrics(SM_MAXIMUMTOUCHES);
-                info = string.Format(&quot;Multitouch ready, {0} inputs supported&quot;, numTouchPoints);
-            }
-            else
-                info = &quot;Multitouch not supported&quot;;
-
-            Console.WriteLine(info);
-            Console.ReadLine();
-        }
-    }
+<p><pre class="brush: csharp;">
+
+    class Program
+
+    {
+
+        [DllImport(&quot;user32.dll&quot;)]
+
+        static extern int GetSystemMetrics(int nIndex);
+
+
+
+        // Index passed in to GetSystemMetrics() indicates
+
+        // what data we're asking for.
+
+        private const int SM_DIGITIZER = 94;
+
+        private const int SM_MAXIMUMTOUCHES = 95;
+
+
+
+        // Masks used to check results from SM_DIGITIZER check
+
+        private const int NID_READY = 0x80;
+
+        private const int NID_MULTI_INPUT = 0x40;
+
+
+
+        static void Main(string[] args)
+
+        {
+
+            string info;
+
+
+
+            int digitizer = GetSystemMetrics(SM_DIGITIZER);
+
+
+
+            if ((digitizer &amp; (NID_READY + NID_MULTI_INPUT)) == NID_READY + NID_MULTI_INPUT)
+
+            {
+
+                int numTouchPoints = GetSystemMetrics(SM_MAXIMUMTOUCHES);
+
+                info = string.Format(&quot;Multitouch ready, {0} inputs supported&quot;, numTouchPoints);
+
+            }
+
+            else
+
+                info = &quot;Multitouch not supported&quot;;
+
+
+
+            Console.WriteLine(info);
+
+            Console.ReadLine();
+
+        }
+
+    }
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/736-001.png"><img class="alignnone size-full wp-image-6416" alt="736-001" src="https://web.archive.org/web/20130312182356id_/http://2000thingswpf.files.wordpress.com/2013/01/736-001.png?w=630"   /></a></pre>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/736-001.png"><img class="alignnone size-full wp-image-6416" alt="736-001" src="data:image/png;base64,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"   /></a></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

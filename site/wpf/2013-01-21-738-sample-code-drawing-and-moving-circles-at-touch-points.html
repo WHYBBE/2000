@@ -44,79 +44,148 @@
 					</div>
 
 					<p>Here&#8217;s some sample code that draws a circle for each touch point, when a finger contacts the screen, and then moves that circle around as you move your finger.  This is done using the raw touch events&#8211;<strong>TouchDown, TouchMove</strong> and <strong>TouchUp</strong>.</p>
-<p><pre class="brush: xml;">
-    &lt;Canvas Name=&quot;canvMain&quot; Background=&quot;Transparent&quot;
-        TouchDown=&quot;Canvas_TouchDown&quot; TouchUp=&quot;Canvas_TouchUp&quot; TouchMove=&quot;Canvas_TouchMove&quot;/&gt;
+<p><pre class="brush: xml;">
+
+    &lt;Canvas Name=&quot;canvMain&quot; Background=&quot;Transparent&quot;
+
+        TouchDown=&quot;Canvas_TouchDown&quot; TouchUp=&quot;Canvas_TouchUp&quot; TouchMove=&quot;Canvas_TouchMove&quot;/&gt;
+
 </pre></p>
 <p>&nbsp;</p>
-<p><pre class="brush: csharp;">
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            TouchPositions = new Dictionary&lt;int, Point&gt;();
-            TouchEllipses = new Dictionary&lt;int, Ellipse&gt;();
-        }
-
-        private const double CircleWidth = 55;
-        private Dictionary&lt;int, Point&gt; TouchPositions;
-        private Dictionary&lt;int, Ellipse&gt; TouchEllipses;
-
-        private void Canvas_TouchDown(object sender, TouchEventArgs e)
-        {
-            canvMain.CaptureTouch(e.TouchDevice);
-
-            TouchPoint tp = e.GetTouchPoint(null);
-
-            Ellipse el = AddEllipseAt(canvMain, tp.Position, Brushes.Red);
-
-            TouchPositions.Add(e.TouchDevice.Id, tp.Position);
-            TouchEllipses.Add(e.TouchDevice.Id, el);
-            e.Handled = true;
-        }
-
-        private void Canvas_TouchMove(object sender, TouchEventArgs e)
-        {
-            TouchPoint tp = e.GetTouchPoint(null);
-
-            Canvas.SetLeft(TouchEllipses[e.TouchDevice.Id], tp.Position.X - (CircleWidth / 2));
-            Canvas.SetTop(TouchEllipses[e.TouchDevice.Id], tp.Position.Y - (CircleWidth / 2));
-            e.Handled = true;
-        }
-
-        private void Canvas_TouchUp(object sender, TouchEventArgs e)
-        {
-            TouchPoint tp = e.GetTouchPoint(null);
-
-            TouchPositions.Remove(e.TouchDevice.Id);
-
-            canvMain.Children.Remove(TouchEllipses[e.TouchDevice.Id]);
-            TouchEllipses.Remove(e.TouchDevice.Id);
-
-            canvMain.ReleaseTouchCapture(e.TouchDevice);
-            e.Handled = true;
-        }
-
-        private Ellipse AddEllipseAt(Canvas canv, Point pt, Brush brush)
-        {
-            Ellipse el = new Ellipse();
-            el.Stroke = brush;
-            el.Fill = brush;
-            el.Width = CircleWidth;
-            el.Height = CircleWidth;
-
-            Canvas.SetLeft(el, pt.X - (CircleWidth / 2));
-            Canvas.SetTop(el, pt.Y - (CircleWidth / 2));
-
-            canv.Children.Add(el);
-
-            return el;
-        }
-
-    }
+<p><pre class="brush: csharp;">
+
+    public partial class MainWindow : Window
+
+    {
+
+        public MainWindow()
+
+        {
+
+            InitializeComponent();
+
+            TouchPositions = new Dictionary&lt;int, Point&gt;();
+
+            TouchEllipses = new Dictionary&lt;int, Ellipse&gt;();
+
+        }
+
+
+
+        private const double CircleWidth = 55;
+
+        private Dictionary&lt;int, Point&gt; TouchPositions;
+
+        private Dictionary&lt;int, Ellipse&gt; TouchEllipses;
+
+
+
+        private void Canvas_TouchDown(object sender, TouchEventArgs e)
+
+        {
+
+            canvMain.CaptureTouch(e.TouchDevice);
+
+
+
+            TouchPoint tp = e.GetTouchPoint(null);
+
+
+
+            Ellipse el = AddEllipseAt(canvMain, tp.Position, Brushes.Red);
+
+
+
+            TouchPositions.Add(e.TouchDevice.Id, tp.Position);
+
+            TouchEllipses.Add(e.TouchDevice.Id, el);
+
+            e.Handled = true;
+
+        }
+
+
+
+        private void Canvas_TouchMove(object sender, TouchEventArgs e)
+
+        {
+
+            TouchPoint tp = e.GetTouchPoint(null);
+
+
+
+            Canvas.SetLeft(TouchEllipses[e.TouchDevice.Id], tp.Position.X - (CircleWidth / 2));
+
+            Canvas.SetTop(TouchEllipses[e.TouchDevice.Id], tp.Position.Y - (CircleWidth / 2));
+
+            e.Handled = true;
+
+        }
+
+
+
+        private void Canvas_TouchUp(object sender, TouchEventArgs e)
+
+        {
+
+            TouchPoint tp = e.GetTouchPoint(null);
+
+
+
+            TouchPositions.Remove(e.TouchDevice.Id);
+
+
+
+            canvMain.Children.Remove(TouchEllipses[e.TouchDevice.Id]);
+
+            TouchEllipses.Remove(e.TouchDevice.Id);
+
+
+
+            canvMain.ReleaseTouchCapture(e.TouchDevice);
+
+            e.Handled = true;
+
+        }
+
+
+
+        private Ellipse AddEllipseAt(Canvas canv, Point pt, Brush brush)
+
+        {
+
+            Ellipse el = new Ellipse();
+
+            el.Stroke = brush;
+
+            el.Fill = brush;
+
+            el.Width = CircleWidth;
+
+            el.Height = CircleWidth;
+
+
+
+            Canvas.SetLeft(el, pt.X - (CircleWidth / 2));
+
+            Canvas.SetTop(el, pt.Y - (CircleWidth / 2));
+
+
+
+            canv.Children.Add(el);
+
+
+
+            return el;
+
+        }
+
+
+
+    }
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/738-001.png"><img class="alignnone size-full wp-image-6429" alt="738-001" src="https://web.archive.org/web/20130201032452id_/http://2000thingswpf.files.wordpress.com/2013/01/738-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/01/738-001.png"><img class="alignnone size-full wp-image-6429" alt="738-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
@@ -200,7 +269,7 @@ jQuery( window ).load( function() {
 setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
 } );
 </script>
-<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-6425" class="wpl-button "><a href='2013-01-21-738-sample-code-drawing-and-moving-circles-at-touch-points.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/sethsnap" title="sethsnap" class="wpl-liker" rel="nofollow"><img src='http://1.gravatar.com/avatar/47bc7c320cd6d5e9f7a915de706b144e?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='sethsnap' width='30' height='30' /></a></li></ul></div></div></article>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-6425" class="wpl-button "><a href='2013-01-21-738-sample-code-drawing-and-moving-circles-at-touch-points.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/sethsnap" title="sethsnap" class="wpl-liker" rel="nofollow"><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2NjIpLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBUU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAHgAeAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A+r7nxx4YTeX8SxnJ7Ov9BXIeM/iDpw8NXr6NrVnPqEaL5ULXWwSHI3Z/DPT0ryG8tSvAiQHGSXYjA/I18m/EG+1nxP401CLUL3U9BfSbzba29lKkkMzAIR5Z2ozMwYHa2cZ6jOKxjCUpJczKSjZ6I9p8XfGDxML93fQY71I+QrRpJG3PYMprgrv413w1WYT+D7FFIJwdPiCdewEYHeum8JeONI8TK0F7ALG5yQoB3hiMkrnjDADJB+taN7puhyO2HcsrbWGCMHGa1nSknae5lGS+yjltb1G8E07i4vgsRI8ySPaowTkhhyfzPPtXnHjfTNavZ31GJ7LULa4UySwpOyvIrKcJjA6Djg9R36V22jW9xqkFw97Mt4p5/fKGI57DpVGy8IRa9fOwdLW1i8zftQtJtXuvOAevB45rNTnDWG5tFRl7stjzK01ie3mhu47plubcBo5XIQtGDj7uTudDkE9SueoyT6Gvjq28q3km1IWskkQcqyoSM4OCAOMZrzDXtC87W3jsblhAWdw0ihHbdlcnG7BKgZA4znrnNGuaidBubeHUJpLxhAo2Ki7F+nQ9B3rqqVY1ErbmEabi7H//2Q==' class='avatar avatar-30' alt='sethsnap' width='30' height='30' /></a></li></ul></div></div></article>
   <p class="meta">Categories: Events | Tags: Events, Touch Input, Touch Up, TouchDown, TouchMove, WPF</p>
   <nav class="pager"><a href="2013-01-18-737-touch-behavior-when-maximum-number-of-touch-points-reached.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2013-01-22-739-handling-touch-input-at-different-levels.html">Next</a></nav>
 </main>

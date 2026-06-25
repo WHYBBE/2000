@@ -45,44 +45,80 @@
 
 					<p>When an exception occurs while executing code in a <strong>try</strong> block that has an associated finally block, the code in the <strong>finally</strong> block will execute before the exception bubbles up the call stack.</p>
 <p>Below is an example.  <strong>MethodA</strong> calls <strong>MethodB</strong>, which in turn calls <strong>MethodC</strong>.  <strong>MethodC</strong> throws an exception.  When this happens, the code in <strong>MethodB&#8217;s</strong> <strong>try</strong> block is interrupted and the code in the <strong>finally</strong> block is executed.  The exception then bubbles up the call stack, where it is then caught by the <strong>catch</strong> block in <strong>MethodA</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private static void MethodA()
-        {
-            try
-            {
-                MethodB();
-                Console.WriteLine(&quot;After MethodB call&quot;);
-            }
-            catch (Exception xx)
-            {
-                Console.WriteLine(&quot;Exception caught in MethodA!&quot;);
-            }
-
-            Console.WriteLine(&quot;Finishing up MethodA&quot;);
-        }
-
-        private static void MethodB()
-        {
-            try
-            {
-                Console.WriteLine(&quot;Before MethodC() call&quot;);
-                MethodC();
-                Console.WriteLine(&quot;After MethodC() call&quot;);
-            }
-            finally
-            {
-                Console.WriteLine(&quot;MethodB() finally block&quot;);
-            }
-
-            Console.WriteLine(&quot;Finishing up MethodB()&quot;);
-        }
-
-        private static void MethodC()
-        {
-            throw new Exception(&quot;Uh-oh&quot;);
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private static void MethodA()
+
+        {
+
+            try
+
+            {
+
+                MethodB();
+
+                Console.WriteLine(&quot;After MethodB call&quot;);
+
+            }
+
+            catch (Exception xx)
+
+            {
+
+                Console.WriteLine(&quot;Exception caught in MethodA!&quot;);
+
+            }
+
+
+
+            Console.WriteLine(&quot;Finishing up MethodA&quot;);
+
+        }
+
+
+
+        private static void MethodB()
+
+        {
+
+            try
+
+            {
+
+                Console.WriteLine(&quot;Before MethodC() call&quot;);
+
+                MethodC();
+
+                Console.WriteLine(&quot;After MethodC() call&quot;);
+
+            }
+
+            finally
+
+            {
+
+                Console.WriteLine(&quot;MethodB() finally block&quot;);
+
+            }
+
+
+
+            Console.WriteLine(&quot;Finishing up MethodB()&quot;);
+
+        }
+
+
+
+        private static void MethodC()
+
+        {
+
+            throw new Exception(&quot;Uh-oh&quot;);
+
+        }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/864-001.png"><img class="alignnone size-full wp-image-7319" alt="864-001" src="https://web.archive.org/web/20130817213508id_/http://2000thingscsharp.files.wordpress.com/2013/06/864-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/864-001.png"><img class="alignnone size-full wp-image-7319" alt="864-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

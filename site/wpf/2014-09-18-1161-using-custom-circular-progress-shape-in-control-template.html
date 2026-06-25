@@ -46,60 +46,111 @@
 					<p>In the previous example, we <a href="2014-09-11-1156-changing-circular-progress-control-to-be-only-an-arc.html">created a custom circular progress shape</a> and then <a href="2014-09-17-1160-adding-a-text-label-to-the-circular-progress-control.html">composed it along with a <strong>TextBlock</strong></a> to get a labeled circular progress control.</p>
 <p>The other approach that we could take is to just create a new control template containing our circular progress shape and a <strong>TextBlock</strong> and then use that new template as the control template for a standard <strong>ProgressBar</strong>.</p>
 <p>Assuming that we start with the earlier code for <strong>CircularProgress</strong>, we compose the template and use it as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-	&lt;Window.Resources&gt;
-        &lt;loc:DoubleToPctConverter x:Key=&quot;dblToPct&quot;/&gt;
-		&lt;Style x:Key=&quot;pbarCircularStyle&quot; TargetType=&quot;{x:Type ProgressBar}&quot;&gt;
-			&lt;Setter Property=&quot;Foreground&quot; Value=&quot;#01D328&quot;/&gt;
-            &lt;Setter Property=&quot;Maximum&quot; Value=&quot;100&quot;/&gt;
-            &lt;Setter Property=&quot;Height&quot; Value=&quot;100&quot;/&gt;
-            &lt;Setter Property=&quot;Width&quot; Value=&quot;100&quot;/&gt;
-            &lt;Setter Property=&quot;Template&quot;&gt;
-				&lt;Setter.Value&gt;
-					&lt;ControlTemplate TargetType=&quot;{x:Type ProgressBar}&quot;&gt;
-						&lt;Grid x:Name=&quot;TemplateRoot&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
-                            &lt;TextBlock HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;
-                                       FontSize=&quot;32&quot; Foreground=&quot;DarkGray&quot;
-                                       Text=&quot;{TemplateBinding Value, Converter={StaticResource dblToPct}}&quot; /&gt;
-                            &lt;loc:CircularProgress Stroke=&quot;{TemplateBinding Foreground}&quot;
-                                                  Value=&quot;{TemplateBinding Value}&quot;/&gt;
-						&lt;/Grid&gt;
-					&lt;/ControlTemplate&gt;
-				&lt;/Setter.Value&gt;
-			&lt;/Setter&gt;
-		&lt;/Style&gt;
-	&lt;/Window.Resources&gt;
-
-    &lt;StackPanel&gt;
-        &lt;Grid&gt;
-			&lt;ProgressBar Style=&quot;{DynamicResource pbarCircularStyle}&quot;
-						 Value=&quot;{Binding PctComplete}&quot;
-						 Margin=&quot;10&quot;/&gt;
-        &lt;/Grid&gt;
-        &lt;Button Content=&quot;Start Timer&quot; Click=&quot;Button_Click&quot;
-                HorizontalAlignment=&quot;Center&quot;
-                Padding=&quot;12,7&quot;/&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+	&lt;Window.Resources&gt;
+
+        &lt;loc:DoubleToPctConverter x:Key=&quot;dblToPct&quot;/&gt;
+
+		&lt;Style x:Key=&quot;pbarCircularStyle&quot; TargetType=&quot;{x:Type ProgressBar}&quot;&gt;
+
+			&lt;Setter Property=&quot;Foreground&quot; Value=&quot;#01D328&quot;/&gt;
+
+            &lt;Setter Property=&quot;Maximum&quot; Value=&quot;100&quot;/&gt;
+
+            &lt;Setter Property=&quot;Height&quot; Value=&quot;100&quot;/&gt;
+
+            &lt;Setter Property=&quot;Width&quot; Value=&quot;100&quot;/&gt;
+
+            &lt;Setter Property=&quot;Template&quot;&gt;
+
+				&lt;Setter.Value&gt;
+
+					&lt;ControlTemplate TargetType=&quot;{x:Type ProgressBar}&quot;&gt;
+
+						&lt;Grid x:Name=&quot;TemplateRoot&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
+
+                            &lt;TextBlock HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;
+
+                                       FontSize=&quot;32&quot; Foreground=&quot;DarkGray&quot;
+
+                                       Text=&quot;{TemplateBinding Value, Converter={StaticResource dblToPct}}&quot; /&gt;
+
+                            &lt;loc:CircularProgress Stroke=&quot;{TemplateBinding Foreground}&quot;
+
+                                                  Value=&quot;{TemplateBinding Value}&quot;/&gt;
+
+						&lt;/Grid&gt;
+
+					&lt;/ControlTemplate&gt;
+
+				&lt;/Setter.Value&gt;
+
+			&lt;/Setter&gt;
+
+		&lt;/Style&gt;
+
+	&lt;/Window.Resources&gt;
+
+
+
+    &lt;StackPanel&gt;
+
+        &lt;Grid&gt;
+
+			&lt;ProgressBar Style=&quot;{DynamicResource pbarCircularStyle}&quot;
+
+						 Value=&quot;{Binding PctComplete}&quot;
+
+						 Margin=&quot;10&quot;/&gt;
+
+        &lt;/Grid&gt;
+
+        &lt;Button Content=&quot;Start Timer&quot; Click=&quot;Button_Click&quot;
+
+                HorizontalAlignment=&quot;Center&quot;
+
+                Padding=&quot;12,7&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1161-001.png"><img class="alignnone size-full wp-image-9308" src="https://web.archive.org/web/20140923110840id_/http://2000thingswpf.files.wordpress.com/2014/09/1161-001.png?w=630" alt="1161-001"   /></a></p>
+<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1161-001.png"><img class="alignnone size-full wp-image-9308" src="data:image/png;base64,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" alt="1161-001"   /></a></p>
 <p>For completeness, here&#8217;s the source code for our value converter:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class DoubleToPctConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            string result = &quot;&quot;;
-            double d = (double)value;
-            result = string.Format(&quot;{0}%&quot;, d);
-
-            return result;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class DoubleToPctConverter : IValueConverter
+
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+
+        {
+
+            string result = &quot;&quot;;
+
+            double d = (double)value;
+
+            result = string.Format(&quot;{0}%&quot;, d);
+
+
+
+            return result;
+
+        }
+
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+
+        {
+
+            throw new NotImplementedException();
+
+        }
+
+    }
+
 </pre>
 
 <div class="wpcnt">

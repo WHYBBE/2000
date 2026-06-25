@@ -45,28 +45,48 @@
 
 					<p>You can use the <strong>CaptureMouse</strong> and <strong>ReleaseMouseCapture</strong> methods to <a href="2012-11-07-685-capturing-the-mouse.html">capture/release the mouse pointer</a>, so that a user interface element will get all future mouse events.</p>
 <p>You can also check the <strong>IsMouseCaptured</strong> property of a <strong>UIElement</strong> object at any time, to see whether this element has currently captured the mouse.  In the example below, <strong>IsMouseCaptured</strong> is true while we&#8217;re moving the mouse pointer across the label only while we have a mouse button pressed.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(&quot;Feast_MouseDown&quot;);
-            Label l = e.Source as Label;
-            l.CaptureMouse();
-        }
-
-        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(&quot;Feast_MouseUp&quot;);
-            Label l = e.Source as Label;
-            l.ReleaseMouseCapture();
-        }
-
-        private void Feast_MouseMove(object sender, MouseEventArgs e)
-        {
-            Label l = e.Source as Label;
-            Console.WriteLine(string.Format(&quot;IsMouseCaptured={0}&quot;, l.IsMouseCaptured));
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
+
+        {
+
+            Console.WriteLine(&quot;Feast_MouseDown&quot;);
+
+            Label l = e.Source as Label;
+
+            l.CaptureMouse();
+
+        }
+
+
+
+        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
+
+        {
+
+            Console.WriteLine(&quot;Feast_MouseUp&quot;);
+
+            Label l = e.Source as Label;
+
+            l.ReleaseMouseCapture();
+
+        }
+
+
+
+        private void Feast_MouseMove(object sender, MouseEventArgs e)
+
+        {
+
+            Label l = e.Source as Label;
+
+            Console.WriteLine(string.Format(&quot;IsMouseCaptured={0}&quot;, l.IsMouseCaptured));
+
+        }
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/691-001.png"><img class="alignnone size-full wp-image-5999" title="691-001" alt="" src="https://web.archive.org/web/20130819125002id_/http://2000thingswpf.files.wordpress.com/2012/11/691-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2012/11/691-001.png"><img class="alignnone size-full wp-image-5999" title="691-001" alt="" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

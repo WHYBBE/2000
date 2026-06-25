@@ -50,32 +50,54 @@
 </ul>
 <p>Note that if the <strong>TextBox</strong> doesn&#8217;t currently have focus, the selected text will not be highlighted.</p>
 <p>Assume that we have a <strong>TextBox, </strong>some labels displaying selected text and a <strong>Button</strong>:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;TextBox Name=&quot;txtTest&quot; Margin=&quot;5&quot; Height=&quot;100&quot;
-            Text=&quot;{Binding SomeText}&quot;
-            TextWrapping=&quot;Wrap&quot;
-            VerticalScrollBarVisibility=&quot;Auto&quot;
-            SelectionChanged=&quot;TextBox_SelectionChanged&quot;/&gt;
-        &lt;Label Content=&quot;{Binding SelectedText}&quot;/&gt;
-        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-            &lt;Label Content=&quot;{Binding SelectionStart}&quot;/&gt;
-            &lt;Label Content=&quot;{Binding SelectionLength}&quot;/&gt;
-        &lt;/StackPanel&gt;
-        &lt;Button Content=&quot;Select Something&quot; Click=&quot;Button_Click&quot;/&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+        &lt;TextBox Name=&quot;txtTest&quot; Margin=&quot;5&quot; Height=&quot;100&quot;
+
+            Text=&quot;{Binding SomeText}&quot;
+
+            TextWrapping=&quot;Wrap&quot;
+
+            VerticalScrollBarVisibility=&quot;Auto&quot;
+
+            SelectionChanged=&quot;TextBox_SelectionChanged&quot;/&gt;
+
+        &lt;Label Content=&quot;{Binding SelectedText}&quot;/&gt;
+
+        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+
+            &lt;Label Content=&quot;{Binding SelectionStart}&quot;/&gt;
+
+            &lt;Label Content=&quot;{Binding SelectionLength}&quot;/&gt;
+
+        &lt;/StackPanel&gt;
+
+        &lt;Button Content=&quot;Select Something&quot; Click=&quot;Button_Click&quot;/&gt;
+
 </pre>
 <p>The code below then selects some text when the button is pressed.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Select 10 characters, starting 6th character
-            txtTest.Select(5, 10);
-
-            // Give focus back to TextBox, so that it
-            // highlights selected text
-            txtTest.Focus();
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+
+        {
+
+            // Select 10 characters, starting 6th character
+
+            txtTest.Select(5, 10);
+
+
+
+            // Give focus back to TextBox, so that it
+
+            // highlights selected text
+
+            txtTest.Focus();
+
+        }
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/937-001.png"><img class="alignnone size-full wp-image-7808" alt="937-001" src="https://web.archive.org/web/20131031180640id_/http://2000thingswpf.files.wordpress.com/2013/10/937-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/937-001.png"><img class="alignnone size-full wp-image-7808" alt="937-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

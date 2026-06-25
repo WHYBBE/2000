@@ -45,33 +45,57 @@
 
                     <p>You can <a href="http://wp.me/pZhye-vg">render content in a <strong>DrawingVisual</strong></a> object by using a <strong>DrawingContext</strong> to draw objects that you want rendered.  Use the <strong>DrawingContext</strong>&#8216;s<strong> DrawGeometry</strong> method to draw an arbitrary geometry.</p>
 <p>Below is an example of using <strong>DrawGeometry</strong>, where we render our object in the <strong>DrawingVisual</strong> constructor.</p>
-<p><pre class="brush: csharp;">
-        public MyDrawingVisual()
-        {
-            // First define the geometric shape
-            StreamGeometry geom = new StreamGeometry();
-            using (StreamGeometryContext gc = geom.Open())
-            {
-                // Start new object, filled=true, closed=true
-                gc.BeginFigure(new Point(150.0, 150.0), true, true);
-
-                // isStroked=true, isSmoothJoin=true
-                gc.LineTo(new Point(210.0, 105.0), true, true);
-                gc.LineTo(new Point(270.0, 150.0), true, true);
-                gc.LineTo(new Point(270.0, 45.0), true, true);
-                gc.LineTo(new Point(210.0, 90.0), true, true);
-                gc.LineTo(new Point(150.0, 45.0), true, true);
-            }
-
-            using (DrawingContext dc = RenderOpen())
-            {
-                // Draw our geometry
-                dc.DrawGeometry(Brushes.DarkRed, new Pen(Brushes.Blue, 2), geom);
-            }
-        }
+<p><pre class="brush: csharp;">
+
+        public MyDrawingVisual()
+
+        {
+
+            // First define the geometric shape
+
+            StreamGeometry geom = new StreamGeometry();
+
+            using (StreamGeometryContext gc = geom.Open())
+
+            {
+
+                // Start new object, filled=true, closed=true
+
+                gc.BeginFigure(new Point(150.0, 150.0), true, true);
+
+
+
+                // isStroked=true, isSmoothJoin=true
+
+                gc.LineTo(new Point(210.0, 105.0), true, true);
+
+                gc.LineTo(new Point(270.0, 150.0), true, true);
+
+                gc.LineTo(new Point(270.0, 45.0), true, true);
+
+                gc.LineTo(new Point(210.0, 90.0), true, true);
+
+                gc.LineTo(new Point(150.0, 45.0), true, true);
+
+            }
+
+
+
+            using (DrawingContext dc = RenderOpen())
+
+            {
+
+                // Draw our geometry
+
+                dc.DrawGeometry(Brushes.DarkRed, new Pen(Brushes.Blue, 2), geom);
+
+            }
+
+        }
+
 </pre></p>
 <p>We create a new <strong>StreamGeometry</strong> object, which is what we&#8217;ll render into the <strong>DrawingContext </strong>using the <strong>DrawGeometry</strong> method.  To create the actual object, we use the <strong>StreamGeometryContext</strong> of the <strong>StreamGeometry</strong> and call methods like <strong>BeginFigure</strong> and <strong>LineTo</strong>.<br />
-<a href="http://2000thingswpf.files.wordpress.com/2011/03/001-butterfly1.png"><img class="alignnone size-full wp-image-1969" title="001-Butterfly" src="https://web.archive.org/web/20111223180203id_/http://2000thingswpf.files.wordpress.com/2011/03/001-butterfly1.png?w=630" alt=""   /></a></p>
+<a href="http://2000thingswpf.files.wordpress.com/2011/03/001-butterfly1.png"><img class="alignnone size-full wp-image-1969" title="001-Butterfly" src="data:image/png;base64,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" alt=""   /></a></p>
 <div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-03-05-236-drawing-an-arbitrary-geometry-into-a-drawingvisual.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Graphics | Tags: DrawingContext, DrawingVisual, Geometry, Graphics, StreamGeometry, StreamGeometryContext, WPF</p>
   <nav class="pager"><a href="2011-03-04-235-types-of-visual-content-that-you-can-create-using-a-drawingcontext.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-03-06-237-drawing-shapes-with-the-shape-subclasses.html">Next</a></nav>

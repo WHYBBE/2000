@@ -45,24 +45,37 @@
 
 					<p>If you have a method in a struct that modifies a data member of the struct, you can run into unexpected results, due to the value type semantics of the struct.</p>
 <p>Assume that we have a struct that includes a method that can change the value of one of its data members.  The method works just fine for a locally defined instance of the struct.</p>
-<p><pre class="brush: csharp;">
-            // Method that modifies struct works if local
-            DogCollarInfo collar = new DogCollarInfo(0.5, 8.0);
-            collar.Dump();
-            collar.DoubleLength();
-            collar.Dump();
+<p><pre class="brush: csharp;">
+
+            // Method that modifies struct works if local
+
+            DogCollarInfo collar = new DogCollarInfo(0.5, 8.0);
+
+            collar.Dump();
+
+            collar.DoubleLength();
+
+            collar.Dump();
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/779-001.png"><img class="alignnone size-full wp-image-6695" alt="779-001" src="https://web.archive.org/web/20130216123759id_/http://2000thingscsharp.files.wordpress.com/2013/02/779-001.png?w=630"   /></a><br />
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/779-001.png"><img class="alignnone size-full wp-image-6695" alt="779-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAABXCAMAAABGOusbAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAblQTFRFAAAAKCgoKCg6KChHKFpQKH1HKH1XYCgoYCg6X5ZeW6V/X6p6Xah8YJZeYq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5hikohilHhn0oolsools6t30ohltQhqlmopZHrqFOortmsqt3v7VzttJmzJY6wrNXy7xQzr1cz75cwLZ05KlH5LxQy9JX1MNfy9Jm3Mti5NJX5NJe4tBl5NJmiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbehp6efqaqfpqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+rdO3sdeyosLDvsDBvcDDv8LFwMDAwMHCwcLCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////g8J06AAAAAlwSFlzAAAOwwAADsMBx2+oZAAABPdJREFUeNrtmIub00QQwJu7Uow8fKCoCPhGoyVEKgTvSLG0RkEFFBVRREAj0PIsB0c5jgNBUKic+he7M7ub3aR53RHsNd/Od5deNpPZ+e08dnulfwsnJYWkkBRS/kj/FEJKMtDfROZHXgQSAXrYf3Dv7siLhDTfvzPXm7o08iJHqb+1EFISRA/vbHWLIBJSf65wSA96hUO6N1U0pPm7lxSSQlJI+SPt/ECWbR8XAOnr9mmUdrv9/eHDBz8qANKJ/h9C+kcm2LCpjb2v6a49vj1kiI6Y5YbrtqoVuGiaBnf0tfKHyy2XKyRI09Bdh7w5VkvSMsu7DKKkDXiRiHTy3Cef7v3s87O9brd36BBHcjRLApAEMdAh160T7x3AaW2u+Y7WsyE5YzUb5rCtZG6ciSybvgCkX8+/vunNt97uTAPSdz4SW70BpPoT8MDBYbvcaBqVgKPj2zMimZVWNUUFzdHFc82IaMYifXv+nTc2rt/Qudq92Dt+lCGZkEyQQogEdxaJiR7IOAyVzafCsMK4hASJRd6x8aNVXWZoVtOgWUq0WlW+XFQB1cmQQzKe5iOYY0gON0SnB4fsBKTnnnpm7cud6Yvd3k/H5CjVGZJJfonriCQyjuqY3C1EgnGBhHm5CqnJU+KHRZ3c0qDRry+n68EUXNNyIegO4aIRBAMMCR5ApOAT18JORHr62edffI1Eqdu7cCECCX1klllC+i0ilDzUUY5EdVkx0DzjZniYISpcweWvYYnBuzZ/ikg0S4hRVhRJSGvWvfTqSqyl+/cjkCAfaGZgCaBDOs4Cqy4j4bhAInGpwD2+XqFO27R50Yp0MVBcgaU7XQm4oDkfSackxDwr0ySkF155csXqzmWCdPt6FJJUmSLjWKgCZYvjcnsg3lrsnseBcvrNo2nwrg9/NvzgwgX/8GvJyo70w5k9+7/Yd+AUQboydy0y8fTYTYnoVORdpEGzXiQqbCwVGQlN86cw6ivQwEhIzJxO1Rp+4tlpiffNX7Ozs7/duvH7n7dvzsxEILWqUJbvAprIOD93bFh0si850M0sOmLR6JHWABwmtIXNNUSC1gCBh5XBzQw6GVMAlx0p8ag5RGoaMMbbA4bTtuqxSF8dofLzLz+S65eTgx0Pe6YOTTy0KbFWh4UAmcG6n822e4f1XBMVKJKB/ZlVJC9R0y+l8fcEEjXXNFihCT1uJRZp9+SEJJO7k88njeD5YfBckUV4eSVKurk8vlyEN6VFOBp9JFkct/oKqJAUkkJSSApp6SPtGGWJQSqNskQjeR55hBd2hU9PvBW4YQOh5wMqfDyLV5H2c0fit/KNNGNwLHb+VMfi7WdmSkWKdjtyyhyQvMePxAPOEslPKHJhnziAPwtB8s0I+9xItH0vByRPTjx/leTKCiKE7mNyn41ye+HfOPv51FIakogiD1FUokYiiWgkIIXsl7xHjFJJeJiMJHeorEgSfSpSfrWUhBQcCLcOL/Q4tLgSUgjFS7OfF5LIEC/ocmiOQJ3LuR9E8iR7Yc/l9yPtP1ot5baTZ3RkQVEYMlJ29NyI1BlvaGc86aTk5YY01DNeYI8uyhkvtL6jf8YbSJkCnPFKgZUtwhlPjlIq02ic8R4z0jDOeHkiLZEznpR/i60ldcZTZ7yhnPEUkkJSSApJISmkpfW/B8/Lc0NXSApJtQeFpJAUkkJSSArpf5T/ACzMbwOGlV2YAAAAAElFTkSuQmCC"   /></a><br />
 But if you have a property of some class whose type is this struct, it&#8217;s no longer safe to call this method. Because the property&#8217;s get accessor returns a copy of the struct, the data in the original struct won&#8217;t get modified.</p>
-<p><pre class="brush: csharp;">
-            // Does not work if struct is property
-            Dog d = new Dog(&quot;Kirby&quot;);
-            d.Collar = new DogCollarInfo(0.5, 8.0);
-            d.Collar.Dump();
-            d.Collar.DoubleLength();
-            d.Collar.Dump();   // Length not doubled!
+<p><pre class="brush: csharp;">
+
+            // Does not work if struct is property
+
+            Dog d = new Dog(&quot;Kirby&quot;);
+
+            d.Collar = new DogCollarInfo(0.5, 8.0);
+
+            d.Collar.Dump();
+
+            d.Collar.DoubleLength();
+
+            d.Collar.Dump();   // Length not doubled!
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/779-002.png"><img class="alignnone size-full wp-image-6697" alt="779-002" src="https://web.archive.org/web/20130216123759id_/http://2000thingscsharp.files.wordpress.com/2013/02/779-002.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/779-002.png"><img class="alignnone size-full wp-image-6697" alt="779-002" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

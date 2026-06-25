@@ -45,41 +45,72 @@
 
 					<p>The <a href="http://wp.me/pXTis-274"><strong>default</strong> operator</a> provides a valid default value for any type.</p>
 <p>One place where this operator is very handy is in a generic class, operating on the type parameter T.  In the example below, we initialize an internal collection of type T so that each element has the proper default value.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class BagOf&lt;T&gt;
-    {
-        private Collection&lt;T&gt; coll;
-        public T SomeItem
-        {
-            get { return coll[0]; }
-        }
-
-        public BagOf(int numInBg)
-        {
-            if (numInBg &lt;= 0)
-                throw new Exception(&quot;Must have &gt;0 items&quot;);
-
-            coll = new Collection&lt;T&gt;();
-            for (int i = 0; i &lt; numInBg; i++)
-                coll.Add(default(T));
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class BagOf&lt;T&gt;
+
+    {
+
+        private Collection&lt;T&gt; coll;
+
+        public T SomeItem
+
+        {
+
+            get { return coll[0]; }
+
+        }
+
+
+
+        public BagOf(int numInBg)
+
+        {
+
+            if (numInBg &lt;= 0)
+
+                throw new Exception(&quot;Must have &gt;0 items&quot;);
+
+
+
+            coll = new Collection&lt;T&gt;();
+
+            for (int i = 0; i &lt; numInBg; i++)
+
+                coll.Add(default(T));
+
+        }
+
+    }
+
 </pre>
 <p>Using this class, we can see the default values for each type of item.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Numeric
-            BagOf&lt;int&gt; bagOfInt = new BagOf&lt;int&gt;(2);
-            int anInt = bagOfInt.SomeItem;
-
-            // Struct
-            BagOf&lt;Point3D&gt; bagOfPoints = new BagOf&lt;Point3D&gt;(3);
-            Point3D aPoint = bagOfPoints.SomeItem;
-
-            // Reference type
-            BagOf&lt;Dog&gt; bagOfDogs = new BagOf&lt;Dog&gt;(4);
-            Dog aDog = bagOfDogs.SomeItem;
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            // Numeric
+
+            BagOf&lt;int&gt; bagOfInt = new BagOf&lt;int&gt;(2);
+
+            int anInt = bagOfInt.SomeItem;
+
+
+
+            // Struct
+
+            BagOf&lt;Point3D&gt; bagOfPoints = new BagOf&lt;Point3D&gt;(3);
+
+            Point3D aPoint = bagOfPoints.SomeItem;
+
+
+
+            // Reference type
+
+            BagOf&lt;Dog&gt; bagOfDogs = new BagOf&lt;Dog&gt;(4);
+
+            Dog aDog = bagOfDogs.SomeItem;
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1014-001.png"><img class="alignnone size-full wp-image-8133" alt="1014-001" src="https://web.archive.org/web/20140128125247id_/http://2000thingscsharp.files.wordpress.com/2014/01/1014-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1014-001.png"><img class="alignnone size-full wp-image-8133" alt="1014-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

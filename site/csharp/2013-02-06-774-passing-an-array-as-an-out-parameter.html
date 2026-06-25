@@ -44,40 +44,70 @@
 					</div>
 
 					<p>Like other reference types, you can use an array as an output parameter, using the <strong>out </strong>keyword.  The <strong>out</strong> keyword indicates that you must assign a value to the array before returning from the method.  Also, within the method, you cannot reference the array parameter before you assign a new value to it.</p>
-<p><pre class="brush: csharp;">
-        static int FindFibsThrough(int numFibs, out int[] fibs)
-        {
-            // Can't reference element of array
-            //int i = fibs[0];
-
-            // Can't assign to element of array
-            //fibs[0] = 12;
-
-            if (numFibs &lt; 2)
-                throw new Exception(&quot;Must return at least 2 numbers in sequence&quot;);
-
-            // Must assign new value to array before we return
-            fibs = new int[numFibs];
-
-            fibs[0] = 0;
-            fibs[1] = 1;
-            int sum = 1;
-
-            for (int i = 2; i &lt; numFibs; i++)
-            {
-                fibs[i] = fibs[i - 1] + fibs[i - 2];
-                sum += fibs[i];
-            }
-
-            return sum;
-        }
+<p><pre class="brush: csharp;">
+
+        static int FindFibsThrough(int numFibs, out int[] fibs)
+
+        {
+
+            // Can't reference element of array
+
+            //int i = fibs[0];
+
+
+
+            // Can't assign to element of array
+
+            //fibs[0] = 12;
+
+
+
+            if (numFibs &lt; 2)
+
+                throw new Exception(&quot;Must return at least 2 numbers in sequence&quot;);
+
+
+
+            // Must assign new value to array before we return
+
+            fibs = new int[numFibs];
+
+
+
+            fibs[0] = 0;
+
+            fibs[1] = 1;
+
+            int sum = 1;
+
+
+
+            for (int i = 2; i &lt; numFibs; i++)
+
+            {
+
+                fibs[i] = fibs[i - 1] + fibs[i - 2];
+
+                sum += fibs[i];
+
+            }
+
+
+
+            return sum;
+
+        }
+
 </pre></p>
 <p>You must also use the <strong>out</strong> keyword when calling the method.</p>
-<p><pre class="brush: csharp;">
-            int[] myFibs;
-            int sum = FindFibsThrough(10, out myFibs);
+<p><pre class="brush: csharp;">
+
+            int[] myFibs;
+
+            int sum = FindFibsThrough(10, out myFibs);
+
 </pre></p>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/774-001.png"><img class="alignnone size-full wp-image-6648" alt="774-001" src="https://web.archive.org/web/20130210015737id_/http://2000thingscsharp.files.wordpress.com/2013/02/774-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/774-001.png"><img class="alignnone size-full wp-image-6648" alt="774-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

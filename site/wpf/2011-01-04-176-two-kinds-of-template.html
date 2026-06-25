@@ -45,40 +45,68 @@
 
 					<p>In WPF, there are two different kinds of templates<strong>&#8211;</strong><em>control templates </em>and <em>data templates</em>.</p>
 <p><strong>Control templates </strong>allow you to exactly specify the visual tree of a control, i.e. its constituent controls.  The example below shows a <strong>Button</strong> control being constructed out of a <strong>Button</strong> and two <strong>Label</strong> controls.</p>
-<p><pre class="brush: xml;">
-        &lt;Button Name=&quot;btnWithTemplate&quot; Content=&quot;Recreate Me&quot; Foreground=&quot;Blue&quot;&gt;
-            &lt;Button.Template&gt;
-                &lt;ControlTemplate TargetType=&quot;{x:Type Button}&quot;&gt;
-                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-                        &lt;Button Content=&quot;{TemplateBinding Content}&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-                    &lt;/StackPanel&gt;
-                &lt;/ControlTemplate&gt;
-            &lt;/Button.Template&gt;
-        &lt;/Button&gt;
+<p><pre class="brush: xml;">
+
+        &lt;Button Name=&quot;btnWithTemplate&quot; Content=&quot;Recreate Me&quot; Foreground=&quot;Blue&quot;&gt;
+
+            &lt;Button.Template&gt;
+
+                &lt;ControlTemplate TargetType=&quot;{x:Type Button}&quot;&gt;
+
+                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+
+                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
+
+                        &lt;Button Content=&quot;{TemplateBinding Content}&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
+
+                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
+
+                    &lt;/StackPanel&gt;
+
+                &lt;/ControlTemplate&gt;
+
+            &lt;/Button.Template&gt;
+
+        &lt;/Button&gt;
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/controltemplate.png"><img class="alignnone size-full wp-image-1460" title="ControlTemplate" src="https://web.archive.org/web/20120706162900id_/http://2000thingswpf.files.wordpress.com/2011/01/controltemplate.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/controltemplate.png"><img class="alignnone size-full wp-image-1460" title="ControlTemplate" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>&nbsp;</p>
 <p><strong>Data templates</strong> allow you to specify how a bound data object will be mapped to one or more controls.  The example below maps properties of a <strong>Person</strong> object to several labels.</p>
-<p><pre class="brush: xml;">
-        &lt;Label Name=&quot;lblPerson&quot; Content=&quot;{Binding}&quot;&gt;
-            &lt;Label.ContentTemplate&gt;
-                &lt;DataTemplate&gt;
-                    &lt;Border BorderThickness=&quot;2&quot; BorderBrush=&quot;DarkBlue&quot;&gt;
-                        &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
-                            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-                                &lt;Label Content=&quot;{Binding Path=FirstName}&quot;/&gt;
-                                &lt;Label Content=&quot;{Binding Path=LastName}&quot; FontWeight=&quot;Bold&quot;/&gt;
-                            &lt;/StackPanel&gt;
-                            &lt;Label Content=&quot;{Binding Path=BirthYear}&quot; FontStyle=&quot;Italic&quot;/&gt;
-                        &lt;/StackPanel&gt;
-                    &lt;/Border&gt;
-                &lt;/DataTemplate&gt;
-            &lt;/Label.ContentTemplate&gt;
-        &lt;/Label&gt;
+<p><pre class="brush: xml;">
+
+        &lt;Label Name=&quot;lblPerson&quot; Content=&quot;{Binding}&quot;&gt;
+
+            &lt;Label.ContentTemplate&gt;
+
+                &lt;DataTemplate&gt;
+
+                    &lt;Border BorderThickness=&quot;2&quot; BorderBrush=&quot;DarkBlue&quot;&gt;
+
+                        &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
+
+                            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+
+                                &lt;Label Content=&quot;{Binding Path=FirstName}&quot;/&gt;
+
+                                &lt;Label Content=&quot;{Binding Path=LastName}&quot; FontWeight=&quot;Bold&quot;/&gt;
+
+                            &lt;/StackPanel&gt;
+
+                            &lt;Label Content=&quot;{Binding Path=BirthYear}&quot; FontStyle=&quot;Italic&quot;/&gt;
+
+                        &lt;/StackPanel&gt;
+
+                    &lt;/Border&gt;
+
+                &lt;/DataTemplate&gt;
+
+            &lt;/Label.ContentTemplate&gt;
+
+        &lt;/Label&gt;
+
 </pre></p>
-<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/datatemplate1.png"><img class="alignnone size-full wp-image-1459" title="DataTemplate" src="https://web.archive.org/web/20120706162900id_/http://2000thingswpf.files.wordpress.com/2011/01/datatemplate1.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2011/01/datatemplate1.png"><img class="alignnone size-full wp-image-1459" title="DataTemplate" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpadvert">
 

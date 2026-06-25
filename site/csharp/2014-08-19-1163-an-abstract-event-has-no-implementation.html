@@ -44,46 +44,80 @@
 					</div>
 
 					<p>An <em>abstract</em> event is a special kind of virtual event, defined in a base class, which has no implementation of its own.  A derived class must define every abstract event (as well as every other abstract member) using the <strong>override</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public abstract class Dog 
-    {
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Name = name;
-        }
-
-        public abstract event EventHandler&lt;string&gt; Barked;
-
-        public virtual void Bark()
-        {
-            Console.WriteLine(&quot;Woof&quot;);
-        }
-    }
-
-    public class Terrier : Dog
-    {
-        public Terrier(string name) : base(name) { }
-
-        public override event EventHandler&lt;string&gt; Barked;
-
-        public override void Bark()
-        {
-            Console.WriteLine(&quot;Yip yip&quot;);
-            Barked(this, &quot;Yip yip&quot;);
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public abstract class Dog 
+
+    {
+
+        public string Name { get; set; }
+
+
+
+        public Dog(string name)
+
+        {
+
+            Name = name;
+
+        }
+
+
+
+        public abstract event EventHandler&lt;string&gt; Barked;
+
+
+
+        public virtual void Bark()
+
+        {
+
+            Console.WriteLine(&quot;Woof&quot;);
+
+        }
+
+    }
+
+
+
+    public class Terrier : Dog
+
+    {
+
+        public Terrier(string name) : base(name) { }
+
+
+
+        public override event EventHandler&lt;string&gt; Barked;
+
+
+
+        public override void Bark()
+
+        {
+
+            Console.WriteLine(&quot;Yip yip&quot;);
+
+            Barked(this, &quot;Yip yip&quot;);
+
+        }
+
+    }
+
 </pre>
 <p>The class in which the abstract event is defined must be defined as an abstract class, using the <strong>abstract</strong> keyword.</p>
 <p>A derived class may <em>not</em> hide the abstract event in the base class, using the <strong>new</strong> keyword.  It must implement the inherited abstract event and the new event must be virtual, defined using the <strong>override</strong> keyword.</p>
 <p>Example of using this event:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Terrier t = new Terrier(&quot;Jack&quot;);
-            t.Barked += (o, s) =&gt; Console.WriteLine(&quot;- &quot; + s + &quot; -&quot;);
-            t.Bark();
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Terrier t = new Terrier(&quot;Jack&quot;);
+
+            t.Barked += (o, s) =&gt; Console.WriteLine(&quot;- &quot; + s + &quot; -&quot;);
+
+            t.Bark();
+
 </pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1163-001.png"><img class="alignnone size-full wp-image-8983" src="https://web.archive.org/web/20140919185640id_/http://2000thingscsharp.files.wordpress.com/2014/08/1163-001.png?w=630" alt="1163-001"   /></a></p>
+<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1163-001.png"><img class="alignnone size-full wp-image-8983" src="data:image/png;base64,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" alt="1163-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

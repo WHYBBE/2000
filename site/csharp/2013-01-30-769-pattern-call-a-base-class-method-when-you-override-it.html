@@ -45,48 +45,86 @@
 
 					<p>You can call a method in a class&#8217; base class <a href="2012-07-03-618-use-the-base-keyword-to-call-a-method-in-the-base-class.html">using the <strong>base</strong> keyword</a>. You can do this from anywhere within the child class, but  it&#8217;s a common pattern to call the base class method when you override it.  This allows you to extend the behavior of that method.</p>
 <p>Here&#8217;s an example.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
-
-        public virtual void DumpInfo()
-        {
-            Console.WriteLine(string.Format(&quot;Dog {0} is {1} years old&quot;, Name, Age));
-        }
-    }
-
-    public class Terrier : Dog
-    {
-        public double GrowlFactor { get; set; }
-
-        public Terrier(string name, int age, double growlFactor)
-            : base(name, age)
-        {
-            GrowlFactor = growlFactor;
-        }
-
-        public override void DumpInfo()
-        {
-            base.DumpInfo();
-
-            Console.WriteLine(string.Format(&quot;  GrowlFactor is {0}&quot;, GrowlFactor));
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class Dog
+
+    {
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+
+
+        public Dog(string name, int age)
+
+        {
+
+            Name = name;
+
+            Age = age;
+
+        }
+
+
+
+        public virtual void DumpInfo()
+
+        {
+
+            Console.WriteLine(string.Format(&quot;Dog {0} is {1} years old&quot;, Name, Age));
+
+        }
+
+    }
+
+
+
+    public class Terrier : Dog
+
+    {
+
+        public double GrowlFactor { get; set; }
+
+
+
+        public Terrier(string name, int age, double growlFactor)
+
+            : base(name, age)
+
+        {
+
+            GrowlFactor = growlFactor;
+
+        }
+
+
+
+        public override void DumpInfo()
+
+        {
+
+            base.DumpInfo();
+
+
+
+            Console.WriteLine(string.Format(&quot;  GrowlFactor is {0}&quot;, GrowlFactor));
+
+        }
+
+    }
+
 </pre>
 <p>&nbsp;</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Terrier t = new Terrier(&quot;Jack&quot;, 17, 9.9);
-            t.DumpInfo();
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            Terrier t = new Terrier(&quot;Jack&quot;, 17, 9.9);
+
+            t.DumpInfo();
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/01/769-001.png"><img class="alignnone size-full wp-image-6607" alt="769-001" src="https://web.archive.org/web/20130604013426id_/http://2000thingscsharp.files.wordpress.com/2013/01/769-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2013/01/769-001.png"><img class="alignnone size-full wp-image-6607" alt="769-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

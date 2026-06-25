@@ -45,27 +45,46 @@
 
 					<p>You can use the <strong>+= </strong>syntax to add methods to a delegate&#8217;s invocation list and then <strong>-=</strong> syntax to remove methods from its invocation list.  In either case, you add or remove methods that are included in a second delegate&#8217;s invocation list from the first delegate&#8217;s invocation list.</p>
 <p>In the example below, we remove <strong>del2&#8242;s</strong> invocation list (Method2, Method3) from <strong>del1&#8242;s</strong> invocation list (Method1, Method2, Method3, Method4, Method5).  <strong>del1&#8242;s</strong> invocation list then becomes: Method1, Method4, Method5.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // del1 invokes 5 methods
-            StringHandlerDelegate del1 = Method1;
-            del1 += Method2;
-            del1 += Method3;
-            del1 += Method4;
-            del1 += Method5;
-            del1(&quot;del1 Howdy&quot;);
-            Console.WriteLine();
-
-            // del2 invokes 2 methods
-            StringHandlerDelegate del2 = Method2;
-            del2 += Method3;
-            del2(&quot;del2 Howdy&quot;);
-            Console.WriteLine();
-
-            // Remove del2's methos from del1's invocation list
-            del1 -= del2;
-            del1(&quot;del1 Howdy again&quot;);
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            // del1 invokes 5 methods
+
+            StringHandlerDelegate del1 = Method1;
+
+            del1 += Method2;
+
+            del1 += Method3;
+
+            del1 += Method4;
+
+            del1 += Method5;
+
+            del1(&quot;del1 Howdy&quot;);
+
+            Console.WriteLine();
+
+
+
+            // del2 invokes 2 methods
+
+            StringHandlerDelegate del2 = Method2;
+
+            del2 += Method3;
+
+            del2(&quot;del2 Howdy&quot;);
+
+            Console.WriteLine();
+
+
+
+            // Remove del2's methos from del1's invocation list
+
+            del1 -= del2;
+
+            del1(&quot;del1 Howdy again&quot;);
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1020-001.png"><img class="alignnone size-full wp-image-8165" alt="1020-001" src="https://web.archive.org/web/20140130064514id_/http://2000thingscsharp.files.wordpress.com/2014/01/1020-001.png?w=630"   /></a><br />
+<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1020-001.png"><img class="alignnone size-full wp-image-8165" alt="1020-001" src="data:image/png;base64,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"   /></a><br />
 When removing more than one method, the invocation list to be removed must be a contiguous subset of the larger invocation list.  (E.g. {Method2, Method3} rather than {Method2, Method4}).</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

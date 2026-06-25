@@ -45,32 +45,54 @@
 
 					<p>You implement a read-only property in a class by implementing the <a href="http://wp.me/pXTis-yK">get accessor</a>, but not the <a href="http://wp.me/pXTis-yU">set accessor</a>.  This will allow client code to read the property&#8217;s value, but not write to it directly.</p>
 <p>Below is an example of a read-only property for the <strong>Dog</strong> class.  The <strong>WhenLastBarked</strong> property returns a <strong>DateTime</strong> value indicating the last time that the <strong>Dog</strong> barked&#8211;i.e. the last time that someone called the <strong>Bark</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    // Backing variable storing date/time last barked
-    private DateTime lastBarked;
-
-    // Public property, allows reading lastBarked
-    public DateTime WhenLastBarked
-    {
-        get
-        {
-            return lastBarked;
-        }
-    }
-
-    // Bark method also sets lastBarked
-    public void Bark()
-    {
-        Console.WriteLine(&quot;{0}: Woof!&quot;, Name);
-        lastBarked = DateTime.Now;
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    // Backing variable storing date/time last barked
+
+    private DateTime lastBarked;
+
+
+
+    // Public property, allows reading lastBarked
+
+    public DateTime WhenLastBarked
+
+    {
+
+        get
+
+        {
+
+            return lastBarked;
+
+        }
+
+    }
+
+
+
+    // Bark method also sets lastBarked
+
+    public void Bark()
+
+    {
+
+        Console.WriteLine(&quot;{0}: Woof!&quot;, Name);
+
+        lastBarked = DateTime.Now;
+
+    }
+
 </pre>
 <p>We now have a property in the <strong>Dog</strong> class that we can read from, but not write to.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    kirby.Bark();
-    DateTime whenHeBarked = kirby.WhenLastBarked;
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    kirby.Bark();
+
+    DateTime whenHeBarked = kirby.WhenLastBarked;
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2011/02/001-lastbarked.png"><img class="alignnone size-full wp-image-2180" title="001-LastBarked" src="https://web.archive.org/web/20130817203926id_/http://2000thingscsharp.files.wordpress.com/2011/02/001-lastbarked.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2011/02/001-lastbarked.png"><img class="alignnone size-full wp-image-2180" title="001-LastBarked" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

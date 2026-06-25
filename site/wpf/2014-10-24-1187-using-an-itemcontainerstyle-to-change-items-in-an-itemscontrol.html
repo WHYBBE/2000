@@ -45,80 +45,151 @@
 
 					<p>One common use when defining a new <strong>ItemContainerStyle</strong> for an <strong>ItemsControl</strong> is to do something special with either the currently selected item or the item that the mouse is currently over.  The <a href="2014-10-23-1186-default-itemcontainerstyle-for-a-listbox.html">default template</a> used as an <strong>ItemContainerStyle</strong> for a <strong>ListBox</strong>, for example, changes the background and border for both the selected item and the item that the mouse is currently over.</p>
 <p>Below is an example where we change the <strong>FontWeight</strong> for the currently selected item (to <strong>SemiBold</strong>) and make the item larger, using a transform.  This method uses a trigger to change several properties.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;Style x:Key=&quot;FocusVisual&quot;&gt;
-            &lt;Setter Property=&quot;Control.Template&quot;&gt;
-                &lt;Setter.Value&gt;
-                    &lt;ControlTemplate&gt;
-                        &lt;Rectangle Margin=&quot;2&quot; SnapsToDevicePixels=&quot;true&quot; Stroke=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot; StrokeThickness=&quot;1&quot; StrokeDashArray=&quot;1 2&quot;/&gt;
-                    &lt;/ControlTemplate&gt;
-                &lt;/Setter.Value&gt;
-            &lt;/Setter&gt;
-        &lt;/Style&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Background&quot; Color=&quot;#1F26A0DA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Border&quot; Color=&quot;#a826A0Da&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Background&quot; Color=&quot;#3DDADADA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Border&quot; Color=&quot;#FFDADADA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Background&quot; Color=&quot;#3D26A0DA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Border&quot; Color=&quot;#FF26A0DA&quot;/&gt;
-        
-        &lt;Style x:Key=&quot;lbDefaultItemContainerStyle&quot; TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
-            &lt;Setter Property=&quot;SnapsToDevicePixels&quot; Value=&quot;True&quot;/&gt;
-            &lt;Setter Property=&quot;Padding&quot; Value=&quot;4,1&quot;/&gt;
-            &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
-            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
-            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
-            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Transparent&quot;/&gt;
-            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
-            &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{StaticResource FocusVisual}&quot;/&gt;
-            &lt;Setter Property=&quot;Template&quot;&gt;
-                &lt;Setter.Value&gt;
-                    &lt;ControlTemplate TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
-                        &lt;Border x:Name=&quot;Bd&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
-                            &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
-                        &lt;/Border&gt;
-                        &lt;ControlTemplate.Triggers&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Background}&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Border}&quot;/&gt;
-                                &lt;Setter Property=&quot;LayoutTransform&quot;&gt;
-                                    &lt;Setter.Value&gt;
-                                        &lt;ScaleTransform ScaleX=&quot;1.5&quot; ScaleY=&quot;1.5&quot;/&gt;
-                                    &lt;/Setter.Value&gt;
-                                &lt;/Setter&gt;
-                                &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;SemiBold&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;False&quot;/&gt;
-                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Background}&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Border}&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;True&quot;/&gt;
-                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Background}&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Border}&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
-                                &lt;Setter Property=&quot;TextElement.Foreground&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
-                            &lt;/Trigger&gt;
-                        &lt;/ControlTemplate.Triggers&gt;
-                    &lt;/ControlTemplate&gt;
-                &lt;/Setter.Value&gt;
-            &lt;/Setter&gt;
-        &lt;/Style&gt;
-    &lt;/Window.Resources&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+        &lt;Style x:Key=&quot;FocusVisual&quot;&gt;
+
+            &lt;Setter Property=&quot;Control.Template&quot;&gt;
+
+                &lt;Setter.Value&gt;
+
+                    &lt;ControlTemplate&gt;
+
+                        &lt;Rectangle Margin=&quot;2&quot; SnapsToDevicePixels=&quot;true&quot; Stroke=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot; StrokeThickness=&quot;1&quot; StrokeDashArray=&quot;1 2&quot;/&gt;
+
+                    &lt;/ControlTemplate&gt;
+
+                &lt;/Setter.Value&gt;
+
+            &lt;/Setter&gt;
+
+        &lt;/Style&gt;
+
+        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Background&quot; Color=&quot;#1F26A0DA&quot;/&gt;
+
+        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Border&quot; Color=&quot;#a826A0Da&quot;/&gt;
+
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Background&quot; Color=&quot;#3DDADADA&quot;/&gt;
+
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Border&quot; Color=&quot;#FFDADADA&quot;/&gt;
+
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Background&quot; Color=&quot;#3D26A0DA&quot;/&gt;
+
+        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Border&quot; Color=&quot;#FF26A0DA&quot;/&gt;
+
+        
+
+        &lt;Style x:Key=&quot;lbDefaultItemContainerStyle&quot; TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+
+            &lt;Setter Property=&quot;SnapsToDevicePixels&quot; Value=&quot;True&quot;/&gt;
+
+            &lt;Setter Property=&quot;Padding&quot; Value=&quot;4,1&quot;/&gt;
+
+            &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
+
+            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
+
+            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
+
+            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Transparent&quot;/&gt;
+
+            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
+
+            &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{StaticResource FocusVisual}&quot;/&gt;
+
+            &lt;Setter Property=&quot;Template&quot;&gt;
+
+                &lt;Setter.Value&gt;
+
+                    &lt;ControlTemplate TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
+
+                        &lt;Border x:Name=&quot;Bd&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
+
+                            &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
+
+                        &lt;/Border&gt;
+
+                        &lt;ControlTemplate.Triggers&gt;
+
+                            &lt;MultiTrigger&gt;
+
+                                &lt;MultiTrigger.Conditions&gt;
+
+                                    &lt;Condition Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;/&gt;
+
+                                &lt;/MultiTrigger.Conditions&gt;
+
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Background}&quot;/&gt;
+
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Border}&quot;/&gt;
+
+                                &lt;Setter Property=&quot;LayoutTransform&quot;&gt;
+
+                                    &lt;Setter.Value&gt;
+
+                                        &lt;ScaleTransform ScaleX=&quot;1.5&quot; ScaleY=&quot;1.5&quot;/&gt;
+
+                                    &lt;/Setter.Value&gt;
+
+                                &lt;/Setter&gt;
+
+                                &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;SemiBold&quot;/&gt;
+
+                            &lt;/MultiTrigger&gt;
+
+                            &lt;MultiTrigger&gt;
+
+                                &lt;MultiTrigger.Conditions&gt;
+
+                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;False&quot;/&gt;
+
+                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
+
+                                &lt;/MultiTrigger.Conditions&gt;
+
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Background}&quot;/&gt;
+
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Border}&quot;/&gt;
+
+                            &lt;/MultiTrigger&gt;
+
+                            &lt;MultiTrigger&gt;
+
+                                &lt;MultiTrigger.Conditions&gt;
+
+                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;True&quot;/&gt;
+
+                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
+
+                                &lt;/MultiTrigger.Conditions&gt;
+
+                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Background}&quot;/&gt;
+
+                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Border}&quot;/&gt;
+
+                            &lt;/MultiTrigger&gt;
+
+                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
+
+                                &lt;Setter Property=&quot;TextElement.Foreground&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
+
+                            &lt;/Trigger&gt;
+
+                        &lt;/ControlTemplate.Triggers&gt;
+
+                    &lt;/ControlTemplate&gt;
+
+                &lt;/Setter.Value&gt;
+
+            &lt;/Setter&gt;
+
+        &lt;/Style&gt;
+
+    &lt;/Window.Resources&gt;
+
 </pre>
 <p>The resulting behavior looks like this:<br />
-<a href="https://2000thingswpf.files.wordpress.com/2014/10/1187-001.png"><img class="alignnone size-full wp-image-9474" src="https://web.archive.org/web/20141025122931id_/https://2000thingswpf.files.wordpress.com/2014/10/1187-001.png?w=630" alt="1187-001"   /></a></p>
+<a href="https://2000thingswpf.files.wordpress.com/2014/10/1187-001.png"><img class="alignnone size-full wp-image-9474" src="data:image/png;base64,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" alt="1187-001"   /></a></p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9473-544b96fcbfbfb' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9473&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9473-544b96fcbfbfb' data-name='like-post-frame-14605478-9473-544b96fcbfbfb'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
 <div id='jp-relatedposts' class='jp-relatedposts' >
 	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>

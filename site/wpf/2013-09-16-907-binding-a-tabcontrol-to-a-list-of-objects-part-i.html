@@ -45,40 +45,69 @@
 
 					<p>Instead of explicitly defining each tab of a <a href="2013-08-30-896-a-tabcontrol-groups-content-into-a-series-of-pages.html"><strong>TabControl</strong></a> in XAML, you can bind the <strong>TabControl</strong> to a list of objects, each tab representing an object in the list.</p>
 <p>Suppose that we have a collection of <strong>Emperor</strong> objects, as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-
-            romanDudes = new ObservableCollection&lt;Emperor&gt;();
-            romanDudes.Add(new Emperor(&quot;Augustus&quot;, &quot;27 BC&quot;, &quot;14 AD&quot;, &quot;Found bricks, left marble&quot;,
-                new Uri(&quot;Augustus.jpg&quot;, UriKind.Relative)));
-            // Add more dudes here
-            RaisePropertyChanged(&quot;RomanDudes&quot;);
-        }
-
-        private ObservableCollection&lt;Emperor&gt; romanDudes;
-        public ObservableCollection&lt;Emperor&gt; RomanDudes
-        {
-            get { return romanDudes; }
-        }
-
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+        public MainWindow()
+
+        {
+
+            this.InitializeComponent();
+
+            this.DataContext = this;
+
+
+
+            romanDudes = new ObservableCollection&lt;Emperor&gt;();
+
+            romanDudes.Add(new Emperor(&quot;Augustus&quot;, &quot;27 BC&quot;, &quot;14 AD&quot;, &quot;Found bricks, left marble&quot;,
+
+                new Uri(&quot;Augustus.jpg&quot;, UriKind.Relative)));
+
+            // Add more dudes here
+
+            RaisePropertyChanged(&quot;RomanDudes&quot;);
+
+        }
+
+
+
+        private ObservableCollection&lt;Emperor&gt; romanDudes;
+
+        public ObservableCollection&lt;Emperor&gt; RomanDudes
+
+        {
+
+            get { return romanDudes; }
+
+        }
+
+
+
+        // INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
+
+        private void RaisePropertyChanged(string propName)
+
+        {
+
+            PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+        }
+
 </pre>
 <p>We set the <strong>ImageSource</strong> of the <strong>TabControl</strong> to the list:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;TabControl Margin=&quot;5&quot;
-                ItemsSource=&quot;{Binding RomanDudes}&quot;/&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;TabControl Margin=&quot;5&quot;
+
+                ItemsSource=&quot;{Binding RomanDudes}&quot;/&gt;
+
 </pre>
 <p>The <strong>TabControl</strong> now creates a tab for each <strong>Emperor </strong>object.<br />
-<a href="http://2000thingswpf.files.wordpress.com/2013/09/907-001.png"><img class="alignnone size-full wp-image-7615" alt="907-001" src="https://web.archive.org/web/20130918210307id_/http://2000thingswpf.files.wordpress.com/2013/09/907-001.png?w=630"   /></a><br />
+<a href="http://2000thingswpf.files.wordpress.com/2013/09/907-001.png"><img class="alignnone size-full wp-image-7615" alt="907-001" src="data:image/png;base64,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"   /></a><br />
 Both the <strong>Header </strong>and the <strong>Content</strong> for each <strong>TabItem</strong> defaults to the object&#8217;s string representation&#8211;the emperor&#8217;s name, in this case).</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

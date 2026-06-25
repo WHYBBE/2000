@@ -45,16 +45,20 @@
 
 					<p>In the <a href="http://wp.me/pZhye-1mH">example</a> showing the implementation of the <strong>ButtonBase.Click </strong>routed event, you&#8217;ll notice that the <strong>Click</strong> event is declared as a standard CLR event whose type is the <strong>RoutedEventHandler</strong> delegate type.</p>
 <p>If we look at <strong>RoutedEventHandler</strong>, we see that it has this signature:</p>
-<p><pre class="brush: csharp;">
-public delegate void RoutedEventHandler(object sender, RoutedEventArgs e);
+<p><pre class="brush: csharp;">
+
+public delegate void RoutedEventHandler(object sender, RoutedEventArgs e);
+
 </pre></p>
 <p>In WPF, many routed events have this signature and others declare a new delegate type that passes back a subclass of <strong>RoutedEventArgs</strong>.  For example, <strong>UIElement.KeyDown </strong>has a delegate type of <strong>KeyEventHandler</strong>, which has the following signature:</p>
-<p><pre class="brush: csharp;">
-public delegate void KeyEventHandler(Object sender, KeyEventArgs e)
+<p><pre class="brush: csharp;">
+
+public delegate void KeyEventHandler(Object sender, KeyEventArgs e)
+
 </pre></p>
 <p>The <strong>KeyEventArgs </strong>type inherits from <strong>RoutedEventArgs </strong>(indirectly), adding some properties that make sense for key press events.</p>
 <p>So event handlers for predefined routed events in WPF will normally be passed either an instance of <strong>RoutedEventArgs</strong> or an instance of a type that inherits from <strong>RoutedEventArgs</strong>.</p>
-<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5265" class="wpl-button "><a href='2012-07-12-601-the-routedeventhandler-delegate-type.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/ooggetuige" title="ooggetuige" class="wpl-liker" rel="nofollow"><img src='http://0.gravatar.com/avatar/96e25767972783a4d82ee9e80698581c?s=30&amp;d=identicon&amp;r=G' class='avatar avatar-30' alt='ooggetuige' width='30' height='30' /></a></li></ul></div></div></article>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5265" class="wpl-button "><a href='2012-07-12-601-the-routedeventhandler-delegate-type.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/ooggetuige" title="ooggetuige" class="wpl-liker" rel="nofollow"><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2NjIpLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBUU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAHgAeAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A6T9qX9pTWPgJqvhLSNC8LLr+pa/M0cL3MxjiDblRUGByxLjuABjrnj5C+M3hjxhply9zf6QNZv76+8iS4tr9QhunBkKcgEnG4k4AHqK/SD4saRpNzoNnPqek2erTWN5FeWa3WAYZkbcsiHqGBAHpzg8E184/tDa9eah4j8K69Ddx29hpd2l0tlcOIkXjkzOynyztP3ev0zQB88fsb/tOaN8FPHWp6J4siudG0DWim6ct58Vtcq20Skgf6tgSGIDfdU9M4/UOK1W6gWaKRXikAdXU7gwI4IPpX50/ALwZ4I/al/aOvrrxRqOn39rpUbyWugShkbUAMgEYwGRDhiucnjIKk1+mcGnRW1rHDFGsUMYCJGi4VVAwAAOgAoA/In4k/wDBQLxf8R/iL4Z12Gwh8PaPok28aVbS+b9oR2HmeZIVG4lQAOABgHGa9h+L/wAPPCXx58O6d4ittRm+y3MY8q/sbglIowGJSVT8vy4JG4Kw5U4C5H5452kGu3+EvxR1T4a+J7W5trm4OmyyKl3ZxvhZIyeSAeN46qSOD7ZoA+rf2ePgzo/wX+I9h4ibWLjV9XsWFzapbwmNTDwZFYZPz7BINp44br2/U63ZLu0iniO+KVQ6MO4IyDX5keJRqWj/ABF8MaQ1xDJaXTS3hCxqvyJulKEAY+4SnuPqa+mv+Cevxw174w/CvXrfX5RdT+HtXewtrphh3tioaNXx1KZK57gL3BJAP//Z' class='avatar avatar-30' alt='ooggetuige' width='30' height='30' /></a></li></ul></div></div></article>
   <p class="meta">Categories: Events | Tags: Events, Routed Events, RoutedEventArgs, RoutedEventHandler, WPF</p>
   <nav class="pager"><a href="2012-07-11-600-registering-a-routed-event.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-13-602-accessing-information-in-routedeventargs.html">Next</a></nav>
 </main>

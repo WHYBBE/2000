@@ -45,25 +45,42 @@
 
 					<p>An <a href="2012-03-28-549-anonymous-method-basics.html">anonymous method</a> that is declared within an instance method is considered itself to be an instance method of the class in which it was defined.  This means that it can make use of instance data within the class.</p>
 <p>In the example below, an anonymous method is declared within the <strong>DogInteractions.BarkAtNeighbor</strong> method.  Since this is an instance method, the body of the anonymous method can make use of the <strong>numBarks</strong> instance variable.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class DogInteractions
-    {
-        private int numBarks = 0;
-
-        public void BarkAtNeighbor(Dog d, string neighbor)
-        {
-            // Delegate passed into the Bark method,
-            //   which will then invoke it.
-            d.Bark(
-                delegate(string barkSound)
-                {
-                    numBarks++;
-                    Console.WriteLine(&quot;Bark #{0} - Hey {1}: {2}&quot;, numBarks, neighbor, barkSound);
-                });
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class DogInteractions
+
+    {
+
+        private int numBarks = 0;
+
+
+
+        public void BarkAtNeighbor(Dog d, string neighbor)
+
+        {
+
+            // Delegate passed into the Bark method,
+
+            //   which will then invoke it.
+
+            d.Bark(
+
+                delegate(string barkSound)
+
+                {
+
+                    numBarks++;
+
+                    Console.WriteLine(&quot;Bark #{0} - Hey {1}: {2}&quot;, numBarks, neighbor, barkSound);
+
+                });
+
+        }
+
+    }
+
 </pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/04/553-001.png"><img class="alignnone size-full wp-image-4679" title="553-001" src="https://web.archive.org/web/20130817180045id_/http://2000thingscsharp.files.wordpress.com/2012/04/553-001.png?w=630" alt=""   /></a></p>
+<p><a href="http://2000thingscsharp.files.wordpress.com/2012/04/553-001.png"><img class="alignnone size-full wp-image-4679" title="553-001" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>Similarly, if the anonymous method was declared within a static method, it would be considered itself to be static and could not make use of instance data within the class.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

@@ -45,41 +45,70 @@
 
 					<p>You may want to use a <strong>Slider</strong> control to let a user select from a set of values specified by an enumerated type.  For example, you could let users select a day of the week from the <strong>DayOfWeek</strong> enumerated type.</p>
 <p>Here&#8217;s one way to do that.  In XAML, define <strong>Slider</strong> and <strong>TextBlock</strong> that uses a value converter to display the day.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.Resources&gt;
-        &lt;local:DayOfWeekEnumToStringValueConverter x:Key=&quot;dayOfWeekEnumToStringConverter&quot;/&gt;
-    &lt;/Window.Resources&gt;
-
-    &lt;StackPanel&gt;
-        &lt;Slider Name=&quot;mySlider&quot; Margin=&quot;10&quot;
-                Minimum=&quot;0&quot;
-                IsSnapToTickEnabled=&quot;True&quot;/&gt;
-
-        &lt;TextBlock Text=&quot;{Binding Path=Value, ElementName=mySlider, Converter={StaticResource dayOfWeekEnumToStringConverter}}&quot;
-                    Margin=&quot;10&quot;/&gt;
-    &lt;/StackPanel&gt;
+<pre class="brush: xml; title: ; notranslate" title="">
+
+    &lt;Window.Resources&gt;
+
+        &lt;local:DayOfWeekEnumToStringValueConverter x:Key=&quot;dayOfWeekEnumToStringConverter&quot;/&gt;
+
+    &lt;/Window.Resources&gt;
+
+
+
+    &lt;StackPanel&gt;
+
+        &lt;Slider Name=&quot;mySlider&quot; Margin=&quot;10&quot;
+
+                Minimum=&quot;0&quot;
+
+                IsSnapToTickEnabled=&quot;True&quot;/&gt;
+
+
+
+        &lt;TextBlock Text=&quot;{Binding Path=Value, ElementName=mySlider, Converter={StaticResource dayOfWeekEnumToStringConverter}}&quot;
+
+                    Margin=&quot;10&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+
 </pre>
 <p>The value converter code could be:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class DayOfWeekEnumToStringValueConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            DayOfWeek day = (DayOfWeek)((double)value);
-            return day.ToString();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+    public class DayOfWeekEnumToStringValueConverter : IValueConverter
+
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+
+        {
+
+            DayOfWeek day = (DayOfWeek)((double)value);
+
+            return day.ToString();
+
+        }
+
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+
+        {
+
+            throw new NotImplementedException();
+
+        }
+
+    }
+
 </pre>
 <p>All that remains is to set the <strong>Maximum</strong> property. This can be done in code-behind (e.g. in the main window&#8217;s constructor):</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            mySlider.Maximum = Enum.GetNames(typeof(DayOfWeek)).Length - 1;
+<pre class="brush: csharp; title: ; notranslate" title="">
+
+            mySlider.Maximum = Enum.GetNames(typeof(DayOfWeek)).Length - 1;
+
 </pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1024-001.png"><img class="alignnone size-full wp-image-8362" alt="1024-001" src="https://web.archive.org/web/20140314070807id_/http://2000thingswpf.files.wordpress.com/2014/03/1024-001.png?w=630"   /></a></p>
+<p><a href="http://2000thingswpf.files.wordpress.com/2014/03/1024-001.png"><img class="alignnone size-full wp-image-8362" alt="1024-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
