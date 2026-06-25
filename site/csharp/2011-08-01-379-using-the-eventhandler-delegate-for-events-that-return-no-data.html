@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,37 +55,26 @@
 																				</p>
 					</div>
 
-					<p>When you <a href="http://wp.me/pXTis-Oc">add an event to a class</a>, you can use any delegate you like for the event&#8217;s type.  For example, you could based the event on a delegate that accepts a single parameter of type <strong>string</strong>:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public delegate void StringHandlerDelegate(string s);
-        public event StringHandlerDelegate Barked;
-</pre>
-<p>It&#8217;s recommended, however, that you use the one of the following two preexisting types as the delegate type:</p>
+					<p>When you <a href="http://wp.me/pXTis-Oc">add an event to a class</a>, you can use any delegate you like for the event&#8217;s type.  For example, you could based the event on a delegate that accepts a single parameter of type <strong>string</strong>:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">delegate</span> <span class="kw">void</span> StringHandlerDelegate(<span class="kw">string</span> s);
+<span class="kw">public</span> <span class="kw">event</span> StringHandlerDelegate Barked;</code></pre><p>It&#8217;s recommended, however, that you use the one of the following two preexisting types as the delegate type:</p>
 <ul>
 <li><strong>EventHandler</strong> &#8211; for event that return no data</li>
 <li><strong>EventHandler&lt;TEventArgs&gt;</strong> &#8211; for event that returns some data</li>
 </ul>
-<p>Below is an example of an event that returns no data.  The <strong>Dog.Barked</strong> event is raised when a <strong>Dog</strong> object barks.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Declare the event
-        public event EventHandler Barked;
-
-        // Helper method that raises the event
-        protected virtual void OnBarked()
-        {
-            if (Barked != null)
-                Barked(this, null);
-        }
-
-        // In Bark method, call helper to raise the event
-        public void Bark()
-        {
-            Bark(&quot;Woof&quot;);
-            OnBarked();
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Below is an example of an event that returns no data.  The <strong>Dog.Barked</strong> event is raised when a <strong>Dog</strong> object barks.</p><pre class="code-block language-csharp"><code><span class="com">// Declare the event</span>
+<span class="kw">public</span> <span class="kw">event</span> EventHandler Barked;
+<span class="com">// Helper method that raises the event</span>
+<span class="kw">protected</span> <span class="kw">virtual</span> <span class="kw">void</span> OnBarked()
+{
+    <span class="kw">if</span> (Barked != <span class="kw">null</span>)
+        Barked(<span class="kw">this</span>, <span class="kw">null</span>);
+}
+<span class="com">// In Bark method, call helper to raise the event</span>
+<span class="kw">public</span> <span class="kw">void</span> Bark()
+{
+    Bark(<span class="str">"Woof"</span>);
+    OnBarked();
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

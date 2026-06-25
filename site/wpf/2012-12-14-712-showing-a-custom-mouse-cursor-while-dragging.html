@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,67 +57,29 @@
 
 					<p>You can use a non-default cursor while a drag-and-drop operation is in process by <a href="http://wp.me/pZhye-1Bz">handling the <strong>GiveFeedback</strong> event</a>.</p>
 <p>In the example below, we load a custom cursor from a .cur file located in the same directory as the executing application.</p>
-<p><pre class="brush: csharp;">
-
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-
-        {
-
-            DataObject data = new DataObject(DataFormats.Text, ((Label)e.Source).Content);
-
-
-
-            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
-
-        }
-
-
-
-        private void Label_Drop(object sender, DragEventArgs e)
-
-        {
-
-            ((Label)e.Source).Content = (string)e.Data.GetData(DataFormats.Text);
-
-        }
-
-
-
-        private Cursor customCursor = null;
-
-
-
-        private void Label_GiveFeedback(object sender, GiveFeedbackEventArgs e)
-
-        {
-
-            if (e.Effects == DragDropEffects.Copy)
-
-            {
-
-                if (customCursor == null)
-
-                    customCursor = new Cursor(new FileStream(&quot;Earth.cur&quot;, FileMode.Open));
-
-
-
-                e.UseDefaultCursors = false;
-
-                Mouse.SetCursor(customCursor);
-
-            }
-
-            else
-
-                e.UseDefaultCursors = true;
-
-
-
-            e.Handled = true;
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Label_MouseLeftButtonDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    DataObject data = <span class="kw">new</span> DataObject(DataFormats.Text, ((Label)e.Source).Content);
+    DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+}
+<span class="kw">private</span> <span class="kw">void</span> Label_Drop(<span class="kw">object</span> sender, DragEventArgs e)
+{
+    ((Label)e.Source).Content = (<span class="kw">string</span>)e.Data.GetData(DataFormats.Text);
+}
+<span class="kw">private</span> Cursor customCursor = <span class="kw">null</span>;
+<span class="kw">private</span> <span class="kw">void</span> Label_GiveFeedback(<span class="kw">object</span> sender, GiveFeedbackEventArgs e)
+{
+    <span class="kw">if</span> (e.Effects == DragDropEffects.Copy)
+    {
+        <span class="kw">if</span> (customCursor == <span class="kw">null</span>)
+            customCursor = <span class="kw">new</span> Cursor(<span class="kw">new</span> FileStream(<span class="str">"Earth.cur"</span>, FileMode.Open));
+        e.UseDefaultCursors = <span class="kw">false</span>;
+        Mouse.SetCursor(customCursor);
+    }
+    <span class="kw">else</span>
+        e.UseDefaultCursors = <span class="kw">true</span>;
+    e.Handled = <span class="kw">true</span>;
+}</code></pre>
 <p><a href="http://wpf.2000things.com/2012/12/14/712-showing-a-custom-mouse-cursor-while-dragging/712-001/" rel="attachment wp-att-6204"><img class="alignnone size-full wp-image-6204" alt="712-001" src="data:image/png;base64,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"   /></a></p>
 
 		<div class="wpadvert">

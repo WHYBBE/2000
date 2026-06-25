@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,84 +55,34 @@
 																				</p>
 					</div>
 
-					<p>The return value from a <a href="2014-01-23-1017-delegate-types-vs-delegate-instances.html">delegate instance</a> is passed back to the caller.  For example:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private delegate int ReturnIntDelegate();
-
-
-
-        static int Method1()
-
-        {
-
-            return 12;
-
-        }
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            ReturnIntDelegate del1 = Method1;
-
-
-
-            // Invoke
-
-            int val = del1();
-
-            Console.WriteLine(val);
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1021-001.png"><img class="alignnone size-full wp-image-8169" alt="1021-001" src="data:image/png;base64,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"   /></a></p>
-<p>Recall, however, that a delegate instance can <a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">refer to more than one method</a>.  When a caller invokes a delegate whose invocation list contains more than one method, the value returned to the caller is the return value of the last delegate instance in the invocation list.  Return values of other methods in the invocation list are lost.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static int Method1()
-
-        {
-
-            return 12;
-
-        }
-
-
-
-        static int Method2()
-
-        {
-
-            return 99;
-
-        }
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            ReturnIntDelegate del1 = Method1;
-
-            del1 += Method2;
-
-
-
-            // Invoke
-
-            int val = del1();
-
-            Console.WriteLine(val);
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1021-002.png"><img class="alignnone size-full wp-image-8173" alt="1021-002" src="data:image/png;base64,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"   /></a></p>
+					<p>The return value from a <a href="2014-01-23-1017-delegate-types-vs-delegate-instances.html">delegate instance</a> is passed back to the caller.  For example:</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">delegate</span> <span class="kw">int</span> ReturnIntDelegate();
+<span class="kw">static</span> <span class="kw">int</span> Method1()
+{
+    <span class="kw">return</span> <span <span class="kw">class</span>="num">12</span>;
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    ReturnIntDelegate del1 = Method1;
+    <span class="com">// Invoke</span>
+    <span class="kw">int</span> val = del1();
+    Console.WriteLine(val);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1021-001.png"><img class="alignnone size-full wp-image-8169" alt="1021-001" src="data:image/png;base64,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"   /></a></p>
+<p>Recall, however, that a delegate instance can <a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">refer to more than one method</a>.  When a caller invokes a delegate whose invocation list contains more than one method, the value returned to the caller is the return value of the last delegate instance in the invocation list.  Return values of other methods in the invocation list are lost.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">int</span> Method1()
+{
+    <span class="kw">return</span> <span <span class="kw">class</span>="num">12</span>;
+}
+<span class="kw">static</span> <span class="kw">int</span> Method2()
+{
+    <span class="kw">return</span> <span <span class="kw">class</span>="num">99</span>;
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    ReturnIntDelegate del1 = Method1;
+    del1 += Method2;
+    <span class="com">// Invoke</span>
+    <span class="kw">int</span> val = del1();
+    Console.WriteLine(val);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1021-002.png"><img class="alignnone size-full wp-image-8173" alt="1021-002" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

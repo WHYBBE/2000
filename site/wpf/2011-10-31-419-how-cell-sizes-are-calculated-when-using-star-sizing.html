@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,35 +57,18 @@
 
 					<p>You can use <a href="2011-10-28-418-star-sizing-allows-setting-row-and-column-sizes-relative-to-each-other.html">star sizing</a> when setting the height of rows or width of columns in a <strong>Grid</strong> to distribute space in a <strong>Grid</strong> across multiple rows or columns.</p>
 <p>Here&#8217;s an example.</p>
-<p><pre class="brush: xml;">
-
-    &lt;Grid ShowGridLines=&quot;True&quot;&gt;
-
-    	&lt;Grid.RowDefinitions&gt;
-
-    		&lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-    		&lt;RowDefinition Height=&quot;1*&quot;/&gt;
-
-    		&lt;RowDefinition Height=&quot;2*&quot;/&gt;
-
-    		&lt;RowDefinition Height=&quot;3*&quot;/&gt;
-
-    	&lt;/Grid.RowDefinitions&gt;
-
-
-
-        &lt;Label Grid.Row=&quot;0&quot; Content=&quot;Auto-sized&quot;/&gt;
-
-    	&lt;Label Grid.Row=&quot;1&quot; Content=&quot;1* row = 1/6 avail space&quot; /&gt;
-
-    	&lt;Label Grid.Row=&quot;2&quot; Content=&quot;2* row = 1/3 avail space&quot; /&gt;
-
-    	&lt;Label Grid.Row=&quot;3&quot; Content=&quot;3* row = 1/2 avail space&quot; /&gt;
-
-	&lt;/Grid&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code>    <span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">ShowGridLines</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+    	<span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+    		<span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+    		<span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"1*"</span><span class="xml-tag">/&gt;</span>
+    		<span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"2*"</span><span class="xml-tag">/&gt;</span>
+    		<span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"3*"</span><span class="xml-tag">/&gt;</span>
+    	<span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Auto-sized"</span><span class="xml-tag">/&gt;</span>
+    	<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"1* row = 1/6 avail space"</span> <span class="xml-tag">/&gt;</span>
+    	<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"2"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"2* row = 1/3 avail space"</span> <span class="xml-tag">/&gt;</span>
+    	<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"3"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"3* row = 1/2 avail space"</span> <span class="xml-tag">/&gt;</span>
+	<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre>
 <p>The space allocated for each star-sized row is calculated as:</p>
 <ul>
 <li><em>n</em> / <em>sum</em>, where <em>n</em> = number preceding * for that row; <em>sum = </em>sum of all numbers preceding star-sized rows</li>

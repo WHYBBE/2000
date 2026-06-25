@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,55 +56,49 @@
 					</div>
 
 					<p>The default control template used for a <strong>ListBox</strong> (in version 4.5 of the .NET Framework) is shown below.  The template is included within a style that includes some other default property values.</p>
-<p>The core structure of the <strong>ListBox</strong> is simple&#8211;an <strong>ItemsPresenter</strong>, within a <strong>ScrollViewer</strong> and surrounded by a <strong>Border</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.Resources&gt;
-        &lt;Style x:Key=&quot;lbDefaultStyle&quot; TargetType=&quot;{x:Type ListBox}&quot;&gt;
-            &lt;Setter Property=&quot;Background&quot; Value=&quot;White&quot;/&gt;
-            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;#FFABADB3&quot;/&gt;
-            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
-            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot;/&gt;
-            &lt;Setter Property=&quot;ScrollViewer.HorizontalScrollBarVisibility&quot; Value=&quot;Auto&quot;/&gt;
-            &lt;Setter Property=&quot;ScrollViewer.VerticalScrollBarVisibility&quot; Value=&quot;Auto&quot;/&gt;
-            &lt;Setter Property=&quot;ScrollViewer.CanContentScroll&quot; Value=&quot;True&quot;/&gt;
-            &lt;Setter Property=&quot;ScrollViewer.PanningMode&quot; Value=&quot;Both&quot;/&gt;
-            &lt;Setter Property=&quot;Stylus.IsFlicksEnabled&quot; Value=&quot;False&quot;/&gt;
-            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;Center&quot;/&gt;
-            &lt;Setter Property=&quot;Template&quot;&gt;
-                &lt;Setter.Value&gt;
-                    &lt;ControlTemplate TargetType=&quot;{x:Type ListBox}&quot;&gt;
-                        &lt;Border x:Name=&quot;Bd&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;1&quot; SnapsToDevicePixels=&quot;True&quot;&gt;
-                            &lt;ScrollViewer Focusable=&quot;False&quot; Padding=&quot;{TemplateBinding Padding}&quot;&gt;
-                                &lt;ItemsPresenter SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot;/&gt;
-                            &lt;/ScrollViewer&gt;
-                        &lt;/Border&gt;
-                        &lt;ControlTemplate.Triggers&gt;
-                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;White&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;#FFD9D9D9&quot;/&gt;
-                            &lt;/Trigger&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;IsGrouping&quot; Value=&quot;True&quot;/&gt;
-                                    &lt;Condition Property=&quot;VirtualizingPanel.IsVirtualizingWhenGrouping&quot; Value=&quot;False&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;ScrollViewer.CanContentScroll&quot; Value=&quot;False&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                        &lt;/ControlTemplate.Triggers&gt;
-                    &lt;/ControlTemplate&gt;
-                &lt;/Setter.Value&gt;
-            &lt;/Setter&gt;
-        &lt;/Style&gt;
-    &lt;/Window.Resources&gt;
-
-    &lt;StackPanel&gt;
-        &lt;ListBox Name=&quot;lbActors&quot; Margin=&quot;15,5&quot; Width=&quot;200&quot; Height=&quot;200&quot;
-                 ItemsSource=&quot;{Binding ActorList}&quot;
-                 Style=&quot;{DynamicResource lbDefaultStyle}&quot;/&gt;
-    &lt;/StackPanel&gt;
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>The core structure of the <strong>ListBox</strong> is simple&#8211;an <strong>ItemsPresenter</strong>, within a <strong>ScrollViewer</strong> and surrounded by a <strong>Border</strong>.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"lbDefaultStyle"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ListBox}"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"White"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"#FFABADB3"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderThickness"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"1"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"ScrollViewer.HorizontalScrollBarVisibility"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"ScrollViewer.VerticalScrollBarVisibility"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"ScrollViewer.CanContentScroll"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"ScrollViewer.PanningMode"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Both"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Stylus.IsFlicksEnabled"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"VerticalContentAlignment"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Template"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ListBox}"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"{TemplateBinding BorderBrush}"</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"{TemplateBinding BorderThickness}"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"{TemplateBinding Background}"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"1"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">ScrollViewer</span> <span class="xml-attr">Focusable</span>=<span class="xml-val">"False"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"{TemplateBinding Padding}"</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">ItemsPresenter</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"{TemplateBinding SnapsToDevicePixels}"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">ScrollViewer</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsEnabled"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"White"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"#FFD9D9D9"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsGrouping"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"VirtualizingPanel.IsVirtualizingWhenGrouping"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"ScrollViewer.CanContentScroll"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;ListBox Name="lbActors" Margin="15,5" Width="200" Height="200"
+             ItemsSource="{Binding ActorList}"
+             Style="{DynamicResource lbDefaultStyle}"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,14 +57,10 @@
 
 					<p><a href="2010-10-17-97-attached-properties.html">Attached properties</a> in XAML allow attaching a property value to an object that is of a different type than the type where the property is defined.  (E.g. <strong>Grid.Row</strong> property can be set for a <strong>Button</strong>).</p>
 <p>When the XAML parser encounters an attached property, it calls a static method on the class where the property is defined.  So setting a value for <strong>Grid.Row</strong> on a <strong>Button</strong> is equivalent to:</p>
-<p><pre class="brush: csharp;">
- Grid.SetRow(myButton, 1);
-</pre></p>
+<pre class="code-block language-csharp"><code>Grid.SetRow(myButton, <span <span class="kw">class</span>="num">1</span>);</code></pre>
 <p>In WPF, attached properties are often implemented using <a href="2010-08-10-29-dependencyobject.html">dependency properties</a>.  The object on which the property is being set (e.g. <strong>Button</strong>) inherits from <strong>DependencyObject,</strong> which means that it can store a collection of dependency properties.</p>
 <p>When dependency properties are used for storing the values of attached properties, the static getter method in turn just calls the <strong>SetValue </strong>method on the object passed in to it.  So the method listed above would be implemented as:</p>
-<p><pre class="brush: csharp;">
- myButton.SetValue(Grid.RowProperty, 1);
-</pre></p>
+<pre class="code-block language-csharp"><code>myButton.SetValue(Grid.RowProperty, <span <span class="kw">class</span>="num">1</span>);</code></pre>
 
 <div class="wpadvert">
 

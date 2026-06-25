@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,24 +57,19 @@
 
 					<p>Confidential data stored in an instance of the <a href="http://wp.me/pXTis-24f"><strong>SecureString </strong>type</a> is stored in memory on the unmanaged heap, in an encrypted form.</p>
 <p>If you need to work with the data in an unencrypted form, you can read the data out of the <strong>SecureString</strong> into an unmanaged string (<strong>BSTR</strong>).  Once you are finished working with the confidential string data, you should zero out the memory where it was stored.</p>
-<p>Below is an example of using the <strong>Marshal.SecureStringToBSTR</strong> method to work with string data stored in a <strong>SecureString</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void DoSomethingWithSecureStringData(SecureString secStr)
-        {
-            // using System.Runtime.InteropServices
-            IntPtr unmStr = Marshal.SecureStringToBSTR(secStr);
-
-            try
-            {
-                // Do something with unmanaged confidential string here.
-            }
-            finally
-            {
-                Marshal.ZeroFreeBSTR(unmStr);
-            }
-        }
-</pre>
-<p>When you call the <strong>SecureStringToBSTR</strong> method, the <strong>SecureString</strong> object decrypts its data and copies it to a new <strong>BSTR, </strong>before re-encrypting it.</p>
+<p>Below is an example of using the <strong>Marshal.SecureStringToBSTR</strong> method to work with string data stored in a <strong>SecureString</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> DoSomethingWithSecureStringData(SecureString secStr)
+{
+    <span class="com">// using System.Runtime.InteropServices</span>
+    IntPtr unmStr = Marshal.SecureStringToBSTR(secStr);
+    <span class="kw">try</span>
+    {
+        <span class="com">// Do something with unmanaged confidential string here.</span>
+    }
+    <span class="kw">finally</span>
+    {
+        Marshal.ZeroFreeBSTR(unmStr);
+    }
+}</code></pre><p>When you call the <strong>SecureStringToBSTR</strong> method, the <strong>SecureString</strong> object decrypts its data and copies it to a new <strong>BSTR, </strong>before re-encrypting it.</p>
 <p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

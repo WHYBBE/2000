@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,42 +53,34 @@
                     </div>
 
                     <p>You can pass multi-dimensional arrays to methods.  Like arrays with a single dimension, the array is passed by value, with a copy of the reference passed to the method.  This means that the method can change elements in the array.</p>
-<p>Here&#8217;s an example of a method that takes a two-dimensional array as an input parameter.</p>
-<pre class="brush: csharp;">
-        public static void CountPawns(ChessPiece[,] chessboard, out int redPawns, out int blackPawns)
+<p>Here&#8217;s an example of a method that takes a two-dimensional array as an input parameter.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> CountPawns(ChessPiece[,] chessboard, <span class="kw">out</span> <span class="kw">int</span> redPawns, <span class="kw">out</span> <span class="kw">int</span> blackPawns)
+{
+    redPawns = <span <span class="kw">class</span>="num">0</span>;
+    blackPawns = <span <span class="kw">class</span>="num">0</span>;
+
+    <span class="kw">for</span> (<span class="kw">int</span> row = <span <span class="kw">class</span>="num">0</span>; row &lt; <span <span class="kw">class</span>="num">8</span>; row++)
+        <span class="kw">for</span> (<span class="kw">int</span> col = <span <span class="kw">class</span>="num">0</span>; col &lt; <span <span class="kw">class</span>="num">8</span>; col++)
         {
-            redPawns = 0;
-            blackPawns = 0;
-
-            for (int row = 0; row &lt; 8; row++)
-                for (int col = 0; col &lt; 8; col++)
+            ChessPiece piece = chessboard[row,col];
+            <span class="kw">if</span> (piece != <span class="kw">null</span>)
+            {
+                <span class="kw">if</span> (piece.PieceType == PieceTypeEnum.Pawn)
                 {
-                    ChessPiece piece = chessboard[row,col];
-                    if (piece != null)
-                    {
-                        if (piece.PieceType == PieceTypeEnum.Pawn)
-                        {
-                            if (piece.PieceColor == PieceColorEnum.Red)
-                                redPawns++;
-                            else
-                                blackPawns++;
-                        }
-                    }
+                    <span class="kw">if</span> (piece.PieceColor == PieceColorEnum.Red)
+                        redPawns++;
+                    <span class="kw">else</span>
+                        blackPawns++;
                 }
+            }
         }
-</pre>
-<p>When calling the method, you just pass the name of the array to the method.</p>
-<pre class="brush: csharp;">
-            ChessPiece[,] board = new ChessPiece[8, 8];
+}</code></pre><p>When calling the method, you just pass the name of the array to the method.</p><pre class="code-block language-csharp"><code>ChessPiece[,] board = <span class="kw">new</span> ChessPiece[<span <span class="kw">class</span>="num">8</span>, <span <span class="kw">class</span>="num">8</span>];
 
-            board[0, 1] = new ChessPiece(PieceTypeEnum.King, PieceColorEnum.Red);
-            // continue to set up board here
+board[<span <span class="kw">class</span>="num">0</span>, <span <span class="kw">class</span>="num">1</span>] = <span class="kw">new</span> ChessPiece(PieceTypeEnum.King, PieceColorEnum.Red);
+<span class="com">// continue to set up board here</span>
 
-            int redPawns;
-            int blackPawns;
-            Chess.CountPawns(board, out redPawns, out blackPawns);
-</pre>
-<div class="clear"></div>
+<span class="kw">int</span> redPawns;
+<span class="kw">int</span> blackPawns;
+Chess.CountPawns(board, <span class="kw">out</span> redPawns, <span class="kw">out</span> blackPawns);</code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

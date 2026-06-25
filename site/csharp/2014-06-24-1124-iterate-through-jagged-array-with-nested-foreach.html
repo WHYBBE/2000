@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,59 +55,26 @@
 																				</p>
 					</div>
 
-					<p>You can&#8217;t use the <strong>foreach</strong> statement to directly iterate over all elements in a <a href="2010-10-22-127-declaring-and-instantiating-jagged-arrays.html">jagged array</a>.  You can, however, iterate through the jagged array using nested <strong>foreach</strong> statements.  Each <strong>foreach </strong>statement independently iterates over one dimension of the jagged array.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Jagged array - 3 elements, each of which is array of int
-
-            int[][] nums = new int[3][];
-
-
-
-            nums[0] = new int[4];
-
-            nums[2] = new int[3];
-
-
-
-            for (int i = 0; i &lt; 4; i++)
-
-                nums[0][i] = i + 1;
-
-
-
-            for (int i = 0; i &lt; 3; i++)
-
-                nums[2][i] = i + 101;
-
-
-
-            // Iterate using foreach
-
-            foreach (int[] intArray in nums)
-
-            {
-
-                if (intArray != null)
-
-                {
-
-                    Console.WriteLine(&quot;Array with {0} elements&quot;, intArray.Length);
-
-                    foreach (int n in intArray)
-
-                        Console.WriteLine(&quot;  {0}&quot;, n);
-
-                }
-
-                else
-
-                    Console.WriteLine(&quot;Found null array&quot;);
-
-            }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1124-001.png"><img class="alignnone size-full wp-image-8749" src="data:image/png;base64,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" alt="1124-001"   /></a></p>
+					<p>You can&#8217;t use the <strong>foreach</strong> statement to directly iterate over all elements in a <a href="2010-10-22-127-declaring-and-instantiating-jagged-arrays.html">jagged array</a>.  You can, however, iterate through the jagged array using nested <strong>foreach</strong> statements.  Each <strong>foreach </strong>statement independently iterates over one dimension of the jagged array.</p><pre class="code-block language-csharp"><code><span class="com">// Jagged array - 3 elements, each of which is array of int</span>
+<span class="kw">int</span>[][] nums = <span class="kw">new</span> <span class="kw">int</span>[<span <span class="kw">class</span>="num">3</span>][];
+nums[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">new</span> <span class="kw">int</span>[<span <span class="kw">class</span>="num">4</span>];
+nums[<span <span class="kw">class</span>="num">2</span>] = <span class="kw">new</span> <span class="kw">int</span>[<span <span class="kw">class</span>="num">3</span>];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; <span <span class="kw">class</span>="num">4</span>; i++)
+    nums[<span <span class="kw">class</span>="num">0</span>][i] = i + <span <span class="kw">class</span>="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; <span <span class="kw">class</span>="num">3</span>; i++)
+    nums[<span <span class="kw">class</span>="num">2</span>][i] = i + <span <span class="kw">class</span>="num">101</span>;
+<span class="com">// Iterate using foreach</span>
+<span class="kw">foreach</span> (<span class="kw">int</span>[] intArray <span class="kw">in</span> nums)
+{
+    <span class="kw">if</span> (intArray != <span class="kw">null</span>)
+    {
+        Console.WriteLine(<span class="str">"Array with {0} elements"</span>, intArray.Length);
+        <span class="kw">foreach</span> (<span class="kw">int</span> n <span class="kw">in</span> intArray)
+            Console.WriteLine(<span class="str">"  {0}"</span>, n);
+    }
+    <span class="kw">else</span>
+        Console.WriteLine(<span class="str">"Found null array"</span>);
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1124-001.png"><img class="alignnone size-full wp-image-8749" src="data:image/png;base64,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" alt="1124-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

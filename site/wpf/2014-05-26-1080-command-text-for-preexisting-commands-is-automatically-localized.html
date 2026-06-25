@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,35 +56,16 @@
 					</div>
 
 					<p>If you use any of the preexisting <strong>RoutedUICommand</strong> objects in your application, the <strong>Text</strong> property of the command is automatically localized to match the language of the operating system that you&#8217;re running on.</p>
-<p>Assume that you wire a <strong>Button</strong> up to an <strong>Open</strong> command:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;Button Content=&quot;{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}&quot;
-
-                Command=&quot;ApplicationCommands.Open&quot; /&gt;
-
-</pre>
-<p>If we run the application, the button text is in English.</p>
+<p>Assume that you wire a <strong>Button</strong> up to an <strong>Open</strong> command:</p><pre class="code-block language-xml"><code>&lt;Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+        Command="ApplicationCommands.Open" /&gt;</code></pre><p>If we run the application, the button text is in English.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1080-001.png"><img class="alignnone size-full wp-image-8783" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAADpCAMAAAB1CI7DAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAr5QTFRFAAAAAAAEAAAJNAAANAAJKCgoNygoAARAAAlyNAlyKChTKChxCWpqN15xPGpnQSgoZAAAZAAEZAAJZARAZAlySEgoTl4oTl4pQV5xVG5TVG5USG5xWnpxWnpycHBwBECbCXK6CXK/KEiHKF6HKF6XN0iHOECbN16XN26HN26nN26oQW6HRXGPTX6fQXq7W6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNWoaHU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWpSXWpSYWZWZWZmUSIa7QJi3TpS7UYWpUoapVIquV4+0XZOgWpSoU5S7VJS7WZO6WpS7V6GDWaOBWKKCbYyiaY6oaY+paI6yapisbJiubp2saZKxcaKqfaK5QJvdcr//kDQAkDQEkDQJkDhAkDxytWQAtWQJx1BQkm6burVk1pA01pA4+rVkg4ODjIODjIOPg4Och4OcjIOcnIeDnIePg4+qg5y6iJ2+iZ+9jJy6nJOqnJ+6iq+qiqG8i6S7jae6jbOlj7Wji7Gol6KqnKKimaGokbehq4yDq4ycupyHt5WbupyTpqquq6+zrbK1uLu/ury/j6rMk6rMmrHLnbfJnLrCnLrksrjBsrnCur3Au77Bvb/CvL/Dp8u+rdO3sdeym936m93/osLDv8DCvcDDv8HEv8LFqszruuT0v///wquMzauM3bqc3fq1/NaQ9M2r9N26//q1ysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvmzOvd1efVzOv03f/83f//9PTN9PTd//zW4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u5PT06/T08O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9PT09fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+vr6+/v7///6/Pz8/f39///8/v7+////oo2XAQAAAAlwSFlzAAAOwwAADsMBx2+oZAAABy5JREFUeNrt2otbU3Ucx/FZDQur2UUM0gxblrToXnRPitRMje53tYwoBLObZfd7mV00C8uudlPDuBRUpJkIKxtitkoWKzfmBvsv+v7OGRspI3b2GZvj8358ODtnjIe9nu/vnOPUFGSgTMn+BdInUsIiJSydspvFVZiyuzsg+ZmhlJ2GKZQC6fN63B3MUG6P1yeYOqXf63I67C3MUHaH0+X1hygDXhuLK68+ld0Bn8tWzHoqjSX9JTaXTywVpddJykhGKJ2dIUqPg5SRjFC2ekKUbjspIxmhtLt1Sn9HCykjGaFs6fCTcs9IaTBzuJ4jMMrrrundtVck+62mBGUwGPk6cMpX67/Wqq+vf3vFilcuS/ZbTTjlHg9Ko1j2Jdkv5XvevyN5V04ZhHczVs1EvtFXj8ksSjxlqfrkJ9YF/tl3Dz38+BNPfutobnYsXz4IlNNHKcax1tSm7Hsm+6f8pPH6m2+86ZaGLYryzUGgzImPIoWncmnjrTdcfvElDb80b3Z8/H7iKQst4XlUC33EZDlyvEUWfI62U5BxQoY5syjLbB4/Uw2w2Zwnm2PkgXrZGNk/QigLMvT96GC7XVpipTR0rlzaePZpZ5x7UcOWzc2ODz5MPGVBxsTQoxxZ6NNHjZ9RaDHnC9r4GQUZVnk6s0gOWEUtr7jg2JnF2ZlF8mSe7OdrxyZZMosmWeS54wxSJu4KvrTx9DPPOf9qmcpmx/r1iacc23PB0cezICNfe6AdHq04J+rngOmjrCF6cZYJnWSxaltlK8eAv1FpLPVPedaFF1x1inau3LlzECl1j0LLRPkjh9UZUKOUozmy0jVKtZDVyFrV1cqqhlE/V2ap5Z+ClOddedLJpzb8JJQ7fh2MBW4dMGW2sGtTuTulzKg5L+Uo3/nmsWeeevqFr4TyZ2frIFzBR4euwL0WeBRKjXBMZCr1NZ+tvz5bvifFKF/v3L59+59//PbXPzt+37p1ECgLLcpC7isjl51oU5k1YrK6C+2hDE2pnCvlkpMFW+IwymdX6n36+bvy9fmpCafUb3GUnNz+yHW7ODqlOlUeFFng4icvPFJddrQbp1SjnDZ1Sq+mTks8ZRrED9lgkRIWKWGREhYpYZESFilhkRJWH5QnshiLTpns/869t0VKWKSERUpYpIRFSlikhEVKWKSERUpYKUv5moFI2Tdle8yRkpSkJCUpSUlKUqYpZe39FRUPbiBl/JS1D6xub6+5bw0p46XctLhSbda9sY2UcVL++JI2jzWL2qreelFb6FUVFcu21Sz6omLBGlLGQln7yIbQpkroqpZtq6ps37Rkdc38SrVDyhgoQ1NZ+2ibGIro94srpEqZUjWppIyBMnKuDFEuWR1a8KSMkbK95h6xW3evLO6FbdoCX9hGSmOU4fvKqufmVwjjJlnhC9aQ0ghlT1WVvBkiJSnTlrL/SElKUu41lPzH26EbKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREtbAKI/6T8n+nVO0AVIGo+2wcHFQVu9r2mf2nj+xaY7JNHxVst9XEjJM2VW2/9rgrpc37v4Dm26bFQzWHTo7OOQyTFl3+Nq+fl5XWa7aVE/YGBxqGaYsz9X3ytVy7pp36RzTOKW3605tHgW6/OgStdC7ykymXNm/u8+zQTpllLJr3qzwgfLcrrLhq5puV1RNc7XTpGzKha583A/yfcJbNzJXdtJ7UuOeSnWV0cB03NBUNt2xVn1D09yPSkwm07BZ6nQQ5ZSQNhmmrD5Ag1GzWD0hQhk5V4YowwuelNEod5XIem2668vDVnWV9ZrKYN0hsqneTxa3XOFlgZdpy5qU/VBq1xO54JSZhh3cayoj95XlB440qfulErVLyv4o/6+ek+mQKXF/Bycl7JMhUvJDNqOREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESFilhkRIWKWGREhYpYZESVj+ULMaiUjJjkRJWmDLgtpMyrmx2d0Cn9DhIGVe2Vk+I0uskZVzZnJ0hSp+LlHFlc/k0SjWWNhZXXpHUKP1el7PV3sKMZW91urz+0FQGfJ0edwczltvT6QvoCzzYLZiBgJ8ZS+F16wtcw2RxpRBNyf5EIH36F5acobdxfx3tAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAAAASUVORK5CYII=" alt="1080-001"   /></a></p>
-<p>If we run the application on a French version of Windows, the text on the button will be localized.  Assuming that we have the proper language pack installed, we can also just override the <strong>CurrentUICulture</strong> of the current thread.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public partial class App : Application
-
+<p>If we run the application on a French version of Windows, the text on the button will be localized.  Assuming that we have the proper language pack installed, we can also just override the <strong>CurrentUICulture</strong> of the current thread.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> App : Application
+{
+    <span class="kw">public</span> App()
     {
-
-        public App()
-
-        {
-
-           Thread.CurrentThread.CurrentUICulture = new CultureInfo(&quot;fr-FR&quot;);
-
-        }
-
+       Thread.CurrentThread.CurrentUICulture = <span class="kw">new</span> CultureInfo(<span class="str">"fr-FR"</span>);
     }
-
-</pre>
-<p>Now when we run the application, the word &#8220;Open&#8221; is translated to French.<br />
+}</code></pre><p>Now when we run the application, the word &#8220;Open&#8221; is translated to French.<br />
 <a href="http://2000thingswpf.files.wordpress.com/2014/05/1080-002.png"><img class="alignnone size-full wp-image-8785" src="data:image/png;base64,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" alt="1080-002"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

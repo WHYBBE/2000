@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,25 +55,13 @@
 																				</p>
 					</div>
 
-					<p>A captured variable is a <a href="2014-09-08-1177-lambda-expressions-can-reference-variables-declared-outside-of-expression.html">variable declared outside of the scope</a> of a lambda expression, but used within the expression.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            int magicNum = 20;
-            Func&lt;int, int&gt; mulByMagic = i =&gt; i * magicNum;
-
-            Console.WriteLine(mulByMagic(10));  // 200
-</pre>
-<p>Note that the value used for a captured variable is whatever value is current when the associated delegate is invoked, rather than the value that the variable had when the lambda was defined.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            int magicNum = 20;
-            Func&lt;int, int&gt; mulByMagic = i =&gt; i * magicNum;
-
-            Console.WriteLine(mulByMagic(10));  // 200
-
-            magicNum = 100;
-            Console.WriteLine(mulByMagic(10));  // 1000
-</pre>
-
-<div class="wpcnt">
+					<p>A captured variable is a <a href="2014-09-08-1177-lambda-expressions-can-reference-variables-declared-outside-of-expression.html">variable declared outside of the scope</a> of a lambda expression, but used within the expression.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> magicNum = <span <span class="kw">class</span>="num">20</span>;
+Func&lt;<span class="kw">int</span>, <span class="kw">int</span>&gt; mulByMagic = i =&gt; i * magicNum;
+Console.WriteLine(mulByMagic(<span <span class="kw">class</span>="num">10</span>));  <span class="com">// 200</span></code></pre><p>Note that the value used for a captured variable is whatever value is current when the associated delegate is invoked, rather than the value that the variable had when the lambda was defined.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> magicNum = <span <span class="kw">class</span>="num">20</span>;
+Func&lt;<span class="kw">int</span>, <span class="kw">int</span>&gt; mulByMagic = i =&gt; i * magicNum;
+Console.WriteLine(mulByMagic(<span <span class="kw">class</span>="num">10</span>));  <span class="com">// 200</span>
+magicNum = <span <span class="kw">class</span>="num">100</span>;
+Console.WriteLine(mulByMagic(<span <span class="kw">class</span>="num">10</span>));  <span class="com">// 1000</span></code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

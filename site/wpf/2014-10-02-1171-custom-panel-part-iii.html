@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,95 +56,40 @@
 					</div>
 
 					<p>When creating a custom panel and <a href="http://wp.me/pZhye-2r9">overriding the measure and arrange methods</a>, your custom panel can make use of a child element&#8217;s <strong>DesiredSize </strong>property when deciding what size to make each child and where to arrange them.</p>
-<p>The code below arranges child elements vertically, like a vertical <strong>StackPanel</strong>, stretching each child to fit the panel&#8217;s full width, but using each child element&#8217;s <strong>DesiredSize.Height</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyPanel : Panel
-
+<p>The code below arranges child elements vertically, like a vertical <strong>StackPanel</strong>, stretching each child to fit the panel&#8217;s full width, but using each child element&#8217;s <strong>DesiredSize.Height</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyPanel : Panel
+{
+    <span class="kw">protected</span> <span class="kw">override</span> Size MeasureOverride(Size availableSize)
     {
-
-        protected override Size MeasureOverride(Size availableSize)
-
-        {
-
-            // Tell child they have as much height as they want
-
-            Size childSize = new Size(availableSize.Width, double.PositiveInfinity);
-
-
-
-            // Calling Measure causes each child to set its DesiredSize property
-
-            foreach (UIElement elem in InternalChildren)
-
-                elem.Measure(childSize);
-
-
-
-            return availableSize;
-
-        }
-
-
-
-        protected override Size ArrangeOverride(Size finalSize)
-
-        {
-
-            Size childSize;
-
-
-
-            double top = 0.0;
-
-            for (int i = 0; i &lt; InternalChildren.Count; i++)
-
-            {
-
-                // We force each child to full width, but let it
-
-                // be at desired height
-
-                childSize = new Size(finalSize.Width, InternalChildren[i].DesiredSize.Height);
-
-                Rect r = new Rect(new Point(0.0, top), childSize);
-
-                InternalChildren[i].Arrange(r);
-
-                top += childSize.Height;
-
-            }
-
-
-
-            return finalSize;
-
-        }
-
+        <span class="com">// Tell child they have as much height as they want</span>
+        Size childSize = <span class="kw">new</span> Size(availableSize.Width, <span class="kw">double</span>.PositiveInfinity);
+        <span class="com">// Calling Measure causes each child to set its DesiredSize property</span>
+        <span class="kw">foreach</span> (UIElement elem <span class="kw">in</span> InternalChildren)
+            elem.Measure(childSize);
+        <span class="kw">return</span> availableSize;
     }
-
-</pre>
-<p>We can use the panel as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;loc:MyPanel Margin=&quot;5&quot; Background=&quot;LightGray&quot;&gt;
-
-        &lt;Label Content=&quot;I'm child #1&quot; 
-
-               Background=&quot;Thistle&quot; /&gt;
-
-        &lt;Label Content=&quot;I'm child #2&quot; 
-
-               Background=&quot;Lavender&quot; /&gt;
-
-        &lt;Label Content=&quot;Third kid&quot; 
-
-               Background=&quot;Honeydew&quot; /&gt;
-
-    &lt;/loc:MyPanel&gt;
-
-</pre>
-<p>The panel at runtime looks like:<br />
+    <span class="kw">protected</span> <span class="kw">override</span> Size ArrangeOverride(Size finalSize)
+    {
+        Size childSize;
+        <span class="kw">double</span> top = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; InternalChildren.Count; i++)
+        {
+            <span class="com">// We force each child to full width, but let it</span>
+            <span class="com">// be at desired height</span>
+            childSize = <span class="kw">new</span> Size(finalSize.Width, InternalChildren[i].DesiredSize.Height);
+            Rect r = <span class="kw">new</span> Rect(<span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, top), childSize);
+            InternalChildren[i].Arrange(r);
+            top += childSize.Height;
+        }
+        <span class="kw">return</span> finalSize;
+    }
+}</code></pre><p>We can use the panel as follows:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">loc:MyPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"LightGray"</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="I'm child #1"
+           Background="Thistle" /&gt;
+    &lt;Label Content="I'm child #2"
+           Background="Lavender" /&gt;
+    &lt;Label Content="Third kid"
+           Background="Honeydew" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">loc:MyPanel</span><span class="xml-tag">&gt;</span></code></pre><p>The panel at runtime looks like:<br />
 <a href="https://2000thingswpf.files.wordpress.com/2014/10/1171-001.png"><img class="alignnone size-full wp-image-9379" src="data:image/png;base64,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" alt="1171-001"   /></a></p>
 
 <div class="wpcnt">

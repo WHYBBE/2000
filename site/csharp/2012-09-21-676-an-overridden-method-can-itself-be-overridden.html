@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,57 +56,28 @@
 					</div>
 
 					<p>To get <a href="2011-06-15-346-polymorphism.html">polymorphic behavior</a> for a method in a derived class, you <a href="2012-09-20-675-polymorphic-behavior-requires-virtual-override-combination.html">need to mark</a> the method in the base class as <strong>virtual</strong> and the method in the derived class as <strong>override</strong>.  This allows the method in the derived class to be called at runtime, even when referenced by a variable whose type is the base class.</p>
-<p><pre class="brush: csharp;">
-
-    public class Dog
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">virtual</span> <span class="kw">void</span> Bark()
     {
-
-        public virtual void Bark()
-
-        {
-
-            Console.WriteLine(&quot;  Dog.Bark&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"  Dog.Bark"</span>);
     }
-
-
-
-    public class Terrier : Dog
-
+}
+<span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">void</span> Bark()
     {
-
-        public override void Bark()
-
-        {
-
-            Console.WriteLine(&quot;  Terrier is barking&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"  Terrier is barking"</span>);
     }
-
-</pre></p>
+}</code></pre>
 <p>The <strong>Bark</strong> method in <strong>Terrier </strong>overrides the version in <strong>Dog.  </strong>But the <strong>override</strong> method also indicates that the <strong>Bark</strong> method can itself be overridden in a class that derives from <strong>Terrier</strong>.</p>
-<p><pre class="brush: csharp;">
-
-    public class JRT : Terrier
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> JRT : Terrier
+{
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">void</span> Bark()
     {
-
-        public override void Bark()
-
-        {
-
-            Console.WriteLine(&quot;  JRT is barking&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"  JRT is barking"</span>);
     }
-
-</pre></p>
+}</code></pre>
 <p>The <strong>Bark </strong>method is now polymorphic across all three types.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/676-001.png"><img class="alignnone size-full wp-image-5781" title="676-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAW8AAACWCAMAAAAmCPlDAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAeNQTFRFAAAAKCgoKChbKCh/KE9bKE9/KGp/QygoVikoQyhbVilbVil/Q08oVlAoVmopZFAobmspVmpcQ2p/ZFBbeH5cZH5/KE+ZKGqZKGqsQ0+ZVlCZQ36ZQ2qsQ36/W6V/X6p6Xah8eI1/Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUVo2/XZOgV6GDWaOBWKKCbpyZeJyZZYSkaI6yapisbJiubp2sZJu/aZKxcJO2caKqeK2sfaK5eK2/Vo3WZJvWd5zBeJ3Cbq3We6HHf6fOeK3WhI1/hJyZgpmvg564hJ+6iJ2+iZ+9hK2siq+qhK2/iqG8i6S7jae6jbOlj7Wji7GonaOrnaWukbehpqqurK+0uLu/ury/g6zUhK3WmrHLnbfJsrjBsrnCur3Au77Bvb/Cvb/Dp8u+rdO3sdeyosLDvsDDv8LFwMDAwMHEysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////DxUe4QAAAAlwSFlzAAAOwwAADsMBx2+oZAAACadJREFUeNrtnIl72zQUwO0WSDhrqCnhCPd93zDuy93G6nCVct9kDMY5DLTAWDcYZYwBGxtsZQP+VKT3JFmWZcdJHDdp3vu+NY0sPz39/PQkvWp2/iOpUhxCQLyJNwnxJt4kxJt4E2+Synn/S1KJOIL2P0xOkAxcgDejfXz12JHDJAMX5H1i9dCBlT27SQYuwr9XN5BUIg7gPn5oQ5ukCkHeqweId5W8j60Q7yp5H9lDvCvkfeLwbuJNvIk3CfEefd7PPKXL0+8SpcHyfmvxK5DFxcX3t21780miNFjeH63+Gcvq9o2i2HMnznWbbX9ys6EDS7yZuXZ7YarBf7iuy7/hbTP31oK2rJAj8/VmO2R3Tszm1fJmHquzSm7Kih4lnDgDVfkTD01lKYVuoY2s6WZGDd8NDN2CAweCqudtvL/49tnnXnjxpW9WlpdXtm6VvEOhLcUbjeG02u0WQxvyNhamZxXFVjHe4cQsWOwH+Q8FWmJdaPZIONkBb+Yy6NjCVI55knerxj5bF8X8009Et/W0WWYvK/cmN8/XOZQp18Z7x877Hn7gwUeX9nLe7ynewu9SvFun8gshFPszc9CCRnFyc0HeXiO3z0odPtm2lz8OCvKerwdocKuW8/wkTV+0WYy3bI21gfj8yXtsvN/Z+fj9d9x629KPy7tWPvtY8Pb42OCRAczl3wJhYxxIwMmlTTggeLnGO8Th6MPHwtQpdTfgQ5RrYLUW1IDGClCdFYUskGGY4eoE71AqkiPWDcA06OCFdf4VRzFvIFYigp0wBHrjwW1Mv7JQhMUG6m3GvHGMt2q8VLYGlU4+s4EeGRqxjlWAcoTQsvO+9oqrrr9lae+u5ZVPPtX9uyV4cwuZgcA7DiRYx5OtAW9eHvOGcIOPhF1ldgZI8II5tLxVw4clKrS9AAZkyHqAvs8VCN78Avdx/gkPytd4g3LeXkNc54SFEmwIDEGQIZjBrigLFe/W+XPcGMlbRjH4LlvDxl3k7UtdelzHp97M5n3l1dfdeDfz7+WV776z8AaAotsizqg504gJsnN4EeuKAIzhQ6qRA4Q7h6zQlrdBWOf3+vIq8MbxxZSKWBfzFhT5zVDI60glPjj7rAjIAT45UKUsVLxFnThaeK4ctao1UAxuMTErY5OagjzRYD7va26+6a5LIX4fPWrhzceMmqe9BhjYxGBozDtQHvNm/tEQw9F1G9gLH4cfzgJtcHFZQUQxhMB/gDrFu4lwmHoxNcS8m8IP2AUPdIlnEoruoyEw37RhPvNFbbwQ8wZTNN7o4gne8MlLQm550I5dkZVKJ8nnfcOdF19y+dL3jPfBn228takqDiRCcWIe00IXxnlmfyAfv+gFdlHNpmwmFwvINkzqnsYbflHxOyjGWyhO8EZDYlW3gynKQsXbh1kqSMyGnogvnXmD/QkIVt4ffP38qy+/8saXjPcPB36yxpNm5uIb10zxamsOx1psBF9AN5JzOgzEpnIgVQFdWuMt1DXF+k3FEz8O+7j40njL+dvgrUUPpvEkoCEejTfzBEa6hgzvCd4ynsvWhBOk44kWkOT6zcr77b/379//+2+//PHXwV/37bPwhmEyfzrnHgcSFRJ8GJHTPGBiOU7r3O9DHIoen1Sm0Wo+V/IhA04yPYvrDlGB8wy1eILqgOZ8HXor5ktwJD/g9Vs1g3erxlcdDY23ZkhDRmXpNeICxHnWD493NubtN9FpIWjGrfFRaJkvZYhEFwANVt6vb0fZ8fmH7Odrm9LrE7FMYi0ai2+1reLNswEvXMkXiyS54fKgAvKuw1JPzAJyWvBU+J48K+aN6mCP5zbUKlXMsy701p042+ANIVjGohAekMv2ONwQ4Q7croaamsFCucTj954TxxPeD+hAyM0UrUGl86bEE/XjvbWY5gLQJlzdxnvLpo2abNqSv72eS+4wC20CUqLN6J13HaWJX1ZSoLJ8rLn47oFi8Z4XV1dMSn9+lP+mvzcQb+JNvIk3CfEm3iTEe7h5P0IySEnzdkgGKTbeERP4wT7Upyl6oe26Y7sl92JUoCijMHm9oDn59iktvesryhsbRthOhD9yrbMbFHXF23Y1WRQVe7jgK/3z1r5VyjuzuQL97qO3Nocr3m4ZhDJ59+Xv3fOW4yvSfzHKHUsc0suT6uV98p+hX4sTUey/kfq0PBdDjzkW9XbVZcN+rf1k+eB4ayAcm73qkt7vnGGRuM1W31qe9m9VUWduGpilR/8et5vsqNE/s7ulxhOz/8V5y/k1Mz504p0YFzm8Hd3Be+YdmQ7uJP06xbuUiTOXt81R8/w77SS9+bc1DKd5Z9crwNvSvXS3Df8eRPzuh7eNXxZvJx3Hczk5cZztyDs1bqzzSPe84wmhxPitDbPEvJO2N7LFg8x5RQxIoxtOZnuR+cCS9RLNJOZD046MhZ6KR5odyThlBrgyVj197y/LWn4NSobMvv738+XuvwYBfJjso/zJ8PHulE+JomL5ELN8uMfFGvp3h3xKRvok6nKfTLyzF0p9ZAPHkXKZvC3rLye5TzPzFIl1X5S5/ht73tZ8SmZ+wdiT6At2o9i+vxlT3p3yKY6TUaz7cZTIM5npIuKdu3/P4J2x8U/dRv5dCu9OeSNLIiqdTyHeTqF8iqVczz/oeYqEHktOkObLscxzrP/9/FiEE8qfrDXvAn83KuSHdD6lIO+s8ybd7sjpfErBeFJSGKXzKd3xTm8LnYxzJo7t74N0PqU73sl9fJQ6p5G6nrk/ovMpxXhnObhxHiPbP+h8Spf+nREXk+5p+WMPnU/pL55k8banw+l8Sle886e5VL7E8tdMOp+yhvtLOp9S8X6ezqdQ/mSI81Ul5FPofEo3vPvPp9D5lK7iyYC6PZ7nU4rzLiOfYkuMjtf5lMK8e82nOHQ+pUfeveVTHDqf0rN/95JPceh8St/xpJt8ikPnU7rjXUY+hc6njNz+cnziyVjmOYj3+t3vjP77T8o4z9HhvrLOn5gLg1F7/0lp52c63Vfa+ZMRf/9JVbNqaedPRvz9J33me6o/fzLi7z8p6/yMU835k5F//0l552cqOX8y8u8/Ken8TFXnT0b+/Sf95nvW6PzJqL7/pO98z5CfPxmT/3czPPv58fh/N5Q/Wb+86f0nFfs3vf9k7XjT+0/WmDedLxkUb3r/SQW86f0na8eb3n8yPLzpfElJ8Zvef7Iu95cUTyoHTu8/ISHexJuEeBNvEuJNvIk3CfEm3iTEm3iTEG/iTbxJiDfxJiHexJt4E2/iTbxJiDfxJiHexJt4E2/iTbxJiDfxJiHeQyL/A62XlpySu98HAAAAAElFTkSuQmCC" alt=""   /></a></p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/09/21/676-an-overridden-method-can-itself-be-overridden/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5770"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/09/21/676-an-overridden-method-can-itself-be-overridden/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/09/21/676-an-overridden-method-can-itself-be-overridden/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>

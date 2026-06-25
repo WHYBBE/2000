@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,33 +57,21 @@
 
 					<p>Assigning a struct to a new variable will <a href="2011-05-18-327-assigning-a-struct-to-a-new-variable-makes-a-copy.html">make a copy</a> of the contents of the struct.  After the assignment, two copies of the struct will exist, which can be changed independently.</p>
 <p>If the struct contains any reference-typed fields, only a reference to an object is copied.  Both copies of the struct will then refer to the same object.</p>
-<p>Assume that we define the following <strong>struct</strong>:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public struct MovieInfo
-        {
-            public string Title;
-            public int Year;
-            public Person Director;
-        }
-</pre>
-<p>If we make a copy of the <strong>MovieInfo</strong> struct through an assignment, the <strong>Director</strong> field in the two copies will point to the same <strong>Person</strong> object.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            MovieInfo goneWithWind;
-            goneWithWind.Title = &quot;Gone With the Wind&quot;;
-            goneWithWind.Year = 1939;
-            goneWithWind.Director = new Person(&quot;Victor&quot;, &quot;Fleming&quot;);
-
-            // Actually makes a copy of entire struct
-            MovieInfo goodClarkGableFlick = goneWithWind;
-
-            // Change director's name
-            goneWithWind.Director.FirstName = &quot;Victoria&quot;;
-
-            Console.WriteLine(goneWithWind.Director);            // Victoria Fleming
-            Console.WriteLine(goodClarkGableFlick.Director);     // Victoria Fleming
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Assume that we define the following <strong>struct</strong>:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">struct</span> MovieInfo
+{
+    <span class="kw">public</span> <span class="kw">string</span> Title;
+    <span class="kw">public</span> <span class="kw">int</span> Year;
+    <span class="kw">public</span> Person Director;
+}</code></pre><p>If we make a copy of the <strong>MovieInfo</strong> struct through an assignment, the <strong>Director</strong> field in the two copies will point to the same <strong>Person</strong> object.</p><pre class="code-block language-csharp"><code>MovieInfo goneWithWind;
+goneWithWind.Title = <span class="str">"Gone With the Wind"</span>;
+goneWithWind.Year = <span <span class="kw">class</span>="num">1939</span>;
+goneWithWind.Director = <span class="kw">new</span> Person(<span class="str">"Victor"</span>, <span class="str">"Fleming"</span>);
+<span class="com">// Actually makes a copy of entire struct</span>
+MovieInfo goodClarkGableFlick = goneWithWind;
+<span class="com">// Change director's name</span>
+goneWithWind.Director.FirstName = <span class="str">"Victoria"</span>;
+Console.WriteLine(goneWithWind.Director);            <span class="com">// Victoria Fleming</span>
+Console.WriteLine(goodClarkGableFlick.Director);     <span class="com">// Victoria Fleming</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

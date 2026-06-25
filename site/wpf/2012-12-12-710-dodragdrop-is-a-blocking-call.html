@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,37 +56,17 @@
 					</div>
 
 					<p>When you initiate a drag-and-drop operation by calling <strong>DragDrop.DoDragDrop</strong>, control will not return from the <strong>DoDragDrop</strong> method until the drag-and-drop operation has completed.</p>
-<p><pre class="brush: csharp;">
-
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-
-        {
-
-            DataObject data = new DataObject(DataFormats.Text, ((Label)e.Source).Content);
-
-
-
-            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
-
-
-
-            // Not called until drag-and-drop is done
-
-            ((Label)e.Source).Content = &quot;DragDrop done&quot;;
-
-        }
-
-
-
-        private void Label_Drop(object sender, DragEventArgs e)
-
-        {
-
-            ((Label)e.Source).Content = (string)e.Data.GetData(DataFormats.Text);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Label_MouseLeftButtonDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    DataObject data = <span class="kw">new</span> DataObject(DataFormats.Text, ((Label)e.Source).Content);
+    DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+    <span class="com">// Not called until drag-and-drop is done</span>
+    ((Label)e.Source).Content = <span class="str">"DragDrop done"</span>;
+}
+<span class="kw">private</span> <span class="kw">void</span> Label_Drop(<span class="kw">object</span> sender, DragEventArgs e)
+{
+    ((Label)e.Source).Content = (<span class="kw">string</span>)e.Data.GetData(DataFormats.Text);
+}</code></pre>
 <p><a href="http://wpf.2000things.com/2012/12/12/710-dodragdrop-is-a-blocking-call/710-001/" rel="attachment wp-att-6185"><img class="alignnone size-full wp-image-6185" alt="710-001" src="data:image/png;base64,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"   /></a><br />
 <a href="http://wpf.2000things.com/2012/12/12/710-dodragdrop-is-a-blocking-call/710-002/" rel="attachment wp-att-6186"><img class="alignnone size-full wp-image-6186" alt="710-002" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbMAAAFoCAIAAABSdoI8AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAD5ZJREFUeNrt3FuMXHUdwPF5M7HxTQwxPhkTSyD1Ae8PitAHlKq1GLFVgrdEbOotXqKkoHgJSEUBrQIKpQUEK4ItEi6lFBYNclEBBe/Geu92l25b2pntFvF/5syc+Z8zZ7czuzt0d8/nk9/Ddm5ndjL99v+fM1B7FoC8mpcA4Ahl/B9A9UxaxvTqZyKHARauOHeFPtayLKZXT0xMjI+PNxqNer1+EGDhCpULrQvFC93L+lgsYyhouMWBAwfGxsZGRkaGh4d3ASxcoXKhdaF4oXuhfqGBJWUMvQzXXXDNm40xpmoT6ldcM6ZZDOvJEM5wiy2Pvc8YY2Z9Hli+fC5M9xML3Qv1S/fUaRxr8YIxrCqV0RhTwTKG+h06dKikjI1GI2y5ldEYU8Eyjo6OhgaWlLFerw8PDyujMaaCZQz1Cw0slvHw4cMHDx7ctWuXMhpjKljGUL/QwOz0tDIaY5RRGY0xM57FU6pcGa+57RNX/OjTvcyGn378J78+yxvIGGWceRnT7xhOfcnRLONNt2x95NEnHnn0t13zxC8fS2brnUNb77gvzA8233z90EpvIGMWahmncdVMFnpxCmeSxYGUcfu99zXGx+uNI0y4zbZ77rtm+xneQM/xXHJu8V/vNTcO9o69zekfPa7w8EsvGdzrsG3ZO8qPtfL8VYsXr10xzRd21bIN3mNHr4xZEGeYxYGU8d6hod//8R8XXnXP1zZsv2jj3euu23bxDXc9+eRfnxod+fvOnWFGR0eu3PJwGGU8amWM/gJvWP+6pAw9/JWe9h17L+Py9dkeolmoxfEls1/GdtnTKKdxVMb5XcaZrxYHVcYd9w394U//PvsbWz9y2ZY1l9/8satu+uSmzY899qenRobjMl51+4PKOBfKmMwPlx7XQ4OmfcdplTFbpb72/LsGXca08umBlNGacTBlvOvuHaGM5266c/XlN535rWtWrr9i5RXfbpZx987E30IZNw3df8PD9yjjXCljumjKLsztNDthmvqOzbgsXbO2eaekLK1FXypOXrQrb96+9ZglZYzKmwZr6Zrjol1889qu7XD6OMvWZNeV1qqkjKVrxkl/i/yrlNw3en1a90ofP/p9B1P5wZ8z8TnjrJXx9HVXvfnCb731m5csX//106+8MF0zhiyma8Yf/+b2Lb/bqoxzpozp395mGvLLwM7lR7pja3OdNSWEo33jaEWWWwbm9+NlZUzLG3U237Lsj81ro8fpXJX2q3sNGJex+XP70HEZ8/9gNF+ZsocNd8mVset3zF7A11WtjM5NF8t42rrL3nbpN97x3XXv/P4F7970pXTNmO2mn/jPE2GUce6VMU5McZPbQxknWRNlGco1qKRoRyhj5+jZ5d2lK14Vt2nSMzCdR+6Usfs3yrWv9KVYteySXLJtsX3TO1/Gt3/74tOv+Nq7rv7qymvPP/PGtaGMo9HnjOONehhlnFtlTC7szlOnFFPesSxA+foksUiWXeWtmaKM0W56ReleOH/LrsfpOmj3I6Qb3uYfp/p9279j6VPt7JpzT6z9IszqeXxlnLdlfOf3Ljhj45ffc/0Xztp8zgdu/mwo48judhlHRp5+ev/Ynj3KOLc+Z0xy0G8ZOwu0Qhlzu90sQ/2WsbOBHWwZi4vTmZWxe/Pe+txgoN9DUsa5Xsbt9z7+279cdMvmdVtuvPjW679527WX3r7xoYcez8o4snv3vr1jo6OjyjhHylg8M9vzbjreb+bLmA9ZFrhij6beTcfXFk6M9LGbjj8q7auMk++mu1+l6NpJz9eX99RUpYx3bNsxMXFo396n9o0ls3/fvv37xvbv3VM/eKBRPxhWi3v37t2z56kwyjgXypiudDp/Y3s+A1O4Y2HNGN0xPnmS/ty62ZRnYNITKVmYil+m6fUMzGSd6mE3PdUZmNzDFs/ApM+t/c9J+6xLyTrXVKmM126+OiSve7bfe/+OoZ9v3zGUXbLphquVcQ78NzBd66nyb8Mc4Y7FzxmjDxmXr13a9bXq1nmP89cWi9aR25OWfM2wvUUtnEJpFrZ5xJKv2kz638BMluDcs8p1LX6Vuk7LtF6rtSviF82CsdJl/NFDZ4be9Tjhxt4KFZ7pf626r2+MGzPz8X8hM8/RTPVFH2U0ymiqtUhcPND/JkQZjTIaY4wyGmOMMhpjjDIaY4wyGmOMMhpjTJXK+N2tK4wxZmHMbJbxWYD5TxkBlBFAGQGUEUAZAZQRQBkBlBFAGQGUEUAZAZQRQBmVEVBGZQSUURkBZVRGQBmVEUAZAZQRQBkBlBFAGQGUEUAZAZQRQBkBlBFAGQGUURkBZVRGQBmVEVBGZQSUURkBlBFAGQGUEUAZAZQRQBkBlBFAGQGUEUAZAZQRQBmVEVBGZQSUURkBZVRGQBmVEUAZAZQRQBkBlBFAGQGUkYEba5hZHpRRGZXRKKMyKqMyGmVURmVURqOMyqiMymiUURmVURm1TBlRRpRRGVFGlFEZUUaUURlRRpRRGVFGlFEZUUaUURlRRpRRGVFGlFEZUUbmdxn/duVbFtUySy782d6ZROSBzxzTebDaylv+OYhU/fG6U189w+epjMqojMp4hDK+9osPNdI//mbDsufX3nP97pmUsXP3bZ9/0YxTq4woI0e7jGkcX/WVR3fNRhnTOL5r8z5lRBmZ32XMupNE7aL1py6qnRBCGS5s77mz0iVLwvSScLNWqoplHBtae0yyp24e5dJPHdO6e7SFb++4mw29q7UZL1tplh2u+fitB3pF67doPv8fXh4Wv9GFreXwNPf4KKMyKmOnjCWFal+bhKZ9bXTLKcq4qJ2k5OcT2svScN/052b4WvfNLoxXsiWHS7LYPlzS7ubPzYind0/u1TxovBCexjIWZVRGZbzu1LOSmhQKki3Z0n7lru1sb0vK+IYkSfFRHvjMSVFw4yVqyQNmRz+58ySjOr83/wyTR4jvG1c+ckKfHxegjMpY9TLGi7h449yuSdq+/L0mLWOyPGxvn2dSxvLD9VXGmXzciTIqY6XLGO+go5pkgetsYLON6uS76cIOOjvK5Lvp6AFLdtPdh5tsN91VxngzrozKqIzK2Of3GaOzE7l1VnaiY+XqD7Xa17lj/gxM6aa1sDKNbhafgfnw6mMmPUlSerjovEr+DEyhjPlPA16R+/RAGZVRGZVxINM6zTKjBxnI93t8a0cZlZGjVMZor62MKCOVLmPni4R9n+pVRpSRCuym/R8lUEaUURlRRpRRGVFGZVRGo4zKqIzKaJRRGZVRGY0yKqMyKqNRRmVURmU0yogyoozKiDKijMqIMgIoI4AyAigjgDICKCOAMgIoI4AyAiijMgLKqIyAMiojoIzKCCijMgIoI4AyAigjgDICKCOAMgIoI8+h2qErzeyON5UyKqMyGmVURmVURqOMyqiMymiUURmVURmNMiqjMiqjlikjyogyKiPKiDIqI8qIMiojyogyKiPKiDIqI8qIMiojyogyKiPKiDIqI8rI/C7jBbXTnlfLLFlR23/0GrRxSe2r5ykjyshcKONLa498p9Om2mtqo5Pc+M8frL2mt3Se84LaTZcpI8rIgijj1HlSRpSRipYxy1+yfkw1V5Hh8kXtC0L1Cn8sZDHem09xy2Q+V3tR+yiXtcuYJHJVcvnK1eV3zw6xblWvsVZGZVRGZZyFMnYv5UrXjKUXZmvGpGsvaT9+iOBLcsdKP+VsrRObiczK2L2pj5OdfR4aDrREGVFGnoMyvm91fjXXXLt1RzBbuHVXLCvj/aflNsjF/fLnam+KHnBjvGY8r2QRmh4o3qr3vsFXRmVURmWcfhlDd5IqReu7ULfuMrZulgZ0umUsdK20jMUD5Z+wMqKMDLyM2eY02QW3excuLJaxuQvO2jfFmrGX3XRrAZjfTbdqWHagcG36fKaxmz72xbWfn6uMyqiMytjP9xmz4sR72LNPal/evnFIVdKp9C4nlawZ02vTZmW3LD0D0znBUjgDc17uoXIHip5zv2dgQhlPPrHfOHpTKaMyVq2M83yynX7PZUxeoj7j6E2ljMqojPNo4s14H2XsN47eVMqojMo4H9aJmX6/Gd4uY19x9KZSRmVUxgU9URl7j6M3lTIqozJWqIw9xtGbShmVURmrVcZe4uhNpYzKqIyVK2NjfGLqOHpTKaMyKmPlyhiMje2fIo7eVMqojMpYxTIG//3v8GRx9KZSRmVUxoqWMdi58x9JHJVRGZVRGStbxqefrrdesVDDeJRRGZVRGatZxpDF2qIX3vrTu5NX7JQTaz/5pHPTyqiMyljpMqZZTD5SPP7lrU308S9XRmVURirq2GNfFrK4aNGxv3jwkfDH05adMTT0YPrD1lvv8PooozJSRSef8tYsi0H4YfHiV4Yfnnzy90uWvN7ro4zKCM+mq8WQxfDDiSe+0auhjMoIiX/96z9h2fj+D6z51a8e92ooozICyqiMgDIqI4AyAigjgDICKCOAMgIoI4AyAigjgDICKCOAMgIoI4AyKiOgjMoIKKMyAsqojIAyKiOAMgIoI4AyAigjgDICKCOAMgIoI4AyAigjgDICKKMyAsqojIAyKiOgjMoIKKMyAigjgDICKCOAMgIoI4AyAigjgDICKCOAMgIoI4AyKiOgjMoIKKMyAsqojIAyKiOAMgIoI4AyAigjgDICKCOAMgIoI4AyAigjgDICKKMyAsqojIAyKiOgjMoIKKMyAigjgDICKCOAMgIoI4AyAigjgDICKCOAMgIoI4AyKiOgjMoIKKMyAsqojIAyKiOAMgIoI4AyAigjgDICKCOAMgIoI4AyAigjgDICKKMyAsqojIAyKiOgjMoIKKMyAigjgDICKCOAMgIoI4AyAigjgDICKCOAMgIoI4AyKiOgjMoIKKMyAsqojIAyKiOAMgIoI4AyAigjgDICKCOAMgIoI4AyAigjgDICKCOAMiojoIzKCCijMgLKqIwAygigjADKCKCMAMoIoIwAygigjADKCKCMAMoIoIwAyqiMgDIqI6CMyggoozICyqiMAMoIoIwAygigjADKCKCMAMoIoIwAygigjADKCKCMURmNMWZhzKyV0RhjFvAoozHG9FzGZ555pl6vDw8PK6MxpoJlDPULDQwlLJax0WiMjIwoozGmgmUcHR0NDSwp4/j4+NjYmDIaYypYxlC/Q4cOlZRxYmLiwIEDymiMqWAZQ/1CA3NljJeN4RbGGFO1CfXLspgr4+HDh8N1IZxhVRm23MPDw7sAFrQQupC7EL2QvhDA3LnpbM2Y7qnDZrvRaNTr9YMAC1oIXchdiF66lS7uptM4Zn1MHQZY0OLipQ3M7aYLfQSomriE/we3otWbMPJP2wAAAABJRU5ErkJggg=="   /></a></p>
 

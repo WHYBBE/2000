@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,34 +58,26 @@
 					<p><strong>Singleton </strong>is a design pattern that you can use when you have a situation where you want to limit a particular class to have at most one instance.</p>
 <p>A singleton behaves similarly to a static class in C#, but has some advantages, in that it behaves as a traditional object.  (E.g. Can implement an interface, or be passed to a method).</p>
 <p>Here&#8217;s a common (thread-safe) pattern for implementing a singleton in C#.</p>
-<p><pre class="brush: csharp;">
-    public sealed class DogFactory
-    {
-        // Instance created when first referenced
-        private static readonly DogFactory instance = new DogFactory();
-
-        // Prevent early instantiation due to beforefieldinit flag
-        static DogFactory() { }
-
-        // Prevent instantiation
-        private DogFactory() { }
-
-        public static DogFactory Instance
-        {
-            get { return instance; }
-        }
-
-        // Actual methods go here, e.g.:
-        public Dog CreateDog(string name)
-        {
-            return new Dog(name);
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">sealed</span> <span class="kw">class</span> DogFactory
+{
+    <span class="com">// Instance created when first referenced</span>
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">readonly</span> DogFactory instance = <span class="kw">new</span> DogFactory();
+    <span class="com">// Prevent early instantiation due to beforefieldinit flag</span>
+    <span class="kw">static</span> DogFactory() { }
+    <span class="com">// Prevent instantiation</span>
+    <span class="kw">private</span> DogFactory() { }
+    <span class="kw">public</span> <span class="kw">static</span> DogFactory Instance
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> instance; }
+    }
+    <span class="com">// Actual methods go here, e.g.:</span>
+    <span class="kw">public</span> Dog CreateDog(<span class="kw">string</span> name)
+    {
+        <span class="kw">return</span> <span class="kw">new</span> Dog(name);
+    }
+}</code></pre>
 <p>To use the singleton, you use the <strong>Instance</strong> property:</p>
-<p><pre class="brush: csharp;">
-            Dog d = DogFactory.Instance.CreateDog(&quot;Bob&quot;);
-</pre></p>
+<pre class="code-block language-csharp"><code>Dog d = DogFactory.Instance.CreateDog(<span class="str">"Bob"</span>);</code></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

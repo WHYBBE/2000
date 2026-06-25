@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,57 +57,28 @@
 
 					<p>Although not very common in user interfaces, you can use the <strong>MouseButtonEventArgs</strong>.<strong>ClickCount</strong> property, available in the <strong>PreviewMouseDown </strong>or <strong>MouseDown</strong> events, to detect a triple click.  (You can also detect right vs. left mouse button clicks using the button specific events, e.g. <strong>MouseLeftButtonDown </strong>and <strong>MouseRightButtonDown</strong>).</p>
 <p>In the example below, double clicking on the <strong>Label</strong> does nothing.  But a triple click, with either button, toggles the background color of the label.</p>
-<p><pre class="brush: xml;">
-
-    &lt;StackPanel Margin=&quot;20&quot; &gt;
-
-        &lt;Label Content=&quot;Triple-click on me&quot; Margin=&quot;20&quot;
-
-               MouseDown=&quot;Label_MouseDown&quot; /&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"20"</span> <span class="xml-tag">&gt;</span>
+    &lt;Label Content="Triple-click on me" Margin="20"
+           MouseDown="Label_MouseDown" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p>In the event handler, we check <strong>ClickCount</strong> and change the <strong>Background</strong> of the <strong>Label</strong> if it&#8217;s equal to 3 (a triple click).</p>
-<p><pre class="brush: csharp;">
-
-        private bool colorToggled = false;
-
-
-
-        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
-
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">bool</span> colorToggled = <span class="kw">false</span>;
+<span class="kw">private</span> <span class="kw">void</span> Label_MouseDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    <span class="kw">if</span> (e.ClickCount == <span <span class="kw">class</span>="num">3</span>)
+    {
+        <span class="kw">if</span> (!colorToggled)
         {
-
-            if (e.ClickCount == 3)
-
-            {
-
-                if (!colorToggled)
-
-                {
-
-                    ((Label)sender).Background = Brushes.Blue;
-
-                    colorToggled = true;
-
-                }
-
-                else
-
-                {
-
-                    colorToggled = false;
-
-                    ((Label)sender).Background = null;
-
-                }
-
-            }
-
+            ((Label)sender).Background = Brushes.Blue;
+            colorToggled = <span class="kw">true</span>;
         }
-
-</pre></p>
+        <span class="kw">else</span>
+        {
+            colorToggled = <span class="kw">false</span>;
+            ((Label)sender).Background = <span class="kw">null</span>;
+        }
+    }
+}</code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/10/659-0011.png"><img class="alignnone size-full wp-image-5695" title="659-001" src="data:image/png;base64,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" alt=""   /></a><br />
 <a href="http://2000thingswpf.files.wordpress.com/2012/10/659-002.png"><img class="alignnone size-full wp-image-5694" title="659-002" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVkAAACiCAMAAADcDk6HAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAelQTFRFAAAAAAA4KCgoKCg5AABqKChFKEVFKEVOKEZOKFpFKVpOKFpUXCgoXGlUXGlaAACVAAC6AADaAAD/W6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5gCgogEUogEYogFo5m0Uom0Yom0U5rloormk5gFpFm0VFm0ZFgHRUgHRagHRim39ipmtLrnRFuXdTwWk5x1BQwnRFwn9OxH5YxX9Z2XRF2X9OroxaroxirYh1uIlwuYpxwYxUyoJb0Ydf2YxU2YxawYxi14th2YxiiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqCeqKGepqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+vr6+/v7/Pz8/f39/v7+////JmFE7AAAAAlwSFlzAAAOwwAADsMBx2+oZAAABeNJREFUeNrt24l3GlUUBvA3lJhUIgx1X+u+b1WJuJVEiTbEvQVx3zW1WvctUdMmaCU1ohaDlglL/lLvvW9mgAnKNExSYr7vnDLbmwn85s19D86pWkM2JwoEkIUsAtktkm0iAWS9bLPZoNSRPsKCLVtbllxrVrWygvSRStWqka1Htm6VS8XCItJHCsVS2ap7ZRvWBBJALE+fbTZq5Yk80pnJM4k+ZaJcc2gdWasE2SBkS6te2WoRskHILlW9spUCZIOQLVQ8svWVRcgGIbu4UocsZLcoITebJ/vs0+155gXIullba71uQPa92W8ls7OzHx458u7zO0R23crkv9B2g/Un+7H1VyvW0QO931UyFJVldmzXuJ9PMT069JSsZEKRHg25E0UHR3aSuTZcDb7+4cWXXnn1te+LCwvFw4f9yQ7nNJRf2VBK7kSip2zqvw4f2hfdatnuPdav7Pytd95+x11zJ1j2A3+yWirpX1ZuBS23m2xffXZm/u7bbrz+hrmfF44Xv/jUl+w590bE4UGW5UeYlvKx+SU7FgrR039onyzyrYZ03j0RfWNIeHo0yr14ONfRUN8x3szQ3UtLbcgmzk3wGRkuFSnq+E5z/+PU2amzM/NXXHzpVdfNnTi+UPzsc1+yww+wVHroUVpkuC6ShSubHM5lH6LNiLhpsEdoiw6el+Cd5EKscpCWnQ1Tusqk5JJpuTxbRmWf/InkSC77cACyWzA3mJm/5LIrr76F+uxC8dgxf7LP0Wekz5nZNZ4dYxRad2SzY/LEp6Xf6WpBYLyZHnoyEdFsfJjdeNHRMMT9n7GdK2YTkWxiJJe39/H2tvmmMDN/+bXX3Hyh1NnTp/3J5qhHkUaGFaIyS4i4fVaPa0npD66sdNIIs4gkU+pd3oZ5uxxIAzkkZ4mo/Am/w+ZAyO696fwLLpr7kWRP/eJTdnp0P/XNrrJ67pDUz7dbPpPDj1MHb5elXU/Igdy6EYyW9NA7W52yfPmR3LaQ/ei7l998/Y23viHZn0pLPmX1/KCzGkTyeljSj39bz2IimR9k26sBnX0f1whPQ225W8pNpKtsrynEwMi+v7q8vPzH77/++fep306e9Cub4YlUpm0E0/9CUR5e5FHm4xFXgoahlPA4IxjfDj7V21CSluE/yafcP94mS6fry28L2XeO6nz51Sf0+vaUP9nsWNQeeHgyxA48e9rNI1hIprv2ZMwFy1Ab28j5npWU4x0NpbDySiTvzs9cWZ6F7U+E7Nn04MsenDrQlqmD+D3Rd/ArImQhi0AWspBFIAvZ/6vsY8iG4kMW/8NgI4EsZCGLQBaykEUgC1nIIpCFLGQRyEIWsghkIQtZBLKQhSwCWchCFoEsZCELWchCFrKQhSxkIQtZyEIWspCFLGQhC9nBld2zIwJZyEIWspCFLGQhC1nIQvbMZeOKY8h7MEzn3RjxdW/QDO+Jhe11BVlffTZsrns33WXdQBayAyCrYipOnspUKiayXCbsBrLK1YCOhPk4HVAaWknzMJ0Vtq+llBlTiu5MzNm342XFkzGIxYjHjVY3ZSdbVpda5ZRkZUp1Diu7Ea/FlTST22BCVh5wlqUFmRhxUw9sBnVBDaxldZlQNmw8rA/wFbQivyq9T+n+DFmvbOtJjsVasrpAKCPWW9ZEne2QNZ1qoNxBLN5WDcJONYh1VIMusjEDsh2y9BCbsma2HmazbQQz7BHMMJyxza6nXlkpB3F8B9uW8ynIQhay+EUGspCFLGQhu7NlEchCFrIIZCELWQSykIUsAlnIQhaBLGQhi0AWspBFIAtZyEIWspCFLGQhC1nIQhaykIUsZCELWchCFrKQhSxkIQtZBLJnVxbZUHrLIv0Eslsn26gUIBuEbKHS8MhWi5ANQnap6pW1SpANQra06pWtlSEbhGy51inLnXYCCSCWA+vK1q1yaamwiPSTwlKpbNW9fbZRW61WVpB+Uqmu1hqearDWJNtGo470EyZseqqB2CIBxPVU+DFlkwJZyEIW0fkHi4KoOLeOD1EAAAAASUVORK5CYII=" alt=""   /></a></p>
 

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,25 @@
 					</div>
 
 					<p>You may want to work with the image from an <strong>Image</strong> control as a standard Windows bitmap.  You can convert the <strong>System.Windows.Controls.Image</strong> to a <strong>System.Drawing.Bitmap</strong> as follows (<strong>imgLife</strong> is an <strong>Image</strong> control):</p>
-<p><pre class="brush: csharp;">
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            RenderTargetBitmap rtBmp = new RenderTargetBitmap((int)imgLife.ActualWidth, (int)imgLife.ActualHeight,
-                96.0, 96.0, PixelFormats.Pbgra32);
-
-            imgLife.Measure(new System.Windows.Size((int)imgLife.ActualWidth, (int)imgLife.ActualHeight));
-            imgLife.Arrange(new Rect(new System.Windows.Size((int)imgLife.ActualWidth, (int)imgLife.ActualHeight)));
-
-            rtBmp.Render(imgLife);
-
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            MemoryStream stream = new MemoryStream();
-            encoder.Frames.Add(BitmapFrame.Create(rtBmp));
-
-            // Save to memory stream and create Bitamp from stream
-            encoder.Save(stream);
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(stream);
-
-            // Demonstrate that we can do something with the Bitmap
-            bitmap.Save(@&quot;D:\Temp\Life.png&quot;, ImageFormat.Png);
-
-            // Optionally, if we didn't need Bitmap object, but
-            // just wanted to render to file, we could:
-            //encoder.Save(new FileStream(@&quot;D:\Temp\Life-Other.png&quot;, FileMode.Create));
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    RenderTargetBitmap rtBmp = <span class="kw">new</span> RenderTargetBitmap((<span class="kw">int</span>)imgLife.ActualWidth, (<span class="kw">int</span>)imgLife.ActualHeight,
+        <span <span class="kw">class</span>="num">96.0</span>, <span <span class="kw">class</span>="num">96.0</span>, PixelFormats.Pbgra32);
+    imgLife.Measure(<span class="kw">new</span> System.Windows.Size((<span class="kw">int</span>)imgLife.ActualWidth, (<span class="kw">int</span>)imgLife.ActualHeight));
+    imgLife.Arrange(<span class="kw">new</span> Rect(<span class="kw">new</span> System.Windows.Size((<span class="kw">int</span>)imgLife.ActualWidth, (<span class="kw">int</span>)imgLife.ActualHeight)));
+    rtBmp.Render(imgLife);
+    PngBitmapEncoder encoder = <span class="kw">new</span> PngBitmapEncoder();
+    MemoryStream stream = <span class="kw">new</span> MemoryStream();
+    encoder.Frames.Add(BitmapFrame.Create(rtBmp));
+    <span class="com">// Save to memory stream and create Bitamp from stream</span>
+    encoder.Save(stream);
+    System.Drawing.Bitmap bitmap = <span class="kw">new</span> System.Drawing.Bitmap(stream);
+    <span class="com">// Demonstrate that we can do something with the Bitmap</span>
+    bitmap.Save(<span class="str">@"D:\Temp\Life.png"</span>, ImageFormat.Png);
+    <span class="com">// Optionally, if we didn't need Bitmap object, but</span>
+    <span class="com">// just wanted to render to file, we could:</span>
+    <span class="com">//encoder.Save(new FileStream(@"D:\Temp\Life-Other.png", FileMode.Create));</span>
+}</code></pre>
 
 		<div class="wpadvert">
 		

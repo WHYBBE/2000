@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,19 +53,11 @@
                     </div>
 
                     <p>The <a href="http://wp.me/pXTis-Ue"><strong>Object.ReferenceEquals</strong></a> method uses reference equality semantics, returning true if two variables refer to the same object in memory.</p>
-<p>When comparing strings, you typically want value equality semantics, so you would <em>not</em> use <strong>ReferenceEquals</strong>.  In the example below, the string values are the same, but the strings are stored in different memory locations, so <strong>ReferenceEquals</strong> returns <strong>false</strong>.</p>
-<pre class="brush: csharp;">
-            string s1 = &quot;Bouffant&quot;;
-            StringBuilder sb2 = new StringBuilder(&quot;Bouffant&quot;);
-            bool compare = ReferenceEquals(s1, sb2.ToString());  // false
-</pre>
-<p>Because of the way that the compiler stores strings, <strong>ReferenceEquals</strong> might return <strong>true</strong> for two equivalent string constants stored in two different variables.  In the example below, the compiler stores just one copy of the string &#8220;Galoshes&#8221;.</p>
-<pre class="brush: csharp;">
-            string s1 = &quot;Galoshes&quot;;
-            string s2 = &quot;Galoshes&quot;;
-            bool compare = ReferenceEquals(s1, s2);  // true
-</pre>
-<p>Even though <strong>ReferenceEquals</strong> returns<strong> true</strong> in this case, you should not rely on this behavior, but use <strong>Equals</strong> or the == operator to compare two strings.</p>
+<p>When comparing strings, you typically want value equality semantics, so you would <em>not</em> use <strong>ReferenceEquals</strong>.  In the example below, the string values are the same, but the strings are stored in different memory locations, so <strong>ReferenceEquals</strong> returns <strong>false</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> s1 = <span class="str">"Bouffant"</span>;
+StringBuilder sb2 = <span class="kw">new</span> StringBuilder(<span class="str">"Bouffant"</span>);
+<span class="kw">bool</span> compare = ReferenceEquals(s1, sb2.ToString());  <span class="com">// false</span></code></pre><p>Because of the way that the compiler stores strings, <strong>ReferenceEquals</strong> might return <strong>true</strong> for two equivalent string constants stored in two different variables.  In the example below, the compiler stores just one copy of the string &#8220;Galoshes&#8221;.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> s1 = <span class="str">"Galoshes"</span>;
+<span class="kw">string</span> s2 = <span class="str">"Galoshes"</span>;
+<span class="kw">bool</span> compare = ReferenceEquals(s1, s2);  <span class="com">// true</span></code></pre><p>Even though <strong>ReferenceEquals</strong> returns<strong> true</strong> in this case, you should not rely on this behavior, but use <strong>Equals</strong> or the == operator to compare two strings.</p>
 <div class="tpp">
 						<span style="text-align: left; letter-spacing: 1px; font: 8px/1em Verdana, sans-serif; color: #ccc; text-transform: uppercase; display: block; padding: 0 1px;">Advertisement</span>
 						<a href="http://ecopressed.com" rel="tppceco_A" target="_top">

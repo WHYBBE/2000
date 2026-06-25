@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,105 +56,44 @@
 					</div>
 
 					<p>An iterator can work on an <strong>IEnumerable&lt;T&gt;</strong>, using one sequence as input and generating a second sequence from the first.</p>
-<p>In the example below, we use the output of one iterator as the input for another iterator.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
-        {
-
-            IEnumerable&lt;Dog&gt; dogs1 = AllMyDogs();
-
-
-
-            Console.WriteLine(&quot;============&quot;);
-
-            foreach (Dog d in dogs1)
-
-                Console.WriteLine(d);
-
-
-
-            IEnumerable&lt;Dog&gt; dogs2 = YoungDogs(dogs1);
-
-
-
-            Console.WriteLine(&quot;============&quot;);
-
-            foreach (Dog d in dogs2)
-
-                Console.WriteLine(d);
-
-
-
-            IEnumerable&lt;Breed&gt; breeds = BreedsByNamePattern(dogs2, &quot;oo&quot;);
-
-
-
-            Console.WriteLine(&quot;============&quot;);
-
-            foreach (Breed b in breeds)
-
-                Console.WriteLine(b);
-
-
-
-            Console.ReadLine();
-
-        }
-
-
-
-        private static IEnumerable&lt;Dog&gt; AllMyDogs()
-
-        {
-
-            yield return new Dog(&quot;Kirby&quot;, Breed.BorderCollie, 14);
-
-            yield return new Dog(&quot;Jack&quot;, Breed.JackRussell, 15);
-
-            yield return new Dog(&quot;Ruby&quot;, Breed.Mutt, 4);
-
-            yield return new Dog(&quot;Lassie&quot;, Breed.Collie, 12);
-
-            yield return new Dog(&quot;Foofoo&quot;, Breed.Sheltie, 8);
-
-            yield return new Dog(&quot;Pongo&quot;, Breed.Dalmatian, 4);
-
-            yield return new Dog(&quot;Rooster&quot;, Breed.WestHighlandTerrier, 1);
-
-        }
-
-
-
-        private static IEnumerable&lt;Dog&gt; YoungDogs(IEnumerable&lt;Dog&gt; dogs)
-
-        {
-
-            foreach (Dog d in dogs)
-
-                if (d.Age &lt; 10)
-
-                    yield return d;
-
-        }
-
-
-
-        private static IEnumerable&lt;Breed&gt; BreedsByNamePattern(IEnumerable&lt;Dog&gt; dogs, string pattern)
-
-        {
-
-            foreach (Dog d in dogs)
-
-                if (d.Name.Contains(pattern))
-
-                    yield return d.Breed;
-
-        }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/10/1194-001.png"><img class="alignnone size-full wp-image-9152" src="data:image/png;base64,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" alt="1194-001"   /></a></p>
+<p>In the example below, we use the output of one iterator as the input for another iterator.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    IEnumerable&lt;Dog&gt; dogs1 = AllMyDogs();
+    Console.WriteLine(<span class="str">"============"</span>);
+    <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs1)
+        Console.WriteLine(d);
+    IEnumerable&lt;Dog&gt; dogs2 = YoungDogs(dogs1);
+    Console.WriteLine(<span class="str">"============"</span>);
+    <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs2)
+        Console.WriteLine(d);
+    IEnumerable&lt;Breed&gt; breeds = BreedsByNamePattern(dogs2, <span class="str">"oo"</span>);
+    Console.WriteLine(<span class="str">"============"</span>);
+    <span class="kw">foreach</span> (Breed b <span class="kw">in</span> breeds)
+        Console.WriteLine(b);
+    Console.ReadLine();
+}
+<span class="kw">private</span> <span class="kw">static</span> IEnumerable&lt;Dog&gt; AllMyDogs()
+{
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, Breed.BorderCollie, <span <span class="kw">class</span>="num">14</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Jack"</span>, Breed.JackRussell, <span <span class="kw">class</span>="num">15</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Ruby"</span>, Breed.Mutt, <span <span class="kw">class</span>="num">4</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Lassie"</span>, Breed.Collie, <span <span class="kw">class</span>="num">12</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Foofoo"</span>, Breed.Sheltie, <span <span class="kw">class</span>="num">8</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Pongo"</span>, Breed.Dalmatian, <span <span class="kw">class</span>="num">4</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Rooster"</span>, Breed.WestHighlandTerrier, <span <span class="kw">class</span>="num">1</span>);
+}
+<span class="kw">private</span> <span class="kw">static</span> IEnumerable&lt;Dog&gt; YoungDogs(IEnumerable&lt;Dog&gt; dogs)
+{
+    <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs)
+        <span class="kw">if</span> (d.Age &lt; <span <span class="kw">class</span>="num">10</span>)
+            <span class="kw">yield</span> <span class="kw">return</span> d;
+}
+<span class="kw">private</span> <span class="kw">static</span> IEnumerable&lt;Breed&gt; BreedsByNamePattern(IEnumerable&lt;Dog&gt; dogs, <span class="kw">string</span> pattern)
+{
+    <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs)
+        <span class="kw">if</span> (d.Name.Contains(pattern))
+            <span class="kw">yield</span> <span class="kw">return</span> d.Breed;
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/10/1194-001.png"><img class="alignnone size-full wp-image-9152" src="data:image/png;base64,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" alt="1194-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

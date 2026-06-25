@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,33 +53,21 @@
                     </div>
 
                     <p>A class that implements a dependency property can optionally provide a <em>validation callback</em>, which it specifies when registering the property.  A validation callback is called when a property is about to get a new value and returns true or false, indicating whether the new value is valid.</p>
-<p>You specify a validation callback when registering a dependency property.</p>
-<pre class="brush: csharp;">
-            AgeProperty =
-                DependencyProperty.Register(
-                    &quot;Age&quot;,                 // Property's name
-                    typeof(int),           // Property's type
-                    typeof(Person),        // Defining class' type
-                    ageMetadata,           // Defines default value &amp; changed/coercion callbacks  (optional)
-                    new ValidateValueCallback(OnAgeValidateValue));   // *** validation (optional)
-</pre>
-<p>The validation callback has the new value passed in.</p>
-<pre class="brush: csharp;">
-        private static bool OnAgeValidateValue (object value)
-        {
-            int age = (int) value;
+<p>You specify a validation callback when registering a dependency property.</p><pre class="code-block language-csharp"><code>AgeProperty =
+    DependencyProperty.Register(
+        <span class="str">"Age"</span>,                 <span class="com">// Property's name</span>
+        <span class="kw">typeof</span>(<span class="kw">int</span>),           <span class="com">// Property's type</span>
+        <span class="kw">typeof</span>(Person),        <span class="com">// Defining class' type</span>
+        ageMetadata,           <span class="com">// Defines default value &amp; changed/coercion callbacks  (optional)</span>
+        <span class="kw">new</span> ValidateValueCallback(OnAgeValidateValue));   <span class="com">// *** validation (optional)</span></code></pre><p>The validation callback has the new value passed in.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">static</span> <span class="kw">bool</span> OnAgeValidateValue (<span class="kw">object</span> <span class="kw">value</span>)
+{
+    <span class="kw">int</span> age = (<span class="kw">int</span>) <span class="kw">value</span>;
 
-            // Only allow reasonable ages
-            return (age &gt; 0) &amp;&amp; (age &lt; 120);
-        }
-</pre>
-<p>If the property is being set to an invalid value, an exception is thrown.</p>
-<pre class="brush: csharp;">
-            Person p = new Person(&quot;Samuel&quot;, &quot;Clemens&quot;);
-            p.Age = 40;     // ok
-            p.Age = 300;    // throws System.ArgumentException
-</pre>
-<div class="clear"></div>
+    <span class="com">// Only allow reasonable ages</span>
+    <span class="kw">return</span> (age &gt; <span <span class="kw">class</span>="num">0</span>) &amp;&amp; (age &lt; <span <span class="kw">class</span>="num">120</span>);
+}</code></pre><p>If the property is being set to an invalid value, an exception is thrown.</p><pre class="code-block language-csharp"><code>Person p = <span class="kw">new</span> Person(<span class="str">"Samuel"</span>, <span class="str">"Clemens"</span>);
+p.Age = <span <span class="kw">class</span>="num">40</span>;     <span class="com">// ok</span>
+p.Age = <span <span class="kw">class</span>="num">300</span>;    <span class="com">// throws System.ArgumentException</span></code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

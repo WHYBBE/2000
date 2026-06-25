@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,15 +58,12 @@
                     <p>When you use the <strong>Array.Clone</strong> method of an array to make a copy of an array that contains instances of a reference type, you get a <em>shallow copy&#8211;</em>the new array references the same underlying objects as the original array.</p>
 <p>A <em>deep copy</em> of an array is one in which you create a new copy of each element, so that the new array references different objects.</p>
 <p>You can possibly make a deep copy if the element type has a <strong>Clone</strong> method.</p>
-<p><pre class="brush: csharp;">
-            // Shallow copy of the array
-            Person[] folks2 = (Person[])folks1.Clone();
-
-            // Deep copy by calling Clone method on each element
-            Person[] folks3 = new Person[folks1.Length];
-            for (int i = 0; i &lt; folks1.Length; i++)
-                folks3[i] = (Person)folks1[i].Clone();
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Shallow copy of the array</span>
+Person[] folks2 = (Person[])folks1.Clone();
+<span class="com">// Deep copy by calling Clone method on each element</span>
+Person[] folks3 = <span class="kw">new</span> Person[folks1.Length];
+<span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; folks1.Length; i++)
+    folks3[i] = (Person)folks1[i].Clone();</code></pre>
 <p>We&#8217;re now calling <strong>Clone</strong> on each element, rather than on the array itself.</p>
 <p>This method doesn&#8217;t guarantee a deep copy, since there&#8217;s no guarantee that <strong>Person.Clone</strong> will give us a deep copy of <strong>Person</strong>.</p>
 <div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/11/04/140-making-a-deep-copy-of-an-array-using-an-objects-clone-method/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-1374"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/11/04/140-making-a-deep-copy-of-an-array-using-an-objects-clone-method/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/11/04/140-making-a-deep-copy-of-an-array-using-an-objects-clone-method/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>

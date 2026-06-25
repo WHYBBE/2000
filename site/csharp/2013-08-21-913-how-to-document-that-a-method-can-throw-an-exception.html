@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,43 +55,20 @@
 																				</p>
 					</div>
 
-					<p>You can use <a href="2011-04-13-300-use-xml-documentation-to-inform-intellisense.html">XML Documentation</a> to document the fact that a method can throw an exception.  You use the <strong>Exception</strong> tag to indicate the type of exception that can be thrown.  You can also provide a comment related to the exception, which will show up in an XML Documentation file that you generate.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        /// &lt;summary&gt;
-
-        /// Print somebody's name
-
-        /// &lt;/summary&gt;
-
-        /// &lt;param name=&quot;name&quot;&gt;Name to be printed&lt;/param&gt;
-
-        /// &lt;exception cref=&quot;ApplicationException&quot;&gt;Will throw exception if name is Mortimer&lt;/exception&gt;
-
-        /// &lt;exception cref=&quot;JustBecauseException&quot;&gt;I throw this exception on Tuesdays&lt;/exception&gt;
-
-        static void PrintMyName(string name)
-
-        {
-
-            if (name.ToLower().Equals(&quot;mortimer&quot;))
-
-                throw new ApplicationException(&quot;I don't like the name Mortimer&quot;);
-
-
-
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Tuesday)
-
-                throw new JustBecauseException(&quot;Tuesday is my day off&quot;);
-
-
-
-            Console.WriteLine(string.Format(&quot;Your name is {0}&quot;, name));
-
-        }
-
-</pre>
-<p>Intellisense will now include a list of the exceptions that might be thrown, when displaying the method&#8217;s name.<br />
+					<p>You can use <a href="2011-04-13-300-use-xml-documentation-to-inform-intellisense.html">XML Documentation</a> to document the fact that a method can throw an exception.  You use the <strong>Exception</strong> tag to indicate the type of exception that can be thrown.  You can also provide a comment related to the exception, which will show up in an XML Documentation file that you generate.</p><pre class="code-block language-csharp"><code><span class="com">/// &lt;summary&gt;</span>
+<span class="com">/// Print somebody's name</span>
+<span class="com">/// &lt;/summary&gt;</span>
+<span class="com">/// &lt;param name="name"&gt;Name to be printed&lt;/param&gt;</span>
+<span class="com">/// &lt;exception cref="ApplicationException"&gt;Will throw exception if name is Mortimer&lt;/exception&gt;</span>
+<span class="com">/// &lt;exception cref="JustBecauseException"&gt;I throw this exception on Tuesdays&lt;/exception&gt;</span>
+<span class="kw">static</span> <span class="kw">void</span> PrintMyName(<span class="kw">string</span> name)
+{
+    <span class="kw">if</span> (name.ToLower().Equals(<span class="str">"mortimer"</span>))
+        <span class="kw">throw</span> <span class="kw">new</span> ApplicationException(<span class="str">"I don't like the name Mortimer"</span>);
+    <span class="kw">if</span> (DateTime.Now.DayOfWeek == DayOfWeek.Tuesday)
+        <span class="kw">throw</span> <span class="kw">new</span> JustBecauseException(<span class="str">"Tuesday is my day off"</span>);
+    Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Your name is {0}"</span>, name));
+}</code></pre><p>Intellisense will now include a list of the exceptions that might be thrown, when displaying the method&#8217;s name.<br />
 <a href="http://2000thingscsharp.files.wordpress.com/2013/08/913-001.png"><img class="alignnone size-full wp-image-7570" alt="913-001" src="data:image/png;base64,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"   /></a></p>
 <p>&nbsp;</p>
 <p>If you generate a <a href="2011-04-15-302-generating-an-xml-documentation-file.html">XML Documentation file</a>, it will also include this information.</p>

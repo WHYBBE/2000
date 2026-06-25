@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,37 +56,25 @@
 					</div>
 
 					<p>You implement a write-only property in a class by implementing the <a href="http://wp.me/pXTis-yU">set accessor</a>, but not the <a href="http://wp.me/pXTis-yK">get accessor</a>.  This will allow client code to write the property&#8217;s value, but not read the current value.</p>
-<p>Below is an example of a write-only property for the <strong>Dog</strong> class. The <strong>BarkPassword</strong> property can be written to, but not read back.  The class then uses the internal value of <strong>BarkPassword</strong> in the <strong>SecureBark</strong> method, to verify that the dog is allowed to bark.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Internal storage of secret name
-        private string barkPassword;
-
-        // Public property, write-only
-        public string BarkPassword
-        {
-            set
-            {
-                barkPassword = value;
-            }
-        }
-
-        // Bark method also sets lastBarked
-        public void SecureBark(string password)
-        {
-            if (password == barkPassword)
-                Console.WriteLine(&quot;{0}: Woof!&quot;, Name);
-            else
-                Console.WriteLine(&quot;Not allowed to bark&quot;);
-        }
-</pre>
-<p>Here&#8217;s how we might use the new property:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            kirby.BarkPassword = &quot;flotsam62!&quot;;
-
-            kirby.SecureBark(&quot;notthepassword&quot;);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Below is an example of a write-only property for the <strong>Dog</strong> class. The <strong>BarkPassword</strong> property can be written to, but not read back.  The class then uses the internal value of <strong>BarkPassword</strong> in the <strong>SecureBark</strong> method, to verify that the dog is allowed to bark.</p><pre class="code-block language-csharp"><code><span class="com">// Internal storage of secret name</span>
+<span class="kw">private</span> <span class="kw">string</span> barkPassword;
+<span class="com">// Public property, write-only</span>
+<span class="kw">public</span> <span class="kw">string</span> BarkPassword
+{
+    <span class="kw">set</span>
+    {
+        barkPassword = <span class="kw">value</span>;
+    }
+}
+<span class="com">// Bark method also sets lastBarked</span>
+<span class="kw">public</span> <span class="kw">void</span> SecureBark(<span class="kw">string</span> password)
+{
+    <span class="kw">if</span> (password == barkPassword)
+        Console.WriteLine(<span class="str">"{0}: Woof!"</span>, Name);
+    <span class="kw">else</span>
+        Console.WriteLine(<span class="str">"Not allowed to bark"</span>);
+}</code></pre><p>Here&#8217;s how we might use the new property:</p><pre class="code-block language-csharp"><code>kirby.BarkPassword = <span class="str">"flotsam62!"</span>;
+kirby.SecureBark(<span class="str">"notthepassword"</span>);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

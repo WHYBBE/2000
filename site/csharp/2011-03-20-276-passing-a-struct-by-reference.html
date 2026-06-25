@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,61 +56,22 @@
 					</div>
 
 					<p>You can pass a <strong>struct </strong>by reference using the <strong>ref</strong> or <strong>out</strong> parameter modifiers.  Use <strong>ref</strong> when you want a method to read and write to the <strong>struct</strong>.  Use <strong>out</strong> for a <strong>struct </strong>that is meant to be an output parameter.</p>
-<p>Assuming that you&#8217;ve defined the following <strong>struct</strong>:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public struct MovieInfo
-
-    {
-
-        public string Title;
-
-        public int Year;
-
-        public string Director;
-
-    }
-
-</pre>
-<p>You might pass an instance of <strong>MovieInfo </strong>by reference like this:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public static void DisplayThenUpper(ref MovieInfo minfo)
-
-        {
-
-            Console.WriteLine(&quot;{0} ({1}), {2}&quot;, minfo.Title, minfo.Year, minfo.Director);
-
-
-
-            minfo.Title = minfo.Title.ToUpper();
-
-            minfo.Director = minfo.Director.ToUpper();
-
-        }
-
-</pre>
-<p>After we call the method, the contents of the <strong>struct</strong> have been modified.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            MovieInfo minf = new MovieInfo();
-
-            minf.Title = &quot;Citizen Kane&quot;;
-
-            minf.Year = 1941;
-
-            minf.Director = &quot;Orson Welles&quot;;
-
-
-
-            Movie.DisplayThenUpper(ref minf);
-
-
-
-            Console.WriteLine(&quot;{0}, {1}&quot;, minf.Title, minf.Director);
-
-</pre>
-<p>Output after the program has finished:</p>
+<p>Assuming that you&#8217;ve defined the following <strong>struct</strong>:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">struct</span> MovieInfo
+{
+    <span class="kw">public</span> <span class="kw">string</span> Title;
+    <span class="kw">public</span> <span class="kw">int</span> Year;
+    <span class="kw">public</span> <span class="kw">string</span> Director;
+}</code></pre><p>You might pass an instance of <strong>MovieInfo </strong>by reference like this:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> DisplayThenUpper(<span class="kw">ref</span> MovieInfo minfo)
+{
+    Console.WriteLine(<span class="str">"{0} ({1}), {2}"</span>, minfo.Title, minfo.Year, minfo.Director);
+    minfo.Title = minfo.Title.ToUpper();
+    minfo.Director = minfo.Director.ToUpper();
+}</code></pre><p>After we call the method, the contents of the <strong>struct</strong> have been modified.</p><pre class="code-block language-csharp"><code>MovieInfo minf = <span class="kw">new</span> MovieInfo();
+minf.Title = <span class="str">"Citizen Kane"</span>;
+minf.Year = <span <span class="kw">class</span>="num">1941</span>;
+minf.Director = <span class="str">"Orson Welles"</span>;
+Movie.DisplayThenUpper(<span class="kw">ref</span> minf);
+Console.WriteLine(<span class="str">"{0}, {1}"</span>, minf.Title, minf.Director);</code></pre><p>Output after the program has finished:</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2011/03/001-structbyref.png"><img class="alignnone size-full wp-image-2394" title="001-StructByRef" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYUAAACcCAIAAAAf7yD4AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAHL5JREFUeNrtnWlzFEeax1sfYt7vG38Cf4kZG5vDExsTExP7Zl5sTDj21cZG+MDGnF4PmPDJZQ6BOISEbrWQbAOWkIQ4jEAIgQ7EIUBGIItmJGSBWW9WZlX2U5VVWVnVR7bt/y8UUnVVdXV1q/NXz/NUVlbmFwAAqAwyhuv9n58XAABQbDKGAgpo6Oeff34OAABFJWMSCv3swZ7wjLO0tPQTAAAUlUyUiaSGhLekgxYXF59yFjjz8/P/AgCAYpBRZURNFNDQPOcJ57HHHAAAFINMqIykiaSGmLpyuRyzz48//jg7O/uQMzMz84DzAwAAFEwmVEYiJhImEqEQU9ejR4+Yg5h9pqen7927d5dzx+P27dt3AACgADKhMpJhEYuJWEDETMQ0dP/+fSGgW7duTU5OTnDGPEZHR8cAAKAAMmqaxiKjhYUFlqCxsEiaaGpqimnoxo0b7DnXr18fGRkZHh6+cuXK0NDQZc7g4OBlAAAogEyojFiOJhI0ltGxmOjmzZtMQ1evXmVP+P7778+dO9ff39/b23v69Omenp7u7u7vAACgYBwfhcro4cOHLCy6ffv2+Pg4M9GFCxf6+vpOnjzZ2dnZ3t7e3Nzc2NjY0NBQX19fV1d3FAAACibvI1HAZmmalBFL0EZHRy9dusRCoa6uLiagmpqa3bt3b9++/fPPP//0008/+eSTrVu3fvzxx1sAAKBg8j5aWlpiPhJn06SPrl+/zlIzFhDt37+fqeett976NwAAKA2uj1iytri4OD8/L2rY09PTLFNjwdHFixfb2tpYTLR582a29ksvvbRt27YcJ2nPyyeVQa68VMK7eGxAut5rP5aA2TAe+XmoMFMBPAQFk3nx4gUNjtgX4sGDB1NTUxMTE0NDQz09PdXV1UxGf/jDH3bu3MmCpsHBwV6OKGZTuqNJXd86pXAyjhPRfBvHNx5fx9Hlp7OzU06LFcR2xGbFq4vdE+9Cvjv5HgNvNuodBXY1dJc6PY5zOjyyHizgbfNo9WjxaCY0ERoJDYRjCvUedWFoyge1nCOcw4cPH/I4ePDgAc5+DvtO7t27d8+ePbs5X3F2eew0Y1ex+UrL7tKwx4y9ZWRfAWRk8UgGR/fu3bt58+bIyMjAwAD7EovIaMeOHePj46cVTHxE/UJn0nV6wijEa0ktRpu9ubYC/pIP5ZrSRHJPAp+D/hMLfQtRbqJ6Ut2kSorqSdBGaCWEqkoVFnVWQxjHoqknBLQlDCX0xMRUU1Mj3cTEJL7HoiXI5lfElpyI0jVUPdVx7C87B1Lh+CgQHN25c4ep5/Lly6w9sG/Dm2++ydI0Fhn1ekQpSdO01PniKWILvYQ+Qq+f00kwDNw0mjsVQUBhAUfQpVJAqnYD71rzqdL9V/ctKioMVWfAVtJNNIYK9ZRqKxVVXpTmaJoUVKkJYQX0RA0lJEXbg8UmqmlvNSXjoJZDZedwKjIiOFpYWMjlcqKMzYKja9eunT9/nn1fmdRffvnlbdu2yTTNsOVECYg6SEinn3PGY4Bwxk+/GX0J6Y1A7zjNm5WL5JuV9qGvG7rnmreg7pW6G7GxoSosTRIaFWQd96OKjNIeTZsB0nHCXFJSwlAykpJZniT2q3/EBrUlI/ZUel15qU9FhlayZ2Zm7t69OzExMTw8zFoF+x5s376dJWtsPm235q1UPAxEBLI1CvucPXv2HOc85wLhvJ9zyTkbx0A0KWwo3leoawK2TbTn6i5FKVj9H2my4NgKnb769k0c5tU3jQep9aTdVE/RwCo2NwzQUGwao2mySnN5aUmO4yPR7Yglaz/88ANL1sbGxliyxr647F/16aefMh+xpSmSCxoNyYAooCEhoO85Fy9eHORcIgz6uZiQ76O5EMf5aKIkIqwh3hr9LW0rhSvfcuA3naA7qdmHKLGq8goNu2KzXTUSTHEWIlEhLyBEtX5PVUVDs0Dk1WpGW7Fp15K1R4cNjifB9RFL1mZnZ2Wyxlo+++qwIHDLli2hPoqtIqkxUaiJhIOYd5gBhzhXohnSkugymUsGDIaR1HrCL1K1qnDFzmh2Ur8PoYbVeFMfdsWGgbFJroZ0tT/6pZK+CySeNCKLTTZVumzwdWn4pvL4NgmZpaUlWTxiydrk5KS4OoQtO3To0EcffRTlI/ENa2vLHjxUy35qDh4J/Ij57OfQ4aPsp6OjU+QprJ3IaEiaiGWIVzkjIyNMiCMKVwtjmHAlCUNxUHdEmU4qJsq5Yq80+6Z/XdWhemmaBIOJMl/ztDcpqhAD3U2ick+T/h/qKYgicsoGFXthWrcZGVHMFteIiG5HrFWw7x9TeE1NzaZNmzQ+YjQ0Zy9dHrl4eeQS/7lIptnP0OWRtq7T7Cfbdbq+voVtVqQqwkSycUoNXQ/jmpaRhBTdYkNmqAKSCjbcB/3rakK/2EDPMJNNlLoWvdIXCOhovBZaL0vaR6S72PTY4HSlYhhE5300MzPDfDQ+Ps6+3Ox/z+LYAwcObNy4Ue8j9kpLz50elYvPf3n+/MUS+XG6WT574f48/+XEd30yMhIhg2iWV6+2b6zKMNhrsb+bOkfHzhx5I7Pq8BnfwCijEfQfZuse6o971HdoVUaw8Xio9a4f31SV2djRwfZhQ4e0Xe/BVZmVNb1GXpPiCIiMqud0zcrMigOn+V8X8mqxztXocrjnwIrM8v3dbeurMoR1rdrENlZbKWp2sQlstP6+3v262O33G8jchver2Ay+bNmurmDtjEZhgbzS901t2/Zq5pUv23qVmS5vH06cgcpN8s0oG/efThW0b5cvmHmn1t3b2nergrMYWWdVOiN8NXfBO7VZsunMq9uzkUk3DT87dixzVu44UyycDbrb49vmvHvU9OkZ0RNS9Dy6ffu2KGY7G+voqK6u3rBhg95H3b19Y+P3P9zT/VF19+YD3ZsPnthce2Jk5Na/5mbvT925P3U39+PcrpahXa2XmI9kwUhkLsJHWWaAlQf7uBPEoG7jA46PjgyM6+GactS1qcuTVsSjrg/ZP9IVU+cmIb0gbL6zF9xKeWM5GnNmm4dmMusUQ0RRfYyM9B5cmdmQHengb7mXb6Rj4yqx/dB4MPAw6uW4jlZm1rcPD7czH7G/IobicmKSig/lQiU1mBC9pL7d+3rm9T3fxqyxpjG4XuMHVWxueI0/EFtpymHcBK9sa6dyOPJOlZx15J1XnSluAV1jppis629uR9+tctsmb6zOtJwITvlbcthq+Y06BiAmOLq6yllloNgc38leYsfxmDX4C/NdcNfl06vrTEJgx0fy5Jq4Zo19EZ3POpvdt2/f+vXr9T461dM3NjHzn1uz//gs++aupv/a0/DfNfVDQ5Oej+7kfsztbr20t/Oc9JH4rstMzfHRxuOi7el9FDKcnGOavIDCHzl/8zFTKNI74T7qjTdCbLrnPG7f4LjCC5IC26EvQSfM4jJXQ2JiXVs+rWvjjw1PApTIRIY+csUTWNGbq6ncB2Kl8I4RqjxCdVJsHylKCgQSxCLcLMQ09FH0anIJWcVAHKXxkWMeR0fO37AVU/rICSzb2/fu3btu3bqY+OhkN/PRewdO/GNnw9++rP7LF7v+uusLv4/mDvT21Z7vZj6iyZqoYTst1GXl4a7DQkMTZ2v/nHnjyFlnPFxn0uUNbqiv/7cq8+HXrqHYA+KtkEdnxnzJX1Se5zzY1CmzNjU+cidphuXEOt6u84zOmbFywwZn7vrsSK/MyJiBBOzNuhpyHOwESlRDTmrobU8YsGNjPvVir+k+j4Ws7uwN7dJJYtOOm6SYvKpTmxQUTeVkHvfd/hXevLWtQ63rqjIfNAsnNa91p/nEBx+IJ7++9+Slk/uW82lnqWOjpg/khtc0eTPWrFlTlZ93Yu/yDF0n/1g8Qzzp9T0nnClnoTspNpXfaKNntnxex9O5Y0JM9e9ViQNx565lJHfpCLZo0uJpqJGPS5zZ9Bmhaciry7yZxBBH360i2zgT2tFXNt26s3XeHp9193rZzk73EV0UuZozLRYE5zrT/O/q1c4OOys5W/Fgjx2L80+s/pw36S0Uc8517XpNztqVn+bL88u8tZ0tsIxaLOITCvV0D/Ivu3r1anc+9ZEYYIT96819dOJE99jYD6u27P3jP794ZetnK77cumrnFtdHd+7cvXOXTTQNdWWvtwgfyXNqIlljbayDx0dSEY6GpI+EfCY8MTlGIj7yh1Ehj7iF/EHTGE3m2AperualcGQyNG7y7EHqTF6NSQhKuImLIytTNue3VzpyczeuJLF22PZoTHZN5nfCUHzDPM2t6c1Xpfb3+AOlYV+AdKXb8Q73EpOQo53l1d8JGa1tzcdKLUw9a1tEsNRCfSTk44nIkxL9SxWWfwafFIuJZfKSkVAHkQdkTW+yUXpJBE2Na6q8etP5Y8xN79XTPlnOIZ0fsvmxXS2UCH3kF3DxiCM7jQbkNDnyk5TEiwvkq3nLo6IJ7wkDRwvzEZlP5spJoWUxl0/T7XFjeD6iCnHnceFI13h6clciHlOXhiyUdntPHDr4v4qXA50Jd/ax94vho4mZVz76Ytlnn6zYvvXPu//51wMbSHzk1I+uPxgZeXA9hY8c9/hw3CTTN0c5MlIKeeRKKMJHJFxiDpKRkucjNT5ylCQ1QUMXEatkRXzk1r6dkGW9CFmueuXmlTRuEVbiCnP0klW21xF4FfbSRHMMN/lj2/dtOpivOR5avr+b/2EGIlHR8urWajEzn7B5PlLiI9c4qnw8RUmcxfKpDGkUn3FINCQNRAzlrUvF5U2LHE4kdNE+ogGSzkeB4owMhCJ8JD3iF5Y7O5DPRKU3VFTuM1P6iM2W6/vescZRZBtMHtQ9lGW76tUgxx/3eNEQWUhDnvowHbknJBy6vhIP+f/Mk1RmcXExykd79uxZu3ZtTP3o5Gnmo2XbtrCw6N/3bWIy+o/a96iP5mZzL5aWXjxbovmaaBSiWQofsdcVIQvN10h4lMdER766trZ+5Hmmj5xlyz/iD/MnwNyUihmBisETkAyA8me8Vop8TdVR/qyYeJKUS36L0lUjedPJ1WQxStl0wEduWOQKKMxH+05d9vsoPF8TqZmaSfktMzg4GIx/InwkUza5zBcwiZX3rKny5XMyLvJStvcbw33kNAgvghANPjRfCzktFEjMgvlaeOnGmx14Dd/DMBn5nBW0ju+RzyZyAdVRUDgmPtrZSX2klU/oLNdiXD1ER+7nH0zYAs/2HlJ51RfHRyws+kv1pr8dXPf3unf/3vQ/jo9mHR+xfC03O/f86WLu8RytZ4v4iNaznWI2j49YjpVPvXiAlNeMU9KmVeqQSnZI0sW3S86p9R9axV7Pi3xoBMQNRM59XVO044Yo7dwGUg15/ayQ57JItuTWZdaSks0KpgaiiytcI35hicTL2bjjLJGPyWQsn4d5fz3T0FcStSGRf51i7pHy8SIeHtx48Y50BDeAqAnJSVcEtNTs5k3cDIE6NU2p5HRYPdtdSNf3C4fMVgrbXESNopOACPd5cYK11E7ZyPMloo4dIfVsb0b+3DqtUTvn0fm0OJXuTPIpsbzWzfSy8ox7P11Mnu4/Mx+QYvSJM8V9gdV09vPNy4d4vrBM5p8y0/QHc+qssIDP3YAvcHSf64sk3fBRyrfOO2T4wsAi+Gj46q3NzQ1bW+s/aa/9pOPgZ10HLpwfFvGRUz+anV18kpubm9Od79/QIZKjoI9cI+XTNVnPZgIiPZTcRyH5FzmdT1KfPpmJOX+8+rVaWJZmIgmVE6h48YnEkYSbGV3xl455UMIkIYITt4s2KSLLs/G+jkMy8JFIH3nBj+sh9mf5/u/yZ8wcH+XxRT8ta/OLvCDILfXkK8uyNs3r0dwGjVof0fJyxjVTqI/EJFdMoyyAe6urJ97EVomlvA3ln/za7m/4ubaG9905vCwqvtt1q6syvroy8VFYb6B8VwCnF4Dbx0d26Xn1nXfks2U3IDLT85Gvl5DST8jXQ8hfaaeP/XX1yNWcx7RgHucjr+JFclhayHIV4r0EKZHR9d0Z7x7NL/G0pmSm9NWoBwM5ZVF9dOJE9+LzX5zha3NzfBTbBecnl/vl2eIvS4ssMlp0FuUWnuQC/SFpykY7Z4+a0H+YBjX+ECf/yKBLdz4AMjxtr3aV1p84p0WX0DPlUVeWCHPFXYd3itRzEl95Z9xNsbQ48c1rX32d8Fmh1xUHzvdH9o00vpiut7wkGSbH0ebbR4xW1XVGICZNT5JOEro+EGfOFOqjpuYsE03IT3ffqdO+OfUNbYHrReiVa1JJ6lUj6S4WKeRSjNhrQTQ9mzWtPapphV5/G7gEtygXfJiMXlCK6zxKR+BCOVVAJoPblfMiElvXkURdSnLo7arMn75orZiLSAr1keY6Enplv7y4n44xEjjXRvoxp7kebTgOE9fEjgcQkIJeBGoLl8OPyAmJOvxTQFUmfkmtjxSd485UBuo1IuqFbHQglJOVgfVrYps+/xPPmv74WVMJ5ZtUzUX2UagCQwdgixpvhF56anhtvclAIiaBRmzaEuoX9SgddVW6ZpiO0LhanpeRZ2foHP0IIebDYKb4t/ZUGOpgvnTsJM1oJL+roUgqcDSSkPFGiuijwFeWKslkPDY6JFvqqzeTjqwm/GISKUQNbBb63jVJgXqQDNx0RB6sxGdIf4d6oZBbuRiOYmE4cIdF5Jhtsu2pY0vSMdsSDdhW5jHbslaxO1pb0XwU2lpC00U1XBLQtKXAKkZUWhEbSkS5NepoHDraTuhwrnRgQ82hOOoAYnL7pkSHpkTH1c4KRh3Jm97QSd5fQA5rG7hZQAWOaWt3WNtmG+THqy3cR/qB/uiEOnwtrS5pqu5J0xPzLMPwLkOam3Ywom7XETqsvRz4OfQIHDg8ymOI+K2Opa/eHUQztH5Sko69b4XAfU2od9SR/+Xg//RGbxYH/y9wiP501FUe+fH8C/RR7MCjtHClFrECZfZEdwFKoRXNbSOj7g4UqDWod9QINFf1hmWxx2T2bwgchNmageOGEJaaOKiZRdRI6YmOV6FHzsZKJXB/N2Gf2Jsj0fsj2bo5kv5mZFbujGTr/kjiFkkF+ch8OOSo20CGVtpDCyImBQ4Ty2hcE3rTxKjSA80Fou5vETgs0yMzI3DslYdE9pseNISnxG/DZml+F0b9fRlV6iqVwM0j6f0j5S0kpXrS3T+yFLeQtHL/yGoD9tvAuR9kah8l6mhgXnBVz3ea311WradobrYTVX2gUU+ofUIdRBtzaF5Ag39xKJCthR6RAjkCjbHFlgOC0EgkXXvWU1vBBDIveaNtKaOAiei9tunttlPfETsd5b+Jrt1b6epFmcZH0jJs/btmTEVwx4DbxtxSuKllUuEGIeI63sjx4eQFulGdOQPdpkI7barDswU2KF8lMKFeJ/w7RDPCb6AbWiG3qBn6TXCl8mD/ncQ+ojLasWPHKgAAKBLJfERTMBb1OM8HAIBiYegjtSREfUTLPYHth87UkHT9AgnsdplfXfOiUZ+kZg8TbacUn55FArthsldRn2fs5wwq2kf69mzYSGz5KHb/bclI8zFqnmLy4RfrbcqNVELTTeGjMnxEoNw+Sn1cqpxPwGK7Mj84m0hfXSdpMFWG9g8fgfL5KLZpqSf4S7p+IT5Kuv3Ur2vuKX3bM4+PCm9y+n0w/zyL9X/U+Ei/HfP5yO9+3T5KlMFpvlixbdJkOkUdoTyvmzSJ0xS8KsFHJm4qxedJXyjK0YnqmyZv0HqyDx+V20f670fS9pk6PjL8LhZySE+3KLRPaSX4KIUOSuejFOdbksbpMMmvo35UuI9Sf40K8VGJYqLCixeps7yy1Y+Sxr9FjzcTPTdFfPSrqIr+Tn2UImXQ14/134NS503ld1MhB+3UPtLPL0rdrYg5bymOK8jXfrM+KqQUramPxMbbscFzok4ohnlHbF05xZfSMO8zKXKZf24mn4Z56c3kQ0hRzy563h37fTOcj3p2RfsI/AZAiwLwEQAAwEcAgN9n/ShRUcnkfLZ+vnkOor9+LbZCHLs/haROhXxu+u0k/XzM32/SIovmc0NdBj4y9VFPT4/J+bXQ719G6S1i2P5j3ZEp4LpKzcsZtmdNT850dRzzPocm7iiujzJmpz5N6lOx/0coCT6K9JEcVdak/1FROukbhiomzjJv/yYn3UrRbJKeZjbcmdA+08X1URH/6fARfGTkIzrKtUn/7GJ9ZU1Cp9CgpnQ+in1K+X2UNM8qoo+KdRCCg+Aj0/HYUlwvUoZDaGznkXTj4JhfFxK1qEQ+StSZq/A6V9R1GLH7k/Sfm7S/FUB8ZMdH6Y6rSX2UMeuXqNl+2eKjdP3aNRd2FeKj2PgoUb2ppKPHgd+dj4peP0paN9XUeoqYr6WuVVVI/ajwzyeT/BLC1JdxQEnwUanOryWdn/T8TrHOryVt5xmDkVKKeF1Y2c6vmfuoWJen4fwafJTmfkfp+h9lChuXq2z9j1KftypKKSR2C4b9dArvf2Sez5r3SzKZn0H/I/go0f2O0D87XQoGACiCj3C9CACg4vI1wb179+AjAAB8BACAj+AjAIB1H/UpwEcAAPgIAPA79tH8/Hx/f7/QUL8HfAQAsOYjwRkP+AgAYN9HiI8AADZ9dEbh/v378BEAwL6PBgYG4CMAgB0fDSjARwAAOz466wc+AgBY89E5glDS9PQ0fAQAKLePFhYWznOoleAjAIAdH124cOG8H7Y+fAQAsOOjAPARAMCOj77nSBmxafgIAGDHRxcVHjx4AB8BACz4aFABPgIAWPDR06dPLxHgIwCATR9d9pBWgo8AAHZ8NMShVpqZmYGPAADWfEStBB8BAOz46IqHtNLDhw/hIwCABR8NE4SY4CMAgAUfsXWuXr067Ac+AgDY8dGIH6anR48ewUcAAAs+ukYQSoKPAAB2fHRdYXZ2Fj4CAJTbRz/99NMYZ5TAngIfAQAs+GjcD3MTfAQAsOOjG4QJztzcHHwEALDmo8nJSWkl+AgAYMdHkwqPHz+GjwAA5fbR0tISW3TTD3wEALDjo9setzxyuRx8BACw4KOpqak7BCYm+AgAYMFHz549m1J48uQJfAQAsOCjex53PeAjAIAdH91XYM+CjwAAFnw07Qc+AgBY89EPBKGk+fl5+AgAUG4fPX/+/IEftjJ8BACw46MZDlXSwsICfAQAsOCjhw8fzviBjwAA1nwUAD4CANjx0aNHj+AjAEBF+GjWD9PT06dP4SMAgAUfBU6u4fwaAMCOj1hqduHChfOccx7T09PwEQCg3D7K5XLHOR0dHdlsVvyenJyEjwAA5fbR48ePhYPaOW2cGzduwEcAAAs+CsgIPgIAWPNRuwczUSsHPgIA2PSRiIyYjFpaWiYmJuAjAIAdH0kZwUcAAJs+CsioubkZPgIAWPMRlRFjfHwcPgIAWPBRQEZNTU3wEQDAmo9aOEJG8BEAwHJ8JGXU2NgIHwEAbMZHwkeNHPgIAGDBR3Nzc7RyxGTU0NAAHwEA7MRHUkaMBs7Y2Bh8BACwEB/RyhHj2LFj8BEAwKaPhIxYcAQfAQCs+UgGR0JG9fX1o6Oj8BEAwE58JGUEHwEAKsVH9Rz4CABgLV+jPqqrq4OPAAB2fEQr2fARAMByfCS6HYlk7ejRo/ARAMBafCSL2XUctiZ8BACw6SMZH8FHAAA7PhLJmiwewUcAAMs+EjKCjwAAln1Eg6Pa2lr4CABgzUf1Hkc58BEAwLKPEB8BACz7SCZrjFoOfAQAsOwjERzBRwAAaz6ilSMmoyNHjsBHAAALPmJLA/ERfAQAsO+jWg/4CABgx0fI1wAAleUjka8x4CMAgE0fSRkhXwMAlIL/BwC81sP3jsRYAAAAAElFTkSuQmCC" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

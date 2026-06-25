@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,23 +58,16 @@
 					<p>Because <strong>System.Array</strong> implements the <strong>IEnumerable</strong> interface and because LINQ extends <strong>IEnumerable</strong>, you can use the <strong>IEnumerable.Where</strong> method on arrays to find a subset of elements that match a particular criteria.</p>
 <p>The <strong>Where</strong> method accepts a delegate to a function that takes a single element of the same type as the array and returns a boolean value, indicating whether a match is found.  <strong>Where</strong> returns an <strong>IEnumerable</strong> collection, which can be iterated on to get the elements in the subset.</p>
 <p>Here&#8217;s an example, finding the set of passing scores in a set of scores.</p>
-<p><pre class="brush: csharp;">
-            int[] scores = { 89, 98, 72, 100, 68 };
-
-            // Count number of passing grades
-            int numPassed = scores.Where((Func&lt;int,bool&gt;)IsPassingGrade).Count();
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">int</span>[] scores = { <span <span class="kw">class</span>="num">89</span>, <span <span class="kw">class</span>="num">98</span>, <span <span class="kw">class</span>="num">72</span>, <span <span class="kw">class</span>="num">100</span>, <span <span class="kw">class</span>="num">68</span> };
+<span class="com">// Count number of passing grades</span>
+<span class="kw">int</span> numPassed = scores.Where((Func&lt;<span class="kw">int</span>,<span class="kw">bool</span>&gt;)IsPassingGrade).Count();</code></pre>
 <p>Here&#8217;s the implementation of <strong>IsPassingGrade</strong>.</p>
-<p><pre class="brush: csharp;">
-        static bool IsPassingGrade(int score)
-        {
-            return (score &gt;= 75);
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">bool</span> IsPassingGrade(<span class="kw">int</span> score)
+{
+    <span class="kw">return</span> (score &gt;= <span <span class="kw">class</span>="num">75</span>);
+}</code></pre>
 <p>You can avoid defining a separate function by using a <em>lamba expression.</em></p>
-<p><pre class="brush: csharp;">
-            int numPassed = scores.Where(s =&gt; s &gt;= 75).Count();
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">int</span> numPassed = scores.Where(s =&gt; s &gt;= <span <span class="kw">class</span>="num">75</span>).Count();</code></pre>
 <p>Similar to <a href="2010-11-10-146-using-array-findall-to-find-a-set-of-matching-elements-in-an-array.html">Array.FindAll</a>.</p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

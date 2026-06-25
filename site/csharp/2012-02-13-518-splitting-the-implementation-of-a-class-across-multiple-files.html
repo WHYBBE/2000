@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,36 +57,30 @@
 
                     <p>It is sometimes convenient to split the source code for a class across more than one source file.  You can do this using the <strong>partial</strong> keyword.</p>
 <p>In the example below, we split the implementation of the <strong>Dog</strong> class between <strong>Dog.cs</strong> and <strong>Dog-IBark.cs</strong>.  The latter file contains the implementation of the <strong>IBark</strong> interface.  The class definition in both files is marked with the <strong>partial</strong> keyword.</p>
-<p><pre class="brush: csharp;">
-    // Dog.cs
-    public partial class Dog
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
-        /// &lt;summary&gt;
-        /// Create new Dog with specified name
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;name&quot;&gt;&lt;/param&gt;
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Dog.cs</span>
+<span class="kw">public</span> partial <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">int</span> Age { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="com">/// &lt;summary&gt;</span>
+    <span class="com">/// Create new Dog with specified name</span>
+    <span class="com">/// &lt;/summary&gt;</span>
+    <span class="com">/// &lt;param name="name"&gt;&lt;/param&gt;</span>
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
+    {
+        Name = name;
+        Age = age;
+    }
+}</code></pre>
 <p>&nbsp;</p>
-<p><pre class="brush: csharp;">
-    partial class Dog : IBark
-    {
-        public bool CanBark { get; set; }
-
-        public void Bark()
-        {
-            Console.WriteLine(&quot;WOOOOOF!&quot;);
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code>partial <span class="kw">class</span> Dog : IBark
+{
+    <span class="kw">public</span> <span class="kw">bool</span> CanBark { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"WOOOOOF!"</span>);
+    }
+}</code></pre>
 <p>Notice that we don&#8217;t specify <strong>IBark</strong> inheritance in the first file, because it does not implement any <strong>IBark</strong> methods.</p>
 <div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/02/13/518-splitting-the-implementation-of-a-class-across-multiple-files/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-4366"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/02/13/518-splitting-the-implementation-of-a-class-across-multiple-files/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/02/13/518-splitting-the-implementation-of-a-class-across-multiple-files/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Basics</p>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,46 +57,36 @@
 
 					<p>In our example of a <a href="2014-09-05-1152-a-custom-pie-slice-shape.html">custom &#8220;pie slice&#8221; shape</a>, we defined <strong>StartAngle</strong> and <strong>EndAngle</strong> properties that dictate where the pie shape starts and ends.  We then define how the shape is rendered by overriding the <strong>DefiningGeometry</strong> property.</p>
 <p>One problem with the earlier code example was that the shape wasn&#8217;t automatically re-rendered if the start or end angles were changed.  Since the values of these properties are used in rendering the shape, we want the shape to automatically redraw itself whenever either property changes.</p>
-<p>We can force a re-render by specifying the <strong>AffectsRender</strong> flag when defining the metadata for the <strong>StartAngle</strong> and <strong>EndAngle</strong> properties.  Below is updated code for defining these properties.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Angle that arc starts at
-        public double StartAngle
-        {
-            get { return (double)GetValue(StartAngleProperty); }
-            set { SetValue(StartAngleProperty, value); }
-        }
-
-        // DependencyProperty - StartAngle
-        private static FrameworkPropertyMetadata startAngleMetadata =
-                new FrameworkPropertyMetadata(
-                    0.0,     // Default value
-                    FrameworkPropertyMetadataOptions.AffectsRender,
-                    null,    // Property changed callback
-                    new CoerceValueCallback(CoerceAngle));   // Coerce value callback
-
-        public static readonly DependencyProperty StartAngleProperty =
-            DependencyProperty.Register(&quot;StartAngle&quot;, typeof(double), typeof(PieSlice), startAngleMetadata);
-
-        // Angle that arc ends at
-        public double EndAngle
-        {
-            get { return (double)GetValue(EndAngleProperty); }
-            set { SetValue(EndAngleProperty, value); }
-        }
-
-        // DependencyProperty - EndAngle
-        private static FrameworkPropertyMetadata endAngleMetadata =
-                new FrameworkPropertyMetadata(
-                    90.0,     // Default value
-                    FrameworkPropertyMetadataOptions.AffectsRender,
-                    null,    // Property changed callback
-                    new CoerceValueCallback(CoerceAngle));   // Coerce value callback
-
-        public static readonly DependencyProperty EndAngleProperty =
-            DependencyProperty.Register(&quot;EndAngle&quot;, typeof(double), typeof(PieSlice), endAngleMetadata);
-</pre>
-
-<div class="wpcnt">
+<p>We can force a re-render by specifying the <strong>AffectsRender</strong> flag when defining the metadata for the <strong>StartAngle</strong> and <strong>EndAngle</strong> properties.  Below is updated code for defining these properties.</p><pre class="code-block language-csharp"><code><span class="com">// Angle that arc starts at</span>
+<span class="kw">public</span> <span class="kw">double</span> StartAngle
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(StartAngleProperty); }
+    <span class="kw">set</span> { SetValue(StartAngleProperty, <span class="kw">value</span>); }
+}
+<span class="com">// DependencyProperty - StartAngle</span>
+<span class="kw">private</span> <span class="kw">static</span> FrameworkPropertyMetadata startAngleMetadata =
+        <span class="kw">new</span> FrameworkPropertyMetadata(
+            <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// Default value</span>
+            FrameworkPropertyMetadataOptions.AffectsRender,
+            <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+            <span class="kw">new</span> CoerceValueCallback(CoerceAngle));   <span class="com">// Coerce value callback</span>
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty StartAngleProperty =
+    DependencyProperty.Register(<span class="str">"StartAngle"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(PieSlice), startAngleMetadata);
+<span class="com">// Angle that arc ends at</span>
+<span class="kw">public</span> <span class="kw">double</span> EndAngle
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(EndAngleProperty); }
+    <span class="kw">set</span> { SetValue(EndAngleProperty, <span class="kw">value</span>); }
+}
+<span class="com">// DependencyProperty - EndAngle</span>
+<span class="kw">private</span> <span class="kw">static</span> FrameworkPropertyMetadata endAngleMetadata =
+        <span class="kw">new</span> FrameworkPropertyMetadata(
+            <span <span class="kw">class</span>="num">90.0</span>,     <span class="com">// Default value</span>
+            FrameworkPropertyMetadataOptions.AffectsRender,
+            <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+            <span class="kw">new</span> CoerceValueCallback(CoerceAngle));   <span class="com">// Coerce value callback</span>
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty EndAngleProperty =
+    DependencyProperty.Register(<span class="str">"EndAngle"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(PieSlice), endAngleMetadata);</code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

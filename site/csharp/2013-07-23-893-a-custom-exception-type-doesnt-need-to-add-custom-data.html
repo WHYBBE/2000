@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,41 +56,21 @@
 					</div>
 
 					<p>You may sometimes define a <a href="2013-07-22-892-creating-a-custom-exception-type.html">custom exception type</a> without adding any additional data to the base <strong>Exception</strong> type.  This can still add value, because calling code can now explicitly check for your new exception type.  In this way, you&#8217;re not adding custom data to the exception that you throw, but you&#8217;re adding information by indicating the specific type of exception that occurred.</p>
-<p>Assume that we&#8217;ve defined a <strong>DogBarkException</strong> type, which can be thrown by the <strong>Dog.Bark</strong> method.  We can then check for this exception when calling <strong>Dog.Bark</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            try
-
-            {
-
-                Dog d = new Dog(&quot;Buster&quot;, 5);
-
-                d.Bark(Dog.BarkSound.Woof, 6);
-
-            }
-
-            catch (DogBarkException xx)
-
-            {
-
-                Console.WriteLine(&quot;Problem with barking!&quot;);
-
-                Console.WriteLine(xx.Message);
-
-            }
-
-            catch (Exception xx)
-
-            {
-
-                Console.WriteLine(&quot;Something went wrong:&quot;);
-
-                Console.WriteLine(xx);
-
-            }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/07/893-001.png"><img class="alignnone size-full wp-image-7466" alt="893-001" src="data:image/png;base64,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"   /></a></p>
+<p>Assume that we&#8217;ve defined a <strong>DogBarkException</strong> type, which can be thrown by the <strong>Dog.Bark</strong> method.  We can then check for this exception when calling <strong>Dog.Bark</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">try</span>
+{
+    Dog d = <span class="kw">new</span> Dog(<span class="str">"Buster"</span>, <span <span class="kw">class</span>="num">5</span>);
+    d.Bark(Dog.BarkSound.Woof, <span <span class="kw">class</span>="num">6</span>);
+}
+<span class="kw">catch</span> (DogBarkException xx)
+{
+    Console.WriteLine(<span class="str">"Problem with barking!"</span>);
+    Console.WriteLine(xx.Message);
+}
+<span class="kw">catch</span> (Exception xx)
+{
+    Console.WriteLine(<span class="str">"Something went wrong:"</span>);
+    Console.WriteLine(xx);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/07/893-001.png"><img class="alignnone size-full wp-image-7466" alt="893-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

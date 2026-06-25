@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -50,19 +62,10 @@
 <li><strong>TopLeft</strong> &#8211; display above horizontal <strong>Slider</strong>, to the left of vertical <strong>Slider</strong></li>
 <li><strong>Both -</strong> display on both sides of <strong>Slider</strong></li>
 </ul>
-<p>In the example below, we set up tick marks every 5 units.  Because the <strong>Minimum</strong> value of the <strong>Slider</strong> is 1, this places them at 1, 6, 11, 16, etc.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;Slider Name=&quot;mySlider&quot; Margin=&quot;10&quot;
-
-                Minimum=&quot;1&quot; Maximum=&quot;100&quot;
-
-                TickFrequency=&quot;5&quot; IsSnapToTickEnabled=&quot;True&quot;
-
-                TickPlacement=&quot;BottomRight&quot;/&gt;
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/02/1020-001.png"><img class="alignnone size-full wp-image-8336" alt="1020-001" src="data:image/png;base64,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"   /></a></p>
+<p>In the example below, we set up tick marks every 5 units.  Because the <strong>Minimum</strong> value of the <strong>Slider</strong> is 1, this places them at 1, 6, 11, 16, etc.</p><pre class="code-block language-xml"><code>&lt;Slider Name="mySlider" Margin="10"
+        Minimum="1" Maximum="100"
+        TickFrequency="5" IsSnapToTickEnabled="True"
+        TickPlacement="BottomRight"/&gt;</code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2014/02/1020-001.png"><img class="alignnone size-full wp-image-8336" alt="1020-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

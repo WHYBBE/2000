@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,76 +57,32 @@
 
 					<p>You can change the mouse cursor during a drag-and-drop operation by handling the <strong>GiveFeedback</strong> event for the drag source.  The <strong>GiveFeedbackEventArgs.Effects</strong> property will indicate the current effect, depending on the mouse position.  You can set the mouse cursor based on the effect.</p>
 <p>In the example below, we change the mouse to a &#8220;hand&#8221; whenever the effect is <strong>Copy</strong>, indicating that we&#8217;re allowed to drop the data.</p>
-<p><pre class="brush: xml;">
-
-    &lt;StackPanel Orientation=&quot;Vertical&quot; HorizontalAlignment=&quot;Center&quot; Margin=&quot;45&quot;&gt;
-
-        &lt;Label Content=&quot;Data to drag&quot; Background=&quot;AliceBlue&quot; Padding=&quot;15,10&quot; Margin=&quot;10&quot;
-
-               MouseLeftButtonDown=&quot;Label_MouseLeftButtonDown&quot;
-
-               GiveFeedback=&quot;Label_GiveFeedback&quot;/&gt;
-
-        &lt;Label Content=&quot;Drag to here&quot; Background=&quot;MediumSpringGreen&quot; Padding=&quot;15,10&quot; Margin=&quot;10&quot;
-
-               AllowDrop=&quot;True&quot; Drop=&quot;Label_Drop&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre><br />
-<pre class="brush: csharp;">
-
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-
-        {
-
-            DataObject data = new DataObject(DataFormats.Text, ((Label)e.Source).Content);
-
-
-
-            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
-
-        }
-
-
-
-        private void Label_Drop(object sender, DragEventArgs e)
-
-        {
-
-            ((Label)e.Source).Content = (string)e.Data.GetData(DataFormats.Text);
-
-        }
-
-
-
-        private void Label_GiveFeedback(object sender, GiveFeedbackEventArgs e)
-
-        {
-
-            if (e.Effects == DragDropEffects.Copy)
-
-            {
-
-                e.UseDefaultCursors = false;
-
-                Mouse.SetCursor(Cursors.Hand);
-
-            }
-
-            else
-
-                e.UseDefaultCursors = true;
-
-
-
-            e.Handled = true;
-
-        }
-
-
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Vertical"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"45"</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="Data to drag" Background="AliceBlue" Padding="15,10" Margin="10"
+           MouseLeftButtonDown="Label_MouseLeftButtonDown"
+           GiveFeedback="Label_GiveFeedback"/&gt;
+    &lt;Label Content="Drag to here" Background="MediumSpringGreen" Padding="15,10" Margin="10"
+           AllowDrop="True" Drop="Label_Drop"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><br /><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Label_MouseLeftButtonDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    DataObject data = <span class="kw">new</span> DataObject(DataFormats.Text, ((Label)e.Source).Content);
+    DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+}
+<span class="kw">private</span> <span class="kw">void</span> Label_Drop(<span class="kw">object</span> sender, DragEventArgs e)
+{
+    ((Label)e.Source).Content = (<span class="kw">string</span>)e.Data.GetData(DataFormats.Text);
+}
+<span class="kw">private</span> <span class="kw">void</span> Label_GiveFeedback(<span class="kw">object</span> sender, GiveFeedbackEventArgs e)
+{
+    <span class="kw">if</span> (e.Effects == DragDropEffects.Copy)
+    {
+        e.UseDefaultCursors = <span class="kw">false</span>;
+        Mouse.SetCursor(Cursors.Hand);
+    }
+    <span class="kw">else</span>
+        e.UseDefaultCursors = <span class="kw">true</span>;
+    e.Handled = <span class="kw">true</span>;
+}</code></pre>
 <p><a href="http://wpf.2000things.com/2012/12/13/711-changing-the-mouse-cursor-while-dragging/711-001/" rel="attachment wp-att-6194"><img class="alignnone size-full wp-image-6194" alt="711-001" src="data:image/png;base64,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"   /></a><br />
 <a href="http://wpf.2000things.com/2012/12/13/711-changing-the-mouse-cursor-while-dragging/711-002/" rel="attachment wp-att-6195"><img class="alignnone size-full wp-image-6195" alt="711-002" src="data:image/png;base64,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"   /></a></p>
 

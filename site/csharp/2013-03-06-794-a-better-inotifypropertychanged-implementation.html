@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,35 +57,28 @@
 
 					<p>When implementing <strong>INotifyPropertyChanged</strong>, you need to pass the property name as a string in the <strong>PropertyChangedEventArgs</strong> object.  This can lead to subtle bugs in your code.  If you happen to spell the property name wrong, the client will be notified about the wrong (non-existent) property and the compiler won&#8217;t warn you that there is a problem.</p>
 <p>If you use C# 5.0 and target the .NET Framework 4.5, there&#8217;s an easier way.  You can use the <strong>CallerMemberName</strong> attribute to avoid having to pass the property name as a string.</p>
-<p><pre class="brush: csharp;">
-        private int age;
-        public int Age
-        {
-            get { return age; }
-            set
-            {
-                if (age != value)
-                {
-                    age = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //-- INotifyPropertyChanged implementation
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged([CallerMemberName]string prop = &quot;&quot;)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">int</span> age;
+<span class="kw">public</span> <span class="kw">int</span> Age
+{
+    <span class="kw">get</span> { <span class="kw">return</span> age; }
+    <span class="kw">set</span>
+    {
+        <span class="kw">if</span> (age != <span class="kw">value</span>)
+        {
+            age = <span class="kw">value</span>;
+            RaisePropertyChanged();
+        }
+    }
+}
+<span class="com">//-- INotifyPropertyChanged implementation</span>
+<span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged;
+<span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged([CallerMemberName]<span class="kw">string</span> prop = <span class="str">""</span>)
+{
+    <span class="kw">if</span> (PropertyChanged != <span class="kw">null</span>)
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+}</code></pre>
 <p>Don&#8217;t forget to include:</p>
-<p><pre class="brush: csharp;">
-using System.Runtime.CompilerServices;
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">using</span> System.Runtime.CompilerServices;</code></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

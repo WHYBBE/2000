@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,59 +56,26 @@
 					</div>
 
 					<p>If you don&#8217;t constrain a type parameter in a generic class, the compiler will not let you compare two instances of objects of that type using the <strong>==</strong> or <strong>!=</strong> operators.</p>
-<p>In the example below, we store a collection of objects whose type is the type parameter <strong>T.  </strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Pile&lt;T&gt;
-
+<p>In the example below, we store a collection of objects whose type is the type parameter <strong>T.  </strong></p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Pile&lt;T&gt;
+{
+    List&lt;T&gt; pile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> Add(T item)
     {
-
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-
-
-
-        public void Add(T item)
-
-        {
-
-            if (!pile.Contains(item))
-
-                pile.Add(item);
-
-        }
-
-
-
-        public bool IsFirst(T item)
-
-        {
-
-            // Compare to null allowed
-
-            bool isnull = (item == null);
-
-
-
-            return (pile[0] == item) ;
-
-        }
-
-
-
-        public void Dump()
-
-        {
-
-            foreach (T item in pile)
-
-                Console.WriteLine(item);
-
-        }
-
+        <span class="kw">if</span> (!pile.Contains(item))
+            pile.Add(item);
     }
-
-</pre>
-<p>If we try compiling this code, we&#8217;ll get a compile-time error in the <strong>IsFirst</strong> method, indicating that we can&#8217;t apply the <strong>==</strong> operator.  The compiler doesn&#8217;t have enough information about the type <strong>T</strong> to know that we can use the <strong>==</strong> operator.<br />
+    <span class="kw">public</span> <span class="kw">bool</span> IsFirst(T item)
+    {
+        <span class="com">// Compare to null allowed</span>
+        <span class="kw">bool</span> isnull = (item == <span class="kw">null</span>);
+        <span class="kw">return</span> (pile[<span <span class="kw">class</span>="num">0</span>] == item) ;
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Dump()
+    {
+        <span class="kw">foreach</span> (T item <span class="kw">in</span> pile)
+            Console.WriteLine(item);
+    }
+}</code></pre><p>If we try compiling this code, we&#8217;ll get a compile-time error in the <strong>IsFirst</strong> method, indicating that we can&#8217;t apply the <strong>==</strong> operator.  The compiler doesn&#8217;t have enough information about the type <strong>T</strong> to know that we can use the <strong>==</strong> operator.<br />
 <a href="https://2000thingscsharp.files.wordpress.com/2014/07/1139-002.png"><img class="alignnone size-full wp-image-8855" src="data:image/png;base64,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" alt="1139-002"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

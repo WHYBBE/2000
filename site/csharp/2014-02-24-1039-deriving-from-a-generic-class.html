@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,30 +57,17 @@
 
 					<p>A <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">generic class</a> includes one or more type parameters, allowing you to later declare a variable using a <a href="2011-05-17-326-generic-type-vs-constructed-type.html">constructed type</a> by specifying type arguments for each type parameter.</p>
 <p>If you have an existing generic class, you can define a new class that inherits from the generic class.</p>
-<p>Assume that we have a <strong>List&lt;T&gt;</strong> type, i.e. we can construct the type as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            List&lt;int&gt; someInts = new List&lt;int&gt;();
-</pre>
-<p>We can also define a new class that inherits from <strong>List&lt;T&gt;</strong> and makes use of its type parameter as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class ListPlus&lt;T&gt; : List&lt;T&gt;
-    {
-        public void AddTwoItems(T thing1, T thing2)
-        {
-            base.Add(thing1);
-            base.Add(thing2);
-        }
-    }
-</pre>
-<p>We can now construct the new type by providing a type argument.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            ListPlus&lt;Dog&gt; dogs = new ListPlus&lt;Dog&gt;();
-            Dog fido = new Dog(&quot;Fido&quot;);
-            Dog bowser = new Dog(&quot;Bowser&quot;);
-            dogs.AddTwoItems(fido, bowser);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Assume that we have a <strong>List&lt;T&gt;</strong> type, i.e. we can construct the type as follows:</p><pre class="code-block language-csharp"><code>List&lt;<span class="kw">int</span>&gt; someInts = <span class="kw">new</span> List&lt;<span class="kw">int</span>&gt;();</code></pre><p>We can also define a new class that inherits from <strong>List&lt;T&gt;</strong> and makes use of its type parameter as follows:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ListPlus&lt;T&gt; : List&lt;T&gt;
+{
+    <span class="kw">public</span> <span class="kw">void</span> AddTwoItems(T thing1, T thing2)
+    {
+        <span class="kw">base</span>.Add(thing1);
+        <span class="kw">base</span>.Add(thing2);
+    }
+}</code></pre><p>We can now construct the new type by providing a type argument.</p><pre class="code-block language-csharp"><code>ListPlus&lt;Dog&gt; dogs = <span class="kw">new</span> ListPlus&lt;Dog&gt;();
+Dog fido = <span class="kw">new</span> Dog(<span class="str">"Fido"</span>);
+Dog bowser = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+dogs.AddTwoItems(fido, bowser);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

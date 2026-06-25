@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,28 +57,19 @@
 
 					<p>When an exception gets thrown in a WPF application and not handled anywhere in the code, an <a href="2010-08-30-49-unhandled-exceptions.html">unhandled exception occurs</a> and the application is forced to exit.</p>
 <p>You can handle exceptions that would otherwise be unhandled by handling the<strong>Application.DispatcherUnhandledException</strong> event.  Below, we display a better error message and set the <strong>Handled</strong> property, to avoid shutting down the application.</p>
-<p>This handler should be defined in the main application class (inherits from <strong>Application</strong>).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-{
-    string friendlyMsg = string.Format(&quot;SO sorry that something went wrong.  The error was: [{0}]&quot;, e.Exception.Message);
-    string caption = &quot;Error&quot;;
-    MessageBox.Show(friendlyMsg, caption, MessageBoxButton.OK, MessageBoxImage.Error);
-
-    // Signal that we handled things--prevents Application from exiting
-    e.Handled = true;
-}</pre>
-<p>We wire up the handler by setting a value for <strong>DispatcherUnhandledException</strong> in XAML.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Application x:Class=&quot;WpfApplication1.App&quot;
-             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-             StartupUri=&quot;MainWindow.xaml&quot;
-             DispatcherUnhandledException=&quot;Application_DispatcherUnhandledException&quot;&gt;
-&lt;/Application&gt;
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>This handler should be defined in the main application class (inherits from <strong>Application</strong>).</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Application_DispatcherUnhandledException(<span class="kw">object</span> sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+{
+    <span class="kw">string</span> friendlyMsg = <span class="kw">string</span>.Format(<span class="str">"SO sorry that something went wrong.  The error was: [{0}]"</span>, e.Exception.Message);
+    <span class="kw">string</span> caption = <span class="str">"Error"</span>;
+    MessageBox.Show(friendlyMsg, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+    <span class="com">// Signal that we handled things--prevents Application from exiting</span>
+    e.Handled = <span class="kw">true</span>;
+}</code></pre><p>We wire up the handler by setting a value for <strong>DispatcherUnhandledException</strong> in XAML.</p><pre class="code-block language-xml"><code>&lt;Application x:Class="WpfApplication1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException"&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Application</span><span class="xml-tag">&gt;</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

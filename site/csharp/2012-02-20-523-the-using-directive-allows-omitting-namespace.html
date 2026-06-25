@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,23 +57,18 @@
 
 					<p>A typical C# program will use types that are defined in a variety of <a href="2012-02-16-521-namespaces-help-organize-types.html">namespaces</a>.  Specifying the <a href="2012-02-17-522-the-fully-qualified-name-for-a-type-includes-the-namespace.html">fully qualified type name</a> that includes the namespace can become tedious.</p>
 <p>A <strong>using</strong> directive tells the compiler what namespaces to look for types in, avoiding the need for fully qualified type names.</p>
-<p>Assume that we have a <strong>Dog</strong> type, defined in the <strong>DogLibrary</strong> namespace.  The fully qualified type name is <strong>DogLibrary.Dog</strong>.  But in the code fragment below, we can just use <strong>Dog</strong> as the type name, because of the <strong>using</strong> directive.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-using DogLibrary;
-
-namespace ConsoleApplication1
-{
-    class Program
-    {
-        static void Main()
-        {
-            Dog kirby = new Dog();
-            kirby.Bark();
-        }
-    }
-}
-</pre>
-<p>So you can use a type name without its namespace if:</p>
+<p>Assume that we have a <strong>Dog</strong> type, defined in the <strong>DogLibrary</strong> namespace.  The fully qualified type name is <strong>DogLibrary.Dog</strong>.  But in the code fragment below, we can just use <strong>Dog</strong> as the type name, because of the <strong>using</strong> directive.</p><pre class="code-block language-csharp"><code><span class="kw">using</span> DogLibrary;
+<span class="kw">namespace</span> ConsoleApplication1
+{
+    <span class="kw">class</span> Program
+    {
+        <span class="kw">static</span> <span class="kw">void</span> Main()
+        {
+            Dog kirby = <span class="kw">new</span> Dog();
+            kirby.Bark();
+        }
+    }
+}</code></pre><p>So you can use a type name without its namespace if:</p>
 <ul>
 <li>The type is defined in the same namespace as the current code</li>
 <li>A <strong>using</strong> directive for the type&#8217;s namespace is present</li>

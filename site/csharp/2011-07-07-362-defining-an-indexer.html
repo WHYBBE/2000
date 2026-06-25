@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,40 +56,23 @@
 					</div>
 
 					<p>An <em>indexer</em> is a class member that allows client code to index into an instance of class using an integer-based (0..n-1) index.  The indexer allows an instance of a class to behave like an array.</p>
-<p>Assume that we define a <strong>Logger</strong> class that stores a series of log messages in an internal collection:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Logger
-    {
-        private List&lt;LogMessage&gt; messages = new List&lt;LogMessage&gt;();
-
-        public void LogAMessage(LogMessage msg)
-        {
-            messages.Add(msg);
-        }
-
-    }
-</pre>
-<p>We define an indexer by defining a member that looks like a property, but uses the <strong>this</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public LogMessage this[int i]
-        {
-            get
-            {
-                return messages[i];
-            }
-        }
-</pre>
-<p>The indexer allows us to write code that indexes into an instance of the class:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Logger log = new Logger();
-
-            log.LogAMessage(new LogMessage(&quot;This happened&quot;, 5));
-            log.LogAMessage(new LogMessage(&quot;Something else happened&quot;, -1));
-
-            LogMessage lm = log[1];   // returns 2nd element
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Assume that we define a <strong>Logger</strong> class that stores a series of log messages in an internal collection:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Logger
+{
+    <span class="kw">private</span> List&lt;LogMessage&gt; messages = <span class="kw">new</span> List&lt;LogMessage&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> LogAMessage(LogMessage msg)
+    {
+        messages.Add(msg);
+    }
+}</code></pre><p>We define an indexer by defining a member that looks like a property, but uses the <strong>this</strong> keyword.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> LogMessage <span class="kw">this</span>[<span class="kw">int</span> i]
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">return</span> messages[i];
+    }
+}</code></pre><p>The indexer allows us to write code that indexes into an instance of the class:</p><pre class="code-block language-csharp"><code>Logger log = <span class="kw">new</span> Logger();
+log.LogAMessage(<span class="kw">new</span> LogMessage(<span class="str">"This happened"</span>, <span <span class="kw">class</span>="num">5</span>));
+log.LogAMessage(<span class="kw">new</span> LogMessage(<span class="str">"Something else happened"</span>, -<span <span class="kw">class</span>="num">1</span>));
+LogMessage lm = log[<span <span class="kw">class</span>="num">1</span>];   <span class="com">// returns 2nd element</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

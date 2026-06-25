@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -49,21 +61,12 @@
 <li>Use the <strong>KeyEventArgs.Key</strong> property to see whether the event is being fired because the combination key (e.g. &#8216;G&#8217;) is being pressed</li>
 <li>Use the <strong>Keyboard.IsKeyDown</strong> method to check whether the Ctrl key is also currently down</li>
 </ul>
-<p><pre class="brush: csharp;">
-
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-
-        {
-
-            if ((e.Key == Key.G) &amp;&amp;
-
-                (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
-
-                MessageBox.Show(&quot;You pressed Ctrl+G !&quot;);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> TextBox_KeyDown(<span class="kw">object</span> sender, KeyEventArgs e)
+{
+    <span class="kw">if</span> ((e.Key == Key.G) &amp;&amp;
+        (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+        MessageBox.Show(<span class="str">"You pressed Ctrl+G !"</span>);
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5451" class="wpl-button "><a href='2012-08-17-627-detecting-whether-the-ctrl-key-is-pressed-in-a-keydown-event-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">One blogger likes this.</div><ul class="wpl-avatars sd-like-gravatars"><li><a href="http://gravatar.com/lesleycarter" title="lesleycarter" class="wpl-liker" rel="nofollow"><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2NjIpLCBxdWFsaXR5ID0gOTAK/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBUU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAHgAeAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A+RdF0f7RewQSSx2qyMF82XOxM92wCcetdJB4dv41m/0OU+Rnzgq5MWOu4D7v413niL4US6exeHbNEeVkiIZSPYiue8QeJdT8OeFb9YpZrjU4EZIJGllMkEXlOrRqwcbFYSAkf7I5Ff0Hm+JlleG+u00pQ0Vuvy/Xstddj8wy+nTzCr7BtqWv9P8ArXbQ52S9s4HKTXEUCeV5hnkkCxhtwHlkn7pwc5PHGOpFVpwrnKsrDsVIIP0Iqp4f0TTfi1cx6Pq2rQaPDe2i3NxqenxG48iY7/KjlAPKbwC+OVGCM42neg+GF54a0yKyttX0fWLa3Yxrd218kSyZJIISbY4GOPu8Yx6Z+HyniF4mvOGPnGEdWrtK2q0vpey+Z9BmGTqnThPBwcujsm7+fl+R1fw/+J0mnzJb3kgFu/B3jcn/AAIf1HNcl+0LoPiS0GpeJNCs2v8AwhqrRxXKxqJPs0pQDCsvO1hGSMg45+tcsLoptwME10mjfEPU9CszbWszJE+Q69iD1H49CK+kzHCwzzDRoSlytNPy7ao+VwGJnl9d1oq91a3/AAehyHgjxxbHWo9Q07w1ZWGnQL5UrySgmRFwcSRgfMOn5nB61fvL4JtltJDHFLlxHGWAQEnAycZ4x+deh+BP7CvYru0utEt5Y71137EEZXbnG0rgjqc+tVfHfgq1sZIprNitvJjEbjleOnFcOQ5NLATnSxVrS6b3a/Bd+7vrse3j8yWKUZUr+712/wCD/wAMf//Z' class='avatar avatar-30' alt='lesleycarter' width='30' height='30' /></a></li></ul></div></div></article>
   <p class="meta">Categories: Events | Tags: Ctrl Key, Events, KeyDown, WPF</p>
   <nav class="pager"><a href="2012-08-16-626-key-updown-sequence-when-using-ctrl-key.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-08-20-628-key-updown-sequence-when-using-alt-key.html">Next</a></nav>

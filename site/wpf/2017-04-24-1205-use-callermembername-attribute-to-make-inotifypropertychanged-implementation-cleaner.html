@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,43 +58,31 @@
 					<p>The <b>INotifyPropertyChanged</b> interface is central to using data binding in WPF. You typically create ViewModels containing properties that fire a <b>PropertyChanged</b> event whenever a property value changes. Implementing this plumbing over and over for every property can become tedious. This argues for a reusable pattern to make the per-property code cleaner.</p>
 <p>Specifying string-based property names when raising the <b>PropertyChanged</b> event can also be error-prone. When, passing property names as string literals, a misspelled property name doesn&#8217;t lead to a compiler warning, but just a quiet data binding failure.</p>
 <p>Below is a pattern you can use to make property change code cleaner. It relies on the <b>CallerMemberName</b> attribute, which can be used to default a method parameter to the name of a caller&#8211;the property name in this case.</p>
-<p>We have a generic method that compares a new property value to the current value in the backing variable. If the value has changed, it assigns the new value and fires the property changed event.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        protected bool SetProp&lt;T&gt;(ref T backingField, T value, [CallerMemberName] string propName = null)
-        {
-            bool valueChanged = false;
-
-            // Can't use equality operator on generic types
-            if (!EqualityComparer&lt;T&gt;.Default.Equals(backingField, value))
-            {
-                backingField = value;
-                RaisePropertyChanged(propName);
-                valueChanged = true;
-            }
-
-            return valueChanged;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        protected void RaisePropertyChanged(string propName)
-        {
-            if (!string.IsNullOrWhiteSpace(propName) &amp;&amp; (PropertyChanged != null))
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
-        }
-</pre>
-<p>A standard property implementation can now look pretty clean. (Note: We&#8217;re not checking the return value of <b>SetProp</b>, but we could do that if we wanted to perform other logic when the property value changes).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private Dog _selectedDog;
-        public Dog SelectedDog
-        {
-            get { return _selectedDog; }
-            set { SetProp(ref _selectedDog, value); }
-        }
-</pre>
-<p>You would generally put this sort of code in a common base class that all of your ViewModel classes could inherit from.</p>
+<p>We have a generic method that compares a new property value to the current value in the backing variable. If the value has changed, it assigns the new value and fires the property changed event.</p><pre class="code-block language-csharp"><code><span class="kw">protected</span> <span class="kw">bool</span> SetProp&lt;T&gt;(<span class="kw">ref</span> T backingField, T <span class="kw">value</span>, [CallerMemberName] <span class="kw">string</span> propName = <span class="kw">null</span>)
+{
+    <span class="kw">bool</span> valueChanged = <span class="kw">false</span>;
+    <span class="com">// Can't use equality operator on generic types</span>
+    <span class="kw">if</span> (!EqualityComparer&lt;T&gt;.Default.Equals(backingField, <span class="kw">value</span>))
+    {
+        backingField = <span class="kw">value</span>;
+        RaisePropertyChanged(propName);
+        valueChanged = <span class="kw">true</span>;
+    }
+    <span class="kw">return</span> valueChanged;
+}
+<span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+<span class="kw">protected</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+{
+    <span class="kw">if</span> (!<span class="kw">string</span>.IsNullOrWhiteSpace(propName) &amp;&amp; (PropertyChanged != <span class="kw">null</span>))
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+    }
+}</code></pre><p>A standard property implementation can now look pretty clean. (Note: We&#8217;re not checking the return value of <b>SetProp</b>, but we could do that if we wanted to perform other logic when the property value changes).</p><pre class="code-block language-csharp"><code><span class="kw">private</span> Dog _selectedDog;
+<span class="kw">public</span> Dog SelectedDog
+{
+    <span class="kw">get</span> { <span class="kw">return</span> _selectedDog; }
+    <span class="kw">set</span> { SetProp(<span class="kw">ref</span> _selectedDog, <span class="kw">value</span>); }
+}</code></pre><p>You would generally put this sort of code in a common base class that all of your ViewModel classes could inherit from.</p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9640-5953e1e71a204' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9640&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9640-5953e1e71a204' data-name='like-post-frame-14605478-9640-5953e1e71a204'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
 <div id='jp-relatedposts' class='jp-relatedposts' >
 	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>

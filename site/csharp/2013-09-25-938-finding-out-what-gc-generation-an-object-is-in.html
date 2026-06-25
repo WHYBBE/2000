@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,27 +56,12 @@
 					</div>
 
 					<p>The garbage collector (GC) <a href="2013-09-18-933-the-garbage-collector-groups-objects-into-generations.html">groups objects into generations</a> to avoid having to examine and collect all objects in memory whenever a garbage collection is done.</p>
-<p>For debugging purposes, it&#8217;s sometimes useful to know which generation an object currently belongs to.  You can get this information using the <strong>GC.GetGeneration</strong> method, as shown below.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog bob = new Dog(&quot;Bob&quot;, 5);
-
-            Console.WriteLine(string.Format(&quot;Bob is in generation {0}&quot;, GC.GetGeneration(bob)));
-
-
-
-            GC.Collect();
-
-            Console.WriteLine(string.Format(&quot;Bob is in generation {0}&quot;, GC.GetGeneration(bob)));
-
-
-
-            GC.Collect();
-
-            Console.WriteLine(string.Format(&quot;Bob is in generation {0}&quot;, GC.GetGeneration(bob)));
-
-</pre>
-<p>In the example above, the &#8220;Bob&#8221;<strong> Dog</strong> object starts out in generation 0. After we do the first garbage collection, it&#8217;s promoted to generation 1 and after the 2nd collection, it&#8217;s promoted to generation 2.<br />
+<p>For debugging purposes, it&#8217;s sometimes useful to know which generation an object currently belongs to.  You can get this information using the <strong>GC.GetGeneration</strong> method, as shown below.</p><pre class="code-block language-csharp"><code>Dog bob = <span class="kw">new</span> Dog(<span class="str">"Bob"</span>, <span <span class="kw">class</span>="num">5</span>);
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Bob is in generation {0}"</span>, GC.GetGeneration(bob)));
+GC.Collect();
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Bob is in generation {0}"</span>, GC.GetGeneration(bob)));
+GC.Collect();
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Bob is in generation {0}"</span>, GC.GetGeneration(bob)));</code></pre><p>In the example above, the &#8220;Bob&#8221;<strong> Dog</strong> object starts out in generation 0. After we do the first garbage collection, it&#8217;s promoted to generation 1 and after the 2nd collection, it&#8217;s promoted to generation 2.<br />
 <a href="http://2000thingscsharp.files.wordpress.com/2013/09/938-001.png"><img class="alignnone size-full wp-image-7735" alt="938-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

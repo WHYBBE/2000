@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,49 +56,24 @@
 					</div>
 
 					<p>You set the <strong>TextSearch.TextPath </strong>property on a <strong>ComboBox</strong> to refer to the property on the bound object that contains the text that you can type <a href="http://wp.me/pZhye-29M">in order to select an item.</a></p>
-<p><span style="line-height:1.5em;">You can change the </span><strong style="line-height:1.5em;">ComboBox</strong><span style="line-height:1.5em;"> so that the text that you enter to select an item is visible as you enter the text.  To do this, you set the </span><strong style="line-height:1.5em;">IsEditable</strong><span style="line-height:1.5em;"> property to </span><strong style="line-height:1.5em;">true</strong><span style="line-height:1.5em;">.</span></p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;ComboBox ItemsSource=&quot;{Binding ActorList}&quot; Margin=&quot;20&quot;
-
-                  IsEditable=&quot;True&quot;
-
-                  SelectedItem=&quot;{Binding SelectedActor}&quot;
-
-                  TextSearch.TextPath=&quot;LastName&quot;&gt;
-
-            &lt;ComboBox.ItemTemplate&gt;
-
-                        &lt;DataTemplate&gt;
-
-                            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-
-                                &lt;Image Source=&quot;{Binding Image}&quot; Height=&quot;100&quot;/&gt;
-
-                                &lt;StackPanel Margin=&quot;10,0&quot;&gt;
-
-                                    &lt;TextBlock Text=&quot;{Binding FullName}&quot; FontWeight=&quot;Bold&quot; /&gt;
-
-                                    &lt;TextBlock Text=&quot;{Binding Dates}&quot;/&gt;
-
-                                    &lt;TextBlock Text=&quot;{Binding KnownFor}&quot; FontStyle=&quot;Italic&quot;/&gt;
-
-                                &lt;/StackPanel&gt;
-
-                            &lt;/StackPanel&gt;
-
-                        &lt;/DataTemplate&gt;
-
-            &lt;/ComboBox.ItemTemplate&gt;
-
-        &lt;/ComboBox&gt;
-
-
-
-        &lt;Label Content=&quot;{Binding SelectedActor.NameAndDates}&quot;/&gt;
-
-</pre>
-<p>In this example, we can now type the actor&#8217;s last name in order to change the selected item.  We can demonstrate this by binding a <strong>Label</strong> to the selector item (actor).  Notice that the selected item changes as we enter text.<br />
+<p><span style="line-height:1.5em;">You can change the </span><strong style="line-height:1.5em;">ComboBox</strong><span style="line-height:1.5em;"> so that the text that you enter to select an item is visible as you enter the text.  To do this, you set the </span><strong style="line-height:1.5em;">IsEditable</strong><span style="line-height:1.5em;"> property to </span><strong style="line-height:1.5em;">true</strong><span style="line-height:1.5em;">.</span></p><pre class="code-block language-xml"><code>&lt;ComboBox ItemsSource="{Binding ActorList}" Margin="20"
+          IsEditable="True"
+          SelectedItem="{Binding SelectedActor}"
+          TextSearch.TextPath="LastName"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">ComboBox.ItemTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Image</span> <span class="xml-attr">Source</span>=<span class="xml-val">"{Binding Image}"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"100"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10,0"</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding FullName}"</span> <span class="xml-attr">FontWeight</span>=<span class="xml-val">"Bold"</span> <span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding Dates}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding KnownFor}"</span> <span class="xml-attr">FontStyle</span>=<span class="xml-val">"Italic"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ComboBox.ItemTemplate</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">ComboBox</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding SelectedActor.NameAndDates}"</span><span class="xml-tag">/&gt;</span></code></pre><p>In this example, we can now type the actor&#8217;s last name in order to change the selected item.  We can demonstrate this by binding a <strong>Label</strong> to the selector item (actor).  Notice that the selected item changes as we enter text.<br />
 <a href="http://2000thingswpf.files.wordpress.com/2014/02/1015-001.png"><img class="alignnone size-full wp-image-8300" alt="1015-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,53 +55,36 @@
 																				</p>
 					</div>
 
-					<p>You can configure command bindings in code-behind, adding a <strong>CommandBinding</strong> object to a top-level window&#8217;s <strong>CommandBindings</strong> collection, as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open,
-                Executed_Open, CanExecute_Open));
-        }
-</pre>
-<p>You can set this command binding up in XAML, rather than in code-behind.  Below is an example of doing the same binding in XAML.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        Title=&quot;Commands&quot; Width=&quot;320&quot; Height=&quot;220&quot;&gt;
-
-    &lt;Window.CommandBindings&gt;
-        &lt;CommandBinding Command=&quot;ApplicationCommands.Open&quot;
-                        Executed=&quot;Executed_Open&quot;
-                        CanExecute=&quot;CanExecute_Open&quot;/&gt;
-    &lt;/Window.CommandBindings&gt;
-
-    &lt;StackPanel&gt;
-        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;
-                Margin=&quot;10&quot; Padding=&quot;10,3&quot;
-                HorizontalAlignment=&quot;Center&quot; /&gt;
-        &lt;CheckBox Content=&quot;Can Open&quot; IsChecked=&quot;{Binding CanOpenIsChecked}&quot;
-                  Margin=&quot;10&quot;/&gt;
-    &lt;/StackPanel&gt;
-&lt;/Window&gt;
-</pre>
-<p>This assumes that you&#8217;ve defined the following methods in code-behind:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public void Executed_Open(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show(&quot;Executing the Open command&quot;);
-        }
-
-        public void CanExecute_Open(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = CanOpenIsChecked;
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>You can configure command bindings in code-behind, adding a <strong>CommandBinding</strong> object to a top-level window&#8217;s <strong>CommandBindings</strong> collection, as follows:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> MainWindow()
+{
+    InitializeComponent();
+    <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+    <span class="kw">this</span>.CommandBindings.Add(<span class="kw">new</span> CommandBinding(ApplicationCommands.Open,
+        Executed_Open, CanExecute_Open));
+}</code></pre><p>You can set this command binding up in XAML, rather than in code-behind.  Below is an example of doing the same binding in XAML.</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Commands" Width="320" Height="220"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Window.CommandBindings</span><span class="xml-tag">&gt;</span>
+        &lt;CommandBinding Command="ApplicationCommands.Open"
+                        Executed="Executed_Open"
+                        CanExecute="CanExecute_Open"/&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Window.CommandBindings</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        &lt;Button Content="Open" Command="ApplicationCommands.Open"
+                Margin="10" Padding="10,3"
+                HorizontalAlignment="Center" /&gt;
+        &lt;CheckBox Content="Can Open" IsChecked="{Binding CanOpenIsChecked}"
+                  Margin="10"/&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>This assumes that you&#8217;ve defined the following methods in code-behind:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> Executed_Open(<span class="kw">object</span> sender, ExecutedRoutedEventArgs e)
+{
+    MessageBox.Show(<span class="str">"Executing the Open command"</span>);
+}
+<span class="kw">public</span> <span class="kw">void</span> CanExecute_Open(<span class="kw">object</span> sender, CanExecuteRoutedEventArgs e)
+{
+    e.CanExecute = CanOpenIsChecked;
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

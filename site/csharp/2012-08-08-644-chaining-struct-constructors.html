@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,37 +56,29 @@
 					</div>
 
 					<p>In the same way that <a href="2011-04-03-290-chaining-constructors.html">one constructor for a class can call another</a>, a constructor for a <strong>struct</strong> can call another constructor, using the <strong>this</strong> keyword.  In this way, one constructor for the <strong>struct</strong> calls another, to help initialize the data in the <strong>struct</strong>.</p>
-<p>In the example below, we define two constructors for the <strong>BoxSize</strong> struct.  The constructor that takes only two parameters chains to the three-parameter constructor, using the <strong>this</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public struct BoxSize
-    {
-        public double x;
-        public double y;
-        public double z;
-
-        // Constructor that fully initializes the object
-        public BoxSize(double x, double y, double z)
-        {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        // 2nd constructor that allows user to specify
-        //   only X &amp; Y and we then default Z to 1.0
-        public BoxSize(double x, double y)
-            : this(x, y, 1.0)
-        {
-        }
-
-        public void PrintBoxSize()
-        {
-            Console.WriteLine(string.Format(&quot;X={0}, Y={1}, Z={2}&quot;, x, y, z));
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>In the example below, we define two constructors for the <strong>BoxSize</strong> struct.  The constructor that takes only two parameters chains to the three-parameter constructor, using the <strong>this</strong> keyword.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">struct</span> BoxSize
+{
+    <span class="kw">public</span> <span class="kw">double</span> x;
+    <span class="kw">public</span> <span class="kw">double</span> y;
+    <span class="kw">public</span> <span class="kw">double</span> z;
+    <span class="com">// Constructor that fully initializes the object</span>
+    <span class="kw">public</span> BoxSize(<span class="kw">double</span> x, <span class="kw">double</span> y, <span class="kw">double</span> z)
+    {
+        <span class="kw">this</span>.x = x;
+        <span class="kw">this</span>.y = y;
+        <span class="kw">this</span>.z = z;
+    }
+    <span class="com">// 2nd constructor that allows user to specify</span>
+    <span class="com">//   only X &amp; Y and we then default Z to 1.0</span>
+    <span class="kw">public</span> BoxSize(<span class="kw">double</span> x, <span class="kw">double</span> y)
+        : <span class="kw">this</span>(x, y, <span <span class="kw">class</span>="num">1.0</span>)
+    {
+    }
+    <span class="kw">public</span> <span class="kw">void</span> PrintBoxSize()
+    {
+        Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"X={0}, Y={1}, Z={2}"</span>, x, y, z));
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

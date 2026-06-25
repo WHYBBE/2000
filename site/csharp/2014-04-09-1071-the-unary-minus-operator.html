@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,46 +56,19 @@
 					</div>
 
 					<p>Unary operators are <a href="2010-07-14-27-expressions-operators-and-operands.html">operators</a> that affect a single operand.</p>
-<p>The unary - operator is used to negate a numeric value.  (Subtract the value from zero).  The unary + operator does not affect a value, so is not worth mentioning.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Unary minus operator applied to constants
-
-            int x = 5;
-
-            int y = -5;
-
-            Console.WriteLine(&quot;x={0}, y={1}&quot;, x, y);
-
-
-
-            // Unary minus operator applied to variable
-
-            x = -x;
-
-            y = -y;
-
-            Console.WriteLine(&quot;x={0}, y={1}&quot;, x, y);
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/04/1071-0011.png"><img class="alignnone size-full wp-image-8428" src="data:image/png;base64,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" alt="1071-001"   /></a></p>
-<p>The unary operator also works with floating point and decimal values.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            double d = -4.2;
-
-            float f = -4.2f;
-
-            Console.WriteLine(&quot;d={0}, f={0}&quot;, d, f);
-
-
-
-            decimal m = -0.01m;
-
-            Console.WriteLine(&quot;m={0}&quot;, m);
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/04/1071-0021.png"><img class="alignnone size-full wp-image-8430" src="data:image/png;base64,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" alt="1071-002"   /></a></p>
+<p>The unary - operator is used to negate a numeric value.  (Subtract the value from zero).  The unary + operator does not affect a value, so is not worth mentioning.</p><pre class="code-block language-csharp"><code><span class="com">// Unary minus operator applied to constants</span>
+<span class="kw">int</span> x = <span <span class="kw">class</span>="num">5</span>;
+<span class="kw">int</span> y = -<span <span class="kw">class</span>="num">5</span>;
+Console.WriteLine(<span class="str">"x={0}, y={1}"</span>, x, y);
+<span class="com">// Unary minus operator applied to variable</span>
+x = -x;
+y = -y;
+Console.WriteLine(<span class="str">"x={0}, y={1}"</span>, x, y);</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/04/1071-0011.png"><img class="alignnone size-full wp-image-8428" src="data:image/png;base64,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" alt="1071-001"   /></a></p>
+<p>The unary operator also works with floating point and decimal values.</p><pre class="code-block language-csharp"><code><span class="kw">double</span> d = -<span <span class="kw">class</span>="num">4.2</span>;
+<span class="kw">float</span> f = -<span <span class="kw">class</span>="num">4</span>.2f;
+Console.WriteLine(<span class="str">"d={0}, f={0}"</span>, d, f);
+<span class="kw">decimal</span> m = -<span <span class="kw">class</span>="num">0</span>.01m;
+Console.WriteLine(<span class="str">"m={0}"</span>, m);</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/04/1071-0021.png"><img class="alignnone size-full wp-image-8430" src="data:image/png;base64,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" alt="1071-002"   /></a></p>
 <p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

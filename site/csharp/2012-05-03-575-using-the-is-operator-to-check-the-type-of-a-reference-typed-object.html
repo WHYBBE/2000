@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,27 +57,19 @@
 
 					<p>You use the <strong>is</strong> operator to check whether an object (or expression) is of a particular type.  It checks the dynamic type of an object at runtime to see if the object or expression is <a href="2012-04-26-570-assignment-compatibility-for-reference-types.html">assignment compatible</a> with the specified type.</p>
 <p>The <strong>is</strong> operator will return true if the type matches exactly, if an implicit conversion exists, or if an explicit conversion (a cast) would succeed.</p>
-<p><pre class="brush: csharp;">
-// (Terrier is a sub-class of Dog)
-
-Dog d = new Dog(&quot;Fido&quot;, 5);
-Terrier t = new Terrier(&quot;Jack&quot;, 17, &quot;Crabby&quot;);
-Dog d2 = t;
-
-bool check = d is Dog;  // true (same type)
-check = d is Terrier;   // false
-
-check = t is Dog;       // true (implicit conversion to base class)
-check = t is Terrier;   // true
-
-check = d2 is Dog;      // true
-check = d2 is Terrier;  // true (explicit conversion would succeed)
-Terrier t2 = (Terrier)d2;
-
-check = d is object;    // true
-
-check = t is Cow;       // false
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// (Terrier is a sub-class of Dog)</span>
+Dog d = <span class="kw">new</span> Dog(<span class="str">"Fido"</span>, <span <span class="kw">class</span>="num">5</span>);
+Terrier t = <span class="kw">new</span> Terrier(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">17</span>, <span class="str">"Crabby"</span>);
+Dog d2 = t;
+<span class="kw">bool</span> check = d <span class="kw">is</span> Dog;  <span class="com">// true (same type)</span>
+check = d <span class="kw">is</span> Terrier;   <span class="com">// false</span>
+check = t <span class="kw">is</span> Dog;       <span class="com">// true (implicit conversion to base class)</span>
+check = t <span class="kw">is</span> Terrier;   <span class="com">// true</span>
+check = d2 <span class="kw">is</span> Dog;      <span class="com">// true</span>
+check = d2 <span class="kw">is</span> Terrier;  <span class="com">// true (explicit conversion would succeed)</span>
+Terrier t2 = (Terrier)d2;
+check = d <span class="kw">is</span> <span class="kw">object</span>;    <span class="com">// true</span>
+check = t <span class="kw">is</span> Cow;       <span class="com">// false</span></code></pre>
 
 <div class="wpadvert">
 

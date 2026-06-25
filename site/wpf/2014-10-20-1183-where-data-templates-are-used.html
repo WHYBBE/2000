@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -48,47 +60,38 @@
 <li>As value of <strong>ContentTemplate</strong> property for a <strong>ContentControl</strong>  (e.g. a <strong>Label</strong>)</li>
 <li>As value of <strong>ItemTemplate</strong> property for an <strong>ItemsControl</strong>  (e.g. a <strong>ListBox</strong>)</li>
 </ul>
-<p>Here&#8217;s an example of a <strong>DataTemplate</strong> used as the <strong>ContentTemplate</strong> for a <strong>Label</strong>:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Label Name=&quot;lblPerson&quot; Content=&quot;{Binding}&quot;&gt;
-    &lt;Label.ContentTemplate&gt;
-        &lt;DataTemplate&gt;
-            &lt;Border BorderThickness=&quot;2&quot; BorderBrush=&quot;DarkBlue&quot;&gt;
-                &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
-                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-                        &lt;Label Content=&quot;{Binding Path=FirstName}&quot;/&gt;
-                        &lt;Label Content=&quot;{Binding Path=LastName}&quot; FontWeight=&quot;Bold&quot;/&gt;
-                    &lt;/StackPanel&gt;
-                    &lt;Label Content=&quot;{Binding Path=BirthYear}&quot; FontStyle=&quot;Italic&quot;/&gt;
-                &lt;/StackPanel&gt;
-            &lt;/Border&gt;
-        &lt;/DataTemplate&gt;
-    &lt;/Label.ContentTemplate&gt;
-&lt;/Label&gt;
-</pre>
-<p>Here&#8217;s an example of a <strong>DataTemplate</strong> used as the <strong>ItemTemplate</strong> for a <strong>ListBox</strong>:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-  &lt;ListBox Margin=&quot;15&quot; Width=&quot;270&quot; Height=&quot;320&quot;
-         ItemsSource=&quot;{Binding ActorList}&quot;&gt;
-        &lt;ListBox.ItemTemplate&gt;
-            &lt;DataTemplate&gt;
-                &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-                    &lt;Image Source=&quot;{Binding Image}&quot; Height=&quot;80&quot;/&gt;
-                    &lt;StackPanel Margin=&quot;5&quot;&gt;
-                        &lt;TextBlock Text=&quot;{Binding FullName}&quot; FontSize=&quot;12&quot; FontWeight=&quot;Bold&quot;/&gt;
-                        &lt;TextBlock Text=&quot;{Binding Dates}&quot;/&gt;
-                        &lt;TextBlock Text=&quot;{Binding KnownFor}&quot; Margin=&quot;0,5,0,0&quot; FontStyle=&quot;Italic&quot;/&gt;
-                    &lt;/StackPanel&gt;
-                    &lt;Label Content=&quot;Dead Fred !&quot; Foreground=&quot;Red&quot;
-                           FontWeight=&quot;Bold&quot;
-                           Visibility=&quot;{Binding Converter={StaticResource deadFredConverter}}&quot;/&gt;
-                &lt;/StackPanel&gt;
-            &lt;/DataTemplate&gt;
-        &lt;/ListBox.ItemTemplate&gt;
-    &lt;/ListBox&gt;
-</pre>
-
-<div class="wpcnt">
+<p>Here&#8217;s an example of a <strong>DataTemplate</strong> used as the <strong>ContentTemplate</strong> for a <strong>Label</strong>:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lblPerson"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding}"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label.ContentTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"2"</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"DarkBlue"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Vertical"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding Path=FirstName}"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding Path=LastName}"</span> <span class="xml-attr">FontWeight</span>=<span class="xml-val">"Bold"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding Path=BirthYear}"</span> <span class="xml-attr">FontStyle</span>=<span class="xml-val">"Italic"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Label.ContentTemplate</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Label</span><span class="xml-tag">&gt;</span></code></pre><p>Here&#8217;s an example of a <strong>DataTemplate</strong> used as the <strong>ItemTemplate</strong> for a <strong>ListBox</strong>:</p><pre class="code-block language-xml"><code>&lt;ListBox Margin="15" Width="270" Height="320"
+       ItemsSource="{Binding ActorList}"&gt;
+      <span class="xml-tag">&lt;</span><span class="xml-name">ListBox.ItemTemplate</span><span class="xml-tag">&gt;</span>
+          <span class="xml-tag">&lt;</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+              <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+                  <span class="xml-tag">&lt;</span><span class="xml-name">Image</span> <span class="xml-attr">Source</span>=<span class="xml-val">"{Binding Image}"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"80"</span><span class="xml-tag">/&gt;</span>
+                  <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">&gt;</span>
+                      <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding FullName}"</span> <span class="xml-attr">FontSize</span>=<span class="xml-val">"12"</span> <span class="xml-attr">FontWeight</span>=<span class="xml-val">"Bold"</span><span class="xml-tag">/&gt;</span>
+                      <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding Dates}"</span><span class="xml-tag">/&gt;</span>
+                      <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding KnownFor}"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"0,5,0,0"</span> <span class="xml-attr">FontStyle</span>=<span class="xml-val">"Italic"</span><span class="xml-tag">/&gt;</span>
+                  <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                  &lt;Label Content="Dead Fred !" Foreground="Red"
+                         FontWeight="Bold"
+                         Visibility="{Binding Converter={StaticResource deadFredConverter}}"/&gt;
+              <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+          <span class="xml-tag">&lt;/</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+      <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox.ItemTemplate</span><span class="xml-tag">&gt;</span>
+  <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox</span><span class="xml-tag">&gt;</span></code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

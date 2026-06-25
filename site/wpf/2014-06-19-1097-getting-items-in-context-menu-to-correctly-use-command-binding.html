@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,61 +55,27 @@
 																				</p>
 					</div>
 
-					<p>Let&#8217;s say that you set up command bindings for a main <strong>Window</strong> in an application and then use the command for some control (e.g. a <strong>Button</strong>) and also within a <strong>ContextMenu</strong>.  (Assume that the <strong>GreetUser_CanExecute</strong> method always returns <strong>true</strong>).</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Window.CommandBindings&gt;
-
-        &lt;CommandBinding Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
-
-                        CanExecute=&quot;GreetUser_CanExecute&quot;
-
-                        Executed=&quot;GreetUser_Executed&quot;/&gt;
-
-    &lt;/Window.CommandBindings&gt;
-
-
-
-    &lt;Window.ContextMenu&gt;
-
-        &lt;ContextMenu&gt;
-
-            &lt;MenuItem Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
-
-        &lt;/ContextMenu&gt;
-
-    &lt;/Window.ContextMenu&gt;
-
-
-
-    &lt;StackPanel&gt;
-
-        &lt;TextBox Name=&quot;txtSomeText&quot;
-
-                 Width=&quot;220&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
-
-        &lt;Button HorizontalAlignment=&quot;Center&quot;
-
-                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
-
-                Content=&quot;{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}&quot;
-
-                Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p>If you run this code and right-click on the window to bring up the context menu, the <strong>MenuItem</strong> is greyed out.  It&#8217;s not binding correctly to our <strong>CanExecute</strong> method.  The <strong>Button</strong>, on the other hand, did find the binding.</p>
+					<p>Let&#8217;s say that you set up command bindings for a main <strong>Window</strong> in an application and then use the command for some control (e.g. a <strong>Button</strong>) and also within a <strong>ContextMenu</strong>.  (Assume that the <strong>GreetUser_CanExecute</strong> method always returns <strong>true</strong>).</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.CommandBindings</span><span class="xml-tag">&gt;</span>
+    &lt;CommandBinding Command="{x:Static loc:MainWindow.GreetUserCommand}"
+                    CanExecute="GreetUser_CanExecute"
+                    Executed="GreetUser_Executed"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.CommandBindings</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Window.ContextMenu</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ContextMenu</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">MenuItem</span> <span class="xml-attr">Command</span>=<span class="xml-val">"{x:Static loc:MainWindow.GreetUserCommand}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ContextMenu</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.ContextMenu</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;TextBox Name="txtSomeText"
+             Width="220" Height="25" Margin="10"/&gt;
+    &lt;Button HorizontalAlignment="Center"
+            Padding="10,5" Margin="10"
+            Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+            Command="{x:Static loc:MainWindow.GreetUserCommand}"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>If you run this code and right-click on the window to bring up the context menu, the <strong>MenuItem</strong> is greyed out.  It&#8217;s not binding correctly to our <strong>CanExecute</strong> method.  The <strong>Button</strong>, on the other hand, did find the binding.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1097-001.png"><img class="alignnone size-full wp-image-8899" src="data:image/png;base64,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" alt="1097-001"   /></a></p>
-<p>The fix for this is to set the <strong>CommandTarget</strong> for the <strong>MenuItem </strong>to the <strong>PlacementTarget</strong> of the parent <strong>ContextMenu</strong>&#8211;the <strong>Window</strong>.  The <strong>MenuItem</strong> definition becomes:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-            &lt;MenuItem Command=&quot;{x:Static loc:MainWindow.GreetUserCommand}&quot;
-
-                      CommandTarget=&quot;{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}&quot;/&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1097-002.png"><img class="alignnone size-full wp-image-8901" src="data:image/png;base64,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" alt="1097-002"   /></a></p>
+<p>The fix for this is to set the <strong>CommandTarget</strong> for the <strong>MenuItem </strong>to the <strong>PlacementTarget</strong> of the parent <strong>ContextMenu</strong>&#8211;the <strong>Window</strong>.  The <strong>MenuItem</strong> definition becomes:</p><pre class="code-block language-xml"><code>&lt;MenuItem Command="{x:Static loc:MainWindow.GreetUserCommand}"
+          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/&gt;</code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1097-002.png"><img class="alignnone size-full wp-image-8901" src="data:image/png;base64,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" alt="1097-002"   /></a></p>
 <p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

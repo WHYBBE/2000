@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -50,72 +62,31 @@
 <li><strong>SelectionLength -</strong> number of characters selected (int)</li>
 </ul>
 <p>The <strong>SelectionChanged </strong>event will fire whenever the currently selected text changes.</p>
-<p>Below, we wire up the <strong>SelectionChanged</strong> event, capture the values of these properties, and then bind to those values.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;TextBox Margin=&quot;5&quot; Height=&quot;100&quot;
-
-            Text=&quot;{Binding SomeText}&quot;
-
-            TextWrapping=&quot;Wrap&quot;
-
-            VerticalScrollBarVisibility=&quot;Auto&quot;
-
-            SelectionChanged=&quot;TextBox_SelectionChanged&quot;/&gt;
-
-        &lt;Label Content=&quot;{Binding SelectedText}&quot;/&gt;
-
-        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-
-            &lt;Label Content=&quot;{Binding SelectionStart}&quot;/&gt;
-
-            &lt;Label Content=&quot;{Binding SelectionLength}&quot;/&gt;
-
-        &lt;/StackPanel&gt;
-
-</pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private void RaisePropertyChanged(string propName)
-
-        {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-
-        }
-
-
-
-        public string SelectedText { get; set; }
-
-        public int SelectionStart { get; set; }
-
-        public int SelectionLength { get; set; }
-
-
-
-        private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
-
-        {
-
-            SelectedText = ((TextBox)sender).SelectedText;
-
-            SelectionStart = ((TextBox)sender).SelectionStart;
-
-            SelectionLength = ((TextBox)sender).SelectionLength;
-
-
-
-            RaisePropertyChanged(&quot;SelectedText&quot;);
-
-            RaisePropertyChanged(&quot;SelectionStart&quot;);
-
-            RaisePropertyChanged(&quot;SelectionLength&quot;);
-
-        }
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/936-001.png"><img class="alignnone size-full wp-image-7803" alt="936-001" src="data:image/png;base64,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"   /></a></p>
+<p>Below, we wire up the <strong>SelectionChanged</strong> event, capture the values of these properties, and then bind to those values.</p><pre class="code-block language-xml"><code>&lt;TextBox Margin="5" Height="100"
+    Text="{Binding SomeText}"
+    TextWrapping="Wrap"
+    VerticalScrollBarVisibility="Auto"
+    SelectionChanged="TextBox_SelectionChanged"/&gt;
+<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding SelectedText}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding SelectionStart}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding SelectionLength}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+{
+    PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+}
+<span class="kw">public</span> <span class="kw">string</span> SelectedText { <span class="kw">get</span>; <span class="kw">set</span>; }
+<span class="kw">public</span> <span class="kw">int</span> SelectionStart { <span class="kw">get</span>; <span class="kw">set</span>; }
+<span class="kw">public</span> <span class="kw">int</span> SelectionLength { <span class="kw">get</span>; <span class="kw">set</span>; }
+<span class="kw">private</span> <span class="kw">void</span> TextBox_SelectionChanged(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    SelectedText = ((TextBox)sender).SelectedText;
+    SelectionStart = ((TextBox)sender).SelectionStart;
+    SelectionLength = ((TextBox)sender).SelectionLength;
+    RaisePropertyChanged(<span class="str">"SelectedText"</span>);
+    RaisePropertyChanged(<span class="str">"SelectionStart"</span>);
+    RaisePropertyChanged(<span class="str">"SelectionLength"</span>);
+}</code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/10/936-001.png"><img class="alignnone size-full wp-image-7803" alt="936-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,31 +53,23 @@
                     </div>
                
                     <p>When using the XAML <a href="2010-09-27-77-xaml-collection-syntax.html">collection syntax</a> for a collection-based property that is read/write, the inclusion of an object element representing the collection object is optional.</p>
-<p>E.g. Because <strong>FrameworkElement.Resources</strong> is read/write, we can list a series of resources using either of the following forms.</p>
-<pre class="brush: xml;">
- &lt;!-- Create new ResourceDictionary, assign to Resources property --&gt;
- &lt;Window.Resources&gt;
-     &lt;ResourceDictionary&gt;
-         &lt;SolidColorBrush x:Key=&quot;redBrush&quot; Color=&quot;Red&quot;/&gt;
-         &lt;SolidColorBrush x:Key=&quot;indigoBrush&quot; Color=&quot;Indigo&quot;/&gt;
-     &lt;/ResourceDictionary&gt;
- &lt;/Window.Resources&gt;
+<p>E.g. Because <strong>FrameworkElement.Resources</strong> is read/write, we can list a series of resources using either of the following forms.</p><pre class="code-block language-xml"><code>&lt;!-- Create new ResourceDictionary, assign to Resources property --&gt;
+<span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ResourceDictionary</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"redBrush"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"Red"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"indigoBrush"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"Indigo"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ResourceDictionary</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
 
- &lt;!-- Omit ResourceDictionary, use collection syntax, new resources added to existing collection --&gt;
- &lt;Window.Resources&gt;
-     &lt;SolidColorBrush x:Key=&quot;redBrush&quot; Color=&quot;Red&quot;/&gt;
-     &lt;SolidColorBrush x:Key=&quot;indigoBrush&quot; Color=&quot;Indigo&quot;/&gt;
- &lt;/Window.Resources&gt;
-</pre>
-<p>However, for read-only collection properties, because you can&#8217;t create a new instance of the collection and assign it to the property, you must use the collection syntax, omitting the object element for the collection.</p>
-<pre class="brush: xml;">
- &lt;StackPanel.Children&gt;
+&lt;!-- Omit ResourceDictionary, use collection syntax, new resources added to existing collection --&gt;
+<span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"redBrush"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"Red"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"indigoBrush"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"Indigo"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span></code></pre><p>However, for read-only collection properties, because you can&#8217;t create a new instance of the collection and assign it to the property, you must use the collection syntax, omitting the object element for the collection.</p><pre class="code-block language-xml"><code> <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel.Children</span><span class="xml-tag">&gt;</span>
      &lt;!-- Children property is read-only, so we can't include UIElementCollection element here --&gt;
-     &lt;Button Content=&quot;Button&quot; Height=&quot;25&quot; Width=&quot;50&quot; /&gt;
-&lt;ComboBox Height=&quot;23&quot; Width=&quot;120&quot; /&gt;
- &lt;/StackPanel.Children&gt;
-</pre>
-<div class="clear"></div>
+     <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Button"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"25"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"50"</span> <span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">ComboBox</span> <span class="xml-attr">Height</span>=<span class="xml-val">"23"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"120"</span> <span class="xml-tag">/&gt;</span>
+ <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel.Children</span><span class="xml-tag">&gt;</span></code></pre><div class="clear"></div>
                                                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

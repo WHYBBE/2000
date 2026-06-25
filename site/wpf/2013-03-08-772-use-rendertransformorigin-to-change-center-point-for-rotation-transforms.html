@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,23 +58,13 @@
 					<p>There are <a href="http://wp.me/pZhye-1Jr">two methods</a> for specifying the center point for a rotation transform.  You can either set the <strong>RenderTransformOrigin</strong> property for the element itself or you can set the <strong>CenterX</strong> and <strong>CenterY</strong> properties of the <strong>RotateTransform</strong> element.</p>
 <p>Using <strong>RenderTransformOrigin </strong>is preferred, because you specify the center point using coordinates that are normalized against the rendered size of the element.  This is easier than having to know what the actual size of element is.  For example, you use (0.5, 0.5) to indicate that the rotation center is the center of the element.</p>
 <p>The <strong>RenderTransformOrigin</strong> property will apply to all render transforms being applied to the element.  So if you have multiple transforms and want to specify an origin for only the rotation transform, you&#8217;ll need to use the <strong>CenterX/CenterY</strong> properties on the <strong>RotateTransform</strong> element.</p>
-<p><pre class="brush: xml;">
-
-        &lt;Button Content=&quot;Push Me&quot; HorizontalAlignment=&quot;Center&quot;
-
-                RenderTransformOrigin=&quot;0.5,0.5&quot;
-
-                Margin=&quot;30&quot;&gt;
-
-            &lt;Button.RenderTransform&gt;
-
-                &lt;RotateTransform Angle=&quot;45&quot; /&gt;
-
-            &lt;/Button.RenderTransform&gt;
-
-        &lt;/Button&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code>&lt;Button Content="Push Me" HorizontalAlignment="Center"
+        RenderTransformOrigin="0.5,0.5"
+        Margin="30"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button.RenderTransform</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RotateTransform</span> <span class="xml-attr">Angle</span>=<span class="xml-val">"45"</span> <span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Button.RenderTransform</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Button</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2013/03/772-001.png"><img class="alignnone size-full wp-image-6689" alt="772-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

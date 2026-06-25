@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,43 +56,22 @@
 					</div>
 
 					<p>You can flip any GUI element, either horizontally or vertically, by using a scale transform.</p>
-<p>To flip an element horizontally, you use a <strong>ScaleTransform </strong>with a <strong>ScaleX</strong> value of -1.0.  To flip an element vertically, you use a <strong>ScaleTransform</strong> with a <strong>ScaleY</strong> value of -1.0.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
-
-        &lt;Label Content=&quot;Jane Austen&quot; Background=&quot;Thistle&quot;
-
-               HorizontalAlignment=&quot;Center&quot; FontSize=&quot;16&quot; Margin=&quot;10&quot;/&gt;
-
-        &lt;Label Content=&quot;Jane Austen&quot; Background=&quot;Thistle&quot;
-
-               HorizontalAlignment=&quot;Center&quot; FontSize=&quot;16&quot; Margin=&quot;10&quot;&gt;
-
-            &lt;Label.LayoutTransform&gt;
-
-                &lt;ScaleTransform ScaleX=&quot;-1.0&quot;/&gt;
-
-            &lt;/Label.LayoutTransform&gt;
-
-        &lt;/Label&gt;
-
-        &lt;Label Content=&quot;Jane Austen&quot; Background=&quot;Thistle&quot;
-
-               HorizontalAlignment=&quot;Center&quot; FontSize=&quot;16&quot; Margin=&quot;10&quot;&gt;
-
-            &lt;Label.LayoutTransform&gt;
-
-                &lt;ScaleTransform ScaleY=&quot;-1.0&quot;/&gt;
-
-            &lt;/Label.LayoutTransform&gt;
-
-        &lt;/Label&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/03/788-001.png"><img class="alignnone size-full wp-image-6814" alt="788-001" src="data:image/png;base64,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"   /></a></p>
+<p>To flip an element horizontally, you use a <strong>ScaleTransform </strong>with a <strong>ScaleX</strong> value of -1.0.  To flip an element vertically, you use a <strong>ScaleTransform</strong> with a <strong>ScaleY</strong> value of -1.0.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Vertical"</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="Jane Austen" Background="Thistle"
+           HorizontalAlignment="Center" FontSize="16" Margin="10"/&gt;
+    &lt;Label Content="Jane Austen" Background="Thistle"
+           HorizontalAlignment="Center" FontSize="16" Margin="10"&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label.LayoutTransform</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ScaleTransform</span> <span class="xml-attr">ScaleX</span>=<span class="xml-val">"-1.0"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Label.LayoutTransform</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Label</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="Jane Austen" Background="Thistle"
+           HorizontalAlignment="Center" FontSize="16" Margin="10"&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label.LayoutTransform</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ScaleTransform</span> <span class="xml-attr">ScaleY</span>=<span class="xml-val">"-1.0"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Label.LayoutTransform</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Label</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/03/788-001.png"><img class="alignnone size-full wp-image-6814" alt="788-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

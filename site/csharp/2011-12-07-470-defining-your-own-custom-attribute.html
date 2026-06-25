@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,38 +56,27 @@
 					</div>
 
 					<p>You can <a href="http://wp.me/pXTis-116">use predefined attributes</a> to attach metadata to type members.</p>
-<p>You can also define a custom attribute by creating a new class inheriting from <strong>System.Attribute</strong>.  The class name must end in &#8220;Attribute&#8221;.  You typically define a constructor that takes arguments that consist of the metadata that you want to attach to the type member.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    /// &lt;summary&gt;
-    /// Attach to a class method to indicate kg of methane that is
-    /// output when calling the method.
-    /// &lt;/summary&gt;
-    public class MethaneFootprintAttribute : Attribute
-    {
-        public double kgMethane;
-
-        public MethaneFootprintAttribute(int kg)
-        {
-            kgMethane = kg;
-        }
-    }
-</pre>
-<p>You can use the new attribute to attach metadata to individual type members.  You use the name of the new class, without the trailing &#8220;Attribute&#8221;.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        [MethaneFootprint(45)]
-        public void FeedCowInBarn()
-        {
-            Console.WriteLine(&quot;Cow eats slop in dim confines of barn&quot;);
-        }
-
-        [MethaneFootprint(29)]
-        public void LetGrazeOutside()
-        {
-            Console.WriteLine(&quot;Cow enjoys grazing and ends up healthier&quot;);
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>You can also define a custom attribute by creating a new class inheriting from <strong>System.Attribute</strong>.  The class name must end in &#8220;Attribute&#8221;.  You typically define a constructor that takes arguments that consist of the metadata that you want to attach to the type member.</p><pre class="code-block language-csharp"><code><span class="com">/// &lt;summary&gt;</span>
+<span class="com">/// Attach to a class method to indicate kg of methane that is</span>
+<span class="com">/// output when calling the method.</span>
+<span class="com">/// &lt;/summary&gt;</span>
+<span class="kw">public</span> <span class="kw">class</span> MethaneFootprintAttribute : Attribute
+{
+    <span class="kw">public</span> <span class="kw">double</span> kgMethane;
+    <span class="kw">public</span> MethaneFootprintAttribute(<span class="kw">int</span> kg)
+    {
+        kgMethane = kg;
+    }
+}</code></pre><p>You can use the new attribute to attach metadata to individual type members.  You use the name of the new class, without the trailing &#8220;Attribute&#8221;.</p><pre class="code-block language-csharp"><code>[MethaneFootprint(<span <span class="kw">class</span>="num">45</span>)]
+<span class="kw">public</span> <span class="kw">void</span> FeedCowInBarn()
+{
+    Console.WriteLine(<span class="str">"Cow eats slop in dim confines of barn"</span>);
+}
+[MethaneFootprint(<span <span class="kw">class</span>="num">29</span>)]
+<span class="kw">public</span> <span class="kw">void</span> LetGrazeOutside()
+{
+    Console.WriteLine(<span class="str">"Cow enjoys grazing and ends up healthier"</span>);
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

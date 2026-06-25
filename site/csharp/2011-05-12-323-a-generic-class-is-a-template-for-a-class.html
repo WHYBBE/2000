@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -40,27 +52,19 @@
                         <p><span class="time">May 12, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">Leave a Comment</a></span> </p>
                     </div>
 
-                    <p>A <em>generic</em> class is a class that takes one or more <em>type parameters</em>, which it then uses in the definition of the class.  It can be thought of as a template for a class.</p>
-<pre class="brush: csharp;">
-    public class ThingContainer&lt;TParam&gt;
+                    <p>A <em>generic</em> class is a class that takes one or more <em>type parameters</em>, which it then uses in the definition of the class.  It can be thought of as a template for a class.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ThingContainer&lt;TParam&gt;
+{
+    <span class="kw">private</span> TParam theThing;
+
+    <span class="kw">public</span> <span class="kw">void</span> SetThing(TParam newValue)
     {
-        private TParam theThing;
-
-        public void SetThing(TParam newValue)
-        {
-            theThing = newValue;
-        }
+        theThing = newValue;
     }
-</pre>
-<p>You use a generic class by specifying a type for each of the type parameters.</p>
-<pre class="brush: csharp;">
-            ThingContainer&lt;int&gt; intContainer = new ThingContainer&lt;int&gt;();
-            intContainer.SetThing(5);
+}</code></pre><p>You use a generic class by specifying a type for each of the type parameters.</p><pre class="code-block language-csharp"><code>ThingContainer&lt;<span class="kw">int</span>&gt; intContainer = <span class="kw">new</span> ThingContainer&lt;<span class="kw">int</span>&gt;();
+intContainer.SetThing(<span <span class="kw">class</span>="num">5</span>);
 
-            ThingContainer&lt;Dog&gt; dogContainer = new ThingContainer&lt;Dog&gt;();
-            dogContainer.SetThing(new Dog(&quot;Kirby&quot;, 5));
-</pre>
-<p>In this example, we use a generic class to store an object of an arbitrary type.  We use one version of the class to store an <strong>int</strong> and another to store a <strong>Dog</strong>.  Notice that wherever we use the name of the generic class to define an instance, we need to supply a typename (e.g. <strong>int</strong>, <strong>Dog</strong>) as a parameter.</p>
+ThingContainer&lt;Dog&gt; dogContainer = <span class="kw">new</span> ThingContainer&lt;Dog&gt;();
+dogContainer.SetThing(<span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span <span class="kw">class</span>="num">5</span>));</code></pre><p>In this example, we use a generic class to store an object of an arbitrary type.  We use one version of the class to store an <strong>int</strong> and another to store a <strong>Dog</strong>.  Notice that wherever we use the name of the generic class to define an instance, we need to supply a typename (e.g. <strong>int</strong>, <strong>Dog</strong>) as a parameter.</p>
 <div class="clear"></div>
                     
                     <!--

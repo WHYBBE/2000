@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,25 +56,18 @@
 					</div>
 
 					<p>Array covariance allows <strong>T[] </strong>to be assigned to <strong>U[]</strong>, if <strong>T </strong>can be assigned to <strong>U</strong>.</p>
-<p><pre class="brush: csharp;">
-// Assignment compatibility, because Terrier is sub-type of Dog
-Terrier t = new Terrier(&quot;Bob&quot;);
-Dog d = t;
-
-// Allowed because of array covariance
-Terrier[] terriers = MakeTerrierArray();
-Dog[] dogs = terriers;
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Assignment compatibility, because Terrier is sub-type of Dog</span>
+Terrier t = <span class="kw">new</span> Terrier(<span class="str">"Bob"</span>);
+Dog d = t;
+<span class="com">// Allowed because of array covariance</span>
+Terrier[] terriers = MakeTerrierArray();
+Dog[] dogs = terriers;</code></pre>
 <p>This does not work, however, if the contents of the arrays are value types.  Arrays of value-typed objects are not covariant.</p>
-<p><pre class="brush: csharp;">
-            byte b1 = 12;
-            ushort u1 = b1;  // Assignment compatible
-
-            byte[] bytearray = new byte[] { 1, 2, 3 };
-
-            // Not allowed.  Compile-time error &quot;Cannot implicitly convert type 'byte[]' to 'ushort[]'
-            ushort[] shortarray = bytearray;
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">byte</span> b1 = <span <span class="kw">class</span>="num">12</span>;
+<span class="kw">ushort</span> u1 = b1;  <span class="com">// Assignment compatible</span>
+<span class="kw">byte</span>[] bytearray = <span class="kw">new</span> <span class="kw">byte</span>[] { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span> };
+<span class="com">// Not allowed.  Compile-time error "Cannot implicitly convert type 'byte[]' to 'ushort[]'</span>
+<span class="kw">ushort</span>[] shortarray = bytearray;</code></pre>
 
 <div class="wpadvert">
 

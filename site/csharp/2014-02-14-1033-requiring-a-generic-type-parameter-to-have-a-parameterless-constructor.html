@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,23 +58,16 @@
 					<p>By default, when you specify a type parameter in a <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">generic class</a>, the type can be any .NET type.  There are times, however, when you’d like to <em>constrain</em> the type in some ways.</p>
 <p>You can require that a type passed in as a type argument implement a public parameterless constructor by using the <strong>where</strong> keyword and specifying <strong>new()</strong>.  The <strong>new() </strong>constraint tells the code that is constructing the type that it needs to only use types that have a parameterless constructor.</p>
 <p>Without this constraint, you are not allowed to construct instances of the type passed in as a type parameter.  (The compiler will tell you to add the <strong>new()</strong> constraint).</p>
-<p>With the constraint, your class might look like this:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class PileOf&lt;T&gt; where T : new()
-    {
-        private List&lt;T&gt; thePile;
-
-        public PileOf()
-        {
-            thePile = new List&lt;T&gt;();
-
-            // First element in list is a default T
-            thePile.Add(new T());
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>With the constraint, your class might look like this:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> PileOf&lt;T&gt; <span class="kw">where</span> T : <span class="kw">new</span>()
+{
+    <span class="kw">private</span> List&lt;T&gt; thePile;
+    <span class="kw">public</span> PileOf()
+    {
+        thePile = <span class="kw">new</span> List&lt;T&gt;();
+        <span class="com">// First element in list is a default T</span>
+        thePile.Add(<span class="kw">new</span> T());
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

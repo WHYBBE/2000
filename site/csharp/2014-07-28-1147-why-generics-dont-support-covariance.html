@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,21 +56,14 @@
 					</div>
 
 					<p>In C#, <a href="2012-04-24-568-array-covariance.html">arrays support covariance</a>, but generics <a href="http://wp.me/pXTis-2jm">do not</a>.  Generics aren&#8217;t covariant in order to avoid the <a href="2012-05-02-574-the-problem-with-array-covariance.html">problem that we have with covariant arrays</a>.  With arrays, we get type mismatch exceptions when trying to put something into the array of the wrong type.  The core problem here is that the array looks syntactically like an array of the base type, but is actually an array of the more derived type.</p>
-<p>Generics in C# aren&#8217;t covariant in order to avoid this same problem.  The language designers decided to support covariance for arrays but not for generics.  The reasons are likely more historical than technical.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Array covariance--OK
-            Dog[] dogs = new Terrier[5];
-
-            // The problem with array covariance.
-            // Compiler allows, but throws ArrayTypeMismatchException
-            // at run-time
-            dogs[0] = new BorderCollie(&quot;Shep&quot;);
-
-            // Generic covariance--not allowed (compiler error)
-            List&lt;Dog&gt; moreDogs = new List&lt;Terrier&gt;();
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Generics in C# aren&#8217;t covariant in order to avoid this same problem.  The language designers decided to support covariance for arrays but not for generics.  The reasons are likely more historical than technical.</p><pre class="code-block language-csharp"><code><span class="com">// Array covariance--OK</span>
+Dog[] dogs = <span class="kw">new</span> Terrier[<span <span class="kw">class</span>="num">5</span>];
+<span class="com">// The problem with array covariance.</span>
+<span class="com">// Compiler allows, but throws ArrayTypeMismatchException</span>
+<span class="com">// at run-time</span>
+dogs[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">new</span> BorderCollie(<span class="str">"Shep"</span>);
+<span class="com">// Generic covariance--not allowed (compiler error)</span>
+List&lt;Dog&gt; moreDogs = <span class="kw">new</span> List&lt;Terrier&gt;();</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

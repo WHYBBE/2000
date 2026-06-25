@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,68 +56,27 @@
 					</div>
 
 					<p>Here&#8217;s a simple example of inheritance in C#.</p>
-<p>The <strong>Dog</strong> class has a <strong>Name</strong> property and a <strong>Bark</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>The <strong>Dog</strong> class has a <strong>Name</strong> property and a <strong>Bark</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
     {
-
-        public string Name { get; set; }
-
-
-
-        public void Bark()
-
-        {
-
-            Console.WriteLine(Name + &quot; : Woof&quot;);
-
-        }
-
+        Console.WriteLine(Name + <span class="str">" : Woof"</span>);
     }
-
-</pre>
-<p>The <strong>Terrier</strong> class inherits from <strong>Dog </strong>and adds a <strong>HuntVermin</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Terrier : Dog
-
+}</code></pre><p>The <strong>Terrier</strong> class inherits from <strong>Dog </strong>and adds a <strong>HuntVermin</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">void</span> HuntVermin()
     {
-
-        public void HuntVermin()
-
-        {
-
-            Console.WriteLine(Name + &quot; off to find vermin&quot;);
-
-        }
-
+        Console.WriteLine(Name + <span class="str">" off to find vermin"</span>);
     }
-
-</pre>
-<p>An object of type <strong>Dog</strong> has access to the <strong>Name</strong> property and the <strong>Bark</strong> method.  An object of type <strong>Terrier</strong> also has access to <strong>Name </strong>and <strong>Bark</strong> and also to the <strong>HuntVermin</strong> method.<strong><br />
-</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog d = new Dog();
-
-            d.Name = &quot;Kirby&quot;;
-
-            d.Bark();
-
-
-
-            Terrier t = new Terrier();
-
-            t.Name = &quot;Jack&quot;;
-
-            t.Bark();
-
-            t.HuntVermin();
-
-</pre>
-<p><a href="http://csharp.2000things.com/2012/12/24/742-a-simple-example-of-inheritance/742-001/" rel="attachment wp-att-6391"><img class="alignnone size-full wp-image-6391" alt="742-001" src="data:image/png;base64,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"   /></a></p>
+}</code></pre><p>An object of type <strong>Dog</strong> has access to the <strong>Name</strong> property and the <strong>Bark</strong> method.  An object of type <strong>Terrier</strong> also has access to <strong>Name </strong>and <strong>Bark</strong> and also to the <strong>HuntVermin</strong> method.<strong><br />
+</strong></p><pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog();
+d.Name = <span class="str">"Kirby"</span>;
+d.Bark();
+Terrier t = <span class="kw">new</span> Terrier();
+t.Name = <span class="str">"Jack"</span>;
+t.Bark();
+t.HuntVermin();</code></pre><p><a href="http://csharp.2000things.com/2012/12/24/742-a-simple-example-of-inheritance/742-001/" rel="attachment wp-att-6391"><img class="alignnone size-full wp-image-6391" alt="742-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,56 +56,40 @@
 					</div>
 
 					<p>In the same way that you can <a href="2014-07-10-1135-overloading-a-generic-class.html">overload a generic class</a>, you can overload a generic method, defining multiple generic methods having the same name but different type parameters.  You can also define non-generic methods with the same name.</p>
-<p>Below, we overload the <strong>Dog.Bury </strong>method, defining several non-generic and several generic methods.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Name = name;
-        }
-
-        public void Bury(Bone b)
-        {
-            Console.WriteLine(&quot;{0} is burying: {1}&quot;, Name, b);
-        }
-
-        public void Bury(Lawyer l)
-        {
-            Console.WriteLine(&quot;{0} is burying: {1}&quot;, Name, l);
-        }
-
-        public void Bury&lt;T&gt;(T thing)
-        {
-            Console.WriteLine(&quot;{0} is burying: {1}&quot;, Name, thing);
-        }
-
-        public void Bury&lt;T&gt;(T thing, string msg)
-        {
-            Console.WriteLine(&quot;{0} : {1}&quot;, msg, thing);
-        }
-
-        public void Bury&lt;T1, T2&gt;(T1 thing1, T2 thing2)
-        {
-            Console.WriteLine(&quot;{0} is burying: {1}&quot;, Name, thing1);
-            Console.WriteLine(&quot;{0} is burying: {1}&quot;, Name, thing2);
-        }
-    }
-</pre>
-<p>We can call these methods as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog fido = new Dog(&quot;Fido&quot;);
-
-            fido.Bury(new Bone());
-            fido.Bury(new Lawyer());
-            fido.Bury&lt;Cow&gt;(new Cow(&quot;Bessie&quot;));
-            fido.Bury&lt;Lawyer&gt;(new Lawyer(), &quot;One less lawyer&quot;);
-            fido.Bury&lt;Cow,Cat&gt;(new Cow(&quot;Bessie&quot;), new Cat(&quot;Puffy&quot;));
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Below, we overload the <strong>Dog.Bury </strong>method, defining several non-generic and several generic methods.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
+    {
+        Name = name;
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Bury(Bone b)
+    {
+        Console.WriteLine(<span class="str">"{0} is burying: {1}"</span>, Name, b);
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Bury(Lawyer l)
+    {
+        Console.WriteLine(<span class="str">"{0} is burying: {1}"</span>, Name, l);
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Bury&lt;T&gt;(T thing)
+    {
+        Console.WriteLine(<span class="str">"{0} is burying: {1}"</span>, Name, thing);
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Bury&lt;T&gt;(T thing, <span class="kw">string</span> msg)
+    {
+        Console.WriteLine(<span class="str">"{0} : {1}"</span>, msg, thing);
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Bury&lt;T1, T2&gt;(T1 thing1, T2 thing2)
+    {
+        Console.WriteLine(<span class="str">"{0} is burying: {1}"</span>, Name, thing1);
+        Console.WriteLine(<span class="str">"{0} is burying: {1}"</span>, Name, thing2);
+    }
+}</code></pre><p>We can call these methods as follows:</p><pre class="code-block language-csharp"><code>Dog fido = <span class="kw">new</span> Dog(<span class="str">"Fido"</span>);
+fido.Bury(<span class="kw">new</span> Bone());
+fido.Bury(<span class="kw">new</span> Lawyer());
+fido.Bury&lt;Cow&gt;(<span class="kw">new</span> Cow(<span class="str">"Bessie"</span>));
+fido.Bury&lt;Lawyer&gt;(<span class="kw">new</span> Lawyer(), <span class="str">"One less lawyer"</span>);
+fido.Bury&lt;Cow,Cat&gt;(<span class="kw">new</span> Cow(<span class="str">"Bessie"</span>), <span class="kw">new</span> Cat(<span class="str">"Puffy"</span>));</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

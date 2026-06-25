@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,17 +57,14 @@
 
 					<p>You can set the <a href="2013-02-01-747-implementing-inertia-during-touch-manipulation.html"><strong>TranslationBehavior.DesiredDeceleration</strong></a> in the <strong>ManipulationInertiaStarting</strong> event to allow <a href="2013-01-31-746-specifying-inertial-deceleration.html">inertia</a> when translating using touch manipulation.  This allows an element to continue moving a little bit after you lift your finger off the element while doing translation manipulation.</p>
 <p>You can also enable inertia for expansion (i.e. scaling) during touch manipulation.  An element will then continue expanding or contracting when you lift your fingers from the screen while doing expansion using touch.  You do this by setting the <strong>ExpansionBehavior.DesiredDeceleration</strong> property.</p>
-<p><pre class="brush: csharp;">
-        private void Image_ManipulationInertiaStarting(object sender, ManipulationInertiaStartingEventArgs e)
-        {
-            // 10 in/sec^2 deceleration
-            e.TranslationBehavior.DesiredDeceleration = 10.0 * 96.0 / (1000.0 * 1000.0);
-
-            // 960 DIPS/sec^2 deceleration
-            Console.WriteLine(string.Format(&quot;Init Expansion Velocity = {0}&quot;, e.ExpansionBehavior.InitialVelocity));
-            e.ExpansionBehavior.DesiredDeceleration = 960.0 / (1000.0 * 1000.0);
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Image_ManipulationInertiaStarting(<span class="kw">object</span> sender, ManipulationInertiaStartingEventArgs e)
+{
+    <span class="com">// 10 in/sec^2 deceleration</span>
+    e.TranslationBehavior.DesiredDeceleration = <span <span class="kw">class</span>="num">10.0</span> * <span <span class="kw">class</span>="num">96.0</span> / (<span <span class="kw">class</span>="num">1000.0</span> * <span <span class="kw">class</span>="num">1000.0</span>);
+    <span class="com">// 960 DIPS/sec^2 deceleration</span>
+    Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Init Expansion Velocity = {0}"</span>, e.ExpansionBehavior.InitialVelocity));
+    e.ExpansionBehavior.DesiredDeceleration = <span <span class="kw">class</span>="num">960.0</span> / (<span <span class="kw">class</span>="num">1000.0</span> * <span <span class="kw">class</span>="num">1000.0</span>);
+}</code></pre>
 <p>Doing this is perhaps a little less useful than specifying inertia during translation.  Inertia as part of expansion is a little less intuitive.</p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

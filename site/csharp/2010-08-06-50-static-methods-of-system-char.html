@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,57 +56,42 @@
 					</div>
 
 					<p>The <strong>System.Char</strong> class has a large number of static methods that serve as utility methods for getting information about individual characters.</p>
-<p>Here are some examples:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
- char c1 = '2';
- double d1 = char.GetNumericValue(c1);   // Convert '2' to 2.0
-
- UnicodeCategory cat = char.GetUnicodeCategory('a');     // LowercaseLetter
- cat = char.GetUnicodeCategory('+');     // MathSymbol
- cat = char.GetUnicodeCategory('6');     // DecimalDigitNumber
-
- // Check for control characters
- bool isCtrl = char.IsControl('a');      // false
- isCtrl = char.IsControl('\t');          // true
-
- // Check for digits
- bool isDigit = char.IsDigit('a');       // false
- isDigit = char.IsDigit('3');            // true
-
- // Check for letters
- bool isLetter = char.IsLetter('%');     // false
- isLetter = char.IsLetter('P');          // true
- isLetter = char.IsLetter('ǽ');          // true
-
- bool lord = char.IsLetterOrDigit('j');  // true
-
- // Check for lower/upper case
- bool low = char.IsLower('j');           // true
- low = char.IsLower('Y');                // false
- bool upper = char.IsUpper('Ǻ');         // true
-
- // Check for numbers
- bool isnum = char.IsNumber('4');        // true
- isnum = char.IsNumber('௧');             // true
- isnum = char.IsNumber('X');             // false
-
- // Other
- bool ispunc = char.IsPunctuation('?');  // true
- bool issep = char.IsSeparator(' ');     // true
- bool issymbol = char.IsSymbol('$');     // true
-
- // Unicode
- bool issur = char.IsSurrogate('\xd840');         // true
- bool islow = char.IsLowSurrogate('\xd840');    // false
- bool ishigh = char.IsHighSurrogate('\xd840');  // true
-
- // Conversion
- char upp = char.ToUpper('a');       // A
- char lower = char.ToLower('a');     // a
- lower = char.ToLower('Y');          // y
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Here are some examples:</p><pre class="code-block language-csharp"><code><span class="kw">char</span> c1 = <span class="str">'2'</span>;
+<span class="kw">double</span> d1 = <span class="kw">char</span>.GetNumericValue(c1);   <span class="com">// Convert '2' to 2.0</span>
+UnicodeCategory cat = <span class="kw">char</span>.GetUnicodeCategory(<span class="str">'a'</span>);     <span class="com">// LowercaseLetter</span>
+cat = <span class="kw">char</span>.GetUnicodeCategory(<span class="str">'+'</span>);     <span class="com">// MathSymbol</span>
+cat = <span class="kw">char</span>.GetUnicodeCategory(<span class="str">'6'</span>);     <span class="com">// DecimalDigitNumber</span>
+<span class="com">// Check for control characters</span>
+<span class="kw">bool</span> isCtrl = <span class="kw">char</span>.IsControl(<span class="str">'a'</span>);      <span class="com">// false</span>
+isCtrl = <span class="kw">char</span>.IsControl(<span class="str">'\t'</span>);          <span class="com">// true</span>
+<span class="com">// Check for digits</span>
+<span class="kw">bool</span> isDigit = <span class="kw">char</span>.IsDigit(<span class="str">'a'</span>);       <span class="com">// false</span>
+isDigit = <span class="kw">char</span>.IsDigit(<span class="str">'3'</span>);            <span class="com">// true</span>
+<span class="com">// Check for letters</span>
+<span class="kw">bool</span> isLetter = <span class="kw">char</span>.IsLetter(<span class="str">'%'</span>);     <span class="com">// false</span>
+isLetter = <span class="kw">char</span>.IsLetter(<span class="str">'P'</span>);          <span class="com">// true</span>
+isLetter = <span class="kw">char</span>.IsLetter(<span class="str">'ǽ'</span>);          <span class="com">// true</span>
+<span class="kw">bool</span> lord = <span class="kw">char</span>.IsLetterOrDigit(<span class="str">'j'</span>);  <span class="com">// true</span>
+<span class="com">// Check for lower/upper case</span>
+<span class="kw">bool</span> low = <span class="kw">char</span>.IsLower(<span class="str">'j'</span>);           <span class="com">// true</span>
+low = <span class="kw">char</span>.IsLower(<span class="str">'Y'</span>);                <span class="com">// false</span>
+<span class="kw">bool</span> upper = <span class="kw">char</span>.IsUpper(<span class="str">'Ǻ'</span>);         <span class="com">// true</span>
+<span class="com">// Check for numbers</span>
+<span class="kw">bool</span> isnum = <span class="kw">char</span>.IsNumber(<span class="str">'4'</span>);        <span class="com">// true</span>
+isnum = <span class="kw">char</span>.IsNumber(<span class="str">'௧'</span>);             <span class="com">// true</span>
+isnum = <span class="kw">char</span>.IsNumber(<span class="str">'X'</span>);             <span class="com">// false</span>
+<span class="com">// Other</span>
+<span class="kw">bool</span> ispunc = <span class="kw">char</span>.IsPunctuation(<span class="str">'?'</span>);  <span class="com">// true</span>
+<span class="kw">bool</span> issep = <span class="kw">char</span>.IsSeparator(<span class="str">' '</span>);     <span class="com">// true</span>
+<span class="kw">bool</span> issymbol = <span class="kw">char</span>.IsSymbol(<span class="str">'$'</span>);     <span class="com">// true</span>
+<span class="com">// Unicode</span>
+<span class="kw">bool</span> issur = <span class="kw">char</span>.IsSurrogate('\xd840');         <span class="com">// true</span>
+<span class="kw">bool</span> islow = <span class="kw">char</span>.IsLowSurrogate('\xd840');    <span class="com">// false</span>
+<span class="kw">bool</span> ishigh = <span class="kw">char</span>.IsHighSurrogate('\xd840');  <span class="com">// true</span>
+<span class="com">// Conversion</span>
+<span class="kw">char</span> upp = <span class="kw">char</span>.ToUpper(<span class="str">'a'</span>);       <span class="com">// A</span>
+<span class="kw">char</span> lower = <span class="kw">char</span>.ToLower(<span class="str">'a'</span>);     <span class="com">// a</span>
+lower = <span class="kw">char</span>.ToLower(<span class="str">'Y'</span>);          <span class="com">// y</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

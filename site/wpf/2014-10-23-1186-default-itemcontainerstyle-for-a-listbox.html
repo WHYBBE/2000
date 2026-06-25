@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,81 +56,68 @@
 					</div>
 
 					<p>The default style for the <strong>ItemContainerStyle </strong>of a <strong>ListBox</strong> (version 4.5.1 of the .NET Framework) is shown below.  The template is included within a style that includes some other default property values.</p>
-<p>This style is applied to each <strong>ListBoxItem</strong> rendered in the <strong>ListBox</strong>.  The structure of each <strong>ListBoxItem</strong> is a <strong>Border</strong> surrounding a <strong>ContentPresenter</strong>.  More importantly, the style shows the default triggers that control how items are rendered when you move the mouse over an item or select an item.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;Style x:Key=&quot;lbDefaultItemContainerStyle&quot; TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
-            &lt;Setter Property=&quot;SnapsToDevicePixels&quot; Value=&quot;True&quot;/&gt;
-            &lt;Setter Property=&quot;Padding&quot; Value=&quot;4,1&quot;/&gt;
-            &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
-            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
-            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
-            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Transparent&quot;/&gt;
-            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
-            &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{StaticResource FocusVisual}&quot;/&gt;
-            &lt;Setter Property=&quot;Template&quot;&gt;
-                &lt;Setter.Value&gt;
-                    &lt;ControlTemplate TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
-                        &lt;Border x:Name=&quot;Bd&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
-                            &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
-                        &lt;/Border&gt;
-                        &lt;ControlTemplate.Triggers&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Background}&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.MouseOver.Border}&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;False&quot;/&gt;
-                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Background}&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedInactive.Border}&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                            &lt;MultiTrigger&gt;
-                                &lt;MultiTrigger.Conditions&gt;
-                                    &lt;Condition Property=&quot;Selector.IsSelectionActive&quot; Value=&quot;True&quot;/&gt;
-                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;True&quot;/&gt;
-                                &lt;/MultiTrigger.Conditions&gt;
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Background}&quot;/&gt;
-                                &lt;Setter Property=&quot;BorderBrush&quot; TargetName=&quot;Bd&quot; Value=&quot;{StaticResource Item.SelectedActive.Border}&quot;/&gt;
-                            &lt;/MultiTrigger&gt;
-                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
-                                &lt;Setter Property=&quot;TextElement.Foreground&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
-                            &lt;/Trigger&gt;
-                        &lt;/ControlTemplate.Triggers&gt;
-                    &lt;/ControlTemplate&gt;
-                &lt;/Setter.Value&gt;
-            &lt;/Setter&gt;
-        &lt;/Style&gt;
-</pre>
-<p>The style references some other predefined resources, shown below:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;Style x:Key=&quot;FocusVisual&quot;&gt;
-            &lt;Setter Property=&quot;Control.Template&quot;&gt;
-                &lt;Setter.Value&gt;
-                    &lt;ControlTemplate&gt;
-                        &lt;Rectangle Margin=&quot;2&quot; SnapsToDevicePixels=&quot;true&quot; Stroke=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot; StrokeThickness=&quot;1&quot; StrokeDashArray=&quot;1 2&quot;/&gt;
-                    &lt;/ControlTemplate&gt;
-                &lt;/Setter.Value&gt;
-            &lt;/Setter&gt;
-        &lt;/Style&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Background&quot; Color=&quot;#1F26A0DA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.MouseOver.Border&quot; Color=&quot;#a826A0Da&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Background&quot; Color=&quot;#3DDADADA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedInactive.Border&quot; Color=&quot;#FFDADADA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Background&quot; Color=&quot;#3D26A0DA&quot;/&gt;
-        &lt;SolidColorBrush x:Key=&quot;Item.SelectedActive.Border&quot; Color=&quot;#FF26A0DA&quot;/&gt;
-</pre>
-<p>You would use the main style as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;ListBox Margin=&quot;5&quot; ItemsSource=&quot;{Binding MovieList}&quot;
-                 ItemContainerStyle=&quot;{DynamicResource lbDefaultItemContainerStyle}&quot; /&gt;
-</pre>
-
-<div class="wpcnt">
+<p>This style is applied to each <strong>ListBoxItem</strong> rendered in the <strong>ListBox</strong>.  The structure of each <strong>ListBoxItem</strong> is a <strong>Border</strong> surrounding a <strong>ContentPresenter</strong>.  More importantly, the style shows the default triggers that control how items are rendered when you move the mouse over an item or select an item.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"lbDefaultItemContainerStyle"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ListBoxItem}"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"SnapsToDevicePixels"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Padding"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"4,1"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"HorizontalContentAlignment"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"VerticalContentAlignment"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Transparent"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Transparent"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderThickness"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"1"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"FocusVisualStyle"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource FocusVisual}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Template"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ListBoxItem}"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"{TemplateBinding BorderBrush}"</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"{TemplateBinding BorderThickness}"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"{TemplateBinding Background}"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"{TemplateBinding Padding}"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"true"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ContentPresenter</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"{TemplateBinding HorizontalContentAlignment}"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"{TemplateBinding SnapsToDevicePixels}"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"{TemplateBinding VerticalContentAlignment}"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsMouseOver"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource Item.MouseOver.Background}"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource Item.MouseOver.Border}"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Selector.IsSelectionActive"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsSelected"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource Item.SelectedInactive.Background}"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource Item.SelectedInactive.Border}"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Selector.IsSelectionActive"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsSelected"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource Item.SelectedActive.Background}"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource Item.SelectedActive.Border}"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsEnabled"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"TextElement.Foreground"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span></code></pre><p>The style references some other predefined resources, shown below:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"FocusVisual"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Control.Template"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Rectangle</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"2"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"true"</span> <span class="xml-attr">Stroke</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"</span> <span class="xml-attr">StrokeThickness</span>=<span class="xml-val">"1"</span> <span class="xml-attr">StrokeDashArray</span>=<span class="xml-val">"1 2"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"Item.MouseOver.Background"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#1F26A0DA"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"Item.MouseOver.Border"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#a826A0Da"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"Item.SelectedInactive.Background"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#3DDADADA"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"Item.SelectedInactive.Border"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FFDADADA"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"Item.SelectedActive.Background"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#3D26A0DA"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"Item.SelectedActive.Border"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF26A0DA"</span><span class="xml-tag">/&gt;</span></code></pre><p>You would use the main style as follows:</p><pre class="code-block language-xml"><code>&lt;ListBox Margin="5" ItemsSource="{Binding MovieList}"
+         ItemContainerStyle="{DynamicResource lbDefaultItemContainerStyle}" /&gt;</code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

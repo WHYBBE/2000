@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,22 @@
 					</div>
 
 					<p>A <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">generic class</a> is a class that takes one or more <em>type parameters</em>, which it then uses in the definition of the class.  It can be thought of as a template for a class.</p>
-<p>Type parameters are used in the definition of the type.  In the code below, <strong>T1</strong> and <strong>T2</strong> are type parameters.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class ThingContainer&lt;T1, T2&gt;
-    {
-        private T1 thing1;
-        private T2 thing2;
-
-        public void SetThings(T1 first, T2 second)
-        {
-            thing1 = first;
-            thing2 = second;
-        }
-
-        public string DumpThings()
-        {
-            return string.Format(&quot;{0}, {1}&quot;, thing1.ToString(), thing2.ToString());
-        }
-    }
-</pre>
-<p>You provide a <em>type argument</em> for each <em>type parameter</em> when you declare an instance of the generic type, <a href="2011-05-17-326-generic-type-vs-constructed-type.html">constructing the type.</a>  In the sample code below, <strong>string</strong> and <strong>int</strong> are the type arguments that map to the <strong>T1 </strong>and <strong>T2</strong> type parameters.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            ThingContainer&lt;string, int&gt; cont1 = new ThingContainer&lt;string, int&gt;();
-            cont1.SetThings(&quot;Hemingway&quot;, 1899);
-            Console.WriteLine(cont1.DumpThings());      //  Hemingway, 1899
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Type parameters are used in the definition of the type.  In the code below, <strong>T1</strong> and <strong>T2</strong> are type parameters.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ThingContainer&lt;T1, T2&gt;
+{
+    <span class="kw">private</span> T1 thing1;
+    <span class="kw">private</span> T2 thing2;
+    <span class="kw">public</span> <span class="kw">void</span> SetThings(T1 first, T2 second)
+    {
+        thing1 = first;
+        thing2 = second;
+    }
+    <span class="kw">public</span> <span class="kw">string</span> DumpThings()
+    {
+        <span class="kw">return</span> <span class="kw">string</span>.Format(<span class="str">"{0}, {1}"</span>, thing1.ToString(), thing2.ToString());
+    }
+}</code></pre><p>You provide a <em>type argument</em> for each <em>type parameter</em> when you declare an instance of the generic type, <a href="2011-05-17-326-generic-type-vs-constructed-type.html">constructing the type.</a>  In the sample code below, <strong>string</strong> and <strong>int</strong> are the type arguments that map to the <strong>T1 </strong>and <strong>T2</strong> type parameters.</p><pre class="code-block language-csharp"><code>ThingContainer&lt;<span class="kw">string</span>, <span class="kw">int</span>&gt; cont1 = <span class="kw">new</span> ThingContainer&lt;<span class="kw">string</span>, <span class="kw">int</span>&gt;();
+cont1.SetThings(<span class="str">"Hemingway"</span>, <span <span class="kw">class</span>="num">1899</span>);
+Console.WriteLine(cont1.DumpThings());      <span class="com">//  Hemingway, 1899</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

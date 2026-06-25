@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -42,27 +54,23 @@
 
                     <p>When deriving a new child class, you&#8217;ll the parent&#8217;s dependency properties.  You might also want to change the behavior of one or more of the dependency properties.  You can do this to some extent by overriding the metadata for a dependency property.</p>
 <p>Overriding the metadata in the child class doesn&#8217;t change the behavior of the dependency property in the parent class.</p>
-<p>In the example below, we create a new class and override metadata for several properties, changing the default values.</p>
-<pre class="brush: csharp;">
-    public class ThermometerSlider : Slider
+<p>In the example below, we create a new class and override metadata for several properties, changing the default values.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ThermometerSlider : Slider
+{
+    <span class="kw">static</span> ThermometerSlider()
     {
-        static ThermometerSlider()
-        {
-            // Defaults for standard Slider: Min = 0, Max = 10, Value = 0
-            // Defaults for ThermometerSlider: Min = -40, Max = 120, Value = 70
+        <span class="com">// Defaults for standard Slider: Min = 0, Max = 10, Value = 0</span>
+        <span class="com">// Defaults for ThermometerSlider: Min = -40, Max = 120, Value = 70</span>
 
-            // Change default Minimum to -40.0
-            MinimumProperty.OverrideMetadata(typeof(ThermometerSlider), new FrameworkPropertyMetadata(-40.0));
+        <span class="com">// Change default Minimum to -40.0</span>
+        MinimumProperty.OverrideMetadata(<span class="kw">typeof</span>(ThermometerSlider), <span class="kw">new</span> FrameworkPropertyMetadata(-<span <span class="kw">class</span>="num">40.0</span>));
 
-            // Change default Maximum to 120
-            MaximumProperty.OverrideMetadata(typeof(ThermometerSlider), new FrameworkPropertyMetadata(120.0));
+        <span class="com">// Change default Maximum to 120</span>
+        MaximumProperty.OverrideMetadata(<span class="kw">typeof</span>(ThermometerSlider), <span class="kw">new</span> FrameworkPropertyMetadata(<span <span class="kw">class</span>="num">120.0</span>));
 
-            // Change default Value to 70
-            ValueProperty.OverrideMetadata(typeof(ThermometerSlider), new FrameworkPropertyMetadata(70.0));
-        }
+        <span class="com">// Change default Value to 70</span>
+        ValueProperty.OverrideMetadata(<span class="kw">typeof</span>(ThermometerSlider), <span class="kw">new</span> FrameworkPropertyMetadata(<span <span class="kw">class</span>="num">70.0</span>));
     }
-</pre>
-<p>The metadata type must match the type in the original property (e.g. <strong>FrameworkPropertyMetadata</strong>, <strong>UIPropertyMetadata</strong>, or <strong>PropertyMetadata</strong>).</p>
+}</code></pre><p>The metadata type must match the type in the original property (e.g. <strong>FrameworkPropertyMetadata</strong>, <strong>UIPropertyMetadata</strong>, or <strong>PropertyMetadata</strong>).</p>
 <div class="clear"></div>
                     
                     <!--

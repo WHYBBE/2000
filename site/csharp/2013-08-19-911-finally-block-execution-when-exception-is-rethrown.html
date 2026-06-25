@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -51,71 +63,34 @@
 <li>Exception caught in <strong>catch</strong> block in <strong>HelperMethod</strong>, <strong>catch</strong> block executes up to <strong>throw</strong></li>
 <li><strong>finally</strong> block in <strong>HelperMethod</strong> executes</li>
 <li>Exception caught in <strong>catch </strong>block of <strong>Main </strong>method</li>
-</ul>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
-        {
-
-            try
-
-            {
-
-                HelperMethod();
-
-            }
-
-            catch
-
-            {
-
-                Console.WriteLine(&quot;Caught exception in Main()&quot;);
-
-            }
-
-
-
-            Console.ReadLine();
-
-        }
-
-
-
-        static void HelperMethod()
-
-        {
-
-            try
-
-            {
-
-                throw new ApplicationException(&quot;Uh-oh&quot;);
-
-            }
-
-            catch
-
-            {
-
-                Console.WriteLine(&quot;In catch block, before re-throwing&quot;);
-
-                throw;
-
-            }
-
-            finally
-
-            {
-
-                Console.WriteLine(&quot;In finally block&quot;);
-
-            }
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/08/911-001.png"><img class="alignnone size-full wp-image-7560" alt="911-001" src="data:image/png;base64,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"   /></a></p>
+</ul><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="kw">try</span>
+    {
+        HelperMethod();
+    }
+    <span class="kw">catch</span>
+    {
+        Console.WriteLine(<span class="str">"Caught exception in Main()"</span>);
+    }
+    Console.ReadLine();
+}
+<span class="kw">static</span> <span class="kw">void</span> HelperMethod()
+{
+    <span class="kw">try</span>
+    {
+        <span class="kw">throw</span> <span class="kw">new</span> ApplicationException(<span class="str">"Uh-oh"</span>);
+    }
+    <span class="kw">catch</span>
+    {
+        Console.WriteLine(<span class="str">"In catch block, before re-throwing"</span>);
+        <span class="kw">throw</span>;
+    }
+    <span class="kw">finally</span>
+    {
+        Console.WriteLine(<span class="str">"In finally block"</span>);
+    }
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/08/911-001.png"><img class="alignnone size-full wp-image-7560" alt="911-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

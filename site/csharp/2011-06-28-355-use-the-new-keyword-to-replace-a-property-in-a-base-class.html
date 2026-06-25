@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,36 +58,30 @@
                     <p>A derived class inherits data and behavior from its parent class.</p>
 <p>There are times when you might want to replace property accessors in a base class with new accessors in the derived class, using the same property name.  You can do this using the <strong>new</strong> keyword.</p>
 <p>Assume a<strong> Dog</strong> class has a <strong>Temperament</strong> property:</p>
-<p><pre class="brush: csharp;">
-        protected string temperament;
-        public string Temperament
-        {
-            get
-            {
-                return string.Format(&quot;{0} is {1}&quot;, Name, temperament);
-            }
-
-            set
-            {
-                temperament = value.ToLower();
-            }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">protected</span> <span class="kw">string</span> temperament;
+<span class="kw">public</span> <span class="kw">string</span> Temperament
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">return</span> <span class="kw">string</span>.Format(<span class="str">"{0} is {1}"</span>, Name, temperament);
+    }
+    <span class="kw">set</span>
+    {
+        temperament = <span class="kw">value</span>.ToLower();
+    }
+}</code></pre>
 <p>You can provide a new version of this property in a class that derives from <strong>Dog</strong>, using the <strong>new</strong> keyword.  This new property<em> hides</em> the property in the base class.</p>
-<p><pre class="brush: csharp;">
-        public new string Temperament
-        {
-            get
-            {
-                return string.Format(&quot;Terrier {0} is {1}&quot;, Name, temperament);
-            }
-
-            set
-            {
-                temperament = value.ToUpper();
-            }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">new</span> <span class="kw">string</span> Temperament
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">return</span> <span class="kw">string</span>.Format(<span class="str">"Terrier {0} is {1}"</span>, Name, temperament);
+    }
+    <span class="kw">set</span>
+    {
+        temperament = <span class="kw">value</span>.ToUpper();
+    }
+}</code></pre>
 <p>The <strong>get</strong>/<strong>set</strong> accessors used will now depend on the type of the object.</p>
 <div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/06/28/355-use-the-new-keyword-to-replace-a-property-in-a-base-class/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2982"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/06/28/355-use-the-new-keyword-to-replace-a-property-in-a-base-class/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/06/28/355-use-the-new-keyword-to-replace-a-property-in-a-base-class/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Classes, new, Properties, Property</p>

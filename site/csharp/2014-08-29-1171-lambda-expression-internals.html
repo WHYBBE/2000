@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,27 +55,14 @@
 																				</p>
 					</div>
 
-					<p>Suppose that we have the following lambda expression (doubles a number) and that we invoke it.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    class Program
-
+					<p>Suppose that we have the following lambda expression (doubles a number) and that we invoke it.</p><pre class="code-block language-csharp"><code><span class="kw">class</span> Program
+{
+    <span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
     {
-
-        static void Main(string[] args)
-
-        {
-
-            Func&lt;int, int&gt; intDoubler = x =&gt; 2 * x;
-
-            Console.WriteLine(intDoubler(12));
-
-        }
-
+        Func&lt;<span class="kw">int</span>, <span class="kw">int</span>&gt; intDoubler = x =&gt; <span <span class="kw">class</span>="num">2</span> * x;
+        Console.WriteLine(intDoubler(<span <span class="kw">class</span>="num">12</span>));
     }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1171-001.png"><img class="alignnone size-full wp-image-9040" src="data:image/png;base64,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" alt="1171-001"   /></a><br />
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1171-001.png"><img class="alignnone size-full wp-image-9040" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAABpCAMAAAA+/C5sAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAbZQTFRFAAAAKCgoKCg4KChEKEZMKFtEKFtSWygoWyg4fSgofShEfVsofVs5WmtMWmtZfUdMfXZgW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5lkcolkc4qVwovGs5lmtEoW1Js3pS0nZEloFgu4JMvYFXvoJXu49TqY9gqYp0tItvu49gtYxww4VZy4pd0oJM0o9T0o9Z0I5f0o9giJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqCepqqurK+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////JvFBoQAAAAlwSFlzAAAOwwAADsMBx2+oZAAABH5JREFUeNrt12d70zAQAOCkDS5mGLP33jPYgAtlBJoEs/feq0DLDDNAKbOs0AL/GN2dJDtpkob1gej0PE1iWZb9SqeTm/hhZEkwm9nMZjazmc3s/5L93ZySiKG/iTJoRtFsgR4offnQb0aJ2IOld33Fhw/MKLHZLq03pyS0euDd+tCYErFLfUayvxSNZH94aCJ7sP8Bs5nN7OZnb98aL9t2GsI+1n0TS3d395nTp4/uMIR9vvQxKqVzm2S1l2xZl3RCv3VLRT9U46UyYZhPW/CRTCbhiC5LbWxzQ9WgTsnZThiIK1va67XyUptt0Sg55Cn+mH39zq7de/ftv10sFIonTyp2kHRjyFhBKj50GGaFMAByfm27xmQbYwct7T7cw3frjw3eSQyt87fZd5etWrFydc8TYJ/SbDkLQ9jZkXAiwGo/lcnZVhmmdUuDbM/Kp4dpgt3RAIde/aj4dfaJu2uWL1qwsOdp4X7xykXJ9iBwIVyRDUeumFunLLpxyn31OBgeUB9jQxCLa3z8yqdH2Ek3Z9OKEK3yaTWk1ACbi6pArC6KfehOsgPVEd0eHggfzYeBGWvDIS0FuEHUST5dmz1j8tRZ83ue3C8UL12Oz3ZWsj3xJ3jIjqKb2njq0ZEN9REb1wCNjDgrntUlyLgMRVG2jcZMNgg9N4TgCcRjUyRAB5INJ2DG4RvHy4+xsXO4nyXPpzK6k9rsKdNmzlkqZrtQvHevChsd8u4y+HVaqwhUwig2tZWLk2JadaPCBSZGNQjVZbjk4VpfnUU2RZvoVC7AiG3JURcXYyW0UZ3UZk+fN3fJRFzbnz9XYUPsURTiksSHdvBJ3LCcjfURW0yBBcd4uUUwn5IyZYgQJ1w1kEuLRgs+sDvNdkgrupdpI2I7cjrECQ/7kkMT1GXPXjx+wqSeR4L99kU1diybRNEtb1uWarA+ntKEyJXHaj5pLHTCy9lqx4OfGR0k8IE/9Np2G2PLjodln72159CBg4dvCPbjvmdVg9ypuWmHsJ5iu2yGVmG0KGDjteJs7FqdhVrdgCY4xpbdOdQso4Pcj1IC5JYytkqxw7KPf+3t7X3z+uX7T29fPX9ehZ1PQyoZBfwounWc+jB5Yt8OIEu7VONSFAQOWj1IZWvbkQ3pDAIIRg83e8jQsgGwgliQU3eIytmokikNw8J3oX22rYKdbYMdxBqefeQclavXLojPIx1DMznuF3ALp2LTlikcFyZEoczqvnytCuR+42EDYtu4N8kMoVKGp5d26+iITd3lbLnwo3aqF3GfljEVbEwlaoHUY3d2bIqVjs7674qZ8ve0oe9vjRS13OuWxrv71/94Vm7av4Gp/ur322PD/28zm9nMZjazmd307A1NX6qzE01fqrO7RJEN9I/mZwNVcruMZHeZxNbBLT7MYiu1WewoxJszymtlct3AzExuFlvHtlFBbuhbGrOZzWxmM5vZzGY2s5nNbGYzm9nMZjazmc1sZjOb2cxmNrOZzWxmM5vZzGY2s5nNbGYzm9nMZjazmc1sZjO7yctPZdRfTGm16IEAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1171-001"   /></a><br />
 We can compile this code and then use the IL Disassembler to inspect the resulting IL.</p>
 <p>We can see that in our main class we have a static <strong>Main</strong> method and also a private static method defined by the compiler to contain our lambda expression.  In this case, it&#8217;s named <strong>&lt;Main&gt;b__0</strong>.</p>
 <p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1171-002.png"><img class="alignnone size-full wp-image-9042" src="data:image/png;base64,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" alt="1171-002"   /></a></p>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,37 +57,18 @@
 
 					<p>Events fired from user interface elements in WPF are typically <a href="2012-06-22-586-bubbling-and-tunneling-events-are-typically-paired.html">routed events</a>, firing events from elements up or down the logical tree after the source element has fired the event.</p>
 <p>A user interface element must be both visible (<strong>Visibility = Visible</strong>) and enabled (<strong>IsEnabled = true</strong>) in order to fire an event.  If an element is not visible or is disabled, the topmost element beneath the element may fire the event instead.</p>
-<p>Below, if we set <strong>IsEnabled</strong> on the <strong>Label</strong> to <strong>false</strong>, its <strong>MouseDown</strong> event will not fire and the <strong>StackPanel </strong>will become the source of the event instead.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        Title=&quot;Events&quot; Width=&quot;208&quot; Height=&quot;183&quot;
-
-        MouseDown=&quot;Window_MouseDown&quot;&gt;
-
-
-
-    &lt;StackPanel MouseDown=&quot;StackPanel_MouseDown&quot;
-
-                Background=&quot;AliceBlue&quot; Margin=&quot;10&quot;&gt;
-
-        &lt;Label Content=&quot;Label&quot; Background=&quot;Orange&quot; Margin=&quot;10&quot;
-
-               MouseDown=&quot;Label_MouseDown&quot;
-
-               IsEnabled=&quot;False&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-&lt;/Window&gt;
-
-</pre>
-<p>When we click on the <strong>Label</strong>, the <strong>StackPanel</strong> fires the <strong>MouseDown</strong> event, followed by the parent <strong>Window</strong>.</p>
+<p>Below, if we set <strong>IsEnabled</strong> on the <strong>Label</strong> to <strong>false</strong>, its <strong>MouseDown</strong> event will not fire and the <strong>StackPanel </strong>will become the source of the event instead.</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Events" Width="208" Height="183"
+        MouseDown="Window_MouseDown"&gt;
+    &lt;StackPanel MouseDown="StackPanel_MouseDown"
+                Background="AliceBlue" Margin="10"&gt;
+        &lt;Label Content="Label" Background="Orange" Margin="10"
+               MouseDown="Label_MouseDown"
+               IsEnabled="False"/&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>When we click on the <strong>Label</strong>, the <strong>StackPanel</strong> fires the <strong>MouseDown</strong> event, followed by the parent <strong>Window</strong>.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1066-0021.png"><img class="alignnone size-full wp-image-8701" src="data:image/png;base64,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" alt="1066-002"   /></a></p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1066-001.png"><img class="alignnone size-full wp-image-8696" src="data:image/png;base64,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" alt="1066-001"   /></a></p>
 

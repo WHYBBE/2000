@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,18 +58,14 @@
 					<p>Dependency properties in WPF can be used by a client just like regular CLR properties, but they are implemented differently in the defining class.  The added complexity serves to support features like data binding, property inheritance and change notification.</p>
 <p>Classes that want to implement a dependency property start by by inherting from <strong>DependencyObject</strong>, which provides the support for reading and writing dependency property values.</p>
 <p>The class then declares a static variable of type <strong>DependencyProperty</strong> for the new property.  A static instance is created using the <strong>DependencyProperty.Register</strong> function.  This instance does not store property values, but stores metadata about the property.</p>
-<p><pre class="brush: csharp;">
-        public static readonly DependencyProperty AgeProperty =
-            DependencyProperty.Register(&quot;Age&quot;, typeof(int), typeof(Person));
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty AgeProperty =
+    DependencyProperty.Register(<span class="str">"Age"</span>, <span class="kw">typeof</span>(<span class="kw">int</span>), <span class="kw">typeof</span>(Person));</code></pre>
 <p>Dependency property values are managed by the <strong>GetValue</strong> and <strong>SetValue</strong> methods inherited from the <strong>DependencyObject</strong> class.</p>
-<p><pre class="brush: csharp;">
-        public int Age
-        {
-            get { return (int)GetValue(AgeProperty); }
-            set { SetValue(AgeProperty, value); }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">int</span> Age
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">int</span>)GetValue(AgeProperty); }
+    <span class="kw">set</span> { SetValue(AgeProperty, <span class="kw">value</span>); }
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-991" class="wpl-button "><a href='2010-11-03-114-how-dependency-properties-are-implemented.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Basics | Tags: Dependency Properties, WPF</p>
   <nav class="pager"><a href="2010-11-02-113-an-application-for-viewing-a-wpf-visual-tree.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-11-04-115-downloading-all-net-4-source-code.html">Next</a></nav>

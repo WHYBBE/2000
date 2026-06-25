@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,255 +56,104 @@
 					</div>
 
 					<p>Here&#8217;s one more example of a custom panel.  The code below is for a panel that arranges its children in a very simple treemap sort of structure.  (This implementation isn&#8217;t really a treemap, but vaguely similar to what has been described in the <a href="http://hcil2.cs.umd.edu/trs/91-06/91-06.html">literature</a>).</p>
-<p>The panel defines a <strong>Weight</strong> attached property that the child elements use to indicate a relative weight.  The panel then sorts the children based on weight and arranges them such their final area is proportional to their weight.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class ChildAndRect
-
+<p>The panel defines a <strong>Weight</strong> attached property that the child elements use to indicate a relative weight.  The panel then sorts the children based on weight and arranges them such their final area is proportional to their weight.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ChildAndRect
+{
+    <span class="kw">public</span> UIElement Element { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Rect Rectangle { <span class="kw">get</span>; <span class="kw">set</span>; }
+}
+<span class="kw">public</span> <span class="kw">class</span> WeightedPanel : Panel
+{
+    <span class="kw">private</span> <span class="kw">static</span> FrameworkPropertyMetadata weightMetadata =
+        <span class="kw">new</span> FrameworkPropertyMetadata(<span <span class="kw">class</span>="num">1.0</span>,
+            FrameworkPropertyMetadataOptions.AffectsParentArrange);
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty WeightProperty =
+        DependencyProperty.RegisterAttached(<span class="str">"Weight"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>),
+            <span class="kw">typeof</span>(WeightedPanel), weightMetadata);
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> SetWeight(DependencyObject depObj, <span class="kw">double</span> <span class="kw">value</span>)
     {
-
-        public UIElement Element { get; set; }
-
-        public Rect Rectangle { get; set; }
-
+        depObj.SetValue(WeightProperty, <span class="kw">value</span>);
     }
-
-
-
-    public class WeightedPanel : Panel
-
+    <span class="com">// Measure phase</span>
+    <span class="kw">protected</span> <span class="kw">override</span> Size MeasureOverride(Size availableSize)
     {
-
-        private static FrameworkPropertyMetadata weightMetadata =
-
-            new FrameworkPropertyMetadata(1.0,
-
-                FrameworkPropertyMetadataOptions.AffectsParentArrange);
-
-
-
-        public static readonly DependencyProperty WeightProperty =
-
-            DependencyProperty.RegisterAttached(&quot;Weight&quot;, typeof(double),
-
-                typeof(WeightedPanel), weightMetadata);
-
-
-
-        public static void SetWeight(DependencyObject depObj, double value)
-
-        {
-
-            depObj.SetValue(WeightProperty, value);
-
-        }
-
-
-
-        // Measure phase
-
-        protected override Size MeasureOverride(Size availableSize)
-
-        {
-
-            double totalWeight = totalChildWeight();
-
-
-
-            foreach (ChildAndRect child in ChildrenTreemapOrder(InternalChildren.Cast&lt;UIElement&gt;(), availableSize))
-
-                child.Element.Measure(child.Rectangle.Size);
-
-
-
-            return availableSize;
-
-        }
-
-
-
-        // Arrange phase
-
-        protected override Size ArrangeOverride(Size finalSize)
-
-        {
-
-            foreach (ChildAndRect child in ChildrenTreemapOrder(InternalChildren.Cast&lt;UIElement&gt;(), finalSize))
-
-                child.Element.Arrange(child.Rectangle);
-
-
-
-            return finalSize;
-
-        }
-
-
-
-        private double totalChildWeight()
-
-        {
-
-            double weightSum = 0;
-
-            foreach (UIElement elem in InternalChildren)
-
-                weightSum += (double)elem.GetValue(WeightProperty);
-
-
-
-            return weightSum;
-
-        }
-
-
-
-        /// &lt;summary&gt;
-
-        /// Return child elements orderd by weight (largest to
-
-        /// smallest), passing back Rect for each child
-
-        /// (size and location), implementing a (crude)
-
-        /// treemap.
-
-        /// &lt;/summary&gt;
-
-        /// &lt;param name=&quot;elems&quot;&gt;Child elements to measure/arrange&lt;/param&gt;
-
-        /// &lt;param name=&quot;containerSize&quot;&gt;Available container size&lt;/param&gt;
-
-        /// &lt;returns&gt;&lt;/returns&gt;
-
-        private IEnumerable&lt;ChildAndRect&gt; ChildrenTreemapOrder(IEnumerable&lt;UIElement&gt; elems, Size containerSize)
-
-        {
-
-            double remainingWeight = totalChildWeight();
-
-
-
-            double top = 0.0;
-
-            double left = 0.0;
-
-
-
-            // Alternate between left edge and top edge
-
-            bool leftEdge;
-
-
-
-            // Sort by weight
-
-            var childrenByWeight = elems.OrderByDescending(
-
-                e =&gt; (double)e.GetValue(WeightProperty));
-
-
-
-            // Allocate space for each child, one at a time.
-
-            // Moving left to right, top to bottom
-
-            foreach (var child in childrenByWeight)
-
-            {
-
-                leftEdge = (containerSize.Width - left) &gt; (containerSize.Height - top);
-
-
-
-                Size size;
-
-
-
-                double childWeight = (double)child.GetValue(WeightProperty);
-
-                double pctArea =  childWeight / remainingWeight;
-
-                remainingWeight -= childWeight;
-
-
-
-                // Entire height, proportionate width
-
-                if (leftEdge)
-
-                    size = new Size(pctArea * (containerSize.Width - left), containerSize.Height - top);
-
-
-
-                // Top edge - Entire width, proportionate height
-
-                else
-
-                    size = new Size(containerSize.Width - left, pctArea * (containerSize.Height - top));
-
-
-
-                yield return new ChildAndRect { Element = child, Rectangle = new Rect(new Point(left, top), size) };
-
-
-
-                if (leftEdge)
-
-                    left += size.Width;
-
-                else
-
-                    top += size.Height;
-
-            }
-
-        }
-
+        <span class="kw">double</span> totalWeight = totalChildWeight();
+        <span class="kw">foreach</span> (ChildAndRect child <span class="kw">in</span> ChildrenTreemapOrder(InternalChildren.Cast&lt;UIElement&gt;(), availableSize))
+            child.Element.Measure(child.Rectangle.Size);
+        <span class="kw">return</span> availableSize;
     }
-
-</pre>
-<p>Below, we use the panel to create labels representing several states. The <strong>Weight</strong> property is used to record the states&#8217; area.  (The states are in no particular order).</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;loc:WeightedPanel&gt;
-
-        &lt;Label Content=&quot;Oregon&quot; loc:WeightedPanel.Weight=&quot;93381&quot;
-
-               Background=&quot;Bisque&quot; /&gt;
-
-        &lt;Label Content=&quot;California&quot; loc:WeightedPanel.Weight=&quot;163696&quot;
-
-               Background=&quot;Lavender&quot; /&gt;
-
-        &lt;Label Content=&quot;Colorado&quot; loc:WeightedPanel.Weight=&quot;104094&quot;
-
-               Background=&quot;LightCoral&quot; /&gt;
-
-        &lt;Label Content=&quot;Montana&quot; loc:WeightedPanel.Weight=&quot;147042&quot;
-
-               Background=&quot;Honeydew&quot; /&gt;
-
-        &lt;Label Content=&quot;Nevada&quot; loc:WeightedPanel.Weight=&quot;110561&quot;
-
-               Background=&quot;Goldenrod&quot; /&gt;
-
-        &lt;Label Content=&quot;New Mexico&quot; loc:WeightedPanel.Weight=&quot;121589&quot;
-
-               Background=&quot;Silver&quot; /&gt;
-
-        &lt;Label Content=&quot;Texas&quot; loc:WeightedPanel.Weight=&quot;268581&quot;
-
-               Background=&quot;Thistle&quot; /&gt;
-
-        &lt;Label Content=&quot;Arizona&quot; loc:WeightedPanel.Weight=&quot;113998&quot;
-
-               Background=&quot;GhostWhite&quot; /&gt;
-
-    &lt;/loc:WeightedPanel&gt;
-
-</pre>
-<p>Here&#8217;s what this looks like at run-time:<br />
+    <span class="com">// Arrange phase</span>
+    <span class="kw">protected</span> <span class="kw">override</span> Size ArrangeOverride(Size finalSize)
+    {
+        <span class="kw">foreach</span> (ChildAndRect child <span class="kw">in</span> ChildrenTreemapOrder(InternalChildren.Cast&lt;UIElement&gt;(), finalSize))
+            child.Element.Arrange(child.Rectangle);
+        <span class="kw">return</span> finalSize;
+    }
+    <span class="kw">private</span> <span class="kw">double</span> totalChildWeight()
+    {
+        <span class="kw">double</span> weightSum = <span <span class="kw">class</span>="num">0</span>;
+        <span class="kw">foreach</span> (UIElement elem <span class="kw">in</span> InternalChildren)
+            weightSum += (<span class="kw">double</span>)elem.GetValue(WeightProperty);
+        <span class="kw">return</span> weightSum;
+    }
+    <span class="com">/// &lt;summary&gt;</span>
+    <span class="com">/// Return child elements orderd by weight (largest to</span>
+    <span class="com">/// smallest), passing back Rect for each child</span>
+    <span class="com">/// (size and location), implementing a (crude)</span>
+    <span class="com">/// treemap.</span>
+    <span class="com">/// &lt;/summary&gt;</span>
+    <span class="com">/// &lt;param name="elems"&gt;Child elements to measure/arrange&lt;/param&gt;</span>
+    <span class="com">/// &lt;param name="containerSize"&gt;Available container size&lt;/param&gt;</span>
+    <span class="com">/// &lt;returns&gt;&lt;/returns&gt;</span>
+    <span class="kw">private</span> IEnumerable&lt;ChildAndRect&gt; ChildrenTreemapOrder(IEnumerable&lt;UIElement&gt; elems, Size containerSize)
+    {
+        <span class="kw">double</span> remainingWeight = totalChildWeight();
+        <span class="kw">double</span> top = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="kw">double</span> left = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="com">// Alternate between left edge and top edge</span>
+        <span class="kw">bool</span> leftEdge;
+        <span class="com">// Sort by weight</span>
+        <span class="kw">var</span> childrenByWeight = elems.OrderByDescending(
+            e =&gt; (<span class="kw">double</span>)e.GetValue(WeightProperty));
+        <span class="com">// Allocate space for each child, one at a time.</span>
+        <span class="com">// Moving left to right, top to bottom</span>
+        <span class="kw">foreach</span> (<span class="kw">var</span> child <span class="kw">in</span> childrenByWeight)
+        {
+            leftEdge = (containerSize.Width - left) &gt; (containerSize.Height - top);
+            Size size;
+            <span class="kw">double</span> childWeight = (<span class="kw">double</span>)child.GetValue(WeightProperty);
+            <span class="kw">double</span> pctArea =  childWeight / remainingWeight;
+            remainingWeight -= childWeight;
+            <span class="com">// Entire height, proportionate width</span>
+            <span class="kw">if</span> (leftEdge)
+                size = <span class="kw">new</span> Size(pctArea * (containerSize.Width - left), containerSize.Height - top);
+            <span class="com">// Top edge - Entire width, proportionate height</span>
+            <span class="kw">else</span>
+                size = <span class="kw">new</span> Size(containerSize.Width - left, pctArea * (containerSize.Height - top));
+            <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> ChildAndRect { Element = child, Rectangle = <span class="kw">new</span> Rect(<span class="kw">new</span> Point(left, top), size) };
+            <span class="kw">if</span> (leftEdge)
+                left += size.Width;
+            <span class="kw">else</span>
+                top += size.Height;
+        }
+    }
+}</code></pre><p>Below, we use the panel to create labels representing several states. The <strong>Weight</strong> property is used to record the states&#8217; area.  (The states are in no particular order).</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">loc:WeightedPanel</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="Oregon" loc:WeightedPanel.Weight="93381"
+           Background="Bisque" /&gt;
+    &lt;Label Content="California" loc:WeightedPanel.Weight="163696"
+           Background="Lavender" /&gt;
+    &lt;Label Content="Colorado" loc:WeightedPanel.Weight="104094"
+           Background="LightCoral" /&gt;
+    &lt;Label Content="Montana" loc:WeightedPanel.Weight="147042"
+           Background="Honeydew" /&gt;
+    &lt;Label Content="Nevada" loc:WeightedPanel.Weight="110561"
+           Background="Goldenrod" /&gt;
+    &lt;Label Content="New Mexico" loc:WeightedPanel.Weight="121589"
+           Background="Silver" /&gt;
+    &lt;Label Content="Texas" loc:WeightedPanel.Weight="268581"
+           Background="Thistle" /&gt;
+    &lt;Label Content="Arizona" loc:WeightedPanel.Weight="113998"
+           Background="GhostWhite" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">loc:WeightedPanel</span><span class="xml-tag">&gt;</span></code></pre><p>Here&#8217;s what this looks like at run-time:<br />
 <a href="https://2000thingswpf.files.wordpress.com/2014/10/1176-001.png"><img class="alignnone size-full wp-image-9405" src="data:image/png;base64,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3qa7uzd/wdjTR1BhARZgcaU7V7oTwAIswCKARQALsAhgARZgARYBLMACLAJYgAVYgEUAC7AAC7AIYAEWYBHAAizAAiwCWIAFWIAFWIAFWIBFAAuwAOuEpeXee4nk2K43+0kAC7AAC7AAC7AAC7AAC7AAC7AAC7AAC7AAC7AAC7AAC7AAC7AAC7CgCrAAC7AAC7AAC7AAC7AAC7AAC7D8mbHobOd3ScRGTdyb6nM+o6TozPFv39NzL+Tpznxo+j0RA2v1YyPc3wzy4z9vBSzAAqwIgiUMDYhVTNR8TL5yfipKTmawlFZjHljt3P164bTYgN89B1iABVgRA2vd6IGeVulz8oK1808/GlC+yHdw6++LRt66E7AQCrCiBNbkyoGj1oQaNHn0d5z+qMDBxQDr3ZKzB+oe0jld5o8aP19aywKZI8s6D48cP31fYEE17UxvTd2MZupm9sHaWndDUj0lRdaAX9bvevPoqqsHlN+qukXLL7mr35jmTGjTRx5311E1mjN04WY/i3M86CNgARZgdQ1WqqJJ4aIlUqZYt/VkpVWBPktm2rfVKQVJdZMGUS2iH3VnmgfVzIJeK7uS+sHkTSvnoCWU86iF1yK3KFMSmc2jksu67esoZR37toAlUCkErQm9tE0GWIB18ldYQtJvjXrHaRs1WOtGn2XIovs7VWF5G/ZGCVZgPzraLbWMU4yD6pRC426OKywFjVtheUgZv7LbqpJ8naNeRw4aBZRewXyW0GcELMACrC7AUt8PJvdiPQRLaeXcdh71YxQ1sNLtYYVUVcY081HAAizAOvHfEvpbuXdLLqqy9elGS6jBEuCcrSu36XMXiWJL6Gw5eRi5zZ2fJNUe2j2d70Td3HXdEgIWYAFWz6/DMna+3T3yYE/n3/ASkmIhm+66JXQXLCiccpazv+4taG66e1v7Odx0T3cdlr+GMrtCT7RY8qa7uxMf3HQHLMACLK50j8SV7qGb91zWAFiABVjRA0uVWtG7dAuwAAuwACuskQxsbwEWYAEWYPGPnwELsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsAALsACLABZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgQRVgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZgARZg9WWwCCGkN9N9sAghJOcBLEJIHwTryJEjbW1tTU1NgEUIiSxYYpRIpcBKJBLxeBywCCGRBau5uVmkUmC1t7e3tLQAFiEksmCJUR0dHQqszs7OQ4cOARYhJLJgiVEiVezo0aN2kSWHCCEkmhGjRCoF1uHDh+WOACZFlzSKTU1NuxkMBiMCQzgSlIQmAUqYciosuzGUFjGRSLS1tbUyGAxGBIZwJCgJTQKUMPV/yKeIrLrUGswAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1176-001"   /></a><br />
 Note: One improvement that could be made to this algorithm is to adopt a true implementation of a treemap algorithm that includes &#8220;squarifying&#8221; elements to reduce the number of &#8220;long skinny&#8221; child objects.</p>
 

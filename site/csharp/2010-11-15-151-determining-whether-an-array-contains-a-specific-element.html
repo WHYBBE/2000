@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,20 +56,14 @@
 					</div>
 
 					<p>You can use the <a href="2010-11-09-145-using-array-find-to-search-an-unsorted-array.html"><strong>Array.Find</strong> method</a> to find a particular element in an array.  If, however, you only care whether a particular element is present in an array, you can use the <strong>IEnumerable.Contains</strong> method.  The <strong>Contains</strong> method returns <strong>true</strong> if the element was found in the array, <strong>false </strong>if not.</p>
-<p><pre class="brush: csharp;">
-            int[] scores = { 89, 98, 72, 100, 83 };
-
-            bool someoneAcedIt = scores.Contains(100);   // true
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">int</span>[] scores = { <span <span class="kw">class</span>="num">89</span>, <span <span class="kw">class</span>="num">98</span>, <span <span class="kw">class</span>="num">72</span>, <span <span class="kw">class</span>="num">100</span>, <span <span class="kw">class</span>="num">83</span> };
+<span class="kw">bool</span> someoneAcedIt = scores.Contains(<span <span class="kw">class</span>="num">100</span>);   <span class="com">// true</span></code></pre>
 <p>Contains also works on arrays holding objects belonging to a custom type.</p>
-<p><pre class="brush: csharp;">
-            Person[] folks = new Person[3];
-            folks[0] = new Person(&quot;Bronte&quot;, &quot;Emily&quot;, 29);
-            folks[1] = new Person(&quot;Bronte&quot;, &quot;Charlotte&quot;, 31);
-            folks[2] = new Person(&quot;Tennyson&quot;, &quot;Alfred&quot;, 24);
-
-            bool foundAlfred = folks.Contains(new Person(&quot;Tennyson&quot;, &quot;Alfred&quot;, 24));
-</pre></p>
+<pre class="code-block language-csharp"><code>Person[] folks = <span class="kw">new</span> Person[<span <span class="kw">class</span>="num">3</span>];
+folks[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">new</span> Person(<span class="str">"Bronte"</span>, <span class="str">"Emily"</span>, <span <span class="kw">class</span>="num">29</span>);
+folks[<span <span class="kw">class</span>="num">1</span>] = <span class="kw">new</span> Person(<span class="str">"Bronte"</span>, <span class="str">"Charlotte"</span>, <span <span class="kw">class</span>="num">31</span>);
+folks[<span <span class="kw">class</span>="num">2</span>] = <span class="kw">new</span> Person(<span class="str">"Tennyson"</span>, <span class="str">"Alfred"</span>, <span <span class="kw">class</span>="num">24</span>);
+<span class="kw">bool</span> foundAlfred = folks.Contains(<span class="kw">new</span> Person(<span class="str">"Tennyson"</span>, <span class="str">"Alfred"</span>, <span <span class="kw">class</span>="num">24</span>));</code></pre>
 <p>This will only work as expected if the underlying type has implemented the equality operator in a way that properly compares two objects to determine if they are equal.  If the equality operator has not been defined, only the references to the objects will be compared, rather than the contents of the objects.</p>
 
 		<div class="wpadvert">

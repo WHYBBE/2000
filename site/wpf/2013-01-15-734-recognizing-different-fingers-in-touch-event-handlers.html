@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,77 +57,33 @@
 
 					<p>When you&#8217;re handling low-level touch events in WPF and the user will be using more than one finger at a time on the screen, you&#8217;ll want to keep track of which finger is generating a particular touch event.  You can do this using the <b>TouchEventArgs.TouchDevice.Id</b> property.  Every touch event handler will report a different Id for each finger that is touching the screen.  Also, when you touch and drag a finger on the screen, the <strong>Id</strong> property will remain the same for all events associated with that finger.</p>
 <p>Here&#8217;s an example.</p>
-<p><pre class="brush: csharp;">
-
-        private const double CircleWidth = 10;
-
-        private Dictionary&lt;int, Point&gt; LastPositionDict;
-
-
-
-        private void Canvas_TouchDown(object sender, TouchEventArgs e)
-
-        {
-
-            try
-
-            {
-
-                TouchPoint tp = e.GetTouchPoint(null);
-
-
-
-                AddEllipseAt(canvMain, tp.Position, Brushes.Red);
-
-
-
-                LastPositionDict.Add(e.TouchDevice.Id, tp.Position);
-
-            }
-
-            catch (Exception xx)
-
-            {
-
-                MessageBox.Show(xx.ToString());
-
-            }
-
-        }
-
-
-
-        private void Canvas_TouchMove(object sender, TouchEventArgs e)
-
-        {
-
-            TouchPoint tp = e.GetTouchPoint(null);
-
-
-
-            AddLineFromTo(canvMain, LastPositionDict[e.TouchDevice.Id], tp.Position, Brushes.Black);
-
-            LastPositionDict[e.TouchDevice.Id] = tp.Position;
-
-        }
-
-
-
-        private void Canvas_TouchUp(object sender, TouchEventArgs e)
-
-        {
-
-            TouchPoint tp = e.GetTouchPoint(null);
-
-
-
-            AddEllipseAt(canvMain, tp.Position, Brushes.Blue);
-
-            LastPositionDict.Remove(e.TouchDevice.Id);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">const</span> <span class="kw">double</span> CircleWidth = <span <span class="kw">class</span>="num">10</span>;
+<span class="kw">private</span> Dictionary&lt;<span class="kw">int</span>, Point&gt; LastPositionDict;
+<span class="kw">private</span> <span class="kw">void</span> Canvas_TouchDown(<span class="kw">object</span> sender, TouchEventArgs e)
+{
+    <span class="kw">try</span>
+    {
+        TouchPoint tp = e.GetTouchPoint(<span class="kw">null</span>);
+        AddEllipseAt(canvMain, tp.Position, Brushes.Red);
+        LastPositionDict.Add(e.TouchDevice.Id, tp.Position);
+    }
+    <span class="kw">catch</span> (Exception xx)
+    {
+        MessageBox.Show(xx.ToString());
+    }
+}
+<span class="kw">private</span> <span class="kw">void</span> Canvas_TouchMove(<span class="kw">object</span> sender, TouchEventArgs e)
+{
+    TouchPoint tp = e.GetTouchPoint(<span class="kw">null</span>);
+    AddLineFromTo(canvMain, LastPositionDict[e.TouchDevice.Id], tp.Position, Brushes.Black);
+    LastPositionDict[e.TouchDevice.Id] = tp.Position;
+}
+<span class="kw">private</span> <span class="kw">void</span> Canvas_TouchUp(<span class="kw">object</span> sender, TouchEventArgs e)
+{
+    TouchPoint tp = e.GetTouchPoint(<span class="kw">null</span>);
+    AddEllipseAt(canvMain, tp.Position, Brushes.Blue);
+    LastPositionDict.Remove(e.TouchDevice.Id);
+}</code></pre>
 <p>Now I can draw with two fingers at the same time:<br />
 <a href="http://2000thingswpf.files.wordpress.com/2013/01/734-001.png"><img class="alignnone size-full wp-image-6403" alt="734-001" src="data:image/png;base64,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"   /></a></pre>
 

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,37 +55,18 @@
 																				</p>
 					</div>
 
-					<p>Although the <a href="http://wp.me/pXTis-2gQ">iteration variable in a <strong>foreach</strong> loop is read-only</a>, you can still use the iteration variable to modify the elements of a collection, as long as they are reference-typed.  (Value-typed elements are immutable).  You&#8217;re not changing the iteration variable, but rather changing the object that it refers to.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            List&lt;Dog&gt; myDogs = new List&lt;Dog&gt;
-
-                {
-
-                    new Dog {Name = &quot;Kirby&quot;, Age = 15},
-
-                    new Dog {Name = &quot;Ruby&quot;, Age = 2},
-
-                    new Dog {Name = &quot;Jack&quot;, Age = 17}
-
-                };
-
-
-
-            foreach (Dog d in myDogs)
-
-            {
-
-                Console.Write(string.Format(&quot;{0} / &quot;, d));
-
-                d.Age++;
-
-                Console.WriteLine(d);
-
-            }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1121-001.png"><img class="alignnone size-full wp-image-8736" src="data:image/png;base64,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" alt="1121-001"   /></a></p>
+					<p>Although the <a href="http://wp.me/pXTis-2gQ">iteration variable in a <strong>foreach</strong> loop is read-only</a>, you can still use the iteration variable to modify the elements of a collection, as long as they are reference-typed.  (Value-typed elements are immutable).  You&#8217;re not changing the iteration variable, but rather changing the object that it refers to.</p><pre class="code-block language-csharp"><code>List&lt;Dog&gt; myDogs = <span class="kw">new</span> List&lt;Dog&gt;
+    {
+        <span class="kw">new</span> Dog {Name = <span class="str">"Kirby"</span>, Age = <span <span class="kw">class</span>="num">15</span>},
+        <span class="kw">new</span> Dog {Name = <span class="str">"Ruby"</span>, Age = <span <span class="kw">class</span>="num">2</span>},
+        <span class="kw">new</span> Dog {Name = <span class="str">"Jack"</span>, Age = <span <span class="kw">class</span>="num">17</span>}
+    };
+<span class="kw">foreach</span> (Dog d <span class="kw">in</span> myDogs)
+{
+    Console.Write(<span class="kw">string</span>.Format(<span class="str">"{0} / "</span>, d));
+    d.Age++;
+    Console.WriteLine(d);
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1121-001.png"><img class="alignnone size-full wp-image-8736" src="data:image/png;base64,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" alt="1121-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

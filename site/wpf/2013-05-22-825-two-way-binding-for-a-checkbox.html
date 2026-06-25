@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,70 +56,55 @@
 					</div>
 
 					<p>You can <a href="2011-07-27-351-binding-a-checkboxs-ischecked-property-to-a-boolean-variable.html">bind the <strong>IsChecked </strong>property of a </a><strong><a href="2011-07-27-351-binding-a-checkboxs-ischecked-property-to-a-boolean-variable.html">CheckBox</a> </strong>to a boolean variable, so that the variable will always reflect the current value of the CheckBox in the user interface.</p>
-<p>You can also do two-way binding, where the boolean variable changes when the user toggles the CheckBox, but the CheckBox also toggles when the value of the variable changes.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;Label Content=&quot;Things my dog can do:&quot;/&gt;
-        &lt;CheckBox Content=&quot;Sit&quot; IsChecked=&quot;{Binding CanSit, Mode=TwoWay}&quot;/&gt;
-        &lt;CheckBox Content=&quot;Stay&quot; IsChecked=&quot;{Binding CanStay, Mode=TwoWay}&quot;/&gt;
-        &lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
-            &lt;Button Content=&quot;Report State&quot; Click=&quot;btnReportState_Click&quot;
-                    Margin=&quot;5&quot;/&gt;
-            &lt;Button Content=&quot;Change State&quot; Click=&quot;btnChangeState_Click&quot;
-                    Margin=&quot;5&quot;/&gt;
-        &lt;/StackPanel&gt;
-</pre>
-<p>Code-behind:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        private bool canSit;
-        public bool CanSit
-        {
-            get { return canSit; }
-            set
-            {
-                canSit = value;
-                RaisePropertyChanged(&quot;CanSit&quot;);
-            }
-        }
-
-        private bool canStay;
-        public bool CanStay
-        {
-            get { return canStay; }
-            set
-            {
-                canStay = value;
-                RaisePropertyChanged(&quot;CanStay&quot;);
-            }
-        }
-
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-        }
-
-        private void btnReportState_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(string.Format(&quot;Sit: {0}, Stay: {1}&quot;, CanSit, CanStay));
-        }
-
-        private void btnChangeState_Click(object sender, RoutedEventArgs e)
-        {
-            CanSit = CanSit ? false : true;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>You can also do two-way binding, where the boolean variable changes when the user toggles the CheckBox, but the CheckBox also toggles when the value of the variable changes.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Things my dog can do:"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">CheckBox</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Sit"</span> <span class="xml-attr">IsChecked</span>=<span class="xml-val">"{Binding CanSit, Mode=TwoWay}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">CheckBox</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Stay"</span> <span class="xml-attr">IsChecked</span>=<span class="xml-val">"{Binding CanStay, Mode=TwoWay}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">&gt;</span>
+    &lt;Button Content="Report State" Click="btnReportState_Click"
+            Margin="5"/&gt;
+    &lt;Button Content="Change State" Click="btnChangeState_Click"
+            Margin="5"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>Code-behind:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">private</span> <span class="kw">bool</span> canSit;
+    <span class="kw">public</span> <span class="kw">bool</span> CanSit
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> canSit; }
+        <span class="kw">set</span>
+        {
+            canSit = <span class="kw">value</span>;
+            RaisePropertyChanged(<span class="str">"CanSit"</span>);
+        }
+    }
+    <span class="kw">private</span> <span class="kw">bool</span> canStay;
+    <span class="kw">public</span> <span class="kw">bool</span> CanStay
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> canStay; }
+        <span class="kw">set</span>
+        {
+            canStay = <span class="kw">value</span>;
+            RaisePropertyChanged(<span class="str">"CanStay"</span>);
+        }
+    }
+    <span class="kw">public</span> MainWindow()
+    {
+        <span class="kw">this</span>.InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+    }
+    <span class="kw">private</span> <span class="kw">void</span> btnReportState_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+    {
+        MessageBox.Show(<span class="kw">string</span>.Format(<span class="str">"Sit: {0}, Stay: {1}"</span>, CanSit, CanStay));
+    }
+    <span class="kw">private</span> <span class="kw">void</span> btnChangeState_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+    {
+        CanSit = CanSit ? <span class="kw">false</span> : <span class="kw">true</span>;
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged;
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

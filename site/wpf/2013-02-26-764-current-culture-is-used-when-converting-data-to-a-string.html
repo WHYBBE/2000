@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,25 +58,12 @@
 					<p>The <a href="2013-02-25-763-the-difference-between-currentculture-and-currentuiculture.html"><strong>CurrentCulture</strong></a> property of a <strong>Thread</strong> object indicates a user&#8217;s current locale, as set in the Region applet.  This value can normally be thought of as indicating the user&#8217;s location.</p>
 <p>If you convert either numeric or date data to a string, the formatting used will depend on the current locale, as set in the Region applet and reported by the <strong>CurrentCulture</strong> property.</p>
 <p>For example:</p>
-<p><pre class="brush: csharp;">
-
-            double d1 = 123.456;
-
-            DateTime date1 = DateTime.Now;
-
-
-
-            string output = string.Format(&quot;123.456 =&gt; {0}\nNow =&gt; {1}&quot;,
-
-                d1.ToString(),
-
-                date1.ToString());
-
-
-
-            MessageBox.Show(output);
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">double</span> d1 = <span <span class="kw">class</span>="num">123.456</span>;
+DateTime date1 = DateTime.Now;
+<span class="kw">string</span> output = <span class="kw">string</span>.Format(<span class="str">"123.456 =&gt; {0}\nNow =&gt; {1}"</span>,
+    d1.ToString(),
+    date1.ToString());
+MessageBox.Show(output);</code></pre>
 <p>If we run this code when our region is set to English (United States), we get:</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2013/02/764-0011.png"><img class="alignnone size-full wp-image-6627" alt="764-001" src="data:image/png;base64,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"   /></a></p>
 <p>But now if we switch our region to French (France) and re-run the application, we get:</p>

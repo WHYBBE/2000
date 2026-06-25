@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,29 +57,19 @@
 
 					<p>You can use<a href="2013-07-15-887-report-additional-data-when-you-throw-an-exception.html"> an <strong>Exception</strong> object&#8217;s <strong>Data </strong>property</a> to add useful data to an exception that you are throwing.</p>
 <p>When you add an entry to this dictionary, you need to make sure that the object being stored is serializable.  That is, it&#8217;s state can be completely captured and later used to reconstitute the object.</p>
-<p>In the example below, we add a <strong>Dog</strong> instance to the <strong>Data </strong>property&#8217;s dictionary.  If the <strong>Dog</strong> class is not serializable, we&#8217;ll get an <strong>ArgumentException</strong> on the <strong>Add </strong>call.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Dog.Bark
-        public void Bark(int numTimes)
-        {
-            if (numTimes &gt; 12)
-            {
-                Exception xx = new Exception(&quot;Too much barking&quot;);
-                xx.Data.Add(&quot;Dog&quot;, this);
-                throw xx;
-            }
-
-            for (int i = 0; i &lt; numTimes; i++)
-                Console.WriteLine(&quot;Woof&quot;);
-        }
-</pre>
-<p>We can fix this problem by marking the <strong>Dog</strong> class as serializable.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    [Serializable]
-    public class Dog
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>In the example below, we add a <strong>Dog</strong> instance to the <strong>Data </strong>property&#8217;s dictionary.  If the <strong>Dog</strong> class is not serializable, we&#8217;ll get an <strong>ArgumentException</strong> on the <strong>Add </strong>call.</p><pre class="code-block language-csharp"><code><span class="com">// Dog.Bark</span>
+<span class="kw">public</span> <span class="kw">void</span> Bark(<span class="kw">int</span> numTimes)
+{
+    <span class="kw">if</span> (numTimes &gt; <span <span class="kw">class</span>="num">12</span>)
+    {
+        Exception xx = <span class="kw">new</span> Exception(<span class="str">"Too much barking"</span>);
+        xx.Data.Add(<span class="str">"Dog"</span>, <span class="kw">this</span>);
+        <span class="kw">throw</span> xx;
+    }
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; numTimes; i++)
+        Console.WriteLine(<span class="str">"Woof"</span>);
+}</code></pre><p>We can fix this problem by marking the <strong>Dog</strong> class as serializable.</p><pre class="code-block language-csharp"><code>[Serializable]
+<span class="kw">public</span> <span class="kw">class</span> Dog</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

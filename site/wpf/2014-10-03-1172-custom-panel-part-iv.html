@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,89 +55,38 @@
 																				</p>
 					</div>
 
-					<p>By default, a <strong>Panel</strong> control will respect its children elements&#8217; <strong>Panel.ZIndex</strong> values when doing layout.  In the custom panel below, we overlap child elements during the arrange phase.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyPanel : Panel
-
+					<p>By default, a <strong>Panel</strong> control will respect its children elements&#8217; <strong>Panel.ZIndex</strong> values when doing layout.  In the custom panel below, we overlap child elements during the arrange phase.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyPanel : Panel
+{
+    <span class="kw">protected</span> <span class="kw">override</span> Size MeasureOverride(Size availableSize)
     {
-
-        protected override Size MeasureOverride(Size availableSize)
-
-        {
-
-            Size childSize = new Size(availableSize.Width, double.PositiveInfinity);
-
-
-
-            foreach (UIElement elem in InternalChildren)
-
-                elem.Measure(childSize);
-
-
-
-            return availableSize;
-
-        }
-
-
-
-        protected override Size ArrangeOverride(Size finalSize)
-
-        {
-
-            Size childSize;
-
-
-
-            double top = 0.0;
-
-            for (int i = 0; i &lt; InternalChildren.Count; i++)
-
-            {
-
-                childSize = new Size(finalSize.Width, InternalChildren[i].DesiredSize.Height);
-
-                Rect r = new Rect(new Point(0.0, top), childSize);
-
-                InternalChildren[i].Arrange(r);
-
-                top += childSize.Height * 0.5;
-
-            }
-
-
-
-            return finalSize;
-
-        }
-
+        Size childSize = <span class="kw">new</span> Size(availableSize.Width, <span class="kw">double</span>.PositiveInfinity);
+        <span class="kw">foreach</span> (UIElement elem <span class="kw">in</span> InternalChildren)
+            elem.Measure(childSize);
+        <span class="kw">return</span> availableSize;
     }
-
-</pre>
-<p>If we don&#8217;t specify <strong>ZIndex</strong> values, each child layers on top of the previous child.<br />
+    <span class="kw">protected</span> <span class="kw">override</span> Size ArrangeOverride(Size finalSize)
+    {
+        Size childSize;
+        <span class="kw">double</span> top = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; InternalChildren.Count; i++)
+        {
+            childSize = <span class="kw">new</span> Size(finalSize.Width, InternalChildren[i].DesiredSize.Height);
+            Rect r = <span class="kw">new</span> Rect(<span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, top), childSize);
+            InternalChildren[i].Arrange(r);
+            top += childSize.Height * <span <span class="kw">class</span>="num">0.5</span>;
+        }
+        <span class="kw">return</span> finalSize;
+    }
+}</code></pre><p>If we don&#8217;t specify <strong>ZIndex</strong> values, each child layers on top of the previous child.<br />
 <a href="https://2000thingswpf.files.wordpress.com/2014/10/1172-001.png"><img class="alignnone size-full wp-image-9383" src="data:image/png;base64,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" alt="1172-001"   /></a><br />
-We can reverse the order by specifying explicit <strong>ZIndex</strong> values:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;loc:MyPanel Margin=&quot;5&quot; Background=&quot;LightGray&quot;&gt;
-
-        &lt;Label Content=&quot;I'm child #1&quot; Panel.ZIndex=&quot;3&quot;
-
-               Background=&quot;Thistle&quot; /&gt;
-
-        &lt;Label Content=&quot;I'm child #2&quot; Panel.ZIndex=&quot;2&quot;
-
-               Background=&quot;Lavender&quot; /&gt;
-
-        &lt;Label Content=&quot;Third kid&quot;  Panel.ZIndex=&quot;1&quot;
-
-               Background=&quot;Honeydew&quot; /&gt;
-
-    &lt;/loc:MyPanel&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1172-002.png"><img class="alignnone size-full wp-image-9384" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANEAAACiCAMAAADoUtiyAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAsRQTFRFAAAAAAAvAAA3ADg1LwAAMwAANQAAKCgoNTg1AABaAABkAABoACp+LwBaNQBkMwBoKChLLyp+KEJcKFhrWgAASSgoSSg7YAAAZAAAZAA1fioAZygoZyg7fiovWgBaSShLZABkYABofipaSUI7Wk8vSW56WnB+fk9+ADiMADOSNTiMMzOSAE+eAGqvAGC2L3C5NWqvZDiMYDOSWk+eWnC5YGC2W6V/X6p6Xah8fot+Yq52M4bWNZXNSYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCZ4OJYIaSaI6yapisbJiubp2saZKxcaKqfaK5WovYYIbWfqPYYKj6ZLrwhjMAjDgAhjM3nk8AhEIonk8vn1gojGoAqGAAr2oAqGA3uW47uXAvuW5Lx1BQhmCSjJU1hINcnotan5dcuYNLoYNptJJ1vpp8uat6xYY3zZU104NL2Ita05dcxJ9/06tr06t62KN+5qho8LpkhJeJiJ2+iZ+9n6uJiq+qiqG8i6S7jae6jbOlj7Wji7Gokbehnr+5qpiJtZ2ItZ2KuauJpaOjp6WjpqqurK+zuLu/ub+5ury/mrHLnbfJnr/YsrjBsrnCur3Au77Bvb/Cub/Yp8u+rdO3sdeyhsX6jNrwosLDvcDDv8LFqOb6r//wzKWE0aqI06uJ2L+e2L+52L/Y5sWS8NqM5ua28P+vwMDCwcHDysrSzNDUzNDV09PT0dHb0tTd1tbe2Nrj2dvmxebW1efVxeb6zf/w5ubW8P/N4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u5ub68O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f38P/w9/j5+Pf2+fj3+Pj4+Pn5+vr6+/v7/Pz8/f39/v7+////APS1qwAAAAlwSFlzAAAOwwAADsMBx2+oZAAABSBJREFUeNrt3YlXG0UcB/D1apRWrcVqpaWtB9paJGrrCd73fR8IqaWNWBBPrNgiRar1vm8q1RYVD1JDgMYDUWMRG6JtaMSoRRJtFkLyT/j7zSSBUDav5BHYmff7PnZ2d5ZjP29+s4THexklLFsUSUUhSRIVhUKDkKDgQQOaQASeATXg6xM8voA6ACYmCqq9XrerS/C43N5eNchFg2q5JFHZGIUGB3rLrfpL2VjCv6S8d2AwhCLVK4vI289FAbcsou4AF/lcsohcPiYK9nXJIurqC5IoZTHEMt6i118dnte+1JUoHB5q91n0Ttu3LG1tbR9s3Pj2ExMm2uugTIM0GiiRaLP671DUTatG/GBz+qSKyvDF9Rir7usfn3r62eee/8HtdLo3bEhWtHrGG6kRjT5CCUVfOW6+/dbb7mjfgaL3dSdKYoxqHXfecu3V17TvdG53f/aRlqhypsEAN83OSuCgBGY0HFfNWQfX5q0381Pt+T+R86jWcfF5F1x6VfuO7U73x59oie5bZ127PJ0NxdrlN1pLpq9n51GR5hglEKXsWVfrOP/CSy6/AcbI6d62LVHVwV2jAAAMEjtIJJqM37C1jouuvOL6s9k82rNHU4RlhmWXZS2BoYIhYiWnU9Fl15151rntv4Jo9+8aoqrZcMer2fYYFJ2+RR9+/8xLL7z48jcg+s3brSHCm2ZPhKo5D8Jh5VHDqw59ehK929/T0/P3X3/889/uP3ft0hIBoXIm3rX5eOwwsydDFn86zEYRGzV9iN7axPP5F5uhfXMvkYFNIJhGMx5BER8eNq2yWDkapj88D3mGdL2ItqyKy5Zx/1WayozDXxNYalKJzIZ0q1wivYVEJCIRifZF9Kiw0RSJ+r9XEpGIRCkXNQsVEpGIRCQiEYmEEtkyC2zH1Y3yHeAC7qoPras+op4d8V1z9ZKmxXg9wyimaIgSFZXmVy+Bdr8TJBGtUTDT4LBUvyJom+Y+pBzySga7U0iRohhtmeccqBjRgRToOZHDbCfVr2BWnYuOzIY6KrBl5LN7zWbzZFo9n0TwUQrUIs5tWgwmAURz65rXgKMoP9aFLWxchKPCqs6WwarOKJYIT+JF72UWxKYTfzCIJWouyh45RliHkapbUVCaL5wIS8sYJ8KeyJMhFr2K6FUQiUhEIhKRaJJFHkznsgZotx6d46nYv6FzaSH2VeTghaULO1oOb2xZ1AEfFQs7PMWw4aee0Xk/O4CLngnMWEXHNnqeBEdxYawLW9i4aCX0wA6d7JVqLrA5UAgRnsSLfloWFYGksOUu3OV6PMKIPMU5I8cI6zBSdSsbKuCTtp7eIZIISys3ToQ9Ny0ahmg5CGpvaqMeRcKERCQiEYlIJKvIz1NzCjT3plnsx3xqn2+xz8rz22eZ/K1TTHjx8byaBT9D+8vd2J3nn7yMWWTCDUXzLf7WUyM9IDoYQCCyn8Z2oopiPYA44DALUlpPFloE9Tes6tIsrOpMIledv0ZRFtwTEcGJCdrWKUraA4KIBAmJSEQiEpFIVtF3QoVEJCIRiUhEIhKRiEQkIhGJSEQiEpGIRCQiEYlIRCISkYhEJCIRiUhEIhKRiEQkIhGJSEQiEiUnoncfJRGJSCT3+3vTu8rrVaTTlTqTEUVW6tTpaqrJiKKrqepzxdtkRNEVb/W5KnEyIr4qsXwrR/PVvbuFX927y9XNlveOrMDeL/4K7H2+QD8uwQ6icCiEK8wHRQ8iQqzqmEmSgEUJyxb5RP8DtwNQTEOh68kAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1172-002"   /></a></p>
+We can reverse the order by specifying explicit <strong>ZIndex</strong> values:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">loc:MyPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"LightGray"</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="I'm child #1" Panel.ZIndex="3"
+           Background="Thistle" /&gt;
+    &lt;Label Content="I'm child #2" Panel.ZIndex="2"
+           Background="Lavender" /&gt;
+    &lt;Label Content="Third kid"  Panel.ZIndex="1"
+           Background="Honeydew" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">loc:MyPanel</span><span class="xml-tag">&gt;</span></code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1172-002.png"><img class="alignnone size-full wp-image-9384" src="data:image/png;base64,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" alt="1172-002"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

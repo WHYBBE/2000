@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,29 +57,24 @@
 
 					<p>To implement a dependency property, a class will create a single static instance of the <strong>DependencyProperty</strong> class.  This instance is static because <strong>DependencyProperty</strong> just describes the dependency property, rather than being a place to store the actual property value.</p>
 <p>You start by declaring a static member for the new property.</p>
-<p><pre class="brush: csharp;">
-        public static readonly DependencyProperty AgeProperty;
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty AgeProperty;</code></pre>
 <p>You typically register the property in a static constructor, using the static <strong>DependencyProperty.Register</strong> method.</p>
-<p><pre class="brush: csharp;">
-        static Person()
-        {
-            PropertyMetadata ageMetadata =
-                new PropertyMetadata(
-                    18,     // Default value
-                    new PropertyChangedCallback(OnAgeChanged),
-                    new CoerceValueCallback(OnAgeCoerceValue));
-
-            // Register the property
-            AgeProperty =
-                DependencyProperty.Register(
-                    &quot;Age&quot;,                 // Property's name
-                    typeof(int),           // Property's type
-                    typeof(Person),        // Defining class' type
-                    ageMetadata,           // Defines default value &amp; callbacks  (optional)
-                    new ValidateValueCallback(OnAgeValidateValue));   // validation (optional)
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">static</span> Person()
+{
+    PropertyMetadata ageMetadata =
+        <span class="kw">new</span> PropertyMetadata(
+            <span <span class="kw">class</span>="num">18</span>,     <span class="com">// Default value</span>
+            <span class="kw">new</span> PropertyChangedCallback(OnAgeChanged),
+            <span class="kw">new</span> CoerceValueCallback(OnAgeCoerceValue));
+    <span class="com">// Register the property</span>
+    AgeProperty =
+        DependencyProperty.Register(
+            <span class="str">"Age"</span>,                 <span class="com">// Property's name</span>
+            <span class="kw">typeof</span>(<span class="kw">int</span>),           <span class="com">// Property's type</span>
+            <span class="kw">typeof</span>(Person),        <span class="com">// Defining class' type</span>
+            ageMetadata,           <span class="com">// Defines default value &amp; callbacks  (optional)</span>
+            <span class="kw">new</span> ValidateValueCallback(OnAgeValidateValue));   <span class="com">// validation (optional)</span>
+}</code></pre>
 <p>The first three parameters passed to <strong>Register</strong> are required.</p>
 <p>You can also specify:</p>
 <ul>

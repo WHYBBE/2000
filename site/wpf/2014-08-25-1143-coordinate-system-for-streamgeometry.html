@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,87 +58,39 @@
 					<p>You can use a <strong>StreamGeometry</strong> object, along with the <strong>StreamGeometryContext</strong> returned by its <strong>Open</strong> method, to draw simple geometric shapes.</p>
 <p>When using the various methods of a <strong>StreamGeometryContext</strong> instance, you work with X and Y values.  The coordinate system used has the upper left corner of the drawing region at (0,0), with X values increasing from left to right and Y values increasing from top to bottom.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1143-001.png"><img class="alignnone size-full wp-image-9194" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVsAAAEiCAAAAAByiS44AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAACc9JREFUeNrt3S2vHMkVBuDzZ+pfFBiSBVHAHkuhG9DMyKBIUKQoDUIWFYoUBbQWLigU4lXDkCMt7gSZlBWWqNCSvAH93dP2zLTH3tm57wvs23Vn7ug+U326PvpqBMznipCAtrRlaEtb2jK0pS1tGdrSlrYMbWlLW4a2tKVtJXbNM1Uy+W60zeKuemaSQL4bbWtpAAAlOhEXy/J7y7YiUuh3m63053p2IiIifgG4bqsk0e8m21b8UE6dAUlElyV22ZakenKc9z/e17aWGgBMpAOARuZL1qYtP31R+PH06tsf72jrpQWAMHTKIvOZv21z/UOf2fZ0+gTerW0Z+qaXONaBOLOv2xbfemLb47xbWxMZrmjt6KjzVW7dFp+94I62B3nlbNQ62g4TiLi0XbctvpV+c3r63My7tR29rrFtZHz2T1+dXkRefffTF7K1yRZ/fAmyv/3zP/J9+u1UW6udelttbGFvnzB/3cDmnPMdbN3OOGHb1ixs//ef/Hx5+wmwH7mW6TyWbedp2botLudszztO+PoQ7EfGYON8LC765rbtJdh+/ae3x2A/MncoIt5QGpHYH9m27QXMHf717XHYvTmvG+a4bb/k1S/SWj/LXbUtrm3Pm+Owe7ahX6sBukpENK1WaZZtL2Ct5t5rjGlv26HZq6xpWI1krrUtsrMP5vpuu041bFAw19oinF+h0t5Fi3s6t9t250XB7Z383Iu83Rb6y9pDr5pfkO3PmLo+8Bt8aBG5CgDQaqYtAOiBiV73IbskCSjuwI+UAyrxfNf7l2/7sapVEA9UrkNXkp1bZh7PttUSNXQASqPaALE2rYBSqzYFgAWtWgBd0FCAKgFVskobAGhUdXyHstT5yLTcTyPOtOjByYtIWL9TyzZ/dpl6PNsoEk2lAN63rTZQkTYhS2Wt90DyyaIYsgSLFSAREPFtkgjUrm29s+k89e5AkRl7YAky2+ow3+9WJ8airTnr7dfYpld/+aK2BmRJSP1dEFDpAAQF0IkhA4BEmGQgD7YKILj+wGQxBD+w4jHcoYHOyWwbRRrA/HJQv27LZ1X6Ctvy1en0zy9pO+AFvyzCzqmqSgtYUJWIIi4VDLYR/RNdDTTT79TKkVXQ4Q6NTsRPK6xF+klot7hdY9t2drvGFbbvT6fT2/9+eduxbPb/SzAzs4Io0Uxif+Nf2tgG8X767Yur0u0dd5xvmjTzrtVUeP185m/bplWuW23//eVta1na+nEYK/XQWQHUsrbNYmZlPrkz1N06MW+nvrrYEazHE2CxH7BtO9sqeGBbkwawNNhG6YBSA077BY5k/em/tnWq40Stkzj8c+NAdSaabHXsk3F5dVu32bbgPrAtGvHe2VgbavEqEWjFe+8jOtef/quaUAWzcXjajxHCrQPcsG8bNy3nbQ9u23VAMQCwDKCYAcjDsKc/Aop1/WSsP/27PMzNsiFJwfju9D8CxW4sCsudqptsO9msxD6W7aemLxz+k25TO2w73xvzlLZFRVW0fAbby/X2yW2BbPaJ6167tmFnnLBte/KacI/sXsviPJatF9OyVduDX8seo2bv2I5zL1v0zW0bba+fO6y4VCTNk+i+bqzbHn3u8BAVe/wjMJHFrS7jUf/nX3ttqB57zvsQGdZc1rYowYn44U8Zh1WaVdvxtZoXZBsubjt0e7cPnN9mRNuz2MU/aA57d700Z5uitN0rCnahIu+tCvuz5Uza7vXAcKHb5j3wI3uRL862HNtDb2n75UJb2tKWoS1tacvQlra0ZWhLW9oytKUtbWlLW9rSlra0pS1taUtb2jK0pS1tGdrSlrYMbWlLW4a2tKUtbWlLW9rSlra0pS1taUtbhra0pS1DW9rSlqEtbWnL0Ja2tGVoS1va0pa2tKUtbWlLW9rSlra0ZWhLW9oytKUtbRna0pa2DG1pS1va0pa2tKUtbWlLW9rSlrYMbWlLW4a2tKUt8zPaZjXaXmOr6eaXMGn2v9FqBwBVpG3/+AMQVvbbiyiAJEbbw7YfTBQDnLImzLaxzkHrAqA0qg0Qa9MKKLVqUwCkSkMHoK00Alk7ZO2SVi0ANKqqvWdxiiSZtrOtiqTWKQDv21YbqEibkKWy1nsgVK1VUtBKY1UDE4OJVFaLAbVrW++GMpAku8Br2cq2AEny0OcyVDoAQQF0YsgATAzRAciDbQTgQv8DbHpV55632x6z1QEv+GHwoL2Tqqq0QKrUi8FE2+GRJjY8ztVAM71qkufttp9mO5TN4X8JZmZWoC5ZIwbkINJtbIN4L2kenxltd21rWdr6qj/qpJ3QiuraNovZYkxG2w/ZmjSApcE2SgeUGlkiEMQQM1Cd2TrVqqHtJVs04r2bakMtXiUCUdQFMSRR57Y1oQpmc5Wl7cLWMpA7AMUKgGKGoWE6ArJlWJmOrQxzs65DkgIgyqU5G9dqjkzFOqCMpZlrNfe0LSqqooW297cFslkGaPs5bF9OaEtb2jK0pS1tGdrSlrYMbWlLW4a2tKUtbWlLW9rSlra0pS1taUtbhra0pS1DW9rSlqEtbWnL0Ja2tKUtbWlLW9rSlra0pS1tacvQlra0ZWhLW9oytKUtbRna0pa2DG1pS1va0pa2tKUtbWlLW9rSlrYMbWlLW4a2tKUtQ9sHtf3hzZs3r0+n0+9ev3nzHbXuavvuNOcHat23Jnwz0f7qXSbXXW3/Ntn+PtP2vrZzUfietPceJ3zDkvDZbMei8AeWhLvbjkXh76S9/9yhLwq/XpSERuLtL6SSabtfFJYl4dDnwz/1J58ftX23LQmtDJ8Am7yIhK1zLTp+mYOI+P7Dz4tIoe1eUViWhGr4qHiVPt3ywdnLZNsODwirp9F2UxQWJWHsgFGkAcyv+mMSmWyLiGaUKH15TlLRdq8orEqCH+QaAOhk0R8bkSqMtlFc6TusA4D84orCFbb4ZlUSaqmHHtof+8VFKjpDHG1dj49W+mufk5a250VhOUrwPVk9d8/p2oWyOC4iNrxG/4UeGbo9u+271cRhkqpH2/XPGG1tqgFDwY0vreBeY4vXi5KQt73QPmw7TRvitoPTdsx7zLYj2e22jQhtP5rjtkbbq21vqLcNbW+xDXvjhOVx3o4TWBMuZSSL8/i23rUduyvaaSLHa9mlZ/S243zMNgsKM+EwH4MOYy/aXswwd4CKJKAdlg/micFEaCJVRg5jbeDc4WLCMMfNwyqXL31vDuNSjYj0fbpefA1AOOe9lNSv1QAlOBEfy6K4rm3RqohUNhVqrtVcvpidbzt0l+Gm94S2H47uLHKHoQh/JNXlh9A2nV/v8+UhAPd0rhyF5bNumy+/I9yLvCKRe+ifzZahLW1py9CWtrRlaPuo+T8jO+lC9EnyhAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAAElFTkSuQmCC" alt="1143-001"   /></a></p>
-<p>Below, we have a custom shape that draws a line segment from (0,0) to (50,50) and then another line segment to (75,25).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyShape : Shape
-
+<p>Below, we have a custom shape that draws a line segment from (0,0) to (50,50) and then another line segment to (75,25).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyShape : Shape
+{
+    <span class="kw">protected</span> <span class="kw">override</span> Geometry DefiningGeometry
     {
-
-        protected override Geometry DefiningGeometry
-
+        <span class="kw">get</span>
         {
-
-            get
-
-            {
-
-                return GetMyShapeGeometry();
-
-            }
-
+            <span class="kw">return</span> GetMyShapeGeometry();
         }
-
-
-
-        private Geometry GetMyShapeGeometry()
-
-        {
-
-            StreamGeometry geom = new StreamGeometry();
-
-            using (StreamGeometryContext ctx = geom.Open())
-
-            {
-
-                ctx.BeginFigure(
-
-                    new Point(0.0, 0.0),
-
-                    false,    // is NOT filled
-
-                    false);   // is NOT closed
-
-                ctx.LineTo(
-
-                    new Point(50.0, 50.0),
-
-                    true,     // is stroked (line visible)
-
-                    false);   // is not smoothly joined w/other segments
-
-                ctx.LineTo(
-
-                    new Point(75.0, 25.0),
-
-                    true,     // is stroked (line visible)
-
-                    false);   // is not smoothly joined w/other segments
-
-            }
-
-
-
-            return geom;
-
-        }
-
     }
-
-</pre>
-<p>We can then use this shape from XAML.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Canvas&gt;
-
-        &lt;loc:MyShape Canvas.Top=&quot;0&quot; Canvas.Left=&quot;0&quot;
-
-                     Stroke=&quot;Black&quot; /&gt;
-
-    &lt;/Canvas&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1143-002.png"><img class="alignnone size-full wp-image-9196" src="data:image/png;base64,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" alt="1143-002"   /></a></p>
+    <span class="kw">private</span> Geometry GetMyShapeGeometry()
+    {
+        StreamGeometry geom = <span class="kw">new</span> StreamGeometry();
+        <span class="kw">using</span> (StreamGeometryContext ctx = geom.Open())
+        {
+            ctx.BeginFigure(
+                <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, <span <span class="kw">class</span>="num">0.0</span>),
+                <span class="kw">false</span>,    <span class="com">// is NOT filled</span>
+                <span class="kw">false</span>);   <span class="com">// is NOT closed</span>
+            ctx.LineTo(
+                <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">50.0</span>, <span <span class="kw">class</span>="num">50.0</span>),
+                <span class="kw">true</span>,     <span class="com">// is stroked (line visible)</span>
+                <span class="kw">false</span>);   <span class="com">// is not smoothly joined w/other segments</span>
+            ctx.LineTo(
+                <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">75.0</span>, <span <span class="kw">class</span>="num">25.0</span>),
+                <span class="kw">true</span>,     <span class="com">// is stroked (line visible)</span>
+                <span class="kw">false</span>);   <span class="com">// is not smoothly joined w/other segments</span>
+        }
+        <span class="kw">return</span> geom;
+    }
+}</code></pre><p>We can then use this shape from XAML.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span>
+    &lt;loc:MyShape Canvas.Top="0" Canvas.Left="0"
+                 Stroke="Black" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span></code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1143-002.png"><img class="alignnone size-full wp-image-9196" src="data:image/png;base64,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" alt="1143-002"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

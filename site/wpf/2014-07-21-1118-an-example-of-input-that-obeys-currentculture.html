@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,35 +57,18 @@
 
 					<p>One step in internationalizing an application is to <a href="http://wp.me/pZhye-2lx">respect the current regional settings when reading</a> numeric or date/time values from a user.</p>
 <p>If you are parsing user-entered text and converting to numeric or date/time data, the <strong>Parse</strong> methods associated with individual data types respect the current regional settings.</p>
-<p>Below, we read text from two <strong>TextBox</strong> controls, interpreting the first value as a <strong>double</strong> and the second as a <strong>DateTime </strong>using the corresponding <strong>Parse</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-
-        {
-
-            try
-
-            {
-
-                double num = double.Parse(txt1.Text);
-
-                DateTime dt = DateTime.Parse(txt2.Text);
-
-            }
-
-            catch (Exception xx)
-
-            {
-
-                MessageBox.Show(xx.ToString());
-
-            }
-
-        }
-
-</pre>
-<p>On an English/US system, we can enter the data as &#8220;1.1&#8221; and &#8220;5/2/12&#8243;.  The date is interpreted as May 2nd.</p>
+<p>Below, we read text from two <strong>TextBox</strong> controls, interpreting the first value as a <strong>double</strong> and the second as a <strong>DateTime </strong>using the corresponding <strong>Parse</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    <span class="kw">try</span>
+    {
+        <span class="kw">double</span> num = <span class="kw">double</span>.Parse(txt1.Text);
+        DateTime dt = DateTime.Parse(txt2.Text);
+    }
+    <span class="kw">catch</span> (Exception xx)
+    {
+        MessageBox.Show(xx.ToString());
+    }
+}</code></pre><p>On an English/US system, we can enter the data as &#8220;1.1&#8221; and &#8220;5/2/12&#8243;.  The date is interpreted as May 2nd.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1118-0011.png"><img class="alignnone size-full wp-image-9033" src="data:image/png;base64,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" alt="1118-001"   /></a></p>
 <p>For French/France, we must enter &#8220;1,1&#8221; for the double.  &#8220;5/2/12&#8243; is interpreted as Feb 5th.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1118-002.png"><img class="alignnone size-full wp-image-9034" src="data:image/png;base64,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" alt="1118-002"   /></a></p>

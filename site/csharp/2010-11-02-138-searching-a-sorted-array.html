@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,20 +57,16 @@
 
                     <p>If an array is already sorted and if the type that its elements belong to has implemented <strong>IComparable</strong>, you can use the <strong>BinarySearch</strong> method to quickly search for a particular element.</p>
 <p>Using our <a href="2010-10-30-135-implementing-icomparable-to-allow-sorting-a-custom-type.html" target="_blank">earlier example</a>, with a <strong>Person</strong> class that implements <strong>IComparable</strong> (sorts by LastName/FirstName), we can search for a particular <strong>Person</strong> in a sorted array:</p>
-<p><pre class="brush: csharp;">
-            Person[] folks = new Person[4];
-            folks[0] = new Person(&quot;Bronte&quot;, &quot;Emily&quot;);
-            folks[1] = new Person(&quot;Bronte&quot;, &quot;Charlotte&quot;);
-            folks[2] = new Person(&quot;Tennyson&quot;, &quot;Alfred&quot;);
-            folks[3] = new Person(&quot;Mailer&quot;, &quot;Norman&quot;);
-
-            // Sort
-            Array.Sort(folks);    // C. Bronte, E. Bronte, Mailer, Tennyson
-
-            // Now search - returns index of 2 (3rd element)
-            int normIndex = Array.BinarySearch(folks, new Person(&quot;Mailer&quot;, &quot;Norman&quot;));
-            Person norm = folks[normIndex];     // Get reference to Normal
-</pre></p>
+<pre class="code-block language-csharp"><code>Person[] folks = <span class="kw">new</span> Person[<span <span class="kw">class</span>="num">4</span>];
+folks[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">new</span> Person(<span class="str">"Bronte"</span>, <span class="str">"Emily"</span>);
+folks[<span <span class="kw">class</span>="num">1</span>] = <span class="kw">new</span> Person(<span class="str">"Bronte"</span>, <span class="str">"Charlotte"</span>);
+folks[<span <span class="kw">class</span>="num">2</span>] = <span class="kw">new</span> Person(<span class="str">"Tennyson"</span>, <span class="str">"Alfred"</span>);
+folks[<span <span class="kw">class</span>="num">3</span>] = <span class="kw">new</span> Person(<span class="str">"Mailer"</span>, <span class="str">"Norman"</span>);
+<span class="com">// Sort</span>
+Array.Sort(folks);    <span class="com">// C. Bronte, E. Bronte, Mailer, Tennyson</span>
+<span class="com">// Now search - returns index of 2 (3rd element)</span>
+<span class="kw">int</span> normIndex = Array.BinarySearch(folks, <span class="kw">new</span> Person(<span class="str">"Mailer"</span>, <span class="str">"Norman"</span>));
+Person norm = folks[normIndex];     <span class="com">// Get reference to Normal</span></code></pre>
 <p>If you have a property not used for sorting purposes (e.g. <strong>Person.Age</strong>), you can&#8217;t be guaranteed that the object returned as a match actually matches your specified object&#8211;for that property.  Only properties used for comparison are guaranteed to match in the object returned.</p>
 <div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-1351"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/11/02/138-searching-a-sorted-array/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Data Types | Tags: Array, C#, Searching, Sorting</p>

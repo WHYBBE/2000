@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,18 +58,15 @@
 					<p>We&#8217;ve <a href="2010-08-21-40-application-lifetime.html">already mentioned</a> some of the main events that the <strong>Application </strong>class fires&#8211;e.g. <strong>Startup</strong>, <strong>Exit</strong> and <strong>SessionEnding</strong>.  We also showed how you can add event handlers to your <strong>Application</strong>-derived class to handle these events, using <strong>SessionEnding</strong> as <a href="2010-08-28-47-detecting-when-the-windows-session-is-ending.html">our example</a>.</p>
 <p>Rather than adding an event handler for <strong>Application.SessionEnding</strong> to our class, we could have just overridden the <strong>OnSessionEnding</strong> method.  This is more appropriate in a class that already derives from <strong>Application</strong>.  Instead of specifying the handler in App.xaml and adding the handler to App.xaml.cs, we can just add code for the override to App.xaml.cs.</p>
 <p>As an example, the override for <strong>OnSessionEnding</strong> could look something like this:</p>
-<p><pre class="brush: csharp;">
-	public partial class App : Application
-	{
-            protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
-            {
-                // Always call method in base class, so that the event gets raised.
-                base.OnSessionEnding(e);
-
-                // Place your own SessionEnding logic here
-            }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code>	<span class="kw">public</span> partial <span class="kw">class</span> App : Application
+	{
+            <span class="kw">protected</span> <span class="kw">override</span> <span class="kw">void</span> OnSessionEnding(SessionEndingCancelEventArgs e)
+            {
+                <span class="com">// Always call method in base class, so that the event gets raised.</span>
+                <span class="kw">base</span>.OnSessionEnding(e);
+                <span class="com">// Place your own SessionEnding logic here</span>
+            }
+    }</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-1663" class="wpl-button "><a href='2011-01-25-197-override-application-class-methods-for-standard-events.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
   <p class="meta">Categories: Basics | Tags: Application, SessionEnding, WPF</p>
   <nav class="pager"><a href="2011-01-24-196-getting-a-result-back-from-a-messagebox.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-26-198-creating-and-showing-additional-windows.html">Next</a></nav>

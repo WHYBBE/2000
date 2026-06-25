@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,31 +53,23 @@
                     </div>
 
                     <p>In WPF, the preferred method for executing some code when a button is clicked is to use a <em>command</em>.  <em>A command</em> is an object that represents an action to be taken and is bound to a particular method that performs the action.  The button is then associated with the command by setting its <strong>Command</strong> property.</p>
-<p>Here&#8217;s an example.</p>
-<pre class="brush: xml;">
-        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot; /&gt;
-</pre>
-<p><strong>ApplicationCommands.Open</strong> is a predefined command that is just a placeholder that you bind to some &#8220;open&#8221; logic in your application.  You do this by adding a new <strong>CommandBinding</strong> object to the parent window&#8217;s <strong>CommandBindings</strong> collection.</p>
-<p>You specify handlers for the <strong>Executed</strong> and <strong>CanExecute</strong> events of the command.</p>
-<pre class="brush: csharp;">
-		public MainWindow()
+<p>Here&#8217;s an example.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Open"</span> <span class="xml-attr">Command</span>=<span class="xml-val">"ApplicationCommands.Open"</span> <span class="xml-tag">/&gt;</span></code></pre><p><strong>ApplicationCommands.Open</strong> is a predefined command that is just a placeholder that you bind to some &#8220;open&#8221; logic in your application.  You do this by adding a new <strong>CommandBinding</strong> object to the parent window&#8217;s <strong>CommandBindings</strong> collection.</p>
+<p>You specify handlers for the <strong>Executed</strong> and <strong>CanExecute</strong> events of the command.</p><pre class="code-block language-csharp"><code>		<span class="kw">public</span> MainWindow()
 		{
-			this.InitializeComponent();
+			<span class="kw">this</span>.InitializeComponent();
 
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Open_Executed, Open_CanExecute));
+            CommandBindings.Add(<span class="kw">new</span> CommandBinding(ApplicationCommands.Open, Open_Executed, Open_CanExecute));
         }
 
-        public void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        <span class="kw">public</span> <span class="kw">void</span> Open_Executed(<span class="kw">object</span> sender, ExecutedRoutedEventArgs e)
         {
-            // Open file here
+            <span class="com">// Open file here</span>
         }
 
-        public void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        <span class="kw">public</span> <span class="kw">void</span> Open_CanExecute(<span class="kw">object</span> sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;   // Can we open file?
-        }
-</pre>
-<div class="clear"></div>
+            e.CanExecute = <span class="kw">true</span>;   <span class="com">// Can we open file?</span>
+        }</code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

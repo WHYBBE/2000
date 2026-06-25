@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,28 +57,23 @@
 
 					<p>You can box regular value types or their equivalent <a href="2012-05-11-581-boxing-and-unboxing-nullable-types.html">nullable types</a> (e.g. <strong>int</strong> and <strong>int?</strong>) and the boxed values will either be null or be of the underlying value type.</p>
 <p>You can unbox these values to a nullable type, or use the <strong>as </strong>operator to do the unboxing.  The example below shows the result of unboxing several different values to a nullable <strong>int</strong> (<strong>int?</strong>) using the <strong>as </strong>operator.</p>
-<p><pre class="brush: csharp;">
-int? i1 = null;   // Nullable&lt;int&gt; w/no value
-int? i2 = 42;     // Nullable&lt;int&gt; with a value
-int i3 = 12;      // Plain old int
-
-// Boxing nullable types
-object o1 = i1;
-object o2 = i2;
-object o3 = i3;
-object o4 = new Dog(&quot;I'm not an int&quot;, 12);
-
-// Unboxing to nullable types
-int? ia1 = o1 as int?;    // null
-int? ia2 = o2 as int?;    // 42
-int? ia3 = o3 as int?;    // 12
-int? ia4 = o4 as int?;    // null
-
-bool bHasVal = ia1.HasValue;  // false
-bHasVal = ia2.HasValue;       // true
-bHasVal = ia3.HasValue;       // true
-bHasVal = ia4.HasValue;       // false
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">int</span>? i1 = <span class="kw">null</span>;   <span class="com">// Nullable&lt;int&gt; w/no value</span>
+<span class="kw">int</span>? i2 = <span <span class="kw">class</span>="num">42</span>;     <span class="com">// Nullable&lt;int&gt; with a value</span>
+<span class="kw">int</span> i3 = <span <span class="kw">class</span>="num">12</span>;      <span class="com">// Plain old int</span>
+<span class="com">// Boxing nullable types</span>
+<span class="kw">object</span> o1 = i1;
+<span class="kw">object</span> o2 = i2;
+<span class="kw">object</span> o3 = i3;
+<span class="kw">object</span> o4 = <span class="kw">new</span> Dog(<span class="str">"I'm not an int"</span>, <span <span class="kw">class</span>="num">12</span>);
+<span class="com">// Unboxing to nullable types</span>
+<span class="kw">int</span>? ia1 = o1 <span class="kw">as</span> <span class="kw">int</span>?;    <span class="com">// null</span>
+<span class="kw">int</span>? ia2 = o2 <span class="kw">as</span> <span class="kw">int</span>?;    <span class="com">// 42</span>
+<span class="kw">int</span>? ia3 = o3 <span class="kw">as</span> <span class="kw">int</span>?;    <span class="com">// 12</span>
+<span class="kw">int</span>? ia4 = o4 <span class="kw">as</span> <span class="kw">int</span>?;    <span class="com">// null</span>
+<span class="kw">bool</span> bHasVal = ia1.HasValue;  <span class="com">// false</span>
+bHasVal = ia2.HasValue;       <span class="com">// true</span>
+bHasVal = ia3.HasValue;       <span class="com">// true</span>
+bHasVal = ia4.HasValue;       <span class="com">// false</span></code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/05/14/582-use-the-as-operator-to-unbox-to-a-nullable-type/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-4921"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/05/14/582-use-the-as-operator-to-unbox-to-a-nullable-type/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/05/14/582-use-the-as-operator-to-unbox-to-a-nullable-type/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Data Types | Tags: as, as operator, C#, Data Types, Nullable</p>
   <nav class="pager"><a href="2012-05-11-581-boxing-and-unboxing-nullable-types.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-05-15-583-you-cant-modify-the-iterator-variable-within-a-foreach-loop.html">Next</a></nav>

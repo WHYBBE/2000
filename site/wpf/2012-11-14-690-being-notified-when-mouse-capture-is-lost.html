@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,32 +58,27 @@
 					<p>Your application can <a href="http://wp.me/pZhye-1yt">lose its mouse capture</a> due to some system event.  When this happens, you might want to know that the capture was lost so that you can restore some application state.</p>
 <p>You can discover when you&#8217;ve lost the mouse capture due to some external event by handling the <strong>LostMouseCapture</strong> event.</p>
 <p>In the example below, the code normally releases the mouse capture and reverts the label&#8217;s color on a <strong>MouseUp</strong> event.  It also reverts the label&#8217;s color when it discovers that it has lost the mouse capture.</p>
-<p><pre class="brush: csharp;">
-        private Brush savedBrush;
-
-        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(&quot;Feast_MouseDown&quot;);
-            Label l = e.Source as Label;
-            l.CaptureMouse();
-            savedBrush = l.Background;
-            l.Background = Brushes.Cyan;
-        }
-
-        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(&quot;Feast_MouseUp&quot;);
-            Label l = e.Source as Label;
-            l.ReleaseMouseCapture();
-            l.Background = savedBrush;
-        }
-
-        private void Feast_LostMouseCapture(object sender, MouseEventArgs e)
-        {
-            Label l = e.Source as Label;
-            l.Background = savedBrush;
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> Brush savedBrush;
+<span class="kw">private</span> <span class="kw">void</span> Feast_MouseDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    Console.WriteLine(<span class="str">"Feast_MouseDown"</span>);
+    Label l = e.Source <span class="kw">as</span> Label;
+    l.CaptureMouse();
+    savedBrush = l.Background;
+    l.Background = Brushes.Cyan;
+}
+<span class="kw">private</span> <span class="kw">void</span> Feast_MouseUp(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    Console.WriteLine(<span class="str">"Feast_MouseUp"</span>);
+    Label l = e.Source <span class="kw">as</span> Label;
+    l.ReleaseMouseCapture();
+    l.Background = savedBrush;
+}
+<span class="kw">private</span> <span class="kw">void</span> Feast_LostMouseCapture(<span class="kw">object</span> sender, MouseEventArgs e)
+{
+    Label l = e.Source <span class="kw">as</span> Label;
+    l.Background = savedBrush;
+}</code></pre>
 
 		<div class="wpadvert">
 		

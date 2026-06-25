@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,19 +56,10 @@
 					</div>
 
 					<p>When a panel is laying out its children, it will respect (make use of) an explicit size specified for a child control.</p>
-<p>In the example below, the <strong>MyLabel</strong> control specifies a width of 100.  This makes it wider than it would normally be to fit its content.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;StackPanel Margin=&quot;5&quot; Background=&quot;Honeydew&quot;&gt;
-
-        &lt;loc:MyLabel Content=&quot;Billy&quot; HorizontalAlignment=&quot;Center&quot; Width=&quot;100&quot;
-
-                     Background=&quot;Thistle&quot; /&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1168-001.png"><img class="alignnone size-full wp-image-9359" src="data:image/png;base64,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" alt="1168-001"   /></a><br />
+<p>In the example below, the <strong>MyLabel</strong> control specifies a width of 100.  This makes it wider than it would normally be to fit its content.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"Honeydew"</span><span class="xml-tag">&gt;</span>
+    &lt;loc:MyLabel Content="Billy" HorizontalAlignment="Center" Width="100"
+                 Background="Thistle" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1168-001.png"><img class="alignnone size-full wp-image-9359" src="data:image/png;base64,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" alt="1168-001"   /></a><br />
 At run-time, the measure/arrange process is:</p>
 <ul>
 <li><strong>StackPanel </strong>reads the label&#8217;s desired width of 100, using this value as the &#8220;constrained&#8221; width (target width)</li>

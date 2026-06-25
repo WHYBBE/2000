@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,59 +56,27 @@
 					</div>
 
 					<p>You can use the <strong>yield</strong> keyword in a method to implement an iterator.  The method in which it is defined returns an <strong>IEnumerable</strong> or <strong>IEnumerator</strong>.  The resulting iterator can be consumed using the <strong>foreach</strong> statement.</p>
-<p>Below is an example of a method that returns an <strong>IEnumerable&lt;T&gt; </strong>which can then be iterated upon using a <strong>foreach</strong> statement.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static IEnumerable&lt;Dog&gt; DogsWithKids(IEnumerable&lt;Dog&gt; dogList)
-
+<p>Below is an example of a method that returns an <strong>IEnumerable&lt;T&gt; </strong>which can then be iterated upon using a <strong>foreach</strong> statement.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> IEnumerable&lt;Dog&gt; DogsWithKids(IEnumerable&lt;Dog&gt; dogList)
+{
+    <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogList)
+    {
+        <span class="kw">yield</span> <span class="kw">return</span> d;
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(d.Name + <span class="str">" Jr."</span>,
+                             Math.Max(d.Age - <span <span class="kw">class</span>="num">3</span>, <span <span class="kw">class</span>="num">1</span>));
+    }
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    List&lt;Dog&gt; myDogs = <span class="kw">new</span> List&lt;Dog&gt;
         {
-
-            foreach (Dog d in dogList)
-
-            {
-
-                yield return d;
-
-                yield return new Dog(d.Name + &quot; Jr.&quot;,
-
-                                     Math.Max(d.Age - 3, 1));
-
-            }
-
-        }
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            List&lt;Dog&gt; myDogs = new List&lt;Dog&gt;
-
-                {
-
-                    new Dog {Name = &quot;Kirby&quot;, Age = 15},
-
-                    new Dog {Name = &quot;Ruby&quot;, Age = 2}
-
-                };
-
-
-
-            // Iterate through dogs w/offsprings
-
-            foreach (Dog d in DogsWithKids(myDogs))
-
-                Console.WriteLine(d);
-
-
-
-            Console.ReadLine();
-
-        }
-
-</pre>
-<p>The result is a sequence with twice as many elements as the original <strong>List&lt;T&gt;</strong>.</p>
+            <span class="kw">new</span> Dog {Name = <span class="str">"Kirby"</span>, Age = <span <span class="kw">class</span>="num">15</span>},
+            <span class="kw">new</span> Dog {Name = <span class="str">"Ruby"</span>, Age = <span <span class="kw">class</span>="num">2</span>}
+        };
+    <span class="com">// Iterate through dogs w/offsprings</span>
+    <span class="kw">foreach</span> (Dog d <span class="kw">in</span> DogsWithKids(myDogs))
+        Console.WriteLine(d);
+    Console.ReadLine();
+}</code></pre><p>The result is a sequence with twice as many elements as the original <strong>List&lt;T&gt;</strong>.</p>
 <p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1118-001.png"><img class="alignnone size-full wp-image-8726" src="data:image/png;base64,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" alt="1118-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

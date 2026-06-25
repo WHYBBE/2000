@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,84 +56,70 @@
 					</div>
 
 					<p>Recall that you can implement a <a href="2010-08-10-29-dependencyobject.html">dependency property</a> if your class inherits from <strong>DependencyObject</strong>.  Here is a complete example, showing how to implement a dependency property.</p>
-<p><pre class="brush: csharp;">
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;   // Remember to reference WindowsBase
-
-namespace PersonDLL
-{
-    public class Person : DependencyObject
-    {
-        // Classic CLR properties
-        public string Name { get; set; }
-        public bool AARPCandidate { get; set; }
-
-        // Age is a dependency property
-        public static readonly DependencyProperty AgeProperty;
-
-        // Call methods in DependencyObject to read/write property values
-        public int Age
-        {
-            get { return (int)GetValue(AgeProperty); }
-            set { SetValue(AgeProperty, value); }
-        }
-
-        // Static constructor sets everything up
-        static Person()
-        {
-            PropertyMetadata ageMetadata =
-                new PropertyMetadata(
-                    18,     // Default value
-                    new PropertyChangedCallback(OnAgeChanged),
-                    new CoerceValueCallback(OnAgeCoerceValue));
-
-            // Register the property
-            AgeProperty =
-                DependencyProperty.Register(
-                    &quot;Age&quot;,                 // Property's name
-                    typeof(int),           // Property's type
-                    typeof(Person),        // Defining class' type
-                    ageMetadata,           // Defines default value &amp; callbacks  (optional)
-                    new ValidateValueCallback(OnAgeValidateValue));   // validation (optional)
-        }
-
-        // Value has changed
-        private static void OnAgeChanged
-            (DependencyObject depObj, DependencyPropertyChangedEventArgs e)
-        {
-            Person p = (Person)depObj;
-            p.AARPCandidate = (int)e.NewValue &gt; 60 ? true : false;
-        }
-
-        // Allow coercing value being set
-        private static object OnAgeCoerceValue
-            (DependencyObject depObj, object baseValue)
-        {
-            int coercedValue = (int)baseValue;
-
-            if ((int)baseValue &gt; 120)
-                coercedValue = 120;
-
-            if ((int)baseValue &lt; 1)
-                coercedValue = 1;
-
-            return coercedValue;
-        }
-
-        // Validate a value beint set
-        private static bool OnAgeValidateValue(object value)
-        {
-            int age = (int)value;
-
-            // Only allow reasonable ages
-            return (age &gt; 0) &amp;&amp; (age &lt; 120);
-        }
-    }
-}
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">using</span> System;
+<span class="kw">using</span> System.Collections.Generic;
+<span class="kw">using</span> System.Linq;
+<span class="kw">using</span> System.Text;
+<span class="kw">using</span> System.Windows;   <span class="com">// Remember to reference WindowsBase</span>
+<span class="kw">namespace</span> PersonDLL
+{
+    <span class="kw">public</span> <span class="kw">class</span> Person : DependencyObject
+    {
+        <span class="com">// Classic CLR properties</span>
+        <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+        <span class="kw">public</span> <span class="kw">bool</span> AARPCandidate { <span class="kw">get</span>; <span class="kw">set</span>; }
+        <span class="com">// Age is a dependency property</span>
+        <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty AgeProperty;
+        <span class="com">// Call methods in DependencyObject to read/write property values</span>
+        <span class="kw">public</span> <span class="kw">int</span> Age
+        {
+            <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">int</span>)GetValue(AgeProperty); }
+            <span class="kw">set</span> { SetValue(AgeProperty, <span class="kw">value</span>); }
+        }
+        <span class="com">// Static constructor sets everything up</span>
+        <span class="kw">static</span> Person()
+        {
+            PropertyMetadata ageMetadata =
+                <span class="kw">new</span> PropertyMetadata(
+                    <span <span class="kw">class</span>="num">18</span>,     <span class="com">// Default value</span>
+                    <span class="kw">new</span> PropertyChangedCallback(OnAgeChanged),
+                    <span class="kw">new</span> CoerceValueCallback(OnAgeCoerceValue));
+            <span class="com">// Register the property</span>
+            AgeProperty =
+                DependencyProperty.Register(
+                    <span class="str">"Age"</span>,                 <span class="com">// Property's name</span>
+                    <span class="kw">typeof</span>(<span class="kw">int</span>),           <span class="com">// Property's type</span>
+                    <span class="kw">typeof</span>(Person),        <span class="com">// Defining class' type</span>
+                    ageMetadata,           <span class="com">// Defines default value &amp; callbacks  (optional)</span>
+                    <span class="kw">new</span> ValidateValueCallback(OnAgeValidateValue));   <span class="com">// validation (optional)</span>
+        }
+        <span class="com">// Value has changed</span>
+        <span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> OnAgeChanged
+            (DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            Person p = (Person)depObj;
+            p.AARPCandidate = (<span class="kw">int</span>)e.NewValue &gt; <span <span class="kw">class</span>="num">60</span> ? <span class="kw">true</span> : <span class="kw">false</span>;
+        }
+        <span class="com">// Allow coercing value being set</span>
+        <span class="kw">private</span> <span class="kw">static</span> <span class="kw">object</span> OnAgeCoerceValue
+            (DependencyObject depObj, <span class="kw">object</span> baseValue)
+        {
+            <span class="kw">int</span> coercedValue = (<span class="kw">int</span>)baseValue;
+            <span class="kw">if</span> ((<span class="kw">int</span>)baseValue &gt; <span <span class="kw">class</span>="num">120</span>)
+                coercedValue = <span <span class="kw">class</span>="num">120</span>;
+            <span class="kw">if</span> ((<span class="kw">int</span>)baseValue &lt; <span <span class="kw">class</span>="num">1</span>)
+                coercedValue = <span <span class="kw">class</span>="num">1</span>;
+            <span class="kw">return</span> coercedValue;
+        }
+        <span class="com">// Validate a value beint set</span>
+        <span class="kw">private</span> <span class="kw">static</span> <span class="kw">bool</span> OnAgeValidateValue(<span class="kw">object</span> <span class="kw">value</span>)
+        {
+            <span class="kw">int</span> age = (<span class="kw">int</span>)<span class="kw">value</span>;
+            <span class="com">// Only allow reasonable ages</span>
+            <span class="kw">return</span> (age &gt; <span <span class="kw">class</span>="num">0</span>) &amp;&amp; (age &lt; <span <span class="kw">class</span>="num">120</span>);
+        }
+    }
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5026" class="wpl-button "><a href='2012-06-06-574-complete-example-of-implementing-a-dependency-property.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
   <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, WPF</p>
   <nav class="pager"><a href="2012-06-05-573-workspaces-in-blend.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-07-575-propertymetadata-vs-frameworkpropertymetadata.html">Next</a></nav>

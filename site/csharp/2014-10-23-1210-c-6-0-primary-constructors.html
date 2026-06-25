@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,29 +57,20 @@
 
 					<p><em><strong>NOTE: </strong></em><em>Primary constructors will not be shipping in C# 6.0, after all.  They were implemented in the language, but did not yet have appropriate downstream work done in time for the release of 6.0 (i.e. in Visual Studio and debugger).  Thanks to Steve Hall for pointing this out.  &#8211;SPS, 23Oct14</em></p>
 <p>C# 6.0 introduces the notion of a <i>primary constructor</i>&#8211;a constructor defined as part of the type declaration, rather than as a separate method.</p>
-<p>Consider the C# 5.0 example below, with a traditional constructor that initializes a couple of properties.  (Note that <strong>Name</strong> property is not immutable, but only <strong>protected</strong>).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public Dog(string name, int age)
-        {
-            Name = name;
-            Age = age;
-        }
-
-        public string Name { get; protected set; }
-        public int Age { get; set; }
-    }
-</pre>
-<p>The primary constructor syntax allows us to simplify this code, moving the constructor into the class declaration.  We can then use <a href="2014-10-17-1206-c-6-0-auto-property-initializers.html">auto-property initializers</a> that reference the constructor&#8217;s parameters.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog(string name, int age)
-    {
-        public string Name { get; protected set; } = name;
-        public int Age { get; set; } = age;
-    }
-</pre>
-<p>This second code fragment behaves exactly like the first.</p>
+<p>Consider the C# 5.0 example below, with a traditional constructor that initializes a couple of properties.  (Note that <strong>Name</strong> property is not immutable, but only <strong>protected</strong>).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
+    {
+        Name = name;
+        Age = age;
+    }
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">protected</span> <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">int</span> Age { <span class="kw">get</span>; <span class="kw">set</span>; }
+}</code></pre><p>The primary constructor syntax allows us to simplify this code, moving the constructor into the class declaration.  We can then use <a href="2014-10-17-1206-c-6-0-auto-property-initializers.html">auto-property initializers</a> that reference the constructor&#8217;s parameters.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">protected</span> <span class="kw">set</span>; } = name;
+    <span class="kw">public</span> <span class="kw">int</span> Age { <span class="kw">get</span>; <span class="kw">set</span>; } = age;
+}</code></pre><p>This second code fragment behaves exactly like the first.</p>
 
 <div class="wpcnt">
 <div class="wpa">

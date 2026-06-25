@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,73 +55,31 @@
 																				</p>
 					</div>
 
-					<p>A lambda expression can make use of its own parameters and local variable declarations.  For example:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Action&lt;int&gt; act1 = (num) =&gt;
-
-            {
-
-                for (int i = num; i &lt; num + 2; i++)
-
-                {
-
-                    int result = i * 2 - 1;
-
-                    Console.WriteLine(string.Format(&quot;{0}, {1}&quot;, i, result));
-
-                }
-
-            };
-
-</pre>
-<p>A lambda expression can also make use of a local variable or parameter declared outside of the lambda expression. For example:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
+					<p>A lambda expression can make use of its own parameters and local variable declarations.  For example:</p><pre class="code-block language-csharp"><code>Action&lt;<span class="kw">int</span>&gt; act1 = (num) =&gt;
+{
+    <span class="kw">for</span> (<span class="kw">int</span> i = num; i &lt; num + <span <span class="kw">class</span>="num">2</span>; i++)
+    {
+        <span class="kw">int</span> result = i * <span <span class="kw">class</span>="num">2</span> - <span <span class="kw">class</span>="num">1</span>;
+        Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"{0}, {1}"</span>, i, result));
+    }
+};</code></pre><p>A lambda expression can also make use of a local variable or parameter declared outside of the lambda expression. For example:</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    DoSomething(<span <span class="kw">class</span>="num">4</span>);
+    Console.ReadLine();
+}
+<span class="kw">static</span> <span class="kw">void</span> DoSomething(<span class="kw">int</span> someParam)
+{
+    <span class="kw">int</span> magicNum = <span <span class="kw">class</span>="num">2</span>;
+    Action&lt;<span class="kw">int</span>&gt; act1 = (num) =&gt;
+    {
+        <span class="kw">for</span> (<span class="kw">int</span> i = num; i &lt; num + (magicNum * someParam); i++)
         {
-
-            DoSomething(4);
-
-            Console.ReadLine();
-
+            <span class="kw">int</span> result = i * <span <span class="kw">class</span>="num">2</span> - <span <span class="kw">class</span>="num">1</span>;
+            Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"{0}, {1}"</span>, i, result));
         }
-
-
-
-        static void DoSomething(int someParam)
-
-        {
-
-            int magicNum = 2;
-
-
-
-            Action&lt;int&gt; act1 = (num) =&gt;
-
-            {
-
-                for (int i = num; i &lt; num + (magicNum * someParam); i++)
-
-                {
-
-                    int result = i * 2 - 1;
-
-                    Console.WriteLine(string.Format(&quot;{0}, {1}&quot;, i, result));
-
-                }
-
-            };
-
-
-
-            act1(5);
-
-        }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1177-001.png"><img class="alignnone size-full wp-image-9078" src="data:image/png;base64,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" alt="1177-001"   /></a></p>
+    };
+    act1(<span <span class="kw">class</span>="num">5</span>);
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1177-001.png"><img class="alignnone size-full wp-image-9078" src="data:image/png;base64,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" alt="1177-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,79 +55,31 @@
 																				</p>
 					</div>
 
-					<p>You can re-declare a class-level variable within a method, that is&#8211;declare a local variable having the same name as a class-level variable.  Within the scope of the method, the local variable will <em>hide</em> the class-level variable.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyClass
-
+					<p>You can re-declare a class-level variable within a method, that is&#8211;declare a local variable having the same name as a class-level variable.  Within the scope of the method, the local variable will <em>hide</em> the class-level variable.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyClass
+{
+    <span class="kw">public</span> <span class="kw">int</span> x = <span <span class="kw">class</span>="num">10</span>;
+    <span class="kw">public</span> <span class="kw">void</span> MethodA()
     {
-
-        public int x = 10;
-
-
-
-        public void MethodA()
-
-        {
-
-            double x = 4.2;
-
-            Console.WriteLine(x);
-
-        }
-
+        <span class="kw">double</span> x = <span <span class="kw">class</span>="num">4.2</span>;
+        Console.WriteLine(x);
     }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1105-001.png"><img class="alignnone size-full wp-image-8644" src="data:image/png;base64,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" alt="1105-001"   /></a><br />
-You cannot, however, reference a class-level variable before declaring the local variable, since this is interpreted as referencing the local variable before it is defined.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public void MethodA()
-
-        {
-
-            // ERROR: Can't use local variable before it's declared
-
-            Console.WriteLine(x);
-
-
-
-            double x = 4.2;
-
-            Console.WriteLine(x);
-
-        }
-
-</pre>
-<p>You also can&#8217;t reference the class-level variable in an outer scope.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public void MethodA()
-
-        {
-
-            Console.WriteLine(x);
-
-
-
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Tuesday)
-
-            {
-
-                // ERROR: Can't declare local variable within this scope
-
-                double x = 4.2;
-
-                Console.WriteLine(x);
-
-            }
-
-        }
-
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1105-001.png"><img class="alignnone size-full wp-image-8644" src="data:image/png;base64,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" alt="1105-001"   /></a><br />
+You cannot, however, reference a class-level variable before declaring the local variable, since this is interpreted as referencing the local variable before it is defined.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> MethodA()
+{
+    <span class="com">// ERROR: Can't use local variable before it's declared</span>
+    Console.WriteLine(x);
+    <span class="kw">double</span> x = <span <span class="kw">class</span>="num">4.2</span>;
+    Console.WriteLine(x);
+}</code></pre><p>You also can&#8217;t reference the class-level variable in an outer scope.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> MethodA()
+{
+    Console.WriteLine(x);
+    <span class="kw">if</span> (DateTime.Now.DayOfWeek == DayOfWeek.Tuesday)
+    {
+        <span class="com">// ERROR: Can't declare local variable within this scope</span>
+        <span class="kw">double</span> x = <span <span class="kw">class</span>="num">4.2</span>;
+        Console.WriteLine(x);
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

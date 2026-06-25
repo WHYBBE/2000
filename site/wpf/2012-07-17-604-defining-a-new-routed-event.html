@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,40 +57,30 @@
 
 					<p>You can create a new routed event in your own class, typically in a control.  Here, we define a new event named <strong>RightDrag </strong>in the <strong>MyButton</strong> class, which derives from <strong>Button</strong>.</p>
 <p>Define a static object of type <strong>RoutedEvent</strong>.</p>
-<p><pre class="brush: csharp;">
-public static readonly RoutedEvent RightDragEvent;
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> RoutedEvent RightDragEvent;</code></pre>
 <p>In the static constructor, register the event and set the <strong>RoutedEvent</strong> object.</p>
-<p><pre class="brush: csharp;">
-        static MyButton()
-        {
-            RightDragEvent = EventManager.RegisterRoutedEvent(&quot;RightDrag&quot;, RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MyButton));
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">static</span> MyButton()
+{
+    RightDragEvent = EventManager.RegisterRoutedEvent(<span class="str">"RightDrag"</span>, RoutingStrategy.Bubble, <span class="kw">typeof</span>(RoutedEventHandler), <span class="kw">typeof</span>(MyButton));
+}</code></pre>
 <p>Define a CLR event of type <strong>RoutedEventHandler</strong> or one of its subtypes.  Call the <strong>AddHandler/RemoveHandler</strong> methods.</p>
-<p><pre class="brush: csharp;">
-        public event RoutedEventHandler RightDrag
-        {
-            add { AddHandler(RightDragEvent, value); }
-            remove { RemoveHandler(RightDragEvent, value); }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">event</span> RoutedEventHandler RightDrag
+{
+    add { AddHandler(RightDragEvent, <span class="kw">value</span>); }
+    remove { RemoveHandler(RightDragEvent, <span class="kw">value</span>); }
+}</code></pre>
 <p>Add a helper method to fire the event.</p>
-<p><pre class="brush: csharp;">
-        protected virtual void OnRightDrag()
-        {
-            RoutedEventArgs evargs = new RoutedEventArgs(RightDragEvent, this);
-            RaiseEvent(evargs);
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">protected</span> <span class="kw">virtual</span> <span class="kw">void</span> OnRightDrag()
+{
+    RoutedEventArgs evargs = <span class="kw">new</span> RoutedEventArgs(RightDragEvent, <span class="kw">this</span>);
+    RaiseEvent(evargs);
+}</code></pre>
 <p>Finally, fire your event when appropriate.</p>
-<p><pre class="brush: csharp;">
-        void MyButton_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (e.RightButton == MouseButtonState.Pressed)
-                OnRightDrag();
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">void</span> MyButton_MouseMove(<span class="kw">object</span> sender, System.Windows.Input.MouseEventArgs e)
+{
+    <span class="kw">if</span> (e.RightButton == MouseButtonState.Pressed)
+        OnRightDrag();
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5292" class="wpl-button "><a href='2012-07-17-604-defining-a-new-routed-event.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
   <p class="meta">Categories: Events | Tags: Events, Routed Events, RoutedEvent, WPF</p>
   <nav class="pager"><a href="2012-07-16-603-sender-source-and-originalsource-example.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-07-18-605-using-subclasses-of-routedeventargs.html">Next</a></nav>

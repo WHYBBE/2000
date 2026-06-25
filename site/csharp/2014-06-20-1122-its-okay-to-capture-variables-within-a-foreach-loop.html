@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,47 +56,19 @@
 					</div>
 
 					<p>Within a <strong>foreach</strong> loop, you <em>capture </em>an iteration variable when you save it for later use.  In versions of C# earlier than 5.0, this led to problems and unexpected behavior.  What ended up being captured was multiple copies of the last value of the iteration variable.</p>
-<p>This has been changed in C# 5.0 so that you can <em>capture</em> an iteration variable within a <strong>foreach</strong> loop and get the expected behavior.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            string[] beatles = {&quot;George&quot;, &quot;John&quot;, &quot;Paul&quot;, &quot;Ringo&quot;};
-
-
-
-            List&lt;Action&gt; actionList = new List&lt;Action&gt;();
-
-            List&lt;string&gt; guyList = new List&lt;string&gt;();
-
-
-
-            foreach (string guy in beatles)
-
-            {
-
-                guyList.Add(guy);
-
-                actionList.Add(() =&gt; Console.WriteLine(guy));
-
-            }
-
-
-
-            foreach (string guyInList in guyList)
-
-                Console.WriteLine(guyInList);
-
-
-
-            Console.WriteLine(&quot;===&quot;);
-
-
-
-            foreach (Action a in actionList)
-
-                a();
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1122-001.png"><img class="alignnone size-full wp-image-8741" src="data:image/png;base64,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" alt="1122-001"   /></a></p>
+<p>This has been changed in C# 5.0 so that you can <em>capture</em> an iteration variable within a <strong>foreach</strong> loop and get the expected behavior.</p><pre class="code-block language-csharp"><code><span class="kw">string</span>[] beatles = {<span class="str">"George"</span>, <span class="str">"John"</span>, <span class="str">"Paul"</span>, <span class="str">"Ringo"</span>};
+List&lt;Action&gt; actionList = <span class="kw">new</span> List&lt;Action&gt;();
+List&lt;<span class="kw">string</span>&gt; guyList = <span class="kw">new</span> List&lt;<span class="kw">string</span>&gt;();
+<span class="kw">foreach</span> (<span class="kw">string</span> guy <span class="kw">in</span> beatles)
+{
+    guyList.Add(guy);
+    actionList.Add(() =&gt; Console.WriteLine(guy));
+}
+<span class="kw">foreach</span> (<span class="kw">string</span> guyInList <span class="kw">in</span> guyList)
+    Console.WriteLine(guyInList);
+Console.WriteLine(<span class="str">"==="</span>);
+<span class="kw">foreach</span> (Action a <span class="kw">in</span> actionList)
+    a();</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1122-001.png"><img class="alignnone size-full wp-image-8741" src="data:image/png;base64,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" alt="1122-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

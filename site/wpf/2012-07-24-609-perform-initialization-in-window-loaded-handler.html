@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,34 +56,25 @@
 					</div>
 
 					<p>Quite often you will want to perform some sort of initialization when your application first starts up.  You could add code to do this in the constructor for your main <strong>Window</strong> object.  For example:</p>
-<p><pre class="brush: xml;">
-&lt;StackPanel&gt;
-    &lt;Label Name=&quot;lblToday&quot; Content=&quot;Today is XXX&quot;/&gt;
-&lt;/StackPanel&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lblToday"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Today is XXX"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p>&nbsp;</p>
-<p><pre class="brush: csharp;">
-        public MainWindow()
-        {
-            this.InitializeComponent();
-
-            lblToday.Content = string.Format(&quot;Today is {0}&quot;, DateTime.Now.ToShortDateString());
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> MainWindow()
+{
+    <span class="kw">this</span>.InitializeComponent();
+    lblToday.Content = <span class="kw">string</span>.Format(<span class="str">"Today is {0}"</span>, DateTime.Now.ToShortDateString());
+}</code></pre>
 <p>A better method, however, is to do this initialization in a handler for the <strong>Window.Loaded </strong>event.</p>
-<p><pre class="brush: csharp;">
-        public MainWindow()
-        {
-            this.InitializeComponent();
-
-            this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
-        }
-
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            lblToday.Content = string.Format(&quot;Today is {0}&quot;, DateTime.Now.ToShortDateString());
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> MainWindow()
+{
+    <span class="kw">this</span>.InitializeComponent();
+    <span class="kw">this</span>.Loaded += <span class="kw">new</span> RoutedEventHandler(MainWindow_Loaded);
+}
+<span class="kw">void</span> MainWindow_Loaded(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    lblToday.Content = <span class="kw">string</span>.Format(<span class="str">"Today is {0}"</span>, DateTime.Now.ToShortDateString());
+}</code></pre>
 <p>An exception that originates from the window&#8217;s constructor will be thrown as a <strong>XamlParseException </strong>(with the original exception in the <strong>InnerException</strong>). If, however, the exception originates from an event handler, it will not be wrapped in another exception.</p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5337" class="wpl-button "><a href='2012-07-24-609-perform-initialization-in-window-loaded-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
   <p class="meta">Categories: Events | Tags: Events, Window.Loaded, WPF</p>

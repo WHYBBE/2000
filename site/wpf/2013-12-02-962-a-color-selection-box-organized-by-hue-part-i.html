@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,81 +55,64 @@
 																				</p>
 					</div>
 
-					<p>Here&#8217;s some code that generates a spread of different colors.  (We&#8217;ll later bind a <strong>ComboBox</strong> to the generated list of colors).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class ColorWithInfo : IComparable
-    {
-        public Color Color { get; set; }
-
-        public string Info
-        {
-            get { return string.Format(&quot;{0}/{1}/{2}&quot;, Color.R, Color.G, Color.B); }
-        }
-
-        public string HueSatBright
-        {
-            get { return string.Format(&quot;{0}/{1}/{2}&quot;, Hue, Saturation, Brightness); }
-        }
-
-        public float Hue
-        {
-            get { return System.Drawing.Color.FromArgb(Color.R, Color.G, Color.B).GetHue(); }
-        }
-
-        public float Saturation
-        {
-            get { return System.Drawing.Color.FromArgb(Color.R, Color.G, Color.B).GetSaturation(); }
-        }
-
-        public float Brightness
-        {
-            get { return System.Drawing.Color.FromArgb(Color.R, Color.G, Color.B).GetBrightness(); }
-        }
-
-        public int CompareTo(object obj)
-        {
-            ColorWithInfo cwiOther = obj as ColorWithInfo;
-
-            // Sort by Hue, and then Saturation, and then Brightness
-            if (this.Hue == cwiOther.Hue)
-            {
-                if (this.Saturation == cwiOther.Saturation)
-                    return this.Brightness.CompareTo(cwiOther.Brightness);
-                else
-                    return this.Saturation.CompareTo(cwiOther.Saturation);
-            }
-            else
-                return this.Hue.CompareTo(cwiOther.Hue);
-        }
-    }
-
-    public static class ColorUtil
-    {
-        public static List&lt;ColorWithInfo&gt; GenerateColorList(int numValsPerColor)
-        {
-            List&lt;ColorWithInfo&gt; colorList = new List&lt;ColorWithInfo&gt;();
-
-            // Create increment such that we start at 0, end at 255,
-            // and have a total of numValsPerColor within that range.
-            int delta = Convert.ToInt32(255.0 / ((double)numValsPerColor - 1.0));
-
-            for (int r = 0; r &lt; numValsPerColor; r++)
-                for (int g = 0; g &lt; numValsPerColor; g++)
-                    for (int b = 0; b &lt; numValsPerColor; b++)
-                    {
-                        ColorWithInfo cwi = new ColorWithInfo {
-                            Color = Color.FromRgb((byte)(r * delta), (byte)(g * delta), (byte)(b * delta))};
-                        colorList.Add(cwi);
-                    }
-
-            colorList.Sort();
-
-            return colorList;
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>Here&#8217;s some code that generates a spread of different colors.  (We&#8217;ll later bind a <strong>ComboBox</strong> to the generated list of colors).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ColorWithInfo : IComparable
+{
+    <span class="kw">public</span> Color Color { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">string</span> Info
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> <span class="kw">string</span>.Format(<span class="str">"{0}/{1}/{2}"</span>, Color.R, Color.G, Color.B); }
+    }
+    <span class="kw">public</span> <span class="kw">string</span> HueSatBright
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> <span class="kw">string</span>.Format(<span class="str">"{0}/{1}/{2}"</span>, Hue, Saturation, Brightness); }
+    }
+    <span class="kw">public</span> <span class="kw">float</span> Hue
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> System.Drawing.Color.FromArgb(Color.R, Color.G, Color.B).GetHue(); }
+    }
+    <span class="kw">public</span> <span class="kw">float</span> Saturation
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> System.Drawing.Color.FromArgb(Color.R, Color.G, Color.B).GetSaturation(); }
+    }
+    <span class="kw">public</span> <span class="kw">float</span> Brightness
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> System.Drawing.Color.FromArgb(Color.R, Color.G, Color.B).GetBrightness(); }
+    }
+    <span class="kw">public</span> <span class="kw">int</span> CompareTo(<span class="kw">object</span> obj)
+    {
+        ColorWithInfo cwiOther = obj <span class="kw">as</span> ColorWithInfo;
+        <span class="com">// Sort by Hue, and then Saturation, and then Brightness</span>
+        <span class="kw">if</span> (<span class="kw">this</span>.Hue == cwiOther.Hue)
+        {
+            <span class="kw">if</span> (<span class="kw">this</span>.Saturation == cwiOther.Saturation)
+                <span class="kw">return</span> <span class="kw">this</span>.Brightness.CompareTo(cwiOther.Brightness);
+            <span class="kw">else</span>
+                <span class="kw">return</span> <span class="kw">this</span>.Saturation.CompareTo(cwiOther.Saturation);
+        }
+        <span class="kw">else</span>
+            <span class="kw">return</span> <span class="kw">this</span>.Hue.CompareTo(cwiOther.Hue);
+    }
+}
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> ColorUtil
+{
+    <span class="kw">public</span> <span class="kw">static</span> List&lt;ColorWithInfo&gt; GenerateColorList(<span class="kw">int</span> numValsPerColor)
+    {
+        List&lt;ColorWithInfo&gt; colorList = <span class="kw">new</span> List&lt;ColorWithInfo&gt;();
+        <span class="com">// Create increment such that we start at 0, end at 255,</span>
+        <span class="com">// and have a total of numValsPerColor within that range.</span>
+        <span class="kw">int</span> delta = Convert.ToInt32(<span <span class="kw">class</span>="num">255.0</span> / ((<span class="kw">double</span>)numValsPerColor - <span <span class="kw">class</span>="num">1.0</span>));
+        <span class="kw">for</span> (<span class="kw">int</span> r = <span <span class="kw">class</span>="num">0</span>; r &lt; numValsPerColor; r++)
+            <span class="kw">for</span> (<span class="kw">int</span> g = <span <span class="kw">class</span>="num">0</span>; g &lt; numValsPerColor; g++)
+                <span class="kw">for</span> (<span class="kw">int</span> b = <span <span class="kw">class</span>="num">0</span>; b &lt; numValsPerColor; b++)
+                {
+                    ColorWithInfo cwi = <span class="kw">new</span> ColorWithInfo {
+                        Color = Color.FromRgb((<span class="kw">byte</span>)(r * delta), (<span class="kw">byte</span>)(g * delta), (<span class="kw">byte</span>)(b * delta))};
+                    colorList.Add(cwi);
+                }
+        colorList.Sort();
+        <span class="kw">return</span> colorList;
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

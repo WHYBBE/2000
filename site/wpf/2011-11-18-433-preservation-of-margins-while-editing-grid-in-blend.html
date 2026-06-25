@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,24 +57,20 @@
 
                     <p>Assume that you have a simple 2&#215;2 <strong>Grid</strong> and you use the design surface in Blend to place a <strong>Button</strong> in the <strong>Grid</strong>.  If you place the <strong>Button</strong> by dragging it and dropping it, its <strong>Grid.Row</strong> and <strong>Grid.Column</strong> properties will be set accordingly and its <strong>Margin</strong> will be set to reflect the specific spot where you dropped it.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/11/433-001.png"><img class="alignnone size-full wp-image-3624" title="433-001" src="https://web.archive.org/web/20111123192709id_/http://2000thingswpf.files.wordpress.com/2011/11/433-001.png?w=608&amp;h=451" alt="" width="608" height="451" /></a></p>
-<p><pre class="brush: xml;">
-	&lt;Grid Height=&quot;300&quot; Width=&quot;300&quot;&gt;
-		&lt;Grid.RowDefinitions&gt;
-			&lt;RowDefinition Height=&quot;0.5*&quot;/&gt;
-			&lt;RowDefinition Height=&quot;0.5*&quot;/&gt;
-		&lt;/Grid.RowDefinitions&gt;
-		&lt;Grid.ColumnDefinitions&gt;
-			&lt;ColumnDefinition Width=&quot;0.5*&quot;/&gt;
-			&lt;ColumnDefinition Width=&quot;0.5*&quot;/&gt;
-		&lt;/Grid.ColumnDefinitions&gt;
-		&lt;Button Content=&quot;Button&quot; Grid.Column=&quot;1&quot; Margin=&quot;59,48,16,0&quot; Grid.Row=&quot;1&quot; VerticalAlignment=&quot;Top&quot;/&gt;
-	&lt;/Grid&gt;
-</pre></p>
+<pre class="code-block language-xml"><code>	<span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">Height</span>=<span class="xml-val">"300"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"300"</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"0.5*"</span><span class="xml-tag">/&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"0.5*"</span><span class="xml-tag">/&gt;</span>
+		<span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span> <span class="xml-attr">Width</span>=<span class="xml-val">"0.5*"</span><span class="xml-tag">/&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span> <span class="xml-attr">Width</span>=<span class="xml-val">"0.5*"</span><span class="xml-tag">/&gt;</span>
+		<span class="xml-tag">&lt;/</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Button"</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"59,48,16,0"</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Top"</span><span class="xml-tag">/&gt;</span>
+	<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre>
 <p>If you now change the width of the 2nd column, making it wider, you&#8217;ll notice that the button&#8217;s <strong>Margin</strong> is preserved, which means that the size of the button changes.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/11/433-002.png"><img class="alignnone size-full wp-image-3629" title="433-002" src="https://web.archive.org/web/20111123192709id_/http://2000thingswpf.files.wordpress.com/2011/11/433-002.png?w=600&amp;h=446" alt="" width="600" height="446" /></a></p>
-<p><pre class="brush: xml;">
-		&lt;Button Content=&quot;Button&quot; Grid.Column=&quot;1&quot; Margin=&quot;59,48,16,0&quot; Grid.Row=&quot;1&quot; VerticalAlignment=&quot;Top&quot;/&gt;
-</pre></p>
+<pre class="code-block language-xml"><code>		<span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Button"</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"59,48,16,0"</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Top"</span><span class="xml-tag">/&gt;</span></code></pre>
 <p>This is normally what you want.  As you change things on the design surface, the XAML does not change but the visual appearance of the controls may change.</p>
 <div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-11-18-433-preservation-of-margins-while-editing-grid-in-blend.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Blend | Tags: Blend, Grid, Grid Layout Mode, Layout, WPF</p>

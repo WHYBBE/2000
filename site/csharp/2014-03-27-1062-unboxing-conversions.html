@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,66 +56,50 @@
 					</div>
 
 					<p>If you’ve converted a value-typed object to a reference-typed object by <a href="2011-01-21-218-store-value-typed-objects-on-the-heap-through-boxing.html">boxing</a> it, you can later <em>unbox</em> the object, converting it back to a value type.  <a href="2011-01-22-219-unboxing-a-boxed-object.html">Unboxing</a> is an explicit conversion and requires a cast operator.</p>
-<p>Below are some examples of unboxing conversions.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public interface IArea
-        {
-            double CalcArea();
-        }
-
-        public struct MyPoint : IArea
-        {
-            public double X;
-            public double Y;
-
-            public MyPoint(double x, double y)
-            {
-                X = x;
-                Y = y;
-            }
-
-            public double CalcArea()
-            {
-                return X * Y;
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            int i1 = 12;
-            object o = i1;  // Boxing - implicit
-
-            // Unbox from object to value type
-            int i2 = (int)o;  // Boxing - explicit conversion
-
-            // Unbox from dynamic
-            dynamic d = i1;
-            int i3 = (int)d;
-
-            // Boxing, implicit, creates new copy
-            MyPoint pt = new MyPoint(2.0, 3.0);
-            IArea area = pt;
-
-            // Unboxing, explicit,
-            // from interface to value type,
-            // creates new copy again
-            MyPoint pt2 = (MyPoint)area;
-
-            // Unbox to nullable type
-            int? i4 = (int?)o;
-            o = null;
-            int? i5 = (int?)o;  // also works
-
-            // Boxing, implicit, to ValueType
-            // (creates copy)
-            ValueType vty = pt;
-
-            // Unboxing, creates copy
-            MyPoint pt3 = (MyPoint)vty;
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Below are some examples of unboxing conversions.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">interface</span> IArea
+{
+    <span class="kw">double</span> CalcArea();
+}
+<span class="kw">public</span> <span class="kw">struct</span> MyPoint : IArea
+{
+    <span class="kw">public</span> <span class="kw">double</span> X;
+    <span class="kw">public</span> <span class="kw">double</span> Y;
+    <span class="kw">public</span> MyPoint(<span class="kw">double</span> x, <span class="kw">double</span> y)
+    {
+        X = x;
+        Y = y;
+    }
+    <span class="kw">public</span> <span class="kw">double</span> CalcArea()
+    {
+        <span class="kw">return</span> X * Y;
+    }
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="kw">int</span> i1 = <span <span class="kw">class</span>="num">12</span>;
+    <span class="kw">object</span> o = i1;  <span class="com">// Boxing - implicit</span>
+    <span class="com">// Unbox from object to value type</span>
+    <span class="kw">int</span> i2 = (<span class="kw">int</span>)o;  <span class="com">// Boxing - explicit conversion</span>
+    <span class="com">// Unbox from dynamic</span>
+    dynamic d = i1;
+    <span class="kw">int</span> i3 = (<span class="kw">int</span>)d;
+    <span class="com">// Boxing, implicit, creates new copy</span>
+    MyPoint pt = <span class="kw">new</span> MyPoint(<span <span class="kw">class</span>="num">2.0</span>, <span <span class="kw">class</span>="num">3.0</span>);
+    IArea area = pt;
+    <span class="com">// Unboxing, explicit,</span>
+    <span class="com">// from interface to value type,</span>
+    <span class="com">// creates new copy again</span>
+    MyPoint pt2 = (MyPoint)area;
+    <span class="com">// Unbox to nullable type</span>
+    <span class="kw">int</span>? i4 = (<span class="kw">int</span>?)o;
+    o = <span class="kw">null</span>;
+    <span class="kw">int</span>? i5 = (<span class="kw">int</span>?)o;  <span class="com">// also works</span>
+    <span class="com">// Boxing, implicit, to ValueType</span>
+    <span class="com">// (creates copy)</span>
+    ValueType vty = pt;
+    <span class="com">// Unboxing, creates copy</span>
+    MyPoint pt3 = (MyPoint)vty;
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

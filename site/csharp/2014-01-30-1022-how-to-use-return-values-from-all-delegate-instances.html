@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,43 +56,20 @@
 					</div>
 
 					<p>If a delegate instance has an invocation list with multiple methods and you invoke the delegate using the standard functional notation, you&#8217;ll get back the return value <a href="2014-01-29-1021-what-happens-to-a-delegates-return-value.html">only for the last method</a> in the invocation list.</p>
-<p>If you want to consume the return value for each method in a delegate&#8217;s invocation list, you can use <strong>GetInvocationList</strong> to explicitly iterate through the invocation list.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            ReturnIntDelegate del1 = Method1; // Returns 12
-
-            del1 += Method2;  // Returns 99
-
-
-
-            // Invoke all at once, get return value
-
-            // only from last
-
-            Console.WriteLine(&quot;Invoke normally&quot;);
-
-            int val = del1();
-
-            Console.WriteLine(val);
-
-
-
-            // Invoke one at a time
-
-            Console.WriteLine(&quot;Invoke one at a time&quot;);
-
-            foreach (ReturnIntDelegate del in del1.GetInvocationList())
-
-            {
-
-                int ret = del.Invoke();
-
-                Console.WriteLine(ret);
-
-            }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1022-001.png"><img class="alignnone size-full wp-image-8178" alt="1022-001" src="data:image/png;base64,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"   /></a></p>
+<p>If you want to consume the return value for each method in a delegate&#8217;s invocation list, you can use <strong>GetInvocationList</strong> to explicitly iterate through the invocation list.</p><pre class="code-block language-csharp"><code>ReturnIntDelegate del1 = Method1; <span class="com">// Returns 12</span>
+del1 += Method2;  <span class="com">// Returns 99</span>
+<span class="com">// Invoke all at once, get return value</span>
+<span class="com">// only from last</span>
+Console.WriteLine(<span class="str">"Invoke normally"</span>);
+<span class="kw">int</span> val = del1();
+Console.WriteLine(val);
+<span class="com">// Invoke one at a time</span>
+Console.WriteLine(<span class="str">"Invoke one at a time"</span>);
+<span class="kw">foreach</span> (ReturnIntDelegate del <span class="kw">in</span> del1.GetInvocationList())
+{
+    <span class="kw">int</span> ret = del.Invoke();
+    Console.WriteLine(ret);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1022-001.png"><img class="alignnone size-full wp-image-8178" alt="1022-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

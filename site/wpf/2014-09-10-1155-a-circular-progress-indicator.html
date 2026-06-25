@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,293 +56,125 @@
 					</div>
 
 					<p>Using the earlier <a href="2014-09-05-1152-a-custom-pie-slice-shape.html">custom pie shape</a> control as a base, we can now create a custom control that serves as a circular progress indicator.</p>
-<p>Here&#8217;s the code for the circular progress control:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class CircularProgress : Shape
-
+<p>Here&#8217;s the code for the circular progress control:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> CircularProgress : Shape
+{
+    <span class="kw">static</span> CircularProgress()
     {
-
-        static CircularProgress()
-
-        {
-
-            Brush myGreenBrush = new SolidColorBrush(Color.FromArgb(255, 6, 176, 37));
-
-            myGreenBrush.Freeze();
-
-
-
-            StrokeProperty.OverrideMetadata(
-
-                typeof(CircularProgress),
-
-                new FrameworkPropertyMetadata(myGreenBrush));
-
-            FillProperty.OverrideMetadata(
-
-                typeof(CircularProgress),
-
-                new FrameworkPropertyMetadata(myGreenBrush));
-
-        }
-
-
-
-        // Value (0-100)
-
-        public double Value
-
-        {
-
-            get { return (double)GetValue(ValueProperty); }
-
-            set { SetValue(ValueProperty, value); }
-
-        }
-
-
-
-        // DependencyProperty - Value (0 - 100)
-
-        private static FrameworkPropertyMetadata valueMetadata =
-
-                new FrameworkPropertyMetadata(
-
-                    0.0,     // Default value
-
-                    FrameworkPropertyMetadataOptions.AffectsRender,
-
-                    null,    // Property changed callback
-
-                    new CoerceValueCallback(CoerceValue));   // Coerce value callback
-
-
-
-        public static readonly DependencyProperty ValueProperty =
-
-            DependencyProperty.Register(&quot;Value&quot;, typeof(double), typeof(CircularProgress), valueMetadata);
-
-
-
-        private static object CoerceValue(DependencyObject depObj, object baseVal)
-
-        {
-
-            double val = (double)baseVal;
-
-            val = Math.Min(val, 99.999);
-
-            val = Math.Max(val, 0.0);
-
-            return val;
-
-        }
-
-
-
-        protected override Geometry DefiningGeometry
-
-        {
-
-            get
-
-            {
-
-                double startAngle = 90.0;
-
-                double endAngle = 90.0 - ((Value / 100.0) * 360.0);
-
-
-
-                double maxWidth = Math.Max(0.0, RenderSize.Width - StrokeThickness);
-
-                double maxHeight = Math.Max(0.0, RenderSize.Height - StrokeThickness);
-
-
-
-                double xStart = maxWidth / 2.0 * Math.Cos(startAngle * Math.PI / 180.0);
-
-                double yStart = maxHeight / 2.0 * Math.Sin(startAngle * Math.PI / 180.0);
-
-
-
-                double xEnd = maxWidth / 2.0 * Math.Cos(endAngle * Math.PI / 180.0);
-
-                double yEnd = maxHeight / 2.0 * Math.Sin(endAngle * Math.PI / 180.0);
-
-
-
-                StreamGeometry geom = new StreamGeometry();
-
-                using (StreamGeometryContext ctx = geom.Open())
-
-                {
-
-                    ctx.BeginFigure(
-
-                        new Point((RenderSize.Width / 2.0) + xStart,
-
-                                  (RenderSize.Height / 2.0) - yStart),
-
-                        true,   // Filled
-
-                        true);  // Closed
-
-                    ctx.ArcTo(
-
-                        new Point((RenderSize.Width / 2.0) + xEnd,
-
-                                  (RenderSize.Height / 2.0) - yEnd),
-
-                        new Size(maxWidth / 2.0, maxHeight / 2),
-
-                        0.0,     // rotationAngle
-
-                        (startAngle - endAngle) &gt; 180,   // greater than 180 deg?
-
-                        SweepDirection.Clockwise,
-
-                        true,    // isStroked
-
-                        false);
-
-                    ctx.LineTo(new Point((RenderSize.Width / 2.0), (RenderSize.Height / 2.0)), true, false);
-
-                }
-
-
-
-                return geom;
-
-            }
-
-        }
-
+        Brush myGreenBrush = <span class="kw">new</span> SolidColorBrush(Color.FromArgb(<span <span class="kw">class</span>="num">255</span>, <span <span class="kw">class</span>="num">6</span>, <span <span class="kw">class</span>="num">176</span>, <span <span class="kw">class</span>="num">37</span>));
+        myGreenBrush.Freeze();
+        StrokeProperty.OverrideMetadata(
+            <span class="kw">typeof</span>(CircularProgress),
+            <span class="kw">new</span> FrameworkPropertyMetadata(myGreenBrush));
+        FillProperty.OverrideMetadata(
+            <span class="kw">typeof</span>(CircularProgress),
+            <span class="kw">new</span> FrameworkPropertyMetadata(myGreenBrush));
     }
-
-</pre>
-<p>Here&#8217;s an example of using this control in XAML. The example also includes a traditional progress bar, so that we can compare them.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;StackPanel&gt;
-
-        &lt;loc:CircularProgress
-
-                 Height=&quot;100&quot; Width=&quot;100&quot; Margin=&quot;5&quot;
-
-                 Value=&quot;{Binding PctComplete}&quot;
-
-                 HorizontalAlignment=&quot;Center&quot;/&gt;
-
-        &lt;ProgressBar x:Name=&quot;prog2&quot; Maximum=&quot;100&quot;
-
-                     Value=&quot;{Binding PctComplete}&quot;
-
-                     Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
-
-        &lt;Button Content=&quot;Start Timer&quot; Click=&quot;Button_Click&quot;
-
-                HorizontalAlignment=&quot;Center&quot;
-
-                Padding=&quot;12,7&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p>Finally, here&#8217;s the code-behind, including the <strong>PctComplete</strong> property that we bind to and code that kicks off a timer that updates the property periodically.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+    <span class="com">// Value (0-100)</span>
+    <span class="kw">public</span> <span class="kw">double</span> Value
     {
-
-        public MainWindow()
-
-        {
-
-            this.DataContext = this;
-
-            InitializeComponent();
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-
-
-        protected virtual void OnPropertyChanged(string prop)
-
-        {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-        }
-
-
-
-        private double pctComplete = 0.0;
-
-        public double PctComplete
-
-        {
-
-            get { return pctComplete; }
-
-            set
-
-            {
-
-                if (pctComplete != value)
-
-                {
-
-                    pctComplete = value;
-
-                    OnPropertyChanged(&quot;PctComplete&quot;);
-
-                }
-
-            }
-
-        }
-
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-
-        {
-
-            PctComplete = 0.0;
-
-
-
-            DispatcherTimer timer = new DispatcherTimer();
-
-            timer.Tick += (s, ea) =&gt;
-
-            {
-
-                PctComplete += 1.0;
-
-                if (PctComplete &gt;= 100.0)
-
-                    timer.Stop();
-
-            };
-
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 30);  // 2/sec
-
-            timer.Start();
-
-        }
-
+        <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(ValueProperty); }
+        <span class="kw">set</span> { SetValue(ValueProperty, <span class="kw">value</span>); }
     }
-
-</pre>
-<p>Here&#8217;s the control in action:</p>
+    <span class="com">// DependencyProperty - Value (0 - 100)</span>
+    <span class="kw">private</span> <span class="kw">static</span> FrameworkPropertyMetadata valueMetadata =
+            <span class="kw">new</span> FrameworkPropertyMetadata(
+                <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// Default value</span>
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+                <span class="kw">new</span> CoerceValueCallback(CoerceValue));   <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty ValueProperty =
+        DependencyProperty.Register(<span class="str">"Value"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(CircularProgress), valueMetadata);
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">object</span> CoerceValue(DependencyObject depObj, <span class="kw">object</span> baseVal)
+    {
+        <span class="kw">double</span> val = (<span class="kw">double</span>)baseVal;
+        val = Math.Min(val, <span <span class="kw">class</span>="num">99.999</span>);
+        val = Math.Max(val, <span <span class="kw">class</span>="num">0.0</span>);
+        <span class="kw">return</span> val;
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Geometry DefiningGeometry
+    {
+        <span class="kw">get</span>
+        {
+            <span class="kw">double</span> startAngle = <span <span class="kw">class</span>="num">90.0</span>;
+            <span class="kw">double</span> endAngle = <span <span class="kw">class</span>="num">90.0</span> - ((Value / <span <span class="kw">class</span>="num">100.0</span>) * <span <span class="kw">class</span>="num">360.0</span>);
+            <span class="kw">double</span> maxWidth = Math.Max(<span <span class="kw">class</span>="num">0.0</span>, RenderSize.Width - StrokeThickness);
+            <span class="kw">double</span> maxHeight = Math.Max(<span <span class="kw">class</span>="num">0.0</span>, RenderSize.Height - StrokeThickness);
+            <span class="kw">double</span> xStart = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(startAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yStart = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(startAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> xEnd = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(endAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yEnd = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(endAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            StreamGeometry geom = <span class="kw">new</span> StreamGeometry();
+            <span class="kw">using</span> (StreamGeometryContext ctx = geom.Open())
+            {
+                ctx.BeginFigure(
+                    <span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>) + xStart,
+                              (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>) - yStart),
+                    <span class="kw">true</span>,   <span class="com">// Filled</span>
+                    <span class="kw">true</span>);  <span class="com">// Closed</span>
+                ctx.ArcTo(
+                    <span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>) + xEnd,
+                              (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>) - yEnd),
+                    <span class="kw">new</span> Size(maxWidth / <span <span class="kw">class</span>="num">2.0</span>, maxHeight / <span <span class="kw">class</span>="num">2</span>),
+                    <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// rotationAngle</span>
+                    (startAngle - endAngle) &gt; <span <span class="kw">class</span>="num">180</span>,   <span class="com">// greater than 180 deg?</span>
+                    SweepDirection.Clockwise,
+                    <span class="kw">true</span>,    <span class="com">// isStroked</span>
+                    <span class="kw">false</span>);
+                ctx.LineTo(<span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>), (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>)), <span class="kw">true</span>, <span class="kw">false</span>);
+            }
+            <span class="kw">return</span> geom;
+        }
+    }
+}</code></pre><p>Here&#8217;s an example of using this control in XAML. The example also includes a traditional progress bar, so that we can compare them.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;loc:CircularProgress
+             Height="100" Width="100" Margin="5"
+             Value="{Binding PctComplete}"
+             HorizontalAlignment="Center"/&gt;
+    &lt;ProgressBar x:Name="prog2" Maximum="100"
+                 Value="{Binding PctComplete}"
+                 Height="25" Margin="10"/&gt;
+    &lt;Button Content="Start Timer" Click="Button_Click"
+            HorizontalAlignment="Center"
+            Padding="12,7"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>Finally, here&#8217;s the code-behind, including the <strong>PctComplete</strong> property that we bind to and code that kicks off a timer that updates the property periodically.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
+    {
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        InitializeComponent();
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+    <span class="kw">protected</span> <span class="kw">virtual</span> <span class="kw">void</span> OnPropertyChanged(<span class="kw">string</span> prop)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+    <span class="kw">private</span> <span class="kw">double</span> pctComplete = <span <span class="kw">class</span>="num">0.0</span>;
+    <span class="kw">public</span> <span class="kw">double</span> PctComplete
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> pctComplete; }
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (pctComplete != <span class="kw">value</span>)
+            {
+                pctComplete = <span class="kw">value</span>;
+                OnPropertyChanged(<span class="str">"PctComplete"</span>);
+            }
+        }
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+    {
+        PctComplete = <span <span class="kw">class</span>="num">0.0</span>;
+        DispatcherTimer timer = <span class="kw">new</span> DispatcherTimer();
+        timer.Tick += (s, ea) =&gt;
+        {
+            PctComplete += <span <span class="kw">class</span>="num">1.0</span>;
+            <span class="kw">if</span> (PctComplete &gt;= <span <span class="kw">class</span>="num">100.0</span>)
+                timer.Stop();
+        };
+        timer.Interval = <span class="kw">new</span> TimeSpan(<span <span class="kw">class</span>="num">0</span>, <span <span class="kw">class</span>="num">0</span>, <span <span class="kw">class</span>="num">0</span>, <span <span class="kw">class</span>="num">0</span>, <span <span class="kw">class</span>="num">30</span>);  <span class="com">// 2/sec</span>
+        timer.Start();
+    }
+}</code></pre><p>Here&#8217;s the control in action:</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1155-001.png"><img class="alignnone size-full wp-image-9274" src="data:image/png;base64,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" alt="1155-001"   /></a></p>
 
 <div class="wpcnt">

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,27 +55,11 @@
 																				</p>
 					</div>
 
-					<p>You can iterate through the individual characters in a string using the <strong><a href="2010-11-19-155-iterating-through-an-array-using-the-foreach-statement.html">foreach</a></strong><a href="2010-11-19-155-iterating-through-an-array-using-the-foreach-statement.html"> statement</a>.  The iteration variable is of type <strong>char </strong>and is set consecutively to each character within the string as the <strong>foreach</strong> statement executes.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            string secret = &quot;Kint is Keyser Soze&quot;;
-
-
-
-            StringBuilder sbObfuscate = new StringBuilder();
-
-
-
-            foreach (char c in secret)
-
-                sbObfuscate.Append((char)(c + 3));
-
-
-
-            Console.WriteLine(sbObfuscate);
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1116-001.png"><img class="alignnone size-full wp-image-8713" src="data:image/png;base64,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5PstczInczInczInczInczInczInczInczInczInczInczInczInc04x579bzP+DGhd1jAAAAABJRU5ErkJggg==" alt="1116-001"   /></a></p>
+					<p>You can iterate through the individual characters in a string using the <strong><a href="2010-11-19-155-iterating-through-an-array-using-the-foreach-statement.html">foreach</a></strong><a href="2010-11-19-155-iterating-through-an-array-using-the-foreach-statement.html"> statement</a>.  The iteration variable is of type <strong>char </strong>and is set consecutively to each character within the string as the <strong>foreach</strong> statement executes.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> secret = <span class="str">"Kint is Keyser Soze"</span>;
+StringBuilder sbObfuscate = <span class="kw">new</span> StringBuilder();
+<span class="kw">foreach</span> (<span class="kw">char</span> c <span class="kw">in</span> secret)
+    sbObfuscate.Append((<span class="kw">char</span>)(c + <span <span class="kw">class</span>="num">3</span>));
+Console.WriteLine(sbObfuscate);</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1116-001.png"><img class="alignnone size-full wp-image-8713" src="data:image/png;base64,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5PstczInczInczInczInczInczInczInczInczInczInczInczInc04x579bzP+DGhd1jAAAAABJRU5ErkJggg==" alt="1116-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

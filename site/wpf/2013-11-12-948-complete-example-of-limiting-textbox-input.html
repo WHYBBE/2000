@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,63 +55,47 @@
 																				</p>
 					</div>
 
-					<p>If you want to limit text allowed as input to a <strong>TextBox</strong>, a <a href="2013-11-07-945-a-strategy-for-limiting-allowed-text-in-a-textbox.html">full strategy for checking text</a> being input should include handling the <strong>PreviewKeyDown</strong> and <strong>PreviewTextInput</strong> events, as well as implementing a pasting handler.  Below is a full example that limits text input to alphabetic characters only.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;TextBox Name=&quot;txtMyText&quot; Margin=&quot;5&quot; Height=&quot;100&quot;
-                 TextWrapping=&quot;Wrap&quot;
-                 AcceptsReturn=&quot;True&quot;
-                 VerticalScrollBarVisibility=&quot;Auto&quot;
-                 PreviewTextInput=&quot;TextBox_PreviewTextInput&quot;
-                 PreviewKeyDown=&quot;TextBox_PreviewKeyDown&quot;/&gt;
-</pre>
-<p>&nbsp;</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            DataObject.AddPastingHandler(txtMyText, PasteHandler);
-        }
-
-        private bool IsAlphabetic(string s)
-        {
-            Regex r = new Regex(@&quot;^[a-zA-Z]+$&quot;);
-
-            return r.IsMatch(s);
-        }
-
-        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            // Prohibit non-alphabetic
-            if (!IsAlphabetic(e.Text))
-                e.Handled = true;
-        }
-
-        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Prohibit space
-            if (e.Key == Key.Space)
-                e.Handled = true;
-        }
-
-        private void PasteHandler(object sender, DataObjectPastingEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            bool textOK = false;
-
-            if (e.DataObject.GetDataPresent(typeof(string)))
-            {
-                // Allow pasting only alphabetic
-                string pasteText = e.DataObject.GetData(typeof(string)) as string;
-                if (IsAlphabetic(pasteText))
-                    textOK = true;
-            }
-
-            if (!textOK)
-                e.CancelCommand();
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>If you want to limit text allowed as input to a <strong>TextBox</strong>, a <a href="2013-11-07-945-a-strategy-for-limiting-allowed-text-in-a-textbox.html">full strategy for checking text</a> being input should include handling the <strong>PreviewKeyDown</strong> and <strong>PreviewTextInput</strong> events, as well as implementing a pasting handler.  Below is a full example that limits text input to alphabetic characters only.</p><pre class="code-block language-xml"><code>&lt;TextBox Name="txtMyText" Margin="5" Height="100"
+         TextWrapping="Wrap"
+         AcceptsReturn="True"
+         VerticalScrollBarVisibility="Auto"
+         PreviewTextInput="TextBox_PreviewTextInput"
+         PreviewKeyDown="TextBox_PreviewKeyDown"/&gt;</code></pre><p>&nbsp;</p><pre class="code-block language-csharp"><code><span class="kw">public</span> MainWindow()
+{
+    <span class="kw">this</span>.InitializeComponent();
+    DataObject.AddPastingHandler(txtMyText, PasteHandler);
+}
+<span class="kw">private</span> <span class="kw">bool</span> IsAlphabetic(<span class="kw">string</span> s)
+{
+    Regex r = <span class="kw">new</span> Regex(<span class="str">@"^[a-zA-Z]+$"</span>);
+    <span class="kw">return</span> r.IsMatch(s);
+}
+<span class="kw">private</span> <span class="kw">void</span> TextBox_PreviewTextInput(<span class="kw">object</span> sender, TextCompositionEventArgs e)
+{
+    <span class="com">// Prohibit non-alphabetic</span>
+    <span class="kw">if</span> (!IsAlphabetic(e.Text))
+        e.Handled = <span class="kw">true</span>;
+}
+<span class="kw">private</span> <span class="kw">void</span> TextBox_PreviewKeyDown(<span class="kw">object</span> sender, KeyEventArgs e)
+{
+    <span class="com">// Prohibit space</span>
+    <span class="kw">if</span> (e.Key == Key.Space)
+        e.Handled = <span class="kw">true</span>;
+}
+<span class="kw">private</span> <span class="kw">void</span> PasteHandler(<span class="kw">object</span> sender, DataObjectPastingEventArgs e)
+{
+    TextBox tb = sender <span class="kw">as</span> TextBox;
+    <span class="kw">bool</span> textOK = <span class="kw">false</span>;
+    <span class="kw">if</span> (e.DataObject.GetDataPresent(<span class="kw">typeof</span>(<span class="kw">string</span>)))
+    {
+        <span class="com">// Allow pasting only alphabetic</span>
+        <span class="kw">string</span> pasteText = e.DataObject.GetData(<span class="kw">typeof</span>(<span class="kw">string</span>)) <span class="kw">as</span> <span class="kw">string</span>;
+        <span class="kw">if</span> (IsAlphabetic(pasteText))
+            textOK = <span class="kw">true</span>;
+    }
+    <span class="kw">if</span> (!textOK)
+        e.CancelCommand();
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

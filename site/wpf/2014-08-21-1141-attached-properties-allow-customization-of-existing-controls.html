@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,101 +57,44 @@
 
 					<p>An <a href="2010-10-17-97-attached-properties.html">attached property</a> is a <a href="2010-08-10-29-dependencyobject.html">dependency property</a> defined in one class and then attached (used) on an instance of some other class.</p>
 <p>You can define your own attached properties as a mechanism for extending the appearance or behavior of a control.</p>
-<p>Below, we register a dependency property of type <strong>bool, </strong>named<strong> Important</strong>.  When <strong>Important </strong>is set to <strong>true, </strong>we set the foreground brush of the control to red.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyAttProps
-
+<p>Below, we register a dependency property of type <strong>bool, </strong>named<strong> Important</strong>.  When <strong>Important </strong>is set to <strong>true, </strong>we set the foreground brush of the control to red.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyAttProps
+{
+    <span class="com">// Surround property definition</span>
+    <span class="kw">static</span> PropertyMetadata ImportantMetadata =
+        <span class="kw">new</span> PropertyMetadata(
+            <span class="kw">false</span>,                <span class="com">// Default value</span>
+            OnImportantChanged,   <span class="com">// Changed callback</span>
+            <span class="kw">null</span>);                <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty ImportantProperty =
+        DependencyProperty.RegisterAttached(
+            <span class="str">"Important"</span>,          <span class="com">// Property name</span>
+            <span class="kw">typeof</span>(<span class="kw">bool</span>),         <span class="com">// Property type</span>
+            <span class="kw">typeof</span>(MyAttProps),   <span class="com">// Defining class type</span>
+            ImportantMetadata);   <span class="com">// Metadata described above</span>
+    <span class="com">// Allow setting value from XAML</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> SetImportant(DependencyObject depObj, <span class="kw">bool</span> <span class="kw">value</span>)
     {
-
-        // Surround property definition
-
-        static PropertyMetadata ImportantMetadata =
-
-            new PropertyMetadata(
-
-                false,                // Default value
-
-                OnImportantChanged,   // Changed callback
-
-                null);                // Coerce value callback
-
-
-
-        public static readonly DependencyProperty ImportantProperty =
-
-            DependencyProperty.RegisterAttached(
-
-                &quot;Important&quot;,          // Property name
-
-                typeof(bool),         // Property type
-
-                typeof(MyAttProps),   // Defining class type
-
-                ImportantMetadata);   // Metadata described above
-
-
-
-        // Allow setting value from XAML
-
-        public static void SetImportant(DependencyObject depObj, bool value)
-
-        {
-
-            depObj.SetValue(ImportantProperty, value);
-
-        }
-
-
-
-        public static bool GetImportant(DependencyObject depObj)
-
-        {
-
-            return (bool)depObj.GetValue(ImportantProperty);
-
-        }
-
-
-
-        // Important property has changed
-
-        public static void OnImportantChanged(
-
-            DependencyObject d,
-
-            DependencyPropertyChangedEventArgs e)
-
-        {
-
-            Control ctrl = d as Control;
-
-            bool important = (bool)e.NewValue;
-
-            if ((ctrl != null) &amp;&amp; important)
-
-                ctrl.SetValue(Control.ForegroundProperty, Brushes.Red);
-
-            else
-
-                ctrl.ClearValue(Control.ForegroundProperty);
-
-        }
-
+        depObj.SetValue(ImportantProperty, <span class="kw">value</span>);
     }
-
-</pre>
-<p>We can now use this new property from XAML:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;Label x:Name=&quot;lblHi&quot; Content=&quot;Hi there&quot; 
-
-               loc:MyAttProps.Important=&quot;True&quot;
-
-               Background=&quot;AliceBlue&quot;/&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1141-001.png"><img class="alignnone size-full wp-image-9185" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAR4AAABnCAMAAADhTd1ZAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAhlQTFRFKCgoKChDKChEKChWKClXKE5DKE5kKGlWKGlkKGluKWlvWygoXCgofygof2koXE5kW2lWXGlWW2luW3xkW3x5XHx5W6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCf4qFaI6yapisbJiubp2saZKxcaKqfaK5mU4omWkorGkomU5DmXxWv3xDv3xE/gAA/gA4+zYA+zY4/QBq+WcAx1BQ/jaV/2e6mZl5pIJmtpFxv6puv6p59pE4+ZE41opW1otXwZl4wpp4x5581plk1qpu1qpv1qp58LVqmZmFiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbehq5eHtpyGt52HrKqFv6qFpqOipqquqKWjra+zuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFzqSA1KmE1qqF/pHa/bX/8NSV8Pi6wMDCwcHDysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV+9T/8Pja9vja4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f38Pj/9/j59vj/+Pf2+fj3+Pj4+Pn5+vr6+/v7+fj//Pz8/f39/v7+////5796QgAAAAlwSFlzAAAOwwAADsMBx2+oZAAABPlJREFUeNrt3Yl3GnUQB/BtqFEg1Kjgfd8X3rgKVJvDqJU0QjDeN/FKrbaelYR6JCqtlkQrqRG1Mam12aQk/IXO/H4LbNgFC4/EJXznPXaXXTYtn8zMLslrRylQrCEsgmUUxlmlyCMMwSIMpBQIZ0VbWlxAGGJxSVshIObJa/O57Mw0whAz2dy8lhc8q9oAwiI0zp611ZX5geRWj956Qp4yML+yukY8Wg48Vjy5ZcGzlAWPFc/skuBZnAGPFc/MIvPkF6bBY8UzvZAHTxvyKKVoMs+brxvjjS+2ME+hUF6eLc+7k9+ImJyc/GDfvrefblEe00ZvFR8rnRo8B7S/y6Ht32P+o4c9naM1/mYxj9diryrPiXn4O+q3CU8vfySvr7i++v7Z51548aXvsplMdu9eK56Qsm2EVvGAU1/UxUMH1bPziQdcG81jnTu1eL5M33XfPffeP3WMed634IkHzhMmjfPEaqffJvLUnz1j6Qfuvu2WW6d+yRzNfvqRBU+0yx9yJGhFVdLNC288wEuRV4rijHku8sinQX23qiiOHQaeeKDzycC5HsqhCL2CvpY8hV8RdYt10LFDOYc2lQvcvrJt1Qa8ib1nLH3N5Vded/PUsaOZ7MefWPCQDQkZsyd6/mgyRAUXojccvTDG7zvID9oVobUq1uuyx0mi/qR4FVmNilOibhc9fHTURQdcMnv4KO3xJevl2agr11j6iquuveFOyp5M9vBhMw+DlGVKxUViw7Kq6M1zFnj1RHHSZlK+zVLv2Taiv20+Oer2y43g9oRIE1oHO0b04uKtyPaEbW4Lx9JX33TjHZeK3nP6tJlHZA5Xl4FHFJp/UHTsYoJ4uU642CJit/HKVTyZYOTrZbuKdDwWEKcQD4MIHs4c1ZW0Ec/1t198yWVTPxHPiV/NPCGZs34DjyiqLjOPvD5V8HhLOWjFo0OUeejEJzx++/B8+O3zr778ymtfE8/PuVkTz7BHXrU6R0s8YmNQ8Ue7vEYeWTE6wrriKvJUFJdKxaWXkYEn0vFwM2qrWTzvLc/Nzf35x29//XPi9+PHTTyD8p4lpLcPsVAdCdFquQdza5Y84vYm/hC9joopqFjwrG/NEcVHD243viIPn0PHmlFbzeJ5Z7+Mzz4/QMu3hirvXxwJ2YG8JKXIBbeebm5JKl/JSzziqVP2m84HrXjEpV/06G5qVHx5iojWI3n4Ce1TO0ZsxHNwaI8hhg5uxick6zvJ9TeU/0PY5QcatXiibl8SPFWPNKfztDSPTQM84AEPeMBjf57HESKq8RQQFOABD3jAAx7wgAc84EGABzzgAQ94WpnnZJsEeMADHvCABzzgAQ94/pvnh0eP0HL3xMnd/cUvl+o7BZ5KHhmHdp0BD3jqL65x1gmHw+OpvqfCO2lvD22TVc+uM6lwmNjakueRMIfOI7OHVKgT9UywXYoOcTo904/sKRdXqu9H4TYhaHirdStuY3jEgVbPnA3jOdXTX+RJ7TwCHsFD/Xhc5+GuRF2Zi4qraxx3zbhrBg94wAMe8IAHPFuTB79EBg94wAMe8IAHPOABD3jAAx7wgAc89udB1Ppn/gj8Hxr18rTFpIFGeOSkgbaYU9EIjz6noh2mnDTCo085aYcZOY3wiBk5mLBUc8KSnM81i/lcFQO6ZsWALjndbRnT3Uzj3ZZ5vBtmA9YcDqjwpwxMkaw2WvJfzXVEsufJkS4AAAAASUVORK5CYII=" alt="1141-001"   /></a></p>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">bool</span> GetImportant(DependencyObject depObj)
+    {
+        <span class="kw">return</span> (<span class="kw">bool</span>)depObj.GetValue(ImportantProperty);
+    }
+    <span class="com">// Important property has changed</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> OnImportantChanged(
+        DependencyObject d,
+        DependencyPropertyChangedEventArgs e)
+    {
+        Control ctrl = d <span class="kw">as</span> Control;
+        <span class="kw">bool</span> important = (<span class="kw">bool</span>)e.NewValue;
+        <span class="kw">if</span> ((ctrl != <span class="kw">null</span>) &amp;&amp; important)
+            ctrl.SetValue(Control.ForegroundProperty, Brushes.Red);
+        <span class="kw">else</span>
+            ctrl.ClearValue(Control.ForegroundProperty);
+    }
+}</code></pre><p>We can now use this new property from XAML:</p><pre class="code-block language-xml"><code>&lt;Label x:Name="lblHi" Content="Hi there"
+       loc:MyAttProps.Important="True"
+       Background="AliceBlue"/&gt;</code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1141-001.png"><img class="alignnone size-full wp-image-9185" src="data:image/png;base64,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" alt="1141-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

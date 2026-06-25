@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,29 +56,13 @@
 					</div>
 
 					<p>If you <a href="2014-09-15-1182-capturing-a-for-loop-variable-in-a-lambda-expression.html">capture a <strong>for </strong>loop iteration variable</a> in a lambda expression, the value of the variable that the expression uses will be whatever the final value of the iteration variable is when the loop completes.</p>
-<p>Capturing the iteration variable in a <strong>foreach</strong> loop works differently.  When you capture the iteration variable in a <strong>foreach</strong> loop, the lambda expression has a copy of the iteration variable with the value that it had at the time that it was captured.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            int[] primes = { 2, 3, 5, 7, 11, 13 };
-
-            List&lt;Action&gt; dels = new List&lt;Action&gt;();
-
-
-
-            // Capture foreach iteration variable
-
-            foreach (int p in primes)
-
-                dels.Add(() =&gt; Console.WriteLine(p));
-
-
-
-            foreach (Action a in dels)
-
-                a();
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1186-001.png"><img class="alignnone size-full wp-image-9116" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAACcCAMAAACZU3/6AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAa1QTFRFAAAAKCgoKCg6KChJKEFZKFZoSSgoSSg6aCgoaCg6SShJaChJSUFZSWt2aH+EW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5hEEon1Youms6hFZZon5l1H9JtIxwv5V3uqV21JFZwJV4xZl7zZ9/1KVo1KV2hJGEiJ2+iZ+9n6WEiq+qiqG8i6S7jae6jbOlj7Wji7GokbehqpWGtZmFtpqHuqWEpaKip6SjpqqurK+zuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+rdO3sdeyosLDvcDDv8LF0qSD1KWEwMDAwMDCwcHDysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////ZA0zGQAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAvxJREFUeNrt2PlX0zAcAPDOOUSUed/3fW6TipusaFXwvhEF79ZjU4GBYsU5FQSFytS/2SRb02y0k+czyVy/3x+ykezl85J88+2G8ktCKIACCuhfoj+FheKSP1AUhYSDInLWnpmaFBIULdoTBWtkWEi4K7XbhIXimLMTbYaooKhdkIDOWBLQqRHxaHFyGNDGRi9dYOPiYyHo9cxzEplM5nZv77XjQtB++6sbdl97uTsRCuvxsG7EW6vnURdermwToRD6MB09Fou6H/NBn746cfL0ma6XVi5n9fQ4aHJRZ+nNHFQjc7qtFsOgGqWj2jzQJwN7D+4/cCg7itFbFG3RfdDSiNsmyOTM6HzQmwOH9+3cviP7NjdkPbhbRvGORQhIUPTngs7y6hMRg23TzVF2b1APg6ohX3T9qjUbt2VHh3LWvfsVK3VQvBg1rJNp04vx3G6rOqdJR10Udfmiq9du2LwHrTRnDQ56oUQoTzUnjShKRxm0RfdF123dsnsFOdPpaS9UDZGIMmfstpUo7nFRLea/vZt2LVu+MvsaoePvPVFm3vQSvbKlaU5HtVgr3ZKkD3rnxalz3WfPP0Pom8I7L5SdtyqNMBExPEfjkRrF4cb3fD7/+dOHL9/GP46NeSYSLhLaEZwX1ZcUr64ZL0mN0lEj2YReVJTu6PL6oFf7SvHwUT9qr6Q8UCOOjpSsOLkUJxDbYhyNklR1epJN5IrhVx+0I9XORKqjZimtTiOv0X/9aKu+pF6j8BAHFNBGQI/yDk9U4R2eqIlCNIpFrmrdoLhfBir+THmbftkr/spIyl7OF7V+KlJw0MDUXlllUAZqyqi9QdleOdlrSjpTqL2N9Tzl/W0l8CjUXqi9UAb/j9prSqhIgUAVRRIK/+gAFMpg3aPOmZoSEskUhzqPGG6PmrpZKaCNmb2lL9yc8hdqr7zay6sk1cpebr/eatVebpfmT19XJKASzjQ42ys8e8u/3ESeKdReQAEFFFBAAQUUUEABBRRQQAEFFFBA5aO/AbckSRf8QfYwAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAAAASUVORK5CYII=" alt="1186-001"   /></a></p>
+<p>Capturing the iteration variable in a <strong>foreach</strong> loop works differently.  When you capture the iteration variable in a <strong>foreach</strong> loop, the lambda expression has a copy of the iteration variable with the value that it had at the time that it was captured.</p><pre class="code-block language-csharp"><code><span class="kw">int</span>[] primes = { <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span>, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">7</span>, <span <span class="kw">class</span>="num">11</span>, <span <span class="kw">class</span>="num">13</span> };
+List&lt;Action&gt; dels = <span class="kw">new</span> List&lt;Action&gt;();
+<span class="com">// Capture foreach iteration variable</span>
+<span class="kw">foreach</span> (<span class="kw">int</span> p <span class="kw">in</span> primes)
+    dels.Add(() =&gt; Console.WriteLine(p));
+<span class="kw">foreach</span> (Action a <span class="kw">in</span> dels)
+    a();</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1186-001.png"><img class="alignnone size-full wp-image-9116" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAACcCAMAAACZU3/6AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAa1QTFRFAAAAKCgoKCg6KChJKEFZKFZoSSgoSSg6aCgoaCg6SShJaChJSUFZSWt2aH+EW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5hEEon1Youms6hFZZon5l1H9JtIxwv5V3uqV21JFZwJV4xZl7zZ9/1KVo1KV2hJGEiJ2+iZ+9n6WEiq+qiqG8i6S7jae6jbOlj7Wji7GokbehqpWGtZmFtpqHuqWEpaKip6SjpqqurK+zuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+rdO3sdeyosLDvcDDv8LF0qSD1KWEwMDAwMDCwcHDysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////ZA0zGQAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAvxJREFUeNrt2PlX0zAcAPDOOUSUed/3fW6TipusaFXwvhEF79ZjU4GBYsU5FQSFytS/2SRb02y0k+czyVy/3x+ykezl85J88+2G8ktCKIACCuhfoj+FheKSP1AUhYSDInLWnpmaFBIULdoTBWtkWEi4K7XbhIXimLMTbYaooKhdkIDOWBLQqRHxaHFyGNDGRi9dYOPiYyHo9cxzEplM5nZv77XjQtB++6sbdl97uTsRCuvxsG7EW6vnURdermwToRD6MB09Fou6H/NBn746cfL0ma6XVi5n9fQ4aHJRZ+nNHFQjc7qtFsOgGqWj2jzQJwN7D+4/cCg7itFbFG3RfdDSiNsmyOTM6HzQmwOH9+3cviP7NjdkPbhbRvGORQhIUPTngs7y6hMRg23TzVF2b1APg6ohX3T9qjUbt2VHh3LWvfsVK3VQvBg1rJNp04vx3G6rOqdJR10Udfmiq9du2LwHrTRnDQ56oUQoTzUnjShKRxm0RfdF123dsnsFOdPpaS9UDZGIMmfstpUo7nFRLea/vZt2LVu+MvsaoePvPVFm3vQSvbKlaU5HtVgr3ZKkD3rnxalz3WfPP0Pom8I7L5SdtyqNMBExPEfjkRrF4cb3fD7/+dOHL9/GP46NeSYSLhLaEZwX1ZcUr64ZL0mN0lEj2YReVJTu6PL6oFf7SvHwUT9qr6Q8UCOOjpSsOLkUJxDbYhyNklR1epJN5IrhVx+0I9XORKqjZimtTiOv0X/9aKu+pF6j8BAHFNBGQI/yDk9U4R2eqIlCNIpFrmrdoLhfBir+THmbftkr/spIyl7OF7V+KlJw0MDUXlllUAZqyqi9QdleOdlrSjpTqL2N9Tzl/W0l8CjUXqi9UAb/j9prSqhIgUAVRRIK/+gAFMpg3aPOmZoSEskUhzqPGG6PmrpZKaCNmb2lL9yc8hdqr7zay6sk1cpebr/eatVebpfmT19XJKASzjQ42ys8e8u/3ESeKdReQAEFFFBAAQUUUEABBRRQQAEFFFBA5aO/AbckSRf8QfYwAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAAAASUVORK5CYII=" alt="1186-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

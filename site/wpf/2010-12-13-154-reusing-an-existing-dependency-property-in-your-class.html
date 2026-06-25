@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,23 +58,19 @@
 					<p>We saw earlier how to <a href="2010-11-06-117-registering-a-dependency-property.html">register a new dependency property</a> in a custom class using the <strong>DependencyProperty.Register</strong> method.  You can also reuse an existing dependency property, using the <strong>DependencyProperty.AddOwner</strong> method.</p>
 <p>When you reuse an existing dependency property, you can optionally specify new metadata that applies to the use of the dependency property in your new type.  You should also define CLR properties in the new type that wrap the <strong>GetValue</strong>/<strong>SetValue</strong> calls to read/write dependency property values.</p>
 <p>Here&#8217;s an example, where we reuse the <strong>BirthYearProperty</strong>, originally defined in a <strong>Person</strong> class, in a new <strong>Dog</strong> class.  Notice that we also provide a new default value.</p>
-<p><pre class="brush: csharp;">
-        // Dog also has a BirthYear property
-        public static readonly DependencyProperty BirthYearProperty =
-            Person.BirthYearProperty.AddOwner(
-                typeof(Dog),
-                new PropertyMetadata(2000, new PropertyChangedCallback(OnBirthYearChanged)));
-
-        public int BirthYear
-        {
-            get { return (int)GetValue(BirthYearProperty); }
-            set { SetValue(BirthYearProperty, value); }
-        }
-
-        public static void OnBirthYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Dog also has a BirthYear property</span>
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty BirthYearProperty =
+    Person.BirthYearProperty.AddOwner(
+        <span class="kw">typeof</span>(Dog),
+        <span class="kw">new</span> PropertyMetadata(<span <span class="kw">class</span>="num">2000</span>, <span class="kw">new</span> PropertyChangedCallback(OnBirthYearChanged)));
+<span class="kw">public</span> <span class="kw">int</span> BirthYear
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">int</span>)GetValue(BirthYearProperty); }
+    <span class="kw">set</span> { SetValue(BirthYearProperty, <span class="kw">value</span>); }
+}
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> OnBirthYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+{
+}</code></pre>
 
 <div class="wpadvert">
 

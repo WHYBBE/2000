@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,63 +56,24 @@
 					</div>
 
 					<p>You <a href="2014-07-16-1139-the-problem-with-comparisons-of-objects-in-generic-types.html">can&#8217;t normally use the <strong>==</strong> or <strong>!=</strong> operators</a> on objects whose type is one of the type parameters in a generic class.  The compiler doesn&#8217;t know enough about the type to be able to use the equality or inequality operators.</p>
-<p>If you add a <strong>class</strong> constraint on a type parameter, indicating that it must be a reference type, then you can use the <strong>==</strong> and <strong>!=</strong> operators to do basic reference type equality.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Pile&lt;T&gt; where T : class
-
+<p>If you add a <strong>class</strong> constraint on a type parameter, indicating that it must be a reference type, then you can use the <strong>==</strong> and <strong>!=</strong> operators to do basic reference type equality.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Pile&lt;T&gt; <span class="kw">where</span> T : <span class="kw">class</span>
+{
+    List&lt;T&gt; pile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> Add(T item)
     {
-
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-
-
-
-        public void Add(T item)
-
-        {
-
-            if (!pile.Contains(item))
-
-                pile.Add(item);
-
-        }
-
-
-
-        public bool IsFirst(T item)
-
-        {
-
-            return (pile[0] == item);
-
-        }
-
+        <span class="kw">if</span> (!pile.Contains(item))
+            pile.Add(item);
     }
-
-</pre>
-<p>Our <strong>IsFirst </strong>method returns true if the <strong>item</strong> parameter is the same object as the first item in the collection.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Pile&lt;Dog&gt; pack = new Pile&lt;Dog&gt;();
-
-
-
-            Dog d1 = new Dog(&quot;Bowser&quot;);
-
-            Dog d1B = new Dog(&quot;Bowser&quot;);
-
-
-
-            pack.Add(d1);
-
-
-
-            Console.WriteLine(pack.IsFirst(d1));
-
-            Console.WriteLine(pack.IsFirst(d1B));
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1140-001.png"><img class="alignnone size-full wp-image-8849" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH8AAABeCAMAAAA9kzuyAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAddQTFRFAAAAKCgoKCg6KChHKEdQKFxHKFxXKSgoKSg6KShHSYiTS4uSTY+QTpGOT5SNUJWMUZeLU4udU5mJU5qIVCgoVCg6VGxeVJuHVJyHVp6FV6GDWKKCWZWZWZmUWaOBW6V/XZOgXah8X6p6Yq52aI6yaZKxapisbJiubp2scaKqcigocndmcygocyhHfaK5iEcoiEc6iGxHiINmiJ2+iZ+9iqG8iq+qi6S7i7Gojae6jbOlj7WjkW9OkbehmV0omZFmmrHLnbfJn4t3oXtXosLDo6CfpKGfpqqup4xzp8u+qI10qYNQqZFXqZFmqmw6qoNcq4NcrK+yrdO3sIdfsdeysrjBsrnCtoxiuLu/ury/ur3Au77BvJBlvXhHvYNQvZFXvZFevZFmvb/CvcDDvr/Bv8DCv8LFwMDAwcHCysrSzNDUzNDVzdHV0dHb0tTd1efV1tbe2Nrj2dvm4eHg4eHh4uHh6enp6urq7Ovq7Ovr7Ozs7ezq7ezs7e3s7e3t7uzq7uzr7u3s7+/u8O/v8PDw8fHx8vDu8vHu8vHw8/Hv8/Lw8/Ly9PTz9fX19vb29/b19/f39/j5+Pf2+Pj4+Pn5+fj3+fn5+/v6+/v7/Pz8/f39/v7+////nfPHgAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAzxJREFUaN7tlolT01AQxhOsrfdtvO/boMV6K0a8T0o9EBVbGq+qUFGwoCiCiHgBokCl6h/r7ntJc/S1AzNNnjO+nWlLNi/5Zb/37QbpD9+QBP+f4P/mFJJB/wWR4xCED/SJ7OjIMIeg/Fx2qL+rs4NDGPVnqzmFRPATQ9U6n6D8bD9f/mgXX/5IJ1d+brhD8AXfjIsn7XH+jt/8K81PSDS3tNyorz93zW/+/bHvVow11hlpTa7YE1L06LTjrnvQjBao1fVkOIhfsizjEb0scGmJqpsLJsN/9Hzvvv0HDz97l8l019SY/HhItdFsQZh6U6UC3wlAxUMASlZF6FnIJ6bIf9C2ecu27TvSPcg/kefPiLD5iaV4Ij4T09FAbVNl0H4W8lPl32rbvXX96jXp3hft3acvGHwNNUUlCR+PVKhWcQhPRIhWRGyCYd7Gj4dkGa6JyviTDE/fyeYvnDVn/uJ0T3um++p1e/0Jg6/BBziEbwlP12imPoSPeYtPtoc+IpwFn6hs/uy5C5avSveC/q2tDD65IeWa+5L3YDLskBnzFp+uJVeCMLiUzZ+3aMXaDenXwB8fZ/BRRaIguW2QeFAhN1Z1J5/kLT5UHMRjcnkQ94bNX7Zy3cZN6ZeZzJvB9yy+YUXdIbwhglYRsbkP83b/AVs1jvVi/NtPDxw6cvTYY+C/+vSWqb9StPlhjc3/JE87wtwvLXDZ6JBi/Js/Pw4MfP3y+duPwQ99fQx+Mgw1Nu3C57CENxsRzI0zqCoCDqN5yKhUl7hCoBocw4Ji/LONNO49vAvfZ2KF/icTTsH+czW/YXzcXXQ4zdN+Q53wDC7SyIJi/IZYnS1iDaXmt6v5WZPRy/evu/ldk9Ewmvj/Q/AFX/Anwz/lbxTyJX+jgJ8iwZEvAZ0jX5J8rL4EHzcB/zI/kjfbUrx+wnc+gwcPUIpPrZBneyJAyfrNH49qnzLfl/oNmfNqWybwyX9859//zk+5G83b1wHLf26j+8+XOPOd8z7/QkiVfz/Y/e8Am68fT+ZQ6fpTjvrzdvScLznqdMhRZjNMmu+X/sy5b5//XvtPzH/BF3zBF3zBF3zBF3zBF3zBF3zBF/wyx1+YygtgLz4B7wAAAABJRU5ErkJggg==" alt="1140-001"   /></a></p>
+    <span class="kw">public</span> <span class="kw">bool</span> IsFirst(T item)
+    {
+        <span class="kw">return</span> (pile[<span <span class="kw">class</span>="num">0</span>] == item);
+    }
+}</code></pre><p>Our <strong>IsFirst </strong>method returns true if the <strong>item</strong> parameter is the same object as the first item in the collection.</p><pre class="code-block language-csharp"><code>Pile&lt;Dog&gt; pack = <span class="kw">new</span> Pile&lt;Dog&gt;();
+Dog d1 = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+Dog d1B = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+pack.Add(d1);
+Console.WriteLine(pack.IsFirst(d1));
+Console.WriteLine(pack.IsFirst(d1B));</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1140-001.png"><img class="alignnone size-full wp-image-8849" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH8AAABeCAMAAAA9kzuyAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAddQTFRFAAAAKCgoKCg6KChHKEdQKFxHKFxXKSgoKSg6KShHSYiTS4uSTY+QTpGOT5SNUJWMUZeLU4udU5mJU5qIVCgoVCg6VGxeVJuHVJyHVp6FV6GDWKKCWZWZWZmUWaOBW6V/XZOgXah8X6p6Yq52aI6yaZKxapisbJiubp2scaKqcigocndmcygocyhHfaK5iEcoiEc6iGxHiINmiJ2+iZ+9iqG8iq+qi6S7i7Gojae6jbOlj7WjkW9OkbehmV0omZFmmrHLnbfJn4t3oXtXosLDo6CfpKGfpqqup4xzp8u+qI10qYNQqZFXqZFmqmw6qoNcq4NcrK+yrdO3sIdfsdeysrjBsrnCtoxiuLu/ury/ur3Au77BvJBlvXhHvYNQvZFXvZFevZFmvb/CvcDDvr/Bv8DCv8LFwMDAwcHCysrSzNDUzNDVzdHV0dHb0tTd1efV1tbe2Nrj2dvm4eHg4eHh4uHh6enp6urq7Ovq7Ovr7Ozs7ezq7ezs7e3s7e3t7uzq7uzr7u3s7+/u8O/v8PDw8fHx8vDu8vHu8vHw8/Hv8/Lw8/Ly9PTz9fX19vb29/b19/f39/j5+Pf2+Pj4+Pn5+fj3+fn5+/v6+/v7/Pz8/f39/v7+////nfPHgAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAzxJREFUaN7tlolT01AQxhOsrfdtvO/boMV6K0a8T0o9EBVbGq+qUFGwoCiCiHgBokCl6h/r7ntJc/S1AzNNnjO+nWlLNi/5Zb/37QbpD9+QBP+f4P/mFJJB/wWR4xCED/SJ7OjIMIeg/Fx2qL+rs4NDGPVnqzmFRPATQ9U6n6D8bD9f/mgXX/5IJ1d+brhD8AXfjIsn7XH+jt/8K81PSDS3tNyorz93zW/+/bHvVow11hlpTa7YE1L06LTjrnvQjBao1fVkOIhfsizjEb0scGmJqpsLJsN/9Hzvvv0HDz97l8l019SY/HhItdFsQZh6U6UC3wlAxUMASlZF6FnIJ6bIf9C2ecu27TvSPcg/kefPiLD5iaV4Ij4T09FAbVNl0H4W8lPl32rbvXX96jXp3hft3acvGHwNNUUlCR+PVKhWcQhPRIhWRGyCYd7Gj4dkGa6JyviTDE/fyeYvnDVn/uJ0T3um++p1e/0Jg6/BBziEbwlP12imPoSPeYtPtoc+IpwFn6hs/uy5C5avSveC/q2tDD65IeWa+5L3YDLskBnzFp+uJVeCMLiUzZ+3aMXaDenXwB8fZ/BRRaIguW2QeFAhN1Z1J5/kLT5UHMRjcnkQ94bNX7Zy3cZN6ZeZzJvB9yy+YUXdIbwhglYRsbkP83b/AVs1jvVi/NtPDxw6cvTYY+C/+vSWqb9StPlhjc3/JE87wtwvLXDZ6JBi/Js/Pw4MfP3y+duPwQ99fQx+Mgw1Nu3C57CENxsRzI0zqCoCDqN5yKhUl7hCoBocw4Ji/LONNO49vAvfZ2KF/icTTsH+czW/YXzcXXQ4zdN+Q53wDC7SyIJi/IZYnS1iDaXmt6v5WZPRy/evu/ldk9Ewmvj/Q/AFX/Anwz/lbxTyJX+jgJ8iwZEvAZ0jX5J8rL4EHzcB/zI/kjfbUrx+wnc+gwcPUIpPrZBneyJAyfrNH49qnzLfl/oNmfNqWybwyX9859//zk+5G83b1wHLf26j+8+XOPOd8z7/QkiVfz/Y/e8Am68fT+ZQ6fpTjvrzdvScLznqdMhRZjNMmu+X/sy5b5//XvtPzH/BF3zBF3zBF3zBF3zBF3zBF3zBF/wyx1+YygtgLz4B7wAAAABJRU5ErkJggg==" alt="1140-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

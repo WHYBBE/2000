@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,151 +56,62 @@
 					</div>
 
 					<p>The <strong>Convert </strong>method of a value converter is used to convert from a binding source (e.g. a property) to a binding target (e.g. the attribute of a control).  Below is a simple example, showing how we can convert from an integer to a brush of a particular color.</p>
-<p>In XAML, we have a <strong>Slider</strong> that ranges from 0-255 and binds to a property, storing the integer value that the user selects.  We then bind to the same property for a rectangle shape&#8217;s <strong>Fill</strong> property.  The <strong>Fill</strong> property wants a <strong>Brush</strong> object, so we use a value converter to convert from the integer to a brush.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
-
-        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
-
-        Title=&quot;Value Converter&quot; SizeToContent=&quot;WidthAndHeight&quot;&gt;
-
-
-
-    &lt;Window.Resources&gt;
-
-        &lt;local:IntToBlueBrushValueConverter x:Key=&quot;intToBlueBrushValueConverter&quot;/&gt;
-
-    &lt;/Window.Resources&gt;
-
-
-
-    &lt;StackPanel Margin=&quot;15&quot;&gt;
-
-        &lt;Slider Minimum=&quot;0&quot; Maximum=&quot;255&quot;
-
-                Value=&quot;{Binding BlueValue}&quot;/&gt;
-
-        &lt;Label Content=&quot;{Binding BlueValue}&quot;/&gt;
-
-        &lt;Rectangle Height=&quot;80&quot; Width=&quot;80&quot;
-
-            Fill=&quot;{Binding Path=BlueValue, Converter={StaticResource intToBlueBrushValueConverter}}&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-&lt;/Window&gt;
-
-</pre>
-<p>The code-behind is straightforward.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+<p>In XAML, we have a <strong>Slider</strong> that ranges from 0-255 and binds to a property, storing the integer value that the user selects.  We then bind to the same property for a rectangle shape&#8217;s <strong>Fill</strong> property.  The <strong>Fill</strong> property wants a <strong>Brush</strong> object, so we use a value converter to convert from the integer to a brush.</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WpfApplication1"
+        Title="Value Converter" SizeToContent="WidthAndHeight"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">local:IntToBlueBrushValueConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"intToBlueBrushValueConverter"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"15"</span><span class="xml-tag">&gt;</span>
+        &lt;Slider Minimum="0" Maximum="255"
+                Value="{Binding BlueValue}"/&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding BlueValue}"</span><span class="xml-tag">/&gt;</span>
+        &lt;Rectangle Height="80" Width="80"
+            Fill="{Binding Path=BlueValue, Converter={StaticResource intToBlueBrushValueConverter}}"/&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>The code-behind is straightforward.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
     {
-
-        public MainWindow()
-
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        InitializeComponent();
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+    <span class="kw">protected</span> <span class="kw">virtual</span> <span class="kw">void</span> OnPropertyChanged(<span class="kw">string</span> prop)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+    <span class="kw">private</span> <span class="kw">int</span> blueValue;
+    <span class="kw">public</span> <span class="kw">int</span> BlueValue
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> blueValue; }
+        <span class="kw">set</span>
         {
-
-            this.DataContext = this;
-
-            InitializeComponent();
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-
-
-        protected virtual void OnPropertyChanged(string prop)
-
-        {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-        }
-
-
-
-        private int blueValue;
-
-        public int BlueValue
-
-        {
-
-            get { return blueValue; }
-
-            set
-
+            <span class="kw">if</span> (blueValue != <span class="kw">value</span>)
             {
-
-                if (blueValue != value)
-
-                {
-
-                    blueValue = value;
-
-                    OnPropertyChanged(&quot;BlueValue&quot;);
-
-                }
-
+                blueValue = <span class="kw">value</span>;
+                OnPropertyChanged(<span class="str">"BlueValue"</span>);
             }
-
         }
-
     }
-
-</pre>
-<p>In the value converter, we create a solid color brush whose R and G values are 0 and whose B value is derived from the integer (slider position).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class IntToBlueBrushValueConverter : IValueConverter
-
+}</code></pre><p>In the value converter, we create a solid color brush whose R and G values are 0 and whose B value is derived from the integer (slider position).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> IntToBlueBrushValueConverter : IValueConverter
+{
+    <span class="com">// Convert from int to System.Windows.Media.Brush</span>
+    <span class="com">// where brush is color with R=0, G=0 and B=int</span>
+    <span class="kw">public</span> <span class="kw">object</span> Convert(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
     {
-
-        // Convert from int to System.Windows.Media.Brush
-
-        // where brush is color with R=0, G=0 and B=int
-
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-
-
-            int blueVal = (int)value;
-
-            blueVal = Math.Min(Math.Max(0, blueVal), 255);
-
-
-
-            return new SolidColorBrush(Color.FromRgb(0, 0, (byte)blueVal));
-
-        }
-
-
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            return null;
-
-        }
-
+        <span class="kw">int</span> blueVal = (<span class="kw">int</span>)<span class="kw">value</span>;
+        blueVal = Math.Min(Math.Max(<span <span class="kw">class</span>="num">0</span>, blueVal), <span <span class="kw">class</span>="num">255</span>);
+        <span class="kw">return</span> <span class="kw">new</span> SolidColorBrush(Color.FromRgb(<span <span class="kw">class</span>="num">0</span>, <span <span class="kw">class</span>="num">0</span>, (<span class="kw">byte</span>)blueVal));
     }
-
-</pre>
-<p>At run-time, the color of the rectangle changes as we move the slider.</p>
+    <span class="kw">public</span> <span class="kw">object</span> ConvertBack(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
+    {
+        <span class="kw">return</span> <span class="kw">null</span>;
+    }
+}</code></pre><p>At run-time, the color of the rectangle changes as we move the slider.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1138-001.png"><img class="alignnone size-full wp-image-9167" src="data:image/png;base64,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" alt="1138-001"   /></a></p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1138-002.png"><img class="alignnone size-full wp-image-9168" src="data:image/png;base64,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" alt="1138-002"   /></a></p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1138-003.png"><img class="alignnone size-full wp-image-9169" src="data:image/png;base64,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" alt="1138-003"   /></a></p>

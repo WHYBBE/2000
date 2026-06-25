@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,30 +55,14 @@
 																				</p>
 					</div>
 
-					<p>Suppose that you subscribe to an event using a <a href="http://wp.me/pXTis-2kZ">lambda expression</a>:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog d = new Dog(&quot;Bowser&quot;);
-
-            // NOTE: Barked is EventHandler&lt;string&gt;
-            d.Barked += (s, e) =&gt; Console.WriteLine(&quot;Bark: {0}&quot;, e);
-</pre>
-<p>You cannot, however, unsubscribe using the same syntax. The -= operator shown below will be using a different anonymous method, so the original will not be removed from the event&#8217;s invocation list.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Not what you expect
-            d.Barked -= (s, e) =&gt; Console.WriteLine(&quot;Bark: {0}&quot;, e); 
-</pre>
-<p>So the lambda expression syntax is fine&#8211;<em>as long as you don&#8217;t need to unsubscribe from the event</em>.  (More on that in a future post).</p>
-<p>If you want to unsubscribe, but still use lambda syntax, you could persist the delegate instance.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            EventHandler&lt;string&gt; handler = (s, e) =&gt; Console.WriteLine(&quot;Bark: {0}&quot;, e);
-            d.Barked += handler;
-
-            // ...
-
-            d.Barked -= handler;
-</pre>
-
-<div class="wpcnt">
+					<p>Suppose that you subscribe to an event using a <a href="http://wp.me/pXTis-2kZ">lambda expression</a>:</p><pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+<span class="com">// NOTE: Barked is EventHandler&lt;string&gt;</span>
+d.Barked += (s, e) =&gt; Console.WriteLine(<span class="str">"Bark: {0}"</span>, e);</code></pre><p>You cannot, however, unsubscribe using the same syntax. The -= operator shown below will be using a different anonymous method, so the original will not be removed from the event&#8217;s invocation list.</p><pre class="code-block language-csharp"><code><span class="com">// Not what you expect</span>
+d.Barked -= (s, e) =&gt; Console.WriteLine(<span class="str">"Bark: {0}"</span>, e);</code></pre><p>So the lambda expression syntax is fine&#8211;<em>as long as you don&#8217;t need to unsubscribe from the event</em>.  (More on that in a future post).</p>
+<p>If you want to unsubscribe, but still use lambda syntax, you could persist the delegate instance.</p><pre class="code-block language-csharp"><code>EventHandler&lt;<span class="kw">string</span>&gt; handler = (s, e) =&gt; Console.WriteLine(<span class="str">"Bark: {0}"</span>, e);
+d.Barked += handler;
+<span class="com">// ...</span>
+d.Barked -= handler;</code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

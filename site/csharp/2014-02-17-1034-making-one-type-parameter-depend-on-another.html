@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,41 +56,28 @@
 					</div>
 
 					<p>When specifying a constraint for a type parameter, used in either a class or a method, you can constrain the type parameter to depend on another type parameter.  That is&#8211;the second type parameter must be identical to, or derive from, the first.</p>
-<p>Below, the type argument used when calling the <strong>Subset</strong> method (<strong>U</strong>) must be identical to or derive from the type parameter used for the class (<strong>T</strong>).  This allows us to do a cast operation<strong>.</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class PileOf&lt;T&gt;
-    {
-        private List&lt;T&gt; thePile = new List&lt;T&gt;();
-
-        public void Add(T thing)
-        {
-            thePile.Add(thing);
-        }
-
-        public List&lt;U&gt; Subset&lt;U&gt;() where U : T
-        {
-            List&lt;U&gt; subset = new List&lt;U&gt;();
-            foreach (T next in thePile)
-            {
-                if (next is U)
-                    subset.Add((U)next);
-            }
-
-            return subset;
-        }
-    }
-</pre>
-<p>We could use this class as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            PileOf&lt;Animal&gt; animals = new PileOf&lt;Animal&gt;();
-            animals.Add(new Dog(&quot;Bowser&quot;, &quot;Woof&quot;));
-            animals.Add(new Cat(&quot;Fluffy&quot;));
-            animals.Add(new Dog(&quot;Kirby&quot;, &quot;Growf&quot;));
-
-            List&lt;Dog&gt; theDogs = animals.Subset&lt;Dog&gt;();
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Below, the type argument used when calling the <strong>Subset</strong> method (<strong>U</strong>) must be identical to or derive from the type parameter used for the class (<strong>T</strong>).  This allows us to do a cast operation<strong>.</strong></p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> PileOf&lt;T&gt;
+{
+    <span class="kw">private</span> List&lt;T&gt; thePile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> Add(T thing)
+    {
+        thePile.Add(thing);
+    }
+    <span class="kw">public</span> List&lt;U&gt; Subset&lt;U&gt;() <span class="kw">where</span> U : T
+    {
+        List&lt;U&gt; subset = <span class="kw">new</span> List&lt;U&gt;();
+        <span class="kw">foreach</span> (T next <span class="kw">in</span> thePile)
+        {
+            <span class="kw">if</span> (next <span class="kw">is</span> U)
+                subset.Add((U)next);
+        }
+        <span class="kw">return</span> subset;
+    }
+}</code></pre><p>We could use this class as follows:</p><pre class="code-block language-csharp"><code>PileOf&lt;Animal&gt; animals = <span class="kw">new</span> PileOf&lt;Animal&gt;();
+animals.Add(<span class="kw">new</span> Dog(<span class="str">"Bowser"</span>, <span class="str">"Woof"</span>));
+animals.Add(<span class="kw">new</span> Cat(<span class="str">"Fluffy"</span>));
+animals.Add(<span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span class="str">"Growf"</span>));
+List&lt;Dog&gt; theDogs = animals.Subset&lt;Dog&gt;();</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

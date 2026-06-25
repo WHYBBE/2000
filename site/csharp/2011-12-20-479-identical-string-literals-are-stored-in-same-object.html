@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,23 +56,16 @@
 					</div>
 
 					<p>The C# compiler will store equivalent string literals in the same underlying <strong>System.String</strong> object.</p>
-<p>In the example below, <strong>s1</strong> and <strong>s2</strong> refer to the same string literal, so they will share the same underlying <strong>System.String</strong> object.  <strong>s3</strong> will get the same string value assigned to it at runtime, but will be stored in a different object.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            string s1 = &quot;Popeye&quot;;    // s1 &amp; s2 will refer to the same
-            string s2 = &quot;Popeye&quot;;    //   underlying object
-
-            // Enter &quot;Popeye&quot; for s3.  It will be stored in a
-            //   different object, though equivalent to s1 &amp; s2.
-            string s3 = Console.ReadLine();
-
-            object o1 = s1;
-            object o2 = s2;
-            object o3 = s3;
-
-            bool bEqual = (o1 == o2);    // True, same object
-            bEqual = (o1 == o3);         // False, different objects
-</pre>
-<p>We don&#8217;t normally care about whether two equivalent strings are stored in the same or different objects, because the <strong>==</strong> operator for <strong>System.String</strong> <a href="2010-08-24-68-string-equality.html">always checks for string equivalence</a>, rather than object identity.</p>
+<p>In the example below, <strong>s1</strong> and <strong>s2</strong> refer to the same string literal, so they will share the same underlying <strong>System.String</strong> object.  <strong>s3</strong> will get the same string value assigned to it at runtime, but will be stored in a different object.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> s1 = <span class="str">"Popeye"</span>;    <span class="com">// s1 &amp; s2 will refer to the same</span>
+<span class="kw">string</span> s2 = <span class="str">"Popeye"</span>;    <span class="com">//   underlying object</span>
+<span class="com">// Enter "Popeye" for s3.  It will be stored in a</span>
+<span class="com">//   different object, though equivalent to s1 &amp; s2.</span>
+<span class="kw">string</span> s3 = Console.ReadLine();
+<span class="kw">object</span> o1 = s1;
+<span class="kw">object</span> o2 = s2;
+<span class="kw">object</span> o3 = s3;
+<span class="kw">bool</span> bEqual = (o1 == o2);    <span class="com">// True, same object</span>
+bEqual = (o1 == o3);         <span class="com">// False, different objects</span></code></pre><p>We don&#8217;t normally care about whether two equivalent strings are stored in the same or different objects, because the <strong>==</strong> operator for <strong>System.String</strong> <a href="2010-08-24-68-string-equality.html">always checks for string equivalence</a>, rather than object identity.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

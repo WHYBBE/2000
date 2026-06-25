@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,56 +55,25 @@
 																				</p>
 					</div>
 
-					<p><strong>LineCount</strong> is a read-only property of a <strong>TextBox</strong> that tells you the current number of lines in the <strong>TextBox</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Grid&gt;
-
-        &lt;Grid.RowDefinitions&gt;
-
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-            &lt;RowDefinition/&gt;
-
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-        &lt;/Grid.RowDefinitions&gt;
-
-
-
-        &lt;Label Content=&quot;Here's a TextBox:&quot; /&gt;
-
-        &lt;TextBox Name=&quot;txt1&quot; Grid.Row=&quot;1&quot; Margin=&quot;5&quot;
-
-                 HorizontalAlignment=&quot;Stretch&quot;
-
-                 TextWrapping=&quot;Wrap&quot;
-
-                 AcceptsReturn=&quot;True&quot;
-
-                 VerticalScrollBarVisibility=&quot;Auto&quot;/&gt;
-
-        &lt;Button Grid.Row=&quot;2&quot; Padding=&quot;10,3&quot;
-
-                HorizontalAlignment=&quot;Center&quot;
-
-                Content=&quot;Get # Lines&quot; Click=&quot;Button_Click&quot;/&gt;
-
-    &lt;/Grid&gt;
-
-</pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-
-        {
-
-            MessageBox.Show(txt1.LineCount.ToString());
-
-        }
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/930-001.png"><img class="alignnone size-full wp-image-7759" alt="930-001" src="data:image/png;base64,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"   /></a></p>
+					<p><strong>LineCount</strong> is a read-only property of a <strong>TextBox</strong> that tells you the current number of lines in the <strong>TextBox</strong>.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Here's a TextBox:"</span> <span class="xml-tag">/&gt;</span>
+    &lt;TextBox Name="txt1" Grid.Row="1" Margin="5"
+             HorizontalAlignment="Stretch"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             VerticalScrollBarVisibility="Auto"/&gt;
+    &lt;Button Grid.Row="2" Padding="10,3"
+            HorizontalAlignment="Center"
+            Content="Get # Lines" Click="Button_Click"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    MessageBox.Show(txt1.LineCount.ToString());
+}</code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/10/930-001.png"><img class="alignnone size-full wp-image-7759" alt="930-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

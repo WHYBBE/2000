@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -51,129 +63,54 @@
 <li><strong>TouchMove</strong> &#8211; User moves finger across the screen</li>
 <li><strong>TouchUp</strong> &#8211; User lifts finger off the screen</li>
 </ul>
-<p>Below is a simple example that allows drawing using touch.  We&#8217;ve defined event handlers and attached them to a main <strong>Canvas</strong> element.  A red circle is drawn at the <strong>TouchDown</strong> point and a blue circle at the <strong>TouchUp</strong> point.  A continuous line is drawn as the user moves their finger across the screen.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private const double CircleWidth = 10;
-
-        private Point LastPosition;
-
-
-
-        private void Canvas_TouchDown(object sender, TouchEventArgs e)
-
-        {
-
-            try
-
-            {
-
-                TouchPoint tp = e.GetTouchPoint(null);
-
-
-
-                AddEllipseAt(canvMain, tp.Position, Brushes.Red);
-
-                LastPosition = tp.Position;
-
-            }
-
-            catch (Exception xx)
-
-            {
-
-                MessageBox.Show(xx.ToString());
-
-            }
-
-        }
-
-
-
-        private void Canvas_TouchMove(object sender, TouchEventArgs e)
-
-        {
-
-            TouchPoint tp = e.GetTouchPoint(null);
-
-
-
-            AddLineFromTo(canvMain, LastPosition, tp.Position, Brushes.Black);
-
-            LastPosition = tp.Position;
-
-        }
-
-
-
-        private void Canvas_TouchUp(object sender, TouchEventArgs e)
-
-        {
-
-            TouchPoint tp = e.GetTouchPoint(null);
-
-
-
-            AddEllipseAt(canvMain, tp.Position, Brushes.Blue);
-
-        }
-
-
-
-        private void AddEllipseAt(Canvas canv, Point pt, Brush brush)
-
-        {
-
-            Ellipse el = new Ellipse();
-
-            el.Stroke = brush;
-
-            el.Fill = brush;
-
-            el.Width = CircleWidth;
-
-            el.Height = CircleWidth;
-
-
-
-            Canvas.SetLeft(el, pt.X - (CircleWidth / 2));
-
-            Canvas.SetTop(el, pt.Y - (CircleWidth / 2));
-
-
-
-            canv.Children.Add(el);
-
-        }
-
-
-
-        private void AddLineFromTo(Canvas canv, Point from, Point to, Brush brush)
-
-        {
-
-            Line l = new Line();
-
-            l.Stroke = brush;
-
-            l.X1 = from.X;
-
-            l.Y1 = from.Y;
-
-            l.X2 = to.X;
-
-            l.Y2 = to.Y;
-
-            l.StrokeThickness = 2;
-
-
-
-            canv.Children.Add(l);
-
-        }
-
-</pre>
-<p>So when I touch and drag on a touch-enabled device, I get something that looks like this:</p>
+<p>Below is a simple example that allows drawing using touch.  We&#8217;ve defined event handlers and attached them to a main <strong>Canvas</strong> element.  A red circle is drawn at the <strong>TouchDown</strong> point and a blue circle at the <strong>TouchUp</strong> point.  A continuous line is drawn as the user moves their finger across the screen.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">const</span> <span class="kw">double</span> CircleWidth = <span <span class="kw">class</span>="num">10</span>;
+<span class="kw">private</span> Point LastPosition;
+<span class="kw">private</span> <span class="kw">void</span> Canvas_TouchDown(<span class="kw">object</span> sender, TouchEventArgs e)
+{
+    <span class="kw">try</span>
+    {
+        TouchPoint tp = e.GetTouchPoint(<span class="kw">null</span>);
+        AddEllipseAt(canvMain, tp.Position, Brushes.Red);
+        LastPosition = tp.Position;
+    }
+    <span class="kw">catch</span> (Exception xx)
+    {
+        MessageBox.Show(xx.ToString());
+    }
+}
+<span class="kw">private</span> <span class="kw">void</span> Canvas_TouchMove(<span class="kw">object</span> sender, TouchEventArgs e)
+{
+    TouchPoint tp = e.GetTouchPoint(<span class="kw">null</span>);
+    AddLineFromTo(canvMain, LastPosition, tp.Position, Brushes.Black);
+    LastPosition = tp.Position;
+}
+<span class="kw">private</span> <span class="kw">void</span> Canvas_TouchUp(<span class="kw">object</span> sender, TouchEventArgs e)
+{
+    TouchPoint tp = e.GetTouchPoint(<span class="kw">null</span>);
+    AddEllipseAt(canvMain, tp.Position, Brushes.Blue);
+}
+<span class="kw">private</span> <span class="kw">void</span> AddEllipseAt(Canvas canv, Point pt, Brush brush)
+{
+    Ellipse el = <span class="kw">new</span> Ellipse();
+    el.Stroke = brush;
+    el.Fill = brush;
+    el.Width = CircleWidth;
+    el.Height = CircleWidth;
+    Canvas.SetLeft(el, pt.X - (CircleWidth / <span <span class="kw">class</span>="num">2</span>));
+    Canvas.SetTop(el, pt.Y - (CircleWidth / <span <span class="kw">class</span>="num">2</span>));
+    canv.Children.Add(el);
+}
+<span class="kw">private</span> <span class="kw">void</span> AddLineFromTo(Canvas canv, Point from, Point to, Brush brush)
+{
+    Line l = <span class="kw">new</span> Line();
+    l.Stroke = brush;
+    l.X1 = from.X;
+    l.Y1 = from.Y;
+    l.X2 = to.X;
+    l.Y2 = to.Y;
+    l.StrokeThickness = <span <span class="kw">class</span>="num">2</span>;
+    canv.Children.Add(l);
+}</code></pre><p>So when I touch and drag on a touch-enabled device, I get something that looks like this:</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2013/01/732-basictouch.png"><img class="alignnone size-full wp-image-6395" alt="732-BasicTouch" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

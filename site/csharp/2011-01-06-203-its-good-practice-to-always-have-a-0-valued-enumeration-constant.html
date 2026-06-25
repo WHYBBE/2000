@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,35 +56,27 @@
 					</div>
 
 					<p>We saw earlier that you can <a href="2010-12-26-192-using-non-default-constant-values-for-enumeration-members.html">declare any values</a> you like for an enum type&#8217;s constants.</p>
-<p><pre class="brush: csharp;">
-public enum Mood {
-    Crabby = -5,
-    Happy = 5,
-    Petulant = -2,
-    Elated = 10};
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">enum</span> Mood {
+    Crabby = -<span <span class="kw">class</span>="num">5</span>,
+    Happy = <span <span class="kw">class</span>="num">5</span>,
+    Petulant = -<span <span class="kw">class</span>="num">2</span>,
+    Elated = <span <span class="kw">class</span>="num">10</span>};</code></pre>
 <p>Clearly we can declare an <strong>enum </strong>type that has no constant that maps to the value of 0.</p>
 <p>We saw earlier, however, that fields in a reference type are zeroed out when an instance of that object is constructed.  This can lead to having an enumerated field/property that has a 0 value but no matching constant in the enumerated type.</p>
-<p><pre class="brush: csharp;">
-            Person p = new Person(&quot;Lillian&quot;, &quot;Gish&quot;);
-
-            Mood theMood = Mood.Happy;
-            Console.WriteLine(theMood);    // Happy
-
-            theMood = p.PersonMood;
-            Console.WriteLine(theMood);    // 0   (unable to map to a constant)
-</pre></p>
+<pre class="code-block language-csharp"><code>Person p = <span class="kw">new</span> Person(<span class="str">"Lillian"</span>, <span class="str">"Gish"</span>);
+Mood theMood = Mood.Happy;
+Console.WriteLine(theMood);    <span class="com">// Happy</span>
+theMood = p.PersonMood;
+Console.WriteLine(theMood);    <span class="com">// 0   (unable to map to a constant)</span></code></pre>
 <p>This is allowed, since the enumerated value can be any integer.  But it&#8217;s better practice to always define a 0-valued constant.</p>
-<p><pre class="brush: csharp;">
-    public enum Mood
-    {
-        NONE = 0,
-        Crabby = -5,
-        Happy = 5,
-        Petulant = -2,
-        Elated = 10
-    };
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">enum</span> Mood
+{
+    NONE = <span <span class="kw">class</span>="num">0</span>,
+    Crabby = -<span <span class="kw">class</span>="num">5</span>,
+    Happy = <span <span class="kw">class</span>="num">5</span>,
+    Petulant = -<span <span class="kw">class</span>="num">2</span>,
+    Elated = <span <span class="kw">class</span>="num">10</span>
+};</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-1841"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/01/06/203-its-good-practice-to-always-have-a-0-valued-enumeration-constant/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Data Types | Tags: C#, Enum</p>
   <nav class="pager"><a href="2011-01-05-202-all-fields-in-an-object-are-automatically-initialized.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-01-07-204-three-rules-about-using-implicitly-typed-variables.html">Next</a></nav>

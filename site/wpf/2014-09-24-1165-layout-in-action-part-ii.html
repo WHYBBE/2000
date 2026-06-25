@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,19 +56,10 @@
 					</div>
 
 					<p><a href="2011-01-08-180-how-layout-works.html">Layout in WPF</a> dictates how layout panels (containers) arrange their child elements.  Below is a simple example of a <strong>StackPanel</strong> containing a custom <strong>Label</strong> that we&#8217;ve instrumented so that we can see when its <strong>Measure </strong>and <strong>Arrange</strong> methods are called.  (<strong>MyPanel</strong> derives from <strong>Label</strong>).</p>
-<p>Suppose we use the label as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;StackPanel Margin=&quot;5&quot; Background=&quot;Honeydew&quot;&gt;
-
-        &lt;loc:MyLabel Content=&quot;Billy&quot; Background=&quot;Thistle&quot;
-
-                     HorizontalAlignment=&quot;Center&quot; /&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p>The label looks like this at run-time:<br />
+<p>Suppose we use the label as follows:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"Honeydew"</span><span class="xml-tag">&gt;</span>
+    &lt;loc:MyLabel Content="Billy" Background="Thistle"
+                 HorizontalAlignment="Center" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>The label looks like this at run-time:<br />
 <a href="https://2000thingswpf.files.wordpress.com/2014/09/1165-001.png"><img class="alignnone size-full wp-image-9337" src="data:image/png;base64,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" alt="1165-001"   /></a></p>
 <p>&nbsp;</p>
 <p>At run-time, the measure/arrange process is:</p>

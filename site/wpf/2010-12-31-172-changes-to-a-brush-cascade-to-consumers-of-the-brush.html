@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,19 +57,15 @@
 
 					<p>If you create a <strong>Brush</strong> object, in XAML or code, and use that <strong>Brush</strong> in some controls, any changes to the original <strong>Brush</strong> are automatically reflected in controls that use the brush.</p>
 <p>For example, assume that we define a teal <strong>SolidColorBrush</strong> as a resource and use it to render a <strong>Label</strong>.</p>
-<p><pre class="brush: xml;">
-    &lt;Window.Resources&gt;
-        &lt;SolidColorBrush x:Key=&quot;tealBrush&quot; Color=&quot;Teal&quot;/&gt;
-    &lt;/Window.Resources&gt;
-    &lt;StackPanel&gt;
-        &lt;Label Content=&quot;I'm teal!&quot; Foreground=&quot;{StaticResource tealBrush}&quot;/&gt;
-    &lt;/StackPanel&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"tealBrush"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"Teal"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"I'm teal!"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{StaticResource tealBrush}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p>Now assume that we change the brush&#8217;s color at runtime:</p>
-<p><pre class="brush: csharp;">
-            SolidColorBrush theBrush = (SolidColorBrush)this.Resources[&quot;tealBrush&quot;];
-            theBrush.Color = Colors.DarkMagenta;
-</pre></p>
+<pre class="code-block language-csharp"><code>SolidColorBrush theBrush = (SolidColorBrush)<span class="kw">this</span>.Resources[<span class="str">"tealBrush"</span>];
+theBrush.Color = Colors.DarkMagenta;</code></pre>
 <p>You&#8217;ll see that the foreground color of the <strong>Label</strong> changes immediately, as soon as we change the color of the brush.</p>
 <p>This change notification behavior is true not only of the <strong>Brush</strong> class, but of all other classes used in rendering WPF graphics.</p>
 <div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,25 +58,19 @@
 					<p>A <a href="2011-02-14-242-declaring-and-using-a-property-in-a-class.html">property</a> cannot be used in the same way as a variable, like a <a href="2011-02-03-231-declaring-and-using-instance-fields-in-a-class.html">field</a> can.</p>
 <p>A field is a variable that is defined within a class and it denotes an actual storage location.  Because it refers to a storage location, you can pass a field by reference, using a <strong>ref</strong> or <strong>out</strong> keyword on the argument.</p>
 <p>If <strong>Name</strong> is a public field of a <strong>Dog</strong> class, you can do this:</p>
-<p><pre class="brush: csharp;">
-        static void Main(string[] args)
-        {
-            Dog d = new Dog(&quot;Bob&quot;);
-
-            MakeNoble(ref d.Name);
-        }
-
-        private static void MakeNoble(ref string name)
-        {
-            name = &quot;Sir &quot; + name;
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    Dog d = <span class="kw">new</span> Dog(<span class="str">"Bob"</span>);
+    MakeNoble(<span class="kw">ref</span> d.Name);
+}
+<span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> MakeNoble(<span class="kw">ref</span> <span class="kw">string</span> name)
+{
+    name = <span class="str">"Sir "</span> + name;
+}</code></pre>
 <p>A property, on the other hand, is not a variable and its name does not refer directly to a storage location.  So you can&#8217;t pass a property as a <strong>ref</strong> or <strong>out</strong> argument to a method.</p>
-<p><pre class="brush: csharp;">
-            Dog d = new Dog(&quot;Bob&quot;);
-            d.Age = 5;
-            AgeMe(ref d.Age);  // Compile-time Error
-</pre></p>
+<pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog(<span class="str">"Bob"</span>);
+d.Age = <span <span class="kw">class</span>="num">5</span>;
+AgeMe(<span class="kw">ref</span> d.Age);  <span class="com">// Compile-time Error</span></code></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

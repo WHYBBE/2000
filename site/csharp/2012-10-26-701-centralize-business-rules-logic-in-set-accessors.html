@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,40 +58,34 @@
 					<p>You can use a property&#8217;s <strong>set</strong> accessor to <a href="2011-02-22-250-using-a-set-accessor-to-convert-or-validate-property-data.html">enforce business rules</a> for that property, e.g. min/max values for the property.</p>
 <p>If you have a constructor that accepts initial values for some properties of a class, or methods that accept values, you can avoid checking constraints on these parameters by delegating the enforcement of the rules to the <strong>set</strong> accessor.</p>
 <p>For example:</p>
-<p><pre class="brush: csharp;">
-    public class Dog
-    {
-        // Public properties
-        public string Name { get; set; }
-
-        private int age;
-        public int Age
-        {
-            get { return age; }
-
-            // Set accessor checks for valid Age values
-            set
-            {
-                if (value != age)
-                {
-                    if ((value &gt; 0) &amp;&amp; (value &lt; 30))
-                        age = value;
-                    else
-                        throw new Exception(&quot;Age is out of range&quot;);
-                }
-            }
-        }
-
-        // Constructor
-        public Dog(string name, int age)
-        {
-            Name = name;
-
-            // Don't validate age value here, but let set accessor do it
-            Age = age;
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="com">// Public properties</span>
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">private</span> <span class="kw">int</span> age;
+    <span class="kw">public</span> <span class="kw">int</span> Age
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> age; }
+        <span class="com">// Set accessor checks for valid Age values</span>
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (<span class="kw">value</span> != age)
+            {
+                <span class="kw">if</span> ((<span class="kw">value</span> &gt; <span <span class="kw">class</span>="num">0</span>) &amp;&amp; (<span class="kw">value</span> &lt; <span <span class="kw">class</span>="num">30</span>))
+                    age = <span class="kw">value</span>;
+                <span class="kw">else</span>
+                    <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="str">"Age is out of range"</span>);
+            }
+        }
+    }
+    <span class="com">// Constructor</span>
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
+    {
+        Name = name;
+        <span class="com">// Don't validate age value here, but let set accessor do it</span>
+        Age = age;
+    }
+}</code></pre>
 
 		<div class="wpadvert">
 		

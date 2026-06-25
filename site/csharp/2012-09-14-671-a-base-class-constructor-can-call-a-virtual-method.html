@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,71 +56,30 @@
 					</div>
 
 					<p>If a base class constructor calls a virtual method that is <a href="2011-06-20-349-the-difference-between-virtual-and-non-virtual-methods.html">overridden in a derived class</a>, the version of the method in the derived class is the one that will get called.</p>
-<p>For example, assume that we have a <strong>Dog</strong> class that defines a virtual <strong>Bark</strong> method and a <strong>Terrier </strong>subclass that overrides the <strong>Bark</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>For example, assume that we have a <strong>Dog</strong> class that defines a virtual <strong>Bark</strong> method and a <strong>Terrier </strong>subclass that overrides the <strong>Bark</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> Dog()
     {
-
-        public Dog()
-
-        {
-
-            Console.WriteLine(&quot;Dog constructor&quot;);
-
-            Bark();
-
-        }
-
-
-
-        public virtual void Bark()
-
-        {
-
-            Console.WriteLine(&quot;Woof&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"Dog constructor"</span>);
+        Bark();
     }
-
-
-
-    public class Terrier : Dog
-
+    <span class="kw">public</span> <span class="kw">virtual</span> <span class="kw">void</span> Bark()
     {
-
-        public Terrier()
-
-            : base()
-
-        {
-
-            Console.WriteLine(&quot;Terrier constructor&quot;);
-
-        }
-
-
-
-        public override void Bark()
-
-        {
-
-            Console.WriteLine(&quot;Terrier barking!&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"Woof"</span>);
     }
-
-</pre>
-<p>Assume you create an instance of a <strong>Terrier</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Terrier t = new Terrier();
-
-</pre>
-<p>The <strong>Terrier</strong> constructor calls the <strong>Dog</strong> constructor, which invokes the <strong>Bark</strong> method.  But it&#8217;s the <strong>Bark</strong> method in <strong>Terrier</strong> that is called, rather than the <strong>Bark</strong> method in <strong>Dog.</strong></p>
+}
+<span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> Terrier()
+        : <span class="kw">base</span>()
+    {
+        Console.WriteLine(<span class="str">"Terrier constructor"</span>);
+    }
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"Terrier barking!"</span>);
+    }
+}</code></pre><p>Assume you create an instance of a <strong>Terrier</strong>.</p><pre class="code-block language-csharp"><code>Terrier t = <span class="kw">new</span> Terrier();</code></pre><p>The <strong>Terrier</strong> constructor calls the <strong>Dog</strong> constructor, which invokes the <strong>Bark</strong> method.  But it&#8217;s the <strong>Bark</strong> method in <strong>Terrier</strong> that is called, rather than the <strong>Bark</strong> method in <strong>Dog.</strong></p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/671-001.png"><img class="alignnone size-full wp-image-5698" title="671-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAAByCAIAAACQgKmgAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAEcZJREFUeNrtnWtTFNkZgMcfsd/zZX/B/opUsihoJdlKbaUqn5JsKlX5ktpKJbqKoC7qyrq7iivIHUQZ7sj9jiIgFwXkIigoIJfhJlfXTfL2Od2H0336cnrmDHHkfapLenqGpmfm8X3fc5sJ/NeV/3D8/PPP7wg/Ed6+fbu3t7e7u7uzs7NN2CJsbm6+QRCOgIxhvF4WtzYJG4Q1g1UE4QhIGsb0Ym6Boevr66DUyspKKBRaIiwuLi4QXiOIQUDSMBq9qF40aIGhy8vLIBYoNT8/Pzs7+4owYzA9PT2DIDMzAUnDWACD6AWhC/QCt+bm5qhVL168mJqaekYYNxgbGxtHkPFxR8n4LAkxDCp6yI8QwJheL1++BLcmJyfhLKOjoyMjI0NDQ0+ePHn8+PEgob+/fxBBBgcDkoZBiqT5EVIsRK/nz5+DW8PDw3CKR48edXd3379/v6Ojo729va2trbW1tQVBDOwlszUMyi8IYFBpTUxMgF69vb2dnZ1NTU01NTWVlZWlpaXBYLC4uPjOnTtFRUW3EcTATTJa6UOWZIZBfoRKa2BgAIJWbW0tWJWTk3Pz5s1r165dvXo1NTX1ypUrly9fvnTp0kUEMXCTDOp9kIy2JZlkUH5BZoTQlZWVBT59+eWXv0AQVxwlg1wJLUpoTtJif35+HhIlhLG+vr6KigqIXikpKfD7H3/88Q8//LBOODxd2BtRZt0/a36Q7ERdcSbkBxvJoOrnwxicEZqT0JZ89uwZtByhrs/MzATDPvroo7S0NAhvkD07CR1+aHemwyftEdDmn1Yv+Jq32Y4mM40cDWbqDeo4oFCp4bhnUM1RRag0qDAoJ5QZlBqUGAQJxRx3Dfgyq4Ajn5BHyOXIMbBKxtqVUJCxMDY7OwvNyZGRka6uLngCNIZdv34dWgAdYeGkVKeZ+xJ0hkvkV+6prLt/ooWe5tkKR6kxI5pXZWDRzmKeqB0zj6p2x4Bv3hUa8NoxAmIYA8ksYWxmZgZ8GhwchBcFzvjFF19AloQYFsn7JLrFvHlg0BU1HvjHr+4ygtrq6GShxTxPBWs53AMeNa/CjnID6p9FO2Yeg8rHY21dslxJey4g09N6H8LY06dPe3p64FozMjI++eQTqMP6+/sj1It3i1n1kNBN6IkO3V6wC+CPuONpsEwAdpLSIqJLLnaKgpa0W2tGjH/MxSozTv7xIZAPhFREq2SWkn9xcfHVq1dQjQ0NDcFLA2e8du0a5Eo4Hl4RZtGLd4tZ1dvb+4jQR+gX6IsmjwzEI7b0mvGrtegor6lTvHQSUQyN7kba1oL1dtgmaPfoyLy0l4x2j0GufP36NeTK8fFxyJVw6RAPU1NTQTK4NxLDWPTi9aJuUasGCPBHHxOecDwOl2gMmAyY8fv/wdNR22jqaaRTgPRM1u4lo1g1WtSsswN0dJQMciU0PlmuhNcL/gZUdhcvXvQrmWgYC2CiXlQs6hOEz+Hh4RGD4Wgy5JMnXsgo7u6obXy1hE/bSOmkIzXSpaCUbPFY7PT0MmBpWtLOC1aQQa6cmpqig0hgK7RRL1y44C7Z3eKS7Nx82y0nrwC23PxC2PIKbpeUlsELAWdm0YvqxdwCuUdHR8cIo9HkaWSMmJG02ZedAwJOwdI2ibvESPf60qWRJEZNJyVsJKNVPx1Kot1j8IrA1UDcy8nJSU5O9pCspKJ3YLh3YEjYhh8Nalt5bVt5TSts+UVB0JwFMFu9IFNDwzbsSSZjKojE1xE73P2TD4qSgdC9iOT986wd3Rs9TiK6SQbVPUgG7zE8MTgXFHrZ2dlJSUnukjW1tO/u7e3semzwmPqmVsjZfIo0DKtOPhIAzp07Bz/P1U08e1h4InC84OEzGcyPdbyl7VLgD9hSd/4I3Ef/ZQe7Co4HEvIf+BbayciO3IRAfG4H+alztsozm0tZ2Jx5NBCX0VR6+kiA41SJV8noKaVkEcnUtJcMmpa0h2x6eppW/WAlNBwyMzPPnj3rLllrW8fo+Mvz6U0XbjV+ndWQklt/qaBuZGRqJbQ8Mz0NWyi0fKOsBzYqGS3waRijMeweKJaQ10UCGLytIMRk922Qo7B7UgLtoefrPW7VX4AXXrdNswg0EmSF49ojqGScwiBZQdeEJ+7yGZp15iUEku6Nak9ZU02jOikB9lyCn3tpyFRryToWOF02OFgGkmk/CcS4uPTGfls8W9wyDW3ROXvJWNOSjleCBxD0oDl669atxMREF8mgKmxpbR+bmPvT5fI/f1v21+vBv6Xf/Xt20eDgxMryIi9Z+r2HIBk0SVgpRsMYvPA18Ion1+4bptshJ5mmz74TZkOMW9pPj7hII5Ymk3MkE32SDG/7oUyTK6naCGeeiVVSLxLMmFv6DsuqJV8dMYczBXrZGsaQlQzKusrKyoyMjDNnzjhJRpsedQ3NINm/s2v/cv3u51czP/s+7bO074hkS9MaL0Cy7Lb2gp4mKhnNlbQa08OYTkJBXQF1a6qn6ETgxO0eaISQXR16pOHrI4ELDVMUcIyT0f6Wg7H7h/VkSu10jmSab3zC3b+tP+KBJmRysnY0uWbsfr5xN9ygqsGTjc/t1PJmdRI87bPVpmKuIzfeOF98drsmWeXZ/cyXWKmpVpl4JJCYeEY/fKaCqVZ+5sjRzBayxyKZbpkWzb4qNfaENNqYcZQdC/YFNSWD1Di2T3ZOnaK/HHez/lF9ehzZPxmkthWfZCc+WdzrIRmd2wN/2VMy1r6lkh1PSf/l+auffnPl2PcXj984TyMZGEYjWfGTe2VPy5lkrOSn9T6NZFoYIyWUZhKTjDPKOLZ/yKKP0y0t2O2nUKtk1gholswxwvG3jWj3gFhH414tlJdULhbPtFRJHWNRLcCS5kgVaHe2isQzzbb4nHYumGluHctqoztUricVoJruFUmVsE8ypCldcpI13QKZqGw0vGlZlBjGx7kSJ8mIgn0NGdSuuHRq2qc3939qBMHEk9GS7Fcp38alXo6/lnLi5rnfZZ+hkYyly+H5YdhEyfh0aSuZJpQJFsKmZMsxR8kmaQzjyjGTZHy61GsyuIuVZ6Sy44GE/4BrJIBV8LwS8u6zdKmXY+ZmKan/Nbc0x0yQyEWdohzLagWz4ABRjAavwOlyvhzjJWPpUpML2gP6D6NZqtkVl16SftRcsTlHsrj0Bu2YZpnJqKAR1Rif2ki2s7PjJFl6evrp06dlJDv63aXjaRd+k5H0Wc7pzwv/BZKFuJpsb3cHNku6NBX+pCajkvHp0pQaOb3kS37DMmu+tCn59yU7vl/pmwOYniHharVIda7WXI1pCZJqpXM/jzQhQS2qkyU/cmGrQ8uMiZWmaqwtO97Ikq1apDIko2JxkjVnao4NCNmR+GTEKmqV4RORJS49mB5n2NNnEUvf1xKibhMRSwhbQf4ILdSUSWapyU78eO63WYm/zzv1h6J//jH4D5BsecmQbHl5c/PN2uqqpfA3lWXJNVpl3aXXZPu5jjQL+TBkLue9Sn6uJ4NrUT4sOA7eGDGKj1VEK9CHdVqQrFdrKu1J4K0hPywJ0ZIPn+qNR5IGuWwIYuXE61XXcHuObhIJWrCzX9iTqMUiFaTDZnMuLNNtKjVX9nqh32fEnYAuDdnX0pzhh5HqmCKGRJpQRp0FJRbdJTu9vXU3Qakf63p79w9rh/RjjoV/2JJR6hpbHg9Nfl1SlFJWeKki75uqnNR7Wd3dj5lky0tLG+troVDI0k/GMiaTjOYbiCl8eUU0M9B007OfbZFvF5o47wzInXofGi35Tb0RXEUPl8Ppph/Sg1VNMndlWiJkkulu6UW8VnWBYxCu9luRxC0jDbbRuF7B5UbIiYZcBkdv8ZLpIQtsAqlMGa/kKz7xcnGKqsUK9KCuFXfwZJAv4k+eNNxyl4weZPz6hnrJauqbf/rp7cb6ysaatr3Z2HizsfZmfXVne2t3Zxti2Pr6+urqCmwgWW1tLTxbsauMdfezjgxrF4MFc/iht4we0weO/ac2iAW6R59qGP37JPHpLjl1QzgNcTp1bvGRh0UiyR5UyTlRD8MlfMmcxqryCu9oeVDYGlvam9s6G5vb2JHc/NsgGbwWloFLy6iluBL9AAaLPAcoZUaHZLvmXTWS6YV3HxeSnAanaoKnOPoekWS2njU2NooT2ehNOM6mvMHZqquroYZjUzDY3B5ufOmpxTaZkURV49wyHe6WflHJKUZOAcnFJM/o4tcPtXPZfQ+QRxjJnFqd4nRFcTIZDWlMNfoWKp+xIz8/x0kRmQlkTt3ifueK+ZqWI7NAxnPxSxg0u6K+JnOZ1U6PeKpmO28xGnMM3efMeE6hcSpinOZkixMM3acWek4qtJ1O2OhMgx1OM2AVEsVIZrtuwnOKLG+bZRq0zJxp+XnSYcxysU1DThnHM64waVzm6XuqYDtV3zJb34lqM1V+qPRDpDWZ5LIc/rV2SaBshRK/nERm3YevhR6+6hVfkYYPOWKAsajjJI1FFBcJ+DdSXN9hWWIprrUUl75FCQWSiarJrEwUl16KC+PERXKRr1Rzn/bunqTc1wUxgTyXBtnaIy6HlFmLy69OKzZzV+COmSI/KPvAFXnJNjc35Vd0eS7atl3r67mUPOwF4uGVOGId47LC1nZhmdOqWraq0WUlt60oTgYUChSYyfdDXsSEL5nM4sHwPh9AvDe8jxfw9QECMku3mVu2ZZBLZLJdoggm0X8toUhcqC2aFJ49vszIVUdEkon5aHp6etbMK/+8VIGvDzWdFnhhx3MHhKF6m0F3l6mzTv3MEXYHjoSL8pVgKiWD9yYtLS0BQcxEKhkfxiBuaWdEEAsKazIqmfXzQhFEYbpkkYzpFbueRfuyD9d/v8glY56JksWoZ9G+5kMX46NRkzlJ5pRG+YMyb4DnefjjLulb5vHixXs+wfDO7/n4GLbzwCSTeWPkDYvevstlWJ5L2M/L9vwyj4/VSjeqNVm0JYtEPslTeUbcMJ5LeJLFcDBTUpNR1WJOMqeDvuQ7MMkOe+FPcW9dStYu71W6jCTN+T0/SuZDMr+FdhjNrjAKefnCXMxQvh4s09Bxqq7kWwMYycJvz2P/LXZhREWyD+Q/K/KeS4agZBHVZNELTlE6uarL9jyPwr9y6LowxG6k2JJM4ZmjLVnMlBlRSpcxXWAdjGQKgy5KJttEd2r/y3c9qBr7UzW26GsMV6brR76L5AORTFw4NDc35yJZGGNz7mN2fvvD5Ostv4MEktcveZKAn1GED7wmC08yVcEs4DVsEEkwk4lAvq5fZpAKJVMcySRrF1+Fc+QDCe7vd+SzNqIh2QfehSEusnWvyRTOhgg7Xf6/JJOPxDJB+hBFMnHJP4tkYU8SlGw6ec4rjGTsz6WAc5nq416tu6ddT4ldlDosktmmSyQa/SmHLl2Kn1mCkh32/rCopksKSoYckGSxPnaJxIZkgRgfuzyYDBjT5z8gycQPmpufn/8wxi4PspY/FP/9DlKyWBy79NUFg+s6FUsmfqymu2SxMnaJ6zrVe3bAkr3/Y5e4rvN9kWxra0v8aHH5SBbG++p5r6qxS1zX+b6kS14yhelSlWSRvIi4rvM9kkz8wgR4/AcwdhnAdZ3vj2Ti1y8wyRBEmWQWUDIEJUNiTTLxC44WFhZQMkSlZOK38KFkiErJtre3xS/0Q8mQaElGwxjsLC4uomSISsnEryxFyRDFkonfpLy0tISSISolE7/AGyVDUDIk1iQbEqCStTiALzVK5k8yeIz4tYbLy8soGaJSMvHLOFEyRLFk4lfFhkIhrMkQlZKJX1iMkiGKJRszg5IhiiXb3d0Vv54dfgUlQ1RKNiGAkiGKJZskPONYXV1FyRD1kvGgZIhKyfb29p4LrK2toWSIeslecKBkiGLJpgm8ZOvr6ygZolKyGQGUDFEs2UsOlAxRL9nbt29nDV4RQLWNjQ2UDFEp2RxhlgN+CyVD1EvGg5IhiiV7TZjn2NzcRMkQZZLBwxYWFl6bQckQxZItLi4umNna2kLJEMWSWUDJEMWSLQmgZIhiyZYNUDIk6pIxtre3UTJEpWQhAkqGREuyd+/erQjAL6JkSBRbl9iFgTjxP7Ua/wl6yltwAAAAAElFTkSuQmCC" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

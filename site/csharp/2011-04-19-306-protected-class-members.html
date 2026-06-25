@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,50 +58,22 @@
 					<p>Class members marked with the accessibility keyword <strong>protected</strong> are accessible from within the same class, or from within the code of any classes that derive from the class.</p>
 <p>In the picture below, the <strong>Dog.DoBark</strong> method is marked as <strong>protected</strong>.  The code in any of the blue blocks can call this method.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2011/04/protected.png"><img class="alignnone size-full wp-image-2624" title="Protected" src="data:image/png;base64,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" alt=""   /></a></p>
-<p>Code in a subclass of <strong>Dog</strong> can call the <strong>DoBark</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Terrier : Dog
-
+<p>Code in a subclass of <strong>Dog</strong> can call the <strong>DoBark</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">void</span> TerrierBark()
     {
-
-        public void TerrierBark()
-
-        {
-
-            // CAN call DoBark from subclass
-
-            this.DoBark();
-
-        }
-
+        <span class="com">// CAN call DoBark from subclass</span>
+        <span class="kw">this</span>.DoBark();
     }
-
-</pre>
-<p>Code in other classes, not derived from <strong>Dog</strong>, cannot call the <strong>DoBark</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class OtherClass
-
+}</code></pre><p>Code in other classes, not derived from <strong>Dog</strong>, cannot call the <strong>DoBark</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> OtherClass
+{
+    <span class="kw">public</span> <span class="kw">void</span> DoSomething()
     {
-
-        public void DoSomething()
-
-        {
-
-            Dog d = new Dog();
-
-            // This class CANNOT call DoBark()
-
-            d.DoBark();
-
-        }
-
+        Dog d = <span class="kw">new</span> Dog();
+        <span class="com">// This class CANNOT call DoBark()</span>
+        d.DoBark();
     }
-
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

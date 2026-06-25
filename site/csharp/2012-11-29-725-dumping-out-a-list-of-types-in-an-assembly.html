@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,47 +56,36 @@
 					</div>
 
 					<p>You can use reflection to get a list of all types in an assembly.  Each type is represented by an instance of the <strong>Type</strong> class, which you can then query to get information about the type.</p>
-<p>Below is a code sample that dumps out all types defined in the running assembly.  Notice that we identify each type as one of the <a href="2011-01-08-205-five-kinds-of-types-that-are-user-definable.html">five custom types</a> that you can define.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main()
-        {
-            foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
-            {
-                string dump =
-                    string.Format(&quot;{0}\n  ({1} in {2})\n&quot;, t.FullName, TypeIndicator(t), t.Namespace);
-
-                Console.WriteLine(dump);
-            }
-        }
-
-        private static string TypeIndicator(Type t)
-        {
-            string typeIndicator = &quot;?&quot;;
-
-            if ((t.BaseType != null) &amp;&amp;
-                (t.BaseType.FullName == &quot;System.MulticastDelegate&quot;))
-                typeIndicator = &quot;delegate&quot;;
-
-            else if (t.IsClass)
-            {
-                if (t.IsNested)
-                    typeIndicator = &quot;Nested class&quot;;
-                else
-                    typeIndicator = &quot;class&quot;;
-            }
-            else if (t.IsInterface)
-                typeIndicator = &quot;interface&quot;;
-
-            else if (t.IsValueType)
-                typeIndicator = &quot;struct&quot;;
-
-            else if (t.IsEnum)
-                typeIndicator = &quot;enum&quot;;
-
-            return typeIndicator;
-        }</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Below is a code sample that dumps out all types defined in the running assembly.  Notice that we identify each type as one of the <a href="2011-01-08-205-five-kinds-of-types-that-are-user-definable.html">five custom types</a> that you can define.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    <span class="kw">foreach</span> (Type t <span class="kw">in</span> Assembly.GetExecutingAssembly().GetTypes())
+    {
+        <span class="kw">string</span> dump =
+            <span class="kw">string</span>.Format(<span class="str">"{0}\n  ({1} in {2})\n"</span>, t.FullName, TypeIndicator(t), t.Namespace);
+        Console.WriteLine(dump);
+    }
+}
+<span class="kw">private</span> <span class="kw">static</span> <span class="kw">string</span> TypeIndicator(Type t)
+{
+    <span class="kw">string</span> typeIndicator = <span class="str">"?"</span>;
+    <span class="kw">if</span> ((t.BaseType != <span class="kw">null</span>) &amp;&amp;
+        (t.BaseType.FullName == <span class="str">"System.MulticastDelegate"</span>))
+        typeIndicator = <span class="str">"delegate"</span>;
+    <span class="kw">else</span> <span class="kw">if</span> (t.IsClass)
+    {
+        <span class="kw">if</span> (t.IsNested)
+            typeIndicator = <span class="str">"Nested class"</span>;
+        <span class="kw">else</span>
+            typeIndicator = <span class="str">"class"</span>;
+    }
+    <span class="kw">else</span> <span class="kw">if</span> (t.IsInterface)
+        typeIndicator = <span class="str">"interface"</span>;
+    <span class="kw">else</span> <span class="kw">if</span> (t.IsValueType)
+        typeIndicator = <span class="str">"struct"</span>;
+    <span class="kw">else</span> <span class="kw">if</span> (t.IsEnum)
+        typeIndicator = <span class="str">"enum"</span>;
+    <span class="kw">return</span> typeIndicator;
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,52 +58,24 @@
 					<p>You can define one type within the scope of  another one.  This is known as <em>nesting</em>.  The inner type can have a different accessibility level than the outer type, so it may or may not be visible from outside the outer type.</p>
 <p>For example, we might define a <strong>DogCollar</strong> class within the <strong>Dog</strong> class.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/06/623-001.png"><img class="alignnone size-full wp-image-5274" title="623-001" src="data:image/png;base64,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" alt=""   /></a></p>
-<p>We&#8217;ve made the <strong>DogCollar</strong> class private, which means that only code within the <strong>Dog</strong> class can use the <strong>DogCollar</strong> class.  Code outside of <strong>Dog</strong> will not be able to make use of <strong></strong>the<strong> DogCollar</strong> type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>We&#8217;ve made the <strong>DogCollar</strong> class private, which means that only code within the <strong>Dog</strong> class can use the <strong>DogCollar</strong> class.  Code outside of <strong>Dog</strong> will not be able to make use of <strong></strong>the<strong> DogCollar</strong> type.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">private</span> DogCollar myCollar;
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> collarLength)
     {
-
-        public string Name { get; set; }
-
-        private DogCollar myCollar;
-
-
-
-        public Dog(string name, int collarLength)
-
-        {
-
-            Name = name;
-
-            myCollar = new DogCollar(collarLength);
-
-        }
-
-
-
-        private class DogCollar
-
-        {
-
-            public int Length { get; set; }
-
-            public DogCollar(int len)
-
-            {
-
-                Length = len;
-
-            }
-
-        }
-
+        Name = name;
+        myCollar = <span class="kw">new</span> DogCollar(collarLength);
     }
-
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+    <span class="kw">private</span> <span class="kw">class</span> DogCollar
+    {
+        <span class="kw">public</span> <span class="kw">int</span> Length { <span class="kw">get</span>; <span class="kw">set</span>; }
+        <span class="kw">public</span> DogCollar(<span class="kw">int</span> len)
+        {
+            Length = len;
+        }
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

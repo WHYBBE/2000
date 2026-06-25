@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,41 +55,37 @@
 																				</p>
 					</div>
 
-					<p>The XAML fragment below will start a <strong>Button</strong> bouncing when you click on it.  This uses the <strong>BounceEase</strong> object as an easing function.  You can play with the animation duration, # bounces, and &#8220;bounciness&#8221; to get different effects.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-	&lt;Grid&gt;
-        &lt;Grid.RowDefinitions&gt;
-            &lt;RowDefinition/&gt;
-            &lt;RowDefinition/&gt;
-        &lt;/Grid.RowDefinitions&gt;
-        &lt;Button Content=&quot;Click Me&quot; Margin=&quot;20,5,20,35&quot;
-                VerticalAlignment=&quot;Bottom&quot;&gt;
-            &lt;Button.RenderTransform&gt;
-                &lt;TranslateTransform x:Name=&quot;transTransform&quot; X=&quot;0&quot; Y=&quot;0&quot;/&gt;
-            &lt;/Button.RenderTransform&gt;
-            &lt;Button.Triggers&gt;
-                &lt;EventTrigger RoutedEvent=&quot;Button.Click&quot;&gt;
-                    &lt;BeginStoryboard&gt;
-                        &lt;Storyboard&gt;
-                            &lt;DoubleAnimation From=&quot;0&quot; To=&quot;35&quot; Duration=&quot;00:00:01&quot; 
-                                    Storyboard.TargetName=&quot;transTransform&quot; 
-                                    Storyboard.TargetProperty=&quot;Y&quot;
-                                    AutoReverse=&quot;True&quot; RepeatBehavior=&quot;Forever&quot;&gt;
-                                &lt;DoubleAnimation.EasingFunction&gt;
-                                    &lt;BounceEase Bounces=&quot;1&quot; EasingMode=&quot;EaseOut&quot;
-                                                Bounciness=&quot;2&quot; /&gt;
-                                &lt;/DoubleAnimation.EasingFunction&gt;
-                            &lt;/DoubleAnimation&gt;
-                        &lt;/Storyboard&gt;
-                    &lt;/BeginStoryboard&gt;
-                &lt;/EventTrigger&gt;
-            &lt;/Button.Triggers&gt;
-        &lt;/Button&gt;
-        &lt;Border Grid.Row=&quot;1&quot;
-            BorderBrush=&quot;Black&quot; BorderThickness=&quot;10&quot;/&gt;
-    &lt;/Grid&gt;
-</pre>
-<p><span class='embed-youtube' style='text-align:center; display: block;'><iframe class='youtube-player' type='text/html' width='630' height='385' src='http://www.youtube.com/embed/1eHsfzgMpp0?version=3&amp;rel=1&amp;fs=1&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;wmode=transparent' frameborder='0' allowfullscreen='true'></iframe></span></p>
+					<p>The XAML fragment below will start a <strong>Button</strong> bouncing when you click on it.  This uses the <strong>BounceEase</strong> object as an easing function.  You can play with the animation duration, # bounces, and &#8220;bounciness&#8221; to get different effects.</p><pre class="code-block language-xml"><code>	<span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        &lt;Button Content="Click Me" Margin="20,5,20,35"
+                VerticalAlignment="Bottom"&gt;
+            <span class="xml-tag">&lt;</span><span class="xml-name">Button.RenderTransform</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TranslateTransform</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"transTransform"</span> <span class="xml-attr">X</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Y</span>=<span class="xml-val">"0"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Button.RenderTransform</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Button.Triggers</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">EventTrigger</span> <span class="xml-attr">RoutedEvent</span>=<span class="xml-val">"Button.Click"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">BeginStoryboard</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Storyboard</span><span class="xml-tag">&gt;</span>
+                            &lt;DoubleAnimation From="0" To="35" Duration="00:00:01"
+                                    Storyboard.TargetName="transTransform"
+                                    Storyboard.TargetProperty="Y"
+                                    AutoReverse="True" RepeatBehavior="Forever"&gt;
+                                <span class="xml-tag">&lt;</span><span class="xml-name">DoubleAnimation.EasingFunction</span><span class="xml-tag">&gt;</span>
+                                    &lt;BounceEase Bounces="1" EasingMode="EaseOut"
+                                                Bounciness="2" /&gt;
+                                <span class="xml-tag">&lt;/</span><span class="xml-name">DoubleAnimation.EasingFunction</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">DoubleAnimation</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">Storyboard</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">BeginStoryboard</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">EventTrigger</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Button.Triggers</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Button</span><span class="xml-tag">&gt;</span>
+        &lt;Border Grid.Row="1"
+            BorderBrush="Black" BorderThickness="10"/&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p><span class='embed-youtube' style='text-align:center; display: block;'><iframe class='youtube-player' type='text/html' width='630' height='385' src='http://www.youtube.com/embed/1eHsfzgMpp0?version=3&amp;rel=1&amp;fs=1&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;wmode=transparent' frameborder='0' allowfullscreen='true'></iframe></span></p>
 
 <div class="wpcnt">
 <div class="wpa">

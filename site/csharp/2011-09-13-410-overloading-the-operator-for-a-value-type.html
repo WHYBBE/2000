@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,43 +55,29 @@
 																				</p>
 					</div>
 
-					<p>A user-defined <strong>struct</strong> automatically inherits an<strong> Equals</strong> method that performs a value equality check by comparing each field of the struct. The == operator, however, is not automatically defined.  If you want to use the == operator for instances of a <strong>struct</strong>, you need to overload the == operator.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public struct PersonHeight
-    {
-        public int Feet { get; set; }
-        public int Inches { get; set; }
-
-        public PersonHeight(int feet, int inches) : this()
-        {
-            Feet = feet;
-            Inches = inches;
-        }
-
-        public static bool operator ==(PersonHeight ph1, PersonHeight ph2)
-        {
-            return (ph1.Feet == ph2.Feet) &amp;&amp; (ph1.Inches == ph2.Inches);
-        }
-
-        public static bool operator !=(PersonHeight ph1, PersonHeight ph2)
-        {
-            return !(ph1 == ph2);
-        }
-    }
-</pre>
-<p>Some test cases:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            PersonHeight ph1 = new PersonHeight(5, 10);
-            PersonHeight ph2 = new PersonHeight(5, 10);
-
-            // Returns true, default Equals method compares each field
-            bool check = ph1.Equals(ph2);
-
-            // == operator also now works - true
-            check = (ph1 == ph2);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>A user-defined <strong>struct</strong> automatically inherits an<strong> Equals</strong> method that performs a value equality check by comparing each field of the struct. The == operator, however, is not automatically defined.  If you want to use the == operator for instances of a <strong>struct</strong>, you need to overload the == operator.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">struct</span> PersonHeight
+{
+    <span class="kw">public</span> <span class="kw">int</span> Feet { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">int</span> Inches { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> PersonHeight(<span class="kw">int</span> feet, <span class="kw">int</span> inches) : <span class="kw">this</span>()
+    {
+        Feet = feet;
+        Inches = inches;
+    }
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">bool</span> <span class="kw">operator</span> ==(PersonHeight ph1, PersonHeight ph2)
+    {
+        <span class="kw">return</span> (ph1.Feet == ph2.Feet) &amp;&amp; (ph1.Inches == ph2.Inches);
+    }
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">bool</span> <span class="kw">operator</span> !=(PersonHeight ph1, PersonHeight ph2)
+    {
+        <span class="kw">return</span> !(ph1 == ph2);
+    }
+}</code></pre><p>Some test cases:</p><pre class="code-block language-csharp"><code>PersonHeight ph1 = <span class="kw">new</span> PersonHeight(<span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">10</span>);
+PersonHeight ph2 = <span class="kw">new</span> PersonHeight(<span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">10</span>);
+<span class="com">// Returns true, default Equals method compares each field</span>
+<span class="kw">bool</span> check = ph1.Equals(ph2);
+<span class="com">// == operator also now works - true</span>
+check = (ph1 == ph2);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

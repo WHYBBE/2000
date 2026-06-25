@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,43 +56,30 @@
 					</div>
 
 					<p>You can use more complex expressions in <strong>#if</strong> and <strong>#elif</strong> directives, instead of just checking to see whether a single conditional compilation symbol is defined.</p>
-<p>In the example below, the <strong>#elif</strong> directive triggers if the <strong>DOGSBARK</strong> symbol is defined and then <strong>DOGSGROWL</strong> symbol is <em>not</em> defined.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-#define DOGSBARK
-//#define DOGSWAG
-//#define DOGSGROWL
-
-using System;
-using DogLibrary;
-
-namespace ConsoleApplication1
-{
-    class Program
-    {
-        static void Main()
-        {
-            Dog d = new Dog(&quot;Kirby&quot;, 12);
-
-#if DOGSWAG
-            d.WagTail();
-#elif DOGSBARK &amp;&amp; !DOGSGROWL
-            d.Bark();
-#else
-            d.BarkAndGrowl();
-#endif
-
-        }
-    }
-}
-</pre>
-<p>You can build more complex expressions using parentheses and the <strong>&amp;&amp;</strong> (logical AND) and <strong>||</strong> (logical OR) operators.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-#if (DOGSWAG &amp;&amp; DOGSDOTRICKS) || (DOGSDOEVERYTHING)
-            d.WagAndFetch();
-#endif
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>In the example below, the <strong>#elif</strong> directive triggers if the <strong>DOGSBARK</strong> symbol is defined and then <strong>DOGSGROWL</strong> symbol is <em>not</em> defined.</p><pre class="code-block language-csharp"><code>#define DOGSBARK
+<span class="com">//#define DOGSWAG</span>
+<span class="com">//#define DOGSGROWL</span>
+<span class="kw">using</span> System;
+<span class="kw">using</span> DogLibrary;
+<span class="kw">namespace</span> ConsoleApplication1
+{
+    <span class="kw">class</span> Program
+    {
+        <span class="kw">static</span> <span class="kw">void</span> Main()
+        {
+            Dog d = <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span <span class="kw">class</span>="num">12</span>);
+#<span class="kw">if</span> DOGSWAG
+            d.WagTail();
+#elif DOGSBARK &amp;&amp; !DOGSGROWL
+            d.Bark();
+#<span class="kw">else</span>
+            d.BarkAndGrowl();
+#endif
+        }
+    }
+}</code></pre><p>You can build more complex expressions using parentheses and the <strong>&amp;&amp;</strong> (logical AND) and <strong>||</strong> (logical OR) operators.</p><pre class="code-block language-csharp"><code>#<span class="kw">if</span> (DOGSWAG &amp;&amp; DOGSDOTRICKS) || (DOGSDOEVERYTHING)
+            d.WagAndFetch();
+#endif</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,23 +57,18 @@
 
 					<p>If you want to use an event handler to handle an event originating from several controls, you can <a href="2012-02-23-500-sharing-an-event-handler-across-multiple-controls-method-1.html">specify the handler for each control</a> and then use the <strong>RoutedEventArgs.Source</strong> property to determine the control that originated the event.</p>
 <p>You can also just specify a handler for the <strong>Button.Click</strong> event on the parent panel that holds all of the buttons.  It will handle all <strong>Click</strong> events that originate lower down in the visual tree.</p>
-<p><pre class="brush: xml;">
-    &lt;StackPanel ButtonBase.Click=&quot;Button_Click&quot;&gt;
-        &lt;Button Content=&quot;Keaton&quot; HorizontalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
-        &lt;Button Content=&quot;Chaplin&quot; HorizontalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
-        &lt;Button Content=&quot;Arbuckle&quot; HorizontalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
-    &lt;/StackPanel&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">ButtonBase.Click</span>=<span class="xml-val">"Button_Click"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Keaton"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"10,5"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Chaplin"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"10,5"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Arbuckle"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"10,5"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p>The event handler is the same as before&#8211;you can check the <strong>RoutedEventArgs.Source</strong> property to determine the <strong>Button</strong> that originated the event.</p>
-<p><pre class="brush: csharp;">
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Get at originator of event using RoutedEventArgs.Source property
-
-            Button b = e.Source as Button;
-            MessageBox.Show(string.Format(&quot;You clicked on {0} button&quot;, b.Content));
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    <span class="com">// Get at originator of event using RoutedEventArgs.Source property</span>
+    Button b = e.Source <span class="kw">as</span> Button;
+    MessageBox.Show(<span class="kw">string</span>.Format(<span class="str">"You clicked on {0} button"</span>, b.Content));
+}</code></pre>
 
 <div class="wpadvert">
 

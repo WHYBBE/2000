@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,18 @@
 					</div>
 
 					<p>Since every object in C# derives from <strong>System.Object</strong>, it&#8217;s possible to &#8220;cheat&#8221; type safety by using the <strong>object</strong> type and casting objects to the desired type at run-time.</p>
-<p>For example, assume we have a method that adds two parameters that are assumed to be numbers:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public static double AddNums(object n1, object n2)
-        {
-            double d1 = Convert.ToDouble(n1);
-            double d2 = Convert.ToDouble(n2);
-
-            return d1 + d2;
-        }
-</pre>
-<p>This is convenient because now we can pass in any numeric type we like because we can implicitly cast anything to <strong>object</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            int i1 = 5, i2 = 7;
-            double d1 = 10.2, d2 = 23.2;
-
-            // These all work as expected
-            double sum = AddNums(i1, i2);
-            sum = AddNums(d1, d2);
-            sum = AddNums(i1, d1);
-</pre>
-<p>The problem is that the compiler won&#8217;t complain if we try to pass in some non-numeric object.  The following code will compile fine, but throw an exception at run-time.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            string s = &quot;Uh-oh&quot;;
-            sum = AddNums(s, 1);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>For example, assume we have a method that adds two parameters that are assumed to be numbers:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">double</span> AddNums(<span class="kw">object</span> n1, <span class="kw">object</span> n2)
+{
+    <span class="kw">double</span> d1 = Convert.ToDouble(n1);
+    <span class="kw">double</span> d2 = Convert.ToDouble(n2);
+    <span class="kw">return</span> d1 + d2;
+}</code></pre><p>This is convenient because now we can pass in any numeric type we like because we can implicitly cast anything to <strong>object</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> i1 = <span <span class="kw">class</span>="num">5</span>, i2 = <span <span class="kw">class</span>="num">7</span>;
+<span class="kw">double</span> d1 = <span <span class="kw">class</span>="num">10.2</span>, d2 = <span <span class="kw">class</span>="num">23.2</span>;
+<span class="com">// These all work as expected</span>
+<span class="kw">double</span> sum = AddNums(i1, i2);
+sum = AddNums(d1, d2);
+sum = AddNums(i1, d1);</code></pre><p>The problem is that the compiler won&#8217;t complain if we try to pass in some non-numeric object.  The following code will compile fine, but throw an exception at run-time.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> s = <span class="str">"Uh-oh"</span>;
+sum = AddNums(s, <span <span class="kw">class</span>="num">1</span>);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,37 +56,15 @@
 					</div>
 
 					<p>You can define an extension method against any type, including both reference types and value types.</p>
-<p>Here&#8217;s an example of an extension method that adds functionality to the <strong>int</strong> (<strong>System.Int32</strong>) type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    static class MyExtensions
-
+<p>Here&#8217;s an example of an extension method that adds functionality to the <strong>int</strong> (<strong>System.Int32</strong>) type.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">class</span> MyExtensions
+{
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">int</span> Triple(<span class="kw">this</span> <span class="kw">int</span> i)
     {
-
-        public static int Triple(this int i)
-
-        {
-
-            return i * 3;
-
-        }
-
+        <span class="kw">return</span> i * <span <span class="kw">class</span>="num">3</span>;
     }
-
-</pre>
-<p>The <strong>Triple </strong>method now acts as an instance method that we can invoke on any variable of type <strong>int</strong> or even on an integer constant.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            int i = 123;
-
-            Console.WriteLine(i.Triple());
-
-
-
-            Console.WriteLine(12.Triple());
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/04/812-001.png"><img class="alignnone size-full wp-image-6954" alt="812-001" src="data:image/png;base64,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"   /></a></p>
+}</code></pre><p>The <strong>Triple </strong>method now acts as an instance method that we can invoke on any variable of type <strong>int</strong> or even on an integer constant.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> i = <span <span class="kw">class</span>="num">123</span>;
+Console.WriteLine(i.Triple());
+Console.WriteLine(<span <span class="kw">class</span>="num">12</span>.Triple());</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/04/812-001.png"><img class="alignnone size-full wp-image-6954" alt="812-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -42,30 +54,26 @@
 
                     <p>Animation is one of the core features of WPF.  Unlike older frameworks, like Windows Forms, you don&#8217;t implement animation using timers and rendering the animation frame by frame.  Instead, WPF uses <strong>property-based animation</strong>, where you animate graphical elements by declaratively specifying how one of its properties should change, over time.</p>
 <p>You can implement animation by writing code or by specifying the desired animated effect declaratively, in XAML.  You can also use the tools in Blend 4 to create WPF animations.</p>
-<p>As an example, here&#8217;s a snippet of XAML that defines a button that will change it&#8217;s <strong>Height </strong>and <strong>Width </strong>properties, forever expanding and contracting:</p>
-<pre class="brush: xml;">
-&lt;Button Content=&quot;Click Me&quot; Height=&quot;25&quot; HorizontalAlignment=&quot;Left&quot; Margin=&quot;25,25,0,0&quot; Name=&quot;button1&quot; VerticalAlignment=&quot;Top&quot; Width=&quot;100&quot; &gt;
-    &lt;Button.Triggers&gt;
-        &lt;EventTrigger RoutedEvent=&quot;Button.Loaded&quot;&gt;
-            &lt;BeginStoryboard&gt;
-                &lt;Storyboard&gt;
+<p>As an example, here&#8217;s a snippet of XAML that defines a button that will change it&#8217;s <strong>Height </strong>and <strong>Width </strong>properties, forever expanding and contracting:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Click Me"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"25"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Left"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"25,25,0,0"</span> <span class="xml-attr">Name</span>=<span class="xml-val">"button1"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Top"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"100"</span> <span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button.Triggers</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">EventTrigger</span> <span class="xml-attr">RoutedEvent</span>=<span class="xml-val">"Button.Loaded"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">BeginStoryboard</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Storyboard</span><span class="xml-tag">&gt;</span>
                     &lt;DoubleAnimation
-                        Storyboard.TargetName=&quot;button1&quot;
-                        Storyboard.TargetProperty=&quot;Width&quot;
-                        From=&quot;100&quot; To=&quot;105&quot; Duration=&quot;0:0:0.3&quot;
-                        AutoReverse=&quot;True&quot; RepeatBehavior=&quot;Forever&quot;/&gt;
+                        Storyboard.TargetName="button1"
+                        Storyboard.TargetProperty="Width"
+                        From="100" To="105" Duration="0:0:0.3"
+                        AutoReverse="True" RepeatBehavior="Forever"/&gt;
                     &lt;DoubleAnimation
-                        Storyboard.TargetName=&quot;button1&quot;
-                        Storyboard.TargetProperty=&quot;Height&quot;
-                        From=&quot;25&quot; To=&quot;30&quot; Duration=&quot;0:0:0.5&quot;
-                        AutoReverse=&quot;True&quot; RepeatBehavior=&quot;Forever&quot;/&gt;
-                &lt;/Storyboard&gt;
-            &lt;/BeginStoryboard&gt;
-        &lt;/EventTrigger&gt;
-    &lt;/Button.Triggers&gt;
-&lt;/Button&gt;
-</pre>
-<p><a href="http://www.galasoft.ch/mydotnet/articles/article-2006102701.aspx" target="_blank">More</a></p>
+                        Storyboard.TargetName="button1"
+                        Storyboard.TargetProperty="Height"
+                        From="25" To="30" Duration="0:0:0.5"
+                        AutoReverse="True" RepeatBehavior="Forever"/&gt;
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Storyboard</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">BeginStoryboard</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">EventTrigger</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Button.Triggers</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Button</span><span class="xml-tag">&gt;</span></code></pre><p><a href="http://www.galasoft.ch/mydotnet/articles/article-2006102701.aspx" target="_blank">More</a></p>
 <div class="clear"></div>
                     
                     <!--

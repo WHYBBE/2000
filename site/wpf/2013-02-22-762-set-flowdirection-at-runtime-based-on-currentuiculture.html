@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -47,27 +59,14 @@
 <p><strong>FlowDirection</strong> should typically be set to match the text direction of the language being used to render text in your user interface.  If text in your application is in Arabic, the letters will run right to left, so your GUI should also be layed out right to left.</p>
 <p>You&#8217;ll normally load text resources based on the <strong>CurrentUICulture</strong> property, which is meant to indicate the target language for your application.  So you should also set the flow direction based on information pointed to by <strong>CurrentUICulture</strong>.</p>
 <p>For example:</p>
-<p><pre class="brush: csharp;">
-
-        public MainWindow()
-
-        {
-
-            InitializeComponent();
-
-
-
-            this.FlowDirection =
-
-                CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ?
-
-                    FlowDirection.RightToLeft :
-
-                    FlowDirection.LeftToRight;
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> MainWindow()
+{
+    InitializeComponent();
+    <span class="kw">this</span>.FlowDirection =
+        CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ?
+            FlowDirection.RightToLeft :
+            FlowDirection.LeftToRight;
+}</code></pre>
 <p>On an English version of Windows, we get:<br />
 <a href="http://2000thingswpf.files.wordpress.com/2013/02/762-001.png"><img class="alignnone size-full wp-image-6598" alt="762-001" src="data:image/png;base64,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"   /></a><br />
 And on an Arabic version of Windows, we now get:<br />

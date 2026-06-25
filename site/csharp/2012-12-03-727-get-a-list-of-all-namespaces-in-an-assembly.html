@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,97 +56,40 @@
 					</div>
 
 					<p>While you can&#8217;t explicitly get a list of all namespaces within a .NET assembly, you can iterate through all types in the assembly and build up a list of namespaces.</p>
-<p>Below is some sample code that organizes all types in an assembly, by namespace.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main()
-
+<p>Below is some sample code that organizes all types in an assembly, by namespace.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    <span class="com">// Build list of all types :</span>
+    <span class="com">//   SortedList&lt;namespace-name, SortedList&lt;type-name, Type&gt;&gt;</span>
+    SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; myTypeList =
+        ExtractListOfTypes(Assembly.GetExecutingAssembly());
+    DumpTypeList(myTypeList);
+}
+<span class="kw">private</span> <span class="kw">static</span> SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; ExtractListOfTypes(Assembly assem)
+{
+    SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; theList =
+        <span class="kw">new</span> SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt;();
+    <span class="kw">foreach</span> (Type t <span class="kw">in</span> assem.GetTypes())
+    {
+        <span class="com">// Add namespace if it's not already in list</span>
+        <span class="kw">if</span> (!theList.ContainsKey(t.Namespace))
+            theList.Add(t.Namespace, <span class="kw">new</span> SortedList&lt;<span class="kw">string</span>, Type&gt;());
+        <span class="com">// And add type under appropriate namespace</span>
+        theList[t.Namespace].Add(t.FullName, t);
+    }
+    <span class="kw">return</span> theList;
+}
+<span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> DumpTypeList(SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; theList)
+{
+    <span class="kw">foreach</span> (KeyValuePair&lt;<span class="kw">string</span>,SortedList&lt;<span class="kw">string</span>,Type&gt;&gt; kvp <span class="kw">in</span> theList)
+    {
+        Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Namespace: [{0}]"</span>, kvp.Key));
+        <span class="kw">foreach</span> (KeyValuePair&lt;<span class="kw">string</span>, Type&gt; kvpInner <span class="kw">in</span> kvp.Value)
         {
-
-            // Build list of all types :
-
-            //   SortedList&lt;namespace-name, SortedList&lt;type-name, Type&gt;&gt;
-
-
-
-            SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; myTypeList =
-
-                ExtractListOfTypes(Assembly.GetExecutingAssembly());
-
-
-
-            DumpTypeList(myTypeList);
-
+            Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"  Type: [{0}]"</span>, ((Type)kvpInner.Value).FullName));
         }
-
-
-
-        private static SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; ExtractListOfTypes(Assembly assem)
-
-        {
-
-            SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; theList =
-
-                new SortedList&lt;string, SortedList&lt;string, Type&gt;&gt;();
-
-
-
-            foreach (Type t in assem.GetTypes())
-
-            {
-
-                // Add namespace if it's not already in list
-
-                if (!theList.ContainsKey(t.Namespace))
-
-                    theList.Add(t.Namespace, new SortedList&lt;string, Type&gt;());
-
-
-
-                // And add type under appropriate namespace
-
-                theList[t.Namespace].Add(t.FullName, t);
-
-            }
-
-
-
-            return theList;
-
-        }
-
-
-
-        private static void DumpTypeList(SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; theList)
-
-        {
-
-            foreach (KeyValuePair&lt;string,SortedList&lt;string,Type&gt;&gt; kvp in theList)
-
-            {
-
-                Console.WriteLine(string.Format(&quot;Namespace: [{0}]&quot;, kvp.Key));
-
-
-
-                foreach (KeyValuePair&lt;string, Type&gt; kvpInner in kvp.Value)
-
-                {
-
-                    Console.WriteLine(string.Format(&quot;  Type: [{0}]&quot;, ((Type)kvpInner.Value).FullName));
-
-                }
-
-
-
-                Console.WriteLine();
-
-            }
-
-        }
-
-</pre>
-<p><a href="http://csharp.2000things.com/2012/12/03/727-get-a-list-of-all-namespaces-in-an-assembly/727-001/" rel="attachment wp-att-6257"><img class="alignnone size-full wp-image-6257" alt="727-001" src="data:image/png;base64,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"   /></a></p>
+        Console.WriteLine();
+    }
+}</code></pre><p><a href="http://csharp.2000things.com/2012/12/03/727-get-a-list-of-all-namespaces-in-an-assembly/727-001/" rel="attachment wp-att-6257"><img class="alignnone size-full wp-image-6257" alt="727-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,49 +55,17 @@
 																				</p>
 					</div>
 
-					<p>When you declare an <a href="2012-03-28-549-anonymous-method-basics.html">anonymous method</a>, the body of the method has access to any formal parameter that you declared as part of the anonymous method declaration.  For example, in the code fragment before, the body of the method has access to the <strong>s</strong> parameter.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-StringHandlerDelegate del1 =
-
-    delegate (string s) { Console.WriteLine(s); };
-
-</pre>
-<p>The body of an anonymous method can also make use of any variables visible within the scope where it is defined. In the example below, the method makes use of the local variable <strong>rudeNeighbor</strong>.  The <strong>Bark </strong>method accepts a delegate and then invokes that delegate, passing back the actual bark noise that the dog makes.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main()
-
-        {
-
-            string rudeNeighbor = &quot;Paul&quot;;
-
-
-
-            Dog d = new Dog(&quot;Jack&quot;, 17);
-
-
-
-            d.Bark(delegate(string s) { Console.WriteLine(&quot;Hey {0}: {1}&quot;, rudeNeighbor, s); });
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/04/552-001.png"><img class="alignnone size-full wp-image-4668" title="552-001" src="data:image/png;base64,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" alt=""   /></a></p>
-<p>For completeness, here is the body of the <strong>Dog.Bark </strong>method:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public void Bark(BarkAtDelegate barkMethod)
-
-        {
-
-            barkMethod(&quot;Grrrr&quot;);
-
-        }
-
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>When you declare an <a href="2012-03-28-549-anonymous-method-basics.html">anonymous method</a>, the body of the method has access to any formal parameter that you declared as part of the anonymous method declaration.  For example, in the code fragment before, the body of the method has access to the <strong>s</strong> parameter.</p><pre class="code-block language-csharp"><code>StringHandlerDelegate del1 =
+    <span class="kw">delegate</span> (<span class="kw">string</span> s) { Console.WriteLine(s); };</code></pre><p>The body of an anonymous method can also make use of any variables visible within the scope where it is defined. In the example below, the method makes use of the local variable <strong>rudeNeighbor</strong>.  The <strong>Bark </strong>method accepts a delegate and then invokes that delegate, passing back the actual bark noise that the dog makes.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    <span class="kw">string</span> rudeNeighbor = <span class="str">"Paul"</span>;
+    Dog d = <span class="kw">new</span> Dog(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">17</span>);
+    d.Bark(<span class="kw">delegate</span>(<span class="kw">string</span> s) { Console.WriteLine(<span class="str">"Hey {0}: {1}"</span>, rudeNeighbor, s); });
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2012/04/552-001.png"><img class="alignnone size-full wp-image-4668" title="552-001" src="data:image/png;base64,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" alt=""   /></a></p>
+<p>For completeness, here is the body of the <strong>Dog.Bark </strong>method:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> Bark(BarkAtDelegate barkMethod)
+{
+    barkMethod(<span class="str">"Grrrr"</span>);
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

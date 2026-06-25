@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,26 +57,23 @@
 
                     <p>You can define a new class that inherits from the <strong>DrawingVisual</strong> class when you need a low-level control to draw one or more 2D objects.</p>
 <p>Below is an example showing a simple implementation of a class derived from <strong>DrawingVisual</strong> that draws a couple of objects.</p>
-<p><pre class="brush: csharp;">
-    class EllipseAndRectangle : DrawingVisual
-    {
-        public EllipseAndRectangle()
-        {
-            using (DrawingContext dc = RenderOpen())
-            {
-                // Black ellipse with blue border
-                dc.DrawEllipse(Brushes.Black,
-                    new Pen(Brushes.Blue, 3),        // Border
-                    new Point(120, 120), 20, 40);    // Center &amp; radius
-
-                // Red rectangle with green border
-                dc.DrawRectangle(Brushes.Red,
-                    new Pen(Brushes.Green, 4),       // Border
-                    new Rect(new Point(10, 10), new Point(80, 80)));    // Corners
-            }
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">class</span> EllipseAndRectangle : DrawingVisual
+{
+    <span class="kw">public</span> EllipseAndRectangle()
+    {
+        <span class="kw">using</span> (DrawingContext dc = RenderOpen())
+        {
+            <span class="com">// Black ellipse with blue border</span>
+            dc.DrawEllipse(Brushes.Black,
+                <span class="kw">new</span> Pen(Brushes.Blue, <span <span class="kw">class</span>="num">3</span>),        <span class="com">// Border</span>
+                <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">120</span>, <span <span class="kw">class</span>="num">120</span>), <span <span class="kw">class</span>="num">20</span>, <span <span class="kw">class</span>="num">40</span>);    <span class="com">// Center &amp; radius</span>
+            <span class="com">// Red rectangle with green border</span>
+            dc.DrawRectangle(Brushes.Red,
+                <span class="kw">new</span> Pen(Brushes.Green, <span <span class="kw">class</span>="num">4</span>),       <span class="com">// Border</span>
+                <span class="kw">new</span> Rect(<span class="kw">new</span> Point(<span <span class="kw">class</span>="num">10</span>, <span <span class="kw">class</span>="num">10</span>), <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">80</span>, <span <span class="kw">class</span>="num">80</span>)));    <span class="com">// Corners</span>
+        }
+    }
+}</code></pre>
 <p>The <strong>RenderOpen</strong> method allows us to render content into the <strong>DrawingVisual</strong> object.  <strong>RenderOpen</strong> returns a <strong>DrawingContext</strong>, which allows us to draw various kinds of 2D objects.</p>
 <p>The <strong>DrawingContext</strong> will actually cache all commands for drawing the objects that we tell it to draw.  This means that we only have to issue our drawing commands once&#8211;in the class&#8217; constructor.</p>
 <div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-03-02-233-an-example-of-deriving-from-drawingvisual-class.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>

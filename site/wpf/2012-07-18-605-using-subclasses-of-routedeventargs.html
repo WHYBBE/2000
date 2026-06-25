@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,25 +56,20 @@
 					</div>
 
 					<p>When you <a href="http://wp.me/pZhye-1nm">define your own routed event</a> in a class, you raise the event using the <strong>UIElement.RaiseEvent</strong> method.  The <strong>RaiseEvent </strong>method accepts an instance of a <strong>RoutedEventArgs </strong>object.  Notice that this is same class type passed to event handlers that are declared using the <strong>RoutedEventHandler</strong> delegate type.</p>
-<p><pre class="brush: csharp;">
-public delegate void RoutedEventHandler(Object sender, RoutedEventArgs e);
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">delegate</span> <span class="kw">void</span> RoutedEventHandler(Object sender, RoutedEventArgs e);</code></pre>
 <p>When firing a routed event, you can choose to use one of the subclasses of <strong>RoutedEventArgs</strong>, if you have additional information to pass back.</p>
 <p>For example, you might declare your event to be of type <strong>MouseEventHandler</strong> and then pass back an instance of <strong>MouseEventArgs</strong> when raising the event.</p>
-<p><pre class="brush: csharp;">
-        public event MouseEventHandler RightDrag
-        {
-            add { AddHandler(RightDragEvent, value); }
-            remove { RemoveHandler(RightDragEvent, value); }
-        }
-
-        protected virtual void OnRightDrag(MouseEventArgs e)
-        {
-            MouseEventArgs evargs = new MouseEventArgs(e.MouseDevice, 0);
-            evargs.RoutedEvent = RightDragEvent;
-            RaiseEvent(evargs);
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">event</span> MouseEventHandler RightDrag
+{
+    add { AddHandler(RightDragEvent, <span class="kw">value</span>); }
+    remove { RemoveHandler(RightDragEvent, <span class="kw">value</span>); }
+}
+<span class="kw">protected</span> <span class="kw">virtual</span> <span class="kw">void</span> OnRightDrag(MouseEventArgs e)
+{
+    MouseEventArgs evargs = <span class="kw">new</span> MouseEventArgs(e.MouseDevice, <span <span class="kw">class</span>="num">0</span>);
+    evargs.RoutedEvent = RightDragEvent;
+    RaiseEvent(evargs);
+}</code></pre>
 
 		<div class="wpadvert">
 		

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,47 +55,21 @@
 																				</p>
 					</div>
 
-					<p>Recall that an instance of a delegate can <a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">refer to more than one method</a> (delegates are <em>multicast</em>).  In addition to using an anonymous method to declare a new instance of a delegate, you can also use anonymous methods when adding a new method to an existing delegate instance.  (Adding to the delegate instance&#8217;s invocation list).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private delegate void StringHandlerDelegate(string s);
-
-
-
-        static void Main()
-
-        {
-
-            // Declare new delegate instance, with anonymous
-
-            // method in its invocation list
-
-            StringHandlerDelegate del1 =
-
-                delegate (string s) { Console.WriteLine(s); };
-
-
-
-            // Now add a 2nd method to delegate, also using
-
-            // anonymous method
-
-            del1 +=
-
-                delegate(string s) { Console.WriteLine(new string(s.Reverse().ToArray())); };
-
-
-
-            // When we invoke the delegate, both methods are
-
-            // called
-
-            del1(&quot;Mairzy Doats and Dozy Doats&quot;);
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/03/551-001.png"><img class="alignnone size-full wp-image-4661" title="551-001" src="data:image/png;base64,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" alt=""   /></a></p>
+					<p>Recall that an instance of a delegate can <a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">refer to more than one method</a> (delegates are <em>multicast</em>).  In addition to using an anonymous method to declare a new instance of a delegate, you can also use anonymous methods when adding a new method to an existing delegate instance.  (Adding to the delegate instance&#8217;s invocation list).</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">delegate</span> <span class="kw">void</span> StringHandlerDelegate(<span class="kw">string</span> s);
+<span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    <span class="com">// Declare new delegate instance, with anonymous</span>
+    <span class="com">// method in its invocation list</span>
+    StringHandlerDelegate del1 =
+        <span class="kw">delegate</span> (<span class="kw">string</span> s) { Console.WriteLine(s); };
+    <span class="com">// Now add a 2nd method to delegate, also using</span>
+    <span class="com">// anonymous method</span>
+    del1 +=
+        <span class="kw">delegate</span>(<span class="kw">string</span> s) { Console.WriteLine(<span class="kw">new</span> <span class="kw">string</span>(s.Reverse().ToArray())); };
+    <span class="com">// When we invoke the delegate, both methods are</span>
+    <span class="com">// called</span>
+    del1(<span class="str">"Mairzy Doats and Dozy Doats"</span>);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2012/03/551-001.png"><img class="alignnone size-full wp-image-4661" title="551-001" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

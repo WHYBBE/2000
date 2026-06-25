@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,49 +55,23 @@
 																				</p>
 					</div>
 
-					<p>You can convert from a numeric type to an enumerated type using the cast operator.  For example, to convert from numeric constants to an <strong>enum</strong>, we can do the following:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public enum Weekday
-
-        {
-
-            Sunday = 1,
-
-            Monday,     // 2
-
-            Tuesday,    // 3, etc.
-
-            Wednesday,
-
-            Thursday,
-
-            Friday,
-
-            Saturday
-
-        };
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            Weekday day = (Weekday)5;  // Thursday
-
-            Console.WriteLine(day.ToString());  // &quot;Thursday&quot;
-
-
-
-            Weekday day2 = (Weekday)8;    // Works!
-
-            Console.WriteLine(day2.ToString());  // Just &quot;8&quot;
-
-        }
-
-</pre>
-<p>Notice that the cast works even if there is not a defined enumerated value that matches the specified type. We can store a value of 8 in a <strong>Weekday</strong> type even though we didn&#8217;t define a <strong>Weekday</strong> with a value of 8.</p>
+					<p>You can convert from a numeric type to an enumerated type using the cast operator.  For example, to convert from numeric constants to an <strong>enum</strong>, we can do the following:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">enum</span> Weekday
+{
+    Sunday = <span <span class="kw">class</span>="num">1</span>,
+    Monday,     <span class="com">// 2</span>
+    Tuesday,    <span class="com">// 3, etc.</span>
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday
+};
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    Weekday day = (Weekday)<span <span class="kw">class</span>="num">5</span>;  <span class="com">// Thursday</span>
+    Console.WriteLine(day.ToString());  <span class="com">// "Thursday"</span>
+    Weekday day2 = (Weekday)<span <span class="kw">class</span>="num">8</span>;    <span class="com">// Works!</span>
+    Console.WriteLine(day2.ToString());  <span class="com">// Just "8"</span>
+}</code></pre><p>Notice that the cast works even if there is not a defined enumerated value that matches the specified type. We can store a value of 8 in a <strong>Weekday</strong> type even though we didn&#8217;t define a <strong>Weekday</strong> with a value of 8.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1059-001.png"><img class="alignnone size-full wp-image-8369" alt="1059-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

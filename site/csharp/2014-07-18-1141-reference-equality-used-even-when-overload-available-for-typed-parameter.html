@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,44 +56,27 @@
 					</div>
 
 					<p>If a <a href="2012-03-26-547-things-that-can-serve-as-type-parameter-constraints.html">type parameter in a generic class is constrained</a> to be a reference type, using the <strong>class</strong> designator, then the <strong>==</strong> and <strong>!=</strong> operators used for this type parameter will perform a check for <a href="2010-08-23-67-default-behavior-for-reference-type-equality.html">reference type equality</a>.  This is true even when the type provides a more intelligent equality check by <a href="2011-09-09-408-overriding-the-operator-for-a-reference-type.html">overloading the == operator</a>.</p>
-<p>Assume that we overload == for the <strong>Dog</strong> type to do an intelligent equality check.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog d = new Dog(&quot;Jack&quot;, 5);
-            Dog d2 = new Dog(&quot;Jack&quot;, 5);
-
-            // sameDog will be true
-            bool sameDog = (d == d2);
-</pre>
-<p>Below, the == operator performs a reference type equality check on the type parameter.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Pile&lt;T&gt; where T : class
-    {
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-
-        public void Add(T item)
-        {
-            if (!pile.Contains(item))
-                pile.Add(item);
-        }
-
-        public bool IsFirst(T item)
-        {
-            // Reference equality, even if
-            // == operator is overloaded in T
-            return (pile[0] == item);
-        }
-</pre>
-<p>Using the above class:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Pile&lt;Dog&gt; pack = new Pile&lt;Dog&gt;();
-            pack.Add(new Dog(&quot;Jack&quot;, 5));
-
-            Dog d2 = new Dog(&quot;Jack&quot;, 5);
-
-            // Returns false
-            bool sameDog = pack.IsFirst(d2);
-</pre>
-<p>&nbsp;</p>
+<p>Assume that we overload == for the <strong>Dog</strong> type to do an intelligent equality check.</p><pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">5</span>);
+Dog d2 = <span class="kw">new</span> Dog(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">5</span>);
+<span class="com">// sameDog will be true</span>
+<span class="kw">bool</span> sameDog = (d == d2);</code></pre><p>Below, the == operator performs a reference type equality check on the type parameter.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Pile&lt;T&gt; <span class="kw">where</span> T : <span class="kw">class</span>
+{
+    List&lt;T&gt; pile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> Add(T item)
+    {
+        <span class="kw">if</span> (!pile.Contains(item))
+            pile.Add(item);
+    }
+    <span class="kw">public</span> <span class="kw">bool</span> IsFirst(T item)
+    {
+        <span class="com">// Reference equality, even if</span>
+        <span class="com">// == operator is overloaded in T</span>
+        <span class="kw">return</span> (pile[<span <span class="kw">class</span>="num">0</span>] == item);
+    }</code></pre><p>Using the above class:</p><pre class="code-block language-csharp"><code>Pile&lt;Dog&gt; pack = <span class="kw">new</span> Pile&lt;Dog&gt;();
+pack.Add(<span class="kw">new</span> Dog(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">5</span>));
+Dog d2 = <span class="kw">new</span> Dog(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">5</span>);
+<span class="com">// Returns false</span>
+<span class="kw">bool</span> sameDog = pack.IsFirst(d2);</code></pre><p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

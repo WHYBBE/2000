@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,16 +56,8 @@
 					</div>
 
 					<p><a href="2013-12-17-997-utf-16-encoding-part-ii.html">UTF-16</a> encodes <a href="2013-12-13-995-unicode-code-points.html">Unicode code points</a> above U+FFFF using <em>surrogate pairs </em>that take up 4 bytes.</p>
-<p>You can specify a surrogate pair within a string literal by inserting the character directly into the string (provided that you have a keyboard that can insert the character):</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            string myString = &quot;𠈓&quot;;   // CJK Ideograph
-</pre>
-<p>You can also represent the surrogate pair within a string literal using the \Unnnnnnnn (4 byte) syntax to specify the Unicode code point or the \unnnn\unnnn syntax to specify the encoded surrogate pair value.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            string s1 = &quot;\U00020213&quot;;    // Codepoint E+20213
-            string s2 = &quot;\uD840\uDE13&quot;;  // Surrogate pair
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1001_001.png"><img class="alignnone size-full wp-image-8064" alt="1001_001" src="https://web.archive.org/web/20140331030359id_/http://2000thingscsharp.files.wordpress.com/2014/01/1001_001.png?w=630"   /></a><br />
+<p>You can specify a surrogate pair within a string literal by inserting the character directly into the string (provided that you have a keyboard that can insert the character):</p><pre class="code-block language-csharp"><code><span class="kw">string</span> myString = <span class="str">"𠈓"</span>;   <span class="com">// CJK Ideograph</span></code></pre><p>You can also represent the surrogate pair within a string literal using the \Unnnnnnnn (4 byte) syntax to specify the Unicode code point or the \unnnn\unnnn syntax to specify the encoded surrogate pair value.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> s1 = <span class="str">"\U00020213"</span>;    <span class="com">// Codepoint E+20213</span>
+<span class="kw">string</span> s2 = <span class="str">"\uD840\uDE13"</span>;  <span class="com">// Surrogate pair</span></code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1001_001.png"><img class="alignnone size-full wp-image-8064" alt="1001_001" src="https://web.archive.org/web/20140331030359id_/http://2000thingscsharp.files.wordpress.com/2014/01/1001_001.png?w=630"   /></a><br />
 Note that because a surrogate pair requires more then 2 bytes, you cannot represent a surrogate pair within a single character (<strong>System.Char</strong>) literal.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

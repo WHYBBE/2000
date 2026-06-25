@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,107 +56,91 @@
 					</div>
 
 					<p>Below is a very simple example of how you might use a <strong>TreeView</strong> control to display a set of hierarchical data.</p>
-<p>Let&#8217;s say that we have a <strong>Person</strong> object that looks like the following. (INPCBase is just a class that implements INotifyPropertyChanged and includes a SetField method).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Person : INPCBase
+<p>Let&#8217;s say that we have a <strong>Person</strong> object that looks like the following. (INPCBase is just a class that implements INotifyPropertyChanged and includes a SetField method).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Person : INPCBase
+{
+    <span class="kw">public</span> Person(<span class="kw">string</span> name, <span class="kw">int</span> birth, <span class="kw">int</span>? death)
     {
-        public Person(string name, int birth, int? death)
-        {
-            Name = name;
-            Birth = birth;
-            Death = death;
+        Name = name;
+        Birth = birth;
+        Death = death;
 
-            Children = new List&lt;Person&gt;();
-        }
-
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set { SetField(ref _name, value); }
-        }
-
-        private int _birth;
-        public int Birth
-        {
-            get { return _birth; }
-            set { SetField(ref _birth, value); }
-        }
-
-        private int? _death;
-        public int? Death
-        {
-            get { return _death; }
-            set { SetField(ref _death, value); }
-        }
-
-        private List&lt;Person&gt; _children;
-        public List&lt;Person&gt; Children
-        {
-            get { return _children; }
-            private set { SetField(ref _children, value); }
-        }
-
-        public override string ToString()
-        {
-            string death = Death.HasValue ? Death.Value.ToString() : &quot;&quot;;
-            return string.Format($&quot;{Name} ({Birth} - {death})&quot;);
-        }
+        Children = <span class="kw">new</span> List&lt;Person&gt;();
     }
-</pre>
-<p>Notice that we have a <strong>Children</strong> property that in turn contains other <strong>Person</strong> objects. Also note that we override <strong>ToString</strong> so that the default string representation for a <strong>Person</strong> includes their name and birth/death.</p>
-<p>Now let&#8217;s assume that we have some ViewModel with a property called <strong>Royal</strong> that is a list of <strong>Person</strong> objects. The property might look like:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private List&lt;Person&gt; _royal;
-        public List&lt;Person&gt; Royal
-        {
-            get { return _royal; }
-            set { SetField(ref _royal, value); }
-        }
-</pre>
-<p>Let&#8217;s assume that we initialize this list as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            var p1 = new Person(&quot;George V&quot;, 1865, 1936);
 
-            var p2 = new Person(&quot;Edward VIII&quot;, 1894, 1974);
-            var p3 = new Person(&quot;George VI&quot;, 1895, 1952);
-            var p4 = new Person(&quot;Mary&quot;, 1897, 1965);
-            var p5 = new Person(&quot;Henry&quot;, 1900, 1974);
-            var p6 = new Person(&quot;George&quot;, 1902, 1942);
-            var p7 = new Person(&quot;John&quot;, 1905, 1919);
+    <span class="kw">private</span> <span class="kw">string</span> _name;
+    <span class="kw">public</span> <span class="kw">string</span> Name
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> _name; }
+        <span class="kw">set</span> { SetField(<span class="kw">ref</span> _name, <span class="kw">value</span>); }
+    }
 
-            var p8 = new Person(&quot;Elizabeth II&quot;, 1926, null);
-            var p9 = new Person(&quot;Margaret&quot;, 1865, 1936);
+    <span class="kw">private</span> <span class="kw">int</span> _birth;
+    <span class="kw">public</span> <span class="kw">int</span> Birth
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> _birth; }
+        <span class="kw">set</span> { SetField(<span class="kw">ref</span> _birth, <span class="kw">value</span>); }
+    }
 
-            var p10 = new Person(&quot;Richard&quot;, 1944, null);
+    <span class="kw">private</span> <span class="kw">int</span>? _death;
+    <span class="kw">public</span> <span class="kw">int</span>? Death
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> _death; }
+        <span class="kw">set</span> { SetField(<span class="kw">ref</span> _death, <span class="kw">value</span>); }
+    }
 
-            var p11 = new Person(&quot;Edward&quot;, 1935, null);
-            var p12 = new Person(&quot;Michael&quot;, 1942, null);
+    <span class="kw">private</span> List&lt;Person&gt; _children;
+    <span class="kw">public</span> List&lt;Person&gt; Children
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> _children; }
+        <span class="kw">private</span> <span class="kw">set</span> { SetField(<span class="kw">ref</span> _children, <span class="kw">value</span>); }
+    }
 
-            var p13 = new Person(&quot;Charles&quot;, 1948, null);
-            var p14 = new Person(&quot;Anne&quot;, 1950, null);
-            var p15 = new Person(&quot;Andrew&quot;, 1960, null);
-            var p16 = new Person(&quot;Edward&quot;, 1964, null);
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">string</span> ToString()
+    {
+        <span class="kw">string</span> death = Death.HasValue ? Death.Value.ToString() : <span class="str">""</span>;
+        <span class="kw">return</span> <span class="kw">string</span>.Format($<span class="str">"{Name} ({Birth} - {death})"</span>);
+    }
+}</code></pre><p>Notice that we have a <strong>Children</strong> property that in turn contains other <strong>Person</strong> objects. Also note that we override <strong>ToString</strong> so that the default string representation for a <strong>Person</strong> includes their name and birth/death.</p>
+<p>Now let&#8217;s assume that we have some ViewModel with a property called <strong>Royal</strong> that is a list of <strong>Person</strong> objects. The property might look like:</p><pre class="code-block language-csharp"><code><span class="kw">private</span> List&lt;Person&gt; _royal;
+<span class="kw">public</span> List&lt;Person&gt; Royal
+{
+    <span class="kw">get</span> { <span class="kw">return</span> _royal; }
+    <span class="kw">set</span> { SetField(<span class="kw">ref</span> _royal, <span class="kw">value</span>); }
+}</code></pre><p>Let&#8217;s assume that we initialize this list as follows:</p><pre class="code-block language-csharp"><code><span class="kw">var</span> p1 = <span class="kw">new</span> Person(<span class="str">"George V"</span>, <span <span class="kw">class</span>="num">1865</span>, <span <span class="kw">class</span>="num">1936</span>);
 
-            p1.Children.AddRange(new [] { p2, p3, p4, p5, p6, p7});
-            p3.Children.AddRange(new[] { p8, p9 });
-            p5.Children.Add(p10);
-            p6.Children.AddRange(new[] { p11, p12 });
-            p8.Children.AddRange(new[] { p13, p14, p15, p16 });
+<span class="kw">var</span> p2 = <span class="kw">new</span> Person(<span class="str">"Edward VIII"</span>, <span <span class="kw">class</span>="num">1894</span>, <span <span class="kw">class</span>="num">1974</span>);
+<span class="kw">var</span> p3 = <span class="kw">new</span> Person(<span class="str">"George VI"</span>, <span <span class="kw">class</span>="num">1895</span>, <span <span class="kw">class</span>="num">1952</span>);
+<span class="kw">var</span> p4 = <span class="kw">new</span> Person(<span class="str">"Mary"</span>, <span <span class="kw">class</span>="num">1897</span>, <span <span class="kw">class</span>="num">1965</span>);
+<span class="kw">var</span> p5 = <span class="kw">new</span> Person(<span class="str">"Henry"</span>, <span <span class="kw">class</span>="num">1900</span>, <span <span class="kw">class</span>="num">1974</span>);
+<span class="kw">var</span> p6 = <span class="kw">new</span> Person(<span class="str">"George"</span>, <span <span class="kw">class</span>="num">1902</span>, <span <span class="kw">class</span>="num">1942</span>);
+<span class="kw">var</span> p7 = <span class="kw">new</span> Person(<span class="str">"John"</span>, <span <span class="kw">class</span>="num">1905</span>, <span <span class="kw">class</span>="num">1919</span>);
 
-            Royal = new List&lt;Person&gt;() { p1 };
-</pre>
-<p>To wire this hierarchical data source up to a <strong>TreeView</strong> control, we use a <strong>HierarchicalDataTemplate </strong>in XAML, as shown below.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; ItemsSource=&quot;{Binding Royal}&quot;&gt;
-            &lt;TreeView.ItemTemplate&gt;
-                &lt;HierarchicalDataTemplate ItemsSource=&quot;{Binding Children}&quot;&gt;
-                    &lt;TreeViewItem Header=&quot;{Binding}&quot;/&gt;
-                &lt;/HierarchicalDataTemplate&gt;
-            &lt;/TreeView.ItemTemplate&gt;
-        &lt;/TreeView&gt;
-</pre>
-<p>There are several things to note about this XAML fragment:</p>
+<span class="kw">var</span> p8 = <span class="kw">new</span> Person(<span class="str">"Elizabeth II"</span>, <span <span class="kw">class</span>="num">1926</span>, <span class="kw">null</span>);
+<span class="kw">var</span> p9 = <span class="kw">new</span> Person(<span class="str">"Margaret"</span>, <span <span class="kw">class</span>="num">1865</span>, <span <span class="kw">class</span>="num">1936</span>);
+
+<span class="kw">var</span> p10 = <span class="kw">new</span> Person(<span class="str">"Richard"</span>, <span <span class="kw">class</span>="num">1944</span>, <span class="kw">null</span>);
+
+<span class="kw">var</span> p11 = <span class="kw">new</span> Person(<span class="str">"Edward"</span>, <span <span class="kw">class</span>="num">1935</span>, <span class="kw">null</span>);
+<span class="kw">var</span> p12 = <span class="kw">new</span> Person(<span class="str">"Michael"</span>, <span <span class="kw">class</span>="num">1942</span>, <span class="kw">null</span>);
+
+<span class="kw">var</span> p13 = <span class="kw">new</span> Person(<span class="str">"Charles"</span>, <span <span class="kw">class</span>="num">1948</span>, <span class="kw">null</span>);
+<span class="kw">var</span> p14 = <span class="kw">new</span> Person(<span class="str">"Anne"</span>, <span <span class="kw">class</span>="num">1950</span>, <span class="kw">null</span>);
+<span class="kw">var</span> p15 = <span class="kw">new</span> Person(<span class="str">"Andrew"</span>, <span <span class="kw">class</span>="num">1960</span>, <span class="kw">null</span>);
+<span class="kw">var</span> p16 = <span class="kw">new</span> Person(<span class="str">"Edward"</span>, <span <span class="kw">class</span>="num">1964</span>, <span class="kw">null</span>);
+
+p1.Children.AddRange(<span class="kw">new</span> [] { p2, p3, p4, p5, p6, p7});
+p3.Children.AddRange(<span class="kw">new</span>[] { p8, p9 });
+p5.Children.Add(p10);
+p6.Children.AddRange(<span class="kw">new</span>[] { p11, p12 });
+p8.Children.AddRange(<span class="kw">new</span>[] { p13, p14, p15, p16 });
+
+Royal = <span class="kw">new</span> List&lt;Person&gt;() { p1 };</code></pre><p>To wire this hierarchical data source up to a <strong>TreeView</strong> control, we use a <strong>HierarchicalDataTemplate </strong>in XAML, as shown below.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">TreeView</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Royal}"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">TreeView.ItemTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">HierarchicalDataTemplate</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Children}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">TreeViewItem</span> <span class="xml-attr">Header</span>=<span class="xml-val">"{Binding}"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">HierarchicalDataTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">TreeView.ItemTemplate</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">TreeView</span><span class="xml-tag">&gt;</span></code></pre><p>There are several things to note about this XAML fragment:</p>
 <ul>
 <li>We set the <strong>ItemsSource</strong> of the <strong>TreeView</strong> to our top-level property (a list of <strong>Person</strong>, which contains one person).</li>
 <li>We tell the <strong>HierarchicalDataTemplate </strong>to use the <strong>Children</strong> property to traverse the hierarchy</li>

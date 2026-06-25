@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,67 +57,35 @@
 
 					<p>In WPF, there are two different kinds of templates<strong>&#8211;</strong><em>control templates </em>and <em>data templates</em>.</p>
 <p><strong>Control templates </strong>allow you to exactly specify the visual tree of a control, i.e. its constituent controls.  The example below shows a <strong>Button</strong> control being constructed out of a <strong>Button</strong> and two <strong>Label</strong> controls.</p>
-<p><pre class="brush: xml;">
-
-        &lt;Button Name=&quot;btnWithTemplate&quot; Content=&quot;Recreate Me&quot; Foreground=&quot;Blue&quot;&gt;
-
-            &lt;Button.Template&gt;
-
-                &lt;ControlTemplate TargetType=&quot;{x:Type Button}&quot;&gt;
-
-                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-
-                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-
-                        &lt;Button Content=&quot;{TemplateBinding Content}&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-
-                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-
-                    &lt;/StackPanel&gt;
-
-                &lt;/ControlTemplate&gt;
-
-            &lt;/Button.Template&gt;
-
-        &lt;/Button&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Name</span>=<span class="xml-val">"btnWithTemplate"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Recreate Me"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"Blue"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button.Template</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type Button}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"**"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{TemplateBinding Foreground}"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{TemplateBinding Content}"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{TemplateBinding Foreground}"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"**"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{TemplateBinding Foreground}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Button.Template</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Button</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/01/controltemplate.png"><img class="alignnone size-full wp-image-1460" title="ControlTemplate" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>&nbsp;</p>
 <p><strong>Data templates</strong> allow you to specify how a bound data object will be mapped to one or more controls.  The example below maps properties of a <strong>Person</strong> object to several labels.</p>
-<p><pre class="brush: xml;">
-
-        &lt;Label Name=&quot;lblPerson&quot; Content=&quot;{Binding}&quot;&gt;
-
-            &lt;Label.ContentTemplate&gt;
-
-                &lt;DataTemplate&gt;
-
-                    &lt;Border BorderThickness=&quot;2&quot; BorderBrush=&quot;DarkBlue&quot;&gt;
-
-                        &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
-
-                            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-
-                                &lt;Label Content=&quot;{Binding Path=FirstName}&quot;/&gt;
-
-                                &lt;Label Content=&quot;{Binding Path=LastName}&quot; FontWeight=&quot;Bold&quot;/&gt;
-
-                            &lt;/StackPanel&gt;
-
-                            &lt;Label Content=&quot;{Binding Path=BirthYear}&quot; FontStyle=&quot;Italic&quot;/&gt;
-
-                        &lt;/StackPanel&gt;
-
-                    &lt;/Border&gt;
-
-                &lt;/DataTemplate&gt;
-
-            &lt;/Label.ContentTemplate&gt;
-
-        &lt;/Label&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lblPerson"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding}"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label.ContentTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"2"</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"DarkBlue"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Vertical"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding Path=FirstName}"</span><span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding Path=LastName}"</span> <span class="xml-attr">FontWeight</span>=<span class="xml-val">"Bold"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding Path=BirthYear}"</span> <span class="xml-attr">FontStyle</span>=<span class="xml-val">"Italic"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">DataTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Label.ContentTemplate</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Label</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/01/datatemplate1.png"><img class="alignnone size-full wp-image-1459" title="DataTemplate" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHIAAAA+CAMAAADAmb9YAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAwBQTFRFAAAADgAAAAAcHwAAAAApAAA7ACkpHCkpKQAAAABUABxoKQBUSw4AVAAAVAApeh8AVABUVFQpAACLACmBADuYKSmBAFSuKVSuHGjCVCmBcHC+KYGuKYHTO5jKO5jmVIGBVK7/aMLugSkAgSkpgSlUqEsOrlQArlQp0HofgVSB04Ep06hL4KhL/65U5tB67tB6/9B6roGBj4/MgcLugdP/mOb/rv///9OB/9CT/+Co//+uwu7/0//////Q///T5v//7v/////g////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGp46wAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAhxJREFUWMPtmQFvk0AUxx+ldaxWUek61BMpWoa3dkOlYNuDsvf9P5R5d9BNSjQ1o8vSu4QL70Lyu/97/yOPAHj0ASeDfHe08eFJkcfJ6A+N1EiNfBbIzALwkbPGo3sL1YhNABgsESPw1Mrc8A5D8vMU8bs4AOmWud2bYtSb/h9y/SZtJ/wNiavReLtbORS5mFSEjwE4AkOQ82eLcYZFQCnPLDhPG8jcHixJ5WoE4M0NbzXqTe9mAMNNbJ4ZMNxgpLLfhqzF8H5SBD7dhT6GjkDOii8JJSH091XezSRyNRpuSOWnGRGJ596a421E23DLf6pk8iIvMaIiZ+tXANBPeD/ZQ+b2cBP1piqlc+PMcEsSDDC+Md1ybri3JkltR2Yv0wdIivgOWZW5CPYSG5OWh8jxtipvrJBlboOyV4tjKYnFN6GQC0cUQY2ku+oZv+nYwZIcG5sqsV4EnnTxr581cneI2s4lp+xVKosA+m9rJFJmHRECTJrnkkhkHwrIPrlNTADahUReGwCqmvodq5EaqZEaqZEa+XyQ3BEoOwC/DjIL/uyxHheZWS8uqaXyceEIFeBVsuv8OlLJEIuvKWYX4r6vzS67RF4lqNpWvw4aTd2jI0kgYqiqpwJEPunSPuv3QpZSdsoU0AYmnTqWjCLLSDmVrrnvmTtCkmHWrxP1qVAHXSJD+amDCzmrgGZg+oWnkRp5IshT+INw5HEayN9KO1SQ3gQJTAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNtCDrVoAAAAASUVORK5CYII=" alt=""   /></a></p>
 
 <div class="wpadvert">

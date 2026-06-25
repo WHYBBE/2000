@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,79 +56,69 @@
 					</div>
 
 					<p>Assume that we want to use a <b>ListBox </b>to display a list of actors and that we have an <a href="2013-12-05-965-listbox-data-binding-basics-part-ii.html"><strong>Actor</strong> type</a> to store all the information for a single actor.</p>
-<p>Our next step is to create a collection of <strong>Actor</strong> instances that we&#8217;ll then be able to bind to.  Below is the code-behind for a simple WPF application that creates a collection of <strong>Actor </strong>instances and stores them in an <strong>ActorList</strong> property.  We also set up a <strong>SelectedActor</strong> property that will use data binding to reflect the actor that the user has currently selected.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-
-            ActorList = new ObservableCollection&lt;Actor&gt;
-            {
-                new Actor(&quot;Ginger Rogers&quot;, 1911, 1995, &quot;Kitty Foyle&quot;,
-                    new Uri(&quot;ActressImages/GingerRogers.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Joan Fontaine&quot;, 1917, null, &quot;Suspicion&quot;,
-                    new Uri(&quot;ActressImages/JoanFontaine.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Greer Garson&quot;, 1904, 1996, &quot;Mrs. Miniver&quot;,
-                    new Uri(&quot;ActressImages/GreerGarson.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Jennifer Jones&quot;, 1919, 2009, &quot;The Song of Bernadette&quot;,
-                    new Uri(&quot;ActressImages/JenniferJones.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Ingrid Bergman&quot;, 1915, 1982, &quot;Gaslight&quot;,
-                    new Uri(&quot;ActressImages/IngridBergman.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Joan Crawford&quot;, 1904, 1977, &quot;Mildred Pierce&quot;,
-                    new Uri(&quot;ActressImages/JoanCrawford.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Olivia de Havilland&quot;, 1916, null, &quot;To Each His Own&quot;,
-                    new Uri(&quot;ActressImages/OliviaDeHavilland.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Loretta Young&quot;, 1913, 2000, &quot;The Farmer's Daughter&quot;,
-                    new Uri(&quot;ActressImages/LorettaYoung.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Jane Wyman&quot;, 1917, 2007, &quot;Johnny Belinda&quot;,
-                    new Uri(&quot;ActressImages/JaneWyman.jpg&quot;, UriKind.Relative)),
-                new Actor(&quot;Judy Holliday&quot;, 1921, 1965, &quot;Born Yesterday&quot;,
-                    new Uri(&quot;ActressImages/JudyHolliday.jpg&quot;, UriKind.Relative))
-            };
-        }
-
-        private ObservableCollection&lt;Actor&gt; actorList;
-        public ObservableCollection&lt;Actor&gt; ActorList
-        {
-            get { return actorList; }
-            set
-            {
-                if (value != actorList)
-                {
-                    actorList = value;
-                    RaisePropertyChanged(&quot;ActorList&quot;);
-                }
-            }
-        }
-
-        private Actor selectedActor;
-        public Actor SelectedActor
-        {
-            get { return selectedActor; }
-            set
-            {
-                if (value != selectedActor)
-                {
-                    selectedActor = value;
-                    RaisePropertyChanged(&quot;SelectedActor&quot;);
-                }
-            }
-        }
-
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Our next step is to create a collection of <strong>Actor</strong> instances that we&#8217;ll then be able to bind to.  Below is the code-behind for a simple WPF application that creates a collection of <strong>Actor </strong>instances and stores them in an <strong>ActorList</strong> property.  We also set up a <strong>SelectedActor</strong> property that will use data binding to reflect the actor that the user has currently selected.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
+    {
+        <span class="kw">this</span>.InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        ActorList = <span class="kw">new</span> ObservableCollection&lt;Actor&gt;
+        {
+            <span class="kw">new</span> Actor(<span class="str">"Ginger Rogers"</span>, <span <span class="kw">class</span>="num">1911</span>, <span <span class="kw">class</span>="num">1995</span>, <span class="str">"Kitty Foyle"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/GingerRogers.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Joan Fontaine"</span>, <span <span class="kw">class</span>="num">1917</span>, <span class="kw">null</span>, <span class="str">"Suspicion"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/JoanFontaine.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Greer Garson"</span>, <span <span class="kw">class</span>="num">1904</span>, <span <span class="kw">class</span>="num">1996</span>, <span class="str">"Mrs. Miniver"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/GreerGarson.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Jennifer Jones"</span>, <span <span class="kw">class</span>="num">1919</span>, <span <span class="kw">class</span>="num">2009</span>, <span class="str">"The Song of Bernadette"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/JenniferJones.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Ingrid Bergman"</span>, <span <span class="kw">class</span>="num">1915</span>, <span <span class="kw">class</span>="num">1982</span>, <span class="str">"Gaslight"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/IngridBergman.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Joan Crawford"</span>, <span <span class="kw">class</span>="num">1904</span>, <span <span class="kw">class</span>="num">1977</span>, <span class="str">"Mildred Pierce"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/JoanCrawford.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Olivia de Havilland"</span>, <span <span class="kw">class</span>="num">1916</span>, <span class="kw">null</span>, <span class="str">"To Each His Own"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/OliviaDeHavilland.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Loretta Young"</span>, <span <span class="kw">class</span>="num">1913</span>, <span <span class="kw">class</span>="num">2000</span>, <span class="str">"The Farmer's Daughter"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/LorettaYoung.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Jane Wyman"</span>, <span <span class="kw">class</span>="num">1917</span>, <span <span class="kw">class</span>="num">2007</span>, <span class="str">"Johnny Belinda"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/JaneWyman.jpg"</span>, UriKind.Relative)),
+            <span class="kw">new</span> Actor(<span class="str">"Judy Holliday"</span>, <span <span class="kw">class</span>="num">1921</span>, <span <span class="kw">class</span>="num">1965</span>, <span class="str">"Born Yesterday"</span>,
+                <span class="kw">new</span> Uri(<span class="str">"ActressImages/JudyHolliday.jpg"</span>, UriKind.Relative))
+        };
+    }
+    <span class="kw">private</span> ObservableCollection&lt;Actor&gt; actorList;
+    <span class="kw">public</span> ObservableCollection&lt;Actor&gt; ActorList
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> actorList; }
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (<span class="kw">value</span> != actorList)
+            {
+                actorList = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"ActorList"</span>);
+            }
+        }
+    }
+    <span class="kw">private</span> Actor selectedActor;
+    <span class="kw">public</span> Actor SelectedActor
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> selectedActor; }
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (<span class="kw">value</span> != selectedActor)
+            {
+                selectedActor = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"SelectedActor"</span>);
+            }
+        }
+    }
+    <span class="com">// INotifyPropertyChanged</span>
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,17 +55,11 @@
 																				</p>
 					</div>
 
-					<p>When a variable is <a href="2014-09-08-1177-lambda-expressions-can-reference-variables-declared-outside-of-expression.html">captured</a> by inclusion in a lambda expression, the expression is free to modify the value of the captured variable, assuming that the variable is modifiable in the scope in which the lambda is defined.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            int localVariable = 10;
-
-            Action&lt;int&gt; adder = i =&gt; localVariable += i;
-
-            Console.WriteLine(string.Format(&quot;local at start: {0}&quot;, localVariable));
-            adder(5);
-            Console.WriteLine(string.Format(&quot;after calling adder, local: {0}&quot;, localVariable));
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1180-001.png"><img class="alignnone size-full wp-image-9093" src="https://web.archive.org/web/20141014220941id_/http://2000thingscsharp.files.wordpress.com/2014/09/1180-001.png?w=630" alt="1180-001"   /></a></p>
+					<p>When a variable is <a href="2014-09-08-1177-lambda-expressions-can-reference-variables-declared-outside-of-expression.html">captured</a> by inclusion in a lambda expression, the expression is free to modify the value of the captured variable, assuming that the variable is modifiable in the scope in which the lambda is defined.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> localVariable = <span <span class="kw">class</span>="num">10</span>;
+Action&lt;<span class="kw">int</span>&gt; adder = i =&gt; localVariable += i;
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"local at start: {0}"</span>, localVariable));
+adder(<span <span class="kw">class</span>="num">5</span>);
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"after calling adder, local: {0}"</span>, localVariable));</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1180-001.png"><img class="alignnone size-full wp-image-9093" src="https://web.archive.org/web/20141014220941id_/http://2000thingscsharp.files.wordpress.com/2014/09/1180-001.png?w=630" alt="1180-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

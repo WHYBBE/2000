@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,62 +55,42 @@
 																				</p>
 					</div>
 
-					<p>Like <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">classes</a>, interfaces can be generic.  Below is an example of a generic interface with  a single type parameter.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public interface IRememberMostRecent&lt;T&gt;
-    {
-        void Remember(T thingToRemember);
-        T TellMeMostRecent();
-        List&lt;T&gt; PastThings { get; }
-    }
-</pre>
-<p>When a class implements this interface, it can choose to fully construct the interface (provide a type).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Farmer : IRememberMostRecent&lt;Joke&gt;
-    {
-        public string Name { get; protected set;  }
-
-        public Farmer(string name)
-        {
-            Name = name;
-            lastJoke = null;
-            allJokes = new List&lt;Joke&gt;();
-        }
-
-        // IRememberMostRecent implementation
-        private Joke lastJoke;
-        private List&lt;Joke&gt; allJokes;
-
-        public void Remember(Joke jokeToRemember)
-        {
-            if (lastJoke != null)
-                allJokes.Add(lastJoke);
-
-            lastJoke = jokeToRemember;
-        }
-
-        public Joke TellMeMostRecent()
-        {
-            return lastJoke;
-        }
-
-        public List&lt;Joke&gt; PastThings
-        {
-            get { return allJokes; }
-        }
-    }
-</pre>
-<p>Using the <strong>Farmer</strong> class:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Farmer burton = new Farmer(&quot;Burton&quot;);
-            burton.Remember(new Joke(&quot;A man walks into a bar.&quot;, &quot;Ouch&quot;));
-            burton.TellMeMostRecent().Output();
-
-            burton.Remember(new Joke(&quot;What's red and invisible?&quot;, &quot;No tomatoes&quot;));
-            burton.TellMeMostRecent().Output();
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>Like <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html">classes</a>, interfaces can be generic.  Below is an example of a generic interface with  a single type parameter.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">interface</span> IRememberMostRecent&lt;T&gt;
+{
+    <span class="kw">void</span> Remember(T thingToRemember);
+    T TellMeMostRecent();
+    List&lt;T&gt; PastThings { <span class="kw">get</span>; }
+}</code></pre><p>When a class implements this interface, it can choose to fully construct the interface (provide a type).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Farmer : IRememberMostRecent&lt;Joke&gt;
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">protected</span> <span class="kw">set</span>;  }
+    <span class="kw">public</span> Farmer(<span class="kw">string</span> name)
+    {
+        Name = name;
+        lastJoke = <span class="kw">null</span>;
+        allJokes = <span class="kw">new</span> List&lt;Joke&gt;();
+    }
+    <span class="com">// IRememberMostRecent implementation</span>
+    <span class="kw">private</span> Joke lastJoke;
+    <span class="kw">private</span> List&lt;Joke&gt; allJokes;
+    <span class="kw">public</span> <span class="kw">void</span> Remember(Joke jokeToRemember)
+    {
+        <span class="kw">if</span> (lastJoke != <span class="kw">null</span>)
+            allJokes.Add(lastJoke);
+        lastJoke = jokeToRemember;
+    }
+    <span class="kw">public</span> Joke TellMeMostRecent()
+    {
+        <span class="kw">return</span> lastJoke;
+    }
+    <span class="kw">public</span> List&lt;Joke&gt; PastThings
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> allJokes; }
+    }
+}</code></pre><p>Using the <strong>Farmer</strong> class:</p><pre class="code-block language-csharp"><code>Farmer burton = <span class="kw">new</span> Farmer(<span class="str">"Burton"</span>);
+burton.Remember(<span class="kw">new</span> Joke(<span class="str">"A man walks into a bar."</span>, <span class="str">"Ouch"</span>));
+burton.TellMeMostRecent().Output();
+burton.Remember(<span class="kw">new</span> Joke(<span class="str">"What's red and invisible?"</span>, <span class="str">"No tomatoes"</span>));
+burton.TellMeMostRecent().Output();</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

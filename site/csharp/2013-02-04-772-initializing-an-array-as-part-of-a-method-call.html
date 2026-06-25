@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,49 +57,22 @@
 
 					<p>When you want to pass an array to a method, you could first declare the array and then pass the array by name to the method.</p>
 <p>Suppose that you have a <strong>Dog</strong> method that looks like this:</p>
-<p><pre class="brush: csharp;">
-
-        public void DoBarks(string[] barkSounds)
-
-        {
-
-            foreach (string s in barkSounds)
-
-                Console.WriteLine(s);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> DoBarks(<span class="kw">string</span>[] barkSounds)
+{
+    <span class="kw">foreach</span> (<span class="kw">string</span> s <span class="kw">in</span> barkSounds)
+        Console.WriteLine(s);
+}</code></pre>
 <p>You can declare the array and pass it to the method:</p>
-<p><pre class="brush: csharp;">
-
-            Dog d = new Dog();
-
-
-
-            // Declare array and then pass
-
-            string[] set1 = { &quot;Woof&quot;, &quot;Rowf&quot; };
-
-            d.DoBarks(set1);
-
-</pre></p>
+<pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog();
+<span class="com">// Declare array and then pass</span>
+<span class="kw">string</span>[] set1 = { <span class="str">"Woof"</span>, <span class="str">"Rowf"</span> };
+d.DoBarks(set1);</code></pre>
 <p>Or you can just initialize a new array instance as part of the method call, without first declaring it:</p>
-<p><pre class="brush: csharp;">
-
-            // Initialize and pass array without declaring
-
-            d.DoBarks(new string[] { &quot;Grr&quot;, &quot;Ack-ack&quot; });
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Initialize and pass array without declaring</span>
+d.DoBarks(<span class="kw">new</span> <span class="kw">string</span>[] { <span class="str">"Grr"</span>, <span class="str">"Ack-ack"</span> });</code></pre>
 <p>You can also initialize a multi-dimensional array as part of a method call:</p>
-<p><pre class="brush: csharp;">
-
-            // Initialize and pass multi-dimensional array
-
-            d.AddNumbers(new int[,] { { 1, 2, 3 }, { 9, 10, 11 }, { 100, 12, 32 } });
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Initialize and pass multi-dimensional array</span>
+d.AddNumbers(<span class="kw">new</span> <span class="kw">int</span>[,] { { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span> }, { <span <span class="kw">class</span>="num">9</span>, <span <span class="kw">class</span>="num">10</span>, <span <span class="kw">class</span>="num">11</span> }, { <span <span class="kw">class</span>="num">100</span>, <span <span class="kw">class</span>="num">12</span>, <span <span class="kw">class</span>="num">32</span> } });</code></pre>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2013/02/772-001.png"><img class="alignnone size-full wp-image-6629" alt="772-001" src="data:image/png;base64,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"   /></a></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

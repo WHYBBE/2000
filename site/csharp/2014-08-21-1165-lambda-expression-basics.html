@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,29 +57,21 @@
 
 					<p>A lambda expression is an unnamed method that appears <em>in-line </em>in the code where it used.  It can be used wherever your code expects an instance of a delegate.</p>
 <p>Below, the lambda expression takes the place of a method name in assigning a value to a delegate instance.  The in-line expression behaves exactly as the method does, returning a string constructed from two input parameters (<strong>int</strong> and <strong>double</strong>).</p>
-<p>In either case, we can invoke the code (named method or lambda expression) by invoking the delegate instance and passing it the input parameters.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        delegate string IntDoubleDelegate(int i, double d);
-
-        static void Main(string[] args)
-        {
-            // Method #1 - set delegate instance
-            // to named method.
-            IntDoubleDelegate del1 = IntDoubleInfo;
-            string info1 = del1(5, 12.3);
-
-            // Method #2 - use lambda expression
-            IntDoubleDelegate del2 = (i, d) =&gt; string.Format(&quot;I:{0}, D:{1}&quot;, i, d);
-            string info2 = del2(5, 12.3);
-        }
-
-        static string IntDoubleInfo(int i, double d)
-        {
-            return string.Format(&quot;I:{0}, D:{1}&quot;, i, d);
-        }
-</pre>
-
-<div class="wpcnt">
+<p>In either case, we can invoke the code (named method or lambda expression) by invoking the delegate instance and passing it the input parameters.</p><pre class="code-block language-csharp"><code><span class="kw">delegate</span> <span class="kw">string</span> IntDoubleDelegate(<span class="kw">int</span> i, <span class="kw">double</span> d);
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="com">// Method #1 - set delegate instance</span>
+    <span class="com">// to named method.</span>
+    IntDoubleDelegate del1 = IntDoubleInfo;
+    <span class="kw">string</span> info1 = del1(<span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">12.3</span>);
+    <span class="com">// Method #2 - use lambda expression</span>
+    IntDoubleDelegate del2 = (i, d) =&gt; <span class="kw">string</span>.Format(<span class="str">"I:{0}, D:{1}"</span>, i, d);
+    <span class="kw">string</span> info2 = del2(<span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">12.3</span>);
+}
+<span class="kw">static</span> <span class="kw">string</span> IntDoubleInfo(<span class="kw">int</span> i, <span class="kw">double</span> d)
+{
+    <span class="kw">return</span> <span class="kw">string</span>.Format(<span class="str">"I:{0}, D:{1}"</span>, i, d);
+}</code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,356 +56,151 @@
 					</div>
 
 					<p>You can <a href="2017-09-15-1217-using-multiple-hierarchicaldatatemplates-in-a-treeview.html">define a custom data template for items in a </a><strong>TreeView, </strong>displaying any content you like in a panel, for each data item.</p>
-<p>There&#8217;s a problem with doing this, however, if you want the container in the data template to stretch the entire width of the <strong>TreeView</strong>. In the sample below, we have a data template for a dog breed the displays data across three columns in a <strong>Grid. </strong>We&#8217;ve set the middle column up as star-sized so that the rightmost column (first letter of the breed) sits on the far right of the grid. In the <strong>TreeView</strong>, we set <strong>HorizontalContentAlignment</strong> to <strong>Stretch</strong>, to try getting this grid to stretch across the entire width of the <strong>TreeView</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; ItemsSource=&quot;{Binding Breeds}&quot; HorizontalContentAlignment=&quot;Stretch&quot;&gt;
-
-            &lt;TreeView.Resources&gt;
-
-                &lt;HierarchicalDataTemplate DataType=&quot;{x:Type loc:Breed}&quot; ItemsSource=&quot;{Binding Dogs}&quot;&gt;
-
-                    &lt;Grid Margin=&quot;0,5,0,0&quot;&gt;
-
-                        &lt;Grid.ColumnDefinitions&gt;
-
-                            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
-
-                            &lt;ColumnDefinition/&gt;
-
-                            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
-
-                        &lt;/Grid.ColumnDefinitions&gt;
-
-                        
-
-                        &lt;TextBlock Grid.Column=&quot;0&quot; Text=&quot;Breed:&quot;/&gt;
-
-                        &lt;TextBlock Grid.Column=&quot;1&quot; Margin=&quot;5,0,0,0&quot; FontWeight=&quot;Bold&quot; Text=&quot;{Binding Name}&quot;/&gt;
-
-                        &lt;TextBlock Grid.Column=&quot;2&quot; Margin=&quot;0,0,3,0&quot; FontStyle=&quot;Italic&quot; Text=&quot;{Binding FirstLetter}&quot;/&gt;
-
-                    &lt;/Grid&gt;
-
-                &lt;/HierarchicalDataTemplate&gt;
-
-
-
-                &lt;HierarchicalDataTemplate DataType=&quot;{x:Type loc:Dog}&quot;&gt;
-
-                    &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;0,2,0,0&quot;&gt;
-
-                        &lt;TextBlock Text=&quot;{Binding}&quot;/&gt;
-
-                    &lt;/StackPanel&gt;
-
-                &lt;/HierarchicalDataTemplate&gt;
-
-            &lt;/TreeView.Resources&gt;
-
-        &lt;/TreeView&gt;
-
-</pre>
-<p>At runtime, you can see that this doesn&#8217;t work. The 3rd column is jammed up against the right side of the second column.</p>
+<p>There&#8217;s a problem with doing this, however, if you want the container in the data template to stretch the entire width of the <strong>TreeView</strong>. In the sample below, we have a data template for a dog breed the displays data across three columns in a <strong>Grid. </strong>We&#8217;ve set the middle column up as star-sized so that the rightmost column (first letter of the breed) sits on the far right of the grid. In the <strong>TreeView</strong>, we set <strong>HorizontalContentAlignment</strong> to <strong>Stretch</strong>, to try getting this grid to stretch across the entire width of the <strong>TreeView</strong>.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">TreeView</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Breeds}"</span> <span class="xml-attr">HorizontalContentAlignment</span>=<span class="xml-val">"Stretch"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">TreeView.Resources</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">HierarchicalDataTemplate</span> <span class="xml-attr">DataType</span>=<span class="xml-val">"{x:Type loc:Breed}"</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Dogs}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"0,5,0,0"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span> <span class="xml-attr">Width</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span> <span class="xml-attr">Width</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Breed:"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5,0,0,0"</span> <span class="xml-attr">FontWeight</span>=<span class="xml-val">"Bold"</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding Name}"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"2"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"0,0,3,0"</span> <span class="xml-attr">FontStyle</span>=<span class="xml-val">"Italic"</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding FirstLetter}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">HierarchicalDataTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">HierarchicalDataTemplate</span> <span class="xml-attr">DataType</span>=<span class="xml-val">"{x:Type loc:Dog}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"0,2,0,0"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">HierarchicalDataTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">TreeView.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">TreeView</span><span class="xml-tag">&gt;</span></code></pre><p>At runtime, you can see that this doesn&#8217;t work. The 3rd column is jammed up against the right side of the second column.</p>
 <p><a href="https://wpf.2000things.com/2017/09/23/1218-stretching-items-in-treeview-across-entire-control/1218_01/" rel="attachment wp-att-9814"><img data-attachment-id="9814" data-permalink="https://wpf.2000things.com/2017/09/23/1218-stretching-items-in-treeview-across-entire-control/1218_01/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/09/1218_01.png?w=630" data-orig-size="302,171" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1218_01" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/09/1218_01.png?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/09/1218_01.png?w=630?w=302" class="alignnone size-full wp-image-9814" src="data:image/png;base64,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" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/09/1218_01.png 302w, https://2000thingswpf.files.wordpress.com/2017/09/1218_01.png?w=150 150w" sizes="(max-width: 302px) 100vw, 302px"   /></a></p>
 <p>The problem has to do with the default <strong>ItemContainerStyle. </strong>It includes a control template for each data item that puts the main content for the data item in an auto-sized grid column, not allowing it to stretch across the control.</p>
-<p>The solution is to override the <strong>ItemContainerStyle</strong> and tweak the column definitions to allow the content to extend across the <strong>Grid</strong>. Below is the full text of the modified style, including all dependent styles. The main style that can be used for a <strong>TreeView.ItemContainerStyle</strong> is named <strong>TreeViewItemStyle1</strong>. We&#8217;ve modified the style so that the control template has a <strong>Grid</strong> with only two columns. The second column contains the content and is star-sized.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-
-
-
-
-
-
-&lt;Style x:Key=&quot;TreeViewItemFocusVisual&quot;&gt;
-
-            &lt;Setter Property=&quot;Control.Template&quot;&gt;
-
-                &lt;Setter.Value&gt;
-
-                    &lt;ControlTemplate&gt;
-
-                        &lt;Rectangle/&gt;
-
-                    &lt;/ControlTemplate&gt;
-
-                &lt;/Setter.Value&gt;
-
-            &lt;/Setter&gt;
-
-        &lt;/Style&gt;
-
-
-
-
-
-
-
-
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.Static.Checked.Fill&quot; Color=&quot;#FF595959&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.Static.Checked.Stroke&quot; Color=&quot;#FF262626&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.MouseOver.Stroke&quot; Color=&quot;#FF27C7F7&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.MouseOver.Fill&quot; Color=&quot;#FFCCEEFB&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.MouseOver.Checked.Stroke&quot; Color=&quot;#FF1CC4F7&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.MouseOver.Checked.Fill&quot; Color=&quot;#FF82DFFB&quot;/&gt;
-
-        &lt;PathGeometry x:Key=&quot;TreeArrow&quot; Figures=&quot;M0,0 L0,6 L6,0 z&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.Static.Fill&quot; Color=&quot;#FFFFFFFF&quot;/&gt;
-
-        &lt;SolidColorBrush x:Key=&quot;TreeViewItem.TreeArrow.Static.Stroke&quot; Color=&quot;#FF818181&quot;/&gt;
-
-        
-
-
-
-
-
-
-
-&lt;Style x:Key=&quot;ExpandCollapseToggleStyle&quot; TargetType=&quot;{x:Type ToggleButton}&quot;&gt;
-
-            &lt;Setter Property=&quot;Focusable&quot; Value=&quot;False&quot;/&gt;
-
-            &lt;Setter Property=&quot;Width&quot; Value=&quot;16&quot;/&gt;
-
-            &lt;Setter Property=&quot;Height&quot; Value=&quot;16&quot;/&gt;
-
-            &lt;Setter Property=&quot;Template&quot;&gt;
-
-                &lt;Setter.Value&gt;
-
-                    &lt;ControlTemplate TargetType=&quot;{x:Type ToggleButton}&quot;&gt;
-
-                        &lt;Border Background=&quot;Transparent&quot; Height=&quot;16&quot; Padding=&quot;5,5,5,5&quot; Width=&quot;16&quot;&gt;
-
-                            &lt;Path x:Name=&quot;ExpandPath&quot; Data=&quot;{StaticResource TreeArrow}&quot; Fill=&quot;{StaticResource TreeViewItem.TreeArrow.Static.Fill}&quot; Stroke=&quot;{StaticResource TreeViewItem.TreeArrow.Static.Stroke}&quot;&gt;
-
-                                &lt;Path.RenderTransform&gt;
-
-                                    &lt;RotateTransform Angle=&quot;135&quot; CenterY=&quot;3&quot; CenterX=&quot;3&quot;/&gt;
-
-                                &lt;/Path.RenderTransform&gt;
-
-                            &lt;/Path&gt;
-
-                        &lt;/Border&gt;
-
-                        &lt;ControlTemplate.Triggers&gt;
-
-                            &lt;Trigger Property=&quot;IsChecked&quot; Value=&quot;True&quot;&gt;
-
-                                &lt;Setter Property=&quot;RenderTransform&quot; TargetName=&quot;ExpandPath&quot;&gt;
-
-                                    &lt;Setter.Value&gt;
-
-                                        &lt;RotateTransform Angle=&quot;180&quot; CenterY=&quot;3&quot; CenterX=&quot;3&quot;/&gt;
-
-                                    &lt;/Setter.Value&gt;
-
-                                &lt;/Setter&gt;
-
-                                &lt;Setter Property=&quot;Fill&quot; TargetName=&quot;ExpandPath&quot; Value=&quot;{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill}&quot;/&gt;
-
-                                &lt;Setter Property=&quot;Stroke&quot; TargetName=&quot;ExpandPath&quot; Value=&quot;{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}&quot;/&gt;
-
-                            &lt;/Trigger&gt;
-
-                            &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
-
-                                &lt;Setter Property=&quot;Stroke&quot; TargetName=&quot;ExpandPath&quot; Value=&quot;{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}&quot;/&gt;
-
-                                &lt;Setter Property=&quot;Fill&quot; TargetName=&quot;ExpandPath&quot; Value=&quot;{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}&quot;/&gt;
-
-                            &lt;/Trigger&gt;
-
-                            &lt;MultiTrigger&gt;
-
-                                &lt;MultiTrigger.Conditions&gt;
-
-                                    &lt;Condition Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;/&gt;
-
-                                    &lt;Condition Property=&quot;IsChecked&quot; Value=&quot;True&quot;/&gt;
-
-                                &lt;/MultiTrigger.Conditions&gt;
-
-                                &lt;Setter Property=&quot;Stroke&quot; TargetName=&quot;ExpandPath&quot; Value=&quot;{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}&quot;/&gt;
-
-                                &lt;Setter Property=&quot;Fill&quot; TargetName=&quot;ExpandPath&quot; Value=&quot;{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}&quot;/&gt;
-
-                            &lt;/MultiTrigger&gt;
-
-                        &lt;/ControlTemplate.Triggers&gt;
-
-                    &lt;/ControlTemplate&gt;
-
-                &lt;/Setter.Value&gt;
-
-            &lt;/Setter&gt;
-
-        &lt;/Style&gt;
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-&lt;Style x:Key=&quot;TreeViewItemStyle1&quot; TargetType=&quot;{x:Type TreeViewItem}&quot;&gt;
-
-            &lt;Setter Property=&quot;Background&quot; Value=&quot;Transparent&quot;/&gt;
-
-            &lt;Setter Property=&quot;HorizontalContentAlignment&quot; Value=&quot;{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
-
-            &lt;Setter Property=&quot;VerticalContentAlignment&quot; Value=&quot;{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}&quot;/&gt;
-
-            &lt;Setter Property=&quot;Padding&quot; Value=&quot;1,0,0,0&quot;/&gt;
-
-            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}&quot;/&gt;
-
-            &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{StaticResource TreeViewItemFocusVisual}&quot;/&gt;
-
-            &lt;Setter Property=&quot;Template&quot;&gt;
-
-                &lt;Setter.Value&gt;
-
-                    &lt;ControlTemplate TargetType=&quot;{x:Type TreeViewItem}&quot;&gt;
-
-                        &lt;Grid&gt;
-
-                            &lt;Grid.ColumnDefinitions&gt;
-
-                                &lt;ColumnDefinition MinWidth=&quot;19&quot; Width=&quot;Auto&quot;/&gt;
-
-                                &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
-
-                            &lt;/Grid.ColumnDefinitions&gt;
-
-                            &lt;Grid.RowDefinitions&gt;
-
-                                &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-                                &lt;RowDefinition/&gt;
-
-                            &lt;/Grid.RowDefinitions&gt;
-
-                            &lt;ToggleButton x:Name=&quot;Expander&quot; ClickMode=&quot;Press&quot; IsChecked=&quot;{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}&quot; Style=&quot;{StaticResource ExpandCollapseToggleStyle}&quot;/&gt;
-
-                            &lt;Border x:Name=&quot;Bd&quot; Grid.Column=&quot;1&quot; BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
-
-                                &lt;ContentPresenter x:Name=&quot;PART_Header&quot; ContentSource=&quot;Header&quot; HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot;/&gt;
-
-                            &lt;/Border&gt;
-
-                            &lt;ItemsPresenter x:Name=&quot;ItemsHost&quot; Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; /&gt;
-
-                        &lt;/Grid&gt;
-
-                        &lt;ControlTemplate.Triggers&gt;
-
-                            &lt;Trigger Property=&quot;IsExpanded&quot; Value=&quot;false&quot;&gt;
-
-                                &lt;Setter Property=&quot;Visibility&quot; TargetName=&quot;ItemsHost&quot; Value=&quot;Collapsed&quot;/&gt;
-
-                            &lt;/Trigger&gt;
-
-                            &lt;Trigger Property=&quot;HasItems&quot; Value=&quot;false&quot;&gt;
-
-                                &lt;Setter Property=&quot;Visibility&quot; TargetName=&quot;Expander&quot; Value=&quot;Hidden&quot;/&gt;
-
-                            &lt;/Trigger&gt;
-
-                            &lt;Trigger Property=&quot;IsSelected&quot; Value=&quot;true&quot;&gt;
-
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.HighlightBrushKey}}&quot;/&gt;
-
-                                &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}&quot;/&gt;
-
-                            &lt;/Trigger&gt;
-
-                            &lt;MultiTrigger&gt;
-
-                                &lt;MultiTrigger.Conditions&gt;
-
-                                    &lt;Condition Property=&quot;IsSelected&quot; Value=&quot;true&quot;/&gt;
-
-                                    &lt;Condition Property=&quot;IsSelectionActive&quot; Value=&quot;false&quot;/&gt;
-
-                                &lt;/MultiTrigger.Conditions&gt;
-
-                                &lt;Setter Property=&quot;Background&quot; TargetName=&quot;Bd&quot; Value=&quot;{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}&quot;/&gt;
-
-                                &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}&quot;/&gt;
-
-                            &lt;/MultiTrigger&gt;
-
-                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;false&quot;&gt;
-
-                                &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
-
-                            &lt;/Trigger&gt;
-
-                        &lt;/ControlTemplate.Triggers&gt;
-
-                    &lt;/ControlTemplate&gt;
-
-                &lt;/Setter.Value&gt;
-
-            &lt;/Setter&gt;
-
-            &lt;Style.Triggers&gt;
-
-                &lt;Trigger Property=&quot;VirtualizingPanel.IsVirtualizing&quot; Value=&quot;true&quot;&gt;
-
-                    &lt;Setter Property=&quot;ItemsPanel&quot;&gt;
-
-                        &lt;Setter.Value&gt;
-
-                            &lt;ItemsPanelTemplate&gt;
-
-                                &lt;VirtualizingStackPanel/&gt;
-
-                            &lt;/ItemsPanelTemplate&gt;
-
-                        &lt;/Setter.Value&gt;
-
-                    &lt;/Setter&gt;
-
-                &lt;/Trigger&gt;
-
-            &lt;/Style.Triggers&gt;
-
-        &lt;/Style&gt;
-
-
-
-
-
-
-
-</pre>
-<p>For completeness, here&#8217;s a fragment of the <strong>TreeView</strong>, using the new style.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;TreeView Grid.Row=&quot;0&quot; Margin=&quot;5&quot; ItemsSource=&quot;{Binding Breeds}&quot; ItemContainerStyle=&quot;{StaticResource TreeViewItemStyle1}&quot; HorizontalContentAlignment=&quot;Stretch&quot;&gt;
-
-</pre>
-<p>We can see that the third element is now lined up on the right side of the <strong>TreeView</strong> at runtime.</p>
+<p>The solution is to override the <strong>ItemContainerStyle</strong> and tweak the column definitions to allow the content to extend across the <strong>Grid</strong>. Below is the full text of the modified style, including all dependent styles. The main style that can be used for a <strong>TreeView.ItemContainerStyle</strong> is named <strong>TreeViewItemStyle1</strong>. We&#8217;ve modified the style so that the control template has a <strong>Grid</strong> with only two columns. The second column contains the content and is star-sized.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItemFocusVisual"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Control.Template"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Rectangle</span><span class="xml-tag">/&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.Static.Checked.Fill"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF595959"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.Static.Checked.Stroke"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF262626"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.MouseOver.Stroke"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF27C7F7"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.MouseOver.Fill"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FFCCEEFB"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.MouseOver.Checked.Stroke"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF1CC4F7"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.MouseOver.Checked.Fill"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF82DFFB"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">PathGeometry</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeArrow"</span> <span class="xml-attr">Figures</span>=<span class="xml-val">"M0,0 L0,6 L6,0 z"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.Static.Fill"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FFFFFFFF"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItem.TreeArrow.Static.Stroke"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"#FF818181"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"ExpandCollapseToggleStyle"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ToggleButton}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Focusable"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Width"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"16"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Height"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"16"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Template"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ToggleButton}"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">Background</span>=<span class="xml-val">"Transparent"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"16"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"5,5,5,5"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"16"</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Path</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Data</span>=<span class="xml-val">"{StaticResource TreeArrow}"</span> <span class="xml-attr">Fill</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.Static.Fill}"</span> <span class="xml-attr">Stroke</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.Static.Stroke}"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Path.RenderTransform</span><span class="xml-tag">&gt;</span>
+                                    <span class="xml-tag">&lt;</span><span class="xml-name">RotateTransform</span> <span class="xml-attr">Angle</span>=<span class="xml-val">"135"</span> <span class="xml-attr">CenterY</span>=<span class="xml-val">"3"</span> <span class="xml-attr">CenterX</span>=<span class="xml-val">"3"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;/</span><span class="xml-name">Path.RenderTransform</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Path</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsChecked"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"RenderTransform"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span><span class="xml-tag">&gt;</span>
+                                    <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                                        <span class="xml-tag">&lt;</span><span class="xml-name">RotateTransform</span> <span class="xml-attr">Angle</span>=<span class="xml-val">"180"</span> <span class="xml-attr">CenterY</span>=<span class="xml-val">"3"</span> <span class="xml-attr">CenterX</span>=<span class="xml-val">"3"</span><span class="xml-tag">/&gt;</span>
+                                    <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Fill"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.Static.Checked.Fill}"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Stroke"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.Static.Checked.Stroke}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsMouseOver"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Stroke"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.MouseOver.Stroke}"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Fill"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.MouseOver.Fill}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                                    <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsMouseOver"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                                    <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsChecked"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Stroke"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Stroke}"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Fill"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ExpandPath"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItem.TreeArrow.MouseOver.Checked.Fill}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"TreeViewItemStyle1"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type TreeViewItem}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Transparent"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"HorizontalContentAlignment"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"VerticalContentAlignment"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Padding"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"1,0,0,0"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"FocusVisualStyle"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{StaticResource TreeViewItemFocusVisual}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Template"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type TreeViewItem}"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span> <span class="xml-attr">MinWidth</span>=<span class="xml-val">"19"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span> <span class="xml-attr">Width</span>=<span class="xml-val">"*"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">ToggleButton</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"Expander"</span> <span class="xml-attr">ClickMode</span>=<span class="xml-val">"Press"</span> <span class="xml-attr">IsChecked</span>=<span class="xml-val">"{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"</span> <span class="xml-attr">Style</span>=<span class="xml-val">"{StaticResource ExpandCollapseToggleStyle}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"1"</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"{TemplateBinding BorderBrush}"</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"{TemplateBinding BorderThickness}"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"{TemplateBinding Background}"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"{TemplateBinding Padding}"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"true"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">ContentPresenter</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"PART_Header"</span> <span class="xml-attr">ContentSource</span>=<span class="xml-val">"Header"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"{TemplateBinding HorizontalContentAlignment}"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"{TemplateBinding SnapsToDevicePixels}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">ItemsPresenter</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"ItemsHost"</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"1"</span> <span class="xml-tag">/&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsExpanded"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"false"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Visibility"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"ItemsHost"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Collapsed"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"HasItems"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"false"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Visibility"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Expander"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Hidden"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsSelected"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"true"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                                    <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsSelected"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"true"</span><span class="xml-tag">/&gt;</span>
+                                    <span class="xml-tag">&lt;</span><span class="xml-name">Condition</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsSelectionActive"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"false"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger.Conditions</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"Bd"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">MultiTrigger</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsEnabled"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"false"</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"VirtualizingPanel.IsVirtualizing"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"true"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"ItemsPanel"</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                            <span class="xml-tag">&lt;</span><span class="xml-name">ItemsPanelTemplate</span><span class="xml-tag">&gt;</span>
+                                <span class="xml-tag">&lt;</span><span class="xml-name">VirtualizingStackPanel</span><span class="xml-tag">/&gt;</span>
+                            <span class="xml-tag">&lt;/</span><span class="xml-name">ItemsPanelTemplate</span><span class="xml-tag">&gt;</span>
+                        <span class="xml-tag">&lt;/</span><span class="xml-name">Setter.Value</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;/</span><span class="xml-name">Setter</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span></code></pre><p>For completeness, here&#8217;s a fragment of the <strong>TreeView</strong>, using the new style.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">TreeView</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Breeds}"</span> <span class="xml-attr">ItemContainerStyle</span>=<span class="xml-val">"{StaticResource TreeViewItemStyle1}"</span> <span class="xml-attr">HorizontalContentAlignment</span>=<span class="xml-val">"Stretch"</span><span class="xml-tag">&gt;</span></code></pre><p>We can see that the third element is now lined up on the right side of the <strong>TreeView</strong> at runtime.</p>
 <p><a href="https://wpf.2000things.com/2017/09/23/1218-stretching-items-in-treeview-across-entire-control/1218_02/" rel="attachment wp-att-9821"><img data-attachment-id="9821" data-permalink="https://wpf.2000things.com/2017/09/23/1218-stretching-items-in-treeview-across-entire-control/1218_02/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/09/1218_02.png?w=630" data-orig-size="302,160" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1218_02" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/09/1218_02.png?w=630?w=300" data-large-file="https://2000thingswpf.files.wordpress.com/2017/09/1218_02.png?w=630?w=302" class="alignnone size-full wp-image-9821" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAS4AAACgCAIAAAA97xYIAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAADvtJREFUeNrtnVtsHNUZgPelaiWkPsJDVakvvFHxWCtPVd9QRW8gWhShUlRZxaoqoUpVW1FVpq0IpIFwscotbROgoBQSklBnMRhvLigOSRTbsXOx4yTOzRA7BttAbJJ4++8cz5kzZ86Z3bV3vZd8n0Zo9+yZMxN7Pv7/zOz5nVkwuB5yLeRqyJch8wZzAFACpjVaJS2Xci1jSag9dBqoh75i8AUAeDBNscy0nMykBEPLQEu8z0M+AwAPWhNLTsvJgoopwdApYdLAWQDw4HPSElJ0yzg91MFQS2jqp44xEzINAB60JqaZ2kktpOiWcXqog6EpodZPHePTgE8AIM7U1JT5VplimqmcNIUU3RZVtDzUwVAbaIonR7ocMBkwAQAelCPKF6Wo1lILqWzM6JBoeqiCoXRV0U/2V+LJ0JcuXfr4448/+uij8fHxiwEXAMCDckRkEWVEHCWnclIFSbFM2ZhxeqiCoUgoBir9ZCBl3fnz58+dO3f27NmxsbEzAacBwINyRGQRZcQdMUi0FCeVkKKYzlcdKqp4KJ2kt+wjO4t7MpaMe+rUqdHR0ZMnT46MjAwPD58IOA4AIcdC1FvliMgiyog4YpCYKUKJkBLkJNRpGzPOkCihUzqJh78EgCogQVLZqGNjxjlFlERWklKJh7JPHgAqimgl2aXERpn3Se6p7uVkrNRUQqIIKqZKSBRxURGgGipKyiqTvosXL0rMkwxUbCyoaIVENUuU6ClJLSoCVENFmUzKvFEHRgl+GRUSlYcqJIqgksJKdipdURGgGioODg6ePHlSEk8VGMXGgormA4zp6WmVnZ4/f17SWVQEqIaKAwMDkqNK4imiSWCU4JcxH2CoL7VJ5iqfSegUa1ERoBoq9vX1HT9+XOWoMhmUwJjR2an+gpuaKMqcUqxFRYBqqHj48OGjR4/qHFWC36KKapYoIVFNFOUzCZ0nTpxIUbF/YDC3e28pW1//wPXr1/kFAGgVDx06NDQ0NDIyonJUCX4ZPVFUKspEUT1RPH36tATQFBXffOvtg31DB/sGE9vQof7Ctv2d3duzu2T7z+YtkvTyCwDQKh48ePDIkSMS7UQ0yVEl+GX0RFF981upKJpKFnvs2LEUFXt27Z2bn78yV2STPu++v0uOxC8ASieTygqfiWiTbJfGJZ+JaHXgwIGBgQE1XZQcVYKfraL6vptoOjo6Krlsioq793xwfPjcmg3vP/av7sc3vrf2lXfXvdZ19OipqcuTZ8fGZLt8efKFbQdkc6rY2Wr/fFetHynr3yMjxHaR962d+ZH1q8oeyXteMl7VsE8fLAGW8FE1EOW+8tWvWTY6G8tScf/+/f39/RLtRLSxsTEJfjEV1WIoraLksikq5nbtOTFy8VdPbH/w6W2/fm7Lbza88dCmzf39I1OTl0wVN+zcnxoVl3FFKvfc7+rfEFRsDBWT4i3TQ6Vib29vX1+funOjposZPVFU6xInJyfVk4yiKna91yMq/mnTO23PvXHfM/++t+P5e59/NlBxYqzAGVFx0+49rx14v1oqFgKgtq9CJqIiKqbauHwPlYr79u07fPiwvnMjxi1XxbvWbrhjzTN3Prn+Rx1/v+uFNSoqiocqKr55ZOe2Y9tLVrHwurV11WJiWDAtnifaLYaLkYnGgPH+hqzxPjGFLUOMfDf8JEphzSN2Lh5rMUeOpdyxDrHGEee/C+pORW3j8j2slorfX/v0D5564sf/WHv3S4/+bNMjKirqBHVofEi2clR0XamdraECVkvhGlYvXJol+utO8nbVKmsE11wx7F14kYy65oEyyZfBaz1C2Bqp7T9P7peg4hJU/OGz6+56/rF7/vm3e19uv+/1h0XFy8ZccX7uimxlRcVEoEjEGisuFvYwhQoHcY6w6HQQo+wd/XljoFIkYmRrwiX369iYodP+8wQS1CWoePeLj/50419Wv/rnn2/+4wNbficqTk6EKk5OfvbZrAy6VBXjV2WyRbvYaQplXuJWfyWeCj1BYpo0saiK0bBmSC5dRb1/ynlC89+2qaiK3bmBwdHHt25eu+31dTteffJ/Lz+1c+OHHw5oFScnJmamC09HlqJiLFn1tUTh02iP5Y1W/4I9Rmra2trq0i4ZJ40EVX/uSDVTVAxbI/HSzhOa/mFGJVXMvttz9eqXM9NTM58WttmZmdmZT2enP7nyxedzV2RM9XRkSrYlqRjP3KLbNIlEzn6Q6MlyoxHMT5MKxJ4rqpstcfXCQQs3mMqIisHtKPPEU88TFZv9EX8lVXzzrR3iWHLrzu3p2f1Bd89u3bL5ja3j4+M38HXFcwuopoqyoy6Fmo50k86oCFAVFQEVARUBUBEAUBEAFQEAFQFQkR8cACoCoCIqAqAiACqiIgAqAqAiKgKgIgAqoiIAKgKgIioCoCIAKqIiQBOq+Mij69nY2KytNiryPzmAsqRARQBUBEBFVARARQBUREUAVARAxfpSsbe3d2FhgV8PoGKNVWxvb89ms9gIqFh7FWdnZ7u7u+fm5vglASrWUkX5b6qNwx0t+o9YtnVV5IchQ7Z0DHs/ntm62vzLmbc8vG/ZR5zrW3N7ZUaCRmB8+/03h9fPHZsuNo6KhXMfH8/lcuneFKSsiIylqHjTna+cCRVSr1ERyjBx0cDBdbfd+ocPphsrKnr+4KnhTRGFqqBi7DUqQmmIf2EsFCtbGkXFVA9j3nS1hUExaOtoC1PWKIfVQdPR1NUWtnQsDulR0tAvbqISKsAMmlYiG2tcbI+raGTA2NmcQTHULxkU61jFLVu2XLt2LTWEhdet9iZoM7Uc1rYVWt1NeveCk0VV1IQiBja5BI3ba0i36KSlYtDV+BwZmzEo+iaK9atiNptN9TCRoOowaLpmUmh3NhnSlZugFnSxY13okNmuuy3qFb2JXln3hCqR/ULdBkVj0ljvKpY5sRt2ZJZR2qpJNsXlK0NF/WbYEcKUVoWeWrXSVES/G2Sm6JgqNoeKzqhopp751KZQz5ISVDsqGt4Ffd7uMO20u/kTVKMxkLXjJfLT5jXRMVVsbBUz9mTRcshISM35YLzJuJFTym0bVwZpfhC06oabWlp0MIx6Ra2OYMl9m6ZNT2+OLp7GmSs2N8adHgBUrKmImAioWCMSWSwAKgKgIioCoCIAKqIiACoCoCIqAjSwirlcrtjXwQFQsS4WSQGg4kotHe7q6pKj8EsCVMzXvKCG38aal5lK/8Z2Rdf/Gss6oEEZ3/EL8+vgGy80lIr5oMxUNptN96YGZaby1tqoKqgYrerPs5ixCRhc923tX6ClbWO9R8VcLucvvljDMlNFZVuuigTC5jXR9b7O54p+D/M1LjNl2eJYaWgvClZrFIPvgn+v7YHbYymuf73jYifzyOax4iUFoiMQP+swPW35/d7plAbKTJVbZsq4zB2Bz1VWylgUlVi/H5fGHDAWFaNh3bVYjc5E04YIio2jYgnPFWtbZirx3ior5axfE/MvPpoRB42PEyo6DmkVxmE1ZKMExZsbI0Etc2JXgzJT7vI2LgGLqWiESrvSKio270zx1nhMpMzUUstMJctGWelh6SraSa2pVPEENTosKjaGicHt04SIlJmqSJkpV1mpMhJUnduqveOyl3HbBhXrNz01Him6NGxsFQGaClQEQEUAQEUAVERFAFQEQEVUBEBFAFRERYAGVZEyU4CKdaEiZaYAFetFxdnZ2Ww2K//llwSomK95QY2dO3fKUVxdVr7MVEBswX6Nv3adLB6wzDIelaiNRR2eFD5s/2Z08dzz308aRsV8UGZK5o3p3qxUmanEqoe5vid+W7NLLn4yc30dL6Fi/WsY6Xf29Z/cH3Ox3qPi3r17r169WsSblSkzVdFyisvHecmjYh2LeNtfD33RqHNFv4f5lS8zlX6ZGmsZzZWJ4QLEoXgdqMwtbW2rYymut1BVtJN1aL2H2e7dJ+38otPw7m6cnrnaUnWMChnwZ5VTTLTy0QZSMZvNLiwspIawFS0zlVgBbBVoi8/VjCoZkQnGQn+7OpQjqCTKUyWu70RBHM/a5CLnF+2UsrTZVXrAtXS5WH3YGxPJRlvCmKjni40xV+zt7U31ML/yZaYSUdG6LOMxYTje2120Jj6kv1BVah23cDerzpyxT9HzswS1do/fqHLUFcj730BSRXcDZabKKDNl6+Cu/eQWt5iK6YWqipVULLJP0fMrRUXr2Ki4vKmiI2GlzFTpZaYsIVwl2/S9zPJULFKoyqnizNa2WDj1R0X/+ZV2SCsZfbsjXu7KkRajoisufj2S0TV1pMxU6WWm7Cwy466CmrioS0lQUwtVeVRcnfxTOr59POeXcU41fTWRE9Nj+48WJEtlgWVj+EN03E3l6+A3JnX2ZAZQERUBFQEVARUBUBEVAVARABVREQAVAVARFQEaVsVsNkthG0DF2qvY3t7e2dmJjYCKtVdxfn6+u7vbU9gGABVXsKBGqo01KjNV5hqg9O72UsBKf/vFvXrKfewlLb5PX7wFKVzueajlwXcuNYiKwoULF+qnzFSVVCxlSWLlVYx1WepKChYnLpkzL373O88ON0pUnJiY6OnpqZcyU1VWsRqXddVVhIoFxTpWMdXD/MqXmUq45agMFc/79LJbo5BN3IZEVLTLyjhWOkaHs9/7ikmVpWKRglI5V/ksc/2+v9QWrqeaWMcq7tixo67KTPnDnLMylPXZkDP9dNvsVHHYqUziUL7qAKWpWLyglKt8VomltiAtPaXMVOllplwqWpWhHNe7XaTQk0DGr1pnVIzW+RsfuN47i0mVpGLxglLe6gQllNqC1KBImamW8lRMrQzlU9GbpCUKOqYmqCn62bni0uaKxQtKpauYXmoLUoMiZabKKTNlZoHOylDJGku+/NJ328Ye25OH2tmsnsX5il2VlqAWLSjlVbGEUltgiPgNOyZSZqrkMlM6edNXpaMyVPLeReIuT8zG+MVq3NixxtYuRzFxznrvnHou4bZNkYJS/vJZRUttQZCYfkt+Og4R+To4QJ2AigCoCACoCICKqAiAigCoiIoAqAiAiqgIgIoAqIiKAKgIgIqoCICKAKiIigCoCICKqAiAigCoiIoAqAiAiqgIgIoAqIiKAKgIgIqoCICKAKjoVfH/MNfEKhx5lhcAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuMTczbp9jAAAAAElFTkSuQmCC" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/09/1218_02.png 302w, https://2000thingswpf.files.wordpress.com/2017/09/1218_02.png?w=150 150w" sizes="(max-width: 302px) 100vw, 302px"   /></a></p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9811-59c68bccad75b' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9811&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9811-59c68bccad75b' data-name='like-post-frame-14605478-9811-59c68bccad75b'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
 <div id='jp-relatedposts' class='jp-relatedposts' >

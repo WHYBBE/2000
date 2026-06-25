@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,42 +55,27 @@
 																				</p>
 					</div>
 
-					<p>You can overload methods, i.e. create two methods with the same name, if the methods have different parameter lists, where the lists differ in the number or type of the parameters.  For example:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public void Fetch(Bone b)
-        {
-            Console.WriteLine(string.Format(&quot;Fetching bone {0}&quot;, b.Description));
-        }
-
-        public void Fetch(Dog d)
-        {
-            Console.WriteLine(string.Format(&quot;I'll go get {0}&quot;, d.Name));
-        }
-</pre>
-<p>You can also overload methods if they differ only in their use of the <strong>ref</strong> modifier.  One method can accept a parameter <a href="2011-03-08-264-by-default-parameters-are-passed-by-value.html">passed by value</a> and you can have another version of the method that allows <a href="2011-03-13-269-use-ref-modifier-on-parameters-that-are-inputoutput.html">passing the parameter by reference</a>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public void Bark(string sound)
-        {
-            Console.WriteLine(sound);
-        }
-
-        public void Bark(ref string sound)
-        {
-            Console.WriteLine(sound);
-
-            // Update caller's copy of sound variable
-            sound = sound + &quot;!&quot;;
-        }
-</pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog d = new Dog(&quot;Rex&quot;, 3);
-            string sound = &quot;woof&quot;;
-            d.Bark(sound);
-            d.Bark(ref sound);   // woof!
-            d.Bark(ref sound);   // woof!!
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>You can overload methods, i.e. create two methods with the same name, if the methods have different parameter lists, where the lists differ in the number or type of the parameters.  For example:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> Fetch(Bone b)
+{
+    Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Fetching bone {0}"</span>, b.Description));
+}
+<span class="kw">public</span> <span class="kw">void</span> Fetch(Dog d)
+{
+    Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"I'll go get {0}"</span>, d.Name));
+}</code></pre><p>You can also overload methods if they differ only in their use of the <strong>ref</strong> modifier.  One method can accept a parameter <a href="2011-03-08-264-by-default-parameters-are-passed-by-value.html">passed by value</a> and you can have another version of the method that allows <a href="2011-03-13-269-use-ref-modifier-on-parameters-that-are-inputoutput.html">passing the parameter by reference</a>.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">void</span> Bark(<span class="kw">string</span> sound)
+{
+    Console.WriteLine(sound);
+}
+<span class="kw">public</span> <span class="kw">void</span> Bark(<span class="kw">ref</span> <span class="kw">string</span> sound)
+{
+    Console.WriteLine(sound);
+    <span class="com">// Update caller's copy of sound variable</span>
+    sound = sound + <span class="str">"!"</span>;
+}</code></pre><pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog(<span class="str">"Rex"</span>, <span <span class="kw">class</span>="num">3</span>);
+<span class="kw">string</span> sound = <span class="str">"woof"</span>;
+d.Bark(sound);
+d.Bark(<span class="kw">ref</span> sound);   <span class="com">// woof!</span>
+d.Bark(<span class="kw">ref</span> sound);   <span class="com">// woof!!</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

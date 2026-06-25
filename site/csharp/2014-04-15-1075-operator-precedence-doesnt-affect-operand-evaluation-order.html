@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,71 +56,29 @@
 					</div>
 
 					<p>Rules for operator <a href="2010-07-15-28-operator-precedence.html">precedence</a> and <a href="2012-02-08-515-binary-operators-are-left-associative.html">associativity</a> determine the order in which the operators within an expression will be evaluated.  Parentheses can also change the order in which the operators are evaluated.</p>
-<p>For example:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // * operator evaluated before +
-
-            int sum1 = 1 + 2 * 3;    // 7
-
-
-
-            // + operator evaluated first
-
-            int sum2 = (1 + 2) * 3;  // 9
-
-</pre>
-<p>Operands, however, are evaluated from left-right, regardless of the order of evaluation of the operators. For example, in the code below, the sub-expression <strong>Return2() * Return3() </strong>is evaluated before adding <strong>Return1()</strong>.  But console output shows us that <strong>Return1()</strong> was executed first.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static int Return1()
-
-        {
-
-            Console.WriteLine(&quot;1&quot;);
-
-            return 1;
-
-        }
-
-
-
-        static int Return2()
-
-        {
-
-            Console.WriteLine(&quot;2&quot;);
-
-            return 2;
-
-        }
-
-
-
-        static int Return3()
-
-        {
-
-            Console.WriteLine(&quot;3&quot;);
-
-            return 3;
-
-        }
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            // * operator evaluated before +
-
-            int sum1 = Return1() + Return2() * Return3();    // 7
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/04/1075-001.png"><img class="alignnone size-full wp-image-8455" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAABtCAMAAAB5lBhNAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAbZQTFRFAAAAKCgoKCg3KChBKEJIKFNBKFNOVCgoVCg3cSgocihBU2BTVGBTckJIcWpaW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5h0Ioh0I3mFQoqGA3h2BBj2FFh3Nan2xNl39ap3RIp39Op39aqXNRqXNSrnZUu2pBu3RIu39OtHtXu39Uun5Zu39anoJxpoFrpoJsiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbeho56epJ+dpqqurK6yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr7Bvb/Cp8u+rdO3sdeyosLDv8DCvcDDv8LFwMDAwcDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////M1F7DwAAAAlwSFlzAAAOwwAADsMBx2+oZAAAA0NJREFUaN7t12lb00AQAOAura01GO/7vs+SSkUBkxDX+74RrbdWbVUggBARUUFQqLT4j31mN6FpLBEF2fRx5gOQzfV2Z2a3hH4ELEIIQhCC5hk0KTpCHk6xWCwWREYZaLJYnMiPj46IjHJQIT88aHV3iQzPDOXrRUeozDMxXE8FRzkoPxgw0LgVMNBod7BAhZEuBCFoLkGnTrjj5HHhoBvZlyyy2eydtrbrx4SD7uW/liKfbrKHFVJziEg0GW7wPIuPKJFGSo1EFH4QQuCI3xY5EpOpc8FfgZ6/OX3m3PkLry3TtFpbHZBKZNfrXcEQVI9LlFItJlMVMEZdip/V45I2W9CT9t379+47kOsF0O0pUE2qMkhbCCdUNpyMNOrxqPusGm6YNehW+8E927duy/WZndbjBzZIgTTA5DMQHMlUi0lluWLTlLThfEph3AVSCSESpUn2y0gsiBNZj7P8+oPWrli1fkuut9O0Hj5yz5Bmg5RwA7yYgUq54tcozgwyEIyXQCyjtcysEtlIEJmJ9cW/A61cvW7jrlyfaVodHRVA7A0c4qRyqrCNRFlmYLwE4teyO41ElF3qPMYftGbzpp3LWA2NjVUAwcTzuYf3RFlhS+xN8IndIDZeAhkJEoVjdnuUpzlJ2GfxB23YsWTp8lyPaVpD7yuBnDIpy5U9TYrrJB93F7UWI7J9bNcd5Uo/0N1XZy9fvHTlRY9pvh18VzFl0rSLENViri5j47zvnNwokaN2H9og9mjdD3Tz+8DAwOdPH758G/rY318BZCRqUlRfBLBSrpz+p0n4wEZdSoUOkvmIzGdOrWUKBYq5LsVAUNAw6X6ga2keT5/dT6fTV5t/7TK2FkvQ9p5FyG4vqBDoI9XuOGhz+FO1l3CFXcBBcUKgN/1ALc1Nrmhu8duCPItQpTV8JqHF5ujrh3cR8r5GnuFzkmH8goYgBCEosKDDgmJ6UEhQ+IEyAQNlggXKZDI4QwhC0D/vMhGkqlqpEeQPErRU+xS1mD6rHhCcDBooWDUUvK1DjKequgz3MgThXvb/bR1BA2WCtpdhyqqtyzIBrCHcOhCEIAQhCEF//H/Z/G9nCMKiRhCCEIQgBCEIQQiqLtBPwdtc29pazBsAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1075-001"   /></a></p>
+<p>For example:</p><pre class="code-block language-csharp"><code><span class="com">// * operator evaluated before +</span>
+<span class="kw">int</span> sum1 = <span <span class="kw">class</span>="num">1</span> + <span <span class="kw">class</span>="num">2</span> * <span <span class="kw">class</span>="num">3</span>;    <span class="com">// 7</span>
+<span class="com">// + operator evaluated first</span>
+<span class="kw">int</span> sum2 = (<span <span class="kw">class</span>="num">1</span> + <span <span class="kw">class</span>="num">2</span>) * <span <span class="kw">class</span>="num">3</span>;  <span class="com">// 9</span></code></pre><p>Operands, however, are evaluated from left-right, regardless of the order of evaluation of the operators. For example, in the code below, the sub-expression <strong>Return2() * Return3() </strong>is evaluated before adding <strong>Return1()</strong>.  But console output shows us that <strong>Return1()</strong> was executed first.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">int</span> Return1()
+{
+    Console.WriteLine(<span class="str">"1"</span>);
+    <span class="kw">return</span> <span <span class="kw">class</span>="num">1</span>;
+}
+<span class="kw">static</span> <span class="kw">int</span> Return2()
+{
+    Console.WriteLine(<span class="str">"2"</span>);
+    <span class="kw">return</span> <span <span class="kw">class</span>="num">2</span>;
+}
+<span class="kw">static</span> <span class="kw">int</span> Return3()
+{
+    Console.WriteLine(<span class="str">"3"</span>);
+    <span class="kw">return</span> <span <span class="kw">class</span>="num">3</span>;
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="com">// * operator evaluated before +</span>
+    <span class="kw">int</span> sum1 = Return1() + Return2() * Return3();    <span class="com">// 7</span>
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/04/1075-001.png"><img class="alignnone size-full wp-image-8455" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAABtCAMAAAB5lBhNAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAbZQTFRFAAAAKCgoKCg3KChBKEJIKFNBKFNOVCgoVCg3cSgocihBU2BTVGBTckJIcWpaW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5h0Ioh0I3mFQoqGA3h2BBj2FFh3Nan2xNl39ap3RIp39Op39aqXNRqXNSrnZUu2pBu3RIu39OtHtXu39Uun5Zu39anoJxpoFrpoJsiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbeho56epJ+dpqqurK6yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr7Bvb/Cp8u+rdO3sdeyosLDv8DCvcDDv8LFwMDAwcDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////M1F7DwAAAAlwSFlzAAAOwwAADsMBx2+oZAAAA0NJREFUaN7t12lb00AQAOAura01GO/7vs+SSkUBkxDX+74RrbdWbVUggBARUUFQqLT4j31mN6FpLBEF2fRx5gOQzfV2Z2a3hH4ELEIIQhCC5hk0KTpCHk6xWCwWREYZaLJYnMiPj46IjHJQIT88aHV3iQzPDOXrRUeozDMxXE8FRzkoPxgw0LgVMNBod7BAhZEuBCFoLkGnTrjj5HHhoBvZlyyy2eydtrbrx4SD7uW/liKfbrKHFVJziEg0GW7wPIuPKJFGSo1EFH4QQuCI3xY5EpOpc8FfgZ6/OX3m3PkLry3TtFpbHZBKZNfrXcEQVI9LlFItJlMVMEZdip/V45I2W9CT9t379+47kOsF0O0pUE2qMkhbCCdUNpyMNOrxqPusGm6YNehW+8E927duy/WZndbjBzZIgTTA5DMQHMlUi0lluWLTlLThfEph3AVSCSESpUn2y0gsiBNZj7P8+oPWrli1fkuut9O0Hj5yz5Bmg5RwA7yYgUq54tcozgwyEIyXQCyjtcysEtlIEJmJ9cW/A61cvW7jrlyfaVodHRVA7A0c4qRyqrCNRFlmYLwE4teyO41ElF3qPMYftGbzpp3LWA2NjVUAwcTzuYf3RFlhS+xN8IndIDZeAhkJEoVjdnuUpzlJ2GfxB23YsWTp8lyPaVpD7yuBnDIpy5U9TYrrJB93F7UWI7J9bNcd5Uo/0N1XZy9fvHTlRY9pvh18VzFl0rSLENViri5j47zvnNwokaN2H9og9mjdD3Tz+8DAwOdPH758G/rY318BZCRqUlRfBLBSrpz+p0n4wEZdSoUOkvmIzGdOrWUKBYq5LsVAUNAw6X6ga2keT5/dT6fTV5t/7TK2FkvQ9p5FyG4vqBDoI9XuOGhz+FO1l3CFXcBBcUKgN/1ALc1Nrmhu8duCPItQpTV8JqHF5ujrh3cR8r5GnuFzkmH8goYgBCEosKDDgmJ6UEhQ+IEyAQNlggXKZDI4QwhC0D/vMhGkqlqpEeQPErRU+xS1mD6rHhCcDBooWDUUvK1DjKequgz3MgThXvb/bR1BA2WCtpdhyqqtyzIBrCHcOhCEIAQhCEF//H/Z/G9nCMKiRhCCEIQgBCEIQQiqLtBPwdtc29pazBsAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1075-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,119 +56,102 @@
 					</div>
 
 					<p>Assume that we want to use a <b>ListBox </b>to display a list of actors.  We can start by creating an <strong>Actor</strong> type that stores various information about an actor.  We want the class to implement the <strong>INotifyPropertyChanged</strong> interface, so that data binding client are notified of changes to any properties.</p>
-<p>Full code for <em>Actor.cs</em><strong> </strong>is shown below.  Note that when we change <strong>FullName, BirthYear</strong> or <strong>DeathYear</strong> properties, we also flag the derived <strong>NameAndDates </strong>property as potentially changed.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-
-namespace WpfApplication2
-{
-    public class Actor : INotifyPropertyChanged
-    {
-        public Actor()
-        {
-        }
-
-        public Actor(string fullName, int? birthYear, int? deathYear, string knownFor, Uri image)
-        {
-            FullName = fullName;
-            BirthYear = birthYear;
-            DeathYear = deathYear;
-            KnownFor = knownFor;
-            Image = image;
-        }
-
-        private string fullName;
-        public string FullName
-        {
-            get { return fullName; }
-            set
-            {
-                fullName = value;
-                RaisePropertyChanged(&quot;FullName&quot;);
-                RaisePropertyChanged(&quot;NameAndDates&quot;);
-            }
-        }
-
-        private int? birthYear;
-        public int? BirthYear
-        {
-            get { return birthYear; }
-            set
-            {
-                birthYear = value;
-                RaisePropertyChanged(&quot;BirthYear&quot;);
-                RaisePropertyChanged(&quot;NameAndDates&quot;);
-            }
-        }
-
-        private int? deathYear;
-        public int? DeathYear
-        {
-            get { return deathYear; }
-            set
-            {
-                deathYear = value;
-                RaisePropertyChanged(&quot;DeathYear&quot;);
-                RaisePropertyChanged(&quot;NameAndDates&quot;);
-            }
-        }
-
-        private string knownFor;
-        public string KnownFor
-        {
-            get { return knownFor; }
-            set
-            {
-                knownFor = value;
-                RaisePropertyChanged(&quot;KnownFor&quot;);
-            }
-        }
-
-        private Uri image;
-        public Uri Image
-        {
-            get { return image; }
-            set
-            {
-                image = value;
-                RaisePropertyChanged(&quot;Image&quot;);
-            }
-        }
-
-        public string NameAndDates
-        {
-            get
-            {
-                string result = FullName;
-
-                if (BirthYear.HasValue)
-                {
-                    if (DeathYear.HasValue)
-                        result = result + string.Format(&quot; ({0}-{1})&quot;, BirthYear.Value, DeathYear.Value);
-                    else
-                        result = result + string.Format(&quot; ({0}- )&quot;, BirthYear.Value);
-                }
-
-                return result;
-            }
-        }
-
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-        private void RaisePropertyChanged(string propName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
-    }
-}
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Full code for <em>Actor.cs</em><strong> </strong>is shown below.  Note that when we change <strong>FullName, BirthYear</strong> or <strong>DeathYear</strong> properties, we also flag the derived <strong>NameAndDates </strong>property as potentially changed.</p><pre class="code-block language-csharp"><code><span class="kw">using</span> System;
+<span class="kw">using</span> System.Collections.Generic;
+<span class="kw">using</span> System.ComponentModel;
+<span class="kw">using</span> System.Linq;
+<span class="kw">using</span> System.Text;
+<span class="kw">namespace</span> WpfApplication2
+{
+    <span class="kw">public</span> <span class="kw">class</span> Actor : INotifyPropertyChanged
+    {
+        <span class="kw">public</span> Actor()
+        {
+        }
+        <span class="kw">public</span> Actor(<span class="kw">string</span> fullName, <span class="kw">int</span>? birthYear, <span class="kw">int</span>? deathYear, <span class="kw">string</span> knownFor, Uri image)
+        {
+            FullName = fullName;
+            BirthYear = birthYear;
+            DeathYear = deathYear;
+            KnownFor = knownFor;
+            Image = image;
+        }
+        <span class="kw">private</span> <span class="kw">string</span> fullName;
+        <span class="kw">public</span> <span class="kw">string</span> FullName
+        {
+            <span class="kw">get</span> { <span class="kw">return</span> fullName; }
+            <span class="kw">set</span>
+            {
+                fullName = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"FullName"</span>);
+                RaisePropertyChanged(<span class="str">"NameAndDates"</span>);
+            }
+        }
+        <span class="kw">private</span> <span class="kw">int</span>? birthYear;
+        <span class="kw">public</span> <span class="kw">int</span>? BirthYear
+        {
+            <span class="kw">get</span> { <span class="kw">return</span> birthYear; }
+            <span class="kw">set</span>
+            {
+                birthYear = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"BirthYear"</span>);
+                RaisePropertyChanged(<span class="str">"NameAndDates"</span>);
+            }
+        }
+        <span class="kw">private</span> <span class="kw">int</span>? deathYear;
+        <span class="kw">public</span> <span class="kw">int</span>? DeathYear
+        {
+            <span class="kw">get</span> { <span class="kw">return</span> deathYear; }
+            <span class="kw">set</span>
+            {
+                deathYear = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"DeathYear"</span>);
+                RaisePropertyChanged(<span class="str">"NameAndDates"</span>);
+            }
+        }
+        <span class="kw">private</span> <span class="kw">string</span> knownFor;
+        <span class="kw">public</span> <span class="kw">string</span> KnownFor
+        {
+            <span class="kw">get</span> { <span class="kw">return</span> knownFor; }
+            <span class="kw">set</span>
+            {
+                knownFor = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"KnownFor"</span>);
+            }
+        }
+        <span class="kw">private</span> Uri image;
+        <span class="kw">public</span> Uri Image
+        {
+            <span class="kw">get</span> { <span class="kw">return</span> image; }
+            <span class="kw">set</span>
+            {
+                image = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"Image"</span>);
+            }
+        }
+        <span class="kw">public</span> <span class="kw">string</span> NameAndDates
+        {
+            <span class="kw">get</span>
+            {
+                <span class="kw">string</span> result = FullName;
+                <span class="kw">if</span> (BirthYear.HasValue)
+                {
+                    <span class="kw">if</span> (DeathYear.HasValue)
+                        result = result + <span class="kw">string</span>.Format(<span class="str">" ({0}-{1})"</span>, BirthYear.Value, DeathYear.Value);
+                    <span class="kw">else</span>
+                        result = result + <span class="kw">string</span>.Format(<span class="str">" ({0}- )"</span>, BirthYear.Value);
+                }
+                <span class="kw">return</span> result;
+            }
+        }
+        <span class="com">// INotifyPropertyChanged</span>
+        <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+        <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+        {
+            PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+        }
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

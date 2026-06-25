@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,23 +55,11 @@
 																				</p>
 					</div>
 
-					<p>In C#, every data item is an object, created on the <a href="2010-12-19-185-the-heap-and-the-stack.html">stack or the heap</a>.  Even built-in data types, like <strong>double</strong> or <strong>int</strong> represent classes (<strong>System.Double</strong> and <strong>System.Int32</strong>) and declaring an object to be of one of these types is equivalent to instantiating an object of the appropriate type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Declare and instantiate an int
-
-            int i = 12;
-
-
-
-            // Equivalent to
-
-            System.Int32 i2 = new System.Int32();
-
-            i2 = 12;
-
-</pre>
-<p>Similarly, every function call involves calling a method declared in some type&#8211;either a static or an instance method.</p>
+					<p>In C#, every data item is an object, created on the <a href="2010-12-19-185-the-heap-and-the-stack.html">stack or the heap</a>.  Even built-in data types, like <strong>double</strong> or <strong>int</strong> represent classes (<strong>System.Double</strong> and <strong>System.Int32</strong>) and declaring an object to be of one of these types is equivalent to instantiating an object of the appropriate type.</p><pre class="code-block language-csharp"><code><span class="com">// Declare and instantiate an int</span>
+<span class="kw">int</span> i = <span <span class="kw">class</span>="num">12</span>;
+<span class="com">// Equivalent to</span>
+System.Int32 i2 = <span class="kw">new</span> System.Int32();
+i2 = <span <span class="kw">class</span>="num">12</span>;</code></pre><p>Similarly, every function call involves calling a method declared in some type&#8211;either a static or an instance method.</p>
 <p>Even constants represent instances of some object.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2010/12/constants.png"><img class="alignnone size-full wp-image-1719" title="Constants" src="data:image/png;base64,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" alt=""   /></a></p>
 

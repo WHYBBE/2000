@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,26 +56,18 @@
 					</div>
 
 					<p>When you declare and initialize an <a href="2011-03-24-280-implicitly-typed-arrays.html">implicitly-typed array</a>, the C# compiler tries to find a single type that best fits all of the values that you provide.  Constant values can be of different types, as long as they are all implicitly convertible to a single common type.</p>
-<p><pre class="brush: csharp;">
-// Becomes int[]
-var numbers = new[] { 1, 2, 3 };
-
-// Becomes double[]
-var moreNums = new[] { 1.1, 2.2, 3.3 };
-
-// Also double[], int values convertible to double
-var evenMore = new[] { 1, 2, 3.3 };
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Becomes int[]</span>
+<span class="kw">var</span> numbers = <span class="kw">new</span>[] { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span> };
+<span class="com">// Becomes double[]</span>
+<span class="kw">var</span> moreNums = <span class="kw">new</span>[] { <span <span class="kw">class</span>="num">1.1</span>, <span <span class="kw">class</span>="num">2.2</span>, <span <span class="kw">class</span>="num">3.3</span> };
+<span class="com">// Also double[], int values convertible to double</span>
+<span class="kw">var</span> evenMore = <span class="kw">new</span>[] { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3.3</span> };</code></pre>
 <p>Note that the compiler will not implicitly convert everything to <strong>object</strong>, if <strong>System.Object</strong> is the only common type found.</p>
-<p><pre class="brush: csharp;">
-// Compile-time error: No best type found for implicitly-typed array
-var stuff = new[] { 1, 2, &quot;dog&quot; };
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Compile-time error: No best type found for implicitly-typed array</span>
+<span class="kw">var</span> stuff = <span class="kw">new</span>[] { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span class="str">"dog"</span> };</code></pre>
 <p>If you did want an array of <strong>objects</strong>, you could use an explicit cast.</p>
-<p><pre class="brush: csharp;">
-            // Becomes object[]
-            var stuffFixed = new[] { (object)1, (object)2, (object)&quot;dog&quot; };
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Becomes object[]</span>
+<span class="kw">var</span> stuffFixed = <span class="kw">new</span>[] { (<span class="kw">object</span>)<span <span class="kw">class</span>="num">1</span>, (<span class="kw">object</span>)<span <span class="kw">class</span>="num">2</span>, (<span class="kw">object</span>)<span class="str">"dog"</span> };</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/06/01/596-implicitly-typed-arrays-and-best-type-inference/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5037"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/06/01/596-implicitly-typed-arrays-and-best-type-inference/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/06/01/596-implicitly-typed-arrays-and-best-type-inference/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Data Types | Tags: Best Common Type, C#, Data Types, Implicitly-Typed Arrays</p>
   <nav class="pager"><a href="2012-05-31-595-intellisense-shows-method-overloads.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-06-04-597-returning-an-array-from-a-method.html">Next</a></nav>

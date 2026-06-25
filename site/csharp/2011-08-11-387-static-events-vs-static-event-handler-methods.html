@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,17 @@
 					</div>
 
 					<p>Events can be <a href="http://wp.me/pXTis-Qr">static events</a> or <a href="http://wp.me/pXTis-Oc">instance events</a>.  Static events are associated with the class as a whole, whereas instance events are associated with a specific instance of the class.</p>
-<p>You can attach event handlers to both static and instance events.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Add handler to static event
-            Dog.SomebodyBarked += new EventHandler&lt;SomebodyBarkedEventArgs&gt;(Dog_SomebodyBarked);
-
-            Dog kirby = new Dog(&quot;Kirby&quot;);
-
-            // Add handler to instance event
-            kirby.Barked += new EventHandler&lt;SomebodyBarkedEventArgs&gt;(kirby_Barked);
-</pre>
-<p>In both cases, we&#8217;re attaching a handler that is a static method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Dog_SomebodyBarked(object sender, SomebodyBarkedEventArgs e)
-        {
-            Console.WriteLine(&quot;Dog {0} barked, saying {1}&quot;, e.DogName, e.Bark);
-        }
-</pre>
-<p>We can also attach a handler that is an instance method.  So we can attach both static and instance methods as handlers, to either static or instance events.</p>
-<p>For example:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            BarkLogger log = new BarkLogger();
-
-            // Add instance method as handler for static event
-            Dog.SomebodyBarked += new EventHandler&lt;SomebodyBarkedEventArgs&gt;(log.LogBark);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>You can attach event handlers to both static and instance events.</p><pre class="code-block language-csharp"><code><span class="com">// Add handler to static event</span>
+Dog.SomebodyBarked += <span class="kw">new</span> EventHandler&lt;SomebodyBarkedEventArgs&gt;(Dog_SomebodyBarked);
+Dog kirby = <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>);
+<span class="com">// Add handler to instance event</span>
+kirby.Barked += <span class="kw">new</span> EventHandler&lt;SomebodyBarkedEventArgs&gt;(kirby_Barked);</code></pre><p>In both cases, we&#8217;re attaching a handler that is a static method.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Dog_SomebodyBarked(<span class="kw">object</span> sender, SomebodyBarkedEventArgs e)
+{
+    Console.WriteLine(<span class="str">"Dog {0} barked, saying {1}"</span>, e.DogName, e.Bark);
+}</code></pre><p>We can also attach a handler that is an instance method.  So we can attach both static and instance methods as handlers, to either static or instance events.</p>
+<p>For example:</p><pre class="code-block language-csharp"><code>BarkLogger log = <span class="kw">new</span> BarkLogger();
+<span class="com">// Add instance method as handler for static event</span>
+Dog.SomebodyBarked += <span class="kw">new</span> EventHandler&lt;SomebodyBarkedEventArgs&gt;(log.LogBark);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

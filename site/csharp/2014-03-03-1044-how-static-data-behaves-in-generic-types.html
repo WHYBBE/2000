@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,26 +57,18 @@
 
 					<p>There is only a <a href="2010-08-02-46-there-is-only-one-copy-of-static-data.html">single copy of each static data item</a>, rather than one copy for each instance of the class.</p>
 <p>When you have a static data item in a generic class, there is a single copy of that data item for each <a href="2011-05-17-326-generic-type-vs-constructed-type.html">constructed type</a> based on the generic type.  A constructed type is a type declaration that is based on a generic type, providing arguments for the generic type&#8217;s type parameters.</p>
-<p>Assume that we define a <strong>PileOf&lt;T&gt;</strong> type that has a static <strong>NumInAllPiles</strong> field, incremented as part of an <strong>Add</strong> method.  We reference the static field using the constructed class name and see that each constructed type has its own copy of the static data.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Pile of 1 dog
-            PileOf&lt;Dog&gt; pile1 = new PileOf&lt;Dog&gt;();
-            pile1.Add(new Dog(&quot;Bowser&quot;));
-
-            // Pile of 2 dogs
-            PileOf&lt;Dog&gt; pile2 = new PileOf&lt;Dog&gt;();
-            pile2.Add(new Dog(&quot;Kirby&quot;));
-            pile2.Add(new Dog(&quot;Fido&quot;));
-
-            // Pile of 1 cat
-            PileOf&lt;Cat&gt; pile3 = new PileOf&lt;Cat&gt;();
-            pile3.Add(new Cat(&quot;Fluffy&quot;));
-
-            Console.WriteLine(PileOf&lt;Dog&gt;.NumInAllPiles);  // 3
-            Console.WriteLine(PileOf&lt;Cat&gt;.NumInAllPiles);  // 1
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Assume that we define a <strong>PileOf&lt;T&gt;</strong> type that has a static <strong>NumInAllPiles</strong> field, incremented as part of an <strong>Add</strong> method.  We reference the static field using the constructed class name and see that each constructed type has its own copy of the static data.</p><pre class="code-block language-csharp"><code><span class="com">// Pile of 1 dog</span>
+PileOf&lt;Dog&gt; pile1 = <span class="kw">new</span> PileOf&lt;Dog&gt;();
+pile1.Add(<span class="kw">new</span> Dog(<span class="str">"Bowser"</span>));
+<span class="com">// Pile of 2 dogs</span>
+PileOf&lt;Dog&gt; pile2 = <span class="kw">new</span> PileOf&lt;Dog&gt;();
+pile2.Add(<span class="kw">new</span> Dog(<span class="str">"Kirby"</span>));
+pile2.Add(<span class="kw">new</span> Dog(<span class="str">"Fido"</span>));
+<span class="com">// Pile of 1 cat</span>
+PileOf&lt;Cat&gt; pile3 = <span class="kw">new</span> PileOf&lt;Cat&gt;();
+pile3.Add(<span class="kw">new</span> Cat(<span class="str">"Fluffy"</span>));
+Console.WriteLine(PileOf&lt;Dog&gt;.NumInAllPiles);  <span class="com">// 3</span>
+Console.WriteLine(PileOf&lt;Cat&gt;.NumInAllPiles);  <span class="com">// 1</span></code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

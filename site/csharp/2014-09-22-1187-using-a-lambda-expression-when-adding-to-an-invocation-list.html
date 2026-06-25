@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,51 +56,22 @@
 					</div>
 
 					<p>Recall that an instance of a delegate can <a href="2011-07-22-373-a-delegate-can-refer-to-more-than-one-method.html">refer to more than one method</a> (delegates are <em>multicast</em>).  You can <a href="2012-03-30-551-use-anonymous-method-when-adding-to-an-invocation-list.html">use anonymous methods</a> to declare a new instance of a delegate or to add methods to a delegate&#8217;s invocation list.</p>
-<p>Since <a href="2014-08-27-1169-lambdas-supersede-anonymous-methods.html">lambda expressions supersede anonymous methods</a>, you can also use lambdas to initialize a delegate or to add to its invocation list.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private delegate void StringHandlerDelegate(string s);
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            // Declare new delegate instance, with lambda
-
-            // as its invocation list
-
-            StringHandlerDelegate del1 = 
-
-                (s) =&gt; Console.WriteLine(s);
-
-
-
-            // Now add a 2nd method to delegate, also using
-
-            // lambda expression
-
-            del1 +=
-
-                (s) =&gt; Console.WriteLine(new string(s.Reverse().ToArray())); 
-
-
-
-            // When we invoke the delegate, both lambdas
-
-            // are invoked
-
-            del1(&quot;Mairzy Doats and Dozy Doats&quot;);
-
-
-
-            Console.ReadLine();
-
-        }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1187-001.png"><img class="alignnone size-full wp-image-9119" src="data:image/png;base64,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" alt="1187-001"   /></a></p>
+<p>Since <a href="2014-08-27-1169-lambdas-supersede-anonymous-methods.html">lambda expressions supersede anonymous methods</a>, you can also use lambdas to initialize a delegate or to add to its invocation list.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">delegate</span> <span class="kw">void</span> StringHandlerDelegate(<span class="kw">string</span> s);
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="com">// Declare new delegate instance, with lambda</span>
+    <span class="com">// as its invocation list</span>
+    StringHandlerDelegate del1 =
+        (s) =&gt; Console.WriteLine(s);
+    <span class="com">// Now add a 2nd method to delegate, also using</span>
+    <span class="com">// lambda expression</span>
+    del1 +=
+        (s) =&gt; Console.WriteLine(<span class="kw">new</span> <span class="kw">string</span>(s.Reverse().ToArray()));
+    <span class="com">// When we invoke the delegate, both lambdas</span>
+    <span class="com">// are invoked</span>
+    del1(<span class="str">"Mairzy Doats and Dozy Doats"</span>);
+    Console.ReadLine();
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1187-001.png"><img class="alignnone size-full wp-image-9119" src="data:image/png;base64,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" alt="1187-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

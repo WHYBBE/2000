@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,33 +55,23 @@
 																				</p>
 					</div>
 
-					<p>A <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html"><em>generic type</em></a> is a type that uses a type parameter in its definition, which must be concretely specified when constructing the type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class PileOf&lt;T&gt;
-    {
-        private List&lt;T&gt; thePile;
-
-        public PileOf()
-        {
-            thePile = new List&lt;T&gt;();
-        }
-
-        public void AddItem(T thing)
-        {
-            thePile.Add(thing);
-        }
-    }
-</pre>
-<p>A <em><a href="2012-03-13-538-implement-a-generic-method.html">generic method</a></em> is a method that introduces a generic type parameter.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Swap&lt;T&gt;(ref T item1, ref T item2)
-        {
-            T temp = item1;
-            item1 = item2;
-            item2 = temp;
-        }
-</pre>
-<p>Methods within generic types that use the type parameter from the type are not consider generic.  The <strong>AddItem</strong> method in the <strong>PileOf&lt;T&gt;</strong> class above is not considered generic.  To be considered a generic method, the method must introduce a new type parameter not present as a type parameter in the containing class.</p>
+					<p>A <a href="2011-05-12-323-a-generic-class-is-a-template-for-a-class.html"><em>generic type</em></a> is a type that uses a type parameter in its definition, which must be concretely specified when constructing the type.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> PileOf&lt;T&gt;
+{
+    <span class="kw">private</span> List&lt;T&gt; thePile;
+    <span class="kw">public</span> PileOf()
+    {
+        thePile = <span class="kw">new</span> List&lt;T&gt;();
+    }
+    <span class="kw">public</span> <span class="kw">void</span> AddItem(T thing)
+    {
+        thePile.Add(thing);
+    }
+}</code></pre><p>A <em><a href="2012-03-13-538-implement-a-generic-method.html">generic method</a></em> is a method that introduces a generic type parameter.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Swap&lt;T&gt;(<span class="kw">ref</span> T item1, <span class="kw">ref</span> T item2)
+{
+    T temp = item1;
+    item1 = item2;
+    item2 = temp;
+}</code></pre><p>Methods within generic types that use the type parameter from the type are not consider generic.  The <strong>AddItem</strong> method in the <strong>PileOf&lt;T&gt;</strong> class above is not considered generic.  To be considered a generic method, the method must introduce a new type parameter not present as a type parameter in the containing class.</p>
 <p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

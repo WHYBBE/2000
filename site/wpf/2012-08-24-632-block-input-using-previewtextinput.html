@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,28 +57,13 @@
 
 					<p>You can use the <a href="2012-08-22-630-previewtextinput-and-textinput-events.html"><strong>PreviewTextInput</strong></a> event for a control that accepts text input to block certain characters from being entered into the control.</p>
 <p>To prevent a particular character from being entered into the control, simply set the <strong>Handled</strong> property of the <strong>TextCompositionEventArgs</strong> parameter to <strong>true</strong>.  This will intercept the event routing and will prevent the control from receiving the text.</p>
-<p><pre class="brush: xml;">
-
-&lt;TextBox Text=&quot;&quot; HorizontalAlignment=&quot;Center&quot; Width=&quot;150&quot;
-
-     PreviewTextInput=&quot;TextBox_PreviewTextInput&quot; /&gt;
-
-</pre><br />
-<pre class="brush: csharp;">
-
-    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-
-        {
-
-            // No e's allowed
-
-            if ((e.Text == &quot;e&quot;) || (e.Text == &quot;E&quot;))
-
-                e.Handled = true;
-
-        }
-
-</pre></p>
+<pre class="code-block language-xml"><code>&lt;TextBox Text="" HorizontalAlignment="Center" Width="150"
+     PreviewTextInput="TextBox_PreviewTextInput" /&gt;</code></pre><br /><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> TextBox_PreviewTextInput(<span class="kw">object</span> sender, TextCompositionEventArgs e)
+    {
+        <span class="com">// No e's allowed</span>
+        <span class="kw">if</span> ((e.Text == <span class="str">"e"</span>) || (e.Text == <span class="str">"E"</span>))
+            e.Handled = <span class="kw">true</span>;
+    }</code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/08/632-001.png"><img class="alignnone size-full wp-image-5492" title="632-001" src="data:image/png;base64,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" alt=""   /></a></pre>
 
 		<div class="wpadvert">

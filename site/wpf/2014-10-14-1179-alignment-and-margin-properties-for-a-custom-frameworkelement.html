@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,16 @@
 					</div>
 
 					<p>When you create a custom control that derives from <a href="2010-08-13-32-frameworkelement.html"><strong>FrameworkElement</strong></a>, your control has access to all standard <strong>FrameworkElement </strong>behavior.  This includes the use of the <strong>Margin</strong> property, as well as the <strong>HorizontalAlignment</strong> and <strong>VerticalAlignment</strong> properties.</p>
-<p>Below, we use margin and alignment in positioning a <a href="http://wp.me/pZhye-2s0">custom framework element</a> within a <strong>Grid.</strong></p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Grid ShowGridLines=&quot;True&quot;&gt;
-
-        &lt;Grid.RowDefinitions&gt;
-
-            &lt;RowDefinition/&gt;
-
-            &lt;RowDefinition/&gt;
-
-        &lt;/Grid.RowDefinitions&gt;
-
-        
-
-        &lt;loc:MyFrameworkElement HorizontalAlignment=&quot;Center&quot;
-
-                                VerticalAlignment=&quot;Top&quot;
-
-                                Height=&quot;40&quot; Width=&quot;100&quot;/&gt;
-
-        &lt;loc:MyFrameworkElement Grid.Row=&quot;1&quot; Margin=&quot;20,10&quot;/&gt;
-
-    &lt;/Grid&gt;
-
-</pre>
-<p>(Showing grid lines for clarity).</p>
+<p>Below, we use margin and alignment in positioning a <a href="http://wp.me/pZhye-2s0">custom framework element</a> within a <strong>Grid.</strong></p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">ShowGridLines</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+    &lt;loc:MyFrameworkElement HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Height="40" Width="100"/&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">loc:MyFrameworkElement</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"20,10"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p>(Showing grid lines for clarity).</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1179-001.png"><img class="alignnone size-full wp-image-9432" src="data:image/png;base64,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" alt="1179-001"   /></a></p>
 
 <div class="wpcnt">

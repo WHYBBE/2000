@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,119 +55,47 @@
 																				</p>
 					</div>
 
-					<p>Below is another example of a custom panel.  This panel arranges its children into two columns, flowing to the next row after both columns are filled.  It also gives each child element a uniform amount of space, based on the total size of the containing panel.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class TwoColUniformPanel : Panel
-
+					<p>Below is another example of a custom panel.  This panel arranges its children into two columns, flowing to the next row after both columns are filled.  It also gives each child element a uniform amount of space, based on the total size of the containing panel.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> TwoColUniformPanel : Panel
+{
+    <span class="kw">protected</span> <span class="kw">override</span> Size MeasureOverride(Size availableSize)
     {
-
-        protected override Size MeasureOverride(Size availableSize)
-
-        {
-
-            Size childSize = CalcUniformChildSize(availableSize);
-
-
-
-            foreach (UIElement elem in InternalChildren)
-
-                elem.Measure(childSize);
-
-
-
-            return availableSize;
-
-        }
-
-
-
-        protected override Size ArrangeOverride(Size finalSize)
-
-        {
-
-            // All children are the same size
-
-            Size childSize = CalcUniformChildSize(finalSize);
-
-
-
-            double top = 0.0;
-
-            double left = 0.0;
-
-
-
-            for (int i = 0; i &lt; InternalChildren.Count; i++)
-
-            {
-
-                Rect r = new Rect(new Point(left, top), childSize);
-
-
-
-                InternalChildren[i].Arrange(r);
-
-
-
-                // Next row
-
-                if (left &gt; 0.0)
-
-                    top += childSize.Height;
-
-
-
-                // Alternate column
-
-                left = (left &gt; 0.0) ? 0.0 : (finalSize.Width / 2.0);
-
-            }
-
-
-
-            return finalSize;
-
-        }
-
-
-
-        private Size CalcUniformChildSize(Size availSize)
-
-        {
-
-            int numRows = (int)Math.Ceiling(InternalChildren.Count / 2.0);
-
-            return new Size(availSize.Width / 2.0,
-
-                            availSize.Height / numRows);
-
-        }
-
+        Size childSize = CalcUniformChildSize(availableSize);
+        <span class="kw">foreach</span> (UIElement elem <span class="kw">in</span> InternalChildren)
+            elem.Measure(childSize);
+        <span class="kw">return</span> availableSize;
     }
-
-</pre>
-<p>We can use the panel as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;loc:TwoColUniformPanel Margin=&quot;5&quot;&gt;
-
-        &lt;Label Content=&quot;I'm child #1&quot; VerticalAlignment=&quot;Center&quot;
-
-               Background=&quot;Thistle&quot; /&gt;
-
-        &lt;Label Content=&quot;I'm child #2&quot;
-
-               Background=&quot;Lavender&quot; /&gt;
-
-        &lt;Label Content=&quot;Third kid&quot;
-
-               Background=&quot;Honeydew&quot; /&gt;
-
-    &lt;/loc:TwoColUniformPanel&gt;
-
-</pre>
-<p>Below are some images showing the result, as we resize the panel. Note that the first label stays vertically aligned in the center of the area allotted for it, rather than stretching to fill the area like the other labels.</p>
+    <span class="kw">protected</span> <span class="kw">override</span> Size ArrangeOverride(Size finalSize)
+    {
+        <span class="com">// All children are the same size</span>
+        Size childSize = CalcUniformChildSize(finalSize);
+        <span class="kw">double</span> top = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="kw">double</span> left = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; InternalChildren.Count; i++)
+        {
+            Rect r = <span class="kw">new</span> Rect(<span class="kw">new</span> Point(left, top), childSize);
+            InternalChildren[i].Arrange(r);
+            <span class="com">// Next row</span>
+            <span class="kw">if</span> (left &gt; <span <span class="kw">class</span>="num">0.0</span>)
+                top += childSize.Height;
+            <span class="com">// Alternate column</span>
+            left = (left &gt; <span <span class="kw">class</span>="num">0.0</span>) ? <span <span class="kw">class</span>="num">0.0</span> : (finalSize.Width / <span <span class="kw">class</span>="num">2.0</span>);
+        }
+        <span class="kw">return</span> finalSize;
+    }
+    <span class="kw">private</span> Size CalcUniformChildSize(Size availSize)
+    {
+        <span class="kw">int</span> numRows = (<span class="kw">int</span>)Math.Ceiling(InternalChildren.Count / <span <span class="kw">class</span>="num">2.0</span>);
+        <span class="kw">return</span> <span class="kw">new</span> Size(availSize.Width / <span <span class="kw">class</span>="num">2.0</span>,
+                        availSize.Height / numRows);
+    }
+}</code></pre><p>We can use the panel as follows:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">loc:TwoColUniformPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="I'm child #1" VerticalAlignment="Center"
+           Background="Thistle" /&gt;
+    &lt;Label Content="I'm child #2"
+           Background="Lavender" /&gt;
+    &lt;Label Content="Third kid"
+           Background="Honeydew" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">loc:TwoColUniformPanel</span><span class="xml-tag">&gt;</span></code></pre><p>Below are some images showing the result, as we resize the panel. Note that the first label stays vertically aligned in the center of the area allotted for it, rather than stretching to fill the area like the other labels.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1173-001.png"><img class="alignnone size-full wp-image-9390" src="data:image/png;base64,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" alt="1173-001"   /></a></p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1173-002.png"><img class="alignnone size-full wp-image-9391" src="data:image/png;base64,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" alt="1173-002"   /></a></p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1173-003.png"><img class="alignnone size-full wp-image-9392" src="data:image/png;base64,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" alt="1173-003"   /></a></p>

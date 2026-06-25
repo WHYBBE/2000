@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,24 +57,22 @@
 
 					<p>You can <a href="2012-02-14-494-using-a-value-converter-to-bind-to-a-visibility-property.html">use a value converter</a> to convert a string value to a value of type <strong>System.Windows.Visibility</strong>, allowing data binding to a <strong>Visibility</strong> property.  You can also just set a <strong>Visibility</strong> property directly to a string, avoiding the need for a value converter.</p>
 <p>In the example below, we bind to the <strong>Content </strong>property of a <strong>ComboBoxItem</strong>, which we access through the <strong>SelectedValue</strong> property of a <strong>ComboBox</strong>.  Since <strong>Content</strong> contains a string, the binding to <strong>Visibility</strong> works without a conversion.</p>
-<p><pre class="brush: xml;">
-    &lt;StackPanel&gt;
-        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot;&gt;
-            &lt;Label Content=&quot;Snoopy&quot; Margin=&quot;3&quot; Background=&quot;BurlyWood&quot;/&gt;
-            &lt;Label Content=&quot;Waldo&quot; Margin=&quot;3&quot; Background=&quot;Thistle&quot;
-                   Visibility=&quot;{Binding ElementName=cboVisibility, Path=SelectedValue.Content}&quot;/&gt;
-            &lt;Label Content=&quot;Dagwood&quot; Margin=&quot;3&quot; Background=&quot;LightGreen&quot;/&gt;
-        &lt;/StackPanel&gt;
-        &lt;ComboBox Name=&quot;cboVisibility&quot; HorizontalAlignment=&quot;Center&quot; SelectedIndex=&quot;0&quot;&gt;
-            &lt;ComboBox.Items&gt;
-                &lt;ComboBoxItem Content=&quot;Visible&quot;/&gt;
-                &lt;ComboBoxItem Content=&quot;Collapsed&quot;/&gt;
-                &lt;ComboBoxItem Content=&quot;Hidden&quot;/&gt;
-            &lt;/ComboBox.Items&gt;
-        &lt;/ComboBox&gt;
-        &lt;Label Content=&quot;Select visibility of middle Label&quot; HorizontalAlignment=&quot;Center&quot;/&gt;
-    &lt;/StackPanel&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Snoopy"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"3"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"BurlyWood"</span><span class="xml-tag">/&gt;</span>
+        &lt;Label Content="Waldo" Margin="3" Background="Thistle"
+               Visibility="{Binding ElementName=cboVisibility, Path=SelectedValue.Content}"/&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Dagwood"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"3"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"LightGreen"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ComboBox</span> <span class="xml-attr">Name</span>=<span class="xml-val">"cboVisibility"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-attr">SelectedIndex</span>=<span class="xml-val">"0"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ComboBox.Items</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ComboBoxItem</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Visible"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ComboBoxItem</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Collapsed"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ComboBoxItem</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Hidden"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ComboBox.Items</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ComboBox</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Select visibility of middle Label"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 
 <div class="wpadvert">
 

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,13 +55,9 @@
 																				</p>
 					</div>
 
-					<p>In C#, you can compare two objects for equality by using the Equality operator (<strong>==</strong>) or by calling the <strong>Equals</strong> method.  In both cases, the default behavior for reference types is to check for <a href="http://wp.me/pXTis-SL"><em>reference equality</em></a>, or <em>identity.</em></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    bool sameDog = yourDog.Equals(myDog);
-    bool sameDog2 = yourDog == myDog;
-    bool sameDog3 = Dog.Equals(yourDog, myDog);
-</pre>
-<p>By default, for a reference type, these mechanisms behave exactly the same way, implementing a reference equality check.  Under the covers, they are a bit different:</p>
+					<p>In C#, you can compare two objects for equality by using the Equality operator (<strong>==</strong>) or by calling the <strong>Equals</strong> method.  In both cases, the default behavior for reference types is to check for <a href="http://wp.me/pXTis-SL"><em>reference equality</em></a>, or <em>identity.</em></p><pre class="code-block language-csharp"><code><span class="kw">bool</span> sameDog = yourDog.Equals(myDog);
+<span class="kw">bool</span> sameDog2 = yourDog == myDog;
+<span class="kw">bool</span> sameDog3 = Dog.Equals(yourDog, myDog);</code></pre><p>By default, for a reference type, these mechanisms behave exactly the same way, implementing a reference equality check.  Under the covers, they are a bit different:</p>
 <ul>
 <li>The <strong>Equals</strong> method is an instance method of the <strong>System.Object</strong> class.  It does some checks for null, but then uses the == operator in the default implementation.  It is a virtual method that you can override.</li>
 <li>The <strong>==</strong> operator resolves to the CIL <strong>ceq</strong> instruction, which does a strict identity check.  You can override the <strong>==</strong> operator, in which case a new method named <strong>op_Equality</strong> is defined/called.</li>

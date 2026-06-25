@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,71 +56,38 @@
 					</div>
 
 					<p><a href="2012-03-09-536-implement-a-generic-interface.html">Generic interfaces</a> in C# are covariant, provided that their type parameters are <a href="http://wp.me/pXTis-2bt">constrained with the <strong>out</strong></a> keyword.</p>
-<p>Let&#8217;s assume that we have the following interface.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public interface FirstAndLast&lt;T&gt;
-        {
-            T First();
-            T Last();
-        }
-</pre>
-<p>Then assume that we define a generic class that implements this interface:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public class LineOf&lt;T&gt; : IFirstAndLast&lt;T&gt;
-        {
-            private Queue&lt;T&gt; theQueue = new Queue&lt;T&gt;();
-
-            public void AddToEnd(T d)
-            {
-                theQueue.Enqueue(d);
-            }
-
-            public void RemoveFromFront(T d)
-            {
-                theQueue.Dequeue();
-            }
-
-            public T First()
-            {
-                return theQueue.Peek();
-            }
-
-            public T Last()
-            {
-                return theQueue.Last();
-            }
-        }
-</pre>
-<p>Great, now we can use this class as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            LineOf&lt;Dog&gt; dogs = new LineOf&lt;Dog&gt;();
-            dogs.AddToEnd(new Dog(&quot;Lassie&quot;));
-            dogs.AddToEnd(new Dog(&quot;Rin Tin Tin&quot;));
-            Console.WriteLine(dogs.First().ToString() + &quot;, &quot; + dogs.Last().ToString());
-
-            LineOf&lt;BorderCollie&gt; herders = new LineOf&lt;BorderCollie&gt;();
-            herders.AddToEnd(new BorderCollie(&quot;Kirby&quot;));
-            herders.AddToEnd(new BorderCollie(&quot;Shep&quot;));
-            Console.WriteLine(herders.First().ToString() + &quot;, &quot; + herders.Last().ToString());
-</pre>
-<p>At this point, we might want to convert <strong>LineOf&lt;BorderCollie&gt;</strong> to <strong>IFirstAndLast&lt;Dog&gt;, </strong>for example we might have a method that returns <strong>IFirstAndLast&lt;Dog</strong>&gt;<strong>.</strong></p>
-<p>However, if we do the following, we get a compiler error, saying that we can&#8217;t implicitly cast <strong>LineOf&lt;BorderCollie&gt;</strong> to <strong>IFirstAndLast&lt;Dog&gt;</strong>:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            IFirstAndLast&lt;Dog&gt; dogLine = herders;
-</pre>
-<p>We could do a cast, as shown below. The code now compiles, but the conversion fails at runtime.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            IFirstAndLast&lt;Dog&gt; dogLine = (IFirstAndLast&lt;Dog&gt;)herders;
-</pre>
-<p>We want the <strong>IFirstAndLast&lt;T&gt;</strong> interface to be covariant, i.e. to allow this assignment.  To support this, we just need to add the <strong>out</strong> keyword in the interface.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public interface IFirstAndLast&lt;out T&gt;
-</pre>
-<p>We can do this because <strong>T</strong> is only used in this interface as a return value.  Having done this, we can now do the following.  This compiles and the assignment succeeds at runtime.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            IFirstAndLast&lt;Dog&gt; dogLine = herders;
-</pre>
-<p>&nbsp;</p>
+<p>Let&#8217;s assume that we have the following interface.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">interface</span> FirstAndLast&lt;T&gt;
+{
+    T First();
+    T Last();
+}</code></pre><p>Then assume that we define a generic class that implements this interface:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> LineOf&lt;T&gt; : IFirstAndLast&lt;T&gt;
+{
+    <span class="kw">private</span> Queue&lt;T&gt; theQueue = <span class="kw">new</span> Queue&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> AddToEnd(T d)
+    {
+        theQueue.Enqueue(d);
+    }
+    <span class="kw">public</span> <span class="kw">void</span> RemoveFromFront(T d)
+    {
+        theQueue.Dequeue();
+    }
+    <span class="kw">public</span> T First()
+    {
+        <span class="kw">return</span> theQueue.Peek();
+    }
+    <span class="kw">public</span> T Last()
+    {
+        <span class="kw">return</span> theQueue.Last();
+    }
+}</code></pre><p>Great, now we can use this class as follows:</p><pre class="code-block language-csharp"><code>LineOf&lt;Dog&gt; dogs = <span class="kw">new</span> LineOf&lt;Dog&gt;();
+dogs.AddToEnd(<span class="kw">new</span> Dog(<span class="str">"Lassie"</span>));
+dogs.AddToEnd(<span class="kw">new</span> Dog(<span class="str">"Rin Tin Tin"</span>));
+Console.WriteLine(dogs.First().ToString() + <span class="str">", "</span> + dogs.Last().ToString());
+LineOf&lt;BorderCollie&gt; herders = <span class="kw">new</span> LineOf&lt;BorderCollie&gt;();
+herders.AddToEnd(<span class="kw">new</span> BorderCollie(<span class="str">"Kirby"</span>));
+herders.AddToEnd(<span class="kw">new</span> BorderCollie(<span class="str">"Shep"</span>));
+Console.WriteLine(herders.First().ToString() + <span class="str">", "</span> + herders.Last().ToString());</code></pre><p>At this point, we might want to convert <strong>LineOf&lt;BorderCollie&gt;</strong> to <strong>IFirstAndLast&lt;Dog&gt;, </strong>for example we might have a method that returns <strong>IFirstAndLast&lt;Dog</strong>&gt;<strong>.</strong></p>
+<p>However, if we do the following, we get a compiler error, saying that we can&#8217;t implicitly cast <strong>LineOf&lt;BorderCollie&gt;</strong> to <strong>IFirstAndLast&lt;Dog&gt;</strong>:</p><pre class="code-block language-csharp"><code>IFirstAndLast&lt;Dog&gt; dogLine = herders;</code></pre><p>We could do a cast, as shown below. The code now compiles, but the conversion fails at runtime.</p><pre class="code-block language-csharp"><code>IFirstAndLast&lt;Dog&gt; dogLine = (IFirstAndLast&lt;Dog&gt;)herders;</code></pre><p>We want the <strong>IFirstAndLast&lt;T&gt;</strong> interface to be covariant, i.e. to allow this assignment.  To support this, we just need to add the <strong>out</strong> keyword in the interface.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">interface</span> IFirstAndLast&lt;<span class="kw">out</span> T&gt;</code></pre><p>We can do this because <strong>T</strong> is only used in this interface as a return value.  Having done this, we can now do the following.  This compiles and the assignment succeeds at runtime.</p><pre class="code-block language-csharp"><code>IFirstAndLast&lt;Dog&gt; dogLine = herders;</code></pre><p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

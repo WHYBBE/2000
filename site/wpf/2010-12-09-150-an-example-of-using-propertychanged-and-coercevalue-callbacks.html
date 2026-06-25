@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,90 +53,78 @@
                     </div>
 
                     <p>The <strong>PropertyChangedCallback</strong> and <strong>CoerceValueCallback</strong> can be <a href="2010-12-08-149-use-propertychanged-and-coercion-callbacks-to-force-dependencies-between-properties.html">used to enforce relationships</a> between properties on an object.  Here&#8217;s an example, showing the relationship between <strong>BirthYear</strong>, <strong>MarriageYear</strong> and <strong>DeathYear</strong> properties on a <strong>Person</strong> object.</p>
-<p>The <strong>BirthYear</strong> property:</p>
-<pre class="brush: csharp;">
-        public int BirthYear
-        {
-            get { return (int)GetValue(BirthYearProperty); }
-            set { SetValue(BirthYearProperty, value); }
-        }
+<p>The <strong>BirthYear</strong> property:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">int</span> BirthYear
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">int</span>)GetValue(BirthYearProperty); }
+    <span class="kw">set</span> { SetValue(BirthYearProperty, <span class="kw">value</span>); }
+}
 
-        public static readonly DependencyProperty BirthYearProperty =
-            DependencyProperty.Register(&quot;BirthYear&quot;, typeof(int), typeof(Person),
-                new PropertyMetadata(
-                    1900,       // Default
-                    new PropertyChangedCallback(OnBirthYearChanged)));
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty BirthYearProperty =
+    DependencyProperty.Register(<span class="str">"BirthYear"</span>, <span class="kw">typeof</span>(<span class="kw">int</span>), <span class="kw">typeof</span>(Person),
+        <span class="kw">new</span> PropertyMetadata(
+            <span <span class="kw">class</span>="num">1900</span>,       <span class="com">// Default</span>
+            <span class="kw">new</span> PropertyChangedCallback(OnBirthYearChanged)));
 
-        public static void OnBirthYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Person p = (Person)d;
-            p.CoerceValue(DeathYearProperty);
-            p.CoerceValue(MarriageYearProperty);
-        }
-</pre>
-<p>The <strong>DeathYear</strong> property:</p>
-<pre class="brush: csharp;">
-        public int DeathYear
-        {
-            get { return (int)GetValue(DeathYearProperty); }
-            set { SetValue(DeathYearProperty, value); }
-        }
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> OnBirthYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+{
+    Person p = (Person)d;
+    p.CoerceValue(DeathYearProperty);
+    p.CoerceValue(MarriageYearProperty);
+}</code></pre><p>The <strong>DeathYear</strong> property:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">int</span> DeathYear
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">int</span>)GetValue(DeathYearProperty); }
+    <span class="kw">set</span> { SetValue(DeathYearProperty, <span class="kw">value</span>); }
+}
 
-        // Using a DependencyProperty as the backing store for DeathYear.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DeathYearProperty =
-            DependencyProperty.Register(&quot;DeathYear&quot;, typeof(int), typeof(Person),
-                new PropertyMetadata(
-                    1900,       // Default
-                    new PropertyChangedCallback(OnDeathYearChanged),
-                    new CoerceValueCallback(CoerceDeathYear)));
+<span class="com">// Using a DependencyProperty as the backing store for DeathYear.  This enables animation, styling, binding, etc...</span>
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty DeathYearProperty =
+    DependencyProperty.Register(<span class="str">"DeathYear"</span>, <span class="kw">typeof</span>(<span class="kw">int</span>), <span class="kw">typeof</span>(Person),
+        <span class="kw">new</span> PropertyMetadata(
+            <span <span class="kw">class</span>="num">1900</span>,       <span class="com">// Default</span>
+            <span class="kw">new</span> PropertyChangedCallback(OnDeathYearChanged),
+            <span class="kw">new</span> CoerceValueCallback(CoerceDeathYear)));
 
-        public static void OnDeathYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Person p = (Person)d;
-            p.CoerceValue(MarriageYearProperty);
-        }
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> OnDeathYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+{
+    Person p = (Person)d;
+    p.CoerceValue(MarriageYearProperty);
+}
 
-        public static object CoerceDeathYear(DependencyObject d, object value)
-        {
-            Person p = (Person)d;
-            int deathYear = (int)value;
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">object</span> CoerceDeathYear(DependencyObject d, <span class="kw">object</span> <span class="kw">value</span>)
+{
+    Person p = (Person)d;
+    <span class="kw">int</span> deathYear = (<span class="kw">int</span>)<span class="kw">value</span>;
 
-            if (deathYear &lt; p.BirthYear)
-                deathYear = p.BirthYear;
+    <span class="kw">if</span> (deathYear &lt; p.BirthYear)
+        deathYear = p.BirthYear;
 
-            return deathYear;
-        }
-</pre>
-<p>The <strong>MarriageYear</strong> property:</p>
-<pre class="brush: csharp;">
-        public int MarriageYear
-        {
-            get { return (int)GetValue(MarriageYearProperty); }
-            set { SetValue(MarriageYearProperty, value); }
-        }
+    <span class="kw">return</span> deathYear;
+}</code></pre><p>The <strong>MarriageYear</strong> property:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">int</span> MarriageYear
+{
+    <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">int</span>)GetValue(MarriageYearProperty); }
+    <span class="kw">set</span> { SetValue(MarriageYearProperty, <span class="kw">value</span>); }
+}
 
-        // Using a DependencyProperty as the backing store for DeathYear.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MarriageYearProperty =
-            DependencyProperty.Register(&quot;MarriageYear&quot;, typeof(int), typeof(Person),
-                new PropertyMetadata(
-                    1900,       // Default
-                    null,
-                    new CoerceValueCallback(CoerceMarriageYear)));
+<span class="com">// Using a DependencyProperty as the backing store for DeathYear.  This enables animation, styling, binding, etc...</span>
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty MarriageYearProperty =
+    DependencyProperty.Register(<span class="str">"MarriageYear"</span>, <span class="kw">typeof</span>(<span class="kw">int</span>), <span class="kw">typeof</span>(Person),
+        <span class="kw">new</span> PropertyMetadata(
+            <span <span class="kw">class</span>="num">1900</span>,       <span class="com">// Default</span>
+            <span class="kw">null</span>,
+            <span class="kw">new</span> CoerceValueCallback(CoerceMarriageYear)));
 
-        public static object CoerceMarriageYear(DependencyObject d, object value)
-        {
-            Person p = (Person)d;
-            int marriageYear = (int)value;
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">object</span> CoerceMarriageYear(DependencyObject d, <span class="kw">object</span> <span class="kw">value</span>)
+{
+    Person p = (Person)d;
+    <span class="kw">int</span> marriageYear = (<span class="kw">int</span>)<span class="kw">value</span>;
 
-            if (marriageYear &lt; p.BirthYear)
-                marriageYear = p.BirthYear;
-            if (marriageYear &gt; p.DeathYear)
-                marriageYear = p.DeathYear;
+    <span class="kw">if</span> (marriageYear &lt; p.BirthYear)
+        marriageYear = p.BirthYear;
+    <span class="kw">if</span> (marriageYear &gt; p.DeathYear)
+        marriageYear = p.DeathYear;
 
-            return marriageYear;
-        }
-</pre>
-<div class="clear"></div>
+    <span class="kw">return</span> marriageYear;
+}</code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

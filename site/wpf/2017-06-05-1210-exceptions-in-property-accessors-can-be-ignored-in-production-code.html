@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,65 +56,30 @@
 					</div>
 
 					<p>In the same way that <a href="2017-05-08-1207-data-binding-can-fail-quietly-in-production-code.html">binding errors are quietly swallowed in production code</a>, exceptions originating in property getters or setters invoked as a result of WPF data binding can also be quietly ignored in production code.</p>
-<p>Assume that we bind a <strong>TextBox.Text</strong> property to a string-based property in a ViewModel, as below. Note that when the data binding engine tries to set a property value of &#8220;Bob&#8221;, we&#8217;ll get a <strong>NullReferenceException.</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private BobNotify _bobNotify;
-
-
-
-        private string _yourText;
-
-        public string YourText
-
+<p>Assume that we bind a <strong>TextBox.Text</strong> property to a string-based property in a ViewModel, as below. Note that when the data binding engine tries to set a property value of &#8220;Bob&#8221;, we&#8217;ll get a <strong>NullReferenceException.</strong></p><pre class="code-block language-csharp"><code><span class="kw">private</span> BobNotify _bobNotify;
+<span class="kw">private</span> <span class="kw">string</span> _yourText;
+<span class="kw">public</span> <span class="kw">string</span> YourText
+{
+    <span class="kw">get</span> { <span class="kw">return</span> _yourText; }
+    <span class="kw">set</span>
+    {
+        <span class="kw">if</span> (SetProp(<span class="kw">ref</span> _yourText, <span class="kw">value</span>))
         {
-
-            get { return _yourText; }
-
-            set
-
-            {
-
-                if (SetProp(ref _yourText, value))
-
-                {
-
-                    // E-mail Bob if someone types his name
-
-                    // (but we forgot to initialize BobNotify object, so will get NullRefException here).
-
-                    if (_yourText == &quot;Bob&quot;)
-
-                        _bobNotify.SendEmail(_yourText);
-
-
-
-                    RaisePropertyChanged(&quot;TextLength&quot;);
-
-                }
-
-            }
-
+            <span class="com">// E-mail Bob if someone types his name</span>
+            <span class="com">// (but we forgot to initialize BobNotify object, so will get NullRefException here).</span>
+            <span class="kw">if</span> (_yourText == <span class="str">"Bob"</span>)
+                _bobNotify.SendEmail(_yourText);
+            RaisePropertyChanged(<span class="str">"TextLength"</span>);
         }
-
-
-
-        public int TextLength
-
-        {
-
-            get
-
-            {
-
-                return string.IsNullOrWhiteSpace(_yourText) ? 0 : _yourText.Length;
-
-            }
-
-        }
-
-</pre>
-<p>If we include this code in a release build and do nothing special to listen for binding errors, the exception will be quietly swallowed. The only hint that something went wrong is that the <strong>TextBlock</strong> that we bind <strong>TextLength</strong> to doesn&#8217;t get updated once we type the second &#8220;b&#8221; in &#8220;Bob&#8221;.</p>
+    }
+}
+<span class="kw">public</span> <span class="kw">int</span> TextLength
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">return</span> <span class="kw">string</span>.IsNullOrWhiteSpace(_yourText) ? <span <span class="kw">class</span>="num">0</span> : _yourText.Length;
+    }
+}</code></pre><p>If we include this code in a release build and do nothing special to listen for binding errors, the exception will be quietly swallowed. The only hint that something went wrong is that the <strong>TextBlock</strong> that we bind <strong>TextLength</strong> to doesn&#8217;t get updated once we type the second &#8220;b&#8221; in &#8220;Bob&#8221;.</p>
 <p><a href="https://wpf.2000things.com/2017/06/05/1210-exceptions-in-property-accessors-can-be-ignored-in-production-code/1210_001/" rel="attachment wp-att-9687"><img data-attachment-id="9687" data-permalink="https://wpf.2000things.com/2017/06/05/1210-exceptions-in-property-accessors-can-be-ignored-in-production-code/1210_001/" data-orig-file="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630" data-orig-size="295,127" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1210_001" data-image-description="" data-medium-file="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630?w=295" data-large-file="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=630?w=295" class="alignnone size-full wp-image-9687" src="data:image/png;base64,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" alt="" srcset="https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png 295w, https://2000thingswpf.files.wordpress.com/2017/06/1210_001.png?w=150 150w" sizes="(max-width: 295px) 100vw, 295px"   /></a></p>
 <p>We can handle these sorts of errors in the same way that we did for other types of binding errors, by <a href="2017-05-16-1208-catching-data-binding-errors-part-1.html">adding a binding error trace listener</a>.</p>
 <p>&nbsp;</p>

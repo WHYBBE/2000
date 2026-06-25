@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -50,57 +62,25 @@
 <li>Method names</li>
 <li>Variables</li>
 </ul>
-<p>Below, the <strong>ShowoffNameof</strong> method reports the names of various program elements within the <strong>Dog</strong> class.  This avoids having to explicitly use reflection to access the names of things.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>Below, the <strong>ShowoffNameof</strong> method reports the names of various program elements within the <strong>Dog</strong> class.  This avoids having to explicitly use reflection to access the names of things.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
     {
-
-        public string Name { get; set; }
-
-
-
-        public Dog(string name)
-
-        {
-
-            Name = name;
-
-        }
-
-
-
-        public string ShowoffNameof(int myInteger, string myString)
-
-        {
-
-            StringBuilder sbOut = new StringBuilder();
-
-
-
-            sbOut.AppendLine(string.Format(&quot;Class: {0}&quot;, nameof(Dog)));
-
-            sbOut.AppendLine(string.Format(&quot;Method: {0}&quot;, nameof(ShowoffNameof)));
-
-            sbOut.AppendLine(string.Format(&quot;Name prop: {0}&quot;, nameof(Name)));
-
-            sbOut.AppendLine(string.Format(&quot;1st param: {0}&quot;, nameof(myInteger)));
-
-            sbOut.AppendLine(string.Format(&quot;2nd param: {0}&quot;, nameof(myString)));
-
-            sbOut.AppendLine(string.Format(&quot;Local variable: {0}&quot;, nameof(sbOut)));
-
-
-
-            return sbOut.ToString();
-
-        }
-
+        Name = name;
     }
-
-</pre>
-<p>Here&#8217;s the output:<br />
+    <span class="kw">public</span> <span class="kw">string</span> ShowoffNameof(<span class="kw">int</span> myInteger, <span class="kw">string</span> myString)
+    {
+        StringBuilder sbOut = <span class="kw">new</span> StringBuilder();
+        sbOut.AppendLine(<span class="kw">string</span>.Format(<span class="str">"Class: {0}"</span>, nameof(Dog)));
+        sbOut.AppendLine(<span class="kw">string</span>.Format(<span class="str">"Method: {0}"</span>, nameof(ShowoffNameof)));
+        sbOut.AppendLine(<span class="kw">string</span>.Format(<span class="str">"Name prop: {0}"</span>, nameof(Name)));
+        sbOut.AppendLine(<span class="kw">string</span>.Format(<span class="str">"1st param: {0}"</span>, nameof(myInteger)));
+        sbOut.AppendLine(<span class="kw">string</span>.Format(<span class="str">"2nd param: {0}"</span>, nameof(myString)));
+        sbOut.AppendLine(<span class="kw">string</span>.Format(<span class="str">"Local variable: {0}"</span>, nameof(sbOut)));
+        <span class="kw">return</span> sbOut.ToString();
+    }
+}</code></pre><p>Here&#8217;s the output:<br />
 <a href="https://2000thingscsharp.files.wordpress.com/2014/10/1209-001.png"><img class="alignnone size-full wp-image-9228" src="data:image/png;base64,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" alt="1209-001"   /></a></p>
 
 <div class="wpcnt">

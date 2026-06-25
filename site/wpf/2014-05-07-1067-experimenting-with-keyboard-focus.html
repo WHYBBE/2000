@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,243 +56,108 @@
 					</div>
 
 					<p>A control has <a href="2011-05-24-306-keyboard-focus.html">keyboard focus</a> if it can accept input from the keyboard.  The sample code below is a working app that lets us experiment with keyboard focus by setting a <strong>Label </strong>to indicate which control has focus.</p>
-<p>XAML includes some controls and defines a <strong>GotKeyboardFocus</strong> for the top-level <strong>Window</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        Title=&quot;Keyboard Focus&quot; Width=&quot;320&quot; Height=&quot;190&quot;
-
-        GotKeyboardFocus=&quot;Window_GotKeyboardFocus&quot;&gt;
-
-
-
-    &lt;Grid&gt;
-
-        &lt;Grid.RowDefinitions&gt;
-
-            &lt;RowDefinition/&gt;
-
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-        &lt;/Grid.RowDefinitions&gt;
-
-
-
-        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-
-            &lt;StackPanel Background=&quot;AliceBlue&quot; Margin=&quot;5&quot;&gt;
-
-                &lt;TextBox Name=&quot;txtLeft&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
-
-                &lt;Button Name=&quot;btnClickMe&quot; Content=&quot;Click Me&quot; Margin=&quot;5&quot;/&gt;
-
-            &lt;/StackPanel&gt;
-
-
-
-            &lt;StackPanel Background=&quot;PaleGoldenrod&quot; Margin=&quot;5&quot;&gt;
-
-                &lt;Label Content=&quot;I'm a Label&quot;/&gt;
-
-                &lt;TextBox Name=&quot;txtRight&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
-
-                &lt;CheckBox Name=&quot;chkCheckMe&quot; Margin=&quot;5&quot; Content=&quot;Check Me&quot;/&gt;
-
-            &lt;/StackPanel&gt;
-
-        &lt;/StackPanel&gt;
-
-
-
-        &lt;Label Grid.Row=&quot;1&quot; Margin=&quot;5&quot; Content=&quot;{Binding WhoHasFocus}&quot;/&gt;
-
-    &lt;/Grid&gt;
-
-&lt;/Window&gt;
-
-</pre>
-<p>Code-behind uses <a href="2011-05-26-308-checking-to-see-which-control-has-keyboard-focus.html">this code</a> to set property indicating who has focus.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-using System;
-
-using System.Collections.ObjectModel;
-
-using System.ComponentModel;
-
-using System.Diagnostics;
-
-using System.Drawing;
-
-using System.Threading;
-
-using System.Windows;
-
-using System.Windows.Controls;
-
-using System.Windows.Input;
-
-//using System.Windows.Media;
-
-
-
-namespace WpfApplication1
-
+<p>XAML includes some controls and defines a <strong>GotKeyboardFocus</strong> for the top-level <strong>Window</strong>.</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Keyboard Focus" Width="320" Height="190"
+        GotKeyboardFocus="Window_GotKeyboardFocus"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Background</span>=<span class="xml-val">"AliceBlue"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBox</span> <span class="xml-attr">Name</span>=<span class="xml-val">"txtLeft"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"80"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Name</span>=<span class="xml-val">"btnClickMe"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Click Me"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Background</span>=<span class="xml-val">"PaleGoldenrod"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"I'm a Label"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBox</span> <span class="xml-attr">Name</span>=<span class="xml-val">"txtRight"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"80"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">CheckBox</span> <span class="xml-attr">Name</span>=<span class="xml-val">"chkCheckMe"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Check Me"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding WhoHasFocus}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>Code-behind uses <a href="2011-05-26-308-checking-to-see-which-control-has-keyboard-focus.html">this code</a> to set property indicating who has focus.</p><pre class="code-block language-csharp"><code><span class="kw">using</span> System;
+<span class="kw">using</span> System.Collections.ObjectModel;
+<span class="kw">using</span> System.ComponentModel;
+<span class="kw">using</span> System.Diagnostics;
+<span class="kw">using</span> System.Drawing;
+<span class="kw">using</span> System.Threading;
+<span class="kw">using</span> System.Windows;
+<span class="kw">using</span> System.Windows.Controls;
+<span class="kw">using</span> System.Windows.Input;
+<span class="com">//using System.Windows.Media;</span>
+<span class="kw">namespace</span> WpfApplication1
 {
-
-    /// &lt;summary&gt;
-
-    /// Interaction logic for MainWindow.xaml
-
-    /// &lt;/summary&gt;
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+    <span class="com">/// &lt;summary&gt;</span>
+    <span class="com">/// Interaction logic for MainWindow.xaml</span>
+    <span class="com">/// &lt;/summary&gt;</span>
+    <span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
     {
-
-        public MainWindow()
-
+        <span class="kw">public</span> MainWindow()
         {
-
             InitializeComponent();
-
-            this.DataContext = this;
-
+            <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
         }
-
-
-
-        // INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-
-
-        private void RaisePropertyChanged(string propName)
-
+        <span class="com">// INotifyPropertyChanged</span>
+        <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+        <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
         {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-
+            PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
         }
-
-
-
-        private string whoHasFocus;
-
-        public string WhoHasFocus
-
+        <span class="kw">private</span> <span class="kw">string</span> whoHasFocus;
+        <span class="kw">public</span> <span class="kw">string</span> WhoHasFocus
         {
-
-            get { return whoHasFocus; }
-
-            set {
-
-                if (value != whoHasFocus)
-
+            <span class="kw">get</span> { <span class="kw">return</span> whoHasFocus; }
+            <span class="kw">set</span> {
+                <span class="kw">if</span> (<span class="kw">value</span> != whoHasFocus)
                 {
-
-                    whoHasFocus = value;
-
-                    RaisePropertyChanged(&quot;WhoHasFocus&quot;);
-
+                    whoHasFocus = <span class="kw">value</span>;
+                    RaisePropertyChanged(<span class="str">"WhoHasFocus"</span>);
                 }
-
             }
-
         }
-
-
-
-        private void Window_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-
+        <span class="kw">private</span> <span class="kw">void</span> Window_GotKeyboardFocus(<span class="kw">object</span> sender, KeyboardFocusChangedEventArgs e)
         {
-
             CheckKeyboardFocus();
-
         }
-
-
-
-        private void CheckKeyboardFocus()
-
+        <span class="kw">private</span> <span class="kw">void</span> CheckKeyboardFocus()
         {
-
             IInputElement elem = Keyboard.FocusedElement;
-
-
-
-            if (elem == null)
-
-                WhoHasFocus = &quot;NO FOCUS&quot;;
-
-            else
-
+            <span class="kw">if</span> (elem == <span class="kw">null</span>)
+                WhoHasFocus = <span class="str">"NO FOCUS"</span>;
+            <span class="kw">else</span>
             {
-
-                FrameworkElement felem = elem as FrameworkElement;
-
-                if (felem != null)
-
+                FrameworkElement felem = elem <span class="kw">as</span> FrameworkElement;
+                <span class="kw">if</span> (felem != <span class="kw">null</span>)
                 {
-
-                    string identifier = ((felem.Name != null) &amp;&amp; (felem.Name.Length &gt; 0)) ?
-
+                    <span class="kw">string</span> identifier = ((felem.Name != <span class="kw">null</span>) &amp;&amp; (felem.Name.Length &gt; <span <span class="kw">class</span>="num">0</span>)) ?
                         felem.Name :
-
                         felem.GetType().ToString();
-
-                    WhoHasFocus = string.Format(&quot;FrameworkElement [{0}]&quot;, identifier);
-
+                    WhoHasFocus = <span class="kw">string</span>.Format(<span class="str">"FrameworkElement [{0}]"</span>, identifier);
                 }
-
-                else
-
+                <span class="kw">else</span>
                 {
-
-                    // Maybe a FrameworkContentElement has focus
-
-                    FrameworkContentElement fcelem = elem as FrameworkContentElement;
-
-                    if (fcelem != null)
-
+                    <span class="com">// Maybe a FrameworkContentElement has focus</span>
+                    FrameworkContentElement fcelem = elem <span class="kw">as</span> FrameworkContentElement;
+                    <span class="kw">if</span> (fcelem != <span class="kw">null</span>)
                     {
-
-                        string identifier = ((fcelem.Name != null) &amp;&amp; (fcelem.Name.Length &gt; 0)) ?
-
+                        <span class="kw">string</span> identifier = ((fcelem.Name != <span class="kw">null</span>) &amp;&amp; (fcelem.Name.Length &gt; <span <span class="kw">class</span>="num">0</span>)) ?
                             fcelem.Name :
-
                             fcelem.GetType().ToString();
-
-                        WhoHasFocus = string.Format(&quot;FrameworkContentElement [{0}]&quot;, identifier);
-
+                        WhoHasFocus = <span class="kw">string</span>.Format(<span class="str">"FrameworkContentElement [{0}]"</span>, identifier);
                     }
-
-                    else
-
+                    <span class="kw">else</span>
                     {
-
-                        WhoHasFocus = string.Format(&quot;Element of type [{0}] has focus&quot;, elem.GetType().ToString());
-
+                        WhoHasFocus = <span class="kw">string</span>.Format(<span class="str">"Element of type [{0}] has focus"</span>, elem.GetType().ToString());
                     }
-
                 }
-
             }
-
         }
-
     }
-
-}
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1067-001.png"><img class="alignnone size-full wp-image-8706" src="data:image/png;base64,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" alt="1067-001"   /></a></p>
+}</code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1067-001.png"><img class="alignnone size-full wp-image-8706" src="data:image/png;base64,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" alt="1067-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

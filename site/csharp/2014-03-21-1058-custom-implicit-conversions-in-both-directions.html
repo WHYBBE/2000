@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,75 +56,31 @@
 					</div>
 
 					<p>When you define a <a href="http://wp.me/pXTis-2aE">custom implicit (or explicit) conversion</a>, you can define a conversion both to and from a particular type.</p>
-<p>In the example below, we define custom implicit conversions that allow implicitly converting from an <strong>int</strong> to a <strong>Dog</strong>, as well as converting from a <strong>Dog</strong> to an <b>int.</b></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>In the example below, we define custom implicit conversions that allow implicitly converting from an <strong>int</strong> to a <strong>Dog</strong>, as well as converting from a <strong>Dog</strong> to an <b>int.</b></p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">int</span> Age { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
     {
-
-        public string Name { get; set; }
-
-        public int Age { get; set; }
-
-
-
-        public Dog(string name, int age)
-
-        {
-
-            Name = name;
-
-            Age = age;
-
-        }
-
-
-
-        // Implicitly convert from int to Dog
-
-        public static implicit operator Dog(int value)
-
-        {
-
-            return new Dog(string.Format(&quot;Dog-&quot; + value.ToString()), value);
-
-        }
-
-
-
-        // And implicitly convert from Dog to int
-
-        public static implicit operator int(Dog d)
-
-        {
-
-            return d.Age;
-
-        }
-
+        Name = name;
+        Age = age;
     }
-
-</pre>
-<p>With these conversions, we can now do the following:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // int to Dog
-
-            int i1 = 12;
-
-            Dog dog1 = i1;
-
-
-
-            // Dog to int
-
-            Dog dog2 = new Dog(&quot;Bowser&quot;, 5);
-
-            int i2 = dog2;
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1058-001.png"><img class="alignnone size-full wp-image-8364" alt="1058-001" src="data:image/png;base64,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"   /></a></p>
+    <span class="com">// Implicitly convert from int to Dog</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">implicit</span> <span class="kw">operator</span> Dog(<span class="kw">int</span> <span class="kw">value</span>)
+    {
+        <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="kw">string</span>.Format(<span class="str">"Dog-"</span> + <span class="kw">value</span>.ToString()), <span class="kw">value</span>);
+    }
+    <span class="com">// And implicitly convert from Dog to int</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">implicit</span> <span class="kw">operator</span> <span class="kw">int</span>(Dog d)
+    {
+        <span class="kw">return</span> d.Age;
+    }
+}</code></pre><p>With these conversions, we can now do the following:</p><pre class="code-block language-csharp"><code><span class="com">// int to Dog</span>
+<span class="kw">int</span> i1 = <span <span class="kw">class</span>="num">12</span>;
+Dog dog1 = i1;
+<span class="com">// Dog to int</span>
+Dog dog2 = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>, <span <span class="kw">class</span>="num">5</span>);
+<span class="kw">int</span> i2 = dog2;</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/03/1058-001.png"><img class="alignnone size-full wp-image-8364" alt="1058-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUcAAADMCAMAAADXl5H2AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAURQTFRFAAAAAAAgAAA6AAA9ADE9NAAAOgAANAAgNAA9OgA6OjoAOjo6AABmADFXADpmOgBmOjpmAF5vAGZmYwAAZgAAYwAgZgA6YzEgZjo6ZgBmZmY6RERET09PXFxcZmZmZ2dnADqQOjqQAFahAGa2IGqtOma2ZjqQNIaGOpCQOpDbM5n/M6v/M7z/YZK+Y6ydZra2Wpn/f5n/Zrb/Ws7/f97/jTEAkDoAjTEgkDo6kDpmtV4AtmYAtmY6kJBm2oYg25A6/6w9/7Zm/89X//JvioqKjpu8kLaQoaGhkLb/o7/XoKv/oLz/jc+dkNu2ttuQtfKdtv+2kNv/vsPLoM7/oO7/tv//wbz/2vKd/9uQ//KG//Kd//+2xMTEwd7/2//bwe7/wf//3OTr2///4c7//97////b4e7/4f///+7/8PDw+Pj4////QQZyBAAAAAlwSFlzAAAOwwAADsMBx2+oZAAADBlJREFUeNrtnf1/27YRh1Fv9d6yZW29rK2WNbGzZbKdtJa9zKu6KkrTtFGzde5sT7XTTImtOi7//9+HwxtBEnyRdSBI9r6fWAxfLBweAiBxPB/Z5yQMsRMShogjjogjjogjjogjjogjjoDjZ7975t6Zu4OUFnHEEXHEkcXx0ZuM3T85+favsPiYsbdgh1wjlSnm+Nk7908e/YyDuyv38K3838O3QlvYDsUcH/3865OTj++LxcnJQ8beAI6P3rwb2sRWKIcj//z2b8/Ejk+pX1dQql9zfKJfP/z1f3kflzs+pRZZLsHxHcbYXbjOvPFMrt3nl5ef/l6Mj4z95OvQRrZANJ/BEXHEEXHEEXHEEXHEEXHEEYukvomaqabalRZxxBFxxBFxxBFxxFGS4+naBnzeOAhtlpG0a9jnH+MNualJ5hmlON745aBZhkq7BMLhIFJGNsc8ozTHJ7dfNcpQadf0+lF0+t5RpIxsjnlGaY4HvAuBoUPGNgDrKhuMGOPdarrKrh3Vb5+0a/5gINqksuoALISfQEZV4aislP9fu/VqzCGOrx3BtnE/FMdo1FfdOrZQLUIY5VCGIz/v4pOxFXPa+Q8/89AWapfiOL39Yp+fXG1VYKMqcZw/+JBbeP1ovp/geD1M/1Ec5/swcBurAhvlUJYjH3RWDsa3Xk1/YXM8XQvTf/T94wjGaGOVGC9XghnlkINjNFrhhrLfvGtzhCE9YL+OOD+43GireAd/O5xRDtF8BkfEEUfEEUfEEUfEEUfsGxKG2PKnghTF/bqpugxtQEURRxwRRxyVcXx6587TkPZJjqOUl1HMEm2drq2IyWKff1w7mj+ofd5dzPHpnXsvX94LSVJwNB7wXFc4OMv5j3AGvGf5zmtTEUeg+MMPL++tr9dslKVLTUmokCM4zEf9BnJcX4fWuL5uc1Se/fevHU1X2V/Ag8XYwKN9hiMU9OEaLx0K/ze4IP+hn3dwM+CIUV88EGsiRy17q3JGnq4NwME29uy2EhzBXzvWT4RF4WDDhnjeIc1IcZzv1/0obFGO5nnDVD5YnK76HdKBo2hdoiDbsaxc4tKMFMf6G2QVjtZ1Jn7eMNUPaEf++7V8fsALKuRojY/Nao9P76QoWp593a8jYbtnjqp1jfpZjla/5rSbeb123D3Gnn3o4XyA559enyAbjrKgIdtIclRmCHBjcclrIscS1fC8Lnn/mGuGBa6FHIe3Xvm2zz2fyZgh5jNCjZzPFAju52qICSmbX9dkRqnIT4Ejw/GStIyoPeKIOOKIOOJoQT+ucKCOa7xAKo6iyKFw8DRTi/tx5w/ervEu9zIucvplM0Oaha7ix61ztnCZKLJ+/0NVLejHFQ0iHMf653tVtaD/MTDHYSvHx6ZxDDBtrqwF/bghOTZ3cIwW9uOG5Oj7UdBSWtCPG5LjiLHm3kDSfAZHxBFHxBFHxBFH5MfFEbVHHBFHHBFHHF0hHtfhBPTn2bWeX8Mj1qIH5rZdww3X7kwYryOy11TmdM112583x2eFW5zxuBmOPj27cTzFdHUQgS+3Csfpb989KNidu8WujAxiypyPnMlchiOLt+T4cR3F+5spWnGkZWFtll2jfjZ4qyLH2NcpTl4m8qYiR2ZxdMXjyvBX8YfPA7NWB0dTI1m0CseV4cB6k078Md9X8XxPVlk/XhzIdAdwLIQVn8ro3oPkNyY5wtlL1rUaR5bkmPU/qjA5voD4PR2755kjMAQw2gJRtAjHlVG6apNJ/MGPBScbpCkRh+pgQ5FJQDXUZOhf/I0Zjqm65njvkhxZGUcdhQuNYzgwsaR+Ocp4XNUeVdEm00ff3qQSf0CnHm1I0+ShchGntLDTmCS/McVxv2JdExyZm6MdjxuCowClx8d0rUdsYHEUlMSVlslcOdCgzMIckUhjUsSR70vVtVJ7TMrlx7X69fWjuvq1ihIV12tdtK41ROmaTTLxxxjujkSP7Esr+3q37teJNCbpbxQBlDdM0HGqrlWv1ymS6btHGf4Kg+6Kicmth6MY7zkhWbSqtYzSjTeJxB/yadgI/kJEXkDUQqHhKzKsWEf3Jr4x5rjGRB1Tdb0SxwryHJNbJR43T+rX8IIHEmnWklqao+eY3CrxuHlC58jrWn0+s4BqCIZdZn6NyrGkruSnwBH5cXFE7RFHxBFHV+D4/Gav90Vd9nWX4/Ner/fY3jD0GS/SjXhcl25KjKZFunymeOpCPK5bsjk+7ul1l88UT12Ix3WrByAf93pqVflMLQcv6p15F+Jx3epJ3VSrxmcqHUHYGZS7EI/r1AeK43O1rnymJs0CcgblLsTjugQY/8Bbo8aofaa2gxdTXYjHdeiD9E1P7DNVDl7kJtONeNyM0hgj7TO1HLy++nWX4nHTGBPy4dLt7nwmXz5cuj82jr5cuj82jr7UOo6hHaEtF7VHHBFHHJEfF0fL+nF9v6lPxgH8+cXfj9zxsUqxn1cc6xmaQ8v6cX2/qc/i6I6PBdl+3tZwTPpxfb+pL8kxd8oU+3nbxNHy4/p+U188PubExyY4hvPzLuvH9f2mvizHdCywzTGcn3dZP67vN/WlOabjY1WjD+7nXdqP6/lNfSmO2fhYtTO0n3dZP67vN/UlOTriY2OOQf28y/pxfb+pz+Lojo+NOQb182L6cX2ocD7TwPdpNlWFHGvIz1tVreXYlMS4Sq3l2DCRHxdH+e1xsxG6DG1ARRFHHJVwDI60Exwj85dxid+ZTVJfshdFZ57skxx3ox3+eRhFrz8qONaya+/ctXvrIm35pmPTtiiMHx+5qnXorml+XgVJUeVVKOS49ZWDLSpH+Pati2NZVAWOW9//b1KwO38LgDqf7Zi9s+z5UHvLOLKYo5VXobT4Q78cue2Hx2XHxnbtnu2eFewu5GhIyZO3k7O3hCOzOFp5FczxWxfRGS+AL6Jjs5b77YgcTY1U0bP/iF53CCt6k7QLmE+2vucjwOyrCzhGLyYCjfgNPhKdQ8c934wro74xwRHOXqqulTiyJEeTDyA+G8d8sJrAAkYWtcbHI6/jIzAUYJQFouhzGMi2z+1N4t/2mTgWOsjs9Udiu1qIf2Z8U1hnk+Q3Zjmm6uruefl5FZwc5WmeiMaxd6zWcgdfLI5QMd0eVdGKwdbFmb0Jmg5vY9Cpd8+laepQuVCWw7UkiibmO+xvTHPM1NXdIPPzKmzaeRWKOfoaHDet9qjHx3Std6Njm6Oo40xUYEee4mNroY+Az8MqHPm+TJtxVrbgvsfOq2COt/v1jlrbPt/0pvg6sx3J67UuWteaN7540ww6xra4OwJyZ3L7mdmt+vW26emmX+8kOepef7yZrGvl67XF0XX3yDuEvs5M9NpuFHm7gYw5ijI5IVW0rPW2aHfxJvjfuRyseceefScvIN/py5D4JVg5jF7zO6O9+DpjvtHiKPr+ZrKuV+BYbTbjuDPwwHFypV9Wv4Z2byvqegWOVbRXOMVYWvZ8ZmFhc4S6Vp7PLMLxUHQrn1pqfo3Ksbiu5O/BEflxcUTPFXBEHHFE8bg4akdehVGjnrG61Iq8CtHQ56vKUdSOvAqfNPgvhqVakVcBYiea+oeuSi3Jq9DgTClSLcmr0OTUFEItyavQ+EtNS/IquPL3N0qtyKsgctqG5VQmyquAI8qrgCPKq4Aj8vfgiPy4OKL2iCPiiCPy4+KoZXkVSu/GA/0Ze8vyKpTf6beHY8i8CuXltIpjsLwK8KfBMq3CUL3X7E/mTWeQgeD9YE9xWpRXYU3MmFRaBU50/Kt+NOqP9fg87qM7m3xyDJpXgQOM0wF88uT2i331pjNRVkifebvyKswf6Jeazff/yUfCf8GTIf2ms6DPHtqVV0HlSQFsI+jVf5TeT9WjW8SxAXkVVFoFcJDDj3nTWav6dbPyKjRINL/GEXHEEXHEEflxcUTtEUfEEUfEEUdlHFNvHIY731pfN9aNeFyTV8FSva8b60I8rpVXIakaMy12IR7XyqugpRyN9aWh7UI8rpUPQEtyrDGmswvxuDkca01D24V4XCuvghbnWG8a2i7E41p5FbQ4x3rT0HYjHjd19yg41puGtqPxuLWrK/OZ0CKOOCKOOGodx9CO0Jar6e2xLSKOOCKOOCKOOCKOOCKOOCKOOCKOOPo/GWVMtUdZTzkAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg=="   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

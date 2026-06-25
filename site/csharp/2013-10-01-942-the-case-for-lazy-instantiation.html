@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,83 +55,33 @@
 																				</p>
 					</div>
 
-					<p>Assume that we create some large data item in an object, e.g. the <strong>listofAllFamousDogs</strong> object in the sample below:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+					<p>Assume that we create some large data item in an object, e.g. the <strong>listofAllFamousDogs</strong> object in the sample below:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
     {
-
-        public string Name { get; set; }
-
-
-
-        public Dog(string name)
-
-        {
-
-            Name = name;
-
-        }
-
-
-
-        public void Bark()
-
-        {
-
-            Console.WriteLine(&quot;Woof!&quot;);
-
-        }
-
-
-
-        private static List&lt;Dog&gt; listOfAllFamousDogs = GenerateBigListOfFamousDogs();
-
-
-
-        private static List&lt;Dog&gt; GenerateBigListOfFamousDogs()
-
-        {
-
-            Console.WriteLine(&quot;Loading big list of famous dogs!&quot;);
-
-            List&lt;Dog&gt; bigList = new List&lt;Dog&gt;();
-
-            bigList.Add(new Dog(&quot;Lassie&quot;));
-
-            bigList.Add(new Dog(&quot;Rin Tin Tin&quot;));
-
-            // load 1,000 more dogs here
-
-
-
-            return bigList;
-
-        }
-
-
-
-        public bool IsFamous
-
-        {
-
-            get { return listOfAllFamousDogs.Contains(this); }
-
-        }
-
+        Name = name;
     }
-
-</pre>
-<p>The problem with this is that we end up creating the big list when we first use the class&#8211;whether or not we&#8217;ll later use the <strong>IsFamous</strong> property.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog bob = new Dog(&quot;Bob&quot;);
-
-            bob.Bark();
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/10/942-001.png"><img class="alignnone size-full wp-image-7760" alt="942-001" src="data:image/png;base64,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"   /></a><br />
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"Woof!"</span>);
+    }
+    <span class="kw">private</span> <span class="kw">static</span> List&lt;Dog&gt; listOfAllFamousDogs = GenerateBigListOfFamousDogs();
+    <span class="kw">private</span> <span class="kw">static</span> List&lt;Dog&gt; GenerateBigListOfFamousDogs()
+    {
+        Console.WriteLine(<span class="str">"Loading big list of famous dogs!"</span>);
+        List&lt;Dog&gt; bigList = <span class="kw">new</span> List&lt;Dog&gt;();
+        bigList.Add(<span class="kw">new</span> Dog(<span class="str">"Lassie"</span>));
+        bigList.Add(<span class="kw">new</span> Dog(<span class="str">"Rin Tin Tin"</span>));
+        <span class="com">// load 1,000 more dogs here</span>
+        <span class="kw">return</span> bigList;
+    }
+    <span class="kw">public</span> <span class="kw">bool</span> IsFamous
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> listOfAllFamousDogs.Contains(<span class="kw">this</span>); }
+    }
+}</code></pre><p>The problem with this is that we end up creating the big list when we first use the class&#8211;whether or not we&#8217;ll later use the <strong>IsFamous</strong> property.</p><pre class="code-block language-csharp"><code>Dog bob = <span class="kw">new</span> Dog(<span class="str">"Bob"</span>);
+bob.Bark();</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/10/942-001.png"><img class="alignnone size-full wp-image-7760" alt="942-001" src="data:image/png;base64,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"   /></a><br />
 What we need is to <em>lazily</em> instantiate this list.  That is&#8211;wait to create the list until we actually need it.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

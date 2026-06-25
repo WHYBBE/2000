@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,51 +57,24 @@
 
                     <p>Instead of handling the <strong>Checked</strong> and <strong>Unchecked</strong> events of a<strong> CheckBox</strong> and then setting a boolean variable to represent the current state, you&#8217;ll most often just use data binding to bind the <strong>IsChecked</strong> property to a boolean variable.</p>
 <p>In the example below, we have three <strong>CheckBox</strong> controls, each bound to a boolean property.</p>
-<p><pre class="brush: xml;">
-
-        &lt;Label Content=&quot;Things my dog can do:&quot;/&gt;
-
-        &lt;CheckBox Content=&quot;Sit&quot; IsChecked=&quot;{Binding CanSit}&quot;/&gt;
-
-        &lt;CheckBox Content=&quot;Stay&quot; IsChecked=&quot;{Binding CanStay}&quot;/&gt;
-
-        &lt;CheckBox Content=&quot;Fetch&quot; IsChecked=&quot;{Binding CanFetch}&quot;/&gt;
-
-        &lt;Button Content=&quot;Test&quot; Click=&quot;Test_Click&quot;/&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Things my dog can do:"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">CheckBox</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Sit"</span> <span class="xml-attr">IsChecked</span>=<span class="xml-val">"{Binding CanSit}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">CheckBox</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Stay"</span> <span class="xml-attr">IsChecked</span>=<span class="xml-val">"{Binding CanStay}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">CheckBox</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Fetch"</span> <span class="xml-attr">IsChecked</span>=<span class="xml-val">"{Binding CanFetch}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Test"</span> <span class="xml-attr">Click</span>=<span class="xml-val">"Test_Click"</span><span class="xml-tag">/&gt;</span></code></pre>
 <p>In the code-behind, we define the boolean properties that we can bind to and then set the data context to refer to the parent class.</p>
-<p><pre class="brush: csharp;">
-
-        public bool CanSit { get; set; }
-
-        public bool CanStay { get; set; }
-
-        public bool CanFetch { get; set; }
-
-
-
-		public MainWindow()
-
+<pre class="code-block language-csharp"><code>        <span class="kw">public</span> <span class="kw">bool</span> CanSit { <span class="kw">get</span>; <span class="kw">set</span>; }
+        <span class="kw">public</span> <span class="kw">bool</span> CanStay { <span class="kw">get</span>; <span class="kw">set</span>; }
+        <span class="kw">public</span> <span class="kw">bool</span> CanFetch { <span class="kw">get</span>; <span class="kw">set</span>; }
+		<span class="kw">public</span> MainWindow()
 		{
-
-			this.InitializeComponent();
-
-            this.DataContext = this;
-
+			<span class="kw">this</span>.InitializeComponent();
+            <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
         }
-
-
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-
+        <span class="kw">private</span> <span class="kw">void</span> Test_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
         {
-
-            MessageBox.Show(string.Format(&quot;Sit: {0}, Stay: {1}, Fetch: {2}&quot;, CanSit, CanStay, CanFetch));
-
-        }
-
-</pre></p>
+            MessageBox.Show(<span class="kw">string</span>.Format(<span class="str">"Sit: {0}, Stay: {1}, Fetch: {2}"</span>, CanSit, CanStay, CanFetch));
+        }</code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/07/001-checkboxbinding.png"><img class="alignnone size-full wp-image-2867" title="001-CheckBoxBinding" src="data:image/png;base64,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" alt=""   /></a></pre>
 
 <div class="wpadvert">

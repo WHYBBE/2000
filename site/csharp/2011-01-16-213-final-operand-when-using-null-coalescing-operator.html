@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -40,15 +52,7 @@
                         <p><span class="time">January 16, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-01-16-213-final-operand-when-using-null-coalescing-operator.html">Leave a Comment</a></span> </p> 
                     </div>
                
-                    <p>You can use several <strong>??</strong> (null-coalescing) operators in a single expression.  For example:</p>
-<pre class="brush: csharp;">
-    int result = i ?? j ?? k ?? 0;    // i, j and k are all of type int?
-</pre>
-<p>Notice that the final operand in the long expression is an integer constant.  If we tried to use an <strong>int?</strong> variable as the final operand, we&#8217;d get a compile-time error indicating that we can&#8217;t implicitly convert the <strong>int?</strong> to an <strong>int</strong>.  (Because the <strong>int?</strong> variable might be <strong>null</strong>, which can&#8217;t be assigned to an <strong>int</strong>).</p>
-<pre class="brush: csharp;">
-    int result = i ?? j ?? k;    // Compile-time error
-</pre>
-<p>Whenever you use this form of an expression with the <strong>??</strong> operator, assigning a value to a non-nullable type, the type of the 2nd operand must match the type of the variable being assigned to.  (Or be implicitly converted to the target type).</p>
+                    <p>You can use several <strong>??</strong> (null-coalescing) operators in a single expression.  For example:</p><pre class="code-block language-csharp"><code><span class="kw">int</span> result = i ?? j ?? k ?? <span <span class="kw">class</span>="num">0</span>;    <span class="com">// i, j and k are all of type int?</span></code></pre><p>Notice that the final operand in the long expression is an integer constant.  If we tried to use an <strong>int?</strong> variable as the final operand, we&#8217;d get a compile-time error indicating that we can&#8217;t implicitly convert the <strong>int?</strong> to an <strong>int</strong>.  (Because the <strong>int?</strong> variable might be <strong>null</strong>, which can&#8217;t be assigned to an <strong>int</strong>).</p><pre class="code-block language-csharp"><code><span class="kw">int</span> result = i ?? j ?? k;    <span class="com">// Compile-time error</span></code></pre><p>Whenever you use this form of an expression with the <strong>??</strong> operator, assigning a value to a non-nullable type, the type of the 2nd operand must match the type of the variable being assigned to.  (Or be implicitly converted to the target type).</p>
 <div class="clear"></div>
                                                     
                     <!--

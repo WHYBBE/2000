@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,17 +57,12 @@
 
 					<p>In WPF, you <a href="2011-05-13-299-controls-do-not-need-a-name.html">do not have to provide a name</a> for every control in your user interface.  Since so much is accomplished through data binding, you often don&#8217;t need to interact with a control at all from your code.</p>
 <p>But one scenario where you might want to interact with a control is from an event handler for an event that the control initiated.  Every event handler will have a <strong>sender</strong> argument that represents the control that fired the event.  You can cast this argument to the appropriate type to get at the original control.</p>
-<p><pre class="brush: xml;">
-&lt;Button Content=&quot;Click Me&quot; HorizontalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;10&quot;
-        Click=&quot;Button_Click&quot;/&gt;
-</pre><br />
-<pre class="brush: csharp;">
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button b = sender as Button;
-            b.Width = b.ActualWidth + 1;
-        }
-</pre></p>
+<pre class="code-block language-xml"><code>&lt;Button Content="Click Me" HorizontalAlignment="Center" Padding="10,5" Margin="10"
+        Click="Button_Click"/&gt;</code></pre><br /><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    Button b = sender <span class="kw">as</span> Button;
+    b.Width = b.ActualWidth + <span <span class="kw">class</span>="num">1</span>;
+}</code></pre>
 
 <div class="wpadvert">
 

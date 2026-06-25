@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,24 +58,22 @@
 					<p>The sixth source in the list of <a href="http://wp.me/pZhye-io">sources for the base value of a dependency property</a> is a <em>template trigger</em>.   A property obtains its value from a template trigger when the element that the property belongs to has a template containing a trigger that changes the property.</p>
 <p>In the example below, we apply a template to the main button, replacing it with two labels and a new button.  The trigger changes the <strong>Foreground</strong> property of the original button, so the property source for that property becomes <em>template trigger</em>.</p>
 <p>The original button is replaced by the controls in the template, but its <strong>Foreground</strong> property is preserved by using the <strong>TemplateBinding</strong> markup extension.</p>
-<p><pre class="brush: xml;">
-        &lt;Button Name=&quot;btnWithTemplate&quot; Content=&quot;Recreate Me&quot;&gt;
-            &lt;Button.Template&gt;
-                &lt;ControlTemplate TargetType=&quot;{x:Type Button}&quot;&gt;
-                    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-                        &lt;Button Content=&quot;{TemplateBinding Content}&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-                        &lt;Label Content=&quot;**&quot; Foreground=&quot;{TemplateBinding Foreground}&quot;/&gt;
-                    &lt;/StackPanel&gt;
-                    &lt;ControlTemplate.Triggers&gt;
-                        &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
-                            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Green&quot;/&gt;
-                        &lt;/Trigger&gt;
-                    &lt;/ControlTemplate.Triggers&gt;
-                &lt;/ControlTemplate&gt;
-            &lt;/Button.Template&gt;
-        &lt;/Button&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Name</span>=<span class="xml-val">"btnWithTemplate"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Recreate Me"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Button.Template</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type Button}"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"**"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{TemplateBinding Foreground}"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{TemplateBinding Content}"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{TemplateBinding Foreground}"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"**"</span> <span class="xml-attr">Foreground</span>=<span class="xml-val">"{TemplateBinding Foreground}"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsMouseOver"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Green"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Button.Template</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Button</span><span class="xml-tag">&gt;</span></code></pre>
 
 <div class="wpadvert">
 

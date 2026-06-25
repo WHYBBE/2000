@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,35 +56,20 @@
 					</div>
 
 					<p>Below is code that implements some <a href="http://wp.me/pZhye-1z9">simple drag-and-drop behavior</a>, dragging text from a <strong>TextBox</strong> to a <strong>ListBox</strong>.</p>
-<p>In the XAML, we specify handlers for the <strong>MouseDown</strong> event on the <strong>TextBox</strong> and the <strong>Drop</strong> event on the <strong>ListBox</strong>.  We also set the <strong>AllowDrop</strong> property on the <strong>ListBox</strong> to <strong>true</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        &lt;StackPanel Orientation=&quot;Vertical&quot; Grid.Column=&quot;0&quot; Margin=&quot;10&quot;&gt;
-            &lt;Label Content=&quot;Enter some text and then drag to list&quot;/&gt;
-            &lt;TextBox Text=&quot;&quot; MouseDown=&quot;txtMouseDown&quot;/&gt;
-        &lt;/StackPanel&gt;
-        &lt;ListBox Grid.Column=&quot;1&quot; Margin=&quot;10&quot; AllowDrop=&quot;True&quot; Drop=&quot;lbDrop&quot;/&gt;
-</pre>
-<p>In the <strong>MouseDown</strong> event handler for the <strong>TextBox</strong>, we initiate drag-and-drop using the <strong>DragDrop.DoDragDrop</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void txtMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBox txtElement = e.Source as TextBox;
-
-            DragDrop.DoDragDrop(txtElement, txtElement.SelectedText, DragDropEffects.Copy);
-        }
-</pre>
-<p>In the <strong>Drop</strong> event handler for the <strong>ListBox</strong>, we get the data being dragged and add an item to the <strong>ListBox</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void lbDrop(object sender, DragEventArgs e)
-        {
-            string draggedText = (string)e.Data.GetData(DataFormats.StringFormat);
-
-            ListBox lbox = e.Source as ListBox;
-            lbox.Items.Add(draggedText);
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>In the XAML, we specify handlers for the <strong>MouseDown</strong> event on the <strong>TextBox</strong> and the <strong>Drop</strong> event on the <strong>ListBox</strong>.  We also set the <strong>AllowDrop</strong> property on the <strong>ListBox</strong> to <strong>true</strong>.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Vertical"</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"0"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Enter some text and then drag to list"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">TextBox</span> <span class="xml-attr">Text</span>=<span class="xml-val">""</span> <span class="xml-attr">MouseDown</span>=<span class="xml-val">"txtMouseDown"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">ListBox</span> <span class="xml-attr">Grid.Column</span>=<span class="xml-val">"1"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10"</span> <span class="xml-attr">AllowDrop</span>=<span class="xml-val">"True"</span> <span class="xml-attr">Drop</span>=<span class="xml-val">"lbDrop"</span><span class="xml-tag">/&gt;</span></code></pre><p>In the <strong>MouseDown</strong> event handler for the <strong>TextBox</strong>, we initiate drag-and-drop using the <strong>DragDrop.DoDragDrop</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> txtMouseDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    TextBox txtElement = e.Source <span class="kw">as</span> TextBox;
+    DragDrop.DoDragDrop(txtElement, txtElement.SelectedText, DragDropEffects.Copy);
+}</code></pre><p>In the <strong>Drop</strong> event handler for the <strong>ListBox</strong>, we get the data being dragged and add an item to the <strong>ListBox</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> lbDrop(<span class="kw">object</span> sender, DragEventArgs e)
+{
+    <span class="kw">string</span> draggedText = (<span class="kw">string</span>)e.Data.GetData(DataFormats.StringFormat);
+    ListBox lbox = e.Source <span class="kw">as</span> ListBox;
+    lbox.Items.Add(draggedText);
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

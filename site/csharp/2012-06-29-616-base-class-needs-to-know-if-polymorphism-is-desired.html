@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,41 +55,28 @@
 																				</p>
 					</div>
 
-					<p>Let&#8217;s say that you design a <strong>Dog</strong> class that contains a <strong>Bark</strong> method and that you don&#8217;t do anything special to design for inheritance.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        public void Bark()
-        {
-            Console.WriteLine(&quot;Woof&quot;);
-        }
-    }
-</pre>
-<p>Now let&#8217;s say that you define several classes that inherit from <strong>Dog</strong> and provide their own implementation for the <strong>Bark</strong> method.  Because <strong>Dog.Bark</strong> was not marked as <strong>virtual</strong>, they must use the <strong>new</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Terrier : Dog
-    {
-        public new void Bark()
-        {
-            Console.WriteLine(&quot;Terrier says Grrrr&quot;);
-        }
-    }
-</pre>
-<p>But now you do not get polymorphic behavior when treating instances of <strong>Terrier</strong> as instances of <strong>Dog</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void Main()
-        {
-            Terrier t = new Terrier();
-            t.Bark();  // Terrier.Bark
-            SomeoneBark(t);
-        }
-
-        static void SomeoneBark(Dog d)
-        {
-            d.Bark();  // Dog.Bark always invoked--no polymorphism
-        }
-</pre>
-<p>To achieve polymorphism, you must design for it in the base class by marking a method as <strong>virtual</strong>.</p>
+					<p>Let&#8217;s say that you design a <strong>Dog</strong> class that contains a <strong>Bark</strong> method and that you don&#8217;t do anything special to design for inheritance.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"Woof"</span>);
+    }
+}</code></pre><p>Now let&#8217;s say that you define several classes that inherit from <strong>Dog</strong> and provide their own implementation for the <strong>Bark</strong> method.  Because <strong>Dog.Bark</strong> was not marked as <strong>virtual</strong>, they must use the <strong>new</strong> keyword.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">new</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"Terrier says Grrrr"</span>);
+    }
+}</code></pre><p>But now you do not get polymorphic behavior when treating instances of <strong>Terrier</strong> as instances of <strong>Dog</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    Terrier t = <span class="kw">new</span> Terrier();
+    t.Bark();  <span class="com">// Terrier.Bark</span>
+    SomeoneBark(t);
+}
+<span class="kw">static</span> <span class="kw">void</span> SomeoneBark(Dog d)
+{
+    d.Bark();  <span class="com">// Dog.Bark always invoked--no polymorphism</span>
+}</code></pre><p>To achieve polymorphism, you must design for it in the base class by marking a method as <strong>virtual</strong>.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

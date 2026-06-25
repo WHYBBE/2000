@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,21 +57,16 @@
 
 					<p>An <em><a href="http://wp.me/pXTis-1dM">enumerator</a></em> is an object that knows how to move through a sequence of elements.  In C#, the <strong>foreach</strong> statement provides this same functionality wrapping an enumerator.</p>
 <p>You can use an enumerator to iterate through a collection, rather than a <strong>foreach</strong> statement.  This helps in understanding how enumerators work.</p>
-<p>The code fragment below shows iterating through a collection using the <strong>foreach</strong> statement and then doing the same thing using an enumerator.  (<strong>dogs</strong> is of type <strong>List&lt;Dog&gt;</strong>).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Using foreach
-            foreach (Dog d in dogs)
-                Console.WriteLine(d.Name);
-
-            // Using enumerator directly
-            List&lt;Dog&gt;.Enumerator dogEnum = dogs.GetEnumerator();
-            while (dogEnum.MoveNext())
-            {
-                Dog d = (Dog)dogEnum.Current;
-                Console.WriteLine(d.Name);
-            }
-</pre>
-<p>The enumerator is an object of type <strong>List&lt;T&gt;.Enumerator</strong>.  We call a method on the <strong>List&lt;T&gt;</strong> object to get an instance of its enumerator and then navigate through the list using the <strong>MoveNext</strong> method.  The <strong>Current</strong> property returns the object that the enumerator is currently pointing to.</p>
+<p>The code fragment below shows iterating through a collection using the <strong>foreach</strong> statement and then doing the same thing using an enumerator.  (<strong>dogs</strong> is of type <strong>List&lt;Dog&gt;</strong>).</p><pre class="code-block language-csharp"><code><span class="com">// Using foreach</span>
+<span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs)
+    Console.WriteLine(d.Name);
+<span class="com">// Using enumerator directly</span>
+List&lt;Dog&gt;.Enumerator dogEnum = dogs.GetEnumerator();
+<span class="kw">while</span> (dogEnum.MoveNext())
+{
+    Dog d = (Dog)dogEnum.Current;
+    Console.WriteLine(d.Name);
+}</code></pre><p>The enumerator is an object of type <strong>List&lt;T&gt;.Enumerator</strong>.  We call a method on the <strong>List&lt;T&gt;</strong> object to get an instance of its enumerator and then navigate through the list using the <strong>MoveNext</strong> method.  The <strong>Current</strong> property returns the object that the enumerator is currently pointing to.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

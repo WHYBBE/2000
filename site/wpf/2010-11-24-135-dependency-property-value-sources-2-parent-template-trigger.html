@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,47 +57,25 @@
 
 					<p>The second source in the list of <a href="http://wp.me/pZhye-io">sources for the base value of a dependency property</a> is a <em>parent template trigger</em>.  A property obtains its value from a parent template trigger if the element was created as part of a template and its value is being set by a trigger defined in the template.</p>
 <p>In the example below, the <strong>excitedLabel</strong> template has two child <strong>Label</strong> controls whose <strong>Background</strong> property changes when you hover the mouse over the parent control.  When this happens, the source of their <strong>Background</strong> property becomes the parent template trigger.</p>
-<p><pre class="brush: xml;">
-
-    &lt;Window.Resources&gt;
-
-        &lt;ControlTemplate x:Key=&quot;excitedLabel&quot; TargetType=&quot;Label&quot;&gt;
-
-            &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-
-                &lt;Label Name=&quot;theYee&quot; Content=&quot;Yee!&quot;/&gt;
-
-                &lt;ContentPresenter /&gt;
-
-                &lt;Label Name=&quot;theHaw&quot; Content=&quot;Haw!&quot;/&gt;
-
-            &lt;/StackPanel&gt;
-
-            &lt;ControlTemplate.Triggers&gt;
-
-                &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
-
-                    &lt;Setter TargetName=&quot;theHaw&quot; Property=&quot;Background&quot; Value=&quot;HotPink&quot;/&gt;
-
-                    &lt;Setter TargetName=&quot;theYee&quot; Property=&quot;Background&quot; Value=&quot;HotPink&quot;/&gt;
-
-                &lt;/Trigger&gt;
-
-            &lt;/ControlTemplate.Triggers&gt;
-
-        &lt;/ControlTemplate&gt;
-
-    &lt;/Window.Resources&gt;
-
-    &lt;StackPanel Orientation=&quot;Vertical&quot;&gt;
-
-        &lt;Label Content=&quot;Run&quot; /&gt;
-
-        &lt;Label Content=&quot;Skip&quot; Template=&quot;{StaticResource excitedLabel}&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"excitedLabel"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"Label"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"theYee"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Yee!"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ContentPresenter</span> <span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"theHaw"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Haw!"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsMouseOver"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"theHaw"</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"HotPink"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">TargetName</span>=<span class="xml-val">"theYee"</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"HotPink"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Vertical"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Run"</span> <span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Skip"</span> <span class="xml-attr">Template</span>=<span class="xml-val">"{StaticResource excitedLabel}"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2010/11/parenttemplatetrigger.png"><img class="alignnone size-full wp-image-1169" title="ParentTemplateTrigger" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpadvert">

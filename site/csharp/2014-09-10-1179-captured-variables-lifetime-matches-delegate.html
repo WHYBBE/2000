@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,53 +56,22 @@
 					</div>
 
 					<p>When a variable is <a href="2014-09-08-1177-lambda-expressions-can-reference-variables-declared-outside-of-expression.html">captured</a> by inclusion in a lambda expression, the lifetime of that variable becomes the lifetime of the delegate that the lambda is assigned to.</p>
-<p>In the example below, we have a local variable whose scope is the body of the <strong>SomeFunction</strong> method.  We then use this local variable in a lambda expression that is assigned to a delegate instance.  After we exit <strong>SomeFunction</strong>, we can invoke the delegate and see that the variable defined in <strong>SomeFunction</strong> is still accessible.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static Action aDelegate;
-
-
-
-        static void Main(string[] args)
-
-        {
-
-            SomeFunction();
-
-
-
-            // After call, invoke delegate to show
-
-            // that magicNum is still alive
-
-            aDelegate();
-
-
-
-            Console.ReadLine();
-
-        }
-
-
-
-        static void SomeFunction()
-
-        {
-
-            int magicNum = 42;
-
-
-
-            // Assign delegate to print value of local
-
-            // variable
-
-            aDelegate = () =&amp;gt; Console.WriteLine(magicNum);
-
-        }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1179-001.png"><img class="alignnone size-full wp-image-9089" src="data:image/png;base64,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" alt="1179-001"   /></a></p>
+<p>In the example below, we have a local variable whose scope is the body of the <strong>SomeFunction</strong> method.  We then use this local variable in a lambda expression that is assigned to a delegate instance.  After we exit <strong>SomeFunction</strong>, we can invoke the delegate and see that the variable defined in <strong>SomeFunction</strong> is still accessible.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> Action aDelegate;
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    SomeFunction();
+    <span class="com">// After call, invoke delegate to show</span>
+    <span class="com">// that magicNum is still alive</span>
+    aDelegate();
+    Console.ReadLine();
+}
+<span class="kw">static</span> <span class="kw">void</span> SomeFunction()
+{
+    <span class="kw">int</span> magicNum = <span <span class="kw">class</span>="num">42</span>;
+    <span class="com">// Assign delegate to print value of local</span>
+    <span class="com">// variable</span>
+    aDelegate = () =&amp;gt; Console.WriteLine(magicNum);
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1179-001.png"><img class="alignnone size-full wp-image-9089" src="data:image/png;base64,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" alt="1179-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

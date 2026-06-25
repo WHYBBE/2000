@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,41 +56,20 @@
 					</div>
 
 					<p><a href="http://wp.me/pZhye-2iO">Setting the <strong>CommandTarget</strong> property</a> allows an element executing a routed command to initiate the routing of a command with a different element.</p>
-<p>In the example below, clicking on the <strong>Button</strong> initiates a Paste command, but the routed command originates with a <strong>TextBox</strong> rather than the button.  In this particular case, because a <strong>TextBox</strong> implicitly has a command binding for the Paste command, text currently in the paste buffer is automatically pasted into the <strong>TextBox</strong>.  No code-behind is required in order for this to work.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        Title=&quot;Commands&quot; Width=&quot;320&quot; Height=&quot;220&quot;&gt;
-
-
-
-    &lt;StackPanel&gt;
-
-        &lt;TextBox Name=&quot;txtSomeText&quot;
-
-                 Width=&quot;220&quot; Height=&quot;25&quot; Margin=&quot;10&quot;/&gt;
-
-        &lt;Button Content=&quot;Paste&quot;
-
-                Command=&quot;ApplicationCommands.Paste&quot;
-
-                CommandTarget=&quot;{Binding ElementName=txtSomeText}&quot;
-
-                Margin=&quot;10&quot; Padding=&quot;10,3&quot;
-
-                HorizontalAlignment=&quot;Center&quot; /&gt;
-
-    &lt;/StackPanel&gt;
-
-&lt;/Window&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1092-001.png"><img class="alignnone size-full wp-image-8866" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVIAAADpCAMAAABBcU/fAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAppQTFRFAAAAAAAYGgAAAAAwAAA4NAAAOAAAOAA4KCgoKCg5AABqABZiGhZiOABqKChFAGpqKEVOKFpOKFpUJGBpWCAAXCgoWCAwagAAagA4dj8Adj8YWDNiagBqamoAamo4XEVOXFpFXFpUXGlOXGlaampqACuPADiVGiuPNCuPODiVElm0AGqVAGq6Klm0OGq6PH+xajiVW6V/X6p6Xah8Yq52OJWVJILUOJXaSYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCapWVaI6yapisbJiubp2saZKxarq6caKqfaK5SqPmarr/a8H9lTgAgCgolTg4m0Uom0YolWoAkWojkWo4rlooumoAumo4gFpFgGlOm2lFgHRim39ipmtLuXdTwmk5x1BQxH5YxX9Z2XRF2X9OlZU4qY9FroxirYh1uIlwuYpxs691urpq2pU4yoJb0Ydf2YxU2YxawYxi14th2Yxi/7pqiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqCeqKGepqquq62zra+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cvs2ep8u+rdO3sdeyh8XAh9H9ldr/n+bun+b9osLDvcDDv8LFvtjArebureb9vubhvubuvub9uv//2v+6/9qV//+6wMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV2v/a2v/////a4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+vr6+/v7/Pz8/f39/v7+////UnC7rAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAB81JREFUeNrt24d7U1UYx/GrIgZwYLXWgQOLAw1uiXvvPRqoKDSOUlkFVKxSJO49cOGm7pHaqkWtAqWOVDEqlSpN2zT/i+85596kSemTZjUhz/f3PPQmN+cmJ5++7zlpq1aU5DgWBJDuTKSDJKsMIx0cjEgGSEZRdg6qQyqg/eHenm0ko/T0hvsFNZF0INwdCnZuJhmlMxjqDg8kkUbCdSSrhBOrdDDS3123mjhZmE7MJXXd/cY0RhoOQZodaagvibQ3CGl2pF29SaQ9nZBmR9rZk0g6sG0zpNmRbt42ACmkeYsrlryR3nfP0Nz7EKSSaDT+NX3SF9u+0Wlra3vt1Veff6DkSYfdWDiC6Y5ER0X6RvjfeMJrF43Bu1qiaqQ246snzM8/6UIFlWnjf/X9w4889vgT3wU7OoIvvzwGpI23Ks4lZcVNuuMaHSVp+zU3XHf9Tet/UaSvjAHpguxIdoIqXdN+87WXX3rZ+l87NgU/fDv/pCury4YuAHsvlzNHVstCsEDfqS+/s9w1YX6NyzV51erGOTKiUg77yo0y+4o7hLS+3NxPuQkVZC1d037uGWedf8n6XzZ1BN95N/+k9eWVTrnKAtB46+RVK6tdtbIaTF5VX14mD0+YLyfKRK9ydf3hq1RRi2yl3K/V51ZWqwHy2NQMSfO/469pP/Ps8y68Sqq0I/jDD/knXeJsTKZc68tr9Q19ukaxVpq1oXFOmf0tqG2cIxUro/RRPSjnivmj/pr2cy6+6MpT9Vq6ffsYkhoXKThVc2aF1KRydoGsAJpUNbiUsLopX/RAPbJGLQtFTHrBFSefctr6n4R06+9j0fhloyZVS4Ou0mRSucxVWbSkr3/76NNPPvXM10L6c6hrDHb8GnvHHtL4I5BqyiXxKjVrgf2JQY0pUtKX+rZs2fL3X3/889/WP3/7bQxI1f6iP5fGt6eRqrRm7+WyNcVI7aqVtXSqHluspM+tNfno4zfl67OL8//Dk+zuLpcSlI9NLr3xjESqltIj4o0vA+TCu9T2pD9wFSvpg4sXDcniB/ll3yjCL/cghRRSSCGFFFICaZGT3k3STGpS/mv79AIppJBCCimkkEIKKaSQQpoqL5RwCkVauqUHKaSQQrrzkfqtozckndo42/K2VoxrSh7aYLkhTZ2NtzQNVxa5Bs+w061TmqlSSNMkbZ1yv2V55LB0XFNrhboZ9d1YofpYOtfyRv3Hz9Y93TLemtisiOSfPcC0sZxWIz2m/+W8uudWNycuVXf1uag8tV4D1Et4G06vcJsrBd5nueW5PfFnM98PnxrfMv22ic3yqMzDnqeZR9R39fjkF3RmZR8KSSrvrvVA0RTWCq84eqM+NWePqjwpKb9ZDWVI1FSdItUDtIFM3i9vylRpy17Nag1V3xWPU6XmoGqzZfoGu0ob5Hr7Sr/l3SjfM32lUbWpvOrRlvHeaMseTWaCep7qSeQpfeY7mvCC9qzsQ0GrtDn2nk8w/erzymSnfyn1JJXid8faOE6qB6g3dXuT7nqbVHO0nrRBP2qTSuFZug7tAtSkntiVapTP6ywHqobdzsvJoxrQE3UmKAe/erqjN6gZJL+gPStz+LEoSac0xy3t4klBqt9oMqm+0IyOpiBVreBPQWqmY5MmvGDxkEq3q76SGccaX71Nj+6nGKlqv6jucTltBgxvfP/EHTS+qc0KbxKp0/hDSVUf+9zOM6nGF9JY4+t5mnk4pAkvaM/KPhS0Sg81q3+zXvr19jRNt5/qQvOe7Y1A70PjDvM4A/R70/3s7PgN6gq7e50dX3W+Vz+1eyipfWVi48u5aYZ0nwr1qC5uv2UmqOep73kc0oQXtGdlHwrd+Ilx5jtiUg7I/kcHd/ofvoYuBpBCCim/NoEUUkghhRRSSCHl7/jF/Xd8AimkkEIKKaSQQgoppJBCSiCFFFICKaSQEkghhRTSoiY9Me1Amoo0kGYghRRSSCGFFFJIIU0g/WR/y5q0DtJckh6yLrDimA8CiWcgzZI0ERHS3JCu2NXabVbgrd2tSe/JSjAzIPeP+gDSjEmXHfeZ3Fox49N5Vc5SMOOzwLKZkGa8PUk9fn6QOiyTSjXI6v+p19ABC9IMqjQQ+PzgqsBbxyrZSes0abxCLQvSTEg/OWBWYJlaPL+YV6Ubf8/YFmVFLUgzIFWdvt+x789V3f7FXNme5P4uVTapmEKay5+e1OwtSHNN6rwFSHNHWmjTUiQtsGlJkhbWtDRJC2paWn90jktakOYmzlqqAmnOSC22pxyTWpDmmNQqfJmWGGkxdH4pbk8WH6LysaJCWkqmkEI6+m0K0pIJpJBCCimkkEIKKaSQQgopgRRSSAmkkEJKIIUUUkghhRRSSCGFFFJICaSQQkoghRRSAimkkEIKKaSQQgoppJBCCimkkEJKIIUUUgIppJASSCGFFFJIIYUUUkghhRRSAimkkBJIIYWUQAoppJBCCimkkEIKKaSQEkghhZRACimkBFJIISWQQgoppJBCunOSkjSTkpRkFkjzTxrp6YQ0O9LOnkgiaW8Q0uxIu3qTSMMhSLMjDfUlkfZ3Q5odaXd/Aqkq0zqSVcJGNE46EO4OdXVuJpmlsyvUHR5IqtJIf19vzzaSWXp6+/ojiY0fHRTUSGSAZBaFN5jY+BqVZBXb0eLXHrkOpDnP/7nwSG3Fqx7oAAAAAElFTkSuQmCC" alt="1092-001"   /></a></p>
+<p>In the example below, clicking on the <strong>Button</strong> initiates a Paste command, but the routed command originates with a <strong>TextBox</strong> rather than the button.  In this particular case, because a <strong>TextBox</strong> implicitly has a command binding for the Paste command, text currently in the paste buffer is automatically pasted into the <strong>TextBox</strong>.  No code-behind is required in order for this to work.</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Commands" Width="320" Height="220"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        &lt;TextBox Name="txtSomeText"
+                 Width="220" Height="25" Margin="10"/&gt;
+        &lt;Button Content="Paste"
+                Command="ApplicationCommands.Paste"
+                CommandTarget="{Binding ElementName=txtSomeText}"
+                Margin="10" Padding="10,3"
+                HorizontalAlignment="Center" /&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1092-001.png"><img class="alignnone size-full wp-image-8866" src="data:image/png;base64,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" alt="1092-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

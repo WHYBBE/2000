@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,88 +57,39 @@
 
 					<p>When you associate a button&#8217;s <strong>Command</strong> property with a <strong>CommandBinding</strong> object,and bind the <strong>CommandBinding </strong>object to both <strong>Executed</strong> and <strong>CanExecute</strong> handlers, the <strong>Button</strong> control will automatically toggle between enabled/disabled, depending on the code in the <strong>CanExecute</strong> method.</p>
 <p>Suppose we create two buttons, binding them to open/close commands.</p>
-<p><pre class="brush: xml;">
-
-    &lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
-
-        &lt;Button Content=&quot;Open&quot; Command=&quot;ApplicationCommands.Open&quot;
-
-                VerticalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
-
-        &lt;Button Content=&quot;Close&quot; Command=&quot;ApplicationCommands.Close&quot;
-
-                VerticalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot; Margin=&quot;5&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">&gt;</span>
+    &lt;Button Content="Open" Command="ApplicationCommands.Open"
+            VerticalAlignment="Center" Padding="10,5" Margin="5"/&gt;
+    &lt;Button Content="Close" Command="ApplicationCommands.Close"
+            VerticalAlignment="Center" Padding="10,5" Margin="5"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/07/001-layout.png"><img class="alignnone size-full wp-image-2804" title="001-Layout" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>Then we create a <strong>CommandBinding</strong> and associated handlers.</p>
-<p><pre class="brush: csharp;">
-
-		public MainWindow()
-
+<pre class="code-block language-csharp"><code>		<span class="kw">public</span> MainWindow()
 		{
-
-			this.InitializeComponent();
-
-
-
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Open_Executed, Open_CanExecute));
-
-            CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, Close_Executed, Close_CanExecute));
-
+			<span class="kw">this</span>.InitializeComponent();
+            CommandBindings.Add(<span class="kw">new</span> CommandBinding(ApplicationCommands.Open, Open_Executed, Open_CanExecute));
+            CommandBindings.Add(<span class="kw">new</span> CommandBinding(ApplicationCommands.Close, Close_Executed, Close_CanExecute));
         }
-
-
-
-        private bool isOpen = false;
-
-
-
-        public void Open_Executed(object sender, ExecutedRoutedEventArgs e)
-
+        <span class="kw">private</span> <span class="kw">bool</span> isOpen = <span class="kw">false</span>;
+        <span class="kw">public</span> <span class="kw">void</span> Open_Executed(<span class="kw">object</span> sender, ExecutedRoutedEventArgs e)
         {
-
-            MessageBox.Show(&quot;Open&quot;);
-
-            isOpen = true;
-
+            MessageBox.Show(<span class="str">"Open"</span>);
+            isOpen = <span class="kw">true</span>;
         }
-
-
-
-        public void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-
+        <span class="kw">public</span> <span class="kw">void</span> Open_CanExecute(<span class="kw">object</span> sender, CanExecuteRoutedEventArgs e)
         {
-
             e.CanExecute = !isOpen;
-
         }
-
-
-
-        public void Close_Executed(object sender, ExecutedRoutedEventArgs e)
-
+        <span class="kw">public</span> <span class="kw">void</span> Close_Executed(<span class="kw">object</span> sender, ExecutedRoutedEventArgs e)
         {
-
-            MessageBox.Show(&quot;Close&quot;);
-
-            isOpen = false;
-
+            MessageBox.Show(<span class="str">"Close"</span>);
+            isOpen = <span class="kw">false</span>;
         }
-
-
-
-        public void Close_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-
+        <span class="kw">public</span> <span class="kw">void</span> Close_CanExecute(<span class="kw">object</span> sender, CanExecuteRoutedEventArgs e)
         {
-
             e.CanExecute = isOpen;
-
-        }
-
-</pre></p>
+        }</code></pre>
 <p>The buttons will now automatically be enabled/disabled, depending on the value of <strong>isOpen</strong>.</p>
 <div class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-2795" class="wpl-button "><a href='2011-07-18-344-the-commandbinding-canexecute-event-determines-whether-a-button-is-enabled.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Commands | Tags: CanExecute, CommandBinding, Commands, Executed, WPF</p>

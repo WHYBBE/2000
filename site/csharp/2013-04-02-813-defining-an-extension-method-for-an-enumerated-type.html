@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,87 +56,38 @@
 					</div>
 
 					<p>In addition to other types, you can extend the functionality of an enumerated type using <a href="http://wp.me/pXTis-1NB">extension methods</a>.</p>
-<p>Below is an extension method that extends the <strong>DayOfWeek</strong> enumerated type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public static string Activity(this DayOfWeek day)
-
+<p>Below is an extension method that extends the <strong>DayOfWeek</strong> enumerated type.</p><pre class="code-block language-csharp"><code>    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">string</span> Activity(<span class="kw">this</span> DayOfWeek day)
+    {
+        <span class="kw">string</span> activity = <span class="str">""</span>;
+        <span class="kw">switch</span> (day)
         {
-
-            string activity = &quot;&quot;;
-
-
-
-            switch (day)
-
-            {
-
-                case DayOfWeek.Sunday:
-
-                    activity = &quot;Reading paper&quot;;
-
-                    break;
-
-                case DayOfWeek.Monday:
-
-                    activity = &quot;Grumbling&quot;;
-
-                    break;
-
-                case DayOfWeek.Tuesday:
-
-                    activity = &quot;Eating tacos&quot;;
-
-                    break;
-
-                case DayOfWeek.Wednesday:
-
-                    activity = &quot;Reading&quot;;
-
-                    break;
-
-                case DayOfWeek.Thursday:
-
-                    activity = &quot;Cursing&quot;;
-
-                    break;
-
-                case DayOfWeek.Friday:
-
-                    activity = &quot;Celebrating&quot;;
-
-                    break;
-
-                case DayOfWeek.Saturday:
-
-                    activity = &quot;Hiking&quot;;
-
-                    break;
-
-            }
-
-
-
-            return activity;
-
+            <span class="kw">case</span> DayOfWeek.Sunday:
+                activity = <span class="str">"Reading paper"</span>;
+                <span class="kw">break</span>;
+            <span class="kw">case</span> DayOfWeek.Monday:
+                activity = <span class="str">"Grumbling"</span>;
+                <span class="kw">break</span>;
+            <span class="kw">case</span> DayOfWeek.Tuesday:
+                activity = <span class="str">"Eating tacos"</span>;
+                <span class="kw">break</span>;
+            <span class="kw">case</span> DayOfWeek.Wednesday:
+                activity = <span class="str">"Reading"</span>;
+                <span class="kw">break</span>;
+            <span class="kw">case</span> DayOfWeek.Thursday:
+                activity = <span class="str">"Cursing"</span>;
+                <span class="kw">break</span>;
+            <span class="kw">case</span> DayOfWeek.Friday:
+                activity = <span class="str">"Celebrating"</span>;
+                <span class="kw">break</span>;
+            <span class="kw">case</span> DayOfWeek.Saturday:
+                activity = <span class="str">"Hiking"</span>;
+                <span class="kw">break</span>;
         }
-
+        <span class="kw">return</span> activity;
     }
-
-</pre>
-<p>We can now call the <b>Activity</b> method on any variable or constant whose type is <strong>DayOfWeek</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            DayOfWeek today = DayOfWeek.Thursday;
-
-            Console.WriteLine(today.Activity());
-
-
-
-            Console.WriteLine(DayOfWeek.Friday.Activity());
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/04/813-001.png"><img class="alignnone size-full wp-image-6962" alt="813-001" src="data:image/png;base64,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"   /></a></p>
+}</code></pre><p>We can now call the <b>Activity</b> method on any variable or constant whose type is <strong>DayOfWeek</strong>.</p><pre class="code-block language-csharp"><code>DayOfWeek today = DayOfWeek.Thursday;
+Console.WriteLine(today.Activity());
+Console.WriteLine(DayOfWeek.Friday.Activity());</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/04/813-001.png"><img class="alignnone size-full wp-image-6962" alt="813-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

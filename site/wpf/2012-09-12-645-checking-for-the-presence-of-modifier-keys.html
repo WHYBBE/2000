@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -50,39 +62,17 @@
 <li>Shift key</li>
 <li>Windows key (Windows logo on face of key)</li>
 </ul>
-<p>In a WPF keypress handler (<strong>PreviewKeyDown, KeyDown, PreviewKeyUp </strong>and <strong>KeyUp</strong>), you can check for the presence of one of the modifier keys using the <strong>KeyEventArgs.KeyboardDevice.Modifiers</strong> property.  This property is an enumerated type that is a bitwise combination of the possible values.  You can check for the presence of one of the modifiers by doing an AND operation against the modifier.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-
-        {
-
-            Trace.WriteLine(string.Format(&quot;----- PreviewKeyDown for key {0}&quot;, e.Key));
-
-
-
-            // Dumping out all modifiers
-
-            Trace.WriteLine(string.Format(&quot;  KeyboardDevice.Modifiers = {0}&quot;, e.KeyboardDevice.Modifiers);
-
-
-
-            // Checking for specific modifiers
-
-            if ((e.KeyboardDevice.Modifiers &amp; ModifierKeys.Alt) == ModifierKeys.Alt)
-
-                Trace.WriteLine(&quot; Alt key !&quot;);
-
-
-
-            if ((e.KeyboardDevice.Modifiers &amp; ModifierKeys.Control) == ModifierKeys.Control)
-
-                Trace.WriteLine(&quot; Ctrl key !&quot;);
-
-        }
-
-</pre>
-<p>Pressing <strong>Ctrl+Alt+G</strong> yields:<br />
+<p>In a WPF keypress handler (<strong>PreviewKeyDown, KeyDown, PreviewKeyUp </strong>and <strong>KeyUp</strong>), you can check for the presence of one of the modifier keys using the <strong>KeyEventArgs.KeyboardDevice.Modifiers</strong> property.  This property is an enumerated type that is a bitwise combination of the possible values.  You can check for the presence of one of the modifiers by doing an AND operation against the modifier.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> TextBox_PreviewKeyDown(<span class="kw">object</span> sender, KeyEventArgs e)
+{
+    Trace.WriteLine(<span class="kw">string</span>.Format(<span class="str">"----- PreviewKeyDown for key {0}"</span>, e.Key));
+    <span class="com">// Dumping out all modifiers</span>
+    Trace.WriteLine(<span class="kw">string</span>.Format(<span class="str">"  KeyboardDevice.Modifiers = {0}"</span>, e.KeyboardDevice.Modifiers);
+    <span class="com">// Checking for specific modifiers</span>
+    <span class="kw">if</span> ((e.KeyboardDevice.Modifiers &amp; ModifierKeys.Alt) == ModifierKeys.Alt)
+        Trace.WriteLine(<span class="str">" Alt key !"</span>);
+    <span class="kw">if</span> ((e.KeyboardDevice.Modifiers &amp; ModifierKeys.Control) == ModifierKeys.Control)
+        Trace.WriteLine(<span class="str">" Ctrl key !"</span>);
+}</code></pre><p>Pressing <strong>Ctrl+Alt+G</strong> yields:<br />
 <a href="http://2000thingswpf.files.wordpress.com/2012/09/645-001.png"><img class="alignnone size-full wp-image-5593" title="645-001" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

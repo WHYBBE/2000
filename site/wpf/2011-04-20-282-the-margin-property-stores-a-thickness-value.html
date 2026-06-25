@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -47,29 +59,14 @@
 <p>The <strong>Thickness</strong> structure has four fields, defining the size of the margin along each edge of the control: <strong>Left</strong>, <strong>Top</strong>, <strong>Right</strong>, <strong>Bottom</strong>.  The value of each of these fields is specified in device independent WPF Units.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/04/margin.png"><img class="alignnone size-full wp-image-2328" title="Margin" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>You can specify a <strong>Thickness</strong> value in XAML by listing the four values in a comma-separated string, in the following order: &#8220;left, top, right, bottom&#8221;.</p>
-<p><pre class="brush: xml;">
-
-	&lt;Image Name=&quot;imgKlondike&quot; Source=&quot;TractorSm.png&quot; Margin=&quot;5,10,5,10&quot;/&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code>	<span class="xml-tag">&lt;</span><span class="xml-name">Image</span> <span class="xml-attr">Name</span>=<span class="xml-val">"imgKlondike"</span> <span class="xml-attr">Source</span>=<span class="xml-val">"TractorSm.png"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5,10,5,10"</span><span class="xml-tag">/&gt;</span></code></pre>
 <p>You can also change the value of a <strong>Margin</strong> in code.  You can&#8217;t set individual fields in the margin, but you can set the property to a new instance of a <strong>Thickness</strong>.</p>
-<p><pre class="brush: csharp;">
-
-            Thickness oldMargin = imgKlondike.Margin;
-
-
-
-            imgKlondike.Margin = new Thickness(
-
-                oldMargin.Left + 2.0,
-
-                oldMargin.Top + 2.0,
-
-                oldMargin.Right + 2.0,
-
-                oldMargin.Bottom + 2.0);
-
-</pre></p>
+<pre class="code-block language-csharp"><code>Thickness oldMargin = imgKlondike.Margin;
+imgKlondike.Margin = <span class="kw">new</span> Thickness(
+    oldMargin.Left + <span <span class="kw">class</span>="num">2.0</span>,
+    oldMargin.Top + <span <span class="kw">class</span>="num">2.0</span>,
+    oldMargin.Right + <span <span class="kw">class</span>="num">2.0</span>,
+    oldMargin.Bottom + <span <span class="kw">class</span>="num">2.0</span>);</code></pre>
 
 <div class="wpadvert">
 

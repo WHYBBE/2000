@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,49 +56,28 @@
 					</div>
 
 					<p>Below is a cheat sheet for creating a custom command in WPF.</p>
-<p>Use a static property to expose a command object from the ViewModel or code-behind. <strong>RoutedUICommand</strong> allows for associating control text with the command itself.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-private static RoutedUICommand _pressMeCommand = 
-    new RoutedUICommand(&quot;Press Me&quot;, &quot;PressMe&quot;, typeof(MainWindow));
-public static RoutedUICommand PressMeCommand
-{
-    get { return _pressMeCommand; }
-}
-</pre>
-<p>Add command handlers (in code-behind or ViewModel).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-private void PressMe_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-{
-    e.CanExecute = CowboyCanTalk;
-}
- 
-private void PressMe_Executed(object sender, ExecutedRoutedEventArgs e)
-{
-    MessageBox.Show(&quot;Howdy howdy I'm a cowboy&quot;);
-}
-</pre>
-<p>Bind the command to its handlers, done here in XAML for a window.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window.CommandBindings&gt;
-    &lt;CommandBinding Command=&quot;local:MainWindow.PressMeCommand&quot; 
-                    CanExecute=&quot;PressMe_CanExecute&quot; 
-                    Executed=&quot;PressMe_Executed&quot;/&gt;
-&lt;/Window.CommandBindings&gt;
-</pre>
-<p>Wire a button up to the command. Note use of command&#8217;s <strong>Text</strong> property for the button&#8217;s <strong>Content</strong> (text).</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Button Command=&quot;local:MainWindow.PressMeCommand&quot; 
-        Content=&quot;{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}&quot; /&gt;
-</pre>
-<p>We can also wire up the command to other GUI elements, e.g. a menu item in a context menu. The menu item&#8217;s text is set up automatically.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window.ContextMenu&gt;
-    &lt;ContextMenu&gt;
-        &lt;MenuItem Command=&quot;{x:Static local:MainWindow.PressMeCommand}&quot; /&gt;
-    &lt;/ContextMenu&gt;
-&lt;/Window.ContextMenu&gt;
-</pre>
-<div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9574-595d48afd367d' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9574&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9574-595d48afd367d' data-name='like-post-frame-14605478-9574-595d48afd367d'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<p>Use a static property to expose a command object from the ViewModel or code-behind. <strong>RoutedUICommand</strong> allows for associating control text with the command itself.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">static</span> RoutedUICommand _pressMeCommand =
+    <span class="kw">new</span> RoutedUICommand(<span class="str">"Press Me"</span>, <span class="str">"PressMe"</span>, <span class="kw">typeof</span>(MainWindow));
+<span class="kw">public</span> <span class="kw">static</span> RoutedUICommand PressMeCommand
+{
+    <span class="kw">get</span> { <span class="kw">return</span> _pressMeCommand; }
+}</code></pre><p>Add command handlers (in code-behind or ViewModel).</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> PressMe_CanExecute(<span class="kw">object</span> sender, CanExecuteRoutedEventArgs e)
+{
+    e.CanExecute = CowboyCanTalk;
+}
+<span class="kw">private</span> <span class="kw">void</span> PressMe_Executed(<span class="kw">object</span> sender, ExecutedRoutedEventArgs e)
+{
+    MessageBox.Show(<span class="str">"Howdy howdy I'm a cowboy"</span>);
+}</code></pre><p>Bind the command to its handlers, done here in XAML for a window.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.CommandBindings</span><span class="xml-tag">&gt;</span>
+    &lt;CommandBinding Command="local:MainWindow.PressMeCommand"
+                    CanExecute="PressMe_CanExecute"
+                    Executed="PressMe_Executed"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.CommandBindings</span><span class="xml-tag">&gt;</span></code></pre><p>Wire a button up to the command. Note use of command&#8217;s <strong>Text</strong> property for the button&#8217;s <strong>Content</strong> (text).</p><pre class="code-block language-xml"><code>&lt;Button Command="local:MainWindow.PressMeCommand"
+        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" /&gt;</code></pre><p>We can also wire up the command to other GUI elements, e.g. a menu item in a context menu. The menu item&#8217;s text is set up automatically.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.ContextMenu</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ContextMenu</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">MenuItem</span> <span class="xml-attr">Command</span>=<span class="xml-val">"{x:Static local:MainWindow.PressMeCommand}"</span> <span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ContextMenu</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.ContextMenu</span><span class="xml-tag">&gt;</span></code></pre><div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-14605478-9574-595d48afd367d' data-src='//widgets.wp.com/likes/#blog_id=14605478&amp;post_id=9574&amp;origin=2000thingswpf.wordpress.com&amp;obj_id=14605478-9574-595d48afd367d' data-name='like-post-frame-14605478-9574-595d48afd367d'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
 <div id='jp-relatedposts' class='jp-relatedposts' >
 	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
 </div></div></article>

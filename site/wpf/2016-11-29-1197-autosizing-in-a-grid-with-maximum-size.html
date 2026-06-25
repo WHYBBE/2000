@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,48 +57,34 @@
 
 					<p>You can <a href="2011-10-26-416-setting-grid-rows-and-columns-to-autosize.html">use autosizing</a> for grid rows or columns to have the row or column automatically size to fit its contents. There are times, however, when you want the row or column to fit its contents, but only up to a limit. E.g. Autosize a row height, but only to a maximum of 20% of the size of the entire grid.</p>
 <p>You can autosize within limits by using the <strong>MaxHeight</strong> attribute and a value converter.</p>
-<p>Below, we have a grid with two rows, each containing a <strong>ListBox</strong>. The second row is set to autosize and the first to use all remaining space.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;Window.Resources&gt;
-    &lt;ResourceDictionary&gt;
-        &lt;local:MaxHeightConverter x:Key=&quot;MaxHeightConverter&quot;/&gt;
-        &lt;sys:Double x:Key=&quot;adjMaxHeightRatio&quot;&gt;0.2&lt;/sys:Double&gt;
-    &lt;/ResourceDictionary&gt;
-&lt;/Window.Resources&gt;
-
-&lt;Grid x:Name=&quot;grdRoot&quot;&gt;
-    &lt;Grid.RowDefinitions&gt;
-        &lt;RowDefinition Height=&quot;*&quot;/&gt;
-        &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-    &lt;/Grid.RowDefinitions&gt;
-
-    &lt;ListBox Grid.Row=&quot;0&quot; ItemsSource=&quot;{Binding Dogs}&quot; /&gt;
-
-    &lt;ListBox Grid.Row=&quot;1&quot; ItemsSource=&quot;{Binding MoreDogs}&quot; MaxHeight=&quot;{Binding ElementName=grdRoot, Path=ActualHeight, Converter={StaticResource MaxHeightConverter}, ConverterParameter={StaticResource adjMaxHeightRatio}}&quot; /&gt;
-&lt;/Grid&gt;
-</pre>
-<p>The second <strong>ListBox </strong>will take as much room as it needs (grow to fit all elements), until it reaches 20% of the height of the parent grid. At that point, it will be constrained and get a vertical scrollbar.</p>
-<p>Here&#8217;s the code for the converter:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-public class MaxHeightConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        double pctHeight = (double)parameter;
-
-        if ((pctHeight &lt;= 0.0) || (pctHeight &gt; 100.0))
-            throw new Exception(&quot;MaxHeightConverter expects parameter in the range (0,100]&quot;);
-
-        return ((double)value * pctHeight);
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-}
-</pre>
-		<div class="wpcnt">
+<p>Below, we have a grid with two rows, each containing a <strong>ListBox</strong>. The second row is set to autosize and the first to use all remaining space.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ResourceDictionary</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">local:MaxHeightConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"MaxHeightConverter"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">sys:Double</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"adjMaxHeightRatio"</span><span class="xml-tag">&gt;</span>0.2<span class="xml-tag">&lt;/</span><span class="xml-name">sys:Double</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ResourceDictionary</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"grdRoot"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"*"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ListBox</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"0"</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Dogs}"</span> <span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ListBox</span> <span class="xml-attr">Grid.Row</span>=<span class="xml-val">"1"</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding MoreDogs}"</span> <span class="xml-attr">MaxHeight</span>=<span class="xml-val">"{Binding ElementName=grdRoot, Path=ActualHeight, Converter={StaticResource MaxHeightConverter}, ConverterParameter={StaticResource adjMaxHeightRatio}}"</span> <span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p>The second <strong>ListBox </strong>will take as much room as it needs (grow to fit all elements), until it reaches 20% of the height of the parent grid. At that point, it will be constrained and get a vertical scrollbar.</p>
+<p>Here&#8217;s the code for the converter:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MaxHeightConverter : IValueConverter
+{
+    <span class="kw">public</span> <span class="kw">object</span> Convert(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, CultureInfo culture)
+    {
+        <span class="kw">double</span> pctHeight = (<span class="kw">double</span>)parameter;
+        <span class="kw">if</span> ((pctHeight &lt;= <span <span class="kw">class</span>="num">0.0</span>) || (pctHeight &gt; <span <span class="kw">class</span>="num">100.0</span>))
+            <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="str">"MaxHeightConverter expects parameter in the range (0,100]"</span>);
+        <span class="kw">return</span> ((<span class="kw">double</span>)<span class="kw">value</span> * pctHeight);
+    }
+    <span class="kw">public</span> <span class="kw">object</span> ConvertBack(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, CultureInfo culture)
+    {
+        <span class="kw">throw</span> <span class="kw">new</span> NotImplementedException();
+    }
+}</code></pre><div class="wpcnt">
 			<div class="wpa wpmrec">
 				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
 				        <div id="crt-279367126" style="width:300px;height:250px;"></div>

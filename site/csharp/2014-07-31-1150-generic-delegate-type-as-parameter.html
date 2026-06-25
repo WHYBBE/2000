@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,52 +56,31 @@
 					</div>
 
 					<p>You can use a <a href="http://wp.me/pXTis-2jD">generic delegate type</a> as a parameter to a method.</p>
-<p>Suppose that we have the following type:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public delegate T Merger&lt;T&gt;(T thing1, T thing2);
-</pre>
-<p>We can now create a method that takes a constructed version of this type as a parameter.  We could then call the method as shown in the <strong>Main</strong> method.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void MergeInts(Merger&lt;int&gt; intMerger, int n1, int n2)
-        {
-            int result = intMerger(n1, n2);
-        }
-
-        public static int Add(int n1, int n2)
-        {
-            return n1 + n2;
-        }
-
-        static void Main(string[] args)
-        {
-            MergeInts(Add, 5, 6);
-        }
-</pre>
-<p>We could also define a generic method that has a generic delegate parameter.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void MergeSomething&lt;T&gt;(Merger&lt;T&gt; someMerger, T thing1, T thing2)
-        {
-            T result = someMerger(thing1, thing2);
-        }
-</pre>
-<p>We can then call this method as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public static Dog Breed(Dog mama, Dog papa)
-        {
-                return new Dog(mama.Name + papa.Name);
-        }
-
-        static void Main(string[] args)
-        {
-            MergeSomething(Add, 5, 6);
-
-            Dog dog1 = new Dog(&quot;Lassie&quot;);
-            Dog dog2 = new Dog(&quot;Spuds&quot;);
-            MergeSomething(Breed, dog1, dog2);
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Suppose that we have the following type:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">delegate</span> T Merger&lt;T&gt;(T thing1, T thing2);</code></pre><p>We can now create a method that takes a constructed version of this type as a parameter.  We could then call the method as shown in the <strong>Main</strong> method.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> MergeInts(Merger&lt;<span class="kw">int</span>&gt; intMerger, <span class="kw">int</span> n1, <span class="kw">int</span> n2)
+{
+    <span class="kw">int</span> result = intMerger(n1, n2);
+}
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">int</span> Add(<span class="kw">int</span> n1, <span class="kw">int</span> n2)
+{
+    <span class="kw">return</span> n1 + n2;
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    MergeInts(Add, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">6</span>);
+}</code></pre><p>We could also define a generic method that has a generic delegate parameter.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> MergeSomething&lt;T&gt;(Merger&lt;T&gt; someMerger, T thing1, T thing2)
+{
+    T result = someMerger(thing1, thing2);
+}</code></pre><p>We can then call this method as follows:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> Dog Breed(Dog mama, Dog papa)
+{
+        <span class="kw">return</span> <span class="kw">new</span> Dog(mama.Name + papa.Name);
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    MergeSomething(Add, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">6</span>);
+    Dog dog1 = <span class="kw">new</span> Dog(<span class="str">"Lassie"</span>);
+    Dog dog2 = <span class="kw">new</span> Dog(<span class="str">"Spuds"</span>);
+    MergeSomething(Breed, dog1, dog2);
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

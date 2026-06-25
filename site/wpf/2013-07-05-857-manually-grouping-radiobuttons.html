@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,63 +56,29 @@
 					</div>
 
 					<p><strong>RadioButtons </strong>are normally automatically grouped, based on panel control in which they are located in.  All <strong>RadioButtons</strong> within a particular panel are considered part of the same group&#8211;which means that exactly one <strong>RadioButton </strong>at a time can be selected.</p>
-<p>You can, however, manually control which <strong>RadioButtons </strong>are considered to be part of a group, regardless of the parent panel in which they are located.  You specify membership in a group using the <strong>GroupName</strong> property.  <strong>GroupName</strong> can be set to any string value.  <b>RadioButton</b> instances having the same value for <strong>GroupName </strong>are considered part of the same group.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Grid&gt;
-
-        &lt;Grid.RowDefinitions&gt;
-
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-            &lt;RowDefinition/&gt;
-
-        &lt;/Grid.RowDefinitions&gt;
-
-        &lt;Grid.ColumnDefinitions&gt;
-
-            &lt;ColumnDefinition/&gt;
-
-            &lt;ColumnDefinition/&gt;
-
-            &lt;ColumnDefinition/&gt;
-
-        &lt;/Grid.ColumnDefinitions&gt;
-
-
-
-        &lt;RadioButton Content=&quot;Extrovert&quot;
-
-                     GroupName=&quot;EI&quot;/&gt;
-
-        &lt;RadioButton Grid.Row=&quot;1&quot; Content=&quot;Introvert&quot;
-
-                     GroupName=&quot;EI&quot;/&gt;
-
-
-
-        &lt;RadioButton Grid.Column=&quot;1&quot; Content=&quot;Sensing&quot;
-
-                     GroupName=&quot;SN&quot;/&gt;
-
-        &lt;RadioButton Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Content=&quot;Intuition&quot;
-
-                     GroupName=&quot;SN&quot;/&gt;
-
-
-
-        &lt;RadioButton Grid.Column=&quot;2&quot; Content=&quot;Thinking&quot;
-
-                     GroupName=&quot;TF&quot;/&gt;
-
-        &lt;RadioButton Grid.Row=&quot;1&quot; Grid.Column=&quot;2&quot; Content=&quot;Feeling&quot;
-
-                     GroupName=&quot;TF&quot;/&gt;
-
-    &lt;/Grid&gt;
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/07/857-001.png"><img class="alignnone size-full wp-image-7297" alt="857-001" src="data:image/png;base64,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"   /></a></p>
+<p>You can, however, manually control which <strong>RadioButtons </strong>are considered to be part of a group, regardless of the parent panel in which they are located.  You specify membership in a group using the <strong>GroupName</strong> property.  <strong>GroupName</strong> can be set to any string value.  <b>RadioButton</b> instances having the same value for <strong>GroupName </strong>are considered part of the same group.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+    &lt;RadioButton Content="Extrovert"
+                 GroupName="EI"/&gt;
+    &lt;RadioButton Grid.Row="1" Content="Introvert"
+                 GroupName="EI"/&gt;
+    &lt;RadioButton Grid.Column="1" Content="Sensing"
+                 GroupName="SN"/&gt;
+    &lt;RadioButton Grid.Row="1" Grid.Column="1" Content="Intuition"
+                 GroupName="SN"/&gt;
+    &lt;RadioButton Grid.Column="2" Content="Thinking"
+                 GroupName="TF"/&gt;
+    &lt;RadioButton Grid.Row="1" Grid.Column="2" Content="Feeling"
+                 GroupName="TF"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/07/857-001.png"><img class="alignnone size-full wp-image-7297" alt="857-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

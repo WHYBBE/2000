@@ -29,6 +29,7 @@ https://web.archive.org/
 
 - `archive_2000things.py` - repeatable fetch/generation script.
 - `inline_images.py` - repeatable best-effort image caching and base64 inlining script.
+- `enhance_code_blocks.py` - repeatable code block cleanup and local syntax highlighting script.
 - `site/` - rebuilt static HTML site, with one HTML page per tip.
 - `site/index.html` - root index for both archives.
 - `site/csharp/bookmarks.html` - Netscape-style bookmark file for C# tips.
@@ -61,10 +62,19 @@ python inline_images.py --proxy socks5://127.0.0.1:8123 --site site --cache cach
 
 Use `--retry-failed` only when you explicitly want to spend extra time retrying URLs already known to fail. The script intentionally keeps failed images as their original Wayback links instead of embedding broken HTML/error responses.
 
+Then normalize archived code blocks and add local syntax highlighting:
+
+```powershell
+python enhance_code_blocks.py --site site
+```
+
+This converts old WordPress/SyntaxHighlighter blocks such as `<pre class="brush: csharp;">` into local `<pre class="code-block language-csharp"><code>...</code></pre>` blocks, removes excessive blank lines caused by archived formatting, and injects local CSS for C#, XAML/XML, and PowerShell snippets.
+
 Current image inlining result:
 
 - 2524 image references embedded as `data:image/...;base64,...`.
 - 107 image references left as external Wayback URLs because they could not be fetched or did not return recognizable image bytes.
+- 2837 code blocks normalized and highlighted.
 
 ## Notes
 

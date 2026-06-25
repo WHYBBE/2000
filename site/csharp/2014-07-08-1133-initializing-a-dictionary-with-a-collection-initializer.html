@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,33 +55,16 @@
 																				</p>
 					</div>
 
-					<p>You can initialize a generic <strong>Dictionary</strong> with a <a href="2013-05-03-836-initializing-a-generic-list-with-an-object-initializer.html">collection initializer</a> as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Initialization with collection initializer
-
-            Dictionary&lt;string, int&gt; guys = new Dictionary&lt;string,int&gt; {
-
-                    {&quot;Galileo&quot;, 1564},
-
-                    {&quot;Magellan&quot;, 1480},
-
-                    {&quot;Voltaire&quot;, 1694},
-
-                    {&quot;Kepler&quot;, 1571},
-
-                    {&quot;Keaton&quot;, 1895}
-
-                };
-
-
-
-            foreach (KeyValuePair&lt;string, int&gt; kvp in guys)
-
-                Console.WriteLine(&quot;{0} ({1})&quot;, kvp.Key, kvp.Value);
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1133-001.png"><img class="alignnone size-full wp-image-8804" src="data:image/png;base64,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" alt="1133-001"   /></a></p>
+					<p>You can initialize a generic <strong>Dictionary</strong> with a <a href="2013-05-03-836-initializing-a-generic-list-with-an-object-initializer.html">collection initializer</a> as follows:</p><pre class="code-block language-csharp"><code><span class="com">// Initialization with collection initializer</span>
+Dictionary&lt;<span class="kw">string</span>, <span class="kw">int</span>&gt; guys = <span class="kw">new</span> Dictionary&lt;<span class="kw">string</span>,<span class="kw">int</span>&gt; {
+        {<span class="str">"Galileo"</span>, <span <span class="kw">class</span>="num">1564</span>},
+        {<span class="str">"Magellan"</span>, <span <span class="kw">class</span>="num">1480</span>},
+        {<span class="str">"Voltaire"</span>, <span <span class="kw">class</span>="num">1694</span>},
+        {<span class="str">"Kepler"</span>, <span <span class="kw">class</span>="num">1571</span>},
+        {<span class="str">"Keaton"</span>, <span <span class="kw">class</span>="num">1895</span>}
+    };
+<span class="kw">foreach</span> (KeyValuePair&lt;<span class="kw">string</span>, <span class="kw">int</span>&gt; kvp <span class="kw">in</span> guys)
+    Console.WriteLine(<span class="str">"{0} ({1})"</span>, kvp.Key, kvp.Value);</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1133-001.png"><img class="alignnone size-full wp-image-8804" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM4AAACLCAMAAAAeVFYpAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAblQTFRFAAAAKCgoKCg5KChFKEVOKFhFKFhVXCgoXCg5fygof1goW2dbXGdbf3FjW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5gCgogChFmUUomUU5rVkogEVOmWdFmXxjpGlMt3VUwGc6wHxOwnxZw3xayH9c13JG13xOrIljrId2t4dxuIhywIlV14lV14lbwIljz4Rg1Yhi14ljiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqCeqKCepqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////JzSoIAAAAAlwSFlzAAAOwwAADsMBx2+oZAAABs1JREFUeNrtmol/2zQUx5W2ZEAw933fZ8gMHWYlGUeSYe77GINxI6AFtnWDEUYpsLHBFlbgL0anLcmSraSxQ8LT59OktmVZX7+n935+DvpnrhoCHMABHMABHMABnG3j/D0XDUmYv0jbmvnGcQjMueHZ06dmvgmcreHJzcHRIzPfpHWGu+aiIU5z7uSueB6awBluzhXO2cFc4Zw+Ok84W6eOAA7gAM72cZ58XG1PPD3jOG+ufsna6urqu/v3v/HYjOO8P/w9bcMDu8XusLbwcK0RR4t7jEH4nnCpH8e9Vp1+1Go1usVPW3p0RxDLDjmt22zEbXLmwnJer3DpqSbpVMvMwonz+TfPPPv8Cy9+PVhfH+zbJ3HatUCZvNIYAptMHHfIzNsUpbdzOZlkxw+nvbAc0WtEQT4zuxK5ZQ1fnIN33XfPvfevHaM47yQ44q5lcDrn0wNttjta6nebdW2Si3s8ccJ6r1XQhQ3Hb1wcWqxoxXn74AN333bLrWvfrx8efPKhwAmpA1G3YTh0KyC2aGhexkwUycswc9L9Cg51JnJOxL56rfMuqAXdJvdM0qvXkreKd2Ddya428XLug3Q4gdOWA/HL0wlFDpxrLr/yupvXjh1eH3z0sWqdjsAJyR+ZNsNJvYz3CeWUGA7dn+IwX7yIEZOjZA4Bn+BDfW71zg5+L0SHOAxiauw2YeKWowMIHHqAWoh+s/sQOXGuuOraG+4k1lkfHDpkwWHzE6MKJ0zCgeEwfJISh/cVzs99Sw4jzUutITvE8jS2pOi5kTzKcLh3kEHFQnDhXH3TjXdcytbOmTMWHOoD3BuYy7PJNNgV6N1Wcdj+FIfYo0632el1PuGIBym+AmNmINlBuDi/C/SDDZfgNDgFGV4sSxfO9bdffMlla98SnBM/2nCUVZh6mTCRtkTZfjUUkJkGYlvef86YBIpuU0Z2+m8/MSr9YP8kayfww3nvq+deeenlV78gON9t/mB1toYz6ZA+dTVL9LmXp85JE0ddxWFDy6N0b9KBG0TBEcM1eLd+4mxRnrO99efGxsavv/z02x8nfj5+3ILTa9El+CDFSr0s8ZeI3mySd9o0agV8T8CtRsIAZQhpCNi5zHBoGKAGp3eFJSsasUQHOt224mx8OIbTbdJ9MhQwM0ZBx4rz+gHePv3sA/L52ko2srG42KCB2kg6IqQxx6feIKJcJNJ4W8TVkHXgOE0Wg8UKlEsyTJbO4oUpDh+u2xQLK+0nR7Hi7F3ZrbSVvfmao6/rgqxe8GlyOeW24uG2+4BgJp0xJmmXGuMxw+Mb4AAO4AAO4EwX55FZbhYcNMvNhoNJU7qkm/zbOGxrokPSPTlRPV44ymRw6GX0S+k4xRORNFjrnJ6FjSNl4ljunHndgnnoRszeg8S8k+dx4OQ7mTlfB7wDh/zja+ZJ4pheY3xLn8z4ZgYHi/5YO69CHCw+8nEw9sFBGXRcnre5144yTad1EEIekSNrxQrXjryuD47VOpbIZsepJLIlXoYTJoxd3448pHaz9Eu9tAqcOVMFgPPfxSnUUzlrJk+7aREeGYmoTByMCiY6lnZDSTpTotykeaw4eDI47oCmpNTJRuwcHFXXq9vZ9KGJGKc6UHJZktomnU+tawerbmJJgzZV6aHd9LVjXqfsUIBN53BoOE/tJq2ujlchjsMyI4idfO2mKINy144hQbN3fyztZtVvVUS21Nm0CWn5QtduhmS1a7c0tFWZd5BVTs6PyPHI/qDZqtRsjjqbSx14aras1qtEszkj1Kg4emQzUnMp9bYRcEa+qrveZpip7LyjBWajcmM+ICTxfIR6m5rbKlAF1rSZlQXJfmzLO456m00UTRPH1G5JGs2U6u0SVLM2njZO3v68xyKLSEIVrB2ULb4qTuWFmVtvMzVcyZFNDaP6CxrL45z+DOZdb0Nl1dugMAU4U9VsDn8e852oEpDLem9QENlclxzrnWj2qbNEHjuO44LjvxNVI2CZPDk4SgHJVAGaVivQaLYngdJ4PNKokf90CYmLNRpypc9KrYOz72Yzyhrl4DgfeKaFg7IPKPZZ59bVHEXTqiObj7MVRTY7TqWRDWtVV2T8MABrJXbko9FQRvpNuTA1TyJnlsps/2PN5l27QdnnpSmuHScO9qWx/tqjgqwzkmbz1NOqZit4PzQNzWZxFq93oTk4U9Vshhzw/R0bytTVKpDUXpoNj4OTU4iapmYzRY3vu9BK6mqjazazpjzq79jy6mxT0mzIqLNhe5kwv66Gcek0UJgCHMABHMABHMABHMABHMABHMABHMABHMABHMABHMABHMABHMABHMCZVPsX67dsqJLRc18AAAAASUVORK5CYII=" alt="1133-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

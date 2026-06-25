@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,279 +57,120 @@
 
 					<p>You can use the <strong>GiveFeedback</strong> to <a href="http://wp.me/pZhye-1C2">change the cursor</a> during a drag-and-drop operation.  You can set the cursor to be some text by rendering a visual element to a bitmap and then converting that bitmap to a cursor.</p>
 <p>Here&#8217;s a helper class containing a method that converts some text to a cursor.</p>
-<p><pre class="brush: csharp;">
-
-    public class CursorHelper
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> CursorHelper
+{
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">class</span> NativeMethods
     {
-
-        private static class NativeMethods
-
+        <span class="kw">public</span> <span class="kw">struct</span> IconInfo
         {
-
-            public struct IconInfo
-
-            {
-
-                public bool fIcon;
-
-                public int xHotspot;
-
-                public int yHotspot;
-
-                public IntPtr hbmMask;
-
-                public IntPtr hbmColor;
-
-            }
-
-
-
-            [DllImport(&quot;user32.dll&quot;)]
-
-            public static extern SafeIconHandle CreateIconIndirect(ref IconInfo icon);
-
-
-
-            [DllImport(&quot;user32.dll&quot;)]
-
-            public static extern bool DestroyIcon(IntPtr hIcon);
-
-
-
-            [DllImport(&quot;user32.dll&quot;)]
-
-            [return: MarshalAs(UnmanagedType.Bool)]
-
-            public static extern bool GetIconInfo(IntPtr hIcon, ref IconInfo pIconInfo);
-
+            <span class="kw">public</span> <span class="kw">bool</span> fIcon;
+            <span class="kw">public</span> <span class="kw">int</span> xHotspot;
+            <span class="kw">public</span> <span class="kw">int</span> yHotspot;
+            <span class="kw">public</span> IntPtr hbmMask;
+            <span class="kw">public</span> IntPtr hbmColor;
         }
-
-
-
-        [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
-
-        private class SafeIconHandle : SafeHandleZeroOrMinusOneIsInvalid
-
-        {
-
-            public SafeIconHandle()
-
-                : base(true)
-
-            {
-
-            }
-
-
-
-            override protected bool ReleaseHandle()
-
-            {
-
-                return NativeMethods.DestroyIcon(handle);
-
-            }
-
-        }
-
-
-
-        private static Cursor InternalCreateCursor(System.Drawing.Bitmap bmp)
-
-        {
-
-            var iconInfo = new NativeMethods.IconInfo();
-
-            NativeMethods.GetIconInfo(bmp.GetHicon(), ref iconInfo);
-
-
-
-            iconInfo.xHotspot = 0;
-
-            iconInfo.yHotspot = 0;
-
-            iconInfo.fIcon = false;
-
-
-
-            SafeIconHandle cursorHandle = NativeMethods.CreateIconIndirect(ref iconInfo);
-
-            return CursorInteropHelper.Create(cursorHandle);
-
-        }
-
-
-
-        public static Cursor CreateCursor(string cursorText)
-
-        {
-
-            // Text to render
-
-            FormattedText fmtText = new FormattedText(cursorText,
-
-                    new CultureInfo(&quot;en-us&quot;),
-
-                    FlowDirection.LeftToRight,
-
-                    new Typeface(new FontFamily(&quot;Arial&quot;), FontStyles.Normal, FontWeights.Normal, new FontStretch()),
-
-                    12.0,  // FontSize
-
-                    Brushes.Black);
-
-
-
-            // The Visual to use as the source of the RenderTargetBitmap.
-
-            DrawingVisual drawingVisual = new DrawingVisual();
-
-            DrawingContext drawingContext = drawingVisual.RenderOpen();
-
-            drawingContext.DrawText(fmtText, new Point());
-
-            drawingContext.Close();
-
-
-
-            // The BitmapSource that is rendered with a Visual.
-
-            RenderTargetBitmap rtb = new RenderTargetBitmap(
-
-                (int)drawingVisual.ContentBounds.Width,
-
-                (int)drawingVisual.ContentBounds.Height,
-
-                96,   // dpiX
-
-                96,   // dpiY
-
-                PixelFormats.Pbgra32);
-
-            rtb.Render(drawingVisual);
-
-
-
-            // Encoding the RenderBitmapTarget into a bitmap (as PNG)
-
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-
-            encoder.Frames.Add(BitmapFrame.Create(rtb));
-
-
-
-            using (var ms = new MemoryStream())
-
-            {
-
-                encoder.Save(ms);
-
-                using (var bmp = new System.Drawing.Bitmap(ms))
-
-                {
-
-                    return InternalCreateCursor(bmp);
-
-                }
-
-            }
-
-        }
-
+        [DllImport(<span class="str">"user32.dll"</span>)]
+        <span class="kw">public</span> <span class="kw">static</span> <span class="kw">extern</span> SafeIconHandle CreateIconIndirect(<span class="kw">ref</span> IconInfo icon);
+        [DllImport(<span class="str">"user32.dll"</span>)]
+        <span class="kw">public</span> <span class="kw">static</span> <span class="kw">extern</span> <span class="kw">bool</span> DestroyIcon(IntPtr hIcon);
+        [DllImport(<span class="str">"user32.dll"</span>)]
+        [<span class="kw">return</span>: MarshalAs(UnmanagedType.Bool)]
+        <span class="kw">public</span> <span class="kw">static</span> <span class="kw">extern</span> <span class="kw">bool</span> GetIconInfo(IntPtr hIcon, <span class="kw">ref</span> IconInfo pIconInfo);
     }
-
-</pre></p>
-<p>We can test this code by setting the cursor to some text when we drag a <b>Label</b>.</p>
-<p><pre class="brush: xml;">
-
-    &lt;StackPanel&gt;
-
-        &lt;Label Content=&quot;Mayflower&quot; Background=&quot;AliceBlue&quot; 
-
-               HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot; Padding=&quot;20,5&quot;
-
-               MouseLeftButtonDown=&quot;Label_MouseLeftButtonDown&quot;
-
-               GiveFeedback=&quot;Label_GiveFeedback&quot;/&gt;
-
-        &lt;Label Content=&quot;Drag to here&quot; Background=&quot;SpringGreen&quot; 
-
-               HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot;
-
-               Drop=&quot;Label_Drop&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre></p>
-<p>Here&#8217;s the code for the drag-and-drop operation.</p>
-<p><pre class="brush: csharp;">
-
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-
+    [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = <span class="kw">true</span>)]
+    <span class="kw">private</span> <span class="kw">class</span> SafeIconHandle : SafeHandleZeroOrMinusOneIsInvalid
+    {
+        <span class="kw">public</span> SafeIconHandle()
+            : <span class="kw">base</span>(<span class="kw">true</span>)
         {
-
-            DataObject data = new DataObject(DataFormats.Text, ((Label)e.Source).Content);
-
-
-
-            DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
-
         }
-
-
-
-        private void Label_Drop(object sender, DragEventArgs e)
-
+        <span class="kw">override</span> <span class="kw">protected</span> <span class="kw">bool</span> ReleaseHandle()
         {
-
-            ((Label)e.Source).Content = (string)e.Data.GetData(DataFormats.Text);
-
+            <span class="kw">return</span> NativeMethods.DestroyIcon(handle);
         }
-
-
-
-        private Cursor customCursor = null;
-
-
-
-        private void Label_GiveFeedback(object sender, GiveFeedbackEventArgs e)
-
+    }
+    <span class="kw">private</span> <span class="kw">static</span> Cursor InternalCreateCursor(System.Drawing.Bitmap bmp)
+    {
+        <span class="kw">var</span> iconInfo = <span class="kw">new</span> NativeMethods.IconInfo();
+        NativeMethods.GetIconInfo(bmp.GetHicon(), <span class="kw">ref</span> iconInfo);
+        iconInfo.xHotspot = <span <span class="kw">class</span>="num">0</span>;
+        iconInfo.yHotspot = <span <span class="kw">class</span>="num">0</span>;
+        iconInfo.fIcon = <span class="kw">false</span>;
+        SafeIconHandle cursorHandle = NativeMethods.CreateIconIndirect(<span class="kw">ref</span> iconInfo);
+        <span class="kw">return</span> CursorInteropHelper.Create(cursorHandle);
+    }
+    <span class="kw">public</span> <span class="kw">static</span> Cursor CreateCursor(<span class="kw">string</span> cursorText)
+    {
+        <span class="com">// Text to render</span>
+        FormattedText fmtText = <span class="kw">new</span> FormattedText(cursorText,
+                <span class="kw">new</span> CultureInfo(<span class="str">"en-us"</span>),
+                FlowDirection.LeftToRight,
+                <span class="kw">new</span> Typeface(<span class="kw">new</span> FontFamily(<span class="str">"Arial"</span>), FontStyles.Normal, FontWeights.Normal, <span class="kw">new</span> FontStretch()),
+                <span <span class="kw">class</span>="num">12.0</span>,  <span class="com">// FontSize</span>
+                Brushes.Black);
+        <span class="com">// The Visual to use as the source of the RenderTargetBitmap.</span>
+        DrawingVisual drawingVisual = <span class="kw">new</span> DrawingVisual();
+        DrawingContext drawingContext = drawingVisual.RenderOpen();
+        drawingContext.DrawText(fmtText, <span class="kw">new</span> Point());
+        drawingContext.Close();
+        <span class="com">// The BitmapSource that is rendered with a Visual.</span>
+        RenderTargetBitmap rtb = <span class="kw">new</span> RenderTargetBitmap(
+            (<span class="kw">int</span>)drawingVisual.ContentBounds.Width,
+            (<span class="kw">int</span>)drawingVisual.ContentBounds.Height,
+            <span <span class="kw">class</span>="num">96</span>,   <span class="com">// dpiX</span>
+            <span <span class="kw">class</span>="num">96</span>,   <span class="com">// dpiY</span>
+            PixelFormats.Pbgra32);
+        rtb.Render(drawingVisual);
+        <span class="com">// Encoding the RenderBitmapTarget into a bitmap (as PNG)</span>
+        PngBitmapEncoder encoder = <span class="kw">new</span> PngBitmapEncoder();
+        encoder.Frames.Add(BitmapFrame.Create(rtb));
+        <span class="kw">using</span> (<span class="kw">var</span> ms = <span class="kw">new</span> MemoryStream())
         {
-
-            if (e.Effects == DragDropEffects.Copy)
-
+            encoder.Save(ms);
+            <span class="kw">using</span> (<span class="kw">var</span> bmp = <span class="kw">new</span> System.Drawing.Bitmap(ms))
             {
-
-                if (customCursor == null)
-
-                    customCursor = CursorHelper.CreateCursor(&quot;Mayflower - 18 Dec 1620&quot;);
-
-
-
-                if (customCursor != null)
-
-                {
-
-                    e.UseDefaultCursors = false;
-
-                    Mouse.SetCursor(customCursor);
-
-                }
-
+                <span class="kw">return</span> InternalCreateCursor(bmp);
             }
-
-            else
-
-                e.UseDefaultCursors = true;
-
-
-
-            e.Handled = true;
-
         }
-
-</pre></p>
+    }
+}</code></pre>
+<p>We can test this code by setting the cursor to some text when we drag a <b>Label</b>.</p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="Mayflower" Background="AliceBlue"
+           HorizontalAlignment="Center" Margin="15" Padding="20,5"
+           MouseLeftButtonDown="Label_MouseLeftButtonDown"
+           GiveFeedback="Label_GiveFeedback"/&gt;
+    &lt;Label Content="Drag to here" Background="SpringGreen"
+           HorizontalAlignment="Center" Margin="15"
+           Drop="Label_Drop"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
+<p>Here&#8217;s the code for the drag-and-drop operation.</p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Label_MouseLeftButtonDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    DataObject data = <span class="kw">new</span> DataObject(DataFormats.Text, ((Label)e.Source).Content);
+    DragDrop.DoDragDrop((DependencyObject)e.Source, data, DragDropEffects.Copy);
+}
+<span class="kw">private</span> <span class="kw">void</span> Label_Drop(<span class="kw">object</span> sender, DragEventArgs e)
+{
+    ((Label)e.Source).Content = (<span class="kw">string</span>)e.Data.GetData(DataFormats.Text);
+}
+<span class="kw">private</span> Cursor customCursor = <span class="kw">null</span>;
+<span class="kw">private</span> <span class="kw">void</span> Label_GiveFeedback(<span class="kw">object</span> sender, GiveFeedbackEventArgs e)
+{
+    <span class="kw">if</span> (e.Effects == DragDropEffects.Copy)
+    {
+        <span class="kw">if</span> (customCursor == <span class="kw">null</span>)
+            customCursor = CursorHelper.CreateCursor(<span class="str">"Mayflower - 18 Dec 1620"</span>);
+        <span class="kw">if</span> (customCursor != <span class="kw">null</span>)
+        {
+            e.UseDefaultCursors = <span class="kw">false</span>;
+            Mouse.SetCursor(customCursor);
+        }
+    }
+    <span class="kw">else</span>
+        e.UseDefaultCursors = <span class="kw">true</span>;
+    e.Handled = <span class="kw">true</span>;
+}</code></pre>
 <p><a href="http://wpf.2000things.com/2012/12/18/714-setting-the-cursor-to-render-some-text-while-dragging/714-001/" rel="attachment wp-att-6223"><img class="alignnone size-full wp-image-6223" alt="714-001" src="data:image/png;base64,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"   /></a></p>
 
 		<div class="wpadvert">

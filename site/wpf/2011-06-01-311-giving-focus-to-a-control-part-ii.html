@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -40,23 +52,19 @@
                         <p><span class="time">June 1, 2011</span> <span class="author">by <a href="http://wpf.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-06-01-311-giving-focus-to-a-control-part-ii.html">Leave a Comment</a></span> </p>
                     </div>
 
-                    <p>You can give focus to a specific control at run-time using the <a href="2011-05-25-307-giving-focus-to-a-control-when-an-application-starts.html">Keyboard.Focus</a> static method.  You can also give focus to any control that inherits from <strong>UIElement</strong> using the control&#8217;s <strong>Focus</strong> method.</p>
-<pre class="brush: csharp;">
-		public MainWindow()
+                    <p>You can give focus to a specific control at run-time using the <a href="2011-05-25-307-giving-focus-to-a-control-when-an-application-starts.html">Keyboard.Focus</a> static method.  You can also give focus to any control that inherits from <strong>UIElement</strong> using the control&#8217;s <strong>Focus</strong> method.</p><pre class="code-block language-csharp"><code>		<span class="kw">public</span> MainWindow()
 		{
-			this.InitializeComponent();
+			<span class="kw">this</span>.InitializeComponent();
 
-            this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+            <span class="kw">this</span>.Loaded += <span class="kw">new</span> RoutedEventHandler(MainWindow_Loaded);
 
 		}
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        <span class="kw">void</span> MainWindow_Loaded(<span class="kw">object</span> sender, RoutedEventArgs e)
         {
-            // On startup, set focus to first TextBox in window
+            <span class="com">// On startup, set focus to first TextBox in window</span>
             txtFirst.Focus();
-        }
-</pre>
-<p>The difference between these two methods is:</p>
+        }</code></pre><p>The difference between these two methods is:</p>
 <ul>
 <li><strong>Keyboard.Focus</strong> just sets keyboard focus</li>
 <li><strong>UIElement.Focus</strong> tries to set keyboard focus.  If the control fails to get keyboard focus, the method sets logical focus to the control</li>

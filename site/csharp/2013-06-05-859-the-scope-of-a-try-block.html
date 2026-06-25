@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -49,43 +61,20 @@
 <li>One or more <strong>catch</strong> statements, optionally indicating the type of exception that can be caught</li>
 </ul>
 <p>The idea of the <strong>try</strong> block is to indicate a block of code for which an exception can be caught.  An exception that occurs as a result of calling <em>any</em> of the statements in the <strong>try</strong> block can be caught in the associated <strong>catch</strong> block.</p>
-<p>In the example below, we catch exceptions that occur in the <strong>Dog </strong>constructor, the <strong>Dog.Bark</strong> call, or the <strong>Dog.Print</strong> call.  An exception thrown from any of these methods, or code that they call, will be caught in the <strong>catch</strong> block<strong>.</strong></p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-                try
-
-                {
-
-                    // Construct a dog
-
-                    Dog d = new Dog(&quot;Kirby&quot;, 15);
-
-
-
-                    // Bark at volume=11
-
-                    d.Bark(&quot;Woof&quot;, 11);
-
-
-
-                    // Print info
-
-                    d.Print();
-
-                }
-
-                catch (Exception exc)
-
-                {
-
-                    Console.WriteLine(&quot;Something went wrong.  Message:&quot;);
-
-                    Console.WriteLine(exc.Message);
-
-                }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/859-001.png"><img class="alignnone size-full wp-image-7292" alt="859-001" src="data:image/png;base64,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"   /></a></p>
+<p>In the example below, we catch exceptions that occur in the <strong>Dog </strong>constructor, the <strong>Dog.Bark</strong> call, or the <strong>Dog.Print</strong> call.  An exception thrown from any of these methods, or code that they call, will be caught in the <strong>catch</strong> block<strong>.</strong></p><pre class="code-block language-csharp"><code><span class="kw">try</span>
+{
+    <span class="com">// Construct a dog</span>
+    Dog d = <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span <span class="kw">class</span>="num">15</span>);
+    <span class="com">// Bark at volume=11</span>
+    d.Bark(<span class="str">"Woof"</span>, <span <span class="kw">class</span>="num">11</span>);
+    <span class="com">// Print info</span>
+    d.Print();
+}
+<span class="kw">catch</span> (Exception exc)
+{
+    Console.WriteLine(<span class="str">"Something went wrong.  Message:"</span>);
+    Console.WriteLine(exc.Message);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/859-001.png"><img class="alignnone size-full wp-image-7292" alt="859-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

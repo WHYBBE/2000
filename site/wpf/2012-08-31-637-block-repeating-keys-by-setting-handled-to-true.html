@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,20 +58,11 @@
 					<p>In a keypress event handler, the <strong>IsRepeat</strong> property indicates whether the current keypress is a result of a character that is <a href="2012-08-30-636-keyboard-events-that-fire-when-a-key-is-held-down.html">repeating</a> because the user is holding the key down.  If you want to prohibit the use of repeating keys in a control, you can check this property and set the <strong>Handled</strong> property to true if <strong>IsRepeat</strong> is true.</p>
 <p>Let&#8217;s say that we want to prohibit repeating characters in a <strong>TextBox</strong>.  We can do this by adding logic to a handler for the <strong>PreviewKeyDown </strong>event.  We don&#8217;t do this in the <strong>KeyDown</strong> event, since the <strong>TextBox</strong> will <a href="2012-08-21-629-some-controls-may-swallow-keypress-events.html">swallow this event</a> for certain keys.<strong><br />
 </strong></p>
-<p>We define the handler in XAML.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;TextBox HorizontalAlignment=&quot;Center&quot; Width=&quot;150&quot; Margin=&quot;10&quot;
-         PreviewKeyDown=&quot;TextBox_PreviewKeyDown&quot; /&gt;
-</pre>
-<p>We then set <strong>Handled</strong> based on the value of <strong>IsRepeat</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            e.Handled = e.IsRepeat;
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>We define the handler in XAML.</p><pre class="code-block language-xml"><code>&lt;TextBox HorizontalAlignment="Center" Width="150" Margin="10"
+         PreviewKeyDown="TextBox_PreviewKeyDown" /&gt;</code></pre><p>We then set <strong>Handled</strong> based on the value of <strong>IsRepeat</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> TextBox_PreviewKeyDown(<span class="kw">object</span> sender, KeyEventArgs e)
+{
+    e.Handled = e.IsRepeat;
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

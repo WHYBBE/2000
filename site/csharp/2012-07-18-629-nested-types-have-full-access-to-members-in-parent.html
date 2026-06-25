@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,57 +55,26 @@
 																				</p>
 					</div>
 
-					<p>When you declare a <a href="http://wp.me/pXTis-1n3">nested type</a>, the inner type has access to everything in the parent type, even if the items in the parent are declared as <strong>private </strong>or <strong>protected</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+					<p>When you declare a <a href="http://wp.me/pXTis-1n3">nested type</a>, the inner type has access to everything in the parent type, even if the items in the parent are declared as <strong>private </strong>or <strong>protected</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">private</span> <span class="kw">string</span> secretName;
+    <span class="kw">private</span> DogCollar collar;
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
     {
-
-        public string Name { get; set; }
-
-
-
-        private string secretName;
-
-        private DogCollar collar;
-
-
-
-        public Dog(string name)
-
-        {
-
-            Name = name;
-
-            secretName = &quot;Calypso&quot;;
-
-            collar = new DogCollar(this);
-
-        }
-
-
-
-        private class DogCollar
-
-        {
-
-            public DogCollar(Dog belongsTo)
-
-            {
-
-                // We can see secretName even though it is private
-
-                Console.WriteLine(string.Format(&quot;Secret name is {0}&quot;, belongsTo.secretName));
-
-            }
-
-        }
-
+        Name = name;
+        secretName = <span class="str">"Calypso"</span>;
+        collar = <span class="kw">new</span> DogCollar(<span class="kw">this</span>);
     }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/07/629-001.png"><img class="alignnone size-full wp-image-5312" title="629-001" src="data:image/png;base64,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" alt=""   /></a><br />
+    <span class="kw">private</span> <span class="kw">class</span> DogCollar
+    {
+        <span class="kw">public</span> DogCollar(Dog belongsTo)
+        {
+            <span class="com">// We can see secretName even though it is private</span>
+            Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Secret name is {0}"</span>, belongsTo.secretName));
+        }
+    }
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2012/07/629-001.png"><img class="alignnone size-full wp-image-5312" title="629-001" src="data:image/png;base64,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" alt=""   /></a><br />
 Note that the nested type does not automatically inherit a reference to a particular instance of the parent class. We need to pass this information into the nested type.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

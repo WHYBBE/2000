@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,154 +56,60 @@
 					</div>
 
 					<p>You can use a <a href="2014-04-03-1067-covariance-and-generic-interfaces.html">generic covariant interface</a> as a workaround for the <a href="http://wp.me/pXTis-2jm">lack of covariance in generic types</a>.</p>
-<p>Suppose that we have a generic <strong>Pile&lt;T&gt; </strong>type as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Pile&lt;T&gt; where T: class
-
+<p>Suppose that we have a generic <strong>Pile&lt;T&gt; </strong>type as follows:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Pile&lt;T&gt; <span class="kw">where</span> T: <span class="kw">class</span>
+{
+    List&lt;T&gt; pile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> Add(T item)
     {
-
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-
-
-
-        public void Add(T item)
-
-        {
-
-            if (!pile.Contains(item))
-
-                pile.Add(item);
-
-        }
-
-
-
-        public T GetFirst()
-
-        {
-
-            return (pile.Count &gt; 0) ? pile[0] : null;
-
-        }
-
+        <span class="kw">if</span> (!pile.Contains(item))
+            pile.Add(item);
     }
-
-</pre>
-<p>Because this generic type doesn&#8217;t support covariance, we can run into the problem shown below.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
-        {
-
-            Pile&lt;Terrier&gt; lilDogs = new Pile&lt;Terrier&gt;();
-
-            lilDogs.Add(new Terrier(&quot;Jack&quot;));
-
-            lilDogs.Add(new Terrier(&quot;Eddie&quot;));
-
-
-
-            // Compile error: can't convert from Pile&lt;Terrier&gt; to
-
-            // Pile&lt;Dog&gt;
-
-            ShowFirstDog(lilDogs);
-
-        }
-
-
-
-        static void ShowFirstDog(Pile&lt;Dog&gt; dogs)
-
-        {
-
-            Console.WriteLine(dogs.GetFirst().Name);
-
-        }
-
-</pre>
-<p>We could write a method that took a <strong>Pile&lt;Terrier&gt;</strong>, rather than <strong>Pile&lt;Dog&gt;</strong>, but the it still might be useful to have a <strong>Pile&lt;Dog&gt;</strong> version that could handle various subtypes of <strong>Dog</strong>.</p>
-<p>The workaround is to add an interface to <strong>Pile&lt;T&gt;</strong> that contains only methods that have <strong>T</strong> as an output parameter.  The interface marks the <strong>T</strong> parameter with the <strong>out</strong> keyword.  The updated code is shown below.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public interface IGetFirst&lt;out T&gt;
-
+    <span class="kw">public</span> T GetFirst()
     {
-
-        T GetFirst();
-
+        <span class="kw">return</span> (pile.Count &gt; <span <span class="kw">class</span>="num">0</span>) ? pile[<span <span class="kw">class</span>="num">0</span>] : <span class="kw">null</span>;
     }
-
-
-
-    public class Pile&lt;T&gt; : IGetFirst&lt;T&gt;
-
-        where T: class
-
+}</code></pre><p>Because this generic type doesn&#8217;t support covariance, we can run into the problem shown below.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    Pile&lt;Terrier&gt; lilDogs = <span class="kw">new</span> Pile&lt;Terrier&gt;();
+    lilDogs.Add(<span class="kw">new</span> Terrier(<span class="str">"Jack"</span>));
+    lilDogs.Add(<span class="kw">new</span> Terrier(<span class="str">"Eddie"</span>));
+    <span class="com">// Compile error: can't convert from Pile&lt;Terrier&gt; to</span>
+    <span class="com">// Pile&lt;Dog&gt;</span>
+    ShowFirstDog(lilDogs);
+}
+<span class="kw">static</span> <span class="kw">void</span> ShowFirstDog(Pile&lt;Dog&gt; dogs)
+{
+    Console.WriteLine(dogs.GetFirst().Name);
+}</code></pre><p>We could write a method that took a <strong>Pile&lt;Terrier&gt;</strong>, rather than <strong>Pile&lt;Dog&gt;</strong>, but the it still might be useful to have a <strong>Pile&lt;Dog&gt;</strong> version that could handle various subtypes of <strong>Dog</strong>.</p>
+<p>The workaround is to add an interface to <strong>Pile&lt;T&gt;</strong> that contains only methods that have <strong>T</strong> as an output parameter.  The interface marks the <strong>T</strong> parameter with the <strong>out</strong> keyword.  The updated code is shown below.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">interface</span> IGetFirst&lt;<span class="kw">out</span> T&gt;
+{
+    T GetFirst();
+}
+<span class="kw">public</span> <span class="kw">class</span> Pile&lt;T&gt; : IGetFirst&lt;T&gt;
+    <span class="kw">where</span> T: <span class="kw">class</span>
+{
+    List&lt;T&gt; pile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> Add(T item)
     {
-
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-
-
-
-        public void Add(T item)
-
-        {
-
-            if (!pile.Contains(item))
-
-                pile.Add(item);
-
-        }
-
-
-
-        public T GetFirst()
-
-        {
-
-            return (pile.Count &gt; 0) ? pile[0] : null;
-
-        }
-
+        <span class="kw">if</span> (!pile.Contains(item))
+            pile.Add(item);
     }
-
-</pre>
-<p>We can now use <strong>IGetFirst&lt;T&gt;</strong> covariantly, rather than trying to use <strong>Pile&lt;T&gt;</strong> covariantly.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
-        {
-
-            Pile&lt;Terrier&gt; lilDogs = new Pile&lt;Terrier&gt;();
-
-            lilDogs.Add(new Terrier(&quot;Jack&quot;));
-
-            lilDogs.Add(new Terrier(&quot;Eddie&quot;));
-
-
-
-            // This works !
-
-            ShowFirstDog(lilDogs);
-
-        }
-
-
-
-        static void ShowFirstDog(IGetFirst&lt;Dog&gt; dogs)
-
-        {
-
-            Console.WriteLine(dogs.GetFirst().Name);
-
-        }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1184-001.png"><img class="alignnone size-full wp-image-8902" src="data:image/png;base64,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" alt="1184-001"   /></a></p>
+    <span class="kw">public</span> T GetFirst()
+    {
+        <span class="kw">return</span> (pile.Count &gt; <span <span class="kw">class</span>="num">0</span>) ? pile[<span <span class="kw">class</span>="num">0</span>] : <span class="kw">null</span>;
+    }
+}</code></pre><p>We can now use <strong>IGetFirst&lt;T&gt;</strong> covariantly, rather than trying to use <strong>Pile&lt;T&gt;</strong> covariantly.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    Pile&lt;Terrier&gt; lilDogs = <span class="kw">new</span> Pile&lt;Terrier&gt;();
+    lilDogs.Add(<span class="kw">new</span> Terrier(<span class="str">"Jack"</span>));
+    lilDogs.Add(<span class="kw">new</span> Terrier(<span class="str">"Eddie"</span>));
+    <span class="com">// This works !</span>
+    ShowFirstDog(lilDogs);
+}
+<span class="kw">static</span> <span class="kw">void</span> ShowFirstDog(IGetFirst&lt;Dog&gt; dogs)
+{
+    Console.WriteLine(dogs.GetFirst().Name);
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/07/1184-001.png"><img class="alignnone size-full wp-image-8902" src="data:image/png;base64,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" alt="1184-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

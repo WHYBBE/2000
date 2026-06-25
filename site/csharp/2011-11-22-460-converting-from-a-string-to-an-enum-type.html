@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,25 +56,12 @@
 					</div>
 
 					<p>You can convert a <strong>string </strong>to the corresponding enumerator in an <strong>enum</strong> type by using the <strong>Enum.Parse</strong> method.  This is a static method that takes the specific enumerated type and a string value and returns the corresponding enumerated value of the type.</p>
-<p><pre class="brush: csharp;">
-
-        public enum Mood { Crabby, Happy, Petulant, Elated };
-
-
-
-        static void Main()
-
-        {
-
-            string myMood = &quot;elated&quot;;
-
-            Mood mood = (Mood)Enum.Parse(typeof(Mood), myMood, true);
-
-
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">enum</span> Mood { Crabby, Happy, Petulant, Elated };
+<span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    <span class="kw">string</span> myMood = <span class="str">"elated"</span>;
+    Mood mood = (Mood)Enum.Parse(<span class="kw">typeof</span>(Mood), myMood, <span class="kw">true</span>);
+}</code></pre>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2011/11/460-001.png"><img class="alignnone size-full wp-image-3874" title="460-001" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>The third parameter indicates whether case should be ignored when searching for a value.</p>
 <p>Because <strong>Enum.Parse</strong> returns a value of type <strong>object</strong>, you need to cast the return value to the desired enumerated type.</p>

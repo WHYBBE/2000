@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,29 +57,14 @@
 
 					<p>Using the <strong>ToString</strong> method on numeric and date-based types from within your code, the output will reflect the current culture, as stored in the <strong>CurrentCulture</strong> property of the current thread.</p>
 <p>When the data binding mechanism in WPF converts numeric or date-based data to a string, however, it doesn&#8217;t automatically use the current culture.  Instead, you must set the <strong>Language</strong> property of the <strong>FrameworkElement</strong> where the binding is occurring.  You typically set this property based on the <strong>CurrentCulture</strong> property of the current thread.  You can set the <strong>Language</strong> property of the topmost user-interface element, so that all of the other elements inherit the value.</p>
-<p><pre class="brush: csharp;">
-
-        public MainWindow()
-
-        {
-
-            InitializeComponent();
-
-            this.DataContext = this;
-
-
-
-            this.Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> MainWindow()
+{
+    InitializeComponent();
+    <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+    <span class="kw">this</span>.Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
+}</code></pre>
 <p>We can now do binding as follows (where <strong>BoundDate</strong> property is of type <strong>DateTime</strong>):</p>
-<p><pre class="brush: xml;">
-
-        &lt;TextBlock Text=&quot;{Binding BoundDate, StringFormat=d}&quot;/&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"{Binding BoundDate, StringFormat=d}"</span><span class="xml-tag">/&gt;</span></code></pre>
 <p>Now if we run with the region set to French (France), we see:<br />
 <a href="http://2000thingswpf.files.wordpress.com/2013/02/765-001.png"><img class="alignnone size-full wp-image-6636" alt="765-001" src="data:image/png;base64,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"   /></a></p>
 

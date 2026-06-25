@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,36 +57,32 @@
 
 					<p>We can use a property&#8217;s set accessor to do some validation on the new property value.  We may want to force the data to be within a particular range, do some conversion on the data, or throw an exception if an invalid value is specified.</p>
 <p>Here&#8217;s an example where we use the set accessor of the <strong>Dog.Age</strong> property to enforce the constraint that a dog&#8217;s age can&#8217;t be less than 0.1.</p>
-<p><pre class="brush: csharp;">
-        private float age;
-        public float Age
-        {
-            get
-            {
-                return age;
-            }
-            set
-            {
-                // Enforce minimum age of 0.1
-                age = (value &lt; 0.1f) ? 0.1f : value;
-            }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">float</span> age;
+<span class="kw">public</span> <span class="kw">float</span> Age
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">return</span> age;
+    }
+    <span class="kw">set</span>
+    {
+        <span class="com">// Enforce minimum age of 0.1</span>
+        age = (<span class="kw">value</span> &lt; <span <span class="kw">class</span>="num">0</span>.1f) ? <span <span class="kw">class</span>="num">0</span>.1f : <span class="kw">value</span>;
+    }
+}</code></pre>
 <p>Here&#8217;s another example, where we throw an exception if the user tries to set <strong>Name</strong> to an empty string.</p>
-<p><pre class="brush: csharp;">
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                if (value == &quot;&quot;)
-                    throw new Exception(&quot;Name can't be empty!&quot;);
-                else
-                    name = value;
-            }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">string</span> name;
+<span class="kw">public</span> <span class="kw">string</span> Name
+{
+    <span class="kw">get</span> { <span class="kw">return</span> name; }
+    <span class="kw">set</span>
+    {
+        <span class="kw">if</span> (<span class="kw">value</span> == <span class="str">""</span>)
+            <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="str">"Name can't be empty!"</span>);
+        <span class="kw">else</span>
+            name = <span class="kw">value</span>;
+    }
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/02/22/250-using-a-set-accessor-to-convert-or-validate-property-data/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2201"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/02/22/250-using-a-set-accessor-to-convert-or-validate-property-data/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/02/22/250-using-a-set-accessor-to-convert-or-validate-property-data/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Properties, Set Accessor</p>
   <nav class="pager"><a href="2011-02-21-249-using-a-get-accessor-to-clean-up-property-data.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-02-23-251-class-properties-support-the-principle-of-encapsulation.html">Next</a></nav>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,35 +55,12 @@
 																				</p>
 					</div>
 
-					<p>You can use the <a href="2010-08-16-60-using-parse-to-convert-from-string-to-numeric-types.html"><strong>Parse</strong> method</a> to convert a string that represents a number to its equivalent numerical representation.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            string numberString = &quot;108&quot;;
-
-            int number = int.Parse(numberString);
-
-</pre>
-<p>If the string does not represent a value of the associated numeric type, or represents a numeric value that is outside the range of the type, a <strong>FormatException </strong>or <strong>OverflowException </strong>is generated.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            int n1 = int.Parse(&quot;3.4&quot;);    // FormatException
-
-</pre>
-<p>You can avoid the exception by using the <strong>TryParse</strong> method.  If the parse operation succeeds, the parsed value is stored in the output parameter and <strong>TryParse</strong> returns <strong>true</strong>.  If the parse operation does not succeed, the output parameter is unaffected and <strong>TryParse</strong> returns <strong>false</strong>.  No exception is thrown.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            int n1;
-
-            if (int.TryParse(&quot;3.4&quot;, out n1))
-
-                Console.WriteLine(&quot;Parse worked--n1 contains number&quot;);
-
-            else
-
-                Console.WriteLine(&quot;Can't parse&quot;);
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1011-001.png"><img class="alignnone size-full wp-image-8122" alt="1011-001" src="data:image/png;base64,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"   /></a></p>
+					<p>You can use the <a href="2010-08-16-60-using-parse-to-convert-from-string-to-numeric-types.html"><strong>Parse</strong> method</a> to convert a string that represents a number to its equivalent numerical representation.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> numberString = <span class="str">"108"</span>;
+<span class="kw">int</span> number = <span class="kw">int</span>.Parse(numberString);</code></pre><p>If the string does not represent a value of the associated numeric type, or represents a numeric value that is outside the range of the type, a <strong>FormatException </strong>or <strong>OverflowException </strong>is generated.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> n1 = <span class="kw">int</span>.Parse(<span class="str">"3.4"</span>);    <span class="com">// FormatException</span></code></pre><p>You can avoid the exception by using the <strong>TryParse</strong> method.  If the parse operation succeeds, the parsed value is stored in the output parameter and <strong>TryParse</strong> returns <strong>true</strong>.  If the parse operation does not succeed, the output parameter is unaffected and <strong>TryParse</strong> returns <strong>false</strong>.  No exception is thrown.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> n1;
+<span class="kw">if</span> (<span class="kw">int</span>.TryParse(<span class="str">"3.4"</span>, <span class="kw">out</span> n1))
+    Console.WriteLine(<span class="str">"Parse worked--n1 contains number"</span>);
+<span class="kw">else</span>
+    Console.WriteLine(<span class="str">"Can't parse"</span>);</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1011-001.png"><img class="alignnone size-full wp-image-8122" alt="1011-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

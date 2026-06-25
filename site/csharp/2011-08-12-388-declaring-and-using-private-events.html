@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,36 +56,21 @@
 					</div>
 
 					<p>You can declare private events in a class and they can be either instance or static events.  A private event is one that code within the class can subscribe to, but that is not visible to code outside the class.</p>
-<p>For example, we can create a private static event in the <strong>Dog</strong> class that will fire whenever a new dog is created.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private static event EventHandler&lt;DogCreatedEventArgs&gt; DogCreated;
-</pre>
-<p>This event will be visible only to code within the <strong>Dog</strong> class.</p>
-<p>In the static constructor, we attach a handler that will record each <strong>Dog</strong> created.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static Dog()
-        {
-            Dog.DogCreated += new EventHandler&lt;DogCreatedEventArgs&gt;(Dog_DogCreated);
-        }
-
-        static List&lt;string&gt; DogList = new List&lt;string&gt;();
-        static void Dog_DogCreated(object sender, DogCreatedEventArgs e)
-        {
-            DogList.Add(e.Name);
-        }
-</pre>
-<p>Finally, we fire the event from the instance constructor.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public Dog(string name)
-        {
-            Name = name;
-
-            if (Dog.DogCreated != null)
-                Dog.DogCreated(this, new DogCreatedEventArgs(name));
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>For example, we can create a private static event in the <strong>Dog</strong> class that will fire whenever a new dog is created.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">static</span> <span class="kw">event</span> EventHandler&lt;DogCreatedEventArgs&gt; DogCreated;</code></pre><p>This event will be visible only to code within the <strong>Dog</strong> class.</p>
+<p>In the static constructor, we attach a handler that will record each <strong>Dog</strong> created.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> Dog()
+{
+    Dog.DogCreated += <span class="kw">new</span> EventHandler&lt;DogCreatedEventArgs&gt;(Dog_DogCreated);
+}
+<span class="kw">static</span> List&lt;<span class="kw">string</span>&gt; DogList = <span class="kw">new</span> List&lt;<span class="kw">string</span>&gt;();
+<span class="kw">static</span> <span class="kw">void</span> Dog_DogCreated(<span class="kw">object</span> sender, DogCreatedEventArgs e)
+{
+    DogList.Add(e.Name);
+}</code></pre><p>Finally, we fire the event from the instance constructor.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> Dog(<span class="kw">string</span> name)
+{
+    Name = name;
+    <span class="kw">if</span> (Dog.DogCreated != <span class="kw">null</span>)
+        Dog.DogCreated(<span class="kw">this</span>, <span class="kw">new</span> DogCreatedEventArgs(name));
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,113 +58,52 @@
                     <p>You can use a three-state <strong>CheckBox</strong> to <a href="http://wp.me/pZhye-Ky">reflect the state of a set of other <strong>CheckBox</strong> controls</a>.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/07/003-something.png"><img class="alignnone size-full wp-image-2896" title="003-Something" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>Here&#8217;s some sample code that implements this behavior.  (See the <a href="http://wp.me/pZhye-Ky">previous post</a> for the XAML).</p>
-<p><pre class="brush: csharp;">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged;
+    <span class="kw">private</span> <span class="kw">bool</span> doEat;
+    <span class="kw">public</span> <span class="kw">bool</span> DoEat
     {
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        private bool doEat;
-
-        public bool DoEat
-
+        <span class="kw">get</span> { <span class="kw">return</span> doEat; }
+        <span class="kw">set</span>
         {
-
-            get { return doEat; }
-
-            set
-
-            {
-
-                doEat = value;
-
-                OnPropertyChanged(&quot;DoEat&quot;);
-
-                OnPropertyChanged(&quot;DoEverything&quot;);
-
-            }
-
+            doEat = <span class="kw">value</span>;
+            OnPropertyChanged(<span class="str">"DoEat"</span>);
+            OnPropertyChanged(<span class="str">"DoEverything"</span>);
         }
-
-
-
-        // Add same code for DoPray and DoLove properties here
-
-
-
-        // Nullable bool - can be true, false or null
-
-        public bool? DoEverything
-
-        {
-
-            get
-
-            {
-
-                if (DoEat &amp;&amp; DoPray &amp;&amp; DoLove)
-
-                    return true;
-
-                else if (!DoEat &amp;&amp; !DoPray &amp;&amp; !DoLove)
-
-                    return false;
-
-                else
-
-                    return null;
-
-            }
-
-
-
-            set
-
-            {
-
-                if (value == true)
-
-                    DoEat = DoPray = DoLove = true;
-
-                else
-
-                    DoEat = DoPray = DoLove = false;
-
-            }
-
-        }
-
-
-
-        public MainWindow()
-
-        {
-
-            this.InitializeComponent();
-
-            this.DataContext = this;
-
-        }
-
-
-
-        private void OnPropertyChanged(string prop)
-
-        {
-
-            if (PropertyChanged != null)
-
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-        }
-
     }
-
-</pre></p>
+    <span class="com">// Add same code for DoPray and DoLove properties here</span>
+    <span class="com">// Nullable bool - can be true, false or null</span>
+    <span class="kw">public</span> <span class="kw">bool</span>? DoEverything
+    {
+        <span class="kw">get</span>
+        {
+            <span class="kw">if</span> (DoEat &amp;&amp; DoPray &amp;&amp; DoLove)
+                <span class="kw">return</span> <span class="kw">true</span>;
+            <span class="kw">else</span> <span class="kw">if</span> (!DoEat &amp;&amp; !DoPray &amp;&amp; !DoLove)
+                <span class="kw">return</span> <span class="kw">false</span>;
+            <span class="kw">else</span>
+                <span class="kw">return</span> <span class="kw">null</span>;
+        }
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (<span class="kw">value</span> == <span class="kw">true</span>)
+                DoEat = DoPray = DoLove = <span class="kw">true</span>;
+            <span class="kw">else</span>
+                DoEat = DoPray = DoLove = <span class="kw">false</span>;
+        }
+    }
+    <span class="kw">public</span> MainWindow()
+    {
+        <span class="kw">this</span>.InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+    }
+    <span class="kw">private</span> <span class="kw">void</span> OnPropertyChanged(<span class="kw">string</span> prop)
+    {
+        <span class="kw">if</span> (PropertyChanged != <span class="kw">null</span>)
+            PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+}</code></pre>
 
 <div class="wpadvert">
 

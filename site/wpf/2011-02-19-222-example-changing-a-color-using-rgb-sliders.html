@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,86 +57,41 @@
 
                     <p>Here&#8217;s an example of changing a color at run-time, using three sliders.</p>
 <p>The XAML defines a control and three sliders:</p>
-<p><pre class="brush: xml;">
-
-	&lt;Window.Resources&gt;
-
-		&lt;SolidColorBrush x:Key=&quot;magicBrush&quot; Color=&quot;Red&quot;/&gt;
-
-	&lt;/Window.Resources&gt;
-
-
-
-	&lt;StackPanel&gt;
-
-		&lt;Ellipse Height=&quot;100&quot; Width=&quot;200&quot; Fill=&quot;{StaticResource magicBrush}&quot; Margin=&quot;30&quot;/&gt;
-
-
-
-		&lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
-
-			&lt;Label Content=&quot;Red&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-
-        	&lt;Slider Name=&quot;sliR&quot; Width=&quot;150&quot; Margin=&quot;10&quot; Minimum=&quot;0&quot; Maximum=&quot;255&quot; TickFrequency=&quot;1&quot; IsSnapToTickEnabled=&quot;True&quot;
-
-				Value=&quot;255&quot;
-
-				ValueChanged=&quot;sli_ValueChanged&quot;/&gt;
-
-			&lt;Label Content=&quot;{Binding ElementName=sliR, Path=Value}&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-
-		&lt;/StackPanel&gt;
-
-		&lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
-
-			&lt;Label Content=&quot;Green&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-
-        	&lt;Slider Name=&quot;sliG&quot; Width=&quot;150&quot; Margin=&quot;10&quot; Minimum=&quot;0&quot; Maximum=&quot;255&quot; TickFrequency=&quot;1&quot; IsSnapToTickEnabled=&quot;True&quot;
-
-				ValueChanged=&quot;sli_ValueChanged&quot;/&gt;
-
-			&lt;Label Content=&quot;{Binding ElementName=sliG, Path=Value}&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-
-		&lt;/StackPanel&gt;
-
-		&lt;StackPanel Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Center&quot;&gt;
-
-			&lt;Label Content=&quot;Blue&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-
-        	&lt;Slider Name=&quot;sliB&quot; Width=&quot;150&quot; Margin=&quot;10&quot; Minimum=&quot;0&quot; Maximum=&quot;255&quot; TickFrequency=&quot;1&quot; IsSnapToTickEnabled=&quot;True&quot;
-
-				ValueChanged=&quot;sli_ValueChanged&quot;/&gt;
-
-			&lt;Label Content=&quot;{Binding ElementName=sliB, Path=Value}&quot; VerticalAlignment=&quot;Center&quot;/&gt;
-
-		&lt;/StackPanel&gt;
-
-	&lt;/StackPanel&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code>	<span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"magicBrush"</span> <span class="xml-attr">Color</span>=<span class="xml-val">"Red"</span><span class="xml-tag">/&gt;</span>
+	<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+	<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">Ellipse</span> <span class="xml-attr">Height</span>=<span class="xml-val">"100"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"200"</span> <span class="xml-attr">Fill</span>=<span class="xml-val">"{StaticResource magicBrush}"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"30"</span><span class="xml-tag">/&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Red"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+        	&lt;Slider Name="sliR" Width="150" Margin="10" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"
+				Value="255"
+				ValueChanged="sli_ValueChanged"/&gt;
+			<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding ElementName=sliR, Path=Value}"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+		<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Green"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+        	&lt;Slider Name="sliG" Width="150" Margin="10" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"
+				ValueChanged="sli_ValueChanged"/&gt;
+			<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding ElementName=sliG, Path=Value}"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+		<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+		<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">&gt;</span>
+			<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Blue"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+        	&lt;Slider Name="sliB" Width="150" Margin="10" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"
+				ValueChanged="sli_ValueChanged"/&gt;
+			<span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding ElementName=sliB, Path=Value}"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+		<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+	<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/02/001-start.png"><img class="alignnone size-full wp-image-1867" title="001-Start" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>In code, we have a single method that executes when the sliders change, which changes the brush color:</p>
-<p><pre class="brush: csharp;">
-
-        private void sli_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs&lt;double&gt; e)
-
+<pre class="code-block language-csharp"><code>        <span class="kw">private</span> <span class="kw">void</span> sli_ValueChanged(<span class="kw">object</span> sender, System.Windows.RoutedPropertyChangedEventArgs&lt;<span class="kw">double</span>&gt; e)
         {
-
-			SolidColorBrush magicBrush = (SolidColorBrush)this.Resources[&quot;magicBrush&quot;];
-
-
-
-            if ((sliR != null) &amp;&amp; (sliG != null) &amp;&amp; (sliB != null))
-
+			SolidColorBrush magicBrush = (SolidColorBrush)<span class="kw">this</span>.Resources[<span class="str">"magicBrush"</span>];
+            <span class="kw">if</span> ((sliR != <span class="kw">null</span>) &amp;&amp; (sliG != <span class="kw">null</span>) &amp;&amp; (sliB != <span class="kw">null</span>))
             {
-
-                magicBrush.Color = Color.FromRgb((byte)sliR.Value, (byte)sliG.Value, (byte)sliB.Value);
-
+                magicBrush.Color = Color.FromRgb((<span class="kw">byte</span>)sliR.Value, (<span class="kw">byte</span>)sliG.Value, (<span class="kw">byte</span>)sliB.Value);
             }
-
-        }
-
-</pre></p>
+        }</code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2011/02/002-anewcolor.png"><img class="alignnone size-full wp-image-1868" title="002-ANewColor" src="data:image/png;base64,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" alt=""   /></a></p>
 <div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-02-19-222-example-changing-a-color-using-rgb-sliders.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Graphics | Tags: Color, SolidColorBrush, WPF</p>

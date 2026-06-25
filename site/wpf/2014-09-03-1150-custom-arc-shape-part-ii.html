@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -48,171 +60,75 @@
 <li>Support elliptical arcs (height != width)</li>
 <li>Add dependency properties for start and end angles</li>
 </ul>
-<p>Start and end angles are automatically coerced to keep them within the range [0, 360).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Arc : Shape
-
+<p>Start and end angles are automatically coerced to keep them within the range [0, 360).</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Arc : Shape
+{
+    <span class="com">// Angle that arc starts at</span>
+    <span class="kw">public</span> <span class="kw">double</span> StartAngle
     {
-
-        // Angle that arc starts at
-
-        public double StartAngle
-
-        {
-
-            get { return (double)GetValue(StartAngleProperty); }
-
-            set { SetValue(StartAngleProperty, value); }
-
-        }
-
-
-
-        // DependencyProperty - StartAngle
-
-        private static PropertyMetadata startAngleMetadata =
-
-                new PropertyMetadata(
-
-                    0.0,     // Default value
-
-                    null,    // Property changed callback
-
-                    new CoerceValueCallback(CoerceAngle));   // Coerce value callback
-
-
-
-        public static readonly DependencyProperty StartAngleProperty =
-
-            DependencyProperty.Register(&quot;StartAngle&quot;, typeof(double), typeof(Arc), startAngleMetadata);
-
-
-
-        // Angle that arc ends at
-
-        public double EndAngle
-
-        {
-
-            get { return (double)GetValue(EndAngleProperty); }
-
-            set { SetValue(EndAngleProperty, value); }
-
-        }
-
-
-
-        // DependencyProperty - EndAngle
-
-        private static PropertyMetadata endAngleMetadata =
-
-                new PropertyMetadata(
-
-                    90.0,     // Default value
-
-                    null,    // Property changed callback
-
-                    new CoerceValueCallback(CoerceAngle));   // Coerce value callback
-
-
-
-        public static readonly DependencyProperty EndAngleProperty =
-
-            DependencyProperty.Register(&quot;EndAngle&quot;, typeof(double), typeof(Arc), endAngleMetadata);
-
-
-
-        private static object CoerceAngle(DependencyObject depObj, object baseVal)
-
-        {
-
-            double angle = (double)baseVal;
-
-            angle = Math.Min(angle, 359.9);
-
-            angle = Math.Max(angle, 0.0);
-
-            return angle;
-
-        }
-
-
-
-        protected override Geometry DefiningGeometry
-
-        {
-
-            get
-
-            {
-
-                double maxWidth = RenderSize.Width;
-
-                double maxHeight = RenderSize.Height;
-
-
-
-                double xStart = maxWidth / 2.0 * Math.Cos(StartAngle * Math.PI / 180.0);
-
-                double yStart = maxHeight / 2.0 * Math.Sin(StartAngle * Math.PI / 180.0);
-
-
-
-                double xEnd = maxWidth / 2.0 * Math.Cos(EndAngle * Math.PI / 180.0);
-
-                double yEnd = maxHeight / 2.0 * Math.Sin(EndAngle * Math.PI / 180.0);
-
-
-
-                StreamGeometry geom = new StreamGeometry();
-
-                using (StreamGeometryContext ctx = geom.Open())
-
-                {
-
-                    ctx.BeginFigure(
-
-                        new Point((maxWidth / 2.0) + xStart,
-
-                                   (maxHeight / 2.0) - yStart),
-
-                        false,
-
-                        false);
-
-                    ctx.ArcTo(
-
-                        new Point((maxWidth / 2.0) + xEnd,
-
-                                  (maxHeight / 2.0) - yEnd),
-
-                        new Size(maxWidth / 2.0, maxHeight / 2),
-
-                        0.0,     // rotationAngle
-
-                        (EndAngle - StartAngle) &gt; 180,   // greater than 180 deg?
-
-                        SweepDirection.Counterclockwise,
-
-                        true,    // isStroked
-
-                        true);
-
-                }
-
-
-
-                return geom;
-
-            }
-
-        }
-
+        <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(StartAngleProperty); }
+        <span class="kw">set</span> { SetValue(StartAngleProperty, <span class="kw">value</span>); }
     }
-
-</pre>
-<p>We can use the <strong>Arc</strong> shape as shown below.</p>
+    <span class="com">// DependencyProperty - StartAngle</span>
+    <span class="kw">private</span> <span class="kw">static</span> PropertyMetadata startAngleMetadata =
+            <span class="kw">new</span> PropertyMetadata(
+                <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// Default value</span>
+                <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+                <span class="kw">new</span> CoerceValueCallback(CoerceAngle));   <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty StartAngleProperty =
+        DependencyProperty.Register(<span class="str">"StartAngle"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(Arc), startAngleMetadata);
+    <span class="com">// Angle that arc ends at</span>
+    <span class="kw">public</span> <span class="kw">double</span> EndAngle
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(EndAngleProperty); }
+        <span class="kw">set</span> { SetValue(EndAngleProperty, <span class="kw">value</span>); }
+    }
+    <span class="com">// DependencyProperty - EndAngle</span>
+    <span class="kw">private</span> <span class="kw">static</span> PropertyMetadata endAngleMetadata =
+            <span class="kw">new</span> PropertyMetadata(
+                <span <span class="kw">class</span>="num">90.0</span>,     <span class="com">// Default value</span>
+                <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+                <span class="kw">new</span> CoerceValueCallback(CoerceAngle));   <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty EndAngleProperty =
+        DependencyProperty.Register(<span class="str">"EndAngle"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(Arc), endAngleMetadata);
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">object</span> CoerceAngle(DependencyObject depObj, <span class="kw">object</span> baseVal)
+    {
+        <span class="kw">double</span> angle = (<span class="kw">double</span>)baseVal;
+        angle = Math.Min(angle, <span <span class="kw">class</span>="num">359.9</span>);
+        angle = Math.Max(angle, <span <span class="kw">class</span>="num">0.0</span>);
+        <span class="kw">return</span> angle;
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Geometry DefiningGeometry
+    {
+        <span class="kw">get</span>
+        {
+            <span class="kw">double</span> maxWidth = RenderSize.Width;
+            <span class="kw">double</span> maxHeight = RenderSize.Height;
+            <span class="kw">double</span> xStart = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(StartAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yStart = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(StartAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> xEnd = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(EndAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yEnd = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(EndAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            StreamGeometry geom = <span class="kw">new</span> StreamGeometry();
+            <span class="kw">using</span> (StreamGeometryContext ctx = geom.Open())
+            {
+                ctx.BeginFigure(
+                    <span class="kw">new</span> Point((maxWidth / <span <span class="kw">class</span>="num">2.0</span>) + xStart,
+                               (maxHeight / <span <span class="kw">class</span>="num">2.0</span>) - yStart),
+                    <span class="kw">false</span>,
+                    <span class="kw">false</span>);
+                ctx.ArcTo(
+                    <span class="kw">new</span> Point((maxWidth / <span <span class="kw">class</span>="num">2.0</span>) + xEnd,
+                              (maxHeight / <span <span class="kw">class</span>="num">2.0</span>) - yEnd),
+                    <span class="kw">new</span> Size(maxWidth / <span <span class="kw">class</span>="num">2.0</span>, maxHeight / <span <span class="kw">class</span>="num">2</span>),
+                    <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// rotationAngle</span>
+                    (EndAngle - StartAngle) &gt; <span <span class="kw">class</span>="num">180</span>,   <span class="com">// greater than 180 deg?</span>
+                    SweepDirection.Counterclockwise,
+                    <span class="kw">true</span>,    <span class="com">// isStroked</span>
+                    <span class="kw">true</span>);
+            }
+            <span class="kw">return</span> geom;
+        }
+    }
+}</code></pre><p>We can use the <strong>Arc</strong> shape as shown below.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1150-001.png"><img class="alignnone size-full wp-image-9245" src="data:image/png;base64,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" alt="1150-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

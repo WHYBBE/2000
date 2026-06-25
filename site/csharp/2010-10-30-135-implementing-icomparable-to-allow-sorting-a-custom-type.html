@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -42,33 +54,25 @@
 
                     <p>Arrays of elements that belong to a custom type cannot be sorted, unless the type implements the <strong>IComparable</strong> interface.</p>
 <p>To make elements of a custom type sortable, you need to implement <strong>IComparable</strong> in your type.  <strong>IComparable </strong>consists of the single method <strong>CompareTo</strong>, which compares two objects.</p>
-<p>Here&#8217;s an example of a <strong>Person</strong> class implementing <strong>CompareTo</strong> to sort people in LastName/FirstName order:</p>
-<pre class="brush: csharp;">
-            public int CompareTo(object obj)
-            {
-                Person other = obj as Person;
-                if (other == null)
-                    throw new ArgumentException(&quot;Object is not a Person&quot;);
-                else
-                {
-                    // Sort by LastName, then by FirstName (ignore case)
-                    int compare = this.LastName.ToLower().CompareTo(other.LastName.ToLower());
-                    if (compare == 0)
-                        compare = this.FirstName.ToLower().CompareTo(other.FirstName.ToLower());
+<p>Here&#8217;s an example of a <strong>Person</strong> class implementing <strong>CompareTo</strong> to sort people in LastName/FirstName order:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">int</span> CompareTo(<span class="kw">object</span> obj)
+{
+    Person other = obj <span class="kw">as</span> Person;
+    <span class="kw">if</span> (other == <span class="kw">null</span>)
+        <span class="kw">throw</span> <span class="kw">new</span> ArgumentException(<span class="str">"Object is not a Person"</span>);
+    <span class="kw">else</span>
+    {
+        <span class="com">// Sort by LastName, then by FirstName (ignore case)</span>
+        <span class="kw">int</span> compare = <span class="kw">this</span>.LastName.ToLower().CompareTo(other.LastName.ToLower());
+        <span class="kw">if</span> (compare == <span <span class="kw">class</span>="num">0</span>)
+            compare = <span class="kw">this</span>.FirstName.ToLower().CompareTo(other.FirstName.ToLower());
 
-                    return compare;
-                }
-</pre>
-<p>Here&#8217;s an example of sorting an array of <strong>Person</strong> objects:</p>
-<pre class="brush: csharp;">
-            Person[] folks = new Person[4];
-            folks[0] = new Person(&quot;Bronte&quot;, &quot;Emily&quot;);
-            folks[1] = new Person(&quot;Bronte&quot;, &quot;Charlotte&quot;);
-            folks[2] = new Person(&quot;Tennyson&quot;, &quot;Alfred&quot;);
-            folks[3] = new Person(&quot;Mailer&quot;, &quot;Norman&quot;);
-            Array.Sort(folks);    // C. Bronte, E. Bronte, Mailer, Tennyson
-</pre>
-<div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
+        <span class="kw">return</span> compare;
+    }</code></pre><p>Here&#8217;s an example of sorting an array of <strong>Person</strong> objects:</p><pre class="code-block language-csharp"><code>Person[] folks = <span class="kw">new</span> Person[<span <span class="kw">class</span>="num">4</span>];
+folks[<span <span class="kw">class</span>="num">0</span>] = <span class="kw">new</span> Person(<span class="str">"Bronte"</span>, <span class="str">"Emily"</span>);
+folks[<span <span class="kw">class</span>="num">1</span>] = <span class="kw">new</span> Person(<span class="str">"Bronte"</span>, <span class="str">"Charlotte"</span>);
+folks[<span <span class="kw">class</span>="num">2</span>] = <span class="kw">new</span> Person(<span class="str">"Tennyson"</span>, <span class="str">"Alfred"</span>);
+folks[<span <span class="kw">class</span>="num">3</span>] = <span class="kw">new</span> Person(<span class="str">"Mailer"</span>, <span class="str">"Norman"</span>);
+Array.Sort(folks);    <span class="com">// C. Bronte, E. Bronte, Mailer, Tennyson</span></code></pre><div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=twitter" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2010/10/30/135-implementing-icomparable-to-allow-sorting-a-custom-type/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Data Types | Tags: Arrays, C#, IComparable, Sorting</p>
   <nav class="pager"><a href="2010-10-29-134-sorting-one-dimensional-arrays.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-10-31-136-sorting-an-array-of-values-based-on-an-array-of-keys.html">Next</a></nav>
 </main>

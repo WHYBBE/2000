@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,95 +57,40 @@
 
 					<p>In C#, <a href="http://wp.me/pXTis-Lf">polymorphism</a> is implemented using <em>virtual members</em>&#8211;which can be methods, properties, indexers or events.</p>
 <p>A virtual event has an implementation in the base class that can be overridden in a derived class.  When the event&#8217;s <strong>add</strong> or <strong>remove</strong> accessors are invoked, the specific accessor used is determined at run-time based on the type of the underlying object.</p>
-<p>A virtual event is defined in the base class using the <strong>virtual</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        // Code from Dog class
-
-        private EventHandler barked;
-
-        public virtual event EventHandler Barked
-
-        {
-
-            add
-
-            {
-
-                barked += value;
-
-                Console.WriteLine(&quot;Dog.Barked add accessor&quot;);
-
-            }
-
-            remove
-
-            {
-
-                barked -= value;
-
-                Console.WriteLine(&quot;Dog.Barked remove accessor&quot;);
-
-            }
-
-        }
-
-</pre>
-<p>A virtual event is overridden in a derived class using the <strong>override</strong> keyword.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        // Code from Terrier : Dog class
-
-        private EventHandler myBarked;
-
-        public override event EventHandler Barked
-
-        {
-
-            add
-
-            {
-
-                myBarked += value;
-
-                Console.WriteLine(&quot;Terrier.Barked add accessor&quot;);
-
-            }
-
-            remove
-
-            {
-
-                myBarked -= value;
-
-                Console.WriteLine(&quot;Terrier.Barked remove accessor&quot;);
-
-            }
-
-        }
-
-</pre>
-<p>Using the event:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog d = new Dog(&quot;Bob&quot;);
-
-            d.Barked += (s, e) =&gt; { Console.WriteLine(&quot;Dog.Barked&quot;); };
-
-
-
-            Terrier t = new Terrier(&quot;Jack&quot;);
-
-            t.Barked += (s, e) =&gt; { Console.WriteLine(&quot;Terrier.Barked&quot;); };
-
-
-
-            Dog d2 = t;
-
-            d2.Barked += (s, e) =&gt; { Console.WriteLine(&quot;Terrier.Barked&quot;); };
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1162-001.png"><img class="alignnone size-full wp-image-8980" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAABzCAMAAABEmPyyAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAb9QTFRFAAAAKCgoKChCKChUKFFhKG1UKG1rWSgoeikoWShCeylUWVEoem0oe1Fhem1CWYFhWYF0W6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCepCAaI6yapisbJiubp2saZKxcaKqfaK5k1Eopm0ok1FCk4FUnYhiuIFCt5FUrpdtt6BhuaFzuqF0v6V3t7JrzZFUzaBhxqx7zbJrzbJ1y7F/iJ2+iZ+9k6CAiq+qiqG8i6S7jae6jbOlj7Wji7Gokbehp5uEpbKAsaGDsqKEt7KApaSipqaipqqurK+zuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFzbKAwMDAwMDCwcHDysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////tS65rQAAAAlwSFlzAAAOwwAADsMBx2+oZAAABetJREFUeNrtmAmX2zQQgJ3dkDW3ue+jnOaOS13ogtMEutxQCGcptJw2xy7QNi2UUJYFWlpoQxf4wWhmJFtWZOfYcmQ9894msSSPNJ9mRqN1/qq8OIyAETACRsAIGAEjyCH4s8LiEIA/hKxXVACBAHB2cObUyYoKIlgfnFjrHzlcUSEvGGyrsDhA4OyJbXF1BREM1iqP4Ey/8ghOHak6gvWThxkBI2AEjMBE8MpLurz8RAURvLH8Ocry8vI7e/e+/lgFEewf/JrJYN8O2RzU5h6ueXE4v9tQQS1BvRvHnWYDPmq1GjzRa/VHF/xYDSiRtuvFkXhzbqlsVFB/3BWDakOrmFKiuQstCD796sldTz/z7Jf9Xq+/Z49CENV8zWBN0Gw0II5bwtoIzO9sXUoNa42HIJpbCmGO0C/nhDMJzN6URucNCOrbLQg+OXDPA/fd/+DKUUDwdopA7s4Qgtb50BFhc1jvtt1GzrD53WMiCBqd5oghqI5gx0G5t4yJoO36bQuCtw48dO8dt92+8m3vUP/D9ySCAJwbXBo1wJMv9tzLRQC6QqiWhm4D7RoCcHTxTohfneZ5bs1vuxQ1YlSnqVZHA3C4aIpEBFJ8gDqJIFKKaHpYEC4tBEiXuvBI4QITZEpklMqFoDVWBNdfdc2NW1aOHur13/9A94KWRBCIP2EqIsgigMYEygxEAO0ZAowToiR6xWp8MuriLi2mtUD85IA48GNwqkiYQB4CCiQC6ABPgG9kF2oIUDnM15D9YLRUQhPhQmjnrAiuvvaGm+8WXtDrHzxoQYA2yZXIAElTouHMaj7qpLEymMnvlRrlRrBhakCsXsMUAe+GqhcRkBcKpTJIMwQNuQPiZWyEMUpJiC5BropLsyK47tZb7roCc8Hp0xYE4EXSkSCE0QCPAivOI8D2DIHYmgY84+sNMjKk5E4ZJUZHUANk+BE5+EB1KQKPDBHqZZrJEHhya0RHgLokpkgioIVg7ipAcNOdl11+5crXAsHx720ItEyURYBcQi5NYbueDoV1vnxW+0zLSZNl21WnKPzsps4DH/gjzQX+eAik4hwCWohUZUHw7hdPvfDc8y9+JhB8s/adNRC8wqIghvjTjpwuRW0WOHCwN3QEqFr1Qms6gDZeQyDVeTSsmwZCmKUQyEU5BCo9Gwi0wLQgePP31dXVn3/64Zffjv947JgFQacJaegCQJFFQOrLIWyqqAsiyPY+tfjkHZGHdgeQBrcuIQJIheBYsC4sJiDTywFgYqQFAqlDA9suWijTIbpL6MP41oKBoLUAJ1FDQ6AtpFFQHb62j+Sjj/eLz1cXh08EPFlgOs8oCuRRgIEMniqBh7Kci+QZFuAAQuDieSczikoxQZoK5i/KEJC6tisTRTZOaRHzzF1iIMDUo4IoQma1+nZciNwhC4Kdizs0WdxZXq928/XhcN04jqj0UCrjq5usSNrYZdksCqYwzF5yTs1pAlFI+f8FjIARMAJGwAgYASMoQvBI9WQIgVM9MREkICXjk4IBlsYiRaq9fKL/DoFYmDOCgePYGYzTlGv/HyMoXVuFECh/Twy3MPrTbst7ORPN9rL+Cb6TUV47PYLMImO3tKUr05OCd8ylTdM/6i+d/19FkO22vg365pagG4XWDJIkmyfXoSHYqBtMi0DfBdVummCPH7tes82SL0zny89/7k8EnXKWFMoRlKGbBMGkgfBP1QVattIRJEYA5ACVp9E0YHLflv4J02Fyrr1gzDNwE1eH1nLQqTaCit4Ryrd9s90hhhBgjpsewQwW0MOBsMGJNxGC4eLPyZ1CRTX67N0hihAM1eBZLT5UnSXG+T5jd4hiBEVu4FhLpBm+Q5R5QUFg5uvSgq2aoTvEOIFQhMBkMaN3CMs1yVqDJ9ppnRiOrSOYwTsEV4eMgBHwHYHvCHxH4DsC3xH4jsB3BL4j8B2Bq0NGwAgYASNgBIyAETACRsAIGAEjYASMgBEwAkbACBgBI2AEjIARMAJGwAgYASNgBIyAETACRsAIGMGE8jehBBHjPbssSQAAAABJRU5ErkJggg==" alt="1162-001"   /></a></p>
+<p>A virtual event is defined in the base class using the <strong>virtual</strong> keyword.</p><pre class="code-block language-csharp"><code><span class="com">// Code from Dog class</span>
+<span class="kw">private</span> EventHandler barked;
+<span class="kw">public</span> <span class="kw">virtual</span> <span class="kw">event</span> EventHandler Barked
+{
+    add
+    {
+        barked += <span class="kw">value</span>;
+        Console.WriteLine(<span class="str">"Dog.Barked add accessor"</span>);
+    }
+    remove
+    {
+        barked -= <span class="kw">value</span>;
+        Console.WriteLine(<span class="str">"Dog.Barked remove accessor"</span>);
+    }
+}</code></pre><p>A virtual event is overridden in a derived class using the <strong>override</strong> keyword.</p><pre class="code-block language-csharp"><code><span class="com">// Code from Terrier : Dog class</span>
+<span class="kw">private</span> EventHandler myBarked;
+<span class="kw">public</span> <span class="kw">override</span> <span class="kw">event</span> EventHandler Barked
+{
+    add
+    {
+        myBarked += <span class="kw">value</span>;
+        Console.WriteLine(<span class="str">"Terrier.Barked add accessor"</span>);
+    }
+    remove
+    {
+        myBarked -= <span class="kw">value</span>;
+        Console.WriteLine(<span class="str">"Terrier.Barked remove accessor"</span>);
+    }
+}</code></pre><p>Using the event:</p><pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog(<span class="str">"Bob"</span>);
+d.Barked += (s, e) =&gt; { Console.WriteLine(<span class="str">"Dog.Barked"</span>); };
+Terrier t = <span class="kw">new</span> Terrier(<span class="str">"Jack"</span>);
+t.Barked += (s, e) =&gt; { Console.WriteLine(<span class="str">"Terrier.Barked"</span>); };
+Dog d2 = t;
+d2.Barked += (s, e) =&gt; { Console.WriteLine(<span class="str">"Terrier.Barked"</span>); };</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1162-001.png"><img class="alignnone size-full wp-image-8980" src="data:image/png;base64,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" alt="1162-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

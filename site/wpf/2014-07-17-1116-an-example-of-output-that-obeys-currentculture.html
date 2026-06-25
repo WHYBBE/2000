@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,79 +56,35 @@
 					</div>
 
 					<p>The <a href="2014-07-16-1115-internationalization-i-obey-currentculture-for-output.html">first step in internationalizing</a> an application is to respect the current regional settings when outputting numeric, date/time, or currency values.</p>
-<p>Below is an example of an application that displays numeric and date/time values, using the <strong>ToString</strong> method for instances of <strong>double</strong> and <strong>DateTime.</strong></p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;StackPanel&gt;
-
-        &lt;StackPanel Margin=&quot;10&quot; Orientation=&quot;Horizontal&quot;&gt;
-
-            &lt;StackPanel&gt;
-
-                &lt;Label Name=&quot;lbl1&quot;/&gt;
-
-                &lt;Label Name=&quot;lbl2&quot;/&gt;
-
-                &lt;Label Name=&quot;lbl3&quot;/&gt;
-
-                &lt;Label Name=&quot;lbl4&quot;/&gt;
-
-                &lt;Label Name=&quot;lbl5&quot;/&gt;
-
-            &lt;/StackPanel&gt;
-
-            &lt;StackPanel&gt;
-
-                &lt;Label Name=&quot;lbl6&quot;/&gt;
-
-                &lt;Label Name=&quot;lbl7&quot;/&gt;
-
-            &lt;/StackPanel&gt;
-
-        &lt;/StackPanel&gt;
-
-        &lt;Button Content=&quot;Gen Strings&quot; Padding=&quot;10,5&quot;
-
-                Margin=&quot;10&quot;
-
-                Click=&quot;Button_Click&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p>In the <strong>Click</strong> event handler, we set the labels&#8217; content.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-
-        {
-
-            DateTime rightNow = DateTime.Now;
-
-
-
-            lbl1.Content = rightNow.ToString();
-
-            lbl2.Content = rightNow.ToString(&quot;d&quot;);  // short date
-
-            lbl3.Content = rightNow.ToString(&quot;D&quot;);  // long date
-
-            lbl4.Content = rightNow.ToString(&quot;t&quot;);  // short time
-
-            lbl5.Content = rightNow.ToString(&quot;T&quot;);  // long time
-
-
-
-            double num = 123456.789;
-
-            lbl6.Content = num.ToString();
-
-            lbl7.Content = num.ToString(&quot;n&quot;);
-
-        }
-
-</pre>
-<p>With regional settings set to <strong>English (United States)</strong>, the output looks like this:</p>
+<p>Below is an example of an application that displays numeric and date/time values, using the <strong>ToString</strong> method for instances of <strong>double</strong> and <strong>DateTime.</strong></p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10"</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl1"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl2"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl3"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl4"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl5"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl6"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbl7"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;Button Content="Gen Strings" Padding="10,5"
+            Margin="10"
+            Click="Button_Click"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>In the <strong>Click</strong> event handler, we set the labels&#8217; content.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    DateTime rightNow = DateTime.Now;
+    lbl1.Content = rightNow.ToString();
+    lbl2.Content = rightNow.ToString(<span class="str">"d"</span>);  <span class="com">// short date</span>
+    lbl3.Content = rightNow.ToString(<span class="str">"D"</span>);  <span class="com">// long date</span>
+    lbl4.Content = rightNow.ToString(<span class="str">"t"</span>);  <span class="com">// short time</span>
+    lbl5.Content = rightNow.ToString(<span class="str">"T"</span>);  <span class="com">// long time</span>
+    <span class="kw">double</span> num = <span <span class="kw">class</span>="num">123456.789</span>;
+    lbl6.Content = num.ToString();
+    lbl7.Content = num.ToString(<span class="str">"n"</span>);
+}</code></pre><p>With regional settings set to <strong>English (United States)</strong>, the output looks like this:</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1116-001.png"><img class="alignnone size-full wp-image-9018" src="data:image/png;base64,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" alt="1116-001"   /></a></p>
 <p>If I change my region to <strong>French (France)</strong>, the formatting changes as expected.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/07/1116-003.png"><img class="alignnone size-full wp-image-9019" src="data:image/png;base64,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" alt="1116-003"   /></a></p>

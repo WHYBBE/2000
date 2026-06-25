@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,187 +56,80 @@
 					</div>
 
 					<p>We can build on the <a href="2014-09-04-1151-custom-arc-shape-part-iii.html">earlier custom <strong>Arc</strong> shape</a> code to create a custom shape that draws a slice of a pie.  We only need to add a line segment back to the origin and set options to close the resulting curve and to fill in the middle.</p>
-<p>Here is the resulting <strong>PieSlice</strong> class:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class PieSlice : Shape
-
+<p>Here is the resulting <strong>PieSlice</strong> class:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> PieSlice : Shape
+{
+    <span class="com">// Angle that arc starts at</span>
+    <span class="kw">public</span> <span class="kw">double</span> StartAngle
     {
-
-        // Angle that arc starts at
-
-        public double StartAngle
-
-        {
-
-            get { return (double)GetValue(StartAngleProperty); }
-
-            set { SetValue(StartAngleProperty, value); }
-
-        }
-
-
-
-        // DependencyProperty - StartAngle
-
-        private static PropertyMetadata startAngleMetadata =
-
-                new PropertyMetadata(
-
-                    0.0,     // Default value
-
-                    null,    // Property changed callback
-
-                    new CoerceValueCallback(CoerceAngle));   // Coerce value callback
-
-
-
-        public static readonly DependencyProperty StartAngleProperty =
-
-            DependencyProperty.Register(&quot;StartAngle&quot;, typeof(double), typeof(PieSlice), startAngleMetadata);
-
-
-
-        // Angle that arc ends at
-
-        public double EndAngle
-
-        {
-
-            get { return (double)GetValue(EndAngleProperty); }
-
-            set { SetValue(EndAngleProperty, value); }
-
-        }
-
-
-
-        // DependencyProperty - EndAngle
-
-        private static PropertyMetadata endAngleMetadata =
-
-                new PropertyMetadata(
-
-                    90.0,     // Default value
-
-                    null,    // Property changed callback
-
-                    new CoerceValueCallback(CoerceAngle));   // Coerce value callback
-
-
-
-        public static readonly DependencyProperty EndAngleProperty =
-
-            DependencyProperty.Register(&quot;EndAngle&quot;, typeof(double), typeof(PieSlice), endAngleMetadata);
-
-
-
-        private static object CoerceAngle(DependencyObject depObj, object baseVal)
-
-        {
-
-            double angle = (double)baseVal;
-
-            angle = Math.Min(angle, 359.9);
-
-            angle = Math.Max(angle, 0.0);
-
-            return angle;
-
-        }
-
-
-
-        protected override Geometry DefiningGeometry
-
-        {
-
-            get
-
-            {
-
-                double maxWidth = Math.Max(0.0, RenderSize.Width - StrokeThickness);
-
-                double maxHeight = Math.Max(0.0, RenderSize.Height - StrokeThickness);
-
-                //Console.WriteLine(string.Format(&quot;* maxWidth={0}, maxHeight={1}&quot;, maxWidth, maxHeight));
-
-
-
-                double xStart = maxWidth / 2.0 * Math.Cos(StartAngle * Math.PI / 180.0);
-
-                double yStart = maxHeight / 2.0 * Math.Sin(StartAngle * Math.PI / 180.0);
-
-
-
-                double xEnd = maxWidth / 2.0 * Math.Cos(EndAngle * Math.PI / 180.0);
-
-                double yEnd = maxHeight / 2.0 * Math.Sin(EndAngle * Math.PI / 180.0);
-
-
-
-                StreamGeometry geom = new StreamGeometry();
-
-                using (StreamGeometryContext ctx = geom.Open())
-
-                {
-
-                    ctx.BeginFigure(
-
-                        new Point((RenderSize.Width / 2.0) + xStart,
-
-                                  (RenderSize.Height / 2.0) - yStart),
-
-                        true,   // Filled
-
-                        true);  // Closed
-
-                    ctx.ArcTo(
-
-                        new Point((RenderSize.Width / 2.0) + xEnd,
-
-                                  (RenderSize.Height / 2.0) - yEnd),
-
-                        new Size(maxWidth / 2.0, maxHeight / 2),
-
-                        0.0,     // rotationAngle
-
-                        (EndAngle - StartAngle) &gt; 180,   // greater than 180 deg?
-
-                        SweepDirection.Counterclockwise,
-
-                        true,    // isStroked
-
-                        false);
-
-                    ctx.LineTo(new Point((RenderSize.Width / 2.0), (RenderSize.Height / 2.0)), true, false);
-
-                }
-
-
-
-                return geom;
-
-            }
-
-        }
-
+        <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(StartAngleProperty); }
+        <span class="kw">set</span> { SetValue(StartAngleProperty, <span class="kw">value</span>); }
     }
-
-</pre>
-<p>To use the <strong>PieSlice</strong> from XAML, we specify a stroke color (for the outline), a fill color, and start and end angles.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-        &lt;loc:PieSlice Stroke=&quot;Black&quot; Fill=&quot;Black&quot;
-
-                 Height=&quot;100&quot; Width=&quot;100&quot; Margin=&quot;5&quot;
-
-                 StartAngle=&quot;0&quot; EndAngle=&quot;60&quot;
-
-                 HorizontalAlignment=&quot;Center&quot;/&gt;
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1152-001.png"><img class="alignnone size-full wp-image-9260" src="data:image/png;base64,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" alt="1152-001"   /></a></p>
+    <span class="com">// DependencyProperty - StartAngle</span>
+    <span class="kw">private</span> <span class="kw">static</span> PropertyMetadata startAngleMetadata =
+            <span class="kw">new</span> PropertyMetadata(
+                <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// Default value</span>
+                <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+                <span class="kw">new</span> CoerceValueCallback(CoerceAngle));   <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty StartAngleProperty =
+        DependencyProperty.Register(<span class="str">"StartAngle"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(PieSlice), startAngleMetadata);
+    <span class="com">// Angle that arc ends at</span>
+    <span class="kw">public</span> <span class="kw">double</span> EndAngle
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(EndAngleProperty); }
+        <span class="kw">set</span> { SetValue(EndAngleProperty, <span class="kw">value</span>); }
+    }
+    <span class="com">// DependencyProperty - EndAngle</span>
+    <span class="kw">private</span> <span class="kw">static</span> PropertyMetadata endAngleMetadata =
+            <span class="kw">new</span> PropertyMetadata(
+                <span <span class="kw">class</span>="num">90.0</span>,     <span class="com">// Default value</span>
+                <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+                <span class="kw">new</span> CoerceValueCallback(CoerceAngle));   <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty EndAngleProperty =
+        DependencyProperty.Register(<span class="str">"EndAngle"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(PieSlice), endAngleMetadata);
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">object</span> CoerceAngle(DependencyObject depObj, <span class="kw">object</span> baseVal)
+    {
+        <span class="kw">double</span> angle = (<span class="kw">double</span>)baseVal;
+        angle = Math.Min(angle, <span <span class="kw">class</span>="num">359.9</span>);
+        angle = Math.Max(angle, <span <span class="kw">class</span>="num">0.0</span>);
+        <span class="kw">return</span> angle;
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Geometry DefiningGeometry
+    {
+        <span class="kw">get</span>
+        {
+            <span class="kw">double</span> maxWidth = Math.Max(<span <span class="kw">class</span>="num">0.0</span>, RenderSize.Width - StrokeThickness);
+            <span class="kw">double</span> maxHeight = Math.Max(<span <span class="kw">class</span>="num">0.0</span>, RenderSize.Height - StrokeThickness);
+            <span class="com">//Console.WriteLine(string.Format("* maxWidth={0}, maxHeight={1}", maxWidth, maxHeight));</span>
+            <span class="kw">double</span> xStart = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(StartAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yStart = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(StartAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> xEnd = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(EndAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yEnd = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(EndAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            StreamGeometry geom = <span class="kw">new</span> StreamGeometry();
+            <span class="kw">using</span> (StreamGeometryContext ctx = geom.Open())
+            {
+                ctx.BeginFigure(
+                    <span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>) + xStart,
+                              (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>) - yStart),
+                    <span class="kw">true</span>,   <span class="com">// Filled</span>
+                    <span class="kw">true</span>);  <span class="com">// Closed</span>
+                ctx.ArcTo(
+                    <span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>) + xEnd,
+                              (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>) - yEnd),
+                    <span class="kw">new</span> Size(maxWidth / <span <span class="kw">class</span>="num">2.0</span>, maxHeight / <span <span class="kw">class</span>="num">2</span>),
+                    <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// rotationAngle</span>
+                    (EndAngle - StartAngle) &gt; <span <span class="kw">class</span>="num">180</span>,   <span class="com">// greater than 180 deg?</span>
+                    SweepDirection.Counterclockwise,
+                    <span class="kw">true</span>,    <span class="com">// isStroked</span>
+                    <span class="kw">false</span>);
+                ctx.LineTo(<span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>), (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>)), <span class="kw">true</span>, <span class="kw">false</span>);
+            }
+            <span class="kw">return</span> geom;
+        }
+    }
+}</code></pre><p>To use the <strong>PieSlice</strong> from XAML, we specify a stroke color (for the outline), a fill color, and start and end angles.</p><pre class="code-block language-xml"><code>&lt;loc:PieSlice Stroke="Black" Fill="Black"
+         Height="100" Width="100" Margin="5"
+         StartAngle="0" EndAngle="60"
+         HorizontalAlignment="Center"/&gt;</code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1152-001.png"><img class="alignnone size-full wp-image-9260" src="data:image/png;base64,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" alt="1152-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

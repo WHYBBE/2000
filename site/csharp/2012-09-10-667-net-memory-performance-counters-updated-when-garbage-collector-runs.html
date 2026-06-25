@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,46 +56,35 @@
 					</div>
 
 					<p>The .NET CLR Memory performance counters <a href="http://wp.me/pXTis-1t2">can be used to track memory</a> usage for CLR-based (.NET) applications.  The counters, however, are only updated when the garbage collector runs.  This means that if you&#8217;re watching one of the counters, you won&#8217;t necessarily see it update immediately after your application allocates some memory.</p>
-<p>If you are doing some debugging or profiling related to memory management, you can force garbage collection at the point where you want to measure memory usage.  You do this using the <strong>GC.Collect</strong> method.  <strong>GC.Collect</strong> should not typically be called explicitly in production code.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Program
-    {
-        private static List&lt;object&gt; _bigList = new List&lt;object&gt;();
-
-        static void Main()
-        {
-            try
-            {
-#if DEBUG
-                GC.Collect();
-#endif
-
-                while (true)
-                {
-                    ConsoleKeyInfo cki = Console.ReadKey();
-
-                    int size = 1024 * 1024;  // 1MB
-                    byte[] data = new byte[size];
-
-                    Array.Clear(data, 0, size);
-
-                    _bigList.Add(data);
-
-#if DEBUG
-                    GC.Collect();
-#endif
-                }
-            }
-            catch (Exception xx)
-            {
-                Console.WriteLine(xx.ToString());
-                Console.ReadLine();
-                }
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>If you are doing some debugging or profiling related to memory management, you can force garbage collection at the point where you want to measure memory usage.  You do this using the <strong>GC.Collect</strong> method.  <strong>GC.Collect</strong> should not typically be called explicitly in production code.</p><pre class="code-block language-csharp"><code>    <span class="kw">public</span> <span class="kw">class</span> Program
+    {
+        <span class="kw">private</span> <span class="kw">static</span> List&lt;<span class="kw">object</span>&gt; _bigList = <span class="kw">new</span> List&lt;<span class="kw">object</span>&gt;();
+        <span class="kw">static</span> <span class="kw">void</span> Main()
+        {
+            <span class="kw">try</span>
+            {
+#<span class="kw">if</span> DEBUG
+                GC.Collect();
+#endif
+                <span class="kw">while</span> (<span class="kw">true</span>)
+                {
+                    ConsoleKeyInfo cki = Console.ReadKey();
+                    <span class="kw">int</span> size = <span <span class="kw">class</span>="num">1024</span> * <span <span class="kw">class</span>="num">1024</span>;  <span class="com">// 1MB</span>
+                    <span class="kw">byte</span>[] data = <span class="kw">new</span> <span class="kw">byte</span>[size];
+                    Array.Clear(data, <span <span class="kw">class</span>="num">0</span>, size);
+                    _bigList.Add(data);
+#<span class="kw">if</span> DEBUG
+                    GC.Collect();
+#endif
+                }
+            }
+            <span class="kw">catch</span> (Exception xx)
+            {
+                Console.WriteLine(xx.ToString());
+                Console.ReadLine();
+                }
+        }
+    }</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

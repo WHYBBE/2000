@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,53 +55,21 @@
 																				</p>
 					</div>
 
-					<p>A <em>block</em> of statements in C# is a series of individual statements enclosed by a set of curly braces ({, }).  You can typically include a block of statements wherever a single statement is expected.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Single statement follows if
-
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
-
-                Console.WriteLine(&quot;Getting to work&quot;);
-
-
-
-            // Block of statements follows if
-
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
-
-            {
-
-                Console.WriteLine(&quot;Making pancakes&quot;);
-
-                Console.WriteLine(&quot;Washing my socks&quot;);
-
-                Console.WriteLine(&quot;Mowing the lawn&quot;);
-
-            }
-
-</pre>
-<p>Although far less common, you can also include a block of statements to arbitrarily group a set of statements within a longer sequence of statements.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Console.WriteLine(&quot;Reading Edith Wharton&quot;);
-
-
-
-            {
-
-                Console.WriteLine(&quot;Eating lunch&quot;);
-
-                Console.WriteLine(&quot;Washing my hands&quot;);
-
-            }
-
-
-
-            Console.WriteLine(&quot;Studying Byzantium&quot;);
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/10/963-001.png"><img class="alignnone size-full wp-image-7874" alt="963-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARAAAACBCAMAAAA/mRV1AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAcVQTFRFAAAAKCgoKCg5KChEKERNKFdEKFdTWygoWyg5figoW0Q5flcoflc5W2VNW2VZfkRNfldEfmVNfm9hW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5l0Qoq1coq1c5vmU5l2VEl3lTl3lhomZKvXBFtHJTv3lXwHlYxX1a1HBF1HpNqoZTqoZaqoZhqoV1tYZvvYZhtoZxzYFe1IZT1IZa0oVg1IZhiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpZ+ep6CepqqurK+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////GTuioQAAAAlwSFlzAAAOwwAADsMBx2+oZAAAB6RJREFUeNrtm4l71EQUwLOlpq5H1Hjf9302RBcFt4giW+t9H4jibdRWBVoUV6ioYFGoVP17nffeJJlJZpK0u7TJ9s33kW2Sycyb37z35r1kcP7johWHETAQBsJAGMjwgfzLhYojcfwjygqXlRUEInCcXT5zaonL0hIBWVk+ebx/eIHLwoLUkOVtXKg4yOPsyW0zXLAQkOXjDEQDcqbPQDQgpw4zEBXIytICA2EgDISBDAvIs0+r5ZnnNj2Qd2a/wTI7O/vBvn1vP7npgXy0/Gdalvdvj693W6L44o9gfLc4Tk+6eHWsY219asKXv/JJU+m1PfqB5rfsGnhIJNf0JAo5E2zZ2aa/rD1r8pmAfPX98y+89PIr3/Xn5/t798ZApifhka6bMKgAJK7SEh13PVst4ovSiU68NXIIE5b0V4hy9dqu/ZEYSCwfnBuBHLjvoQcefHjuCAB5PwYSpgOfnvSqAZnpomxB8bxPnd9JpQuKmqsGpNf2cdY9HKtfDiSWzwbkvQOP3H/XHXfO/TR/qP/5JxJIghp0ETtXgIC6i2kGzRM/4ZYLW+5M0GqNdajLZJBgdC5pqLg0NXHZBGgqNSSlw9kKW9gQKIyogL2JQ699cRtOybCgT/HbHXsUGsOa47uhA49UjmxGjBWbhxZ97AIOaJ5+CoTkQ5dgBnLD1dfedPvckUPz/U8/k0AIuASCviEFAn/1LtkNVYBbCIOGUWztkGyif39GThdUCj3ZihAEZiekAXox+AAZu6IS3FSAtHwxcHjQlfcBAQwZp2EX+iyh+qS0YdKKi1fCFAgYfgANenKyST67hlxz3Y233Cs0ZL5/8KAEoukeskiBxNoOgxdyoXGRY0jcDWgEPSBviHrImCD5KhCp7GMdaY0pEFfKEUglhTpwDj2GqC6d1BSgma5UQLKnBIgudyxfAZDrb7v1nivRh5w+bQKCvkExmbCF5y1aJ7B3YRZ+4m5oEmgdQaPCesgBD4GrAPFoWOJGyk4C8SRhcSPAtiS0rgQiRECZwthmAimn6NpTgXRbqUGnSmIHcvPdl19x1dwPAsiJY4nJuBl3pDpVkESeJ+4NKSW+Tqj/Ttk/WYIKhPyQ9CF+NSByLdWAxPNAy3049hitXLgyxgDgADbZ1YCgUDYgH3774uuvvvbG1wLIj8d/jlcZ3f2DPOScU9uInXWoOO0kFBG1n5KhASmFCoQcnZd4KGkycmEjE8wAiRe9DBCShxhMTVxAk+VKM0ebE61jQ6EOJO7ABOTdvxcXF3//7Zc//jrx69GjMZBeG7t2yXt3cZVwaVUQDhXk6aIz9Ui0rZ2ZxPUGPmlYCHob+CDX1IQKBEYhpw/HK91hD0Kq0AdAUF8DMjUh7nVdBQjMeqy3chmUS5XomewBpixoeTAE6ClZZaR80KcJyFv7qXzx5cfi+OaORKlatMBRL14a4IFzQLko1ERpAlwAyd2gvaOciQsZu0gDIkIR8jBkdYH8SzYs62tA4rU7ASLqjj8ul2sZiuAEEBBqENo7D1YZcXqpAkSRzwRkz47tStmxpyQOKimaXpaEtMMrgS1cP2fpf+IbhiNbOIQkRguR1xrw8vsQBsJAGAgDYSAMhIHUBsgTm7zkgTibvOSARFiMdePrlttJpbgBY/1s43gqDlFhqxsIBCW0EikHIkdoqB85pqdjIPZWo9oDKS5KpYxqrA1IVBcgiuInv1F6rhmGKjQ+a6mfmIcZSKZ+Ioax33UEEqVMlDFGugmo17JOwlRfaSzKaFEy8mwHUaYRY3/roSG5mVkdENSQAiCOBUiqmbqKbDwQVa0NgpQDcaoDUUzFcVQGGZ9TCyCmfzk/mDVqucqYgBgdaAUgFjnWLQ7JOVXNxqUtZX1MLg4xecX4aACi9iv9R6RFLqlPXmcNWWU51wJufGC2eiKjxINzmYq5TLT6mLFEU5qiR+ZVRssfoqpBdIUcp7FA1jSQEQZizkGKc5hcwJbLhRrBxJrLaCN0KkSolvtqANcEIsUaMiQgTQpYrD4kF0JvbiB6TlEphyk3mWYCyeUiai5RkMM4mec0cKYcZtQi1VHLYQYP3Ucsh+FcproPMUeVUVQ5hF9tLlMrVasMxBkQSNFTTQeyttJ4ILZcpCSnUb+/WN6d5p5Xr9cRSGR6060MvDBizX1WUD2F5Q36erw8HhxINpdJJV4rEC0NNkaydQ3drV/ehgCk7PNG7YEYcpHCnCY1OcP3mgIgtTUZ1fmpzlX7XlP4XcYxTnn+u4tj7KfxkeqguydGL3S3zGxTUx3OZSq9U62Wc1TYazasWHaDI1W5mJRJXP7ZodoerIYAiaLBprAqkJq5GnMuo70RzMQbme0SxXvNIiX+MH/fyV939F0UdfAh6sxVDdBse80SII5lz5r9rf6GfMcxrTLaFqgBgGRvaNltY4BkBR0akKL2mgLEPKYoqrzXTHEO8aYCExDLZr6amIwyXuMeM0cFULbXTGWjb7fUAOtePNI24jUgUrWE6qOR06waSNH/lRiFnIZzGQbCQBgIA2EgDISBMJD6viDaqFczDISBsA9hIAyEgTAQBsJAGAgDYSAMhIEwEAbCQBgIA2EgDISBMBAGwkAYCANhIAyEgVQq/wMqTopUa1QsTgAAAABJRU5ErkJggg=="   /></a></p>
+					<p>A <em>block</em> of statements in C# is a series of individual statements enclosed by a set of curly braces ({, }).  You can typically include a block of statements wherever a single statement is expected.</p><pre class="code-block language-csharp"><code><span class="com">// Single statement follows if</span>
+<span class="kw">if</span> (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+    Console.WriteLine(<span class="str">"Getting to work"</span>);
+<span class="com">// Block of statements follows if</span>
+<span class="kw">if</span> (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
+{
+    Console.WriteLine(<span class="str">"Making pancakes"</span>);
+    Console.WriteLine(<span class="str">"Washing my socks"</span>);
+    Console.WriteLine(<span class="str">"Mowing the lawn"</span>);
+}</code></pre><p>Although far less common, you can also include a block of statements to arbitrarily group a set of statements within a longer sequence of statements.</p><pre class="code-block language-csharp"><code>Console.WriteLine(<span class="str">"Reading Edith Wharton"</span>);
+{
+    Console.WriteLine(<span class="str">"Eating lunch"</span>);
+    Console.WriteLine(<span class="str">"Washing my hands"</span>);
+}
+Console.WriteLine(<span class="str">"Studying Byzantium"</span>);</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/10/963-001.png"><img class="alignnone size-full wp-image-7874" alt="963-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

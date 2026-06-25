@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -51,19 +63,13 @@
 <li><strong>ushort </strong>:  0 to 65,535</li>
 </ul>
 <p>You can&#8217;t do an implicit conversion between these types, in either direction.</p>
-<p>You can, however, convert between these types using an explicit conversion (with a cast operator).  If the value to be converted is not representable in the target type, data will be lost but the assignment will succeed.  (<a href="2010-08-04-48-how-explicit-casts-fail.html">How explicit casts fail</a>).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            ushort myUnsignedShort = 40000;
-            short myShort;
-
-            // Compiles, but data is lost on
-            // assignment
-            myShort = (short)myUnsignedShort;
-
-            // Now we'll get OverflowException
-            myShort = checked((short)myUnsignedShort);
-</pre>
-<p>Here&#8217;s what the data looks like after the first assignment:<br />
+<p>You can, however, convert between these types using an explicit conversion (with a cast operator).  If the value to be converted is not representable in the target type, data will be lost but the assignment will succeed.  (<a href="2010-08-04-48-how-explicit-casts-fail.html">How explicit casts fail</a>).</p><pre class="code-block language-csharp"><code><span class="kw">ushort</span> myUnsignedShort = <span <span class="kw">class</span>="num">40000</span>;
+<span class="kw">short</span> myShort;
+<span class="com">// Compiles, but data is lost on</span>
+<span class="com">// assignment</span>
+myShort = (<span class="kw">short</span>)myUnsignedShort;
+<span class="com">// Now we'll get OverflowException</span>
+myShort = <span class="kw">checked</span>((<span class="kw">short</span>)myUnsignedShort);</code></pre><p>Here&#8217;s what the data looks like after the first assignment:<br />
 <a href="http://2000thingscsharp.files.wordpress.com/2014/03/1048-001.png"><img class="alignnone size-full wp-image-8311" alt="1048-001" src="https://web.archive.org/web/20140701221024id_/http://2000thingscsharp.files.wordpress.com/2014/03/1048-001.png?w=630"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

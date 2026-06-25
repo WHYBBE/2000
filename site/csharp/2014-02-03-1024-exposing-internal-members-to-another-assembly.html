@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,35 +56,19 @@
 					</div>
 
 					<p><a href="2011-04-20-307-internal-class-members.html">Internal class members</a> are accessible within the class in which they are defined, as well as from other code within the same assembly.</p>
-<p>Suppose that we define an <strong>internal </strong>field as follows:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class Dog
-    {
-        internal static int DogCount = 0;
-
-        public string Name;
-
-        public Dog(string name)
-        {
-            Name = name;
-            DogCount++;
-        }
-    }
-</pre>
-<p>Code within another assembly that is using the <strong>Dog</strong> class will not be able to access the <strong>DogCount</strong> property.</p>
-<p>It&#8217;s sometimes useful, however, to make <strong>internal</strong> members accessible to testing code that exists in another assembly.  We can do this with the <strong>InternalsVisibleTo</strong> attribute.  In the example above, we can define the following within <strong>AssemblyInfo.cs</strong> in the library containing the <strong>Dog</strong> class.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-[assembly: InternalsVisibleTo(&quot;DogTester&quot;)]
-</pre>
-<p>Code within the <strong>DogTester</strong> assembly can now access <strong>internal</strong> members in <strong>Dog</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            Dog d = new Dog(&quot;Kirby&quot;);
-            Dog d2 = new Dog(&quot;Jack&quot;);
-
-            Console.WriteLine(&quot;We've created {0} dogs&quot;, Dog.DogCount);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Suppose that we define an <strong>internal </strong>field as follows:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">internal</span> <span class="kw">static</span> <span class="kw">int</span> DogCount = <span <span class="kw">class</span>="num">0</span>;
+    <span class="kw">public</span> <span class="kw">string</span> Name;
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
+    {
+        Name = name;
+        DogCount++;
+    }
+}</code></pre><p>Code within another assembly that is using the <strong>Dog</strong> class will not be able to access the <strong>DogCount</strong> property.</p>
+<p>It&#8217;s sometimes useful, however, to make <strong>internal</strong> members accessible to testing code that exists in another assembly.  We can do this with the <strong>InternalsVisibleTo</strong> attribute.  In the example above, we can define the following within <strong>AssemblyInfo.cs</strong> in the library containing the <strong>Dog</strong> class.</p><pre class="code-block language-csharp"><code>[assembly: InternalsVisibleTo(<span class="str">"DogTester"</span>)]</code></pre><p>Code within the <strong>DogTester</strong> assembly can now access <strong>internal</strong> members in <strong>Dog</strong>.</p><pre class="code-block language-csharp"><code>Dog d = <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>);
+Dog d2 = <span class="kw">new</span> Dog(<span class="str">"Jack"</span>);
+Console.WriteLine(<span class="str">"We've created {0} dogs"</span>, Dog.DogCount);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

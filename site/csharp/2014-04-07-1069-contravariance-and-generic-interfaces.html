@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,62 +56,45 @@
 					</div>
 
 					<p><a href="2012-03-09-536-implement-a-generic-interface.html">Generic interfaces</a> in C# are contravariant, provided that their type parameters are constrained with the <strong>in </strong>keyword.  A contravariant generic interface allows an assignment from a constructed version of the interface on a base class to a constructed version of the interface for a derived class.</p>
-<p>For example, if <strong>BorderCollie</strong> derives from <strong>Dog</strong> and if <strong>IAddRemove&lt;T&gt;</strong> is contravariant, we can do the following:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            IAddRemove&lt;Dog&gt; dogAddRemove;
-            // Assign dogAddRemove to some class that implements IAddRemove&lt;Dog&gt;
-            IAddRemove&lt;BorderCollie&gt; bcAddRemove = dogAddRemove;
-</pre>
-<p>Below is a full example of defining a contravariant interface. Note that the <strong>LineOf&lt;T&gt;</strong> class implements both the covariant interface <strong>IFirstAndLast&lt;T&gt;</strong> and the contravariant interface <strong>IAddRemove&lt;T&gt;</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        public interface IFirstAndLast&lt;out T&gt;
-        {
-            T First();
-            T Last();
-        }
-
-        public interface IAddRemove&lt;in T&gt;
-        {
-            void AddToEnd(T item);
-            void RemoveFromFront(T item);
-        }   
-
-        public class LineOf&lt;T&gt; : IFirstAndLast&lt;T&gt;, IAddRemove&lt;T&gt;
-        {
-            private Queue&lt;T&gt; theQueue = new Queue&lt;T&gt;();
-
-            public void AddToEnd(T d)
-            {
-                theQueue.Enqueue(d);
-            }
-
-            public void RemoveFromFront(T d)
-            {
-                theQueue.Dequeue();
-            }
-
-            public T First()
-            {
-                return theQueue.Peek();
-            }
-
-            public T Last()
-            {
-                return theQueue.Last();
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            LineOf&lt;Dog&gt; dogs = new LineOf&lt;Dog&gt;();
-
-            IAddRemove&lt;BorderCollie&gt; bcAddRemove = dogs;
-            bcAddRemove.AddToEnd(new BorderCollie(&quot;Kirby&quot;));
-            bcAddRemove.AddToEnd(new BorderCollie(&quot;Shep&quot;));
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>For example, if <strong>BorderCollie</strong> derives from <strong>Dog</strong> and if <strong>IAddRemove&lt;T&gt;</strong> is contravariant, we can do the following:</p><pre class="code-block language-csharp"><code>IAddRemove&lt;Dog&gt; dogAddRemove;
+<span class="com">// Assign dogAddRemove to some class that implements IAddRemove&lt;Dog&gt;</span>
+IAddRemove&lt;BorderCollie&gt; bcAddRemove = dogAddRemove;</code></pre><p>Below is a full example of defining a contravariant interface. Note that the <strong>LineOf&lt;T&gt;</strong> class implements both the covariant interface <strong>IFirstAndLast&lt;T&gt;</strong> and the contravariant interface <strong>IAddRemove&lt;T&gt;</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">interface</span> IFirstAndLast&lt;<span class="kw">out</span> T&gt;
+{
+    T First();
+    T Last();
+}
+<span class="kw">public</span> <span class="kw">interface</span> IAddRemove&lt;<span class="kw">in</span> T&gt;
+{
+    <span class="kw">void</span> AddToEnd(T item);
+    <span class="kw">void</span> RemoveFromFront(T item);
+}
+<span class="kw">public</span> <span class="kw">class</span> LineOf&lt;T&gt; : IFirstAndLast&lt;T&gt;, IAddRemove&lt;T&gt;
+{
+    <span class="kw">private</span> Queue&lt;T&gt; theQueue = <span class="kw">new</span> Queue&lt;T&gt;();
+    <span class="kw">public</span> <span class="kw">void</span> AddToEnd(T d)
+    {
+        theQueue.Enqueue(d);
+    }
+    <span class="kw">public</span> <span class="kw">void</span> RemoveFromFront(T d)
+    {
+        theQueue.Dequeue();
+    }
+    <span class="kw">public</span> T First()
+    {
+        <span class="kw">return</span> theQueue.Peek();
+    }
+    <span class="kw">public</span> T Last()
+    {
+        <span class="kw">return</span> theQueue.Last();
+    }
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    LineOf&lt;Dog&gt; dogs = <span class="kw">new</span> LineOf&lt;Dog&gt;();
+    IAddRemove&lt;BorderCollie&gt; bcAddRemove = dogs;
+    bcAddRemove.AddToEnd(<span class="kw">new</span> BorderCollie(<span class="str">"Kirby"</span>));
+    bcAddRemove.AddToEnd(<span class="kw">new</span> BorderCollie(<span class="str">"Shep"</span>));
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

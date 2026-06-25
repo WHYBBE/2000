@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -47,43 +59,22 @@
 <p>The <strong>ToString</strong> method is intended to return a string identifying or representing the object, i.e. that specific instance.  This is true for both value types and reference types.</p>
 <p>For built-in types, <strong>ToString</strong> generally returns what you&#8217;d expect.  For example, for a <strong>System.Int32</strong> (<strong>int</strong>), it returns the value of the integer.</p>
 <p>For custom types, if you don&#8217;t override <strong>ToString</strong> and provide something more meaningful, <strong>ToString</strong> just returns a string representing the type of the object.</p>
-<p><pre class="brush: csharp;">
-
-Dog kirby = new Dog(&quot;Kirby&quot;, 13);
-
-Cow bessie = new Cow(&quot;Bessie&quot;);
-
-int i = 12;
-
-double d = 1.38e-23;
-
+<pre class="code-block language-csharp"><code>Dog kirby = <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span <span class="kw">class</span>="num">13</span>);
+Cow bessie = <span class="kw">new</span> Cow(<span class="str">"Bessie"</span>);
+<span class="kw">int</span> i = <span <span class="kw">class</span>="num">12</span>;
+<span class="kw">double</span> d = <span <span class="kw">class</span>="num">1</span>.38e-<span <span class="kw">class</span>="num">23</span>;
 DayOfWeek bestDay = DayOfWeek.Saturday;
-
-object o = new System.Object();
-
-DateTime dt = new DateTime(1536, 5, 19);
-
-
-
-// ToString can be called explicitly, or is called
-
-// implicitly when passing object as string parameter
-
-Console.WriteLine(kirby.ToString());   // Explicit
-
-Console.WriteLine(bessie);             // Implicit
-
+<span class="kw">object</span> o = <span class="kw">new</span> System.Object();
+DateTime dt = <span class="kw">new</span> DateTime(<span <span class="kw">class</span>="num">1536</span>, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">19</span>);
+<span class="com">// ToString can be called explicitly, or is called</span>
+<span class="com">// implicitly when passing object as string parameter</span>
+Console.WriteLine(kirby.ToString());   <span class="com">// Explicit</span>
+Console.WriteLine(bessie);             <span class="com">// Implicit</span>
 Console.WriteLine(i);
-
 Console.WriteLine(d);
-
 Console.WriteLine(bestDay);
-
 Console.WriteLine(o);
-
-Console.WriteLine(dt);
-
-</pre></p>
+Console.WriteLine(dt);</code></pre>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/08/661-001.png"><img class="alignnone size-full wp-image-5607" title="661-001" src="data:image/png;base64,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" alt=""   /></a></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/08/31/661-every-object-has-a-tostring-method/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5603"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/08/31/661-every-object-has-a-tostring-method/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/08/31/661-every-object-has-a-tostring-method/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Basics | Tags: Basics, C#, System.Object, ToString</p>

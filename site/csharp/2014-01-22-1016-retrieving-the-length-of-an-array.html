@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,39 +56,18 @@
 					</div>
 
 					<p>You can use the <strong>Length</strong> property of an <a href="2010-10-14-119-arrays.html">array</a> to get the number of elements in the array.</p>
-<p>For a one- or <a href="2010-10-19-124-declaring-and-instantiating-multidimensional-arrays.html">multi-dimensional</a> arrays, the length is always the total number of elements.  For a <a href="2010-10-22-127-declaring-and-instantiating-jagged-arrays.html">jagged</a> array (array of arrays), the length is the number of elements in the outer dimension.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            int[] someNumbers = { 5, 16, 12, 38, 78, 63 };
-
-            // Length = 6
-
-            Console.WriteLine(someNumbers.Length);
-
-
-
-            int[,] twoDimensional = { { 3, 2, 1 }, { 1, 2, 3 }, { 4, 6, 8 } };
-
-            // Length = 9
-
-            Console.WriteLine(twoDimensional.Length);
-
-
-
-            int[][] jagged = new int[3][] {
-
-                new int[] { 1, 2, 3 },
-
-                new int[] { 4, 8 },
-
-                new int[] { 10, 20, 30, 40 } };
-
-            // Length = 3
-
-            Console.WriteLine(jagged.Length);
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1016-001.png"><img class="alignnone size-full wp-image-8142" alt="1016-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAABxCAMAAADsxw25AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAadQTFRFAAAAKCgoKCg5KChFKE1OKGdVXSgoXXpbW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5gigonE4ogWcosGcosGc6gk5Op39MxHo6gYdjnJVjuo1UrpV2uppxuppyr6ZVr6Zbr6ZjxpZZxpZazJpc24hG25ZO26ZV26Zbw6Zj06Bg2aVi26ZjiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqOeqKSepqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////TzsUjwAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAtpJREFUaN7t1glT00AUAOCENsT7vu+ztUhab2poi/G+D0TxtmqrAgXFiLUql0Kk6o/2vd1sEmcSYXB2R9p9M83RSfLtvvc2rfJLbCjSk95C8H6KCYVpPyDq/IN6oM0405MT/MP16s5YzR4a5B9sfk67mFAoNzPWbgkJ13NqYr1pW6w3OSTUq08MSq9xvKOHg3HkFG/vRukFiVKpdKen5/pJ3t4956sfTm8H+95UIdJwkIoXYJtPauTblkzk4ztb0+7evTPUe/b69Jlz5y+8sisVu7ubefkk3mFqHjEHj12i6rDRI72+nXt379lXHkbvNvMM/7n5pD43zzJjJzAfZBuZz1t9+3dt3byl/K4yYD9+4Hq5hMaweMHABwS8XEJVIceYNtgZsQOqZqVUtSWTS+DIUmxIZoS3etmKtZvKwwMV++Ej1+ts1X2P1MX38Ch3sICX4LAM0CwcUluGlhqGk6Z5jfCWr1yzfgfMr2L397ueSW8J1MX36Czos8Ehmac95ZUa5oo3RHirNm7YvoTUb2oqzCN1CeTTUMk59i8ckWxDbtNeqekU4RPhrdu2aPHS8hvwRj94+dQCl+CMgv0Cluae01TiDgfBTuCK2LGEHurdfXn28sVLV56D97b2nvVn6o8+xHTRtvMTx9qQESTNbAnC1ceT8VDv5vdqtfrl88fxb6OfRkaYl0sgaGrYL3RWZMq4tqBXEDFJn+jUa8tYXlel0jQ/Rng+r/XSePL0PmyvZr0mUbHFqUfqwl4buBzIYEj5qAfLQdXdUuMxjsUyQr2ubEcgsl2hK9nw1vAs4TYvjfn/Hnl1mTXcAv+jN7+QnvSk9zfvENcI8RSuEeYVi0WRHkctzOPK/Ree2Pohxg9sPk8RXD9uVLN6cv0taE/h+gIN7U/R612wx/MXMLx+Qj2u0YReg78/8dvG9sT/f2nkfMr/n9KTnvSkJz3pSU960pOe9KQnPek1ufcbd78g7Xqn4goAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg=="   /></a></p>
+<p>For a one- or <a href="2010-10-19-124-declaring-and-instantiating-multidimensional-arrays.html">multi-dimensional</a> arrays, the length is always the total number of elements.  For a <a href="2010-10-22-127-declaring-and-instantiating-jagged-arrays.html">jagged</a> array (array of arrays), the length is the number of elements in the outer dimension.</p><pre class="code-block language-csharp"><code><span class="kw">int</span>[] someNumbers = { <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">16</span>, <span <span class="kw">class</span>="num">12</span>, <span <span class="kw">class</span>="num">38</span>, <span <span class="kw">class</span>="num">78</span>, <span <span class="kw">class</span>="num">63</span> };
+<span class="com">// Length = 6</span>
+Console.WriteLine(someNumbers.Length);
+<span class="kw">int</span>[,] twoDimensional = { { <span <span class="kw">class</span>="num">3</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">1</span> }, { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span> }, { <span <span class="kw">class</span>="num">4</span>, <span <span class="kw">class</span>="num">6</span>, <span <span class="kw">class</span>="num">8</span> } };
+<span class="com">// Length = 9</span>
+Console.WriteLine(twoDimensional.Length);
+<span class="kw">int</span>[][] jagged = <span class="kw">new</span> <span class="kw">int</span>[<span <span class="kw">class</span>="num">3</span>][] {
+    <span class="kw">new</span> <span class="kw">int</span>[] { <span <span class="kw">class</span>="num">1</span>, <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span> },
+    <span class="kw">new</span> <span class="kw">int</span>[] { <span <span class="kw">class</span>="num">4</span>, <span <span class="kw">class</span>="num">8</span> },
+    <span class="kw">new</span> <span class="kw">int</span>[] { <span <span class="kw">class</span>="num">10</span>, <span <span class="kw">class</span>="num">20</span>, <span <span class="kw">class</span>="num">30</span>, <span <span class="kw">class</span>="num">40</span> } };
+<span class="com">// Length = 3</span>
+Console.WriteLine(jagged.Length);</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2014/01/1016-001.png"><img class="alignnone size-full wp-image-8142" alt="1016-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAABxCAMAAADsxw25AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAadQTFRFAAAAKCgoKCg5KChFKE1OKGdVXSgoXXpbW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5gigonE4ogWcosGcosGc6gk5Op39MxHo6gYdjnJVjuo1UrpV2uppxuppyr6ZVr6Zbr6ZjxpZZxpZazJpc24hG25ZO26ZV26Zbw6Zj06Bg2aVi26ZjiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7GokbehpqOeqKSepqqura+yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr/Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFwMDAwMDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////TzsUjwAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAtpJREFUaN7t1glT00AUAOCENsT7vu+ztUhab2poi/G+D0TxtmqrAgXFiLUql0Kk6o/2vd1sEmcSYXB2R9p9M83RSfLtvvc2rfJLbCjSk95C8H6KCYVpPyDq/IN6oM0405MT/MP16s5YzR4a5B9sfk67mFAoNzPWbgkJ13NqYr1pW6w3OSTUq08MSq9xvKOHg3HkFG/vRukFiVKpdKen5/pJ3t4956sfTm8H+95UIdJwkIoXYJtPauTblkzk4ztb0+7evTPUe/b69Jlz5y+8sisVu7ubefkk3mFqHjEHj12i6rDRI72+nXt379lXHkbvNvMM/7n5pD43zzJjJzAfZBuZz1t9+3dt3byl/K4yYD9+4Hq5hMaweMHABwS8XEJVIceYNtgZsQOqZqVUtSWTS+DIUmxIZoS3etmKtZvKwwMV++Ej1+ts1X2P1MX38Ch3sICX4LAM0CwcUluGlhqGk6Z5jfCWr1yzfgfMr2L397ueSW8J1MX36Czos8Ehmac95ZUa5oo3RHirNm7YvoTUb2oqzCN1CeTTUMk59i8ckWxDbtNeqekU4RPhrdu2aPHS8hvwRj94+dQCl+CMgv0Cluae01TiDgfBTuCK2LGEHurdfXn28sVLV56D97b2nvVn6o8+xHTRtvMTx9qQESTNbAnC1ceT8VDv5vdqtfrl88fxb6OfRkaYl0sgaGrYL3RWZMq4tqBXEDFJn+jUa8tYXlel0jQ/Rng+r/XSePL0PmyvZr0mUbHFqUfqwl4buBzIYEj5qAfLQdXdUuMxjsUyQr2ubEcgsl2hK9nw1vAs4TYvjfn/Hnl1mTXcAv+jN7+QnvSk9zfvENcI8RSuEeYVi0WRHkctzOPK/Ree2Pohxg9sPk8RXD9uVLN6cv0taE/h+gIN7U/R612wx/MXMLx+Qj2u0YReg78/8dvG9sT/f2nkfMr/n9KTnvSkJz3pSU960pOe9KQnPek1ufcbd78g7Xqn4goAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg=="   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

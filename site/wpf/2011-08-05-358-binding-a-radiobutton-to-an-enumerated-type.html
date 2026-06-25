@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,51 +57,41 @@
 
                     <p>You can bind <strong>RadioButton</strong> controls to an enum by using a value converter.</p>
 <p>The XAML:</p>
-<p><pre class="brush: xml;">
-    &lt;Window.Resources&gt;
-        &lt;loc:EnumToBooleanConverter x:Key=&quot;enumToBooleanConverter&quot; /&gt;
-    &lt;/Window.Resources&gt;
-
-    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; Margin=&quot;15&quot;&gt;
-        &lt;Label Content=&quot;Favorite animated character?&quot;/&gt;
-        &lt;RadioButton IsChecked=&quot;{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.Gumby}}&quot;
-                     Content=&quot;Gumby&quot;/&gt;
-        &lt;RadioButton IsChecked=&quot;{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.PinkPanther}}&quot;
-                     Content=&quot;Pink Panther&quot;/&gt;
-        &lt;RadioButton IsChecked=&quot;{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.Magoo}}&quot;
-                     Content=&quot;Mr. Magoo&quot;/&gt;
-    &lt;/StackPanel&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">loc:EnumToBooleanConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"enumToBooleanConverter"</span> <span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"15"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Favorite animated character?"</span><span class="xml-tag">/&gt;</span>
+    &lt;RadioButton IsChecked="{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.Gumby}}"
+                 Content="Gumby"/&gt;
+    &lt;RadioButton IsChecked="{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.PinkPanther}}"
+                 Content="Pink Panther"/&gt;
+    &lt;RadioButton IsChecked="{Binding Path=FavCharacter, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static loc:CartoonCharacters.Magoo}}"
+                 Content="Mr. Magoo"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p>The enumeration:</p>
-<p><pre class="brush: csharp;">
-    public enum CartoonCharacters
-    {
-        Gumby,
-        PinkPanther,
-        Magoo
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">enum</span> CartoonCharacters
+{
+    Gumby,
+    PinkPanther,
+    Magoo
+}</code></pre>
 <p>The enum-based property you&#8217;re binding to:</p>
-<p><pre class="brush: csharp;">
-        public CartoonCharacters FavCharacter { get; set; }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> CartoonCharacters FavCharacter { <span class="kw">get</span>; <span class="kw">set</span>; }</code></pre>
 <p>And the value converter referenced by the XAML:</p>
-<p><pre class="brush: csharp;">
-    public class EnumToBooleanConverter : IValueConverter
-    {
-        // Convert enum [value] to boolean, true if matches [param]
-        public object Convert(object value, Type targetType, object param, CultureInfo culture)
-        {
-            return value.Equals(param);
-        }
-
-        // Convert boolean to enum, returning [param] if true
-        public object ConvertBack(object value, Type targetType, object param, CultureInfo culture)
-        {
-            return (bool)value ? param : Binding.DoNothing;
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> EnumToBooleanConverter : IValueConverter
+{
+    <span class="com">// Convert enum [value] to boolean, true if matches [param]</span>
+    <span class="kw">public</span> <span class="kw">object</span> Convert(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> param, CultureInfo culture)
+    {
+        <span class="kw">return</span> <span class="kw">value</span>.Equals(param);
+    }
+    <span class="com">// Convert boolean to enum, returning [param] if true</span>
+    <span class="kw">public</span> <span class="kw">object</span> ConvertBack(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> param, CultureInfo culture)
+    {
+        <span class="kw">return</span> (<span class="kw">bool</span>)<span class="kw">value</span> ? param : Binding.DoNothing;
+    }
+}</code></pre>
 <div class="sharedaddy sd-like-enabled"><div id="wpl-likebox" class="sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="wpl-button"><a href='2011-08-05-358-binding-a-radiobutton-to-an-enumerated-type.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div id="wpl-count" class="sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Controls | Tags: Controls, Enumeration, RadioButton, Value Converter, WPF</p>
   <nav class="pager"><a href="2011-08-04-357-radiobutton-is-a-contentcontrol.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-08-08-359-togglebutton-basics.html">Next</a></nav>

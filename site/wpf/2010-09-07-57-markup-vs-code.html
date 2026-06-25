@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,44 +53,36 @@
                     </div>
 
                     <p>A WPF or Silverlight user interface is generally specified declaratively, using markup (XAML).  The XAML specifies the controls to be created and what their attributes should be.  But these controls could also be created procedurally, in code (e.g. C#).</p>
-<p>For example, consider the following XAML code that creates two buttons in a <strong>StackPanel</strong>:</p>
-<pre class="brush: xml;">
-&lt;Window x:Class=&quot;WpfApplication.MainWindow&quot;
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        Title=&quot;MainWindow&quot; Height=&quot;224&quot; Width=&quot;334&quot;&gt;
-    &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
-        &lt;Button Name=&quot;button1&quot; Content=&quot;OK&quot; Height=&quot;23&quot; Width=&quot;75&quot; /&gt;
-        &lt;Button Name=&quot;button2&quot; Content=&quot;Cancel&quot; Height=&quot;23&quot; Width=&quot;75&quot; /&gt;
-    &lt;/StackPanel&gt;
-&lt;/Window&gt;
-</pre>
-<p>Assuming that the <strong>Window </strong>object already exists, the above XAML would be equivalent to the following C# code:</p>
-<pre class="brush: csharp;">
- private void Window_Initialized(object sender, EventArgs e)
- {
-     StackPanel sp = new StackPanel();
-     sp.Orientation = Orientation.Horizontal;
+<p>For example, consider the following XAML code that creates two buttons in a <strong>StackPanel</strong>:</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="224" Width="334"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Name</span>=<span class="xml-val">"button1"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"OK"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"23"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"75"</span> <span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Name</span>=<span class="xml-val">"button2"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Cancel"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"23"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"75"</span> <span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>Assuming that the <strong>Window </strong>object already exists, the above XAML would be equivalent to the following C# code:</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Window_Initialized(<span class="kw">object</span> sender, EventArgs e)
+{
+    StackPanel sp = <span class="kw">new</span> StackPanel();
+    sp.Orientation = Orientation.Horizontal;
 
-     Button b1 = new Button();
-     b1.Name = &quot;button1&quot;;
-     b1.Content = &quot;OK&quot;;
-     b1.Height = 23;
-     b1.Width = 75;
+    Button b1 = <span class="kw">new</span> Button();
+    b1.Name = <span class="str">"button1"</span>;
+    b1.Content = <span class="str">"OK"</span>;
+    b1.Height = <span <span class="kw">class</span>="num">23</span>;
+    b1.Width = <span <span class="kw">class</span>="num">75</span>;
 
-     Button b2 = new Button();
-     b2.Name = &quot;button2&quot;;
-     b2.Content = &quot;Cancel&quot;;
-     b2.Height = 23;
-     b2.Width = 75;
+    Button b2 = <span class="kw">new</span> Button();
+    b2.Name = <span class="str">"button2"</span>;
+    b2.Content = <span class="str">"Cancel"</span>;
+    b2.Height = <span <span class="kw">class</span>="num">23</span>;
+    b2.Width = <span <span class="kw">class</span>="num">75</span>;
 
-     sp.Children.Add(b1);   // Add buttons to StackPanel
-     sp.Children.Add(b2);
+    sp.Children.Add(b1);   <span class="com">// Add buttons to StackPanel</span>
+    sp.Children.Add(b2);
 
-     this.Content = sp;     // Add StackPanel to Window
- }
-﻿</pre>
-<div class="clear"></div>
+    <span class="kw">this</span>.Content = sp;     <span class="com">// Add StackPanel to Window</span>
+}</code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

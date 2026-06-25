@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -40,24 +52,16 @@
                         <p><span class="time">September 30, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean" rel="author">Sean</a></span> <span class="post-comments"><a href="2011-09-30-423-compare-two-lists-using-sequenceequals.html">Leave a Comment</a></span> </p>
                     </div>
 
-                    <p>If you use either the == operator or the <strong>Equals</strong> method of the <strong>List&lt;T&gt;</strong> type to compare two lists, the return value will be <strong>true</strong> only if you are comparing two references to the exact same <strong>List&lt;T&gt;</strong> instance.  <strong>List&lt;T&gt;</strong> does not override either the == operator or the <strong>Equals</strong> method, so the comparison falls back to the reference equality check performed by <strong>Object.Equals</strong>.</p>
-<pre class="brush: csharp;">
-            List&lt;int&gt; myPrimes = new List&lt;int&gt; { 2, 3, 5, 7, 11, 13, 17 };
-            List&lt;int&gt; yourPrimes = new List&lt;int&gt; { 2, 3, 5, 7, 11, 13, 17 };
+                    <p>If you use either the == operator or the <strong>Equals</strong> method of the <strong>List&lt;T&gt;</strong> type to compare two lists, the return value will be <strong>true</strong> only if you are comparing two references to the exact same <strong>List&lt;T&gt;</strong> instance.  <strong>List&lt;T&gt;</strong> does not override either the == operator or the <strong>Equals</strong> method, so the comparison falls back to the reference equality check performed by <strong>Object.Equals</strong>.</p><pre class="code-block language-csharp"><code>List&lt;<span class="kw">int</span>&gt; myPrimes = <span class="kw">new</span> List&lt;<span class="kw">int</span>&gt; { <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span>, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">7</span>, <span <span class="kw">class</span>="num">11</span>, <span <span class="kw">class</span>="num">13</span>, <span <span class="kw">class</span>="num">17</span> };
+List&lt;<span class="kw">int</span>&gt; yourPrimes = <span class="kw">new</span> List&lt;<span class="kw">int</span>&gt; { <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span>, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">7</span>, <span <span class="kw">class</span>="num">11</span>, <span <span class="kw">class</span>="num">13</span>, <span <span class="kw">class</span>="num">17</span> };
 
-            // == and Equals : reference equality
-            bool compare = (myPrimes == yourPrimes);        // false
-            compare = myPrimes.Equals(yourPrimes);     // false
-</pre>
-<p>If you want to compare two lists by comparing the values of the objects in the list, you can use the <strong>SequenceEqual</strong> method provide by <strong>System.Linq</strong>.</p>
-<pre class="brush: csharp;">
-            // SequenceEquals method : value equality
-            compare = myPrimes.SequenceEqual(yourPrimes);  // true
+<span class="com">// == and Equals : reference equality</span>
+<span class="kw">bool</span> compare = (myPrimes == yourPrimes);        <span class="com">// false</span>
+compare = myPrimes.Equals(yourPrimes);     <span class="com">// false</span></code></pre><p>If you want to compare two lists by comparing the values of the objects in the list, you can use the <strong>SequenceEqual</strong> method provide by <strong>System.Linq</strong>.</p><pre class="code-block language-csharp"><code><span class="com">// SequenceEquals method : value equality</span>
+compare = myPrimes.SequenceEqual(yourPrimes);  <span class="com">// true</span>
 
-            List&lt;int&gt; dougsPrimes = new List&lt;int&gt; { 2, 3, 5, 7, 11, 13, 19 };  // oops
-            compare = yourPrimes.SequenceEqual(dougsPrimes);  // false
-</pre>
-<div class="tpp">
+List&lt;<span class="kw">int</span>&gt; dougsPrimes = <span class="kw">new</span> List&lt;<span class="kw">int</span>&gt; { <span <span class="kw">class</span>="num">2</span>, <span <span class="kw">class</span>="num">3</span>, <span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">7</span>, <span <span class="kw">class</span>="num">11</span>, <span <span class="kw">class</span>="num">13</span>, <span <span class="kw">class</span>="num">19</span> };  <span class="com">// oops</span>
+compare = yourPrimes.SequenceEqual(dougsPrimes);  <span class="com">// false</span></code></pre><div class="tpp">
 						<span style="text-align: left; letter-spacing: 1px; font: 8px/1em Verdana, sans-serif; color: #ccc; text-transform: uppercase; display: block; padding: 0 1px;">Advertisement</span>
 						<a href="http://ecopressed.com" rel="tppceco_A" target="_top">
 							<span class="tppl">

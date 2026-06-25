@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -50,197 +62,84 @@
 <li>Override <strong>VisualChildrenCount</strong> and <strong>GetVisualChild</strong> to respond indicating that we have a single child</li>
 <li>Override <strong>Render</strong> to render the graphical portion of the control</li>
 <li>Use <strong>AddVisualChild</strong> / <strong>AddLogicalChild</strong> to indicate that the child element belongs to the parent element</li>
-</ul>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyElement : FrameworkElement
-
+</ul><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyElement : FrameworkElement
+{
+    <span class="kw">private</span> <span class="kw">static</span> FrameworkPropertyMetadata childMetadata =
+               <span class="kw">new</span> FrameworkPropertyMetadata(<span class="kw">null</span>,
+                        FrameworkPropertyMetadataOptions.AffectsParentArrange,
+                        <span class="kw">new</span> PropertyChangedCallback(OnChildChanged));
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> OnChildChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-
-        private static FrameworkPropertyMetadata childMetadata =
-
-                   new FrameworkPropertyMetadata(null,
-
-                            FrameworkPropertyMetadataOptions.AffectsParentArrange,
-
-                            new PropertyChangedCallback(OnChildChanged));
-
-
-
-        public static void OnChildChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-
+        MyElement thisElement = obj <span class="kw">as</span> MyElement;
+        <span class="kw">if</span> (thisElement == <span class="kw">null</span>)
+            <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="str">"Child property must be attached to MyElement"</span>);
+        <span class="com">// Remove old one</span>
+        Visual oldChild = e.OldValue <span class="kw">as</span> Visual;
+        <span class="kw">if</span> (oldChild != <span class="kw">null</span>)
         {
-
-            MyElement thisElement = obj as MyElement;
-
-            if (thisElement == null)
-
-                throw new Exception(&quot;Child property must be attached to MyElement&quot;);
-
-
-
-            // Remove old one
-
-            Visual oldChild = e.OldValue as Visual;
-
-            if (oldChild != null)
-
-            {
-
-                thisElement.RemoveVisualChild(oldChild);
-
-                thisElement.RemoveLogicalChild(oldChild);
-
-            }
-
-
-
-            // Attach new one
-
-            Visual newChild = e.NewValue as Visual;
-
-            if (newChild != null)
-
-            {
-
-                thisElement.AddVisualChild(newChild);
-
-                thisElement.AddLogicalChild(newChild);
-
-            }
-
+            thisElement.RemoveVisualChild(oldChild);
+            thisElement.RemoveLogicalChild(oldChild);
         }
-
-
-
-        public static readonly DependencyProperty ChildProperty =
-
-            DependencyProperty.RegisterAttached(&quot;Child&quot;, typeof(UIElement),
-
-                typeof(MyElement), childMetadata);
-
-
-
-        public static void SetChild(DependencyObject depObj, UIElement value)
-
+        <span class="com">// Attach new one</span>
+        Visual newChild = e.NewValue <span class="kw">as</span> Visual;
+        <span class="kw">if</span> (newChild != <span class="kw">null</span>)
         {
-
-            depObj.SetValue(ChildProperty, value);
-
+            thisElement.AddVisualChild(newChild);
+            thisElement.AddLogicalChild(newChild);
         }
-
-
-
-        protected override int VisualChildrenCount
-
-        {
-
-            get
-
-            {
-
-                UIElement childElement = (UIElement)GetValue(ChildProperty);
-
-                return childElement != null ? 1 : 0;
-
-            }
-
-        }
-
-
-
-        protected override Visual GetVisualChild(int index)
-
-        {
-
-            // (ignoring index)
-
-            return (UIElement)GetValue(ChildProperty);
-
-        }
-
-
-
-        protected override Size MeasureOverride(Size availableSize)
-
-        {
-
-            UIElement childElement = (UIElement)GetValue(ChildProperty);
-
-            if (childElement != null)
-
-                childElement.Measure(availableSize);
-
-
-
-            // &quot;X&quot; and child both use all of the available space
-
-            return availableSize;
-
-        }
-
-
-
-        protected override Size ArrangeOverride(Size finalSize)
-
-        {
-
-            UIElement childElement = (UIElement)GetValue(ChildProperty);
-
-            if (childElement != null)
-
-                childElement.Arrange(new Rect(new Point(0.0, 0.0), finalSize));
-
-
-
-            return finalSize;
-
-        }
-
-
-
-        // Render a big &quot;X&quot; 
-
-        protected override void OnRender(DrawingContext dc)
-
-        {
-
-            dc.DrawLine(new Pen(Brushes.Blue, 2.0),
-
-                new Point(0.0, 0.0),
-
-                new Point(ActualWidth, ActualHeight));
-
-            dc.DrawLine(new Pen(Brushes.Green, 2.0),
-
-                new Point(ActualWidth, 0.0),
-
-                new Point(0.0, ActualHeight));
-
-        }
-
     }
-
-</pre>
-<p>We can now use this element as follows:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Grid&gt;
-
-        &lt;loc:MyElement&gt;
-
-            &lt;loc:MyElement.Child&gt;
-
-                &lt;Label Content=&quot;I'm the child&quot; HorizontalAlignment=&quot;Center&quot;/&gt;
-
-            &lt;/loc:MyElement.Child&gt;
-
-        &lt;/loc:MyElement&gt;
-
-    &lt;/Grid&gt;
-
-</pre>
-<p>When rendered, it looks like this:</p>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty ChildProperty =
+        DependencyProperty.RegisterAttached(<span class="str">"Child"</span>, <span class="kw">typeof</span>(UIElement),
+            <span class="kw">typeof</span>(MyElement), childMetadata);
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> SetChild(DependencyObject depObj, UIElement <span class="kw">value</span>)
+    {
+        depObj.SetValue(ChildProperty, <span class="kw">value</span>);
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> <span class="kw">int</span> VisualChildrenCount
+    {
+        <span class="kw">get</span>
+        {
+            UIElement childElement = (UIElement)GetValue(ChildProperty);
+            <span class="kw">return</span> childElement != <span class="kw">null</span> ? <span <span class="kw">class</span>="num">1</span> : <span <span class="kw">class</span>="num">0</span>;
+        }
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Visual GetVisualChild(<span class="kw">int</span> index)
+    {
+        <span class="com">// (ignoring index)</span>
+        <span class="kw">return</span> (UIElement)GetValue(ChildProperty);
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Size MeasureOverride(Size availableSize)
+    {
+        UIElement childElement = (UIElement)GetValue(ChildProperty);
+        <span class="kw">if</span> (childElement != <span class="kw">null</span>)
+            childElement.Measure(availableSize);
+        <span class="com">// "X" and child both use all of the available space</span>
+        <span class="kw">return</span> availableSize;
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Size ArrangeOverride(Size finalSize)
+    {
+        UIElement childElement = (UIElement)GetValue(ChildProperty);
+        <span class="kw">if</span> (childElement != <span class="kw">null</span>)
+            childElement.Arrange(<span class="kw">new</span> Rect(<span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, <span <span class="kw">class</span>="num">0.0</span>), finalSize));
+        <span class="kw">return</span> finalSize;
+    }
+    <span class="com">// Render a big "X"</span>
+    <span class="kw">protected</span> <span class="kw">override</span> <span class="kw">void</span> OnRender(DrawingContext dc)
+    {
+        dc.DrawLine(<span class="kw">new</span> Pen(Brushes.Blue, <span <span class="kw">class</span>="num">2.0</span>),
+            <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, <span <span class="kw">class</span>="num">0.0</span>),
+            <span class="kw">new</span> Point(ActualWidth, ActualHeight));
+        dc.DrawLine(<span class="kw">new</span> Pen(Brushes.Green, <span <span class="kw">class</span>="num">2.0</span>),
+            <span class="kw">new</span> Point(ActualWidth, <span <span class="kw">class</span>="num">0.0</span>),
+            <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, ActualHeight));
+    }
+}</code></pre><p>We can now use this element as follows:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">loc:MyElement</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">loc:MyElement.Child</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"I'm the child"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">loc:MyElement.Child</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">loc:MyElement</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p>When rendered, it looks like this:</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1191-001.png"><img class="alignnone size-full wp-image-9496" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARsAAADJCAIAAACczgHmAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAIwlJREFUeNrtnXlcFfX6x5+zsYissoogIqAgcgZUxC03ItEElxKXbAZbtNKuWZmWmmt2697qXu+9v+wuzrigZi7ggpq5pBVZ4UERMRVZRBYRUZT1LL8/vuMZQGI953znHL7vP3rVOczM853X+fR8nueZRaLT6YBAIBgIKe4ACASLQt7wP0i+IhBaRiKRtPwHvKKQlhoqiqiLQEA8qaIWdCUHAJ1Oh/Sj1Wq1Wq3uMbgXQiCIAsljpFKpVCrVf9jsHws5SqPRqNXq+vp6tVqNdIV7IQSCKEBaksvlCoVCLpfLZLJWchQ8FtxXC6fgDp5AEDWvf3mo5VJKjgyeVqtVq9UAEOrrhjtmQlene0YV7hAAAB4quzX5JDP/jlqt1nu/ZqXFm0KtVltfX497CQSC2Kmvr2+5IOIVpdPpUI4iEAgtoNFotFptC38gKKrlvyMQCACg0Whaz1GkXU4gtJFWxUKuQiIQDIm887sgEP6IRbvTW/h2U0IE7gANTzsUdUfmUgOKtvylja7OVVPe6hVQBIJhidq/HwDSpk5t4RNj0w5FWYXGBPn3BXjSQfLaKSy+CzodADx8cPfhr0n2tlYmWwZBtPxRImo5fXWMtKlTo/bvj9q/H0nI9HKCdinKxckxNDighf5FSL8AAJBI4OwPaeUaTYdjKr2Sve6ifsbnMj/BL9SUp6QdsQFAt/jY/tEOkJmWfsQxZGmwDe4Auzp6Uen/08QBtENRMqkkN6/0wNlrEqlOItVJZDqpTBerDPD0cHj48BEA2HW323vuJgD0se9wPDUnjmcl33OZn9CfV1Fh7rZCCPVuzz4Kcxddtl0Z4+FupHPW239TlJOR9t0RjL1ecwOJCnDICdqlKC2ARCLLvf9QItfJrDRShVam0NbXa0DXaJAls+r4XKv0Sm4yeK9MaPDj8Paba/qzQjBn9AlKb/9MSTsUVa/WAICbq/Xdqsr79Q/VmlpQowuXJDoAVF/ZONcobOuhUtahYCqOXayKHNm/uf/XVmzbXewV2z/aAQAAHpR8klo9EbnBwtxF58oBABkwz6z0zXkAAOt2F+qTSSOr1iDDZKalH3H0jyjISb4HABA5MmKufcknqYUFAJ10mw2OyNvCdh2uuc1rThzPKhoQ4nU5K/keNHSbT663M/xReWMufbmG2alhTWUy2t09zyq5VaWpkltrZFZqmQRduKQD0ElAAgB2zg/l8nqodOxILIUV58FlfrsM3oOST87VxMdGRDsAFJacAAiNitjk08gFlV7JXnfR5rGNrDlxPGtRmvDLK7hYHBEbsckBSq9krzuXft7Ze2VChDvUnDietTnNqWM/0NIr2esKnFcm9HcHgMLcRam5no/V0pbDtbD5+XO58bERm5CQ0krCYjyeXK/YMEYH4o9oYvaaNCpMQ7sVVQOPFLZqmZVGplDLrfgcheQEAP1dfQHgdlGZyRYAYOOJEpe3R3Qz31Ycuwjxsfr//dtER3mnp1ZkRjnxn/T2RAnEPdgz8mIODEC/S5voAS7Jl2tLAZr5meblLMp7/O/O3k/8lNERH3/o7RnvnHWh0I8vBVs/XEub+4T5oc1DQ7x9UqubD69zGDYXmTizPakcUbs+fgPberlCLVOoZQq1XFEPALoG/fQAZ38AuA2mUpSDY4Rz4ebd5ZEjI+Y2m9wKK86DzXyHhptYe8G94gcQ6gAA4OPYsDvXzastPZWWzVVhxXmogtT05AafRT7+l9YP1+LmXg4NN6/Rr4IgHtqtKIV1ncxKLZer5Yp6mVwNAEI/XQf1arW6vqPXsNvb+jT4rbcNm+iYiOgHJZ+kpi8SUZ+9k5GIZyGEdtOe6/okktra6kjXvoOdAiMcgii7YKXtgNraav33Op1Oq9FoOnwNu4NjhHNVclZF639ZWV3QaEOPpQkh8c7lR67UNP1Le1sfqCl+0OCTB7VFeqNoDJ48oik3J+CmHYrSanXB/XwWjIuePzrmlVGxL4+KnzciPrifj52dnbu7m0sPF4WVlUarlUo7fPGRTXSMf2RezqLjJaX6zwpztxUCgI2XILaKbXxzT/8tj2CK7lXze3DwmNi7Kjk1N5P/ouZEWiGEeRoxAzRzxAbLMdLm+vUScNMO11d2K+f02WYUiG4S1mo02sf+rzj3hhV0TFdOcxNCvI5nrdv9WCjO3itjAImtaDdqCbjMj/UuSq0GALC3LUpNXwQAAD5hIUtRKeXtGe+ctXl3OSp4QqMiVjpmr3vccfIJ6/SVDQ07E6gJ3riEC42KmA/pm3eX648Y3Y69t3/zxuvt1NIInUaCnihWV1dXWVmZtOyFFp4zUavWPKqpb+66vmZ2a2ejsJZ3bCpFIIiUzPw7sz/ebm9vb2VlJZVKm70WvB05ylous+5OREIgtAS545BAMCREUQSCISGKIhAMCVEUgWBIiKIIBENCFEUgGBKiKALBkLQ+j7p1txJ3kAQCBnr16MjTHdo04U38RwoAzJwJn34KvXrhXiiBYBwqaiqWf7f8P+n/UWvVW8omd2wnbXJ969dDQADs2gVjx8L69VBQ0JaNCASzoeB+wfrv1w/595Avf/3Sz8lv/bj1Hd5Vm3LUBx/AmDHAssCysHIlnD4NDAMvvID7NBAIhmD7xe2siv3u5ndyqfzliJcZihnhM4L9Oq5je2vrdX0jRsCIEbyuTpyA06fh9GmgaRg1Cvf5IBA6ytn8s5yKY1WsRqeJ9o9mKGbOwDmd3Gf77uGdM4cXFcfBf//Li4phwMcH97khENpDwYMCVsVyKu7GvRuBPQJpJc1QjLd9ux4b1Dztvive25s3gRwHLAurVsGZM0DTMJc8Vo9gJmy7uI3L4L7L+U4hVbwS8QqtpEf4jjDUzjv4bo6GJvDbb3kTyDDEBBJEzdn8s6yK5TI4jVbztP/TDMXMHjjbsIfo1NtuZs8WOhb/+x8vKpoGX1+cZ41AeJL8+/lcBseq2Jx7OYEugQzFMBTT076nwQ/U2fdH9ewJ778vFFerVvHF1Ysv4jlxBMKTbM3YymVwJ2+etJJZvRLxCkMxw32GG+lYhrkKafhw+Oor2LIFYmLg5ElITIR58+D77013ynCRnxQ37GNVLUB+UtxL+zt8cUnaKs85Hd+6YRxN9kp9rKpt/svOH9Ms+D7v+5dSXkpMTjx582RM35gt8Vu+mvyV8eQEhn3HITKBqGOxZQvfsWAYYgKbJT8pLiF/7elllLWxjhC1tlgFAJCPe6lYyL+fj0qmnHs5QT2CGIqhlbQxbF4TDPzW0J49YflyGD2a19WHH/LFFTGBBFOyNWMrq2JP5Z6yklm9OuhVhmKG9RpmmkMb5drz4cNh82ZgWYiJgVOngGFg3jw4c8Y0K8KD7+yU/061B95MfbvKUyKRSObsr8xPiusukUgkVGPblZ8UFzLnYNrycBuJ3nqloY2ED/SfNN2a30N3SeO/L9zR+FjN+Dr9VtTH6VVgiZzJPTMveR5zgDmVeyqmbww7hd387GaTyQmMejfHrFnAsvDRRxAUBFu2QGIirFkDeXmd37HYSZrGhl/T6fJ2VM51iMtfe1eny9vhu/7TIw1+3L6zU7J2TI7aeKFGt2OqfYONdD+t/G7NP1W1AGmrPDeFX9PpdDpd3tIfX/u8kabSVkV+MvxcjU6n0z3ewaXlH5Q2e6xGW82x3/ZAp9PpUnyPflmC+0QZlrz7eWvOrElMTtyi2hLkGvTR+I/YKeys0FkmDsO474r38oLly4XiavVqvriiaRMv06TM3vflVHsAe3+q++zENyhrAF9/qnvbNoKoia8Wb7pZBy45qodJ6xyS9N8n1oG+5Eo78tX4D681rsAGbmTfoqwBfEfOHLfp6o1aoJoeIj9HNWkfrz/f2e8vWbIJ95kyHFwGx2Vwp26espZZzx88n1bSpsxLDTGuohDDhsGwYXxxdeyYMA4ePRrLks2GgRsvNN+4yM9R9Rk4rd3vDb+dfb4mHPeiDM6ZvDOoA6HT6Z7p+wxDMTNDZ2KMx3T38M6aBVu2wMaNEBQELAsMA2vWQG4uxrWLGl9/6ubyP3BvviNnuq1nPn+itmqFqImv8o4SID/po8/M3fXlVuSuObOGOcCwKjbIJWjj+I1b4rfglROY+K54Ly9YtgxYFubPh+JiWL0aEhOBZfGeAVz4jpzptr5hZ6IJUWvP76ic6yBp0n5A285OORH3RbhNM1+1RNTaA4+3isufsMAD9ynoDKyKTUxOXH16dfHD4vmD5rNT2GUjl3nZe+GOqw3PPb91t5LZlGLwA+/aBRwHR48CAH/t0pgxuE8GwRw4nXsaXU8EABMCJtBK2hh5iV0U9+Rd8QZ+7rlhmTlTuHaJZYUbQ/z8cEVEEDu5FbmoZMqtyO3v2h8NbT27e+KOqxHYFAUAnp6wbJnQCVyzRrjWVtLhd1ARLBGdTofy0pm8MzZymwWDF9BKOqpXFO64mgGnohBRURAVxeero0fhzBk+X40dizsygjg4dfMUao4DwISACQzFJAxIwB3UH4JfUYiEBMEEcpyQrPr0wR0ZAR83791EqSnvfl6wWzC609bDTtQtFbEoCgA8POC99wRdIROIiitiArsaOtChu9bP5J2xVdguGLyAoZih3kNxx9U6IlIUYuhQGDqUL65SU3kTyDDEBHYhTuWeYlXs1oytABAbEEsr6YRQ8dq8JohOUQhkAlHHYutW4dolf3/ckRGMSc69HFQy5VXkBbsGo26eR3dR27wmiFRRAODhAUuXCiZw7VqhuJKSp7VbHFqdFpVM3+d9303R7bXBrzEUE+kdiTuudiNeRSEiIyEyktdVaip8/z1fXI0bhzsyguE4efMkl8HpbR5DMTMGzMAdVAcRu6IQM2YIyWrrVqFjQUyguZNzLwcNbfPv54e4haBunrudO+64Oo55KAoA3N15E4iKq3XrBBMoIy+wN0M0Wg0qmZDNe33I67SSNkeb1wSzURSioQk8cgTOnuV1RUygeXHy5klWxW67uA0AJgZOZCjm+ZDncQdlGMxMUYjnnxeeE7htm5Cs+vbFHRmhNW6U30AdiIIHBSFuIei5eW7d3Dq/Z5FglooCADc3ePddobhCJhAVV8QEihONTsNeYLkM7mz+WTsru9eHvM5QzJCeQ3DHZWDMVVGIIUNgyBC+uDp8WDCB48fjjozQmO9ufsdlcNsytgHApMBJtJJ+foCF2LwmmLeiEMgEoo7F9u3CcwKJCRQDN+7dQN28gvsFA9wGoKGtm53l2LwmWIKiAMDNDd55Ryiu1q8Xiiu5hSzR/FBr1ahkOpd/zk5h98aQNxiKGdxzMO64jItF/dwGD4bBg3ldHT4M587xxVV0NO7Iuh4nck5wGdz2i9sBYFLgJIZingt5DndQpsCiFIV47jmhY7F9u9CxCAjAHVnX4Hr5dZSabj24Feoeioa2rt1cccdlIixQUQDg6sqbQFRcbdggFFfEBBoPtVaNSqZz+ee6W3VfGLmQVtIWb/OaYMm/r4Ym8NAh3gQyDDGBRuFEzglWxe64tAMAng16lqGY6cHTcQeFAUtWFGL6dOHNBjt2CB2LwEDckVkK1+5eQzavsLIw1D0UdfO6js1rguUrCgBcXeHtt4XiasMGobhSKHAHZ87Ua+vR0PaHgh/sre0XRi5kKGaQ1yDcceGkSygKMWgQDBrEF1cHD8IPP/DF1dNP447MPPk251tOxSGbN7nfZFpJd02b14QupCjE9OlCxwKZQJSsiAlsO9fKr6EOROGDwoHuA5HN69GtB+64REGXUxQA9OgBS5YIxdVHHwnFlVW7H8/ftajT1KGS6ceCH+2t7BdFLmIoJsIrAndcIqIrKgqhN4EsCwcPwo8/8vkqJgZ3ZGLl+I3jXAaXdCkJACYHTWYoZlrwNNxBiY6uqyjEtGlCxyIpSUhWQUG4IxMTv9/9HaWm25W3wzzC0NDWxdYFd1xipKsrCgBcXGDJEkFXyASi4oqYwDpNHSqZfiz40cHa4c2hb9JKmti8FiCK4omIgIgIvmmRksKbQIbp0ibw+I3jrIrdmbkTAOL6xTEUM7X/VNxBiR2iqEYgE4g6Fjt3CiawXz/ckZmWq2VXkc0relgU5hGGunnE5rUFoqimuLjAW28JJnDjRsEEWlt3fvdip1Zdi7T0062fHG0c3xz6JkMx4Z6W97ZRY0EU1Tzh4RAezusqJQV++okfBz/zDO7IjMmxG8c4FYdsXnz/eFpJE5vXXoiiWmLqVCFZIROIkpXlmcCrd6+iDkRRZZHSQ8lQDE3RzjbOuOMyP4iiWsHZmTeBqLj6+GOhuLKxwR2cIahR1yCbl3YrzdHa8U9D/0Qr6XAvYvM6CFFUm2hoApOTIS2Nz1cTJuCOrHMcu3GMVbG7MncBQHy/eIZipvSfgjso84Yoqh1MmSKYwF27hGTVvz/uyNpPdlk2Sk3FD4spTwoNbZ1snHDHZfYQRbUPJydYvFjQFTKBqLgyFxNYo65BJVParTQnG6fFUYtpJU15UrjjshCIojoCRcEXX/DF1YEDvAlkGDMwgUevH2VV7O7LuwFgSv8ptJImNs+wEEV1HGQCUb7avVt4bVxwMO7ImiO7LBulJmTz0NCW2DyDQxTVKZyc4E9/Ep4T+Oc/C8WVrS3u4B5TXV+NSqafC392tnVeHLWYoRilhxJ3XJYJUZQBUCrh8895XR04AD//zBdXsbG4IwNIvZbKZXB6m8dQTHy/eNxBWTJEUQYjPl7oWOzeLXQscJnAK2VX0OvWSx6VhHuG00qaCWccrR1xnycLhyjKkDg68iYQjYM/+UQwgd26mS6ManU1Kpl+vvWzs43zW1Fv0Upa6UlsnikgijI8SiV89hmfr/bvh/PneV2ZxgSmXk9lVezXl78GgKn9pzIUE9cvDvcp6UIQRRmLuDgYPZrX1ddfC8kqJMRYR8y6k4U6EKWPSsM9w1E3z9GG2DyTQhRlRBwd4c03heIKmUBUXBnWBFbVVyGbd77wvIuty1tRbzEUE+YRhvsEdEWIooxOWBhvAjkO9u0TTODEiYbZ/5FrR7gMDtm8acHTaCVNbB5GiKJMRFwcjBnDP9Jszx7hzQadMYFZd7JQaip9VBrhFYFsnoO1A+61dmmIokyHgwNvAlEn8NNPheLKzq59u3pU9wiVTL/c/sXF1mXJsCW0kiY2TwwQRZmasDD461/54mrfPvjlF764mjSprXs4/PthLoPbk7UHAKYFT2MoZnLQZNzLIvAQReFh8mT+mkBkAvUdiwEDWtrq8p3LnIpjVeydqjuDeg5Ct2DYW9njXg1BgCgKG/b2sGiR0An8y1+E4upJE/io/hEqmX4p/KWHbY+3h71NK+mBHgNxL4LQFKIozAwcyJtAjoO9e3kTyDCNTODha4dZFftN1jcAMD14OkMxzwY9iztwQvMQRYkCvQlkWfjmG6FjAe6ZqANRVlU2yGsQ6ubZWxObJ16IosSCvT0sXNjABP794de5HFBsvvpX126ubw97m6GYUPdQ3GESWoEoSlyEhsJf/gJ24Yf+l87lO3wDauj14Ll5AfSaGGLzzAOiKHGRWZrJqljuNlfmUOYrHwwqJj+F/pdD90cXgGEglKQo0UMUJRYqaytRyfRb0W+u3VzfGf4OraShNJTzA5aFv/5VKK7sSRklYoiiRMGh3w+xKnbvlb0A8FzIcwzFTAqcBADgDp9+KnQsfvuNn1xNJhNdsUIUhZlLJZdQarpbfXeI9xA0tLVTNBpITZokjIP37hXGwQPJOEp8EEVho7KuEg1tf7v9m1s3t3eHv0tT9AC35i+asLODN94QOoGffSaMg4kJFBVEUXg4+PtBVsXuu7IPAJ4PeZ5W0pOCWr+wb8AA3gSia5eQCWQYYgJFBFGUqblYchHZvPLq8iE9h6ChrZ1VOy4+15tAdK2tvmMRRi49FwFEUabjQe0DpKX0onR3O/d3h7/LUEyIW0dukLKzg9dfb2QC9cWVA7k9CitEUSYi5WoKl8EhmzdjwAxaSU8M7OxNvCEh8MknvK727IH0dL64iiO38OKDKMroXCy5iDoQ5dXlkd6RqJvXTWGwB01MnCh0ApEJRMmKmEAsEEUZkfs195HNu1B8wd3OfemIpbSS7pjNa5lu3XgTiO4O/vxzobhyJI9CMi1EUcYi5WoKq2L3Z+8HgBkDZjAUExtg3Af2hYTAn/8sPM/swgVeV8QEmhKiKMOTUZyBUtO9mntDew1FNs9WbqI3C8TGCs8J3L9fSFZK8khZk0AUZUju195nL7BcBneh+IKHncfSEUsZigl2NfWDz7t1g9deEzqByASi4oqYQGNDFGUwkq8msyr2QPYBAEgYkEAr6dhAnC/nCA7mTSB6s4HeBMaTV3MYE6IoA5BRkoG6efeq7w31HoqGtrYKUbxAKjZWGAcfOMCLimGICTQWRFGdoqKmApVMqmKVZ3fP90a8x1BMf1dxvena1hYWLOAfvslx8MUXQnHl5IQ7OIuDKKrjHMg+wGVwepvHUMyEAPG+iDc4GD7+WHjH6eLFfHE1ZQruyCwLoqiOoCpWodRUUVMR1SsKdfNs5GbwsvgJE4RxMDKBKF9RFO7ILAWiqPZRUVOBSiZk85aNXEYrabHZvJaxsYEFC4Rx8N/+JtwYQkxg5yGKagcHsg+wKjb5ajIAzAydyVDMM32fwR1UB+nfHzZu5IurXbtApeKTFTGBnYQoqk1cKLqAbN792vtRvaJQN88sbF7L6E0gy0JystCxCA/HHZnZQhTVCvdq7qFHjWeUZHjZe7025DWGYvr16Ic7LoNhYwPz5wvj4L/9TRgHOzvjDs4MIYpqif3Z+7kMLjk7GQBmhc6iKdp8bV7L9OsHGzfyxdXOnbBkCZ+vpk7FHZm5QRTVPBeKL6AOxP2a+8N6DUM2z1pujTsu4/LMM8Jr41JS4MwZXlfEBLYdoqimlFeXo5LpYslFr+5er498nVbS/Vwtx+a1jLU1bwJRJ/DvfxeKKxcX3MGZA0RRjdifvZ9VsSlXUwBgVugshmJi+sbgDgoD/frBRx/xxZXeBNI0TJuGOzLRQxTFk16UjlLTg9oHw32Go6GtlcwKd1w4iYkRxsEpKcI4OCICd2QihigKyqvLUcl0seRiT/ueCyMX0ko6qEcQ7rhEgZUVvPqqYAI3bRLGwcQENktXV9S+K/tYFXvw94MAMHvgbFpJd02b1zJBQbBhA9+xSEqCt9/mkxUxgU/SdRWVXpTOqlhWxVbWVQ73GY66eV3c5rWM3gSyLBw8yJtAmoZBg3BHJia6oqLuVt1FJdOl0kveDt6Lhi5iKCbQJRB3XGaAlRW88oowDt60SegE9uiBOzhx0OUUtffKXi6DO3j1IADMGTiHpuin/Z/GHZSZERgIGzbwxdWOHbwJpGmYPh13ZCKgCynqt6LfUAeisrZyhM8IWkkz4YxCqsAdl7ny9NPCOFhvAhmmq5vALqGosqoyZPMySzO97b3fjHyTVtKBPYjN6ywKBW8CUSfwH/8QTKCrK+7gMGH5itp7ZS+rYg/9fggA5gycw1BMtH807qAsisBAWL+eL6527IB33uF11TVNoCUr6tfbv6LU9LDu4UjfkWhoK5da8pIxEh0tjIMPHRI6gYMH447MtFjmz6usqgyVTJmlmb0cei2OWkwr6QCXANxxWThyObz8stAJRCYQjYO7jgm0QEV9k/UNq2IPXzsMAC+EvUAraWLzTElAAG8COQ62b4d33+VN4HPP4Y7MJFiUon69/Ssa2j6qfzTSdyQa2hKbhwW9CWRZOHxY6ARavAm0kF/bnUd3UMl0+c5lH0eft5RvMRTT17kv7ri6NHI5vPSSYAL/+U+hE+jmhjs4460adwAGYM/lPVwGh2zeXOVcWkmP7zMed1AEnr59Yd06Xld6E0jT8PzzuCMzDuatqF9u/4I6EI/qHo3yHYWGtjKJDHdchKaMHy90AhuawCFDcEdmaMxVUXeq7qCSKetOlo+Dz5KoJbSS7utCbJ54kcl4E4jGwf/6l/AQdksygWapqD1Ze1gVe+TaEQCYGzaXoZhxfcbhDorQJvr2hbVreRO4bRssXcrrymJMoJkp6nzhedSBqKqveqr3U7SSppW0TEpsnpkxbpzw2rgjR4RxcGQk7sg6jdkoqvRRKSqZsu5k+Tr6ogsg/J39ccdF6CAyGcybJ3QCkQlE42B3d9zBdQLzUNTXl79mVWzq9VQAeFH5Iq2kic2zDPz9eRPIcbB1K7z3Hm8CZ8zAHVlHEbuizheeR6kJ2Tw0tJVKpLjjIhiSceOEcXBqqvCcQHM0geJVVMnDElQyXSm70tupNyqZiM2zVKRSSEwUXhv3f/8njIM9PHAH1x5Eqqjdmbu5DE5v8xiKGes3FndQBKPj7w9r1vDJSm8CaRoSEnBH1mZEp6ifC39GNq+6vnp079E0RTMUIwEJ7rgIpmPsWGEcnJoqjIOHDsUdWRsQkaJKHpUgLV25c6W3Y29UMvVx7oM7LgIGJBJITBTGwV9+KTwnUOQmUCyK2n15N6tij14/CgCoZBrbh9i8rk6fPrB6tVBcLVvGJysxm0D8ikq7lYY6EDXqmtG9R6PUJJEQm0fg0ZtAloWjR4VxcFQU7siaA6eiih8WIy1ll2X7Ofmhoa2fkx/uc0IQHRIJMIwwDv7yS2Ec7OmJO7jGYFPUrsxdXAaHbB7KS2P8xuA+GwRR4+cHq1cLxdXy5XxxNXMm7sgagEFRabfSUAeiRl0zxm8MSk24zwPBbEAOEBVXehPIMGIxgSZVVFFlEbJ5V+9e9XPyQ6mJ2DxCB0AmECWrzZuFcbCXF+bATKeoXZm7WBV77MYxiUTCUAxDMaN7j8a8eoI54+cHH34oFFfLl/PF1axZOKMyhaJ+uvUTl8GxF9haTe3YPmNRcxznogkWxOjR/I0hHAfHjsHp03xxNWwYnniMq6iih0WoZLpadrWPUx90AURvx9541kqwXGhaSFbIBKJOoOlNoBEVtTNzJ6tij984LgFJIpVIK+nRfsTmEYxF7968CUTF1fvv88WViU2gURT1062f0EMg6jR1Y/3GMhTzovJFky6L0FXRm0CWhePHhXHw8OEmCsDAirpdeRt1836/+7u/sz/qjPs6+ppoNQQCAAC8+KJgAr/6SugE9uxp9EMbUlFJl5K4DO74jeNSiXRe+DxaST/V+ymjr4BAaA5fX1i1StAVMoE0DbNnG/e4hlHUjwU/og5EnaZuXJ9xtJImNo8gBp56Cp56ii+u9CaQYYxoAjurqNuVt1HJdK38mr+zPxraEptHEBXIBKKOxb//LTwn0BgmsFOKSrqUxKrYb3O+lUll88LnMRQzyncUrrNGILSAry+sXCmYwA8+4HVlcBPYQUX9kP8D6kDUa+vH+4+nlfTcsLm4TxqB0AqjRsGoUXy++vZboRM4YoTBDtFuRRVWFqKS6drda32d+6KhrY+DD+5zRSC0lblzhWSFTCAaB3t7G2Dn7VPUjks7WBV7IueETCJ7KfwlmqKJzSOYIz4+vAlExdWKFbwJnDOns3tuq6J+KPgBdSDUWvX4PuMZinkh7AXcp4VA6BR6E8iycOKE0AnsjAlsk6I2nN3Aqtjr5dcDXALQda4+jsTmESyEF14QHmXxn//wouqwAWzTw1lXnFxxvfx6VK+ondN3rnhqBZETwcLw8YEVKyA1FSZMgOvXYcWKju+qTTlqS9lkAIAyyFStzcS9eALBeCQEQMLCTu2hdUX16mGPe5kEgtlAHslPIBgSKQBIHoM7GAJB7LQqFqn+76RSkq8IhFaQyWQt5x5BUXI5/ufLEggiRyaTtZx7+O+kUqlCocAdLYEgdhQKRcs5So6+lkqlKEdl5t/BHTOBIF7kcrlUKm2hlJLodDqdTqfVajUajVqtrq+v12g0Go1Gp9PhDp5AEAsSiUQmk8lkMoVCIZfLkfdrVlS8opB+tFotUpf+EwKBAI9bfEhFqI76ozQlQcpp+E8EURSBoKeheNC/t+T69P9BVEQgtErLnQkJURGBYED+HyzPszRrXA9vAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAAAASUVORK5CYII=" alt="1191-001"   /></a></p>
 
 <div class="wpcnt">

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,81 +56,37 @@
 					</div>
 
 					<p>When an exception is not caught by a <strong>try-catch</strong> statement, the code that follows the <strong>try-catch</strong> statement will not execute.</p>
-<p>In the example below, <strong>Main()</strong> calls <strong>MethodA</strong>, which calls <strong>MethodB</strong>.  <strong>MethodB </strong>throws an exception, which is not caught by <strong>MethodA</strong>.  The exception bubbles back up to <strong>Main</strong>, where it is caught.  The code in <strong>MethodA</strong> that follows the <strong>try-catch</strong> statement is not executed.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
-        {
-
-            try
-
-            {
-
-                MethodA();
-
-            }
-
-            catch (Exception xx)
-
-            {
-
-                Console.WriteLine(&quot;Caught exception in Main()&quot;);
-
-            }
-
-
-
-            Console.ReadLine();
-
-        }
-
-
-
-        private static void MethodA()
-
-        {
-
-            try
-
-            {
-
-                Console.WriteLine(&quot;Before MethodB call&quot;);
-
-                MethodB();
-
-                Console.WriteLine(&quot;After MethodB call&quot;);
-
-            }
-
-            catch (ArgumentOutOfRangeException argExc)
-
-            {
-
-                Console.WriteLine(&quot;MethodA catches ArgumentOutOfRangeException&quot;);
-
-            }
-
-
-
-            Console.WriteLine(&quot;In MethodA, after try-catch&quot;);
-
-        }
-
-
-
-        private static void MethodB()
-
-        {
-
-            throw new FileNotFoundException(&quot;Can't find your file&quot;);
-
-            return;
-
-        }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/871-001.png"><img class="alignnone size-full wp-image-7357" alt="871-001" src="data:image/png;base64,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"   /></a></p>
+<p>In the example below, <strong>Main()</strong> calls <strong>MethodA</strong>, which calls <strong>MethodB</strong>.  <strong>MethodB </strong>throws an exception, which is not caught by <strong>MethodA</strong>.  The exception bubbles back up to <strong>Main</strong>, where it is caught.  The code in <strong>MethodA</strong> that follows the <strong>try-catch</strong> statement is not executed.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="kw">try</span>
+    {
+        MethodA();
+    }
+    <span class="kw">catch</span> (Exception xx)
+    {
+        Console.WriteLine(<span class="str">"Caught exception in Main()"</span>);
+    }
+    Console.ReadLine();
+}
+<span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> MethodA()
+{
+    <span class="kw">try</span>
+    {
+        Console.WriteLine(<span class="str">"Before MethodB call"</span>);
+        MethodB();
+        Console.WriteLine(<span class="str">"After MethodB call"</span>);
+    }
+    <span class="kw">catch</span> (ArgumentOutOfRangeException argExc)
+    {
+        Console.WriteLine(<span class="str">"MethodA catches ArgumentOutOfRangeException"</span>);
+    }
+    Console.WriteLine(<span class="str">"In MethodA, after try-catch"</span>);
+}
+<span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> MethodB()
+{
+    <span class="kw">throw</span> <span class="kw">new</span> FileNotFoundException(<span class="str">"Can't find your file"</span>);
+    <span class="kw">return</span>;
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/871-001.png"><img class="alignnone size-full wp-image-7357" alt="871-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

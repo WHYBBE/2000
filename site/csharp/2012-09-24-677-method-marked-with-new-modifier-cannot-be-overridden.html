@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,55 +58,27 @@
 					<p>You can use the <strong>new</strong> modifier on a method to indicate that the method should <a href="2011-06-10-343-use-the-new-keyword-to-replace-a-method-in-a-base-class.html">hide a method </a>of the same name in a base class.  In other words, the method does not behave <a href="2011-06-15-346-polymorphism.html">polymorphically</a>.</p>
 <p>If you&#8217;ve marked a method as <strong>new</strong> in a class, that method is not virtual and can not be overridden in a derived class.</p>
 <p>In the example below, the <strong>Dog</strong> class marks <strong>Bark</strong> as <strong>virtual</strong>, indicating that it can be overridden.  The <strong>Terrier</strong> class marks <strong>Bark </strong>as <strong>new</strong>, indicating that it does not override <strong>Dog.Bark&#8211;</strong>and that it cannot be overridden.  <strong>JRT </strong>can therefore not override <strong>Bark</strong>.</p>
-<p><pre class="brush: csharp;">
-
-    public class Dog
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">virtual</span> <span class="kw">void</span> Bark()
     {
-
-        public virtual void Bark()
-
-        {
-
-            Console.WriteLine(&quot;  Dog.Bark&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"  Dog.Bark"</span>);
     }
-
-
-
-    public class Terrier : Dog
-
+}
+<span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">new</span> <span class="kw">void</span> Bark()
     {
-
-        public new void Bark()
-
-        {
-
-            Console.WriteLine(&quot;  Terrier is barking&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"  Terrier is barking"</span>);
     }
-
-
-
-    public class JRT : Terrier
-
+}
+<span class="kw">public</span> <span class="kw">class</span> JRT : Terrier
+{
+    <span class="kw">public</span> <span class="kw">new</span> <span class="kw">void</span> Bark()
     {
-
-        public new void Bark()
-
-        {
-
-            Console.WriteLine(&quot;  JRT is barking&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"  JRT is barking"</span>);
     }
-
-</pre></p>
+}</code></pre>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/09/677-001.png"><img class="alignnone size-full wp-image-5794" title="677-001" src="data:image/png;base64,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" alt=""   /></a></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/09/24/677-method-marked-with-new-modifier-cannot-be-overridden/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5784"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/09/24/677-method-marked-with-new-modifier-cannot-be-overridden/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/09/24/677-method-marked-with-new-modifier-cannot-be-overridden/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Classes, new, override, Polymorphism, virtual</p>

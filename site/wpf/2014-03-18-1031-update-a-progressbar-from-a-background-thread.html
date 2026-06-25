@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,35 +55,26 @@
 																				</p>
 					</div>
 
-					<p>If you try to update a <strong>ProgressBar</strong> in a chunk of code that is running on the main UI thread and doing some work, the <strong>ProgressBar</strong> won&#8217;t update until all of the work is done.  In the example below, the <strong>ProgressBar</strong> won&#8217;t actually update until the loop finishes executing.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-for (int i = 0; i &lt; 100; i++)
- {
-     pbTest.Value = i;
-     Thread.Sleep(50);
- }
-</pre>
-<p><span style="line-height:1.5em;">To allow the </span><strong style="line-height:1.5em;">ProgressBar</strong><span style="line-height:1.5em;"> to update immediately, you need to do two things:</span></p>
+					<p>If you try to update a <strong>ProgressBar</strong> in a chunk of code that is running on the main UI thread and doing some work, the <strong>ProgressBar</strong> won&#8217;t update until all of the work is done.  In the example below, the <strong>ProgressBar</strong> won&#8217;t actually update until the loop finishes executing.</p><pre class="code-block language-csharp"><code><span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; <span <span class="kw">class</span>="num">100</span>; i++)
+ {
+     pbTest.Value = i;
+     Thread.Sleep(<span <span class="kw">class</span>="num">50</span>);
+ }</code></pre><p><span style="line-height:1.5em;">To allow the </span><strong style="line-height:1.5em;">ProgressBar</strong><span style="line-height:1.5em;"> to update immediately, you need to do two things:</span></p>
 <ul>
 <li>Do the work on a background thread</li>
 <li>Periodically update the <strong>ProgressBar</strong> using a bound property (rather than directly)</li>
 </ul>
-<p>We do the work on the background thread to avoid blocking the UI thread.  But we&#8217;re not allowed to update the <strong>ProgressBar</strong> from this thread because we aren&#8217;t the thread that created the control.  Instead, we update progress by setting a property that we then bind the <strong>ProgressBar.Value</strong> to.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            new Thread(() =&gt;
-            {
-                for (int i = 0; i &lt; 100; i++)
-                {
-                    TheProgress = i;
-                    Thread.Sleep(50);
-                }
-            }).Start();
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>We do the work on the background thread to avoid blocking the UI thread.  But we&#8217;re not allowed to update the <strong>ProgressBar</strong> from this thread because we aren&#8217;t the thread that created the control.  Instead, we update progress by setting a property that we then bind the <strong>ProgressBar.Value</strong> to.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    <span class="kw">new</span> Thread(() =&gt;
+    {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; <span <span class="kw">class</span>="num">100</span>; i++)
+        {
+            TheProgress = i;
+            Thread.Sleep(<span <span class="kw">class</span>="num">50</span>);
+        }
+    }).Start();
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,40 +55,29 @@
 																				</p>
 					</div>
 
-					<p>You&#8217;ll often see lambda expressions written as either a single statement (no return value) or a block of statements (optional return value).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        static void SomeMethod(int i, string s)
-        {
-            // do something with int and string
-        }
-
-        static void Main(string[] args)
-        {
-            // Single statement
-            Action&lt;int, string&gt; thing1 = (i, s) =&gt; SomeMethod(i, s);
-
-            // Block of statements, no return value
-            Action&lt;int, string&gt; thing2 = (i, s) =&gt;
-            {
-                for (int i2 = i; i2 &lt;= i + 10; i2++)
-                    SomeMethod(i2, s);
-            };
-
-            // Block of statements with return value
-            Func&lt;int,int&gt; thing3 = (i) =&gt;
-            {
-                SomeMethod(i, &quot;x&quot;);
-                return i + 1;
-            };
-        }
-</pre>
-<p>A lambda expression can also be a single statement representing an expression whose type is assignment compatible with the return value of the delegate type being assigned to.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Expression
-            Func&lt;int, int&gt; doubleMe = (i) =&gt; 2 * i;
-            Console.WriteLine(doubleMe(42));
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1173-001.png"><img class="alignnone size-full wp-image-9058" src="https://web.archive.org/web/20141013200438id_/http://2000thingscsharp.files.wordpress.com/2014/09/1173-001.png?w=630" alt="1173-001"   /></a></p>
+					<p>You&#8217;ll often see lambda expressions written as either a single statement (no return value) or a block of statements (optional return value).</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> SomeMethod(<span class="kw">int</span> i, <span class="kw">string</span> s)
+{
+    <span class="com">// do something with int and string</span>
+}
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="com">// Single statement</span>
+    Action&lt;<span class="kw">int</span>, <span class="kw">string</span>&gt; thing1 = (i, s) =&gt; SomeMethod(i, s);
+    <span class="com">// Block of statements, no return value</span>
+    Action&lt;<span class="kw">int</span>, <span class="kw">string</span>&gt; thing2 = (i, s) =&gt;
+    {
+        <span class="kw">for</span> (<span class="kw">int</span> i2 = i; i2 &lt;= i + <span <span class="kw">class</span>="num">10</span>; i2++)
+            SomeMethod(i2, s);
+    };
+    <span class="com">// Block of statements with return value</span>
+    Func&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; thing3 = (i) =&gt;
+    {
+        SomeMethod(i, <span class="str">"x"</span>);
+        <span class="kw">return</span> i + <span <span class="kw">class</span>="num">1</span>;
+    };
+}</code></pre><p>A lambda expression can also be a single statement representing an expression whose type is assignment compatible with the return value of the delegate type being assigned to.</p><pre class="code-block language-csharp"><code><span class="com">// Expression</span>
+Func&lt;<span class="kw">int</span>, <span class="kw">int</span>&gt; doubleMe = (i) =&gt; <span <span class="kw">class</span>="num">2</span> * i;
+Console.WriteLine(doubleMe(<span <span class="kw">class</span>="num">42</span>));</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/09/1173-001.png"><img class="alignnone size-full wp-image-9058" src="https://web.archive.org/web/20141013200438id_/http://2000thingscsharp.files.wordpress.com/2014/09/1173-001.png?w=630" alt="1173-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

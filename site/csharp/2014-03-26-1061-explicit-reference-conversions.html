@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,80 +56,63 @@
 					</div>
 
 					<p>An explicit reference conversion is a conversion between reference types that requires a cast operator.  Explicit reference conversions are not guaranteed to succeed and require a check at run-time to determine whether the conversion is allowed.  Because the check is done at run-time, the cast operator allows the conversion at compile-time.</p>
-<p>Here are some examples:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        delegate void StringDel(string info);
-
-        static void DelMethod(string info) { }
-
-        static void Main(string[] args)
-        {
-            object o1 = new Dog(&quot;Bowser&quot;);
-            dynamic dyn = o1;
-            object o2 = new Cow(&quot;Bessie&quot;);
-            Dog d2 = new BorderCollie(&quot;Shep&quot;);
-
-            // From object or dynamic to ref type
-            Dog d = (Dog)o1;
-            d = dyn;
-
-            // From base class to more derived type
-            BorderCollie bc1 = (BorderCollie)d2;
-
-            // From base class to interface that the
-            // class does not implement, but that
-            // the actual object does implement.
-            // E.g. Dog does not implement IRun,
-            //   but BorderCollie inherits from
-            //   Dog and does implement IBark.
-            //   d2 is of type Dog, but contains
-            //   a BorderCollie.
-            IRun ir1 = (IRun)d2;
-
-            // From interface type to class that
-            // implements the interface
-            BorderCollie bc2 = (BorderCollie)ir1;
-
-            // From one interface to the other, provided
-            // that underlying object implements the
-            // target interface.
-            // E.g. BorderCollie implements both IRun
-            //   and IFetch, ir1 is of type IRun but
-            //   refers to a BorderCollie.  We can
-            //   convert from variable of type IRun
-            //   to one of type IFetch
-            IFetch if1 = (IFetch)ir1;
-
-            // From one array to another, provided that
-            // explicit conversion exists between element
-            // types.
-            Dog[] dogs = { new Dog(&quot;Shep&quot;), new Dog(&quot;Kirby&quot;) };
-            object[] dogsAsObjs = dogs;
-            Dog[] dogs2 = (Dog[])dogsAsObjs;
-
-            // From System.Array to a specific array type
-            Array arrints = new int[2];
-            int[] ints = (int[])arrints;
-
-            // From array to IList&lt;&gt;, if explicit conversion from
-            // array element type to IList type exists.
-            object[] objs = new Dog[2];
-            IList&lt;Dog&gt; dogList = (IList&lt;Dog&gt;)objs;
-
-            // From IList&lt;&gt; to array, if explicit conversion from
-            // IList type to array element type exists
-            Dog[] objs2 = new Dog[2];
-            IList&lt;object&gt; dogList2 = objs2;  // implicit
-            Dog[] dogs3 = (Dog[])dogList2;   // explicit
-
-            // From Delegate to a specific delegate type
-            StringDel myDel = DelMethod;
-            Delegate genDel = myDel;  // implicit
-            StringDel myDel2 = (StringDel)genDel;  // explicit
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>Here are some examples:</p><pre class="code-block language-csharp"><code><span class="kw">delegate</span> <span class="kw">void</span> StringDel(<span class="kw">string</span> info);
+<span class="kw">static</span> <span class="kw">void</span> DelMethod(<span class="kw">string</span> info) { }
+<span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    <span class="kw">object</span> o1 = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+    dynamic dyn = o1;
+    <span class="kw">object</span> o2 = <span class="kw">new</span> Cow(<span class="str">"Bessie"</span>);
+    Dog d2 = <span class="kw">new</span> BorderCollie(<span class="str">"Shep"</span>);
+    <span class="com">// From object or dynamic to ref type</span>
+    Dog d = (Dog)o1;
+    d = dyn;
+    <span class="com">// From base class to more derived type</span>
+    BorderCollie bc1 = (BorderCollie)d2;
+    <span class="com">// From base class to interface that the</span>
+    <span class="com">// class does not implement, but that</span>
+    <span class="com">// the actual object does implement.</span>
+    <span class="com">// E.g. Dog does not implement IRun,</span>
+    <span class="com">//   but BorderCollie inherits from</span>
+    <span class="com">//   Dog and does implement IBark.</span>
+    <span class="com">//   d2 is of type Dog, but contains</span>
+    <span class="com">//   a BorderCollie.</span>
+    IRun ir1 = (IRun)d2;
+    <span class="com">// From interface type to class that</span>
+    <span class="com">// implements the interface</span>
+    BorderCollie bc2 = (BorderCollie)ir1;
+    <span class="com">// From one interface to the other, provided</span>
+    <span class="com">// that underlying object implements the</span>
+    <span class="com">// target interface.</span>
+    <span class="com">// E.g. BorderCollie implements both IRun</span>
+    <span class="com">//   and IFetch, ir1 is of type IRun but</span>
+    <span class="com">//   refers to a BorderCollie.  We can</span>
+    <span class="com">//   convert from variable of type IRun</span>
+    <span class="com">//   to one of type IFetch</span>
+    IFetch if1 = (IFetch)ir1;
+    <span class="com">// From one array to another, provided that</span>
+    <span class="com">// explicit conversion exists between element</span>
+    <span class="com">// types.</span>
+    Dog[] dogs = { <span class="kw">new</span> Dog(<span class="str">"Shep"</span>), <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>) };
+    <span class="kw">object</span>[] dogsAsObjs = dogs;
+    Dog[] dogs2 = (Dog[])dogsAsObjs;
+    <span class="com">// From System.Array to a specific array type</span>
+    Array arrints = <span class="kw">new</span> <span class="kw">int</span>[<span <span class="kw">class</span>="num">2</span>];
+    <span class="kw">int</span>[] ints = (<span class="kw">int</span>[])arrints;
+    <span class="com">// From array to IList&lt;&gt;, if explicit conversion from</span>
+    <span class="com">// array element type to IList type exists.</span>
+    <span class="kw">object</span>[] objs = <span class="kw">new</span> Dog[<span <span class="kw">class</span>="num">2</span>];
+    IList&lt;Dog&gt; dogList = (IList&lt;Dog&gt;)objs;
+    <span class="com">// From IList&lt;&gt; to array, if explicit conversion from</span>
+    <span class="com">// IList type to array element type exists</span>
+    Dog[] objs2 = <span class="kw">new</span> Dog[<span <span class="kw">class</span>="num">2</span>];
+    IList&lt;<span class="kw">object</span>&gt; dogList2 = objs2;  <span class="com">// implicit</span>
+    Dog[] dogs3 = (Dog[])dogList2;   <span class="com">// explicit</span>
+    <span class="com">// From Delegate to a specific delegate type</span>
+    StringDel myDel = DelMethod;
+    Delegate genDel = myDel;  <span class="com">// implicit</span>
+    StringDel myDel2 = (StringDel)genDel;  <span class="com">// explicit</span>
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

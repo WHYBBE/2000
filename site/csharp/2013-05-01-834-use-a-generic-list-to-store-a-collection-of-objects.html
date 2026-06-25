@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,41 +57,18 @@
 
 					<p>You can use the <strong>List&lt;T&gt;</strong> class, defined in <strong>System.Collections.Generic</strong>, to store a list of objects that all have the same type.  This generic list is one of several collection classes that allow you to store a collection of objects and manipulate the objects in the collection.</p>
 <p>You can think of a <strong>List&lt;T&gt;</strong> as an array that grows or shrinks in size as you add or remove elements.  You can easily add and remove objects to a <strong>List&lt;T&gt;</strong>, as well as iterate through all of its elements.</p>
-<p>You can store a collection of either value-typed or reference-typed objects in a <strong>List&lt;T&gt;</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Define a list of integers
-
-            List&lt;int&gt; favNumbers = new List&lt;int&gt;();
-
-
-
-            // Add a couple numbers to the list
-
-            favNumbers.Add(5);
-
-            favNumbers.Add(49);
-
-            favNumbers.Add(8);
-
-            favNumbers.Add(0);
-
-
-
-            // Iterate through the list to get each int value
-
-            foreach (int i in favNumbers)
-
-                Console.WriteLine(i);
-
-
-
-            // Remove 1st element (at position = 0)
-
-            favNumbers.RemoveAt(0);
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/05/834-001.png"><img class="alignnone size-full wp-image-7098" alt="834-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB7CAMAAACBxRQ0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGnUExURQAAACgoKDgoKCgoWTgoWSgoe0QoKEQoe0xGKFJbKUxGWVhpWUxpe191eyhGkyhapjhpuElsnlF4r1Z/ukN0zlulf1+qel2ofGKudkmIk0uLkk2PkE6Rjk+UjVOLnViAk1+Ak1GXi1CVjFSbh1Sch1aehVOZiVOaiFmVmVmZlF+NplaAu1iDv1+NuV2ToFehg1mjgViigmiOsmyKs22KtWqYrGyYrm6drGmSsXCJq3Giqn2iuUyAzlKNzlyIx1iNzl6MzF+NzoidvomfvYqvqoqhvIuku42nuo2zpY+1o4uxqJmgqpihrJG3oaaqrquvs7i7v7q8v5qxy523ybK4wbK5wrq9wLu+wb2/wry/w6fLvq3Tt7HXsqLCw77Aw7/BxL/CxcDAwMrK0szQ1MzQ1dHR29LU3dbW3tja49nb5tXn1eHh4OHh4enp6erq6uzr6uzr6+3s6u7s6+zs7O3t7e/v7vDv7/Lw7vPx7/Dw8PHx8fPy8PPy8vT08/X19ff29fb29vf39/f4+fj39vn49/j4+Pj5+fv7+vv7+/z8/P39/f7+/v///z2zf2gAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAwlJREFUaN7t2OlX00AQAPAEFIk1bZB4X/XW1nrfIhjv+0AUTzTaqkBBMWKtCoJCpOof7R5Jk8aQyIfNfOjMe+1rJ2l/2dnZbV6lP4AhIY444iD47wRDCtK/SNQSikac0HP27PRUQhHAa/Zk1RodSSiCI7c7Egyp0Z6b7DCSiwBuVwHxWQsQnx6Fw2tTI4g3N374hD8OnUkUv1V8yaJYLN7r67u5J1H8of3dC7u/00krcusyWTNSi08HvoxnlHSPYRTaM/RJlmX6jn8svalFN9wTYvFnb86eu3Dx0murXLZ6e11clXUf5QsGGrk2jTxniaNSuLC0ix8l+exC8IHBg8ePHjtZGqP43Tre2hWOZxfRAypLp9I9ubaM/yjJLwi/M3jqyN5du0vvy8PW00cOrtBS0gIynL7TyTi1hnqz4aeci+SlonkfrpLPaTH4xjXrtuwsjQ2XrcdP/CPPOrhCHgRhuFdvfo7iVobhNO/hbFbi8LXrN287QEZetoaGQnD2bRx1p6PedIX2equ5k+Th/NwYfMOO7ftXsTmfmQnBafFo/fh8ZFjTaazqutGIs7yHk3WQicW37luxcnXpLcEnPobh7rQ21NsZvuI7yPP+hsu2yHokfv/V+auXr9x4QfB31Q+hZdfmXeTkHF+3szzvf3ealHQkfvtnpVL5+uXTtx8Tn8fHQ/BCO3mdW0Ivwqu3u+aMFC0tWeek4XieZHReEVWjVxiJX+/nMfD8AXm+lv+329keptGlFljkTpuTyNBuV53OT5EEfamyrS8S7853+iLfHbVPBxZ52N4n7Cc1uMgDex/vNLyZQBxxxD18ufiIwCXxMT9usgDDQUfevLjoKY/pdrCGA8UpDDdy6DmXEAfrdnFzH4mbbscL0qNwExAnIhheR8Vt8nE3E6bIXfa/9nZIXNguG7fUTGfB4fbaFDjk7znonQwwbjbpPRwbuIkNh/ftiCcx56D/yYjV45aaCbnDAeKAZTdBcdiGA8NB1znu7YgjjjjiIv8KMxHHhkMcccQRRxxxxBH34i/fKeBZ078cTwAAAABJRU5ErkJggg=="   /></a></p>
+<p>You can store a collection of either value-typed or reference-typed objects in a <strong>List&lt;T&gt;</strong>.</p><pre class="code-block language-csharp"><code><span class="com">// Define a list of integers</span>
+List&lt;<span class="kw">int</span>&gt; favNumbers = <span class="kw">new</span> List&lt;<span class="kw">int</span>&gt;();
+<span class="com">// Add a couple numbers to the list</span>
+favNumbers.Add(<span <span class="kw">class</span>="num">5</span>);
+favNumbers.Add(<span <span class="kw">class</span>="num">49</span>);
+favNumbers.Add(<span <span class="kw">class</span>="num">8</span>);
+favNumbers.Add(<span <span class="kw">class</span>="num">0</span>);
+<span class="com">// Iterate through the list to get each int value</span>
+<span class="kw">foreach</span> (<span class="kw">int</span> i <span class="kw">in</span> favNumbers)
+    Console.WriteLine(i);
+<span class="com">// Remove 1st element (at position = 0)</span>
+favNumbers.RemoveAt(<span <span class="kw">class</span>="num">0</span>);</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/05/834-001.png"><img class="alignnone size-full wp-image-7098" alt="834-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAB7CAMAAACBxRQ0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGnUExURQAAACgoKDgoKCgoWTgoWSgoe0QoKEQoe0xGKFJbKUxGWVhpWUxpe191eyhGkyhapjhpuElsnlF4r1Z/ukN0zlulf1+qel2ofGKudkmIk0uLkk2PkE6Rjk+UjVOLnViAk1+Ak1GXi1CVjFSbh1Sch1aehVOZiVOaiFmVmVmZlF+NplaAu1iDv1+NuV2ToFehg1mjgViigmiOsmyKs22KtWqYrGyYrm6drGmSsXCJq3Giqn2iuUyAzlKNzlyIx1iNzl6MzF+NzoidvomfvYqvqoqhvIuku42nuo2zpY+1o4uxqJmgqpihrJG3oaaqrquvs7i7v7q8v5qxy523ybK4wbK5wrq9wLu+wb2/wry/w6fLvq3Tt7HXsqLCw77Aw7/BxL/CxcDAwMrK0szQ1MzQ1dHR29LU3dbW3tja49nb5tXn1eHh4OHh4enp6erq6uzr6uzr6+3s6u7s6+zs7O3t7e/v7vDv7/Lw7vPx7/Dw8PHx8fPy8PPy8vT08/X19ff29fb29vf39/f4+fj39vn49/j4+Pj5+fv7+vv7+/z8/P39/f7+/v///z2zf2gAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAwlJREFUaN7t2OlX00AQAPAEFIk1bZB4X/XW1nrfIhjv+0AUTzTaqkBBMWKtCoJCpOof7R5Jk8aQyIfNfOjMe+1rJ2l/2dnZbV6lP4AhIY444iD47wRDCtK/SNQSikac0HP27PRUQhHAa/Zk1RodSSiCI7c7Egyp0Z6b7DCSiwBuVwHxWQsQnx6Fw2tTI4g3N374hD8OnUkUv1V8yaJYLN7r67u5J1H8of3dC7u/00krcusyWTNSi08HvoxnlHSPYRTaM/RJlmX6jn8svalFN9wTYvFnb86eu3Dx0murXLZ6e11clXUf5QsGGrk2jTxniaNSuLC0ix8l+exC8IHBg8ePHjtZGqP43Tre2hWOZxfRAypLp9I9ubaM/yjJLwi/M3jqyN5du0vvy8PW00cOrtBS0gIynL7TyTi1hnqz4aeci+SlonkfrpLPaTH4xjXrtuwsjQ2XrcdP/CPPOrhCHgRhuFdvfo7iVobhNO/hbFbi8LXrN287QEZetoaGQnD2bRx1p6PedIX2equ5k+Th/NwYfMOO7ftXsTmfmQnBafFo/fh8ZFjTaazqutGIs7yHk3WQicW37luxcnXpLcEnPobh7rQ21NsZvuI7yPP+hsu2yHokfv/V+auXr9x4QfB31Q+hZdfmXeTkHF+3szzvf3ealHQkfvtnpVL5+uXTtx8Tn8fHQ/BCO3mdW0Ivwqu3u+aMFC0tWeek4XieZHReEVWjVxiJX+/nMfD8AXm+lv+329keptGlFljkTpuTyNBuV53OT5EEfamyrS8S7853+iLfHbVPBxZ52N4n7Cc1uMgDex/vNLyZQBxxxD18ufiIwCXxMT9usgDDQUfevLjoKY/pdrCGA8UpDDdy6DmXEAfrdnFzH4mbbscL0qNwExAnIhheR8Vt8nE3E6bIXfa/9nZIXNguG7fUTGfB4fbaFDjk7znonQwwbjbpPRwbuIkNh/ftiCcx56D/yYjV45aaCbnDAeKAZTdBcdiGA8NB1znu7YgjjjjiIv8KMxHHhkMcccQRRxxxxBH34i/fKeBZ078cTwAAAABJRU5ErkJggg=="   /></a></p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2013/05/834-002.png"><img class="alignnone size-full wp-image-7101" alt="834-002" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

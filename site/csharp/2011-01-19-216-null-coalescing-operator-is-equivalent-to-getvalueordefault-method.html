@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -40,29 +52,16 @@
                         <p><span class="time">January 19, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-01-19-216-null-coalescing-operator-is-equivalent-to-getvalueordefault-method.html">Leave a Comment</a></span> </p> 
                     </div>
                
-                    <p>The <strong>Nullable&lt;T&gt;</strong> type has a <strong>GetValueOrDefault(T)</strong> method that behaves in a way identical to the <strong>??</strong> operator.  It returns the value of the object, if non-null, or the value of the parameter passed in if the object is null.</p>
-<pre class="brush: csharp;">
-            Nullable&lt;Mood&gt; myMood = null;
-
-            Mood mood2 = myMood ?? Mood.Happy;   // result = Happy, since myMood is null
-            Mood mood3 = myMood.GetValueOrDefault(Mood.Happy);   // same as above
-</pre>
-<p>There is also an overload of the <strong>GetValueOrDefault</strong> method that doesn&#8217;t take a parameter but just returns the default value for the type <strong>T,</strong> if the object in question is null.  For example, an <strong>enum</strong> type has a default value of 0, so the enumerated constant equivalent to 0 is returned.</p>
-<pre class="brush: csharp;">
-        public enum Mood
-        {
-            Crabby,   // 0-valued
-            Happy,
-            Petulant,
-            Elated
-        }
-</pre>
-<pre class="brush: csharp;">
-            Nullable&lt;Mood&gt; myMood = null;
-
-            Mood mood2 = myMood.GetValueOrDefault();   // Gets value Mood.Crabby
-</pre>
-<div class="clear"></div>
+                    <p>The <strong>Nullable&lt;T&gt;</strong> type has a <strong>GetValueOrDefault(T)</strong> method that behaves in a way identical to the <strong>??</strong> operator.  It returns the value of the object, if non-null, or the value of the parameter passed in if the object is null.</p><pre class="code-block language-csharp"><code>Nullable&lt;Mood&gt; myMood = <span class="kw">null</span>;
+Mood mood2 = myMood ?? Mood.Happy;   <span class="com">// result = Happy, since myMood is null</span>
+Mood mood3 = myMood.GetValueOrDefault(Mood.Happy);   <span class="com">// same as above</span></code></pre><p>There is also an overload of the <strong>GetValueOrDefault</strong> method that doesn&#8217;t take a parameter but just returns the default value for the type <strong>T,</strong> if the object in question is null.  For example, an <strong>enum</strong> type has a default value of 0, so the enumerated constant equivalent to 0 is returned.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">enum</span> Mood
+{
+    Crabby,   <span class="com">// 0-valued</span>
+    Happy,
+    Petulant,
+    Elated
+}</code></pre><pre class="code-block language-csharp"><code>Nullable&lt;Mood&gt; myMood = <span class="kw">null</span>;
+Mood mood2 = myMood.GetValueOrDefault();   <span class="com">// Gets value Mood.Crabby</span></code></pre><div class="clear"></div>
                                                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

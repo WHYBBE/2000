@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,24 +57,17 @@
 
 					<p>You can use a <strong>DependencyObject</strong>&#8216;s<strong> ReadLocalValue</strong> method to get the local value of a dependency property, rather than its effective value.  Recall that the <a href="2010-11-23-134-dependency-property-value-sources-1-local-value.html">local value</a> is a value set locally, from XAML or code, which takes precedence over all other sources for the base value of a dependency property.  The local value has <em>lower</em> precedence than any coerced values.</p>
 <p>Using <strong>ReadLocalValue</strong> (assuming that <strong>this</strong> refers to a <strong>DependencyObject</strong> that registers <strong>AgeProperty</strong>):</p>
-<p><pre class="brush: csharp;">
-            int ageValue = (int)this.GetValue(AgeProperty);         // Effective value
-            int ageLocal = (int)this.ReadLocalValue(AgeProperty);   // Local value
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">int</span> ageValue = (<span class="kw">int</span>)<span class="kw">this</span>.GetValue(AgeProperty);         <span class="com">// Effective value</span>
+<span class="kw">int</span> ageLocal = (<span class="kw">int</span>)<span class="kw">this</span>.ReadLocalValue(AgeProperty);   <span class="com">// Local value</span></code></pre>
 <p>Getting this information for the <a href="2010-12-10-151-dependency-properties-remember-non-coerced-values.html"><strong>Age/SuperOld</strong> example</a>, we get the following:</p>
-<p><pre class="brush: csharp;">
-            p.Age = 28;
-            info = p.AgeInfo();   // Value=28, Local=28
-
-            p.SuperOld = true;
-            info = p.AgeInfo();   // Value=999, Local=28
-
-            p.Age = 56;
-            info = p.AgeInfo();   // Value=999, Local=56
-
-            p.SuperOld = false;
-            info = p.AgeInfo();   // Value=56, Local=56
-</pre></p>
+<pre class="code-block language-csharp"><code>p.Age = <span <span class="kw">class</span>="num">28</span>;
+info = p.AgeInfo();   <span class="com">// Value=28, Local=28</span>
+p.SuperOld = <span class="kw">true</span>;
+info = p.AgeInfo();   <span class="com">// Value=999, Local=28</span>
+p.Age = <span <span class="kw">class</span>="num">56</span>;
+info = p.AgeInfo();   <span class="com">// Value=999, Local=56</span>
+p.SuperOld = <span class="kw">false</span>;
+info = p.AgeInfo();   <span class="com">// Value=56, Local=56</span></code></pre>
 
 <div class="wpadvert">
 

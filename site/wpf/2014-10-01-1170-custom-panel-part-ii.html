@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -48,67 +60,29 @@
 <ul>
 <li>In the Measure phase, we tell each element how big it should be, dividing the vertical space by the # child elements</li>
 <li>In the Arrange phase, we position the elements</li>
-</ul>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class MyPanel : Panel
-
+</ul><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> MyPanel : Panel
+{
+    <span class="kw">protected</span> <span class="kw">override</span> Size MeasureOverride(Size availableSize)
     {
-
-        protected override Size MeasureOverride(Size availableSize)
-
-        {
-
-            Size childSize = new Size(availableSize.Width, availableSize.Height / InternalChildren.Count);
-
-
-
-            foreach (UIElement elem in InternalChildren)
-
-                elem.Measure(childSize);
-
-
-
-            return availableSize;
-
-        }
-
-
-
-        protected override Size ArrangeOverride(Size finalSize)
-
-        {
-
-            double childHeight = finalSize.Height / InternalChildren.Count;
-
-            Size childSize = new Size(finalSize.Width, childHeight);
-
-
-
-            double top = 0.0;
-
-            for (int i = 0; i &lt; InternalChildren.Count; i++)
-
-            {
-
-                Rect r = new Rect(new Point(0.0, top), childSize);
-
-                InternalChildren[i].Arrange(r);
-
-                top += childHeight;
-
-            }
-
-
-
-            return finalSize;
-
-        }
-
+        Size childSize = <span class="kw">new</span> Size(availableSize.Width, availableSize.Height / InternalChildren.Count);
+        <span class="kw">foreach</span> (UIElement elem <span class="kw">in</span> InternalChildren)
+            elem.Measure(childSize);
+        <span class="kw">return</span> availableSize;
     }
-
-</pre>
-<p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1170-001.png"><img class="alignnone size-full wp-image-9374" src="data:image/png;base64,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" alt="1170-001"   /></a></p>
+    <span class="kw">protected</span> <span class="kw">override</span> Size ArrangeOverride(Size finalSize)
+    {
+        <span class="kw">double</span> childHeight = finalSize.Height / InternalChildren.Count;
+        Size childSize = <span class="kw">new</span> Size(finalSize.Width, childHeight);
+        <span class="kw">double</span> top = <span <span class="kw">class</span>="num">0.0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>; i &lt; InternalChildren.Count; i++)
+        {
+            Rect r = <span class="kw">new</span> Rect(<span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, top), childSize);
+            InternalChildren[i].Arrange(r);
+            top += childHeight;
+        }
+        <span class="kw">return</span> finalSize;
+    }
+}</code></pre><p><a href="https://2000thingswpf.files.wordpress.com/2014/10/1170-001.png"><img class="alignnone size-full wp-image-9374" src="data:image/png;base64,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" alt="1170-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

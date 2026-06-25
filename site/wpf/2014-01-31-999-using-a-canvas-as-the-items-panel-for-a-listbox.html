@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,262 +57,115 @@
 
 					<p>You can replace the default <strong>StackPanel</strong> used as the items panel for a <strong>ListBox</strong> with any other panel element.  If you have items that you want to display at arbitrary locations, you can use a <strong>Canvas</strong> for your items panel.</p>
 <p>The example below presents a list of cities, where each city is placed at its proper latitude and longitude.</p>
-<p>Assuming that we have a <strong>City</strong> class that accepts a name and latitude/longitude values passed to its constructor, we can create a list of cities:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+<p>Assuming that we have a <strong>City</strong> class that accepts a name and latitude/longitude values passed to its constructor, we can create a list of cities:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
     {
-
-        public MainWindow()
-
+        InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        CityList = <span class="kw">new</span> ObservableCollection&lt;City&gt;
         {
-
-            InitializeComponent();
-
-            this.DataContext = this;
-
-
-
-            CityList = new ObservableCollection&lt;City&gt;
-
-            {
-
-                new City(&quot;Duluth&quot;, 46.83, 92.18),
-
-                new City(&quot;Redmond&quot;, 44.27, 121.15),
-
-                new City(&quot;Tucson&quot;, 32.12, 110.93),
-
-                new City(&quot;Denver&quot;, 39.75, 104.87),
-
-                new City(&quot;Boston&quot;, 42.37, 71.03),
-
-                new City(&quot;Tampa&quot;, 27.97, 82.53)
-
-            };
-
-        }
-
-
-
-        private ObservableCollection&lt;City&gt; cityList;
-
-        public ObservableCollection&lt;City&gt; CityList
-
-        {
-
-            get { return cityList; }
-
-            set
-
-            {
-
-                cityList = value;
-
-                RaisePropertyChanged(&quot;CityList&quot;);
-
-            }
-
-        }
-
-
-
-        // INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-
-
-        private void RaisePropertyChanged(string propName)
-
-        {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-
-        }
-
+            <span class="kw">new</span> City(<span class="str">"Duluth"</span>, <span <span class="kw">class</span>="num">46.83</span>, <span <span class="kw">class</span>="num">92.18</span>),
+            <span class="kw">new</span> City(<span class="str">"Redmond"</span>, <span <span class="kw">class</span>="num">44.27</span>, <span <span class="kw">class</span>="num">121.15</span>),
+            <span class="kw">new</span> City(<span class="str">"Tucson"</span>, <span <span class="kw">class</span>="num">32.12</span>, <span <span class="kw">class</span>="num">110.93</span>),
+            <span class="kw">new</span> City(<span class="str">"Denver"</span>, <span <span class="kw">class</span>="num">39.75</span>, <span <span class="kw">class</span>="num">104.87</span>),
+            <span class="kw">new</span> City(<span class="str">"Boston"</span>, <span <span class="kw">class</span>="num">42.37</span>, <span <span class="kw">class</span>="num">71.03</span>),
+            <span class="kw">new</span> City(<span class="str">"Tampa"</span>, <span <span class="kw">class</span>="num">27.97</span>, <span <span class="kw">class</span>="num">82.53</span>)
+        };
     }
-
-</pre>
-<p>We then bind a <strong>ListBox</strong> to this list of cities.  We also:</p>
+    <span class="kw">private</span> ObservableCollection&lt;City&gt; cityList;
+    <span class="kw">public</span> ObservableCollection&lt;City&gt; CityList
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> cityList; }
+        <span class="kw">set</span>
+        {
+            cityList = <span class="kw">value</span>;
+            RaisePropertyChanged(<span class="str">"CityList"</span>);
+        }
+    }
+    <span class="com">// INotifyPropertyChanged</span>
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+    }
+}</code></pre><p>We then bind a <strong>ListBox</strong> to this list of cities.  We also:</p>
 <ul>
 <li>Use its <strong>ItemContainerStyle</strong> to map latitude and longitude values to the attached <strong>Top </strong>and <strong>Left</strong> properties of the <strong>Canvas</strong> element</li>
 <li>Use value converters to convert latitude and longitude values to canvas positions</li>
 <li>Specify the <strong>Canvas</strong> as the <strong>ItemsPanel</strong></li>
-</ul>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
-
-        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
-
-        Title=&quot;MainWindow&quot;
-
-        Width=&quot;470&quot; Height=&quot;310&quot;&gt;
-
-
-
-    &lt;Window.Resources&gt;
-
-        &lt;ResourceDictionary&gt;
-
-            &lt;local:LatValueConverter x:Key=&quot;latValueConverter&quot; /&gt;
-
-            &lt;local:LongValueConverter x:Key=&quot;longValueConverter&quot; /&gt;
-
-            &lt;sys:Double x:Key=&quot;mapWidth&quot;&gt;440&lt;/sys:Double&gt;
-
-            &lt;sys:Double x:Key=&quot;mapHeight&quot;&gt;240&lt;/sys:Double&gt;
-
-        &lt;/ResourceDictionary&gt;
-
-    &lt;/Window.Resources&gt;
-
-
-
-    &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;5&quot; &gt;
-
-        &lt;ListBox ItemsSource=&quot;{Binding CityList}&quot;
-
-                 DisplayMemberPath=&quot;Name&quot;&gt;
-
-            &lt;ListBox.ItemContainerStyle&gt;
-
-                &lt;Style TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
-
-                    &lt;Setter Property=&quot;Canvas.Left&quot;
-
-                            Value=&quot;{Binding Longitude, Converter={StaticResource longValueConverter},
-
-                                            ConverterParameter={StaticResource mapWidth}}&quot;/&gt;
-
-                    &lt;Setter Property=&quot;Canvas.Top&quot;
-
-                            Value=&quot;{Binding Latitude, Converter={StaticResource latValueConverter},
-
-                                            ConverterParameter={StaticResource mapHeight}}&quot;/&gt;
-
-                &lt;/Style&gt;
-
-            &lt;/ListBox.ItemContainerStyle&gt;
-
-            &lt;ListBox.ItemsPanel&gt;
-
-                &lt;ItemsPanelTemplate&gt;
-
-                    &lt;Canvas IsItemsHost=&quot;True&quot;
-
-                            Width=&quot;{StaticResource mapWidth}&quot;
-
-                            Height=&quot;{StaticResource mapHeight}&quot;/&gt;
-
-                &lt;/ItemsPanelTemplate&gt;
-
-            &lt;/ListBox.ItemsPanel&gt;
-
-        &lt;/ListBox&gt;
-
-    &lt;/StackPanel&gt;
-
-&lt;/Window&gt;
-
-</pre>
-<p>Here is the implementation of the value converters:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public static class Constants
-
+</ul><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WpfApplication1"
+        Title="MainWindow"
+        Width="470" Height="310"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ResourceDictionary</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">local:LatValueConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"latValueConverter"</span> <span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">local:LongValueConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"longValueConverter"</span> <span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">sys:Double</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"mapWidth"</span><span class="xml-tag">&gt;</span>440<span class="xml-tag">&lt;/</span><span class="xml-name">sys:Double</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">sys:Double</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"mapHeight"</span><span class="xml-tag">&gt;</span>240<span class="xml-tag">&lt;/</span><span class="xml-name">sys:Double</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ResourceDictionary</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Orientation</span>=<span class="xml-val">"Horizontal"</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-tag">&gt;</span>
+        &lt;ListBox ItemsSource="{Binding CityList}"
+                 DisplayMemberPath="Name"&gt;
+            <span class="xml-tag">&lt;</span><span class="xml-name">ListBox.ItemContainerStyle</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ListBoxItem}"</span><span class="xml-tag">&gt;</span>
+                    &lt;Setter Property="Canvas.Left"
+                            Value="{Binding Longitude, Converter={StaticResource longValueConverter},
+                                            ConverterParameter={StaticResource mapWidth}}"/&gt;
+                    &lt;Setter Property="Canvas.Top"
+                            Value="{Binding Latitude, Converter={StaticResource latValueConverter},
+                                            ConverterParameter={StaticResource mapHeight}}"/&gt;
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox.ItemContainerStyle</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ListBox.ItemsPanel</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">ItemsPanelTemplate</span><span class="xml-tag">&gt;</span>
+                    &lt;Canvas IsItemsHost="True"
+                            Width="{StaticResource mapWidth}"
+                            Height="{StaticResource mapHeight}"/&gt;
+                <span class="xml-tag">&lt;/</span><span class="xml-name">ItemsPanelTemplate</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox.ItemsPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>Here is the implementation of the value converters:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> Constants
+{
+    <span class="kw">public</span> <span class="kw">const</span> <span class="kw">double</span> LatTop = <span <span class="kw">class</span>="num">50.0</span>;
+    <span class="kw">public</span> <span class="kw">const</span> <span class="kw">double</span> LatBottom = <span <span class="kw">class</span>="num">24.0</span>;
+    <span class="kw">public</span> <span class="kw">const</span> <span class="kw">double</span> LongLeft = <span <span class="kw">class</span>="num">125.0</span>;
+    <span class="kw">public</span> <span class="kw">const</span> <span class="kw">double</span> LongRight = <span <span class="kw">class</span>="num">66.0</span>;
+}
+<span class="kw">public</span> <span class="kw">class</span> LatValueConverter : IValueConverter
+{
+    <span class="kw">public</span> <span class="kw">object</span> Convert(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
     {
-
-        public const double LatTop = 50.0;
-
-        public const double LatBottom = 24.0;
-
-
-
-        public const double LongLeft = 125.0;
-
-        public const double LongRight = 66.0;
-
+        <span class="kw">double</span> latitude = (<span class="kw">double</span>)<span class="kw">value</span>;
+        <span class="kw">double</span> height = (<span class="kw">double</span>)parameter;
+        <span class="kw">int</span> top = (<span class="kw">int</span>)((Constants.LatTop - latitude) / (Constants.LatTop - Constants.LatBottom) * height);
+        <span class="kw">return</span> top;
     }
-
-
-
-    public class LatValueConverter : IValueConverter
-
+    <span class="kw">public</span> <span class="kw">object</span> ConvertBack(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
     {
-
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            double latitude = (double)value;
-
-            double height = (double)parameter;
-
-
-
-            int top = (int)((Constants.LatTop - latitude) / (Constants.LatTop - Constants.LatBottom) * height);
-
-            return top;
-
-        }
-
-
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            throw new NotImplementedException();
-
-        }
-
+        <span class="kw">throw</span> <span class="kw">new</span> NotImplementedException();
     }
-
-
-
-    public class LongValueConverter : IValueConverter
-
+}
+<span class="kw">public</span> <span class="kw">class</span> LongValueConverter : IValueConverter
+{
+    <span class="kw">public</span> <span class="kw">object</span> Convert(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
     {
-
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            double longitude = (double)value;
-
-            double width = (double)parameter;
-
-
-
-            int left = (int)((Constants.LongLeft - longitude) / (Constants.LongLeft - Constants.LongRight) * width);
-
-            return left;
-
-        }
-
-
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            throw new NotImplementedException();
-
-        }
-
+        <span class="kw">double</span> longitude = (<span class="kw">double</span>)<span class="kw">value</span>;
+        <span class="kw">double</span> width = (<span class="kw">double</span>)parameter;
+        <span class="kw">int</span> left = (<span class="kw">int</span>)((Constants.LongLeft - longitude) / (Constants.LongLeft - Constants.LongRight) * width);
+        <span class="kw">return</span> left;
     }
-
-</pre>
-<p>The end result is that the city names are displayed at their proper locations on the canvas.  Note that because the cities are displayed in a <strong>ListBox</strong>, we can still select one of them.</p>
+    <span class="kw">public</span> <span class="kw">object</span> ConvertBack(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
+    {
+        <span class="kw">throw</span> <span class="kw">new</span> NotImplementedException();
+    }
+}</code></pre><p>The end result is that the city names are displayed at their proper locations on the canvas.  Note that because the cities are displayed in a <strong>ListBox</strong>, we can still select one of them.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2014/01/999-0011.png"><img class="alignnone size-full wp-image-8208" alt="999-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

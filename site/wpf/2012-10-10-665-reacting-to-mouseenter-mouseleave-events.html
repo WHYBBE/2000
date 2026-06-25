@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,39 +57,19 @@
 
 					<p>If there&#8217;s some action that you want to take when a user hovers over a control, you can add handlers for the <strong>MouseEnter</strong> and <strong>MouseLeave</strong> events.</p>
 <p>For example, let&#8217;s say that you want to change a <strong>Button&#8217;s</strong> text when the user hovers over the button.  You could define handlers for the <strong>MouseEnter</strong> and <strong>MouseLeave</strong> events in XAML:</p>
-<p><pre class="brush: xml;">
-
-    &lt;StackPanel Margin=&quot;20&quot; &gt;
-
-        &lt;Button Content=&quot;Click Me&quot; HorizontalAlignment=&quot;Center&quot; Padding=&quot;10,5&quot;
-
-                MouseEnter=&quot;Button_MouseEnter_1&quot; MouseLeave=&quot;Button_MouseLeave_1&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"20"</span> <span class="xml-tag">&gt;</span>
+    &lt;Button Content="Click Me" HorizontalAlignment="Center" Padding="10,5"
+            MouseEnter="Button_MouseEnter_1" MouseLeave="Button_MouseLeave_1"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre>
 <p>Then, in your handlers, you could set (or restore) the <strong>Button&#8217;s</strong> <strong>Content</strong> property.</p>
-<p><pre class="brush: csharp;">
-
-        private void Button_MouseEnter_1(object sender, MouseEventArgs e)
-
-        {
-
-            ((Button)sender).Content = &quot;CLICK Me&quot;;
-
-        }
-
-
-
-        private void Button_MouseLeave_1(object sender, MouseEventArgs e)
-
-        {
-
-            ((Button)sender).Content = &quot;Click Me&quot;;
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_MouseEnter_1(<span class="kw">object</span> sender, MouseEventArgs e)
+{
+    ((Button)sender).Content = <span class="str">"CLICK Me"</span>;
+}
+<span class="kw">private</span> <span class="kw">void</span> Button_MouseLeave_1(<span class="kw">object</span> sender, MouseEventArgs e)
+{
+    ((Button)sender).Content = <span class="str">"Click Me"</span>;
+}</code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/10/665-001.png"><img class="alignnone size-full wp-image-5751" title="665-001" src="data:image/png;base64,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" alt=""   /></a><br />
 <a href="http://2000thingswpf.files.wordpress.com/2012/10/665-002.png"><img class="alignnone size-full wp-image-5752" title="665-002" src="data:image/png;base64,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" alt=""   /></a><br />
 We&#8217;ll see next time that there&#8217;s a much easier way to do this, using a trigger.</pre>

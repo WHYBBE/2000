@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,72 +56,28 @@
 					</div>
 
 					<p>There are a couple of different ways that an object can behave <a href="2011-06-15-346-polymorphism.html">polymorphically</a>.  Here are two examples.</p>
-<p>Polymorphic behavior #1 &#8211; access instance of subclass using reference to base class.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>Polymorphic behavior #1 &#8211; access instance of subclass using reference to base class.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">virtual</span> <span class="kw">void</span> Bark()
     {
-
-        public virtual void Bark()
-
-        {
-
-            Console.WriteLine(&quot;Dog: Woof&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"Dog: Woof"</span>);
     }
-
-
-
-    public class Terrier : Dog
-
+}
+<span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">void</span> Bark()
     {
-
-        public override void Bark()
-
-        {
-
-            Console.WriteLine(&quot;Terrier: Yip yip&quot;);
-
-        }
-
+        Console.WriteLine(<span class="str">"Terrier: Yip yip"</span>);
     }
-
-</pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            // Terrier method called through Dog reference
-
-            Dog d = new Terrier();
-
-            d.Bark();
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/683-001.png"><img class="alignnone size-full wp-image-5849" title="683-001" src="data:image/png;base64,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" alt=""   /></a></p>
-<p>Polymorphic behavior #2 &#8211; Base class calls method that is overridden in derived class</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        // Dog.GuardUs
-
-        public void GuardUs()
-
-        {
-
-            Bark();
-
-        }
-
-</pre>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Terrier t = new Terrier();
-
-            t.GuardUs();
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/683-0012.png"><img class="alignnone size-full wp-image-5853" title="683-001" src="data:image/png;base64,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" alt=""   /></a></p>
+}</code></pre><pre class="code-block language-csharp"><code><span class="com">// Terrier method called through Dog reference</span>
+Dog d = <span class="kw">new</span> Terrier();
+d.Bark();</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/683-001.png"><img class="alignnone size-full wp-image-5849" title="683-001" src="data:image/png;base64,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" alt=""   /></a></p>
+<p>Polymorphic behavior #2 &#8211; Base class calls method that is overridden in derived class</p><pre class="code-block language-csharp"><code><span class="com">// Dog.GuardUs</span>
+<span class="kw">public</span> <span class="kw">void</span> GuardUs()
+{
+    Bark();
+}</code></pre><pre class="code-block language-csharp"><code>Terrier t = <span class="kw">new</span> Terrier();
+t.GuardUs();</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2012/10/683-0012.png"><img class="alignnone size-full wp-image-5853" title="683-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAABSCAMAAADKDg6fAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAblQTFRFAAAAKCgoKCg3KChBKEJIKFNBKFNOVCgoVCg3cSgocihBcVMoU2BTVGBTckJIcWpaW6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5h0Ioh0I3mFQoqGA3h2BBj2FFh3Nan2xNl39ap3RIp39Op39aqXNRqXNSrnZUu2pBu3RIu39OtHtXu39Uun5Zu39anoJxpoFrpoJsiJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbeho56epJ+dpqqurK6yuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvr7Bvb/Cp8u+rdO3sdeyosLDv8DCvcDDv8LFwMDAwcDCysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////uqn6YwAAAAlwSFlzAAAOwwAADsMBx2+oZAAABBtJREFUaN7tlwlX00AQgFuoxWo13vd9nyWRihZMS433fSOKt1ZtVaCgWBVRQVCooP5id2azyTbdpKUKj/h23iMks7Oz387MzkLgtw8lIKEldGXoX36SgIn8k8ikXwShCfJEcXx0xC9CoSeLw4OFvl6/iBnpYpOfJIDME8NNho+EQhcHfQg9XvAh9Gif/6AnR3oltIT+n6FPHOPl+FFfQF/LPkfJZrO3OjquHvEF9J3iN1uKnS2mWg3WHQhGDa2+2eGDatRQwjDSsTA8gsEgfNFpoUMNisEMPCQViRo6mVkX97JSQ4cjIuinr06eOnP23MtCPl9ob2fQelDhEDlBUFzSMJKETwfgdGPcQklWB63XxTVYQ1O8d5YSQj/q2rl39559uX6AvmlBmxEog07OhQEd1VookYqES1Dqm6uEVsPpWAUTdCeGvtG1f9fWzVtyb/M9hYf3TGgVUg6JRmj4UkhcoyV1geHWWHoxNaDnoCH9ZI6Gv9KxOZGgkorQWiJW6RgLCDVAc6LSSV3SqgF3btCrl61YuynX35Mv3H/ARzppQqvkh8AhtF0X1EZlCyM06G1orJ4FuC8ySmpfoRgLEzSDyQa6Y9PAUBUDEqcTcpoFcOAGvXzlmvU7SKTzhe5uATRSUFhWNtZhdKSYojBoaoszCSyaMjcsVRBZZmCwaVjqMFfDUTH0qo0bti/Bmh4bE0BD1mj+sBRxySguCZHjoVFvQ5PYhuEbp4cplhbE/dKTYWCwmYFZlHSv8EB3btDrti1avDT3mkAPfRBBc13Jrgsz3CrfslDPH0TCo5jfLJZ0J9YxTUVYj4TXhJUgeOCLGPr2i9MXz1+49IxAvxl8JyyPqGuTJjZhvqsmDIP2E1YH0GjDPDS6ZqOgtQxocDlo050I+vqPgYGBL58/fv0+9On9ewF0OkbeU/MA3q4LK8MaBI70aR06g0I1Cs0AOYRAqsIBbIwjNBxCSB7sHZu7TsrONIDg6Fx5UHdi6CudVB4/uUuel1vLuwfeeVFoeY4mbbYNLEgCrZudRKOtC0fASEUDCh3BbmaeDHZUVKuk6+fb0NSdGLqttYWT1jbvWzVReieW35XVCCtzT7Hc/eWfps4mXQOK+Jr13Jn8J0BCS2gJLaF9Bn3QB1IOHfCBlEFnUDznVBi2jUzDSvZV+fOGBh9+g67Bh7V2Rgw9/eXBxQdf4EkB6G+md467Qlt2LgZu47VAc4tSb7ZXpg54rmYfDYfDslSIx2uDdgu1HUBHqN1KdSahHWvbDq1IO9kyswG6hE4A7aSfErRdP/8AuvygZRxLZDIlB8hlJX4is88ICshjfAqRniYpJyrVTKE/zhi0M46VvmdHpKf3cpHQElpCS2gJLaEltISW0BJaQktoCS2hJbSEltASWkLPPvkDdih4xKiPm/sAAAAASUVORK5CYII=" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

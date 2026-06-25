@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,42 +57,39 @@
 
 					<p>You can use the <strong>Keyboard.FocusedElement </strong>static property (in <strong>System.Windows.Input</strong> namespace) to determine which control currently has focus.</p>
 <p>Here&#8217;s an example:</p>
-<p><pre class="brush: csharp;">
-        private void DumpFocus()
-        {
-            IInputElement elem = Keyboard.FocusedElement;
-
-            if (elem == null)
-                Debug.WriteLine(&quot;Nobody has focus&quot;);
-            else
-            {
-                FrameworkElement felem = elem as FrameworkElement;
-                if (felem != null)
-                {
-                    string identifier = ((felem.Name != null) &amp;&amp; (felem.Name.Length &gt; 0)) ?
-                        felem.Name :
-                        felem.GetType().ToString();
-                    Debug.WriteLine(string.Format(&quot;FrameworkElement - {0}&quot;, identifier));
-                }
-                else
-                {
-                    // Maybe a FrameworkContentElement has focus
-                    FrameworkContentElement fcelem = elem as FrameworkContentElement;
-                    if (fcelem != null)
-                    {
-                        string identifier = ((fcelem.Name != null) &amp;&amp; (fcelem.Name.Length &gt; 0)) ?
-                            fcelem.Name :
-                            fcelem.GetType().ToString();
-                        Debug.WriteLine(string.Format(&quot;FrameworkContentElement - {0}&quot;, identifier));
-                    }
-                    else
-                    {
-                        Debug.WriteLine(string.Format(&quot;Element of type {0} has focus&quot;, elem.GetType().ToString()));
-                    }
-                }
-            }
-        }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> DumpFocus()
+{
+    IInputElement elem = Keyboard.FocusedElement;
+    <span class="kw">if</span> (elem == <span class="kw">null</span>)
+        Debug.WriteLine(<span class="str">"Nobody has focus"</span>);
+    <span class="kw">else</span>
+    {
+        FrameworkElement felem = elem <span class="kw">as</span> FrameworkElement;
+        <span class="kw">if</span> (felem != <span class="kw">null</span>)
+        {
+            <span class="kw">string</span> identifier = ((felem.Name != <span class="kw">null</span>) &amp;&amp; (felem.Name.Length &gt; <span <span class="kw">class</span>="num">0</span>)) ?
+                felem.Name :
+                felem.GetType().ToString();
+            Debug.WriteLine(<span class="kw">string</span>.Format(<span class="str">"FrameworkElement - {0}"</span>, identifier));
+        }
+        <span class="kw">else</span>
+        {
+            <span class="com">// Maybe a FrameworkContentElement has focus</span>
+            FrameworkContentElement fcelem = elem <span class="kw">as</span> FrameworkContentElement;
+            <span class="kw">if</span> (fcelem != <span class="kw">null</span>)
+            {
+                <span class="kw">string</span> identifier = ((fcelem.Name != <span class="kw">null</span>) &amp;&amp; (fcelem.Name.Length &gt; <span <span class="kw">class</span>="num">0</span>)) ?
+                    fcelem.Name :
+                    fcelem.GetType().ToString();
+                Debug.WriteLine(<span class="kw">string</span>.Format(<span class="str">"FrameworkContentElement - {0}"</span>, identifier));
+            }
+            <span class="kw">else</span>
+            {
+                Debug.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Element of type {0} has focus"</span>, elem.GetType().ToString()));
+            }
+        }
+    }
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-2548" class="wpl-button "><a href='2011-05-26-308-checking-to-see-which-control-has-keyboard-focus.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>
   <p class="meta">Categories: Controls | Tags: Controls, Focus, Keyboard.FocusedElement, WPF</p>
   <nav class="pager"><a href="2011-05-25-307-giving-focus-to-a-control-when-an-application-starts.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2011-05-27-309-keyboard-focus-vs-logical-focus.html">Next</a></nav>

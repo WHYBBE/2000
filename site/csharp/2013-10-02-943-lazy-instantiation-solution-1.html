@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,25 @@
 					</div>
 
 					<p>There are cases when we have a large amount of data to allocate in a class, either in an instance of the class or as static data.  We want to allocate and initialize the data as late as possible, i.e. just before we need to use the data.  This is know as <a href="2013-10-01-942-the-case-for-lazy-instantiation.html"><em>lazy instantiation</em></a>.</p>
-<p>One method for lazy instantiation is to check to see if the data is instantiated, wherever we try to use it.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private static List&lt;Dog&gt; listOfAllFamousDogs = null;
-
-        private static List&lt;Dog&gt; GenerateBigListOfFamousDogs()
-        {
-            Console.WriteLine(&quot;Loading big list of famous dogs!&quot;);
-            List&lt;Dog&gt; bigList = new List&lt;Dog&gt;();
-            bigList.Add(new Dog(&quot;Lassie&quot;));
-            bigList.Add(new Dog(&quot;Rin Tin Tin&quot;));
-            // load 1,000 more dogs here
-
-            return bigList;
-        }
-
-        public bool IsFamous
-        {
-            get
-            {
-                if (listOfAllFamousDogs == null)
-                    listOfAllFamousDogs = GenerateBigListOfFamousDogs();
-
-                return listOfAllFamousDogs.Contains(this);
-            }
-        }
-</pre>
-<p>We get lazy instantiation here&#8211;the list isn&#8217;t initialized until we use the <strong>IsFamous </strong>property.  This solution, however, is not thread-safe.</p>
+<p>One method for lazy instantiation is to check to see if the data is instantiated, wherever we try to use it.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">static</span> List&lt;Dog&gt; listOfAllFamousDogs = <span class="kw">null</span>;
+<span class="kw">private</span> <span class="kw">static</span> List&lt;Dog&gt; GenerateBigListOfFamousDogs()
+{
+    Console.WriteLine(<span class="str">"Loading big list of famous dogs!"</span>);
+    List&lt;Dog&gt; bigList = <span class="kw">new</span> List&lt;Dog&gt;();
+    bigList.Add(<span class="kw">new</span> Dog(<span class="str">"Lassie"</span>));
+    bigList.Add(<span class="kw">new</span> Dog(<span class="str">"Rin Tin Tin"</span>));
+    <span class="com">// load 1,000 more dogs here</span>
+    <span class="kw">return</span> bigList;
+}
+<span class="kw">public</span> <span class="kw">bool</span> IsFamous
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">if</span> (listOfAllFamousDogs == <span class="kw">null</span>)
+            listOfAllFamousDogs = GenerateBigListOfFamousDogs();
+        <span class="kw">return</span> listOfAllFamousDogs.Contains(<span class="kw">this</span>);
+    }
+}</code></pre><p>We get lazy instantiation here&#8211;the list isn&#8217;t initialized until we use the <strong>IsFamous </strong>property.  This solution, however, is not thread-safe.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

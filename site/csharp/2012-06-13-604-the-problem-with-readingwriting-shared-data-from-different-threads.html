@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,75 +56,32 @@
 					</div>
 
 					<p>Reading shared data from a thread different to the one where you wrote the data, you may see unexpected results.  Consider the following:</p>
-<p><pre class="brush: csharp;">
-
-    public class Program
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Program
+{
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">bool</span> runFlag = <span class="kw">true</span>;
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> RunUntilYouStopMe()
     {
-
-        public static bool runFlag = true;
-
-
-
-        private static void RunUntilYouStopMe()
-
+        <span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>;
+        <span class="kw">while</span> (runFlag)
         {
-
-            int i = 0;
-
-
-
-            while (runFlag)
-
-            {
-
-                i++;
-
-            }
-
-
-
-            Console.WriteLine(&quot;I'm stopping&quot;);
-
+            i++;
         }
-
-
-
-        static void Main()
-
-        {
-
-            Thread runThread = new Thread(new ThreadStart(RunUntilYouStopMe));
-
-            runThread.Start();
-
-
-
-            Thread.Sleep(1000);
-
-
-
-            runFlag = false;
-
-            Console.WriteLine(&quot;Main() has set runFlag to false&quot;);
-
-
-
-            while (true)
-
-            {
-
-                Console.ReadLine();
-
-                Console.WriteLine(&quot;.. runThread.IsAlive={0}&quot;, runThread.IsAlive);
-
-            }
-
-        }
-
+        Console.WriteLine(<span class="str">"I'm stopping"</span>);
     }
-
-</pre></p>
+    <span class="kw">static</span> <span class="kw">void</span> Main()
+    {
+        Thread runThread = <span class="kw">new</span> Thread(<span class="kw">new</span> ThreadStart(RunUntilYouStopMe));
+        runThread.Start();
+        Thread.Sleep(<span <span class="kw">class</span>="num">1000</span>);
+        runFlag = <span class="kw">false</span>;
+        Console.WriteLine(<span class="str">"Main() has set runFlag to false"</span>);
+        <span class="kw">while</span> (<span class="kw">true</span>)
+        {
+            Console.ReadLine();
+            Console.WriteLine(<span class="str">".. runThread.IsAlive={0}"</span>, runThread.IsAlive);
+        }
+    }
+}</code></pre>
 <p>The background thread should run until the <strong>runFlag</strong> variable gets set to <strong>false.  </strong>We start the background thread and then set the flag to <strong>false </strong>on the main thread.  But running this code in Release|x86<strong> </strong>mode, it turns out that the loop never exits, even though we set <strong>runFlag</strong> to <strong>false</strong>.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/06/604-001.png"><img class="alignnone size-full wp-image-5126" title="604-001" src="data:image/png;base64,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" alt=""   /></a></p>
 <p>This is caused by a compiler optimization related to our <strong>runFlag</strong> variable.</p>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,145 +56,62 @@
 					</div>
 
 					<p>The <strong>ConvertBack </strong>method of a value converter is used to convert from a binding target (e.g. the attribute of a control) to a binding source (e.g. a property).  Below is a simple example, showing how we can convert from a <strong>Slider</strong> value to the square root of the selected value.</p>
-<p>In XAML, we have a <strong>Slider</strong> that ranges from 1-100 and binds to a property that is meant to store the square root of the selected value.  We specify a binding <strong>Mode</strong> to indicate that binding should only map from the target (the <strong>Value</strong> property) to the source (the <strong>SqRootValue</strong> property) and not in the other direction.  We then include labels that bind to the <b>Slider&#8217;s Value</b> property as well as the <strong>SqRootValue</strong> property.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Window x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
-
-        xmlns:local=&quot;clr-namespace:WpfApplication1&quot;
-
-        Title=&quot;Value Converter&quot; SizeToContent=&quot;WidthAndHeight&quot;&gt;
-
-
-
-    &lt;Window.Resources&gt;
-
-        &lt;local:IntToRootConverter x:Key=&quot;intToRootConverter&quot;/&gt;
-
-    &lt;/Window.Resources&gt;
-
-
-
-    &lt;StackPanel Margin=&quot;15&quot;&gt;
-
-        &lt;Slider x:Name=&quot;slider&quot; Minimum=&quot;1&quot; Maximum=&quot;100&quot;
-
-                IsSnapToTickEnabled=&quot;True&quot;
-
-                Value=&quot;{Binding Path=SqRootValue,
-
+<p>In XAML, we have a <strong>Slider</strong> that ranges from 1-100 and binds to a property that is meant to store the square root of the selected value.  We specify a binding <strong>Mode</strong> to indicate that binding should only map from the target (the <strong>Value</strong> property) to the source (the <strong>SqRootValue</strong> property) and not in the other direction.  We then include labels that bind to the <b>Slider&#8217;s Value</b> property as well as the <strong>SqRootValue</strong> property.</p><pre class="code-block language-xml"><code>&lt;Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WpfApplication1"
+        Title="Value Converter" SizeToContent="WidthAndHeight"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">local:IntToRootConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"intToRootConverter"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"15"</span><span class="xml-tag">&gt;</span>
+        &lt;Slider x:Name="slider" Minimum="1" Maximum="100"
+                IsSnapToTickEnabled="True"
+                Value="{Binding Path=SqRootValue,
                                 Converter={StaticResource intToRootConverter},
-
-                                Mode=OneWayToSource}&quot;/&gt;
-
-        &lt;Label Content=&quot;{Binding ElementName=slider, Path=Value}&quot;/&gt;
-
-        &lt;Label Content=&quot;{Binding SqRootValue}&quot;/&gt;
-
-    &lt;/StackPanel&gt;
-
-&lt;/Window&gt;</pre>
-<p>The code-behind is straightforward.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+                                Mode=OneWayToSource}"/&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding ElementName=slider, Path=Value}"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding SqRootValue}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre><p>The code-behind is straightforward.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
     {
-
-        public MainWindow()
-
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        InitializeComponent();
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+    <span class="kw">protected</span> <span class="kw">virtual</span> <span class="kw">void</span> OnPropertyChanged(<span class="kw">string</span> prop)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+    <span class="kw">private</span> <span class="kw">double</span> sqRootValue;
+    <span class="kw">public</span> <span class="kw">double</span> SqRootValue
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> sqRootValue; }
+        <span class="kw">set</span>
         {
-
-            this.DataContext = this;
-
-            InitializeComponent();
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-
-
-        protected virtual void OnPropertyChanged(string prop)
-
-        {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-        }
-
-
-
-        private double sqRootValue;
-
-        public double SqRootValue
-
-        {
-
-            get { return sqRootValue; }
-
-            set
-
+            <span class="kw">if</span> (sqRootValue != <span class="kw">value</span>)
             {
-
-                if (sqRootValue != value)
-
-                {
-
-                    sqRootValue = value;
-
-                    OnPropertyChanged(&quot;SqRootValue&quot;);
-
-                }
-
+                sqRootValue = <span class="kw">value</span>;
+                OnPropertyChanged(<span class="str">"SqRootValue"</span>);
             }
-
         }
-
     }
-
-</pre>
-<p>In the value converter, we just take the square root of the current value, calculating the result in <strong>ConvertBack</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class IntToRootConverter : IValueConverter
-
+}</code></pre><p>In the value converter, we just take the square root of the current value, calculating the result in <strong>ConvertBack</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> IntToRootConverter : IValueConverter
+{
+    <span class="kw">public</span> <span class="kw">object</span> Convert(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
     {
-
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            throw new NotImplementedException();
-
-        }
-
-
-
-        // Convert from int (target of binding) to double representing square root (source of binding)
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-
-        {
-
-            double root = Math.Sqrt((double)value);
-
-            return root;
-
-        }
-
+        <span class="kw">throw</span> <span class="kw">new</span> NotImplementedException();
     }
-
-</pre>
-<p>At run-time:</p>
+    <span class="com">// Convert from int (target of binding) to double representing square root (source of binding)</span>
+    <span class="kw">public</span> <span class="kw">object</span> ConvertBack(<span class="kw">object</span> <span class="kw">value</span>, Type targetType, <span class="kw">object</span> parameter, System.Globalization.CultureInfo culture)
+    {
+        <span class="kw">double</span> root = Math.Sqrt((<span class="kw">double</span>)<span class="kw">value</span>);
+        <span class="kw">return</span> root;
+    }
+}</code></pre><p>At run-time:</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/08/1139-001.png"><img class="alignnone size-full wp-image-9173" src="data:image/png;base64,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" alt="1139-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

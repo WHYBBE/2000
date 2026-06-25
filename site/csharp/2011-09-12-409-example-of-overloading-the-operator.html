@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,61 +55,42 @@
 																				</p>
 					</div>
 
-					<p>Here&#8217;s a full example that shows how to <a href="http://wp.me/pXTis-TH">overload the == operator</a> for a reference type.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    public class PersonHeight
-    {
-        public int Feet { get; set; }
-        public int Inches { get; set; }
-
-        // Constructor goes here
-
-        public override bool Equals(object obj)
-        {
-            return ((obj is PersonHeight) &amp;&amp; ((PersonHeight)obj == this));
-        }
-
-        public override int GetHashCode()
-        {
-            return Feet.GetHashCode() ^ Inches.GetHashCode();
-        }
-
-        public static bool operator ==(PersonHeight ph1, PersonHeight ph2)
-        {
-            if (ReferenceEquals(ph1, ph2))
-                return true;
-
-            if (((object)ph1 == null) || ((object)ph2 == null))
-                return false;
-
-            return (ph1.Feet == ph2.Feet) &amp;&amp; (ph1.Inches == ph2.Inches);
-        }
-
-        public static bool operator !=(PersonHeight ph1, PersonHeight ph2)
-        {
-            return !(ph1 == ph2);
-        }
-
-        // Also overload &lt; and &gt; operators
-    }
-</pre>
-<p>Test cases:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            PersonHeight ph1 = new PersonHeight(5, 10);
-            PersonHeight ph2 = new PersonHeight(5, 10);
-            PersonHeight ph3 = null;
-
-            bool check = ph1.Equals(null);
-            check = ph1.Equals(&quot;NO!&quot;);
-            check = ph1.Equals(ph2);
-            check = PersonHeight.Equals(ph1, ph2);
-
-            check = (ph1 == null);
-            check = (ph3 == null);
-            check = (ph1 == ph2);
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+					<p>Here&#8217;s a full example that shows how to <a href="http://wp.me/pXTis-TH">overload the == operator</a> for a reference type.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> PersonHeight
+{
+    <span class="kw">public</span> <span class="kw">int</span> Feet { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">int</span> Inches { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="com">// Constructor goes here</span>
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">bool</span> Equals(<span class="kw">object</span> obj)
+    {
+        <span class="kw">return</span> ((obj <span class="kw">is</span> PersonHeight) &amp;&amp; ((PersonHeight)obj == <span class="kw">this</span>));
+    }
+    <span class="kw">public</span> <span class="kw">override</span> <span class="kw">int</span> GetHashCode()
+    {
+        <span class="kw">return</span> Feet.GetHashCode() ^ Inches.GetHashCode();
+    }
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">bool</span> <span class="kw">operator</span> ==(PersonHeight ph1, PersonHeight ph2)
+    {
+        <span class="kw">if</span> (ReferenceEquals(ph1, ph2))
+            <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="kw">if</span> (((<span class="kw">object</span>)ph1 == <span class="kw">null</span>) || ((<span class="kw">object</span>)ph2 == <span class="kw">null</span>))
+            <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="kw">return</span> (ph1.Feet == ph2.Feet) &amp;&amp; (ph1.Inches == ph2.Inches);
+    }
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">bool</span> <span class="kw">operator</span> !=(PersonHeight ph1, PersonHeight ph2)
+    {
+        <span class="kw">return</span> !(ph1 == ph2);
+    }
+    <span class="com">// Also overload &lt; and &gt; operators</span>
+}</code></pre><p>Test cases:</p><pre class="code-block language-csharp"><code>PersonHeight ph1 = <span class="kw">new</span> PersonHeight(<span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">10</span>);
+PersonHeight ph2 = <span class="kw">new</span> PersonHeight(<span <span class="kw">class</span>="num">5</span>, <span <span class="kw">class</span>="num">10</span>);
+PersonHeight ph3 = <span class="kw">null</span>;
+<span class="kw">bool</span> check = ph1.Equals(<span class="kw">null</span>);
+check = ph1.Equals(<span class="str">"NO!"</span>);
+check = ph1.Equals(ph2);
+check = PersonHeight.Equals(ph1, ph2);
+check = (ph1 == <span class="kw">null</span>);
+check = (ph3 == <span class="kw">null</span>);
+check = (ph1 == ph2);</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

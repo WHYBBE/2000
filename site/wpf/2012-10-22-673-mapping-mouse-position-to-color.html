@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -47,403 +59,175 @@
 <p>So we want to map a mouse position against a color wheel like the following:</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/10/673-001.png"><img class="alignnone size-full wp-image-5819" title="673-001" alt="" src="data:image/png;base64,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"   /></a></p>
 <p>In WPF, we&#8217;ll just create a <strong>Canvas</strong>, with a <strong>Label</strong> that will be used to dump out the RGB values.</p>
-<p><pre class="brush: xml;">
-
-&lt;Window Name=&quot;win1&quot; x:Class=&quot;WpfApplication1.MainWindow&quot;
-
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-        Title=&quot;Color from Mouse Position&quot;
-
-        SizeToContent=&quot;WidthAndHeight&quot;
-
-        MouseMove=&quot;win1_MouseMove_1&quot;&gt;
-
-
-
-    &lt;Canvas x:Name=&quot;canv1&quot; Width=&quot;400&quot; Height=&quot;400&quot;&gt;
-
-        &lt;Label Content=&quot;{Binding RGBInfo}&quot; HorizontalAlignment=&quot;Center&quot; /&gt;
-
-    &lt;/Canvas&gt;
-
-&lt;/Window&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code>&lt;Window Name="win1" x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Color from Mouse Position"
+        SizeToContent="WidthAndHeight"
+        MouseMove="win1_MouseMove_1"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Canvas</span> <span class="xml-attr">x:Name</span>=<span class="xml-val">"canv1"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"400"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"400"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{Binding RGBInfo}"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"Center"</span> <span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window</span><span class="xml-tag">&gt;</span></code></pre>
 <p>In the code-behind, we&#8217;ll handle the <strong>MouseMove</strong> event for the window and re-calculate the color of the window&#8217;s background brush, based on the mouse position.</p>
-<p><pre class="brush: csharp;">
-
-    /// &lt;summary&gt;
-
-    ///
-
-    /// Interaction logic for MainWindow.xaml
-
-    /// &lt;/summary&gt;
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+<pre class="code-block language-csharp"><code><span class="com">/// &lt;summary&gt;</span>
+<span class="com">///</span>
+<span class="com">/// Interaction logic for MainWindow.xaml</span>
+<span class="com">/// &lt;/summary&gt;</span>
+<span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    SolidColorBrush backBrush = <span class="kw">new</span> SolidColorBrush();
+    <span class="kw">public</span> MainWindow()
     {
-
-        SolidColorBrush backBrush = new SolidColorBrush();
-
-
-
-        public MainWindow()
-
-        {
-
-            InitializeComponent();
-
-
-
-            this.DataContext = this;
-
-            win1.Background = backBrush;
-
-        }
-
-
-
-        private string rgbInfo;
-
-        public string RGBInfo
-
-        {
-
-            get { return rgbInfo; }
-
-            set
-
-            {
-
-                if (value != rgbInfo)
-
-                {
-
-                    rgbInfo = value;
-
-                    RaisePropertyChanged(&quot;RGBInfo&quot;);
-
-                }
-
-            }
-
-        }
-
-
-
-        private void win1_MouseMove_1(object sender, MouseEventArgs e)
-
-        {
-
-            double radius = (canv1.ActualWidth / 2);
-
-
-
-            Color c = ColorFromMousePosition(e.GetPosition(canv1), radius);
-
-            backBrush.Color = c;
-
-            RGBInfo = string.Format(&quot;R={0}, G={1}, B={2}&quot;, c.R, c.G, c.B);
-
-        }
-
-
-
-        Color ColorFromMousePosition(Point mousePos, double radius)
-
-        {
-
-            // Position relative to center of canvas
-
-            double xRel = mousePos.X - radius;
-
-            double yRel = mousePos.Y - radius;
-
-
-
-            // Hue is angle in deg, 0-360
-
-            double angleRadians = Math.Atan2(yRel, xRel);
-
-            double hue = angleRadians * (180 / Math.PI);
-
-            if (hue &lt; 0)
-
-                hue = 360 + hue;
-
-
-
-            // Saturation is distance from center
-
-            double saturation = Math.Min(Math.Sqrt(xRel * xRel + yRel * yRel) / radius, 1.0);
-
-
-
-            byte r, g, b;
-
-            ColorUtil.HsvToRgb(hue, saturation, 1.0, out r, out g, out b);
-
-            return Color.FromRgb(r, g, b);
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        private void RaisePropertyChanged(string prop)
-
-        {
-
-            if (PropertyChanged != null)
-
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-        }
-
+        InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        win1.Background = backBrush;
     }
-
-</pre></p>
+    <span class="kw">private</span> <span class="kw">string</span> rgbInfo;
+    <span class="kw">public</span> <span class="kw">string</span> RGBInfo
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> rgbInfo; }
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (<span class="kw">value</span> != rgbInfo)
+            {
+                rgbInfo = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"RGBInfo"</span>);
+            }
+        }
+    }
+    <span class="kw">private</span> <span class="kw">void</span> win1_MouseMove_1(<span class="kw">object</span> sender, MouseEventArgs e)
+    {
+        <span class="kw">double</span> radius = (canv1.ActualWidth / <span <span class="kw">class</span>="num">2</span>);
+        Color c = ColorFromMousePosition(e.GetPosition(canv1), radius);
+        backBrush.Color = c;
+        RGBInfo = <span class="kw">string</span>.Format(<span class="str">"R={0}, G={1}, B={2}"</span>, c.R, c.G, c.B);
+    }
+    Color ColorFromMousePosition(Point mousePos, <span class="kw">double</span> radius)
+    {
+        <span class="com">// Position relative to center of canvas</span>
+        <span class="kw">double</span> xRel = mousePos.X - radius;
+        <span class="kw">double</span> yRel = mousePos.Y - radius;
+        <span class="com">// Hue is angle in deg, 0-360</span>
+        <span class="kw">double</span> angleRadians = Math.Atan2(yRel, xRel);
+        <span class="kw">double</span> hue = angleRadians * (<span <span class="kw">class</span>="num">180</span> / Math.PI);
+        <span class="kw">if</span> (hue &lt; <span <span class="kw">class</span>="num">0</span>)
+            hue = <span <span class="kw">class</span>="num">360</span> + hue;
+        <span class="com">// Saturation is distance from center</span>
+        <span class="kw">double</span> saturation = Math.Min(Math.Sqrt(xRel * xRel + yRel * yRel) / radius, <span <span class="kw">class</span>="num">1.0</span>);
+        <span class="kw">byte</span> r, g, b;
+        ColorUtil.HsvToRgb(hue, saturation, <span <span class="kw">class</span>="num">1.0</span>, <span class="kw">out</span> r, <span class="kw">out</span> g, <span class="kw">out</span> b);
+        <span class="kw">return</span> Color.FromRgb(r, g, b);
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged;
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> prop)
+    {
+        <span class="kw">if</span> (PropertyChanged != <span class="kw">null</span>)
+            PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+}</code></pre>
 <p>Notice that we make use of an HSV to RGB conversion function, found at <a href="http://www.splinter.com.au/converting-hsv-to-rgb-colour-using-c/">http://www.splinter.com.au/converting-hsv-to-rgb-colour-using-c/</a>. Below is the function as we&#8217;re using it.</p>
-<p><pre class="brush: csharp;">
-
-    public static class ColorUtil
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> ColorUtil
+{
+    <span class="com">/// &lt;summary&gt;</span>
+    <span class="com">/// Convert HSV to RGB</span>
+    <span class="com">/// h is from 0-360</span>
+    <span class="com">/// s,v values are 0-1</span>
+    <span class="com">/// r,g,b values are 0-255</span>
+    <span class="com">/// Based upon http://ilab.usc.edu/wiki/index.php/HSV_And_H2SV_Color_Space#HSV_Transformation_C_.2F_C.2B.2B_Code_2</span>
+    <span class="com">/// &lt;/summary&gt;</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> HsvToRgb(<span class="kw">double</span> h, <span class="kw">double</span> S, <span class="kw">double</span> V, <span class="kw">out</span> <span class="kw">byte</span> r, <span class="kw">out</span> <span class="kw">byte</span> g, <span class="kw">out</span> <span class="kw">byte</span> b)
     {
-
-        /// &lt;summary&gt;
-
-        /// Convert HSV to RGB
-
-        /// h is from 0-360
-
-        /// s,v values are 0-1
-
-        /// r,g,b values are 0-255
-
-        /// Based upon http://ilab.usc.edu/wiki/index.php/HSV_And_H2SV_Color_Space#HSV_Transformation_C_.2F_C.2B.2B_Code_2
-
-        /// &lt;/summary&gt;
-
-        public static void HsvToRgb(double h, double S, double V, out byte r, out byte g, out byte b)
-
+        <span class="com">// ######################################################################</span>
+        <span class="com">// T. Nathan Mundhenk</span>
+        <span class="com">// mundhenk@usc.edu</span>
+        <span class="com">// C/C++ Macro HSV to RGB</span>
+        <span class="kw">double</span> H = h;
+        <span class="kw">while</span> (H &lt; <span <span class="kw">class</span>="num">0</span>) { H += <span <span class="kw">class</span>="num">360</span>; };
+        <span class="kw">while</span> (H &gt;= <span <span class="kw">class</span>="num">360</span>) { H -= <span <span class="kw">class</span>="num">360</span>; };
+        <span class="kw">double</span> R, G, B;
+        <span class="kw">if</span> (V &lt;= <span <span class="kw">class</span>="num">0</span>)
+        { R = G = B = <span <span class="kw">class</span>="num">0</span>; }
+        <span class="kw">else</span> <span class="kw">if</span> (S &lt;= <span <span class="kw">class</span>="num">0</span>)
         {
-
-            // ######################################################################
-
-            // T. Nathan Mundhenk
-
-            // mundhenk@usc.edu
-
-            // C/C++ Macro HSV to RGB
-
-
-
-            double H = h;
-
-            while (H &lt; 0) { H += 360; };
-
-            while (H &gt;= 360) { H -= 360; };
-
-            double R, G, B;
-
-            if (V &lt;= 0)
-
-            { R = G = B = 0; }
-
-            else if (S &lt;= 0)
-
-            {
-
-                R = G = B = V;
-
-            }
-
-            else
-
-            {
-
-                double hf = H / 60.0;
-
-                int i = (int)Math.Floor(hf);
-
-                double f = hf - i;
-
-                double pv = V * (1 - S);
-
-                double qv = V * (1 - S * f);
-
-                double tv = V * (1 - S * (1 - f));
-
-                switch (i)
-
-                {
-
-
-
-                    // Red is the dominant color
-
-
-
-                    case 0:
-
-                        R = V;
-
-                        G = tv;
-
-                        B = pv;
-
-                        break;
-
-
-
-                    // Green is the dominant color
-
-
-
-                    case 1:
-
-                        R = qv;
-
-                        G = V;
-
-                        B = pv;
-
-                        break;
-
-                    case 2:
-
-                        R = pv;
-
-                        G = V;
-
-                        B = tv;
-
-                        break;
-
-
-
-                    // Blue is the dominant color
-
-
-
-                    case 3:
-
-                        R = pv;
-
-                        G = qv;
-
-                        B = V;
-
-                        break;
-
-                    case 4:
-
-                        R = tv;
-
-                        G = pv;
-
-                        B = V;
-
-                        break;
-
-
-
-                    // Red is the dominant color
-
-
-
-                    case 5:
-
-                        R = V;
-
-                        G = pv;
-
-                        B = qv;
-
-                        break;
-
-
-
-                    // Just in case we overshoot on our math by a little, we put these here. Since its a switch it won't slow us down at all to put these here.
-
-
-
-                    case 6:
-
-                        R = V;
-
-                        G = tv;
-
-                        B = pv;
-
-                        break;
-
-                    case -1:
-
-                        R = V;
-
-                        G = pv;
-
-                        B = qv;
-
-                        break;
-
-
-
-                    // The color is not defined, we should throw an error.
-
-
-
-                    default:
-
-                        //LFATAL(&quot;i Value error in Pixel conversion, Value is %d&quot;, i);
-
-                        R = G = B = V; // Just pretend its black/white
-
-                        break;
-
-                }
-
-            }
-
-            r = Clamp((byte)(R * 255.0));
-
-            g = Clamp((byte)(G * 255.0));
-
-            b = Clamp((byte)(B * 255.0));
-
+            R = G = B = V;
         }
-
-
-
-        /// &lt;summary&gt;
-
-        /// Clamp a value to 0-255
-
-        /// &lt;/summary&gt;
-
-        private static byte Clamp(byte i)
-
+        <span class="kw">else</span>
         {
-
-            if (i &lt; 0) return 0;
-
-            if (i &gt; 255) return 255;
-
-            return i;
-
+            <span class="kw">double</span> hf = H / <span <span class="kw">class</span>="num">60.0</span>;
+            <span class="kw">int</span> i = (<span class="kw">int</span>)Math.Floor(hf);
+            <span class="kw">double</span> f = hf - i;
+            <span class="kw">double</span> pv = V * (<span <span class="kw">class</span>="num">1</span> - S);
+            <span class="kw">double</span> qv = V * (<span <span class="kw">class</span>="num">1</span> - S * f);
+            <span class="kw">double</span> tv = V * (<span <span class="kw">class</span>="num">1</span> - S * (<span <span class="kw">class</span>="num">1</span> - f));
+            <span class="kw">switch</span> (i)
+            {
+                <span class="com">// Red is the dominant color</span>
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">0</span>:
+                    R = V;
+                    G = tv;
+                    B = pv;
+                    <span class="kw">break</span>;
+                <span class="com">// Green is the dominant color</span>
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">1</span>:
+                    R = qv;
+                    G = V;
+                    B = pv;
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">2</span>:
+                    R = pv;
+                    G = V;
+                    B = tv;
+                    <span class="kw">break</span>;
+                <span class="com">// Blue is the dominant color</span>
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">3</span>:
+                    R = pv;
+                    G = qv;
+                    B = V;
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">4</span>:
+                    R = tv;
+                    G = pv;
+                    B = V;
+                    <span class="kw">break</span>;
+                <span class="com">// Red is the dominant color</span>
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">5</span>:
+                    R = V;
+                    G = pv;
+                    B = qv;
+                    <span class="kw">break</span>;
+                <span class="com">// Just in case we overshoot on our math by a little, we put these here. Since its a switch it won't slow us down at all to put these here.</span>
+                <span class="kw">case</span> <span <span class="kw">class</span>="num">6</span>:
+                    R = V;
+                    G = tv;
+                    B = pv;
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> -<span <span class="kw">class</span>="num">1</span>:
+                    R = V;
+                    G = pv;
+                    B = qv;
+                    <span class="kw">break</span>;
+                <span class="com">// The color is not defined, we should throw an error.</span>
+                <span class="kw">default</span>:
+                    <span class="com">//LFATAL("i Value error in Pixel conversion, Value is %d", i);</span>
+                    R = G = B = V; <span class="com">// Just pretend its black/white</span>
+                    <span class="kw">break</span>;
+            }
         }
-
+        r = Clamp((<span class="kw">byte</span>)(R * <span <span class="kw">class</span>="num">255.0</span>));
+        g = Clamp((<span class="kw">byte</span>)(G * <span <span class="kw">class</span>="num">255.0</span>));
+        b = Clamp((<span class="kw">byte</span>)(B * <span <span class="kw">class</span>="num">255.0</span>));
     }
-
-</pre></p>
+    <span class="com">/// &lt;summary&gt;</span>
+    <span class="com">/// Clamp a value to 0-255</span>
+    <span class="com">/// &lt;/summary&gt;</span>
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">byte</span> Clamp(<span class="kw">byte</span> i)
+    {
+        <span class="kw">if</span> (i &lt; <span <span class="kw">class</span>="num">0</span>) <span class="kw">return</span> <span <span class="kw">class</span>="num">0</span>;
+        <span class="kw">if</span> (i &gt; <span <span class="kw">class</span>="num">255</span>) <span class="kw">return</span> <span <span class="kw">class</span>="num">255</span>;
+        <span class="kw">return</span> i;
+    }
+}</code></pre>
 <p>The final result is a window whose background color changes as we move the mouse around.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/10/673-002.png"><img class="alignnone size-full wp-image-5825" title="673-002" alt="" src="data:image/png;base64,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"   /></a></p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/10/673-003.png"><img class="alignnone size-full wp-image-5826" title="673-003" alt="" src="data:image/png;base64,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"   /></a></p>

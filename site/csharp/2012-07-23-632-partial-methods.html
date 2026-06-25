@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,39 +57,32 @@
 
 					<p>A partial method is a method in a partial class that is declared in one part of the class and implemented in another part.</p>
 <p>In the example below, we declare a <strong>Growl</strong> method in part 1 of a class without implementing it.</p>
-<p><pre class="brush: csharp;">
-    // In Dog-1.cs
-    public partial class Dog
-    {
-        public string Name { get; set; }
-
-        public void Bark()
-        {
-            Console.WriteLine(&quot;Woof&quot;);
-            this.Growl();
-        }
-
-        // Partial method declaration
-        partial void Growl();
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// In Dog-1.cs</span>
+<span class="kw">public</span> partial <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"Woof"</span>);
+        <span class="kw">this</span>.Growl();
+    }
+    <span class="com">// Partial method declaration</span>
+    partial <span class="kw">void</span> Growl();
+}</code></pre>
 <p>We can then include the implementation of the <strong>Growl</strong> method in part 2 of the class.</p>
-<p><pre class="brush: csharp;">
-    // Dog-2.cs
-    public partial class Dog
-    {
-        public void Fetch()
-        {
-            Console.WriteLine(&quot;Fetching..&quot;);
-        }
-
-        // Partial method implementation
-        partial void Growl()
-        {
-            Console.WriteLine(&quot;Growling..&quot;);
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Dog-2.cs</span>
+<span class="kw">public</span> partial <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">void</span> Fetch()
+    {
+        Console.WriteLine(<span class="str">"Fetching.."</span>);
+    }
+    <span class="com">// Partial method implementation</span>
+    partial <span class="kw">void</span> Growl()
+    {
+        Console.WriteLine(<span class="str">"Growling.."</span>);
+    }
+}</code></pre>
 <p>The code in <strong>Dog-1.cs </strong>is saying that there is a <strong>Growl</strong> method in the <strong>Dog </strong>class, but that it will be implemented elsewhere.</p>
 
 		<div class="wpadvert">

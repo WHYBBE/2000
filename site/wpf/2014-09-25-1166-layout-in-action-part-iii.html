@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,21 +56,10 @@
 					</div>
 
 					<p><a href="2011-01-08-180-how-layout-works.html">Layout in WPF</a> dictates how layout panels (containers) arrange their child elements.  In the example below, we build on an earlier example to show how the measure and arrange phases work when host a <strong>Label </strong>in control in a<strong> StackPanel</strong> and then stretch the label.</p>
-<p>Suppose the we have the XAML shown below. Note that the <strong>HorizontalAlignment</strong> of the <strong>Label</strong> is set to <strong>Stretch</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;StackPanel Margin=&quot;5&quot; Background=&quot;Honeydew&quot;&gt;
-
-        &lt;loc:MyLabel Content=&quot;Billy&quot; Background=&quot;Thistle&quot;
-
-                     HorizontalAlignment=&quot;Stretch&quot; /&gt;
-
-    &lt;/StackPanel&gt;
-
-
-
-</pre>
-<p>At run-time this looks like:<br />
+<p>Suppose the we have the XAML shown below. Note that the <strong>HorizontalAlignment</strong> of the <strong>Label</strong> is set to <strong>Stretch</strong>.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"5"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"Honeydew"</span><span class="xml-tag">&gt;</span>
+    &lt;loc:MyLabel Content="Billy" Background="Thistle"
+                 HorizontalAlignment="Stretch" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>At run-time this looks like:<br />
 <a href="https://2000thingswpf.files.wordpress.com/2014/09/1166-001.png"><img class="alignnone size-full wp-image-9345" src="data:image/png;base64,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" alt="1166-001"   /></a><br />
 At run-time, the measure/arrange process is:</p>
 <ul>

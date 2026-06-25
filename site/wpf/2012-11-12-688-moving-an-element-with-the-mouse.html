@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,161 +57,73 @@
 
 					<p>Here&#8217;s a short example that uses the <strong>MouseDown, MouseMove</strong> and <strong>MouseUp</strong> events to move a user interface element around on the screen.  We place a <strong>Label</strong> in a <strong>Canvas</strong> and then bind its position to a couple of properties that keep track of the desired X and Y position of the label.  The properties derive from a base position for the label, plus the current mouse position.</p>
 <p>Here&#8217;s the XAML:</p>
-<p><pre class="brush: xml;">
-
-    &lt;Canvas&gt;
-
-        &lt;Label Content=&quot;Feast&quot; Background=&quot;ForestGreen&quot; Padding=&quot;12,7&quot;
-
-               Canvas.Left=&quot;{Binding XPosition}&quot; Canvas.Top=&quot;{Binding YPosition}&quot;
-
-               MouseDown=&quot;Feast_MouseDown&quot;  MouseUp=&quot;Feast_MouseUp&quot; MouseMove=&quot;Feast_MouseMove&quot;/&gt;
-
-    &lt;/Canvas&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span>
+    &lt;Label Content="Feast" Background="ForestGreen" Padding="12,7"
+           Canvas.Left="{Binding XPosition}" Canvas.Top="{Binding YPosition}"
+           MouseDown="Feast_MouseDown"  MouseUp="Feast_MouseUp" MouseMove="Feast_MouseMove"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span></code></pre>
 <p>And the code:</p>
-<p><pre class="brush: csharp;">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
     {
-
-        public MainWindow()
-
-        {
-
-            InitializeComponent();
-
-            this.DataContext = this;
-
-        }
-
-
-
-        private Point BasePoint = new Point(0.0, 0.0);
-
-        private double DeltaX = 0.0;
-
-        private double DeltaY = 0.0;
-
-        private bool moving = false;
-
-        private Point PositionInLabel;
-
-
-
-        public double XPosition
-
-        {
-
-            get { return BasePoint.X + DeltaX; }
-
-        }
-
-
-
-        public double YPosition
-
-        {
-
-            get { return BasePoint.Y + DeltaY; }
-
-        }
-
-
-
-        private void Feast_MouseDown(object sender, MouseButtonEventArgs e)
-
-        {
-
-            Label l = e.Source as Label;
-
-            if (l != null)
-
-            {
-
-                l.CaptureMouse();
-
-                moving = true;
-
-                PositionInLabel = e.GetPosition(l);
-
-            }
-
-        }
-
-
-
-        private void Feast_MouseMove(object sender, MouseEventArgs e)
-
-        {
-
-            if (moving)
-
-            {
-
-                Point p = e.GetPosition(null);
-
-                DeltaX = p.X - BasePoint.X - PositionInLabel.X;
-
-                DeltaY = p.Y - BasePoint.Y - PositionInLabel.Y;
-
-                RaisePropertyChanged(&quot;XPosition&quot;);
-
-                RaisePropertyChanged(&quot;YPosition&quot;);
-
-            }
-
-        }
-
-
-
-        private void Feast_MouseUp(object sender, MouseButtonEventArgs e)
-
-        {
-
-            Label l = e.Source as Label;
-
-            if (l != null)
-
-            {
-
-                l.ReleaseMouseCapture();
-
-                BasePoint.X += DeltaX;
-
-                BasePoint.Y += DeltaY;
-
-                DeltaX = 0.0;
-
-                DeltaY = 0.0;
-
-                moving = false;
-
-            }
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        private void RaisePropertyChanged(string prop)
-
-        {
-
-            if (PropertyChanged != null)
-
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-
-        }
-
+        InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
     }
-
-</pre></p>
+    <span class="kw">private</span> Point BasePoint = <span class="kw">new</span> Point(<span <span class="kw">class</span>="num">0.0</span>, <span <span class="kw">class</span>="num">0.0</span>);
+    <span class="kw">private</span> <span class="kw">double</span> DeltaX = <span <span class="kw">class</span>="num">0.0</span>;
+    <span class="kw">private</span> <span class="kw">double</span> DeltaY = <span <span class="kw">class</span>="num">0.0</span>;
+    <span class="kw">private</span> <span class="kw">bool</span> moving = <span class="kw">false</span>;
+    <span class="kw">private</span> Point PositionInLabel;
+    <span class="kw">public</span> <span class="kw">double</span> XPosition
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> BasePoint.X + DeltaX; }
+    }
+    <span class="kw">public</span> <span class="kw">double</span> YPosition
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> BasePoint.Y + DeltaY; }
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Feast_MouseDown(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+    {
+        Label l = e.Source <span class="kw">as</span> Label;
+        <span class="kw">if</span> (l != <span class="kw">null</span>)
+        {
+            l.CaptureMouse();
+            moving = <span class="kw">true</span>;
+            PositionInLabel = e.GetPosition(l);
+        }
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Feast_MouseMove(<span class="kw">object</span> sender, MouseEventArgs e)
+    {
+        <span class="kw">if</span> (moving)
+        {
+            Point p = e.GetPosition(<span class="kw">null</span>);
+            DeltaX = p.X - BasePoint.X - PositionInLabel.X;
+            DeltaY = p.Y - BasePoint.Y - PositionInLabel.Y;
+            RaisePropertyChanged(<span class="str">"XPosition"</span>);
+            RaisePropertyChanged(<span class="str">"YPosition"</span>);
+        }
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Feast_MouseUp(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+    {
+        Label l = e.Source <span class="kw">as</span> Label;
+        <span class="kw">if</span> (l != <span class="kw">null</span>)
+        {
+            l.ReleaseMouseCapture();
+            BasePoint.X += DeltaX;
+            BasePoint.Y += DeltaY;
+            DeltaX = <span <span class="kw">class</span>="num">0.0</span>;
+            DeltaY = <span <span class="kw">class</span>="num">0.0</span>;
+            moving = <span class="kw">false</span>;
+        }
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged;
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> prop)
+    {
+        <span class="kw">if</span> (PropertyChanged != <span class="kw">null</span>)
+            PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+}</code></pre>
 <p>The end result looks something like this:<br />
 <a href="http://2000thingswpf.files.wordpress.com/2012/11/688-001.png"><img class="alignnone size-full wp-image-5974" title="688-001" alt="" src="data:image/png;base64,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"   /></a><br />
 <a href="http://2000thingswpf.files.wordpress.com/2012/11/688-002.png"><img class="alignnone size-full wp-image-5975" title="688-002" alt="" src="data:image/png;base64,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"   /></a></p>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,20 +55,16 @@
 																				</p>
 					</div>
 
-					<p>There are cases when you might use the <strong>ItemContainerGenerator</strong> type to get the corresonding <strong>ListBoxItem</strong> for a particular item in a <strong>ListBox</strong>.  For example, the code below will select every other item in a <strong>ListBox</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            // Select every other item, starting with
-            // the first.
-            int i = 0;
-            while (i &lt; lbNumbers.Items.Count)
-            {
-                // Get item's ListBoxItem
-                ListBoxItem lbi = (ListBoxItem)lbNumbers.ItemContainerGenerator.ContainerFromIndex(i);
-                lbi.IsSelected = true;
-                i += 2;
-            }
-</pre>
-<p>The problem with this code is that if UI virtualization is enabled for the <strong>ListBox</strong>, the <strong>ItemContainerGenerator</strong> methods will return <strong>null</strong> for items that are not currently visible.  This happens because the corresponding <strong>ListBoxItem</strong> has not yet been created.</p>
+					<p>There are cases when you might use the <strong>ItemContainerGenerator</strong> type to get the corresonding <strong>ListBoxItem</strong> for a particular item in a <strong>ListBox</strong>.  For example, the code below will select every other item in a <strong>ListBox</strong>.</p><pre class="code-block language-csharp"><code><span class="com">// Select every other item, starting with</span>
+<span class="com">// the first.</span>
+<span class="kw">int</span> i = <span <span class="kw">class</span>="num">0</span>;
+<span class="kw">while</span> (i &lt; lbNumbers.Items.Count)
+{
+    <span class="com">// Get item's ListBoxItem</span>
+    ListBoxItem lbi = (ListBoxItem)lbNumbers.ItemContainerGenerator.ContainerFromIndex(i);
+    lbi.IsSelected = <span class="kw">true</span>;
+    i += <span <span class="kw">class</span>="num">2</span>;
+}</code></pre><p>The problem with this code is that if UI virtualization is enabled for the <strong>ListBox</strong>, the <strong>ItemContainerGenerator</strong> methods will return <strong>null</strong> for items that are not currently visible.  This happens because the corresponding <strong>ListBoxItem</strong> has not yet been created.</p>
 <p>To avoid this, you can either find an alternative method to using <strong>ItemContainerGenerator</strong>, or you can scroll the corresponding item into view before calling the method to get its container.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

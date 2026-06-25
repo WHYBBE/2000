@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,18 +57,13 @@
 
 					<p>In WPF, the <strong>FrameworkElement </strong>class includes a <strong>Tag</strong> property that allows storing some arbitrary data with an element.</p>
 <p>You&#8217;d normally use the <strong>Tag</strong> property to store some custom data on an element that inherits from <strong>FrameworkElement</strong>.  In the example below, we store some custom data with two different <strong>Button</strong> objects.</p>
-<p><pre class="brush: xml;">
-        &lt;Button Tag=&quot;Some arbitrary data&quot; Content=&quot;Test&quot; Height=&quot;23&quot; Width=&quot;75&quot; Name=&quot;btnTest&quot; Click=&quot;btnTest_Click&quot;/&gt;
-        &lt;Button Tag=&quot;{StaticResource greenBrush}&quot; Content=&quot;Test 2&quot; Height=&quot;23&quot; Width=&quot;75&quot; /&gt;
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Tag</span>=<span class="xml-val">"Some arbitrary data"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Test"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"23"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"75"</span> <span class="xml-attr">Name</span>=<span class="xml-val">"btnTest"</span> <span class="xml-attr">Click</span>=<span class="xml-val">"btnTest_Click"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Button</span> <span class="xml-attr">Tag</span>=<span class="xml-val">"{StaticResource greenBrush}"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Test 2"</span> <span class="xml-attr">Height</span>=<span class="xml-val">"23"</span> <span class="xml-attr">Width</span>=<span class="xml-val">"75"</span> <span class="xml-tag">/&gt;</span></code></pre>
 <p>However, because you can attach a dependency property value to any object deriving from <strong>DependencyObject</strong>, you can also use the <strong>Tag</strong> property to attach data to objects that don&#8217;t derive from <strong>FrameworkElement</strong> or to dependency objects that are otherwise sealed.</p>
-<p><pre class="brush: csharp;">
-            // ListView has a GridView as its view
-            GridView gv1 = (GridView)listView1.View;
-
-            // Attach a Tag to the GridView -- a Person object
-            gv1.SetValue(FrameworkElement.TagProperty, new Person(&quot;Herodotus&quot;));
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// ListView has a GridView as its view</span>
+GridView gv1 = (GridView)listView1.View;
+<span class="com">// Attach a Tag to the GridView -- a Person object</span>
+gv1.SetValue(FrameworkElement.TagProperty, <span class="kw">new</span> Person(<span class="str">"Herodotus"</span>));</code></pre>
 <div class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-1305" class="wpl-button "><a href='2010-12-15-156-using-the-tag-property-to-store-custom-data-with-an-element.html' title='I like this post' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this post.</div></div></article>
   <p class="meta">Categories: Dependency Properties | Tags: Dependency Properties, FrameworkElement.Tag, Tag, WPF</p>
   <nav class="pager"><a href="2010-12-14-155-implementing-an-attached-dependency-property.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2010-12-16-157-you-can-set-standard-clr-properties-from-xaml.html">Next</a></nav>

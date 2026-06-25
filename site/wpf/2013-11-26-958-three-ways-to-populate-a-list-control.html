@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -49,115 +61,42 @@
 <li>Add items in code</li>
 <li>Use data binding  <em>(preferred method, most flexible)</em></li>
 </ul>
-<p>For example, to add several items to a <strong>ListBox</strong> from XAML:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;ListBox&gt;
-
-        &lt;ListBoxItem&gt;Augustus&lt;/ListBoxItem&gt;
-
-        &lt;ListBoxItem&gt;Tiberius&lt;/ListBoxItem&gt;
-
-        &lt;ListBoxItem&gt;Caligula&lt;/ListBoxItem&gt;
-
-    &lt;/ListBox&gt;
-
-</pre>
-<p>To add the same items from code:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;ListBox Name=&quot;lbMyListBox&quot;/&gt;
-
-</pre>
-<p>&nbsp;</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            lbMyListBox.Items.Add(&quot;Augustus&quot;);
-
-            lbMyListBox.Items.Add(&quot;Tiberius&quot;);
-
-            lbMyListBox.Items.Add(&quot;Caligula&quot;);
-
-</pre>
-<p>Finally, to use data binding to add the items:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;ListBox ItemsSource=&quot;{Binding Emperors}&quot;/&gt;
-
-</pre>
-<p>&nbsp;</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-
+<p>For example, to add several items to a <strong>ListBox</strong> from XAML:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">ListBox</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ListBoxItem</span><span class="xml-tag">&gt;</span>Augustus<span class="xml-tag">&lt;/</span><span class="xml-name">ListBoxItem</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ListBoxItem</span><span class="xml-tag">&gt;</span>Tiberius<span class="xml-tag">&lt;/</span><span class="xml-name">ListBoxItem</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ListBoxItem</span><span class="xml-tag">&gt;</span>Caligula<span class="xml-tag">&lt;/</span><span class="xml-name">ListBoxItem</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">ListBox</span><span class="xml-tag">&gt;</span></code></pre><p>To add the same items from code:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">ListBox</span> <span class="xml-attr">Name</span>=<span class="xml-val">"lbMyListBox"</span><span class="xml-tag">/&gt;</span></code></pre><p>&nbsp;</p><pre class="code-block language-csharp"><code>lbMyListBox.Items.Add(<span class="str">"Augustus"</span>);
+lbMyListBox.Items.Add(<span class="str">"Tiberius"</span>);
+lbMyListBox.Items.Add(<span class="str">"Caligula"</span>);</code></pre><p>Finally, to use data binding to add the items:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">ListBox</span> <span class="xml-attr">ItemsSource</span>=<span class="xml-val">"{Binding Emperors}"</span><span class="xml-tag">/&gt;</span></code></pre><p>&nbsp;</p><pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">private</span> <span class="kw">string</span>[] emperors;
+    <span class="kw">public</span> <span class="kw">string</span>[] Emperors
     {
-
-        private string[] emperors;
-
-        public string[] Emperors
-
+        <span class="kw">get</span> { <span class="kw">return</span> emperors; }
+        <span class="kw">set</span>
         {
-
-            get { return emperors; }
-
-            set
-
+            <span class="kw">if</span> (<span class="kw">value</span> != emperors)
             {
-
-                if (value != emperors)
-
-                {
-
-                    emperors = value;
-
-                    RaisePropertyChanged(&quot;Emperors&quot;);
-
-                }
-
+                emperors = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"Emperors"</span>);
             }
-
         }
-
-
-
-        public MainWindow()
-
-        {
-
-            this.InitializeComponent();
-
-            this.DataContext = this;
-
-
-
-            Emperors = new string[]
-
-                {&quot;Augustus&quot;,
-
-                 &quot;Tiberius&quot;,
-
-                 &quot;Caligula&quot;};
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-
-
-        private void RaisePropertyChanged(string propName)
-
-        {
-
-            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-
-        }
-
     }
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/11/958-001.png"><img class="alignnone size-full wp-image-7944" alt="958-001" src="data:image/png;base64,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"   /></a></p>
+    <span class="kw">public</span> MainWindow()
+    {
+        <span class="kw">this</span>.InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        Emperors = <span class="kw">new</span> <span class="kw">string</span>[]
+            {<span class="str">"Augustus"</span>,
+             <span class="str">"Tiberius"</span>,
+             <span class="str">"Caligula"</span>};
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged = <span class="kw">delegate</span> { };
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> propName)
+    {
+        PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(propName));
+    }
+}</code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/11/958-001.png"><img class="alignnone size-full wp-image-7944" alt="958-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

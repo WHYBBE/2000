@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,19 +56,10 @@
 					</div>
 
 					<p>Because all transforms in WPF use homogeneous coordinates, <a href="http://wp.me/pZhye-1KT">combining transforms</a> is accomplished simply by multiplying one or more 3 x 3 matrices together.</p>
-<p>For example, suppose that we want to combine a rotation and a translation transform:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-                &lt;TransformGroup&gt;
-
-                    &lt;RotateTransform Angle=&quot;30&quot;/&gt;
-
-                    &lt;TranslateTransform X=&quot;5.0&quot; Y=&quot;10.0&quot;/&gt;
-
-                &lt;/TransformGroup&gt;
-
-</pre>
-<p>Recall that the 3 x 3 transformation matrix for rotation looks like:<br />
+<p>For example, suppose that we want to combine a rotation and a translation transform:</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">TransformGroup</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">RotateTransform</span> <span class="xml-attr">Angle</span>=<span class="xml-val">"30"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">TranslateTransform</span> <span class="xml-attr">X</span>=<span class="xml-val">"5.0"</span> <span class="xml-attr">Y</span>=<span class="xml-val">"10.0"</span><span class="xml-tag">/&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">TransformGroup</span><span class="xml-tag">&gt;</span></code></pre><p>Recall that the 3 x 3 transformation matrix for rotation looks like:<br />
 <a href="http://2000thingswpf.files.wordpress.com/2013/04/799-0011.png"><img class="alignnone size-full wp-image-6880" alt="799-001" src="data:image/png;base64,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"   /></a></p>
 <p>And recall that the 3 x 3 transformation matrix for translation looks like:</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2013/04/799-002.png"><img class="alignnone size-full wp-image-6881" alt="799-002" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAAB9CAAAAAAaONeOAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAABH1JREFUeNrtm12V5CAQha8FNGABD0hAAxbioBzEAQqiAAMxgAM81D4k5Ld7tsgksz1n4S05CXxNVxXUpQL+RQ0NtsE22AbbYBtsg22wDbbBNtiPgI1B3FPqiUbRk5F2LV2EtZjafJk9rLSjDo4srATXAZ5IQxGRAs6wccagv8HG9YoUxLAePTMTdBZMkBqZWcMxc4B+8xTVwEatjBi2jKng/24F6Jk5TywR7gZYAmUWw5q5Yw8lMFlm5mEaaiL/LmwamcWwqbwXdnb0VaPJM9LsX5EmVx6pv2IGXAEbgLG4BslgLczmqp/dKWC5/RgslQCSxbBAtzXjzkAzBzjtn4b1S7STvjECw3qlex6ANCrPMT4Na6th+118jcwZGIy/GrqehfWn+GqgTP5pWC96Q5/ia3dYy550sFzeEDlYxim+BoB/CjYWvxFtfYZzPPaHW4/BxuLb8dW+5KtYt06s0nu4x2BZzVGT3u5LjkZujz938LDMKT0PW5xby6xgvyQw8ag67oHMlq7CRkBl0eBZgZi5ly/P+/VLWeYRcG7dYlbBUmcBQFmSTNZoYMmjE/22TgGq2y4QJk+jq/Gaza55h+yfHYl6YYYydbvZM04j5H6b4lTb7L9sDbbBNtgG22AbbINtsA3282AzacDIdXqOWqZzGezaHbDZqIGT24l9X7XkhJpBAijPaVjWbxOhKliDwMxZ71K790kYvToEeJOA0Zq909t3amCL8N4tYsuXAFoHEsJ6PSdeiZlpKyZehnWzaBVFGounGiF56l9PSPkG2OVRqdRWCbtT5kYNm2cNqcxNBewiCLGSCh1VsGmrzI0KZUrcQlAHG8s9/QDsUE4hmJmNz3o+5ln1pwpY2sDiAdhu02uyqxLuFw/5INijMlfOGPSiV30Q7OnZ6caIK8Jc2MA+4GARx/hq4ZjZqyvCXFy81TwB25+Wmg6GOW1CRAVs2sRZuh/WnULMAJTFrX5RKEE7iXeNNbD6tNIkII27AoIK2G4OfEEaZmtg0/mwhhWicReX26Sm/vTbncaLON8JH311eG5h1OVDuwAVOHspQBoMoIKoSibpF7+rOwSIukxh9ApwUWoCeFPY8u5he5pt93tyMHMor/lk2A7jr8luw2mL/6Gwzmc6O9yHwmq8CnofCguY2OSjBttgG2yDbbD/KWwORIO4c3k1/aHl19UqdbBBGfLQQtyKavpD6qZf/5uVOZibUhDR+DXV9DuNywLfh02zrOdEqXhNNf3WAjoYdQNsN2d0QTS1NdX0G1Zl4kYCvA5byhiTJF+9UE0/2SvzHbCrZiKpR7xQTb+F+i7sKtNLVMQL1fR3woYqMbm+mv5W2Drl2zbYS7C6Ctb/Ewcbyj2Rg9VV098OOz8qWZSqq+nvhV2rsiXDV1fT3wxbqiJkw9dW098EWypBwnI+KfGY2mr6r2FlH1zuwS0zj7J6+spq+sMESX3yPWx20NQpK7PBqmr6dQrJaQAwXvT1LW5LVCqq6TewVZ8Kt2/FG2yDbbANtsE22AbbYBtsg/2h9gfFzjg6W9OkDwAAAABJRU5ErkJggg=="   /></a></p>

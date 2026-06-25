@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -53,52 +65,22 @@
 <li>Cannot inherit from another class</li>
 <li>Cannot serve as a parent of another class</li>
 </ul>
-<p><pre class="brush: csharp;">
-
-    public static class DogMethods
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> <span class="kw">class</span> DogMethods
+{
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">int</span> NumBarks = <span <span class="kw">class</span>="num">5</span>;
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> BarkALot(Dog d)
     {
-
-        private static int NumBarks = 5;
-
-
-
-        public static void BarkALot(Dog d)
-
-        {
-
-            for (int i = 1; i &lt;= NumBarks; i++)
-
-                d.Bark();
-
-        }
-
-
-
-        public static string MarriedName(Dog d1, Dog d2)
-
-        {
-
-            return d1.Name + d2.Name;
-
-        }
-
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span <span class="kw">class</span>="num">1</span>; i &lt;= NumBarks; i++)
+            d.Bark();
     }
-
-</pre><br />
-<pre class="brush: csharp;">
-
-            Dog d1 = new Dog(&quot;Kirby&quot;, 12);
-
-            Dog d2 = new Dog(&quot;Lassie&quot;, 47);
-
-
-
-            DogMethods.BarkALot(d1);
-
-            Console.WriteLine(DogMethods.MarriedName(d1, d2));
-
-</pre></p>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">string</span> MarriedName(Dog d1, Dog d2)
+    {
+        <span class="kw">return</span> d1.Name + d2.Name;
+    }
+}</code></pre><br /><pre class="code-block language-csharp"><code>Dog d1 = <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span <span class="kw">class</span>="num">12</span>);
+Dog d2 = <span class="kw">new</span> Dog(<span class="str">"Lassie"</span>, <span <span class="kw">class</span>="num">47</span>);
+DogMethods.BarkALot(d1);
+Console.WriteLine(DogMethods.MarriedName(d1, d2));</code></pre>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2012/02/517-0011.png"><img class="alignnone size-full wp-image-4364" title="517-001" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQwAAACnCAIAAABrQvVdAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAFP5JREFUeNrtnVlz1Ei2x+UP0e/z0p+gv8TExFz2mZiYmLgv83BjouM+3ZiIjpiYZt9pArp7mobAxhvtDS/gBQzYYGzTNNh4L+N9A3tsKEzRBrdNM9yjTCmVSklZUi22sf+/cFBSlqQqyvmrc04qJRsfAABaDHwEAEASACAJABtHkv+4eQ/AFsCIZIXixq+//voOgM2OET5o/GpDu60yVlZWfgFgs2Po9RBucKWEGMvLy28ZbxhLS0s/A7BJMYIMkfVQ3FhivGa8slkEYJNiaAwRegg3yKpEIkFKvHz5Mh6PP2csLCzMM/4NwGbE0BjCowfXgwcNsurFixckBikxNzf37Nmzp4xpm6mpqWkANheGxhARQCh6UOggPciN2dlZbsXk5OT4+PgoY9hmaGhoGIDNhUsSOcuiGEIVOeVXFECEHjMzM+TG2NgY7fnkyZNYLNbf39/X19fb29vD6Orq6gFgc2FoDKEUi+dXlJZR9JiYmCA3BgYGaLfOzs6HDx/ev3+/ra2ttbX13r17LS0tdwHYjDiS+BpC5QcFEKo0RkZGSI+Ojo729vbm5uYbN27U1dXV1NRUVVVVVlZWVFSUl5eXAbAZUSXhlTplWcIQyq+o0uju7qag0djYSFYUFRVdvHjx3Llz33zzzdmzZ8+cOXP69OmvvvrqFACbEVUSqtdJEj6WJSSh8oMyKwodBQUF5MMXX3zxGwC2DC5JKNdaXl5eWlrixfrc3BwlWhRGHj9+XFtbS9Hj5MmTtM+nn3763Xff8ZOJSx8/635C93WqJKLwKgrpnHp7ubbEs48lCVXtchih156fn5+ZmRkdHe3t7aW6PD8/nwz55JNPzp8/T3V8X1/fT4wHUfgxmEg7Rj24hvvhaE9Gmx+tHu65aZEQZeIdiWaJJonbNrcYNyUabW7YXGc02NTb1NnUSlyzuSpRI1EtUSVRaXPFQ4Uf5cGErxZKs0CJBG8xJRHjWlSQiDDy7NmziYmJWCxG/Y8+WR5Dvv/++7GxsQcpEdTLf/LjoYT+Wd8NwpARt4M0S2qRrzktbvTaBAkjO+MVJsgcX3nC+CNbVO2hyo/KYK6EoyKbyLryFkMM/iphZHp6emRkpKenh35JpOznn39OWRbFkHQM8XVD9PVHNh0SjwJIuoGeh+HIiGl6qfQK+YYdrzy+0cbXH71C1yW88ngVUizyNUrmajA1oanOMorS1GKIXIuP/FLyyut1CiODg4PUn+izy8vL++yzz6gOodQrTT1kMeTu3sl4bNPFeJwdOsPRkYwUVPR1LEghTV7nDUTeEHTHjW/mprdIFsmL1ytvdAoyTWOdntr1wPCW7AsLC0+fPqVqpL+/n35V9AVw7tw5yrWoPbUixFcP4YZQoru7m5/g5Ofve7NDyJOs3Vq6/IhqplczvVTe0BSU4+kjUlBc8nrltctXMF/TwnAzNI3rBP8icCThp0co16KcinKt4eFh6iv0aVIKePbsWZKEFErfEKGHiBjcDeq+fX19/TYDWaA/Q/R5iOqh1zS9V5rYpeikSfbCBCjfwYaktVMKky3uRKF5/eBfBy5JKNeKx+Mi16JfHr1Fqu5PnToVVRKNISJ6UEcRbvB+HIvFBhlPMs1gJoh5SEFOjWAhjfJ65ZslRg1Q4euokL6lSevGgL4UDDH4KwoSyrXGx8f5JBSKoZcvXz5+/LhekuvXG38oKff9KSmt4D+lZVfop7HxFv1SRfTgeshu8HnEI9HR7JX+PNAhP1IzM6lj4UOW8CooG9RnfeFrrRSGNFIeS0xnQD9LGHLVzqei8NMj9Euiz4LSsqKioiNHjuglqayp7+6JPe6JdbOfx9Iy/fT2xGobW+mnvrG1ouIqN0QEEBE3hB706mNjY6Nri16/1CzS6BQ1QIUJRHIsSqGOSm30IukYxsOPH1USqs5JEuoZ9InTFwBVLYWFhYcPH9ZLQlFp5Z15nOV3H969e78i/ZhhavW99fPuQ9PddiWG2IbcOJZjEMeOmY/Hbo1NdFT8wdhT3jGRFIp7j8r3GHvKHo2bTNh7jnOk58xFzvHb4zZjMreO59CL839F48OyPcbu0ofWWvqy3f9ht7Hr8v3QFikuRUrnNCHo6v4cY//VO/k7DIltec0aqSKNVWRjyFGlai/rNcZ/XbzlNN7K3WY2sOe+rOrsTOPYbHdHEnKAnyGZmpriVTsFmoaGhvz8/EOHDuklaWlrHx6ZPZrbcjy/5WRhy8nippOlTbHY5M+L8dmZ6dmZp4mXixeu9l641k2SiDqEZ1k8hjQezTF2lfzE+hl1RLOvh5aEW3G8Kcla0wn6zKwDsmWzddzN7RM5pk/0IGtkazaWjHDyPCjZbRy9OaKJQqEjT/3hHONQfSxoZEIrzLUDOdvz7/beLdhhmI/MHG7M/qtJB/q6MkewOFX7coy9VTq1aIttubeV7W7nbTOoNW1vxWEdScTQFp+vRR8EVWb19fWXLl06ePCgRhJy6c699uHRhf85Xf+3r+s/v1D9v7mV/1dU0ds7bksynXiZuHitO+/GQy6JqNS5JNRRblL8OHrTMWRiIoIkZpd3rPBfMx/VoymGODHHTxIRScJYoYsk5vfBkcaIegTkY3WHcoyDdWENkSOJcIMtXLojnDA9sdbXT49wkggbXBtmypFwkrS3t9fV1eXl5R04cCBIEl7ZtDS3kCT/LGz62/nKv/wr/0/fXvjzhW/dkiwWtrWXPmqRJeGRxAojFrvLbpdxNyY7mSSdk4S5aMFbmmURqP9L3d9/LcA4VzOPOVZA8YskroSNp2NmJma/dabRT6WUmh09araS9OYah0IHh74OdpU8YM6I/zfPvcwsjHP4uqlH++Vd9rF3FrcNDjZQ2NhZ1EYfW1vxTsOg+C4+th2FrQMDrUU7Rda0o+CeKcq9wp3GjoMHrfbtBS22Ly2kxoHaPtkWlz7MEjkToxbLkpr9OU5q1nxpu8jQxDJb2LdvO99qX43Yh2/Z1dWUt12kd7lNXbxh296926W26n05rm3EOt/D2mlvNVs0n7QW2aGcg/KNXTtL7dKy9HrWocRBfSThc+PpOa8kytQSUf43NbUMD/9716m835749nenv97xr9O7zp+yJJmefjr9lBaqexvrn1wV6ZYsiRVJjt3i3dByQ0jSfDLHONE8adtitvk0TQaudVgBxdphMkCSJseMIEnsdncF49QtlC9yLXazzJGHR1c0MVOtXT/8SP/jH8USDyk3jlCAueHEk+u0zmV50la8y9HkUANbZbLI6ZYZVCw1mBsUYcyFHbYcphamF4zag1SOXHOHFLtWsUOJWbLYIYbpYmZhcqMZagIlsYywjbJNkR+lXaQ92CJ/2tlQfpluSVbrMNKKtKV8cHln3/fsPq547+yYkSXxxZRkdOF3x7/9/ddndpw7vefiiT8XHpIiiVmTPJmPxeafpCCJKYQLu7MLD5wG75oVb3jW5TbEnXpZ5ci4PpKYT4ka3nTEhRU7dlvFlRw3OKYZVqpleWJ7McQ92VnczrMs0xEXhxrMtMvUxLAVIUlEulV3MIdpYWGukhGmGXb8sJedcsQtiZ1v8XrefnC3ikZth5P6uY8RTiQyRKjx77cuDcxmscKflHu3tW2AAK6dA7aR35evJMvLy0GS5Obm7t+/Xy/JneZWkuT3352iAPLHS0fIkP8u/acsyWI88X5l5f3qCh/d8peE1SSWJFK6JaJGyiW7bUlgheOU7I4kzpoSQKwMiyKIHUjkakRIIscOnm5ZVjTKpcgN5oJQw8qwSAgeNDzVSD2ThGVXTk1iWyFJUhsgCVNDdsRTk7BYQX3E1UPtHqM0aiSxG2s8iZCUGgmCMyB5S54RiedE3uVkXLm5293pmLONs7Pfi7EEkL+WeFpNtzIiCQWQP+Uf+Uvxgb+W/+Ov1X83JYmbklC6lYgvvnu7nHi1KCSRT5K4CnezD7rLCDEU5S3VA0r2oHAgDf3SKi3bMUKOFWxf6v6ugHHslqswt96u+aAkVA/kLMrGSqWkjEqqzE0xWDJlFehWCsV04FFCwE1ghYaZWPG0yUqhzEU5hWLLdpiQK3JRmXu7Of82lfN4qX+zZblR9D22A68zxCItqMW3XVFXsWNU+ZbgrmWfwt160q84r+JFhdPs2Uh+A+wJs8EQTfylWJt7OCBjkvQPTJ6sqTx9reJMXemZhuKvGws7HvXzSGLWJPH48uvE4uKicp7ENQTMJOFfxdRf5XqBaWIjyeFbpLtHc9URXnEY9qQlh/lg6zPmihdSSe7Kr+yM6uaxHDnbsiQxE6xhqTDnlTk5Qo+yG3ImxRMpQ0qm6g9Lx+ZuSGGDy8EqDavquFsg1dk8UshhwpLDfKCMyRULJGQBpPra/f0st4l1VnhbTU7v9JFE9GfrFauCJLE6Ma1V5W5TN/cOe7GjSlbYB7KOYu/sHJe9Z/vFpK0yKomYw0M1yfK7D4lE4ufEonmp6M9vzJ9E4sPq8oeVZYohy+ZTiTevEySJPGVLPlUin2vnA8HqmT4F9zk+3VqSQVsRxpKM56Y8Y8WMEVK5Hea0oGYAN+ScZf9RV8+3c2fm6FgjKr/MMb6s7FgzUpREmehWXVNPvd/np6X9TqurpaKylt/ATinflWkpmZ1XkvIkrhSmmaQ2wSTMjKxI0xxDdtlNPJck89NSIkkS8rpwZSKwmAXsOwVYUSXqHMf0p1fpTYg0IzjovJ7m4pYgDfSXowR1+pSvuHwA/Igsyf0oBHnCZ8srV5LI04EzTsyPqBPdU0iBwnR6/cx2TQ9O/1L7TTCVfQ2IJsn96Og94VFFXJAoOl9/5ggz4U+8Ac0lU0lnoYuur59w7tvj9ddF6ful/iYSm+kSqPUi65J4PVEuUZSv4OVpGCfNK2xTvs426Te9/vqKpFfY6i+s1V+n7nvbh3Suob0ZhcatShYlkb8LvTcTUm4HodwRIkuDLfoKVbwl/b0agi6IVb7vNTfX0vd1TVcOeX+TMLdfCE/dlidbkigJgxxSvLb43mFoXe70I79hbxKvudrb9x4/3rv7KP0+hRvJ+d4xJPzNe2qiUA0YWZHEWy8G5WC8d6Z8K8eU7xYX5iZX+jssJr09j9DA965wwoSgmyn69nj9PRT1t367EoUKIJFhSTQ3AtVvrLEo0i1Jw4znhLlpVVBp6yuGb3zQRAZfH/T3FPUKkP7dRNO5v+jW+tML6UsyNTX1bGPwNBkzfoT8w3lTbibd+E6alNGf+I96CiiFUz0gZdKVhLrLhQsXdgGweUlXEvr+No8CwCYmI5JYf1rOxndVbsl2u/9fvgt4ewBkURLaIKkkYjlom2y3+y7DE7AWkvCxI70kG0QMvgpJwNpJIg+wfhSSBGVi+O2DrEiinIVQJFH67rpL4usDDAFZlMR7qm6DS+KNJJAEZFES2iBIkqCOu3FqEgA2qCQbJKoowB+wsSQx1vs8CSQBG0USACAJJAGQBJIAkD1JMHcLQJLUJcHcLQBJMHcLQBJJEn75K+ZuAUgSKpL4TpXH3C0ASTB3C0ASzN0CIIOSUH2CuVsAkoS6MtHA3C0ASRRJcMYdQJJoVybiYwSQBPfdApAE990CYL0kwdwtsLUk8d7pfXZ2FnO3ACT56CXB3C2wdpJ4/6qOIgnmbgFI8pFJ4o0kkARkVxLv3yXkkhiYuwUgCZfE+6c95+bmMHcLQBJVEjmeJJXEwNwtsHUkefPmjfKHzwkhCQCQxJJEgbaHJACSOJJ0eIAkAJKEkgRztwAksSTp9JBUEszdAltLksdukkqCuVtgy0nSZSM8mZ+fx9wtAEksSd6+fdvN6JJQJMHcLbDVJenp6el2s7CwgLlbAJK4JFHgkhiYuwUgCZek14NeEgNzt8BWk6TPDUny/PlzzN0CkMSRpF+CeyIkAQCS/Ia2GbARqkASAElcksQYAxIvXryAJACSOJIMDg7G3HBJMHcLQBJHEoV4PI65WwCSOJIMMZ5I6CXB3C2wtST55ZdfhoeHh9zQLpi7BSCJI8mIG3JGkQRzt8BWl2TUw+LiIuZuAUjiSDLu4dWrV5i7BSCJKsmEhF4SA3O3wJaSZGVlZcJDUkkMzN0CW0qSqampSTeJRAJn3AEkcSSZlphiQBIASVySzHiAJACSOJKsrq4+9fD69WsxBKwZWQpZBmTqNN+anTFEeQNJVEmeeaC9lMI9HUky2O3WpvtCEkiiSjLHmJXwSpJmv/m4JAGQRJWEnp1zs7S0FOY8iWbyvH6Wu2+nDyOAfvxXM06dpXawhSRRUCQJf2pCkUQzrV2zrLluJGk3TflFNf8vnPLf6pLQZvMe3rx5Eybd0p9hzEh/Tdp9w0eq8Glb0ou90MG2nCQLEmQI/ZumJOl/wUcKFFEjQ9R2iAFJ3j1//pzE4P9yvJKEVCKqJFHT/UiSIN0CmZREgUuStK5Q+nfSKz3SnHmVtFYJcia1Ah2XB0OS5JKs2btF5wMbXZK4h7dv366BJPh6Bh+HJKurq3xEi7bh/8pDwABAEvyJagBJkkny6tWr+vr6hoaGegZfGB8fhyQAkrgkoZZaidHRUUgCIIkjSR2D3LhmA0kAJHFJwqMHuXHVBpIASKJKwgMI6VFTU1NdXQ1JACRxSSIM4ZAnIyMjkARAEkuSxcVFWY9qBiQBkMQliXCDU1VVxSW5GwA+XrB1JamygSQAkrgkkQ2prKy8cuXK8PAwJAGQxJFEBBBuiJAEHyOAJI4kQg+ioqJiaGgIkgBI4pJE6FFeXg5JACRRJeFhhBtClJWV0ZaQBEASRxIeRoQhpaWlkARAEkcSelZkWVwSRBIASVRJRAxBJAGQJFCSMptSBiQBkMRHklKbkpISSAIgiUsSYQjp8QNjcHAQkgBI4kiiGHL58mVIAiCJKkkJgxsCSQAkUSVRDCkuLo7FYpAEQBJLkng8LidaRFFRESQBkMQliWwIhRFIAiCJjySyIZAEQBJVEsWQwsJCSAIgiSqJMIRLMjAwAEkAJHFJIhsCSQAkUSWREy2ioKAAkgBI4pJEMQSSAEjiI4lsCCQBkESVRDEkPz8fkgBIEihJPgOSAEjiSPLixQvFkEuXLkESAElcksiJFiQBkCRQEmEIJAGQxEcS2RBIAiCJKoliCNHf3w9JACQJlCQvLw+SAEiiSiIbAkkAJFElkRMtSAIgiU6SPBtIAiCJjyR5EpAEQBJVkjw3kARsev4fYACFa/d+zPIAAAAASUVORK5CYII=" alt=""   /></a></p>
 <div class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/02/10/517-static-classes/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-4346"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/02/10/517-static-classes/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/02/10/517-static-classes/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes</p>

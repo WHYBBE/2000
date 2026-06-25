@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,51 +55,21 @@
 																				</p>
 					</div>
 
-					<p>You can use a <a href="http://wp.me/pXTis-2kZ">lambda expression</a> wherever a delegate instance is expected.  This includes using a lambda expression when defining an event handler.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
-        {
-
-            Dog d = new Dog(&quot;Bowser&quot;);
-
-
-
-            // Method #1 - Subscribe to Barked event using named method
-
-            d.Barked += d_Barked;
-
-
-
-            // Method #2 - Subscribe to Barked event using lambda expression
-
-            d.Barked += (s, e) =&gt; { Console.WriteLine(&quot;My dog says {0}&quot;, e); };
-
-
-
-            d.Bark();
-
-
-
-            Console.ReadLine();
-
-        }
-
-
-
-        static void d_Barked(object sender, string e)
-
-        {
-
-            Console.WriteLine(&quot;Dog {0} just barked, saying {1}&quot;,
-
-                ((Dog)sender).Name, e);
-
-        }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1168-001.png"><img class="alignnone size-full wp-image-9021" src="data:image/png;base64,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" alt="1168-001"   /></a></p>
+					<p>You can use a <a href="http://wp.me/pXTis-2kZ">lambda expression</a> wherever a delegate instance is expected.  This includes using a lambda expression when defining an event handler.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    Dog d = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+    <span class="com">// Method #1 - Subscribe to Barked event using named method</span>
+    d.Barked += d_Barked;
+    <span class="com">// Method #2 - Subscribe to Barked event using lambda expression</span>
+    d.Barked += (s, e) =&gt; { Console.WriteLine(<span class="str">"My dog says {0}"</span>, e); };
+    d.Bark();
+    Console.ReadLine();
+}
+<span class="kw">static</span> <span class="kw">void</span> d_Barked(<span class="kw">object</span> sender, <span class="kw">string</span> e)
+{
+    Console.WriteLine(<span class="str">"Dog {0} just barked, saying {1}"</span>,
+        ((Dog)sender).Name, e);
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/08/1168-001.png"><img class="alignnone size-full wp-image-9021" src="data:image/png;base64,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" alt="1168-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

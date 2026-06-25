@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,51 +56,23 @@
 					</div>
 
 					<p>The default control template for the <strong>TextBox</strong> control changes the color of the <strong>Border</strong> around the control when the control gets focus.  It does this by <a href="http://wp.me/pZhye-2gI">using a trigger hooked to the <strong>IsKeyboardFocused</strong> property</a>.</p>
-<p>You can add your own triggers related to keyboard focus by defining a custom property trigger.  The XAML fragment below defines a new <strong>Style</strong> element that changes the <strong>Background</strong> of the control when <strong>IsKeyboardFocused</strong> is true.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Window.Resources&gt;
-
-        &lt;Style x:Key=&quot;HoneydewFocus&quot; TargetType=&quot;TextBox&quot;&gt;
-
-            &lt;Style.Triggers&gt;
-
-                &lt;Trigger Property=&quot;IsKeyboardFocused&quot; Value=&quot;true&quot;&gt;
-
-                    &lt;Setter Property=&quot;Background&quot; Value=&quot;Honeydew&quot;/&gt;
-
-                &lt;/Trigger&gt;
-
-            &lt;/Style.Triggers&gt;
-
-        &lt;/Style&gt;
-
-    &lt;/Window.Resources&gt;
-
-
-
-    &lt;StackPanel&gt;
-
-        &lt;TextBox Margin=&quot;5&quot; Width=&quot;80&quot;
-
-                 Style=&quot;{StaticResource HoneydewFocus}&quot;/&gt;
-
-
-
-        &lt;TextBox Margin=&quot;5&quot; Width=&quot;80&quot;
-
-                 Style=&quot;{StaticResource HoneydewFocus}&quot;/&gt;
-
-
-
-        &lt;Button Content=&quot;Click Me&quot; HorizontalAlignment=&quot;Center&quot;
-
-                Padding=&quot;12,5&quot; Margin=&quot;5&quot; /&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p>As we tab between the two <strong>TextBox</strong> controls, the one with keyboard focus will have a Honeydew-colored background, as well as the default blue border.</p>
+<p>You can add your own triggers related to keyboard focus by defining a custom property trigger.  The XAML fragment below defines a new <strong>Style</strong> element that changes the <strong>Background</strong> of the control when <strong>IsKeyboardFocused</strong> is true.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"HoneydewFocus"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"TextBox"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsKeyboardFocused"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"true"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Background"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Honeydew"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;TextBox Margin="5" Width="80"
+             Style="{StaticResource HoneydewFocus}"/&gt;
+    &lt;TextBox Margin="5" Width="80"
+             Style="{StaticResource HoneydewFocus}"/&gt;
+    &lt;Button Content="Click Me" HorizontalAlignment="Center"
+            Padding="12,5" Margin="5" /&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p>As we tab between the two <strong>TextBox</strong> controls, the one with keyboard focus will have a Honeydew-colored background, as well as the default blue border.</p>
 <p><a href="http://2000thingswpf.files.wordpress.com/2014/05/1072-001.png"><img class="alignnone size-full wp-image-8735" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUkAAADmCAMAAABvaYcVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAohQTFRFAAAADwAPAAAgJgAgMTETKCgoKCg6IDExMTExAABAEwBAACBpJgBAKChGMTFOJiBpKFM6KFNGKFNPMU5cKHBGKHBVUhMAVCgoeSYAcykoQjFpUjFpeSZAc1Moc3Aoc3A6Uk51eUJpc3BGcHBwAECME0CMJkCMMWmXIGmrMWmrVIZPVIZcW6V/X6p6Xah8c4ZPc5ZkYq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUQIyhXZOgV6GDWaOBWKKCaI6yapisbJiubp2saZKxcaKqfaK5QIzHTozHVp3laavRdavRmlITiVMojVIxmlIxiXAomnEomnE6t3kmgVJOiVNGjVJOt3lCx1BQq4Y6iYZGkY1Mn592mrlWmrlciaZkmrlkop1VvpZGqqZPq6darKhbqrlWqrlcvqZPsaxdvrlWvrlcp6VxqKZzqrlkt7JgvbhjvrlkyJpSyJpr0bd53bd5iJ2+iZ+9iq+qiqG8i6S7jae6jbOlj7Wji7Gokbeho6WfpKeepqquq62zrK+yuLu/ury/gavRmrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+q9G3rdO3sdeyjMfdosLDq9HdvsDBv8DCvcDDv8LF3beN3ciax9230d233d23wcLCysrSx93Ix93dzNDUzNDV0d3I3d3I0dHb0tTd1tbe0d3d3d3d2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f38P/w9/j5+Pf2+fj3+Pj4+Pn5+vr6+/v7/Pz8/f39/v7+////tAy6GgAAAAlwSFlzAAAOwwAADsMBx2+oZAAABiRJREFUeNrt2odbW1UYx/HruHXiQENaxVlsqzhw770HimBFrDbiqLFVFKUWxb0H1mpdsS4UFRG0SAvRGmqN2kiqzSWDf8czcgMP++ZeKbTf3/NwIZdzeMiH9z3nJA/GIPEmhvjIEFexJTOZtEiK5BVppy0N4Zi0EvF+klfiCSspLJVkyopFI+FeklfCkWjMSmnJtFVLXMXSNZlOxmpXETtLnURPqY0lJaWRtqJIupOMDmjJRARJd5J9CS0ZDyPpTjIcV5Kp/l4k3Un29qeQRNKjmLl4LfnY3cPz6ONIigwODl2nLPlG+3cq7e3t76xZ89rDO73kqC+WjkM5FuREkp9Y/wzFWrvc0a9VXdggLmbpiNt1/rLJZj4yT08KyuqYc99Mk1wq36Bw2N1f//TU088+9/yPkZ6eyOrVeUgGzFFsTiSnU9GB5NgVOaHkp91XXXfNtdd3bpKSbzuXDI6qyJ1CMo+abO6+4erLLr6k89eejZGP33cs+YDfp2FMs2BZnb80e/MUv2n6lKnuXdnEBcuE21FmYYMcfOgIyfoqMaI0O6Pg3iqfvOWTS0devT9yV5mOdbK5++zTzjj3os5NG3siH37kVPIgv1wpBaRPPPHCh6rEI1FtdX7x7GWxqoKtFoTVZWpM0FQDxMVeXLOS6l5QrBN14i9TvyQnGRBzb/NW8n/bu5u7Tz/znPOvFDXZE9mwwamkqRdJ+YQlSkAKDtWmks01sloKxHA5aJUekt1xChvUPTlC7WG6HOVFP5wdJ/Pm7rMuvOCKk9U6uX274+6+VROYeguWaNW+7DoZKLhHGdpdKsBUBVYP583WpBazZwxJil4vmz2S511+4kmndv4sJLf+5ljywXmyHHOlI2+UjZbUDZ2HpLgn19dZIfnuD8+89MKLL38jJH+J9jnfu+vkShmwd4XgnLvEE1eta6+bEk16icdaUi0Fue7WM+3u1jPUWLWwDtvlZ7zkmwNbtmz568/f//536x+bN+dxngyasgnlFz61h/skk4CR50x7x5FuQbu71aZSNc6OI2fUL1kWUD/AJ3ebKRypZobkq2t1Pvv8PXF9ZYXz1zgBU1Zm9rRSra2ONfVelD39yGWy4MispLp5wohTkDwZ5WYUNshD0cFH+NTyWjpL1smVK5YPy4qVLn+t6dhsd3ym4V01e/lD0l30KokkQRJJJJFEEskZL3k/cZhxJflfcWdBEkkkkSSzRfJ1j7MLS87oH4ckkkgiiSSSSCKJJJJIIokkkkgiiSSSSO7UkrzTS5BEEkkkCZJIIokkkkgiOSo3eZxdWHLbtt22eRckkUQSSSSRRBJJJJFEEkkkkUQSSSSRRBJJ3umddsnZHiSRRBJJgiSSSCKJJJJIjsx8j4Lk/C5PgiSSSCKJJJJIIokkkkh6KdlRaRglbS2Hr2s6cJ2+sbgi+63GfUPyU9P+ISQnl2wpKu/q+uItIZmjHZLc+0b1+AAkpyBZU65Bx5Q85DBxt+Xo25GcXLK1OGRLNi1o66oxjEXfL67oqNxPwjYuvEWg1lwqxrTONXavQHICSbsWtWTjcW2qJmsWrVc1efyTC9paj/mgOCTBh5UtkpPU5LeqrzsW76khheRXxSF1aSkyDGOfEJLjS3ZUlg9JfqlYOyr3kqWpJNc3LrxDFuSIekRyjB2naQ9Rh0/crLu7piTb3SVtWcmWopI2Idk6txzJyc6TsnEXrdeS8mwpd5yuGtXJQrLrzgq1AshRmhdJXuMgiSSSSCKJJJJIIumNJP/NQpBEEkkkCZJIIokkkkgiiSRBEkkkkUQSSSSRJEgiiSSSBEkkkUQSSSSRRJIgiSSSSCKJJJJIEiSRRBJJgiSSSBIkkUQSSYIkkkgiiSSSSCJJkEQSSSSRRBJJJAmSSCKJJEESSSSRRBJJJJEkSCKJJJJIIokkkgRJJJFEkiCJJJIESSSRRJIgucMlicOMJ0nyC5JeS6bjYSTdSYbjaSWZiCDpTrIvoSWtKJLuJKMDWjIZQ9KdZCypJDNpq5a4iiUhhWTKikX7wr0kv4T7ojErpWsynRxIxPtJfoknBpJp1d2DGWGZTqdIfpF4GdXd4iND3EW9Cjd4I8Kj/AdIx7UrYA3CsAAAAABJRU5ErkJggg==" alt="1072-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

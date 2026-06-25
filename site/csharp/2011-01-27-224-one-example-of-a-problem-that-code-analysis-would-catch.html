@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,19 +55,10 @@
 																				</p>
 					</div>
 
-					<p>As an example of the type of issues that code analysis would catch, consider the following piece of code.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main()
-
-        {
-
-            Console.WriteLine(&quot;Grande schmande, just give me some coffee..&quot;);
-
-        }
-
-</pre>
-<p>This code obviously works fine&#8211;it just prints out a string.  But if we want to someday localize this program, we&#8217;ll want to be reading the string from a resource file, rather than hard-coding it like this.  So when we build the project with code analysis turned on, we see the following warning:</p>
+					<p>As an example of the type of issues that code analysis would catch, consider the following piece of code.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    Console.WriteLine(<span class="str">"Grande schmande, just give me some coffee.."</span>);
+}</code></pre><p>This code obviously works fine&#8211;it just prints out a string.  But if we want to someday localize this program, we&#8217;ll want to be reading the string from a resource file, rather than hard-coding it like this.  So when we build the project with code analysis turned on, we see the following warning:</p>
 <p style="padding-left:30px;"><em>CA1303: Do not pass literals as localized parameters</em></p>
 <p style="padding-left:30px;">An externally visible method passes a string literal as a parameter to a constructor or method in the .NET Framework class library, and that string should be localizable.</p>
 <p>We see this warning in the <strong>Error List</strong> window when we build the project.</p>

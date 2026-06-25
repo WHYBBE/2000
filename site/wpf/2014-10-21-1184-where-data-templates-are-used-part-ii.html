@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -49,21 +61,16 @@
 <li>The <strong>ContentTemplate</strong> is used as the <strong>ContentTemplate</strong> of a <strong>ContentPresenter</strong>, which is itself contained in the control&#8217;s control template</li>
 <li>The <strong>ItemTemplate</strong> is used as the <strong>ContentTemplate</strong> for each item presented by an <strong>ItemsPresenter</strong> (e.g. used as <strong>ContentTemplate</strong> for a <strong>ListBoxItem</strong>).</li>
 </ul>
-<p>Below is a fragment of the default control template for a <strong>Label</strong>. You can see that it contains a <strong>ContentPresenter </strong>that has its <strong>ContentTemplate</strong> set to the <strong>ContentTemplate</strong> of the parent control.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-                    &lt;ControlTemplate TargetType=&quot;{x:Type Label}&quot;&gt;
-                        &lt;Border BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;True&quot;&gt;
-                            &lt;ContentPresenter ContentTemplate=&quot;{TemplateBinding ContentTemplate}&quot; Content=&quot;{TemplateBinding Content}&quot; ContentStringFormat=&quot;{TemplateBinding ContentStringFormat}&quot; HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; RecognizesAccessKey=&quot;True&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
-                        &lt;/Border&gt;
-                        &lt;ControlTemplate.Triggers&gt;
-                            &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;False&quot;&gt;
-                                &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
-                            &lt;/Trigger&gt;
-                        &lt;/ControlTemplate.Triggers&gt;
-                    &lt;/ControlTemplate&gt;
-</pre>
-
-<div class="wpcnt">
+<p>Below is a fragment of the default control template for a <strong>Label</strong>. You can see that it contains a <strong>ContentPresenter </strong>that has its <strong>ContentTemplate</strong> set to the <strong>ContentTemplate</strong> of the parent control.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type Label}"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"{TemplateBinding BorderBrush}"</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"{TemplateBinding BorderThickness}"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"{TemplateBinding Background}"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"{TemplateBinding Padding}"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ContentPresenter</span> <span class="xml-attr">ContentTemplate</span>=<span class="xml-val">"{TemplateBinding ContentTemplate}"</span> <span class="xml-attr">Content</span>=<span class="xml-val">"{TemplateBinding Content}"</span> <span class="xml-attr">ContentStringFormat</span>=<span class="xml-val">"{TemplateBinding ContentStringFormat}"</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"{TemplateBinding HorizontalContentAlignment}"</span> <span class="xml-attr">RecognizesAccessKey</span>=<span class="xml-val">"True"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"{TemplateBinding SnapsToDevicePixels}"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"{TemplateBinding VerticalContentAlignment}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsEnabled"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"False"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span></code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

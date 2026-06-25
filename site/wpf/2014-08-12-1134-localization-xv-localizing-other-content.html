@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,32 +55,15 @@
 																				</p>
 					</div>
 
-					<p>You&#8217;ll sometimes have content in an application that needs to be localized but is not already present in a XAML file.  Below, a <strong>MessageBox</strong> uses a hard-coded string.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string message = &quot;Apples are crunchy, portable and taste great!&quot;;
-            MessageBox.Show(message, &quot;Apples&quot;);
-        }
-</pre>
-<p>One approach to this is to move the string into a XAML file as a resource and then localize the string when localizing all of the other content in the XAML file.</p>
-<p>We start by including an XML namespace that defines an alias for the <strong>System</strong> namespace.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-        xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;
-</pre>
-<p>We can now add the string as a resource (e.g. within a <strong>&lt;Window&gt;</strong> element).</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.Resources&gt;
-        &lt;sys:String x:Uid=&quot;sys:String_1&quot; x:Key=&quot;AppleMessage&quot;&gt;Apples are crunchy, portable and taste great!&lt;/sys:String&gt;
-    &lt;/Window.Resources&gt;
-</pre>
-<p>At run-time, we can load the resource rather than a hard-coded string.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-            string message = (string)this.Resources[&quot;AppleMessage&quot;];
-            MessageBox.Show(message, &quot;Apples&quot;);
-</pre>
-
-<div class="wpcnt">
+					<p>You&#8217;ll sometimes have content in an application that needs to be localized but is not already present in a XAML file.  Below, a <strong>MessageBox</strong> uses a hard-coded string.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> Button_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    <span class="kw">string</span> message = <span class="str">"Apples are crunchy, portable and taste great!"</span>;
+    MessageBox.Show(message, <span class="str">"Apples"</span>);
+}</code></pre><p>One approach to this is to move the string into a XAML file as a resource and then localize the string when localizing all of the other content in the XAML file.</p>
+<p>We start by including an XML namespace that defines an alias for the <strong>System</strong> namespace.</p><pre class="code-block language-xml"><code>xmlns:sys="clr-namespace:System;assembly=mscorlib"</code></pre><p>We can now add the string as a resource (e.g. within a <strong>&lt;Window&gt;</strong> element).</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">sys:String</span> <span class="xml-attr">x:Uid</span>=<span class="xml-val">"sys:String_1"</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"AppleMessage"</span><span class="xml-tag">&gt;</span>Apples are crunchy, portable and taste great!<span class="xml-tag">&lt;/</span><span class="xml-name">sys:String</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span></code></pre><p>At run-time, we can load the resource rather than a hard-coded string.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> message = (<span class="kw">string</span>)<span class="kw">this</span>.Resources[<span class="str">"AppleMessage"</span>];
+MessageBox.Show(message, <span class="str">"Apples"</span>);</code></pre><div class="wpcnt">
 <div class="wpa">
 <a class="wpa-about" href="http://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">

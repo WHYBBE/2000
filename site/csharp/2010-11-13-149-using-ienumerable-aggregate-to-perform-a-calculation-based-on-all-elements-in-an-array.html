@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -47,19 +59,15 @@
 <li>On 2nd thru (n-1)th pass: result of previous pass is passed as 1st parameter, next element as 2nd parameter</li>
 </ul>
 <p>The return value is used to store the result of your aggregate function and is passed back to the function on the next pass.</p>
-<p>Here&#8217;s an example:</p>
-<pre class="brush: csharp;">
-        public static Person CombinePeople(Person prevResult, Person next)
-        {
-            return new Person(prevResult.FirstName + next.FirstName,
-                prevResult.LastName + next.LastName,
-                prevResult.Age + next.Age);
-        }
+<p>Here&#8217;s an example:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">static</span> Person CombinePeople(Person prevResult, Person next)
+{
+    <span class="kw">return</span> <span class="kw">new</span> Person(prevResult.FirstName + next.FirstName,
+        prevResult.LastName + next.LastName,
+        prevResult.Age + next.Age);
+}
 
-        // Example of calling Aggregate
-        Person pCombined = folks.Aggregate((Func&lt;Person,Person,Person&gt;)CombinePeople);
-</pre>
-<div class="clear"></div>
+<span class="com">// Example of calling Aggregate</span>
+Person pCombined = folks.Aggregate((Func&lt;Person,Person,Person&gt;)CombinePeople);</code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

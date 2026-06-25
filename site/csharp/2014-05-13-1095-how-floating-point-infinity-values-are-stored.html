@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -49,15 +61,8 @@
 <li>-Infinity : sign bit 1, mantissa 0 (23 bits), exponent FF (hex) (8 bits)</li>
 </ul>
 <p>Positive infinity is therefore stored as 7F800000 (hex) and negative zero as FF800000 (hex).  We can verify this by looking at these values in memory from within Visual Studio.</p>
-<p>Assuming the following code:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            float posInfinity = float.PositiveInfinity;
-
-            float negInfinity = float.NegativeInfinity;
-
-</pre>
-<p>We can now look at these values in memory.</p>
+<p>Assuming the following code:</p><pre class="code-block language-csharp"><code><span class="kw">float</span> posInfinity = <span class="kw">float</span>.PositiveInfinity;
+<span class="kw">float</span> negInfinity = <span class="kw">float</span>.NegativeInfinity;</code></pre><p>We can now look at these values in memory.</p>
 <p>Positive infinity is 7F800000 (stored little-endian).</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2014/05/1095-001.png"><img class="alignnone size-full wp-image-8582" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAABqCAIAAABoJ7mfAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAADb5JREFUeNrtnX9oXVcdwE+RsYl0VB1zyxDDqJoiYoyFVjBLxNk9gmALdg21mvzxim20tBvDdWX4gtofY8YoM7ZbsyXYYiGUZVhjwEqCg606oWHE2BqxnbNbg662FbT+2r1+zz3nnvu955z74937XvN+fA9fkve+OT/uvedzv+d7z/neE7bmk5s1+e7RX+z//o/qTpaW3iKpBWFWpEhIMosFKRKSPEJIkRBSJIQUCSFFQkJIkdQyUvQYTFLhSQTQun9/loQkmxBSJIQUCSFFQkgRUiSEFEkdIeVc311kjPXt1kouHmhlrHVobnRZjts52clY59T1UerCOkWqdW1HiB7J2XIg5Vw/MNQBiHcWCam6RqrY17r2wIGQkeCdunxWih8VIVXPSA3NBV3o2QmhkUg5c1vWMpF4HlnkpFQWT456oyRPiktUhGfA7DJuFKVS4tuxZTFMDyHVAEiNTvX5fQ808D6WepVBdD9AI4dFjwPP6ZEkKQdIZAhqC+pBOX3vTbVLSDUaUj5Jkq2QnqHUtzsEme2zVyQAQqsQE8M/GCaKkGoUpMR4d1KCFcVHFEZlISWeKMFiiZ/kSzUmUv7I5Y9NoYGPhZz3RKT0gQ95YD5SnlHsLHbYnwAIqUZBihsq5aRb3fNUA1+4iOWvynqZ82GEFM2eZxerY05CSGWdefKfBqiTCKkKzY8v3zwqCS0bkxBSJIQUCUkupOZ+9wYJSTYhpEgIKRJCqtpSjxusNbA0CFIupZpJhBQlQoqQIqQIKUKKkKJ0c5E6MtDZMvCC9U9nF17ob9v2+OlLicoqIeVMFeV7E0OL1hO2ZkA6Z3EoFPbMWHEK6eALr0TV4itNTVRziUfYdEidPT3S1bOvv8eOyPIi5fWr17/8A+dD58mWQXyyXh1AiWdypqYESRwte/1YY2aL+UBIvXFq/7au/a+InzWHlAcMpsFiosIZeNd6vyz2zOcvnkgLUoobvw0BLi9paJodqbMLrzzu2SfPVo2cWrgUmK62znvW3Ne1f0TRYyoFW/0D21ra9h1ZuKQyyK+8cv4VpH/c+Dq+rwW1aEUKY+T1/hCYC6ERvTylZ5jyfhbRuOdg/jQoFZEJSAXZfIICFnVN0yPlk6TY8o1QJ/S6sGEtAT12pTBv2HQBLqDk0CAXzfK1bKSmHASOshE6UrYRUPW9qlm4SAigsCtlaGRO3w0LvCtD09RI4fGOg+J1ObZYChS7EmPkmyghUJXQqPq1r2kGPpMY5Q6L/rMjpUDBnyGr/zns2ts9IcOXooEvBVLCxigIggErO1K8uEmtGOmsXzP4Uhgpiy8VgZRHlKW//QEs3peS/rlJsBX6JkYqPPQIX8dzesoa+ELDpdUIab6/+Jpm4It41AoGvthnMfk3c9TzHvjCfndKK+VnV6OqqWlqpI4M6AQEY9/4PmG3Qu65odQe/fDYxwc+P780fsbXRKTwrI8iSHSb6mWcQXNuwq6SxR+Kmpfy8QkpQk4YqtzU0FQnzZ5TIqRqMF286M7OlifnzhFSzYrUjRsSgoMH3VLJ7e11u7u53HWXy1hlZNUqWefGjbwJkOlp3uLly4RU/SM1N+dOTgbo3HZbKiYAL8FEemlrSwvc+vVuocAPaWyMc0ZI1Xig8OjXvz39YP+r6zrfet/dUZ16qXX1a6vX/Lr7gRcLmyDz8V2PgRzZ90SljuF733pK1DnZNwBNvHz/56A5kP/ecov1eK69546FjvWnN31x/KFvUKBwTci5n/7yz6VD1z5T+N/K27XeunHvatBf/urDf3zm+B/GT746d2HZj3bxxCk4Ejikv/V8/p9tH9EO+O1bb73+qU+/+dBjkI1eZ7jZcv75n//ly9v/fc/7cZfAV+gq6BLotno5EaAHbokrmx7UCPvPHXf+dcuXLjz1LCFVXVk4/aul7V/DJMGlB4z+tH8Y/lTvZ/fbF+de+84PgSR8gmB9QQO3ULWQEn5WyZYafFIFnFlwhNV93Nrq7tnjnjnTsOcLzxbQp9jxb2/nTxsVd8+bESm4uAomeGrr7+eP5c2Tzp1zd+zgcxMKrKynT0i57tWr/Gqq+R44R9A0Z7pxwx0eDubPCgU+JUtIlX13CrMPlmnv3oaHyUELlpGL1gIsYbHgZ5kzW0lIPdLX09XV3d3d1dXT90gcUs7SzEipNDg4WCqNzCyhJfr5iUEveWpHfVVpYp5nnp8oyWyouFJ6esjolS+VtLK4FZ5zYj5GqQ92YmYS7Lyx3BG++E6M0n5BchYPh/SVVTy8qG28XhERGK2R94OPs0nlYJ04kb71eKR2bu7q2ryz5LPFP0YcAe9p0cEeW7z74TP/6JEUXSrEn1YE/qygQUVk5X6bTkjp12lV6vZJ3Ii9vfy+1I+Nd0vR8haDrow4tfzFi7aImlTFjarCkRFJERB+EZ73Z5v3ChPuzBxK2XosUkCUtE2cKLBVwJS49SU9Xq/yvvL7UTAhMtg7UqPHMB5YmYyUgMeRHCYqQy1t3Cjdhagb3b+bxc0po44NZVWKo7AcM7IrsThOiiHby2RO4hDJm9jrUXXve1O2HoeUb5g8Y9XT1+cBhs2D6CnMgUBsRvQgaEdm5j3CIImcUSZKjWi470MDnwQlGPi0EVZk1hi1KmUggPCfItZZVU+I2OAhddsaymoUF0kOXzjQqpziru21izRWSkcKTLjnsBcK30zTejJSavDb6SOlTJHqKoGUIE10pESq5NsJw2JZTRTmNdlKqTFStISYVlZKUwYVTU5ypMBQxd7cYqRx/QhMq7IaxaUTjQBa9Hs4TfEYgLIgBckzVAc/tjlN6wkDHwx2aOjjaCkgIGmOsE+P70x5VgqbnMCb9mmId7ASkFINIO9NeXVWZVDR2Jj0omI9XDn0KN/BpqxKceSsKBcqfXFUie5HZ0Tq4EG4XMPpWk90z32ifGOFXBPkrCAOkNcse9VkSNkzu5VK6Z770ODKA9NlU4ae9USEieGYm0OG6lOrsirFEQ1OKMY5VfFg3DToyYgUeJyMHWMfSNN62ZMIyiNXEweSKtskglKGHviNDg55SFG+lDGJgBta8j023JBVGaT2dk4V3H9VmgXIVxx705Yw+VStW/KkfuILUsEP8HJeGsw/idDQU53T03LSBQZBSjHrVGLq7vBhmj1PkeAyCarA/aRkvT6Cpx07aEEmdRoeDoJr4Y6kJNLly3LerkyeEpBqljQ7GyyU9vfXy4soVYRpz55gga98r4CQ8hI894EBVm8i9PbmjBmqy3TmDDdI6iLA50zv2xBSxg2qrimYLrisDRx/JxJYZbidWluDKDww1eXHtBBSsWCBg4UDHYEtuMonTtTCW3IVs8rwwAv3DyYJPsNjSg6YCKkUz89w0bW359rb+XUHvG6Wy5U+6CChnjePj7DPLoJBggcR7Y1CMMaVe90vAamoKCjLES9rvFRUDVrrZXQAmu1rY2wvY/OfKGhvL/3rdu+VXyAMfFhjfIyalgxqThG3ZEUqbRgCQC/eWS0ULC86A1hw5DaSosKtkDrrVGdUFJTlIJY5XipYIY6qKtf9jdfzoQ+8Tnr7ne+wvIQJYwdABrattHWEsScPzQBqmAm1uJLZSnnHUiziJTZAR7wvDwcGlES/l3ye3b0oXnWPWIZKOHfMdPRZxCJljYKqwXgpG+6JradP1kUMULZ94WnePeLVdW00MeQf7wKT9tHzbOXF+wpyF4N42bXhGcYGpXQsSv3Ws2zV6+vWvb6SXXt3wg4Lv2ds2iv+9KM/5mSLsL4yt8iOOveYVZ04pKxRUG7txUtZrVF86xlNFF7/st6m4L+DtTh8+MqGlrEP3Q8G4+qdrGJba0QJ2CS13wY8WMzOOheeiwoKlZtNRqwA5jr39EhpUVDqT7UTLxWJVHTrOU2Um7Qab8Y2PTD4knNs4CuM7do+KuzNT1jLy7siTNTWjsGWDVcCc+VZKVB2bAX3yJk5NvFh9uhzF2LHSqbvqRYKPk6Ojcl87gkDnxkFpYCooXgpRKFmpaytl+nH2O/m+L3w7fFSaO9XN3b7VxwTjDb+ZHqK2rHd9s5CuUhlPvdE91yPgnJrMF7K5p7HtJ4+WUOOYrrNetFRvBTaDjR26EExUkHkOqo8AQj84oMdqazhVmnOvexJhNqMl7Lqra3nMVGhQKKkB7ekeKkEI4E2EDX/SURKGxMe9yJ2E634udNUJ6UKJ0KKEiFFiZCiREgRUpQIKUqEFCVCihKlSiBVa/FSmt6c1SzZomUyTHXGbNHklrNxSraUM2LJzR2tlee91rqLl7KuvUQep9fCxMRIlgU+VH94Qd6MWKpmyhCxFLUTVcporZybY9VbvJQ1NMrWOkI2tOCdIeEFebydV/olEZwTWZpU4b8ZIpbsu1ul/p/vOTfHqrN4KavZizpOn7RcSGk9gf63euLCrR6x5MauxaYykOkilqw7UYk4iCmf85gQvJybY9VZvFQMUnrrXmHXCMvJZaJC/1o9FqnIiKVUdiLRGpUbrSWRCuJt4o4k5+ZY9RYvZQ2NsrTOf2rPARni0EOb8lQmYqkMpJYzWivH5lh1Fy8V5Z5bjhMXyWalosaprBFLwd52eVp3qx2t5RcHhlb0HHXdo1B8Bf/0m4c/uMLNE9Xp1l68lJsUGmVOImRGKtZIZIlYMkxdnHu+vNFaWnH4VZlJBEqUJCUeUjR7TomQokRIUSKkCClKhBSlekPq/4YRd/KgjhGjAAAAAElFTkSuQmCC" alt="1095-001"   /></a></p>
 <p>Negative infinity is FF800000 (stored little-endian).</p>

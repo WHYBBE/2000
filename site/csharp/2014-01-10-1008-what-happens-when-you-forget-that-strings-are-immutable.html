@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,33 +56,12 @@
 					</div>
 
 					<p>Strings in C# (the <strong>System.String</strong> type) are <a href="2010-08-25-69-strings-are-immutable.html">immutable</a>.  Functions that act upon a string never change the instance of the string, but instead return a new instance of a string.</p>
-<p>For example, to replace a portion of a string, you call the <strong>Replace</strong> method, assigning the result to the original string (or to a new string).</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            quote = quote.Replace(&quot;Hell&quot;, &quot;Minnesota&quot;);
-
-</pre>
-<p>If you forget that a string is immutable, you may forget to assign the result of this call to something.  The compiler won&#8217;t warn you about this.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            string quote = &quot;Go to Heaven for the climate, Hell for the company.&quot;;
-
-            Console.WriteLine(quote);
-
-
-
-            // Does NOT change quote.  Rather, it creates
-
-            // a new string, which we don't store anywhere
-
-            quote.Replace(&quot;Hell&quot;, &quot;Minnesota&quot;);
-
-
-
-            Console.WriteLine(quote);
-
-</pre>
-<p>The string is not changed, as we might have expected.<br />
+<p>For example, to replace a portion of a string, you call the <strong>Replace</strong> method, assigning the result to the original string (or to a new string).</p><pre class="code-block language-csharp"><code>quote = quote.Replace(<span class="str">"Hell"</span>, <span class="str">"Minnesota"</span>);</code></pre><p>If you forget that a string is immutable, you may forget to assign the result of this call to something.  The compiler won&#8217;t warn you about this.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> quote = <span class="str">"Go to Heaven for the climate, Hell for the company."</span>;
+Console.WriteLine(quote);
+<span class="com">// Does NOT change quote.  Rather, it creates</span>
+<span class="com">// a new string, which we don't store anywhere</span>
+quote.Replace(<span class="str">"Hell"</span>, <span class="str">"Minnesota"</span>);
+Console.WriteLine(quote);</code></pre><p>The string is not changed, as we might have expected.<br />
 <a href="http://2000thingscsharp.files.wordpress.com/2014/01/1008-001.png"><img class="alignnone size-full wp-image-8104" alt="1008-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

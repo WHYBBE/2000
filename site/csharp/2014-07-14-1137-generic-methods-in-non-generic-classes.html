@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,58 +55,44 @@
 																				</p>
 					</div>
 
-					<p>A non-generic class can contain both generic and non-generic methods.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    // Non-generic class
-    public class Dog
-    {
-        public string Name { get; set; }
-
-        public Dog(string name)
-        {
-            Name = name;
-        }
-
-        // Non-generic method
-        public void Bark()
-        {
-            Console.WriteLine(&quot;Woof&quot;);
-        }
-
-        // Generic method
-        public void Bury&lt;T&gt;(T thing)
-        {
-            Console.WriteLine(&quot;{0} is burying: {1}&quot;, Name, thing);
-        }
-    }
-</pre>
-<p>A generic class can also contain both generic and <a href="2012-03-15-540-non-generic-methods-in-a-generic-class.html">non-generic methods</a>.</p>
+					<p>A non-generic class can contain both generic and non-generic methods.</p><pre class="code-block language-csharp"><code><span class="com">// Non-generic class</span>
+<span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
+    {
+        Name = name;
+    }
+    <span class="com">// Non-generic method</span>
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"Woof"</span>);
+    }
+    <span class="com">// Generic method</span>
+    <span class="kw">public</span> <span class="kw">void</span> Bury&lt;T&gt;(T thing)
+    {
+        Console.WriteLine(<span class="str">"{0} is burying: {1}"</span>, Name, thing);
+    }
+}</code></pre><p>A generic class can also contain both generic and <a href="2012-03-15-540-non-generic-methods-in-a-generic-class.html">non-generic methods</a>.</p>
 <ul>
 <li>Generic methods are methods that introduce a type parameter not present in the generic class</li>
 <li>Both generic and non-generic methods can make use of the generic class&#8217; type parameters</li>
-</ul>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    // Generic class
-    public class Pile&lt;T&gt;
-    {
-        List&lt;T&gt; pile = new List&lt;T&gt;();
-
-        // Non-generic method
-        public void Add(T item)
-        {
-            pile.Add(item);
-        }
-
-        // Generic method (introduces T2)
-        public void AddWithOtherThing&lt;T2&gt;(T item, T2 otherThing)
-        {
-            this.Add(T);
-            Console.WriteLine(&quot;Other thing is {0}&quot;, otherThing);
-        }
-    }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+</ul><pre class="code-block language-csharp"><code><span class="com">// Generic class</span>
+<span class="kw">public</span> <span class="kw">class</span> Pile&lt;T&gt;
+{
+    List&lt;T&gt; pile = <span class="kw">new</span> List&lt;T&gt;();
+    <span class="com">// Non-generic method</span>
+    <span class="kw">public</span> <span class="kw">void</span> Add(T item)
+    {
+        pile.Add(item);
+    }
+    <span class="com">// Generic method (introduces T2)</span>
+    <span class="kw">public</span> <span class="kw">void</span> AddWithOtherThing&lt;T2&gt;(T item, T2 otherThing)
+    {
+        <span class="kw">this</span>.Add(T);
+        Console.WriteLine(<span class="str">"Other thing is {0}"</span>, otherThing);
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

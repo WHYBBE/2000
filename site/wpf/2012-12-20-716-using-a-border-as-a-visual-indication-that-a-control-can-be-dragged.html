@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,73 +56,37 @@
 					</div>
 
 					<p>You can <a href="http://wp.me/pZhye-1Cq">use the <strong>Thumb</strong> control</a> to allow dragging a control around on a parent <strong>Canvas</strong>.  To make it a little more obvious to the user that the control can be dragged, you can set up a <strong>Border</strong> around the control that only shows up when the user moves the mouse over the control.</p>
-<p><pre class="brush: xml;">
-
-    &lt;Window.Resources&gt;
-
-        &lt;Style x:Key=&quot;BorderVisibleOnMouse&quot; TargetType=&quot;Border&quot;&gt;
-
-            &lt;Setter Property=&quot;BorderThickness&quot; Value=&quot;1&quot;/&gt;
-
-            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Transparent&quot;/&gt;
-
-            &lt;Style.Triggers&gt;
-
-                &lt;Trigger Property=&quot;Border.IsMouseOver&quot; Value=&quot;True&quot;&gt;
-
-                    &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;LightBlue&quot;/&gt;
-
-                &lt;/Trigger&gt;
-
-            &lt;/Style.Triggers&gt;
-
-        &lt;/Style&gt;
-
-    &lt;/Window.Resources&gt;
-
-
-
-    &lt;Canvas&gt;
-
-        &lt;Thumb Canvas.Left=&quot;100&quot; Canvas.Top=&quot;60&quot; DragDelta=&quot;Thumb_DragDelta&quot;&gt;
-
-            &lt;Thumb.Template&gt;
-
-                &lt;ControlTemplate&gt;
-
-                    &lt;Border Style=&quot;{StaticResource ResourceKey=BorderVisibleOnMouse}&quot;&gt;
-
-                        &lt;Label Content=&quot;Elvis Drafted!&quot;/&gt;
-
-                    &lt;/Border&gt;
-
-                &lt;/ControlTemplate&gt;
-
-            &lt;/Thumb.Template&gt;
-
-        &lt;/Thumb&gt;
-
-        &lt;Thumb Canvas.Left=&quot;30&quot; Canvas.Top=&quot;180&quot; DragDelta=&quot;Thumb_DragDelta&quot;&gt;
-
-            &lt;Thumb.Template&gt;
-
-                &lt;ControlTemplate&gt;
-
-                    &lt;Border Style=&quot;{StaticResource ResourceKey=BorderVisibleOnMouse}&quot;&gt;
-
-                        &lt;Label Content=&quot;Richard the Lion-Hearted Captured!&quot;/&gt;
-
-                    &lt;/Border&gt;
-
-                &lt;/ControlTemplate&gt;
-
-            &lt;/Thumb.Template&gt;
-
-        &lt;/Thumb&gt;
-
-    &lt;/Canvas&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"BorderVisibleOnMouse"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"Border"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderThickness"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"1"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Transparent"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Border.IsMouseOver"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"LightBlue"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Thumb</span> <span class="xml-attr">Canvas.Left</span>=<span class="xml-val">"100"</span> <span class="xml-attr">Canvas.Top</span>=<span class="xml-val">"60"</span> <span class="xml-attr">DragDelta</span>=<span class="xml-val">"Thumb_DragDelta"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Thumb.Template</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">Style</span>=<span class="xml-val">"{StaticResource ResourceKey=BorderVisibleOnMouse}"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Elvis Drafted!"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Thumb.Template</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Thumb</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Thumb</span> <span class="xml-attr">Canvas.Left</span>=<span class="xml-val">"30"</span> <span class="xml-attr">Canvas.Top</span>=<span class="xml-val">"180"</span> <span class="xml-attr">DragDelta</span>=<span class="xml-val">"Thumb_DragDelta"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Thumb.Template</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">Style</span>=<span class="xml-val">"{StaticResource ResourceKey=BorderVisibleOnMouse}"</span><span class="xml-tag">&gt;</span>
+                    <span class="xml-tag">&lt;</span><span class="xml-name">Label</span> <span class="xml-attr">Content</span>=<span class="xml-val">"Richard the Lion-Hearted Captured!"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Thumb.Template</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Thumb</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Canvas</span><span class="xml-tag">&gt;</span></code></pre>
 <p><a href="http://wpf.2000things.com/2012/12/20/716-using-a-border-as-a-visual-indication-that-a-control-can-be-dragged/716-001/" rel="attachment wp-att-6243"><img class="alignnone size-full wp-image-6243" alt="716-001" src="data:image/png;base64,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"   /></a><br />
 <a href="http://wpf.2000things.com/2012/12/20/716-using-a-border-as-a-visual-indication-that-a-control-can-be-dragged/716-002/" rel="attachment wp-att-6244"><img class="alignnone size-full wp-image-6244" alt="716-002" src="data:image/png;base64,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ZvfIyhjjbg5b7a51xi/sXp2P1plq95VZZ7526vjx4//659/+/d+7/37XXTHu5gHZH7+sWum+DrOuqUayP1xXI+7SxzxEpD132b7S3W8xK4FZENOx7rphT2KBuy7Z3oKjAzIrfriuBu5Jb3enXVeXy/1LN9n86Mffltcv7lnw71VT2b3xJxJPbEubx7J1j9MnOml+SkydsVMy589q6ZescBcs+29S01yIlPcqd/+JtarOPNY8MUYHmbaPo/5d6e83Ha5LZoFdQe7X7bkmkj3XLXIIAfGCXwCQaO7t3wMXgvv8XH+LgPuip3rC3rbmsRL2hs53gjvuBHfcccd9Zbi/m9Qtp3XnfzyqV3DHHXfccced4I47wR13gjvuBHfccccdd9wJ7rgT3HEnuONOcMcdd9xxxx133HEnuONOcMed4I47wR133HHHHXeCO+4Ed9wJ7rgT3HHHHXfccSe4405wx53gjjvBHXfccccdd9xxx53gjjvBHXeCO+7xGe12HCc7vGHQ/ljqHKloCX80KTqpyu7SMeiL+1Lcdw5YvviWYstgpbI7tGUE97q7u8UM7vV0v7k7q8illDu02jGT3LYIc37H6ox8KdWo3XF26Ac37zgZrTrOVbiffX1fNSB2Ii7S8prPRq+IutsiL5/8+S6b6LZyeaQOjb5zBPezrzPyZ2irK+7FVQNR9632QsgMbxn03M2K62SLWdMR93Or7/msAIu73AKROpPPGHd580q5upsW831zFZkV6T502ZUjxt2K2hatMVpVpPqXgvnu5lP+M6fUmeErBnA/u+f3jIKOdstSqfXdsQ/ppiXlXYWS46y1812+zmqT3BN5u67iTnDHneCOO+644447wR13gjvuBHfcCe6444477rjjjjvuBHfcCe64E9xxJ7jjjjvuuONOcMed4I47wR13gjvuuOOOO+4Ed9wJ7rgT3HEnuOOOO+6444477rgT3HEnuONOcMed4I477rjjjjvBHXeCO+4Ed9wJ7rjjjjvuuOOOO+4Ed9wJ7rgT3HEnuOOOO+64405wx53gjjvBHXeCO+6444477jXzk/MkP2029/Nj6v0Fd9xxxx133HHHHXfccce9vu6j3Y7jZOUta78tpWI2Hdoy4n0a3TlQ2WS2D3ov7DX69sEznUTe65x3nM6RRZ54MaN/mtldIIceNFjpWMNdgOLd41PTfXjD4EL34XZxHPpG/CU5P92jmMvm7jFeSO4CZN5WOy2DpVReXt2iY16vak/p7b/DuGsd+N3Oj6925IRLfk2wdcb2lno1vOHD+lbpPtzurBrQLvIqu1zb7sgu7B6kV+eubKSADZtGs5uMOeItcpHkQg1t2dUyaEaom7Rc3fTu3eb85bSHr9AzL4laPuNPKbWX1nxnMN+7O0ekLKm2PW/ffeh+A67sYVguVMmr0nol9PLp9LZ3jGysu9Qv7B6G27OyWbbyHpCPuhsdTz5rGtRdttKdlFKj3RlTlErZJp/veoLyZiuGvspfnXYpQ/uOgeo6I3+LKpqKupcy5lJ5SmYy+/Pd+LcM2iusu9SN7B6GtvrFJChgRb0tzFWQTSPuaq59Om+5csS0Nb272qllJnTXS1Ey7sZjoXum8nmm2r2iztje+swjnwL38G6xRdzeZG7RjKWGeyrYbTiAZl5Xu7NepfDd9Qknb+e7QETrjHUvtQxWuft1JsZdi4lrykYxnO92D/qlrTP2rZQVftmVdvHqjF6vUsvFH5Gd2RHqF1pniqlmd5fzunmnWfhaBr06Iyvak627lge7rsoGsq7ax5+i4y2feu/7vZ1gdlauq1poUtrlMjvfZe8Zbw9akHZlgxU1pds+8FFy+R5j9i9HHJFN1m64+JEPGbEHy5j1/+pmd1+ZqXrSdN37upsO8HuC5XCvBY97nd1rwONez6h7PDzudXePhce9/u5x8Lg3wP1/C+Fxb4C7+48F8M3n3ky5jz/qPzz4M03+3+m5zTjfXfeOTStgOBeU+wlZVzW4N9T9xEVfdR9//coYzgXkfuKiA5e6d1yKe2Pdhd3d/HN38/W4NzKbhN09cIl76/1xb3w23+o+APfG5/eXPOmXuF/AwR133HHHHXeCO+4Ed9wJ7rgT3HHHHXfccSe4405wx53gjjvBHXfccccdd9xxx53gjjvBHXeCO+4Ed9xxxx133AnuuBPccSe4404W607qltO5k3oH9+V3n5saw71R7mNTc4H79DjujXI/Nh26lydwb5T7xKnQfWYS90a5T8747jrht5EGpWzYrftseXLi2NhRUu+MHZuYLM+G831u5tT01ElS70xNn5qZC+qMOy/yc3OzpN5R5vmgzhh50qBYcIffWC1L/g9gTgsmQEjQqAAAAABJRU5ErkJggg=="   /></a><br />
 <a href="http://wpf.2000things.com/2012/12/20/716-using-a-border-as-a-visual-indication-that-a-control-can-be-dragged/716-003/" rel="attachment wp-att-6245"><img class="alignnone size-full wp-image-6245" alt="716-003" src="data:image/png;base64,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"   /></a></p>

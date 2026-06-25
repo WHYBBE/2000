@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,11 +58,9 @@
 					<p>The idea of an object deriving from <strong>Freezable</strong> is that it normally is in a read/write state, but can be explicitly put into a read-only state using the <strong>Freeze</strong> method.  A frozen object can be used more efficiently in WPF because it doesn&#8217;t need to notify consumers of the object that its value has changed.</p>
 <p>Graphical objects in WPF like brushes and 3D geometries derive from <strong>Freezable</strong>.  Initially unfrozen, a change to one of these objects results in <a href="2010-12-31-172-changes-to-a-brush-cascade-to-consumers-of-the-brush.html">consumers of the objects being notified of the change</a>.</p>
 <p>If you have an object deriving from <strong>Freezable</strong> that you don&#8217;t plan to change, you can make the object read-only using the <strong>Freeze</strong> method.</p>
-<p><pre class="brush: csharp;">
-            // Freeze this object, making it read-only (since we don't plan on changing it)
-            if (theBrush.CanFreeze)
-                theBrush.Freeze();
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="com">// Freeze this object, making it read-only (since we don't plan on changing it)</span>
+<span class="kw">if</span> (theBrush.CanFreeze)
+    theBrush.Freeze();</code></pre>
 <p>After freezing the object, if you try modifying it, you&#8217;ll get an <strong>InvalidOperationException</strong>.  But WPF will be more efficient in its use of the object.</p>
 
 <div class="wpadvert">

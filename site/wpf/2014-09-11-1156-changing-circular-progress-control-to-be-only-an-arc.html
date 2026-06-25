@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -52,181 +64,79 @@
 <li>Default <strong>Fill</strong> property to be transparent</li>
 <li>Default <strong>Stroke</strong> to have thickness of 10.0</li>
 </ul>
-<p>Here is the updated code:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class CircularProgress : Shape
-
+<p>Here is the updated code:</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> CircularProgress : Shape
+{
+    <span class="kw">static</span> CircularProgress()
     {
-
-        static CircularProgress()
-
-        {
-
-            Brush myGreenBrush = new SolidColorBrush(Color.FromArgb(255, 6, 176, 37));
-
-            myGreenBrush.Freeze();
-
-
-
-            StrokeProperty.OverrideMetadata(
-
-                typeof(CircularProgress),
-
-                new FrameworkPropertyMetadata(myGreenBrush));
-
-            FillProperty.OverrideMetadata(
-
-                typeof(CircularProgress),
-
-                new FrameworkPropertyMetadata(Brushes.Transparent));
-
-
-
-            StrokeThicknessProperty.OverrideMetadata(
-
-                typeof(CircularProgress),
-
-                new FrameworkPropertyMetadata(10.0));
-
-        }
-
-
-
-        // Value (0-100)
-
-        public double Value
-
-        {
-
-            get { return (double)GetValue(ValueProperty); }
-
-            set { SetValue(ValueProperty, value); }
-
-        }
-
-
-
-        // DependencyProperty - Value (0 - 100)
-
-        private static FrameworkPropertyMetadata valueMetadata =
-
-                new FrameworkPropertyMetadata(
-
-                    0.0,     // Default value
-
-                    FrameworkPropertyMetadataOptions.AffectsRender,
-
-                    null,    // Property changed callback
-
-                    new CoerceValueCallback(CoerceValue));   // Coerce value callback
-
-
-
-        public static readonly DependencyProperty ValueProperty =
-
-            DependencyProperty.Register(&quot;Value&quot;, typeof(double), typeof(CircularProgress), valueMetadata);
-
-
-
-        private static object CoerceValue(DependencyObject depObj, object baseVal)
-
-        {
-
-            double val = (double)baseVal;
-
-            val = Math.Min(val, 99.999);
-
-            val = Math.Max(val, 0.0);
-
-            return val;
-
-        }
-
-
-
-        protected override Geometry DefiningGeometry
-
-        {
-
-            get
-
-            {
-
-                double startAngle = 90.0;
-
-                double endAngle = 90.0 - ((Value / 100.0) * 360.0);
-
-
-
-                double maxWidth = Math.Max(0.0, RenderSize.Width - StrokeThickness);
-
-                double maxHeight = Math.Max(0.0, RenderSize.Height - StrokeThickness);
-
-
-
-                double xStart = maxWidth / 2.0 * Math.Cos(startAngle * Math.PI / 180.0);
-
-                double yStart = maxHeight / 2.0 * Math.Sin(startAngle * Math.PI / 180.0);
-
-
-
-                double xEnd = maxWidth / 2.0 * Math.Cos(endAngle * Math.PI / 180.0);
-
-                double yEnd = maxHeight / 2.0 * Math.Sin(endAngle * Math.PI / 180.0);
-
-
-
-                StreamGeometry geom = new StreamGeometry();
-
-                using (StreamGeometryContext ctx = geom.Open())
-
-                {
-
-                    ctx.BeginFigure(
-
-                        new Point((RenderSize.Width / 2.0) + xStart,
-
-                                  (RenderSize.Height / 2.0) - yStart),
-
-                        true,   // Filled
-
-                        false);  // Closed
-
-                    ctx.ArcTo(
-
-                        new Point((RenderSize.Width / 2.0) + xEnd,
-
-                                  (RenderSize.Height / 2.0) - yEnd),
-
-                        new Size(maxWidth / 2.0, maxHeight / 2),
-
-                        0.0,     // rotationAngle
-
-                        (startAngle - endAngle) &gt; 180,   // greater than 180 deg?
-
-                        SweepDirection.Clockwise,
-
-                        true,    // isStroked
-
-                        false);
-
-                //    ctx.LineTo(new Point((RenderSize.Width / 2.0), (RenderSize.Height / 2.0)), true, true);
-
-                }
-
-
-
-                return geom;
-
-            }
-
-        }
-
+        Brush myGreenBrush = <span class="kw">new</span> SolidColorBrush(Color.FromArgb(<span <span class="kw">class</span>="num">255</span>, <span <span class="kw">class</span>="num">6</span>, <span <span class="kw">class</span>="num">176</span>, <span <span class="kw">class</span>="num">37</span>));
+        myGreenBrush.Freeze();
+        StrokeProperty.OverrideMetadata(
+            <span class="kw">typeof</span>(CircularProgress),
+            <span class="kw">new</span> FrameworkPropertyMetadata(myGreenBrush));
+        FillProperty.OverrideMetadata(
+            <span class="kw">typeof</span>(CircularProgress),
+            <span class="kw">new</span> FrameworkPropertyMetadata(Brushes.Transparent));
+        StrokeThicknessProperty.OverrideMetadata(
+            <span class="kw">typeof</span>(CircularProgress),
+            <span class="kw">new</span> FrameworkPropertyMetadata(<span <span class="kw">class</span>="num">10.0</span>));
     }
-
-</pre>
-<p>Below is a screenshot showing the updated arc-based circular progress indicator.</p>
+    <span class="com">// Value (0-100)</span>
+    <span class="kw">public</span> <span class="kw">double</span> Value
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> (<span class="kw">double</span>)GetValue(ValueProperty); }
+        <span class="kw">set</span> { SetValue(ValueProperty, <span class="kw">value</span>); }
+    }
+    <span class="com">// DependencyProperty - Value (0 - 100)</span>
+    <span class="kw">private</span> <span class="kw">static</span> FrameworkPropertyMetadata valueMetadata =
+            <span class="kw">new</span> FrameworkPropertyMetadata(
+                <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// Default value</span>
+                FrameworkPropertyMetadataOptions.AffectsRender,
+                <span class="kw">null</span>,    <span class="com">// Property changed callback</span>
+                <span class="kw">new</span> CoerceValueCallback(CoerceValue));   <span class="com">// Coerce value callback</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyProperty ValueProperty =
+        DependencyProperty.Register(<span class="str">"Value"</span>, <span class="kw">typeof</span>(<span class="kw">double</span>), <span class="kw">typeof</span>(CircularProgress), valueMetadata);
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">object</span> CoerceValue(DependencyObject depObj, <span class="kw">object</span> baseVal)
+    {
+        <span class="kw">double</span> val = (<span class="kw">double</span>)baseVal;
+        val = Math.Min(val, <span <span class="kw">class</span>="num">99.999</span>);
+        val = Math.Max(val, <span <span class="kw">class</span>="num">0.0</span>);
+        <span class="kw">return</span> val;
+    }
+    <span class="kw">protected</span> <span class="kw">override</span> Geometry DefiningGeometry
+    {
+        <span class="kw">get</span>
+        {
+            <span class="kw">double</span> startAngle = <span <span class="kw">class</span>="num">90.0</span>;
+            <span class="kw">double</span> endAngle = <span <span class="kw">class</span>="num">90.0</span> - ((Value / <span <span class="kw">class</span>="num">100.0</span>) * <span <span class="kw">class</span>="num">360.0</span>);
+            <span class="kw">double</span> maxWidth = Math.Max(<span <span class="kw">class</span>="num">0.0</span>, RenderSize.Width - StrokeThickness);
+            <span class="kw">double</span> maxHeight = Math.Max(<span <span class="kw">class</span>="num">0.0</span>, RenderSize.Height - StrokeThickness);
+            <span class="kw">double</span> xStart = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(startAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yStart = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(startAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> xEnd = maxWidth / <span <span class="kw">class</span>="num">2.0</span> * Math.Cos(endAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            <span class="kw">double</span> yEnd = maxHeight / <span <span class="kw">class</span>="num">2.0</span> * Math.Sin(endAngle * Math.PI / <span <span class="kw">class</span>="num">180.0</span>);
+            StreamGeometry geom = <span class="kw">new</span> StreamGeometry();
+            <span class="kw">using</span> (StreamGeometryContext ctx = geom.Open())
+            {
+                ctx.BeginFigure(
+                    <span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>) + xStart,
+                              (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>) - yStart),
+                    <span class="kw">true</span>,   <span class="com">// Filled</span>
+                    <span class="kw">false</span>);  <span class="com">// Closed</span>
+                ctx.ArcTo(
+                    <span class="kw">new</span> Point((RenderSize.Width / <span <span class="kw">class</span>="num">2.0</span>) + xEnd,
+                              (RenderSize.Height / <span <span class="kw">class</span>="num">2.0</span>) - yEnd),
+                    <span class="kw">new</span> Size(maxWidth / <span <span class="kw">class</span>="num">2.0</span>, maxHeight / <span <span class="kw">class</span>="num">2</span>),
+                    <span <span class="kw">class</span>="num">0.0</span>,     <span class="com">// rotationAngle</span>
+                    (startAngle - endAngle) &gt; <span <span class="kw">class</span>="num">180</span>,   <span class="com">// greater than 180 deg?</span>
+                    SweepDirection.Clockwise,
+                    <span class="kw">true</span>,    <span class="com">// isStroked</span>
+                    <span class="kw">false</span>);
+            <span class="com">//    ctx.LineTo(new Point((RenderSize.Width / 2.0), (RenderSize.Height / 2.0)), true, true);</span>
+            }
+            <span class="kw">return</span> geom;
+        }
+    }
+}</code></pre><p>Below is a screenshot showing the updated arc-based circular progress indicator.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/09/1156-0011.png"><img class="alignnone size-full wp-image-9282" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARcAAAEDCAIAAACQ9tcOAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAEVlJREFUeNrt3X10VPWdx3H+2tPjOatH29Nt3WX3tHtc07MislW3SlXawvEBqlhRYTcpVgVFQbsiUlERqCgkQWqUCpGIIAlCARPyHMgjoSExRPJEQh5MIgnkYYZk8jQzSQb3l5lk5s7T705mMmGSeX/O9xzCnZk79975vfL73d/M3Ez7zj5XCCFqcVAzzcGPSZEhQsholDQcLE2zErLcPDg4aDQaDQaDXq/vJ4SMRogQLoQOYcRqyVGR0Cbu0dfX19XVpdFo2tvb2wghoxEihAuhQxgRUoQXF4qELXHb7m0vUBQlLyHFsS+yEBL9lEAm7lGcFkFRV70KFi4MhHLeMGFESLGM6yyQpik7ItFboYhCkaoiIWVgYMCFInHmJIZ9KKJQpKpIq9UKLy4U6fV6cf6EIgpFqoqEFOHFUdHQ0FB/f39bWxuKKBSpKhJShBfrNB2KKBShiAr4CpEm6BQlxEbEfRruScXHhhelhtOAqIlXZHkPR77kaio6/GVi8dnK4rMVTlV5pnS4jqXnHUvLFRV36GjW3zbSgCiLIi9u8qUDUbLxhZBfFGXl5BmMRr1BpcR9jmflpsW95d1BT1wzW/GrakG0eWF0mO1nX0qs54E1b/rycEVmb9gHkkBUZMXjIyG/KMrNO1ldc2FLTNbWPZnhe09E7D++7UDGuXPfXNZqvm1qEqXVaqITvhLlraI3N8y11xK5YFnkeL6iviuyPtysHUgBqsj3XshfinJy8s7XXnz+/WMrohJW7jz6Uszh/9t3qLS09rKmXakoJrXQO0XD7XJuWKI/X9FxVGQx78vaUBSMfVHGiWyh6K196S/sPBz24WdLduxasusjs6KOpuE0CkX78k4e+CrLK0Url4WEuOt5FM13uO0uixy+s7XXUg4CzWsQtyp6iX1hDyhGhrZ2P7x8NDa9Ltavpkhlk0LCVroeFs4NixZ3G7lVvhLF7kQucFzovMQ/8wGcF42bosciYh7c8uFvt/9l4Y7Ix6K3WPoiQcjSFx0pT02oOuaNouGm4PbMx0HRA3MXWJuLuamNPnBf2AaPFSWusa7EPJJUtGbl+uWKzGilm2S3cjMhq1hL63fzvHY9s/XgDO+LFU/Y8A/OSwJPEXN0jormR0Q9/MH7j34csWj3e4v3bbL0RdYRXeWlSlF+V2Rryi57MM/6IodnH2mysnGa8uGKCQ/nTbLvE2wb4HjT8EqUityuZFSsYl+c9453XSfB+0UWRY98tO2xXVuf+HTzks83hn3xplCkVZwXGQ16Uf5WZGPj+lGeKrIbdykUSQaWIW4HgZJNGt0epxaf6Diicx62hdgPVi0TMMotdF6CooBXtOiT957c++f/jX176aF1Tx99TSjSdIwq0mh6e3u6Oju9UaQcmUyEIvMZiHLI5JkiV92Ux4qcbpIqct/DjJzRKe7gvARFAaooM6esoj78y0MRCV9sS4zdnvz5B6l7i4rKrIo0HR3dui6tVuvV7ILd+YOnilzbs1ekaJG29dh3C4qTEJ8VOW+S9bmcbnIY0antl+OT2m/MlJoznLKK0o5nDw4OdOsud3cNV093d093V4+uU9/fZ9D3i15Ip9N1dl4W5e37Rfb9g+L9IreKHN6QHZldUIK0m/WyVzTaTC2/yMdLkeN7xMrGbd4w97MLspWEmR9lewNt9P7OS1AUyIriDuwXPJwrM+dkdt6pzOw865LY/Z+nH1jv1eEbGeU7nHtIFNmfrlh/f1vwmBui2zm62bZnGccRndMZl3OPYZ0BdzuiczoNU+BXW4KiQFZ06ti7woboZFRL3E3cmTcc/f0uMDXxxTcjAqzkUwgUiigPPs8KIRRRFIpQRFEooigUURSKKApFKKKoCVF0NOY1igrOGk9F3xESfEERISgiBEWEoAhFBEUomhKJqttzU8acefmhiwpXPFuydlNV1F/rP4/9Nj6343R1Tz3HB0VEPX+ujvqH+Jvc1W2ZDy0veX1348EyXTXHCkXEG0XWui5xxtz80HWVEfEXMy4Z2jluKCK2iCGcJ4qUdWPKnW+ci2zFEorImPoi5/qX1LtWnl1/vO0kxxBFKPJSkaWuT7r1qTOvHm1JM10xcTBRxIjOp5qXH5qvKeZ4ooi+yKe6LnHGmvJ3a3saOKooQpFP9cCppV9eTOfAoghFPtU/p/xiU9UHrYYODi+KgiKdA7rGvubcjtNHWlJ3NcSJ06SVpesXF626MeVOHy3dk/e4WDNHGEVBneLO8vCanWKEdm3iLd5BuiFp5t6mIxxJFJHv9CZDelvuy2UbveMUVbeHY4giMpIK3fnN1R/dmf3IWHukbbWfcPRQRGxp6m+Jqt/zm5P/M6ZJcDE45NChiNhl8MpQTONB0c8wtEMR8Sn52uLfF7/ioaJrEkLEgJCDhiLiolN6v3a3EEKPhCLiU1JbcxYWLPfww+CHW1I4YigiLqI3GRYXrfIE0k/S7+kc0HHEUERcpM2oWVW6wRNIL559SwwFUYQi4iLtBu1LnkHiBAlFxG00xs4/lm1SVfSz43Mz2vJQhCLiOlpj1ytl76hCWliwvCmIP7GKIqIScdozLz9UFdLaii0oQhFxm9yOwllZ8+WKZpy4v1JXgyIUEbfZ1RD3vfib5ZA2n/8IRSgisqjONNye/du63kYUoYi4zfmeb+4/9Xs5pMjaaBShiMhS3FkuVzQ97W69yYAiFBFZnil5TQ7pw/rPUIQiIkvypazrEmdIFP365JI2gwZFKCKyLCpcIe+ODjYnoQhFRJbESyf+8dh/ShS9UvYOilBEVLK0eLVE0S9zF5m+M6EIRUSWs13n5IO64s5yFKGIyGIwGeUX4nq/djeKUERUIv8a3xOFL6IIRUQl+7/9UqLo39JmN/W3oAhFRJa63sYfSy+lHzzz3Sgi3mdBwTMSRc+WrEURiohKtpz/WKLoscIVKEIRUUmF7rxE0U0Zc1CEIqKSxr5mFKGI+JS+of7vJ90m+QMTuoEeFKGIqCQk4zeS7ihI/lA5iohPuS/vSYmifE0xilBEVPJ44QsSRUdb0lCEIqKSF8++JVH08Tf7UYQiopJNVVESReJWFKGIqER+/eEd9ftQhCKikqfPrJEoir0QjyIUEZU8evo5iaKU1mwUoYioZI50pvvv2jMoQhFRyczMByWKqrrrUIQiopJ/TbtboqjV0IEiFBGV/DD55xJFPYN9KEIRkSX+YoaE0E/T7w2S44Ai4n2i6vbI/i5Y5v0oQhFRyUOn/iD74EJ1FIpQRGRp6Lvw45Q7JIqSL2WhCEVElsMtKfKTokv6dhShiMjyekW4RNHjhS8Ez6FAEfEyd+U8KlG0unwzilBEZPms6bD8avfH206iCEVEFvkfArs549daYxeKUETcpq638ZqEEImiefmhQXVAUETGnOdK1smHc8cuHkcRiojbFFwuuTH1vyWEfnf6+WA7JigiY8vbVdvlHVFU3R4UoYi4TdyFhOuTbpUQui/vyQ7jZRShaJyT2X5q8MrQFNgRsRd3ZD8s74jWVmwJwpcYRX5Mq6F9cdEq0bZeLts4BXYnvGannNA1CSHN/ZdQhKLxSYu+9Z3qD/894z5L87o28ZbohgOTeo8ONSf/IGmWXNGfKrYG58uNovFPdU/9vPxQhxZ2Q9LMCt35yTuWuyfvcTkh8ZtC7DiKUORrqrrrXqt4z92XqB8pWFbX2zjpduqivm15yetyQsFzMWEU+TfFneWzsubLm9pTZ16ddPu1unyzKiHRU02NGRQUXeWc7Tonhm2qDW5yfdhZfhluxnIoGv/Ir0NgrTUV72qMnQG+L0bTgPwbRNb6axCP5VDklzz/9RuetLzFRasCfAjk4W+EIB/Locgvqe9tWliw3JP29/SZNTW9DQG4C5W6mpVn13uyC/+VNb9AW8KLjqLxT11vo/xah9b61cnFnQO6gNr4xr5m+ZdYlbWrIY6XG0X+yicNX1yXOMOThnhH9sPivMJgMl71be4b6o+sjf5J+j2ebPaPkm/f2RDLC40i/0b1s8/KWnh6+dX97IzeZFhZut7zDX7jXCQvMYr8nu7B3nWVEZ63y58dnxtRs2vi5+7E+HNrzU7Vj5la63vxN4v78/qiaOLybvUOzyFZprwy209NzLYNXhna23RE6B3TFk7GN45RNOmzvTbmRym3j6mlzsl7MrxmZ7mu2k+b1NB7IbIm+hcezyJY6/XKcKNpgNcURVchR1pS5Zf7cFk3JM18uWzj+H6G9fTlr8UJ21j7H2svxFtDKLqaEeM0Tz4f5G4eT3A62JzU2NfsxVP3DPaJxz5bsvbGlDu924BrE29hUhtFAZF8TbHX7dha09PuXly0Kqpuj4CR23Fa9C2ClvVL2gJMdU99eltuTONB0ecIOeJEy4tuUFmzsuaf7TrHy4eiQIkYnq0u3/z9pNt8tDQx9U/JP99Q9Zd2o5YXDkUBl781Jz/09z8EOKFf5i6Ku5DAi4WiwI3eZHjjXKSPYy3/1bz80Mn4hUIUBWMy2vKWfPVS4OD5QdKs50rWBdWF6lE0FTJ4ZSim8aDnHx3wa/+T23GaVwRFkziprTkrS9/+afq9E4zn+sRbl5X8Ka01l5cARVMkrYb2t6u2T0+7ewL83JA0c1HhCvofFE3ZuYfYb+MXFDzj4feUxlQ3Zcx5uWxjeluueBYONYqC4KzJNFjcWb674eCq0g335j7h4XeWnOs/Mn61tHj1x9/sL9VVcVRRFNRp7GsWfZToSZ4tWSsGY/PyQ+/KeVT0LcoRoPivWP7UmVfFyHBXQ1zypawK3flA+0YtilBECIoIQREhKCIERSgiBEWEoIgQFBGCIhQRgiJCUEQIighBEYoIQREhKCIkGBVNiksZUh5drS7pdyeCKSiixr8ezF16MWiCIgpFKKJQhCIUoQhFKKJQhCIKRSiiUIQiFKEIRSiiUIQiCkUoolCEIhShCEUoolCEIgpFKKJQhCIUoQhFKKJQhCIKRSiiUIQiFKEIRSiiUIQiCkUoolCEIhRxPTquR8e1UQlBESEoIgRFhKAIRYSgiBAUEYIiQlCEIkJQRAiKAjd/DO6gCEXjo6g+WIMiFKEIRShCEYpQhCIUoQhFKEIRilCEIhShCEUoQhGKUIQiFKEIRShCEYpQhCIUBZeijPW3TLNk9tZ83xtx0aeLfzjNLtOXHfhaPMnwPyhC0RRUNNzmR/EUfbpxR/6IK09Bub/rGFaCIhRNakUu2zqKUISisYzohsdzdmMt2wDPvNjhv+bea9ayjavE0tmhoQ63uVdk/Z/5h72WlYolo+M/2wpsI0LLAxTP5xlKFKHoKswujLRbWyOVdlDme1tv9rQvUioaeSrziix6rONKM5kRTyMPsX8+FKEokOfohpv3SGO1A6CYLTA3eWVD907R6GIXP9p6PusT2j8filAU2DPdLlq6YvJhtDX7W5Hj6lCEosCfXQgdbbU2Mba2bJugHr7V/32R9VlQhKJJ1Bc5DtgUMwwj4ynLzdPnh8510Rcp7joeiuxmN1yNIFGEosAe0fHZBRShCEUoQhGKUIQiFKEIRShCEYpQhCIUoQhFKEIRilCEIhShCEUoQhGKUDR+ivjLKyhCESEoIgRFhKAIRQRFKCIERYSgiBAUEYIiFBGCIkJQRAiKCEERighBESEoIgRFhKAIRYSgiBAUEYIiQlCEIkJQRAiKCEERISjyUhFFBWeNmyKKolBEUf5XZDKZ9Hp9e3s7iihKVZGQIrwINY6KDAaDRqNBEUWpKtJqtcKLC0VGo7GrqwtFFKWqSEgZGBhwoWhwcLCvrw9FFKWqSEgRXuwUKbsjcQ+KouQlpFgJ2SkaGhoStwlkorcSwz5x/tRGCFFEoBA0BBDBRGCxm6Oz9kWWcZ0Y8IkzJ71e308IUUSgEDQEEMtwznFEZ4FktWTJECFEEaUOixe7EZ2DJUKIPEo10/jEISE+5v8BQgux9AVER6YAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAABJRU5ErkJggg==" alt="1156-001"   /></a></p>
 <p>&nbsp;</p>
 

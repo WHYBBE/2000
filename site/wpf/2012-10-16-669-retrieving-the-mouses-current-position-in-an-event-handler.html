@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,31 +58,16 @@
 					<p>You can use the static <strong>Mouse.GetPosition</strong> method anywhere in your code to retrieve the current position of your mouse.</p>
 <p>You can also access the mouse position through either the <strong>MouseButtonEventArgs</strong> or <strong>MouseEventArgs</strong> object passed in to an event handler for any of the mouse-related events.</p>
 <p>In the example below, we use the <strong>MouseButtonEventArgs.GetPosition</strong> and <strong>MouseEventArgs.GetPosition</strong> methods in the handlers to get the mouse&#8217;s position and to update a related label.</p>
-<p><pre class="brush: csharp;">
-
-        private void win1_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
-
-        {
-
-            Point p = e.GetPosition(null);
-
-            MousePosTextLastClick = string.Format(&amp;quot;Last click at X = {0}, Y = {1}&amp;quot;, p.X, p.Y);
-
-        }
-
-
-
-        private void win1_MouseMove_1(object sender, MouseEventArgs e)
-
-        {
-
-            Point p = e.GetPosition(null);
-
-            MousePosText = string.Format(&amp;quot;X = {0}, Y = {1}&amp;quot;, p.X, p.Y);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> win1_MouseLeftButtonDown_1(<span class="kw">object</span> sender, MouseButtonEventArgs e)
+{
+    Point p = e.GetPosition(<span class="kw">null</span>);
+    MousePosTextLastClick = <span class="kw">string</span>.Format(&amp;quot;Last click at X = {<span <span class="kw">class</span>="num">0</span>}, Y = {<span <span class="kw">class</span>="num">1</span>}&amp;quot;, p.X, p.Y);
+}
+<span class="kw">private</span> <span class="kw">void</span> win1_MouseMove_1(<span class="kw">object</span> sender, MouseEventArgs e)
+{
+    Point p = e.GetPosition(<span class="kw">null</span>);
+    MousePosText = <span class="kw">string</span>.Format(&amp;quot;X = {<span <span class="kw">class</span>="num">0</span>}, Y = {<span <span class="kw">class</span>="num">1</span>}&amp;quot;, p.X, p.Y);
+}</code></pre>
 <p><a href="http://2000thingswpf.files.wordpress.com/2012/10/669-001.png"><img class="alignnone size-full wp-image-5790" title="669-001" alt="" src="data:image/png;base64,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"   /><br />
 </a><a href="http://2000thingswpf.files.wordpress.com/2012/10/669-002.png"><img class="alignnone size-full wp-image-5791" title="669-002" alt="" src="data:image/png;base64,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"   /></a></p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="wpl-likebox sd-block sd-like"><h3 class="sd-title">Like this:</h3><div class="sd-content"><div id="like-5787" class="wpl-button "><a href='2012-10-16-669-retrieving-the-mouses-current-position-in-an-event-handler.html' title='I like this.' class='like needs-login sd-button' rel='nofollow'><span>Like</span></a></div><div class="wpl-count sd-like-count">Be the first to like this.</div></div></article>

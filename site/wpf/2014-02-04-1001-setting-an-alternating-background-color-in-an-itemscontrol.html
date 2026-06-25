@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,28 +56,23 @@
 					</div>
 
 					<p>The <b>AlternationCount</b> and <strong>AlternationIndex</strong> properties of controls inheriting from <strong>ItemsControl</strong> allow setting property values that alternate across the collection of items.</p>
-<p>The <strong>AlternationCount</strong> property dictates how many unique styles you alternate between.  The most common value is 2, indicating that every other item has a particular style.  In the example below, we use these properties to set up an alternating background color.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-    &lt;Window.Resources&gt;
-        &lt;AlternationConverter x:Key=&quot;altconvBackground&quot;&gt;
-            &lt;SolidColorBrush Color=&quot;AliceBlue&quot;/&gt;
-            &lt;SolidColorBrush Color=&quot;White&quot;/&gt;
-        &lt;/AlternationConverter&gt;
-    &lt;/Window.Resources&gt;
-
-    &lt;Grid Margin=&quot;10&quot; &gt;
-        &lt;ListBox ItemsSource=&quot;{Binding ActorList}&quot; Width=&quot;200&quot;
-                 AlternationCount=&quot;2&quot;&gt;
-            &lt;ListBox.ItemContainerStyle&gt;
-                &lt;Style TargetType=&quot;{x:Type ListBoxItem}&quot;&gt;
-                    &lt;Setter Property=&quot;Background&quot;
-                            Value=&quot;{Binding RelativeSource={RelativeSource Self}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource altconvBackground}}&quot;/&gt;
-                &lt;/Style&gt;
-            &lt;/ListBox.ItemContainerStyle&gt;
-        &lt;/ListBox&gt;
-    &lt;/Grid&gt;
-</pre>
-<p>We set an <strong>ItemContainerStyle</strong> because we want to set a property for a given <strong>ListBoxItem</strong>.  We then set the <strong>Background</strong> of each item to derive its value from the <strong>AlternationIndex</strong> property of the item.  The <strong>AlternationConverter</strong> is used to convert this index, 0 or 1, into a <strong>SolidColorBrush</strong>.</p>
+<p>The <strong>AlternationCount</strong> property dictates how many unique styles you alternate between.  The most common value is 2, indicating that every other item has a particular style.  In the example below, we use these properties to set up an alternating background color.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">AlternationConverter</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"altconvBackground"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">Color</span>=<span class="xml-val">"AliceBlue"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">SolidColorBrush</span> <span class="xml-attr">Color</span>=<span class="xml-val">"White"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">AlternationConverter</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10"</span> <span class="xml-tag">&gt;</span>
+    &lt;ListBox ItemsSource="{Binding ActorList}" Width="200"
+             AlternationCount="2"&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">ListBox.ItemContainerStyle</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type ListBoxItem}"</span><span class="xml-tag">&gt;</span>
+                &lt;Setter Property="Background"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource altconvBackground}}"/&gt;
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox.ItemContainerStyle</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ListBox</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p>We set an <strong>ItemContainerStyle</strong> because we want to set a property for a given <strong>ListBoxItem</strong>.  We then set the <strong>Background</strong> of each item to derive its value from the <strong>AlternationIndex</strong> property of the item.  The <strong>AlternationConverter</strong> is used to convert this index, 0 or 1, into a <strong>SolidColorBrush</strong>.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

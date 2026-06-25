@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,101 +56,45 @@
 					</div>
 
 					<p>An iterator can be written to generate an enumerable sequence of infinite length.  The iterator will execute for as long as client code continues to request the next element in the sequence.</p>
-<p>Below is a simple iterator that generates prime numbers.  Note that we can still use the iterator, although its implementation includes an infinite loop.  The loop will execute only as many times as needed.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        static void Main(string[] args)
-
+<p>Below is a simple iterator that generates prime numbers.  Note that we can still use the iterator, although its implementation includes an infinite loop.  The loop will execute only as many times as needed.</p><pre class="code-block language-csharp"><code><span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
+{
+    Console.Write(<span class="str">"Enter limit:"</span>);
+    <span class="kw">int</span> limit = <span class="kw">int</span>.Parse(Console.ReadLine());
+    <span class="kw">foreach</span> (<span class="kw">int</span> p <span class="kw">in</span> AllPrimes())
+    {
+        <span class="kw">if</span> (p &gt; limit)
+            <span class="kw">break</span>;
+        Console.WriteLine(p);
+    }
+    Console.ReadLine();
+}
+<span class="kw">private</span> <span class="kw">static</span> IEnumerable&lt;<span class="kw">int</span>&gt; AllPrimes()
+{
+    List&lt;<span class="kw">int</span>&gt; primesSoFar = <span class="kw">new</span> List&lt;<span class="kw">int</span>&gt;();
+    primesSoFar.Add(<span <span class="kw">class</span>="num">2</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span <span class="kw">class</span>="num">2</span>;
+    primesSoFar.Add(<span <span class="kw">class</span>="num">3</span>);
+    <span class="kw">yield</span> <span class="kw">return</span> <span <span class="kw">class</span>="num">3</span>;
+    <span class="kw">int</span> testPrime = <span <span class="kw">class</span>="num">5</span>;
+    <span class="kw">while</span> (<span class="kw">true</span>)
+    {
+        <span class="kw">bool</span> isPrime = <span class="kw">true</span>;
+        <span class="kw">foreach</span> (<span class="kw">int</span> n <span class="kw">in</span> primesSoFar)
         {
-
-            Console.Write(&quot;Enter limit:&quot;);
-
-            int limit = int.Parse(Console.ReadLine());
-
-
-
-            foreach (int p in AllPrimes())
-
+            <span class="kw">if</span> (testPrime % n == <span <span class="kw">class</span>="num">0</span>)
             {
-
-                if (p &gt; limit)
-
-                    break;
-
-                Console.WriteLine(p);
-
+                isPrime = <span class="kw">false</span>;
+                <span class="kw">break</span>;
             }
-
-
-
-            Console.ReadLine();
-
         }
-
-
-
-        private static IEnumerable&lt;int&gt; AllPrimes()
-
+        <span class="kw">if</span> (isPrime)
         {
-
-            List&lt;int&gt; primesSoFar = new List&lt;int&gt;();
-
-            primesSoFar.Add(2);
-
-            yield return 2;
-
-            primesSoFar.Add(3);
-
-            yield return 3;
-
-
-
-            int testPrime = 5;
-
-            while (true)
-
-            {
-
-                bool isPrime = true;
-
-                foreach (int n in primesSoFar)
-
-                {
-
-                    if (testPrime % n == 0)
-
-                    {
-
-                        isPrime = false;
-
-                        break;
-
-                    }
-
-                }
-
-
-
-                if (isPrime)
-
-                {
-
-                    primesSoFar.Add(testPrime);
-
-                    yield return testPrime;
-
-                }
-
-
-
-                testPrime += 2;
-
-            }
-
+            primesSoFar.Add(testPrime);
+            <span class="kw">yield</span> <span class="kw">return</span> testPrime;
         }
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/10/1197-001.png"><img class="alignnone size-full wp-image-9165" src="data:image/png;base64,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" alt="1197-001"   /></a></p>
+        testPrime += <span <span class="kw">class</span>="num">2</span>;
+    }
+}</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/10/1197-001.png"><img class="alignnone size-full wp-image-9165" src="data:image/png;base64,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" alt="1197-001"   /></a></p>
 
 <div class="wpcnt">
 <div class="wpa">

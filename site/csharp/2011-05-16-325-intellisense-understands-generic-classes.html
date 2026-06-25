@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,37 +57,18 @@
 
 					<p>When using a generic class, Intellisense understands the type parameters passed to the class when it was constructed.  It will display the correct types when showing information for any method or property of the generic class.</p>
 <p>Suppose we have a generic class defined as follows:</p>
-<p><pre class="brush: csharp;">
-
-    public class ThingContainer&lt;TThing1, TThing2&gt;
-
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> ThingContainer&lt;TThing1, TThing2&gt;
+{
+    <span class="kw">private</span> TThing1 thing1;
+    <span class="kw">private</span> TThing2 thing2;
+    <span class="kw">public</span> <span class="kw">void</span> SetThings(TThing1 first, TThing2 second)
     {
-
-        private TThing1 thing1;
-
-        private TThing2 thing2;
-
-
-
-        public void SetThings(TThing1 first, TThing2 second)
-
-        {
-
-            thing1 = first;
-
-            thing2 = second;
-
-        }
-
+        thing1 = first;
+        thing2 = second;
     }
-
-</pre></p>
+}</code></pre>
 <p>And suppose that we use the class as follows:</p>
-<p><pre class="brush: csharp;">
-
-            ThingContainer&lt;Dog, DateTime&gt; container = new ThingContainer&lt;Dog, DateTime&gt;();
-
-</pre></p>
+<pre class="code-block language-csharp"><code>ThingContainer&lt;Dog, DateTime&gt; container = <span class="kw">new</span> ThingContainer&lt;Dog, DateTime&gt;();</code></pre>
 <p>Now when we start entering the name of the <strong>ThingContainer.SetThings</strong> method, Intellisense displays the correct types for the method&#8217;s parameters.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2011/05/001-intellisense.png"><img class="alignnone size-full wp-image-2765" title="001-Intellisense" src="data:image/png;base64,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" alt=""   /></a></p>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2011/05/16/325-intellisense-understands-generic-classes/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-2761"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2011/05/16/325-intellisense-understands-generic-classes/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2011/05/16/325-intellisense-understands-generic-classes/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>

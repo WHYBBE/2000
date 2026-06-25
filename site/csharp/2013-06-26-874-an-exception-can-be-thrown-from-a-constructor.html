@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,65 +55,28 @@
 																				</p>
 					</div>
 
-					<p>You can throw an exception from a constructor.  For example, in the code below, the <strong>Dog </strong>constructor throws an exception if an invalid <strong>age</strong> parameter is passed in.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        // Dog constructor
-
-        public Dog(string name, int age)
-
-        {
-
-            if ((age &lt; 1) || (age &gt; 29))
-
-                throw new ArgumentException(&quot;Invalid dog age&quot;);
-
-
-
-            Name = name;
-
-            Age = age;
-
-        }
-
-</pre>
-<p>The code below catches an exception that happens during construction. Note that the <strong>Dog</strong> object was never instantiated, so the reference is still null.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog myNewDog = null;
-
-
-
-            try
-
-            {
-
-                myNewDog = new Dog(&quot;Methuselah&quot;, 43);
-
-                Console.WriteLine(&quot;We just created an old dog&quot;);
-
-            }
-
-            catch (Exception xx)
-
-            {
-
-                Console.WriteLine(
-
-                    string.Format(&quot;Caught in Main(): {0}&quot;,
-
-                                  xx.Message));
-
-                bool nullDog = (myNewDog == null);
-
-                Console.WriteLine(
-
-                    string.Format(&quot;myNewDog is null = {0}&quot;, nullDog));
-
-            }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/874-001.png"><img class="alignnone size-full wp-image-7369" alt="874-001" src="data:image/png;base64,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"   /></a></p>
+					<p>You can throw an exception from a constructor.  For example, in the code below, the <strong>Dog </strong>constructor throws an exception if an invalid <strong>age</strong> parameter is passed in.</p><pre class="code-block language-csharp"><code><span class="com">// Dog constructor</span>
+<span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
+{
+    <span class="kw">if</span> ((age &lt; <span <span class="kw">class</span>="num">1</span>) || (age &gt; <span <span class="kw">class</span>="num">29</span>))
+        <span class="kw">throw</span> <span class="kw">new</span> ArgumentException(<span class="str">"Invalid dog age"</span>);
+    Name = name;
+    Age = age;
+}</code></pre><p>The code below catches an exception that happens during construction. Note that the <strong>Dog</strong> object was never instantiated, so the reference is still null.</p><pre class="code-block language-csharp"><code>Dog myNewDog = <span class="kw">null</span>;
+<span class="kw">try</span>
+{
+    myNewDog = <span class="kw">new</span> Dog(<span class="str">"Methuselah"</span>, <span <span class="kw">class</span>="num">43</span>);
+    Console.WriteLine(<span class="str">"We just created an old dog"</span>);
+}
+<span class="kw">catch</span> (Exception xx)
+{
+    Console.WriteLine(
+        <span class="kw">string</span>.Format(<span class="str">"Caught in Main(): {0}"</span>,
+                      xx.Message));
+    <span class="kw">bool</span> nullDog = (myNewDog == <span class="kw">null</span>);
+    Console.WriteLine(
+        <span class="kw">string</span>.Format(<span class="str">"myNewDog is null = {0}"</span>, nullDog));
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/06/874-001.png"><img class="alignnone size-full wp-image-7369" alt="874-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

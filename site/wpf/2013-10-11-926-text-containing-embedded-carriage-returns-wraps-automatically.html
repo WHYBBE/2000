@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,70 +56,31 @@
 					</div>
 
 					<p>Even if a <strong>TextBox</strong> has its <strong>TextWrapping</strong> property set to <strong>NoWrap</strong>, text added to the <strong>TextBox </strong>will automatically wrap if that text includes embedded carriage returns.</p>
-<p>In the example below, we define a multi-line string (using verbatim string notation) and then bind the <strong>Text </strong>property of a <strong>TextBox</strong> to the string.  The text then automatically wraps within the <strong>TextBox</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        public MainWindow()
-
+<p>In the example below, we define a multi-line string (using verbatim string notation) and then bind the <strong>Text </strong>property of a <strong>TextBox</strong> to the string.  The text then automatically wraps within the <strong>TextBox</strong>.</p><pre class="code-block language-csharp"><code>        <span class="kw">public</span> MainWindow()
         {
-
-            this.InitializeComponent();
-
-            this.DataContext = this;
-
-
-
-            // Defining multi-line verbatim string
-
-            CosbyQuote = @&quot;A word to the wise
-
+            <span class="kw">this</span>.InitializeComponent();
+            <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+            <span class="com">// Defining multi-line verbatim string</span>
+            CosbyQuote = @"A word to the wise
 ain't necessary -
-
 it's the stupid ones
-
-that need the advice.&quot;;
-
+that need the advice.";
         }
-
-
-
-        private string cosbyQuote;
-
-        public string CosbyQuote
-
+        <span class="kw">private</span> <span class="kw">string</span> cosbyQuote;
+        <span class="kw">public</span> <span class="kw">string</span> CosbyQuote
         {
-
-            get { return cosbyQuote; }
-
-            set
-
+            <span class="kw">get</span> { <span class="kw">return</span> cosbyQuote; }
+            <span class="kw">set</span>
             {
-
-                if (value != cosbyQuote)
-
+                <span class="kw">if</span> (<span class="kw">value</span> != cosbyQuote)
                 {
-
-                    cosbyQuote = value;
-
-                    RaisePropertyChanged(&quot;CosbyQuote&quot;);
-
+                    cosbyQuote = <span class="kw">value</span>;
+                    RaisePropertyChanged(<span class="str">"CosbyQuote"</span>);
                 }
-
             }
-
-        }
-
-</pre>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;TextBox Text=&quot;{Binding CosbyQuote}&quot;
-
-        TextWrapping=&quot;NoWrap&quot;
-
-        Height=&quot;60&quot; Margin=&quot;5&quot;/&gt;
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/10/926-001.png"><img class="alignnone size-full wp-image-7735" alt="926-001" src="data:image/png;base64,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"   /></a></p>
+        }</code></pre><pre class="code-block language-xml"><code>&lt;TextBox Text="{Binding CosbyQuote}"
+    TextWrapping="NoWrap"
+    Height="60" Margin="5"/&gt;</code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/10/926-001.png"><img class="alignnone size-full wp-image-7735" alt="926-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,119 +56,49 @@
 					</div>
 
 					<p>The <strong>foreach</strong> statement works on an object that implements <strong>IEnumerable&lt;T&gt; </strong>or <strong>IEnumerable</strong>.  It also works on an object whose type has a public <strong>GetEnumerator</strong> method that returns an <strong>IEnumerator&lt;T&gt;</strong> or <strong>IEnumerator</strong>.</p>
-<p>Below, we&#8217;ve defined a new class that implements <strong>IEnumerable&lt;T&gt;</strong>.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class DogPack : IEnumerable&lt;Dog&gt;
-
+<p>Below, we&#8217;ve defined a new class that implements <strong>IEnumerable&lt;T&gt;</strong>.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> DogPack : IEnumerable&lt;Dog&gt;
+{
+    <span class="kw">private</span> List&lt;Dog&gt; thePack;
+    <span class="kw">public</span> DogPack()
     {
-
-        private List&lt;Dog&gt; thePack;
-
-
-
-        public DogPack()
-
-        {
-
-            thePack = new List&lt;Dog&gt;();
-
-        }
-
-
-
-        public void Add(Dog d)
-
-        {
-
-            thePack.Add(d);
-
-        }
-
-
-
-        // Remove arbitrary dog
-
-        public void Cull()
-
-        {
-
-            if (thePack.Count == 0)
-
-                return;
-
-
-
-            if (thePack.Count == 1)
-
-                thePack.RemoveAt(0);
-
-            else
-
-            {
-
-                Random rnd1 = new Random();
-
-                int indRemove = rnd1.Next(thePack.Count);
-
-                thePack.RemoveAt(indRemove);
-
-            }
-
-        }
-
-
-
-        // IEnumerable&lt;T&gt; implementation
-
-
-
-        public IEnumerator&lt;Dog&gt; GetEnumerator()
-
-        {
-
-            return thePack.GetEnumerator();
-
-        }
-
-
-
-        IEnumerator IEnumerable.GetEnumerator()
-
-        {
-
-            return GetEnumerator();
-
-        }
-
+        thePack = <span class="kw">new</span> List&lt;Dog&gt;();
     }
-
-</pre>
-<p>We can now use <strong>foreach</strong> to iterate on an instance of this class.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            DogPack pack = new DogPack();
-
-            pack.Add(new Dog(&quot;Lassie&quot;, 8));
-
-            pack.Add(new Dog(&quot;Shep&quot;, 12));
-
-            pack.Add(new Dog(&quot;Kirby&quot;, 10));
-
-            pack.Add(new Dog(&quot;Jack&quot;, 15));
-
-            pack.Cull();
-
-
-
-            // Who's left?
-
-            foreach (Dog d in pack)
-
-                Console.WriteLine(d);
-
-</pre>
-<p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1117-001.png"><img class="alignnone size-full wp-image-8721" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAABmCAMAAACA959pAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAbZQTFRFAAAAKCgoKChCKChUKFFhKG1UKG1rWSgoeikoWShCeylUem0oe1Fhem1CWYF0W6V/X6p6Xah8Yq52SYiTS4uSTY+QTpGOT5SNU4udUZeLUJWMVJuHVJyHVp6FU5mJU5qIWZWZWZmUXZOgV6GDWaOBWKKCepCAaI6yapisbJiubp2saZKxcaKqfaK5k1Eopm0ok1FCk4FUnYhiuIFCrpdtt6BhuaFzuqF0v6V3t7JrzZFUzaBhxqx7zbJrzbJ1y7F/iJ2+iZ+9k6CAiq+qiqG8i6S7jae6jbOlj7Wji7Gokbehp5uEpbKAsaGDsqKEt7KApaSipqaipqqurK+zuLu/ury/mrHLnbfJsrjBsrnCur3Au77Bvb/Cp8u+rdO3sdeyosLDvcDDv8LFzbKAwMDAwMDCwcHDysrSzNDUzNDV0dHb0tTd1tbe2Nrj2dvm1efV4eHg4eHh6enp6urq7Ovq7Ovr7ezq7uzr7Ozs7e3t7+/u8O/v8vDu8/Hv8PDw8fHx8/Lw8/Ly9PTz9fX19/b19vb29/f39/j5+Pf2+fj3+Pj4+Pn5+/v6+/v7/Pz8/f39/v7+////MrlwAQAAAAlwSFlzAAAOwwAADsMBx2+oZAAABblJREFUeNrtmImf00QUx9PdtRuvqHjfd/BskCirKa2yniBavBAFz8RjVwUKihXXVbkUKiv8x8x7M5NMkpkkTbdpjTOfz7bbycvLfOcd82uNy7UchsbSWBpLY5XAulSrYXCof8nYqM2gWATq4vDCubO1GQxrY3h6fXD8WG0Gj9Zwe62GQakunt7u12kwrOF6LbEuDGqJde54HbE2zh7TWBpLY00e6+03xfHWizXBem/lWxwrKysfHTjw7vM1wTo0/Csaw4M72LTTmHumYfnu/N6EEzrjLPR8v9tqwkuj0YBP9LaF5xZtnxtkjI5p+R65c245y8pZeMEkRo3UKnKxvv7hpV2vvPra94N+f7B/P8fyGrYAIQxEwUX5fpsQeIDU3bYcLrZdDMubW3bhGa6dzY5PIltnjYj11eGtTz7+xFOrJwDrwxCL7WIKq301XPBw2l3odcxmbLHzewtiOc1uK8cE3dEN9J2MqEqxPjj89GMPPfDg6s/9o4PPP2FYDiQWpBNiwSebxMaKZR+GzOWPw/DCvIAFSUbucfGt27rKbNgdk2Ysseq2+JZRAzQnUx7Jfpqb4I5hedwRfTwsCJdGXjoKrDtuvvWu+1dPHO0PPv1MjFabYTnkjywfsaLsozYOXxpiwXyEhTlKyclVshabLvS6Hs2C9iLdE2bgO7YPwfcIG40kOGBYcAEiBu+4H24u1i233XnPoyRa/cGRIxIsXCfzzpIzbBuJRKKL5VjUlhUHzTnuhocbosMNfH4blhzc6/KriEWzhThlBZKHdft99z5yE9bW+fMSLMgNmiVYErgoC58Euy9i4XyEReLThM94e5Mu3KVNjVaojwHjBiz16W7AC7oLsSxKQ9yzss3DuvvhG27csvojwTr1qwxLqNYo+5jbWCnjvNgyyIpt9pnHg7KGDaVj8hMB/u2FQYYX/CesLXs0rI+/e3n362/s+YZg/bT+izQJLeWhRWya4inTo1UQJS0cPE0RC13zqzAbGtAACVjMnUXNemESulFJQm3Lsd7/Z21t7c8/fjvz96nfT56UYHVbUKrXAF6UfWEeubD55NzyoMvZdMamUfQsZHGgVWxbRixoF5AAsDt42EGHYwawbE9IQuoOsTomIrCWgWF1bbBvL6qw3jlIxxdfHiKv+5bSnRD7KbiwEocWa4FYGJAlrCu6TBZ4rB87aECxTOzdrEJ5yTphac1fG2FRdx2TFV5kx72Q58xdr8LaubRDGEs7s7VML64z0vqjyODlljmKuxv3i0ny0CqxWLl0Kc2uv0ZqLI2lsTSWxqoB1rN1GBIsow4jjRWQkXOTykA+X8ChkX3f6A4k0cr3MRIWTJbjim6rBmvktc0SFk+CvPdk0iTm4VNiAv/CeZUfThMEm52EfKfFP/44SRTk8+llp9BEgwLPKY8VRLsU3zvhcald5LubnAxk0ZIyTRgr/sQkWIxWUgtSCmkKZNtPEmvcJEzbxbOgoiQMeHZFSZJuFeK8uFrVvLQ7hotXtx5xHWNGa/Jjk4+QmcAqKzpmP1pT0oTSVp2xyUoxZZQ9TiekCWUn0MhYgpOyYndzxZNSs5bYbN7MZgUrPF6Ez/KDSa4Ro2jFr0xNEybdGoHiXM7UgsLt0vO2ek0YE02BQnLkaEFxsxVYVWvCBJZczudoQXFXVNGagiZUYimKKDOIsm8qlWvCSLQJ9S5+wUitUqIFg6jFpEp+NjXhuOpnFjXhuJpOa8JNxpJuqGQuUwsG09CC2dEqKJ7yteCYtTcdrFwtOItY6S/7o2pB6e+gE9WCxaIVEwTp4yPnGJ7C74NZx7ERU+xCRshOVaUWVKqiSWrBfKyUdFNES6UFM7AmpwVHw8rKtiwtWPnvgwW+byV+JwxkLSNPC1b9++BUVEYFqqlyrEq04P9RE2osjaWxNJbG0lj/GawgCIJKFYHG0li6ZWgsjaWxNJbG0lgaS2MVHVcAMaWVtGCA9HYAAAAASUVORK5CYII=" alt="1117-001"   /></a></p>
+    <span class="kw">public</span> <span class="kw">void</span> Add(Dog d)
+    {
+        thePack.Add(d);
+    }
+    <span class="com">// Remove arbitrary dog</span>
+    <span class="kw">public</span> <span class="kw">void</span> Cull()
+    {
+        <span class="kw">if</span> (thePack.Count == <span <span class="kw">class</span>="num">0</span>)
+            <span class="kw">return</span>;
+        <span class="kw">if</span> (thePack.Count == <span <span class="kw">class</span>="num">1</span>)
+            thePack.RemoveAt(<span <span class="kw">class</span>="num">0</span>);
+        <span class="kw">else</span>
+        {
+            Random rnd1 = <span class="kw">new</span> Random();
+            <span class="kw">int</span> indRemove = rnd1.Next(thePack.Count);
+            thePack.RemoveAt(indRemove);
+        }
+    }
+    <span class="com">// IEnumerable&lt;T&gt; implementation</span>
+    <span class="kw">public</span> IEnumerator&lt;Dog&gt; GetEnumerator()
+    {
+        <span class="kw">return</span> thePack.GetEnumerator();
+    }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        <span class="kw">return</span> GetEnumerator();
+    }
+}</code></pre><p>We can now use <strong>foreach</strong> to iterate on an instance of this class.</p><pre class="code-block language-csharp"><code>DogPack pack = <span class="kw">new</span> DogPack();
+pack.Add(<span class="kw">new</span> Dog(<span class="str">"Lassie"</span>, <span <span class="kw">class</span>="num">8</span>));
+pack.Add(<span class="kw">new</span> Dog(<span class="str">"Shep"</span>, <span <span class="kw">class</span>="num">12</span>));
+pack.Add(<span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, <span <span class="kw">class</span>="num">10</span>));
+pack.Add(<span class="kw">new</span> Dog(<span class="str">"Jack"</span>, <span <span class="kw">class</span>="num">15</span>));
+pack.Cull();
+<span class="com">// Who's left?</span>
+<span class="kw">foreach</span> (Dog d <span class="kw">in</span> pack)
+    Console.WriteLine(d);</code></pre><p><a href="https://2000thingscsharp.files.wordpress.com/2014/06/1117-001.png"><img class="alignnone size-full wp-image-8721" src="data:image/png;base64,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" alt="1117-001"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

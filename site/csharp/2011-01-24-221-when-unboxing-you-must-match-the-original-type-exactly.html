@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -40,21 +52,13 @@
                         <p><span class="time">January 24, 2011</span> <span class="author">by <a href="http://csharp.2000things.com/author/spsexton/" title="Posts by Sean">Sean</a></span> <span class="post-comments"><a href="2011-01-24-221-when-unboxing-you-must-match-the-original-type-exactly.html">Leave a Comment</a></span> </p> 
                     </div>
                
-                    <p>We know that we can do explicit casts when assigning from one type to another and the assignment will work if the value being assigned can be represented by the target type.</p>
-<pre class="brush: csharp;">
-            int i = 1964;
-            uint ui = (uint)i;  // cast works fine
-</pre>
-<p>But when casting as part of an unboxing operation, the target type must match the original type exactly.</p>
-<pre class="brush: csharp;">
-            int i = 1964;
-            object o = i;    // box
+                    <p>We know that we can do explicit casts when assigning from one type to another and the assignment will work if the value being assigned can be represented by the target type.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> i = <span <span class="kw">class</span>="num">1964</span>;
+<span class="kw">uint</span> ui = (<span class="kw">uint</span>)i;  <span class="com">// cast works fine</span></code></pre><p>But when casting as part of an unboxing operation, the target type must match the original type exactly.</p><pre class="code-block language-csharp"><code><span class="kw">int</span> i = <span <span class="kw">class</span>="num">1964</span>;
+<span class="kw">object</span> o = i;    <span class="com">// box</span>
 
-            // Attempted unbox to different type
-            // Throws InvalidCastException
-            uint ui = (uint)o;
-</pre>
-<p>This cast, as part of the unboxing operation, is allowed at compile time, but throws an <strong>InvalidCastException</strong> at run-time.</p>
+<span class="com">// Attempted unbox to different type</span>
+<span class="com">// Throws InvalidCastException</span>
+<span class="kw">uint</span> ui = (<span class="kw">uint</span>)o;</code></pre><p>This cast, as part of the unboxing operation, is allowed at compile time, but throws an <strong>InvalidCastException</strong> at run-time.</p>
 <div class="clear"></div>
                                                     
                     <!--

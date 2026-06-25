@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,31 +58,27 @@
 					<p>When you <a href="2012-09-20-675-polymorphic-behavior-requires-virtual-override-combination.html">override a method</a>, you create a virtual method that behaves polymorphically.  The base class defines the method using the <strong>virtual</strong> keyword and you define the method in your child class using the <strong>override</strong> keyword.</p>
 <p>When you use the <strong>override</strong> keyword, your method can itself be overridden in a child class.</p>
 <p>If you want to override a method in a base class, but also prevent any derived classes from overriding your method, you can use the <strong>sealed</strong> keyword to indicate that a child class must use the <strong>new</strong> keyword, rather than overriding your method.</p>
-<p><pre class="brush: csharp;">
-    public class Dog
-    {
-        public virtual void Bark()
-        {
-            Console.WriteLine(&quot;  Dog.Bark&quot;);
-        }
-    }
-
-    public class Terrier : Dog
-    {
-        public sealed override void Bark()
-        {
-            Console.WriteLine(&quot;  Terrier is barking&quot;);
-        }
-    }
-
-    public class JRT : Terrier
-    {
-        public new void Bark()
-        {
-            Console.WriteLine(&quot;  JRT is barking&quot;);
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">virtual</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"  Dog.Bark"</span>);
+    }
+}
+<span class="kw">public</span> <span class="kw">class</span> Terrier : Dog
+{
+    <span class="kw">public</span> <span class="kw">sealed</span> <span class="kw">override</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"  Terrier is barking"</span>);
+    }
+}
+<span class="kw">public</span> <span class="kw">class</span> JRT : Terrier
+{
+    <span class="kw">public</span> <span class="kw">new</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(<span class="str">"  JRT is barking"</span>);
+    }
+}</code></pre>
 <div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://csharp.2000things.com/2012/09/25/678-a-sealed-method-cannot-be-overridden/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-5797"><span>Twitter</span></a></li><li class="share-digg"><a rel="nofollow" class="share-digg sd-button share-icon" href="http://csharp.2000things.com/2012/09/25/678-a-sealed-method-cannot-be-overridden/?share=digg" title="Click to Digg this post"><span>Digg</span></a></li><li class="share-reddit"><a rel="nofollow" class="share-reddit sd-button share-icon" href="http://csharp.2000things.com/2012/09/25/678-a-sealed-method-cannot-be-overridden/?share=reddit" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-end"></li></ul><div class="sharing-clear"></div></div></article>
   <p class="meta">Categories: Classes | Tags: C#, Classes, override, Sealed, virtual</p>
   <nav class="pager"><a href="2012-09-24-677-method-marked-with-new-modifier-cannot-be-overridden.html">Previous</a> | <a href="index.html">Index</a> | <a href="bookmarks.html">Bookmarks</a> | <a href="2012-09-26-679-hide-an-inherited-method-with-a-virtual-method.html">Next</a></nav>

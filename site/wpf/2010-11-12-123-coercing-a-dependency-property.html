@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,40 +53,32 @@
                     </div>
                
                     <p>A class that implements a dependency property can optionally provide a <em>coercion callback</em>,  which it specifies when registering the property.  A coercion callback is called when a property is about to get a new value and gives the class a chance to <em>coerce</em> the property value to a different value.</p>
-<p>You specify a validation callback when registering a dependency property, using the <strong>CoerceValueCallback</strong> delegate.</p>
-<pre class="brush: csharp;">
-            PropertyMetadata ageMetadata =
-                new PropertyMetadata(
-                    18,     // Default value
-                    new PropertyChangedCallback(OnAgeChanged),
-                    new CoerceValueCallback(OnAgeCoerceValue));    // ** allow class to coerce value
+<p>You specify a validation callback when registering a dependency property, using the <strong>CoerceValueCallback</strong> delegate.</p><pre class="code-block language-csharp"><code>PropertyMetadata ageMetadata =
+    <span class="kw">new</span> PropertyMetadata(
+        <span <span class="kw">class</span>="num">18</span>,     <span class="com">// Default value</span>
+        <span class="kw">new</span> PropertyChangedCallback(OnAgeChanged),
+        <span class="kw">new</span> CoerceValueCallback(OnAgeCoerceValue));    <span class="com">// ** allow class to coerce value</span>
 
-            // Register the property
-            AgeProperty =
-                DependencyProperty.Register(
-                    &quot;Age&quot;,                 // Property's name
-                    typeof(int),           // Property's type
-                    typeof(Person),        // Defining class' type
-                    ageMetadata,           // Defines default value &amp; changed/coercion callbacks  (optional)
-                    new ValidateValueCallback(OnAgeValidateValue));   // validation (optional)
-</pre>
-<p>You might use coercion to enforce minimum and maximum values for a property.</p>
-<pre class="brush: csharp;">
-        private static object OnAgeCoerceValue
-            (DependencyObject depObj, object baseValue)
-        {
-            int coercedValue = (int)baseValue;
+<span class="com">// Register the property</span>
+AgeProperty =
+    DependencyProperty.Register(
+        <span class="str">"Age"</span>,                 <span class="com">// Property's name</span>
+        <span class="kw">typeof</span>(<span class="kw">int</span>),           <span class="com">// Property's type</span>
+        <span class="kw">typeof</span>(Person),        <span class="com">// Defining class' type</span>
+        ageMetadata,           <span class="com">// Defines default value &amp; changed/coercion callbacks  (optional)</span>
+        <span class="kw">new</span> ValidateValueCallback(OnAgeValidateValue));   <span class="com">// validation (optional)</span></code></pre><p>You might use coercion to enforce minimum and maximum values for a property.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">static</span> <span class="kw">object</span> OnAgeCoerceValue
+    (DependencyObject depObj, <span class="kw">object</span> baseValue)
+{
+    <span class="kw">int</span> coercedValue = (<span class="kw">int</span>)baseValue;
 
-            if ((int)baseValue &gt; 120)
-                coercedValue = 120;
+    <span class="kw">if</span> ((<span class="kw">int</span>)baseValue &gt; <span <span class="kw">class</span>="num">120</span>)
+        coercedValue = <span <span class="kw">class</span>="num">120</span>;
 
-            if ((int)baseValue &lt; 1)
-                coercedValue = 1;
+    <span class="kw">if</span> ((<span class="kw">int</span>)baseValue &lt; <span <span class="kw">class</span>="num">1</span>)
+        coercedValue = <span <span class="kw">class</span>="num">1</span>;
 
-            return coercedValue;
-        }
-</pre>
-<div class="clear"></div>
+    <span class="kw">return</span> coercedValue;
+}</code></pre><div class="clear"></div>
                                                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

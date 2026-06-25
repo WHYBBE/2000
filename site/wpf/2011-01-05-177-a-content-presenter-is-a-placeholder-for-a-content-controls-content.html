@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -42,20 +54,16 @@
                
                     <p>A content control (<strong>ContentControl</strong>) in WPF is a control that displays a single piece of content.  The control will have a control template (<strong>Template </strong>property) that describes the specific visual elements that make up the control.  Somewhere in that control template will be a <em>content presenter </em>(<strong>ContentPresenter</strong>), which indicates the spot in the control to display the actual content.</p>
 <p>You can think of the <strong>ContentPresenter</strong> as a little pointer that says &#8220;put your content here&#8221;.</p>
-<p>Below is the default control template for a <strong>Label</strong> control as an example.  The control template includes a <strong>ContentPresenter</strong> inside a <strong>Border.</strong></p>
-<pre class="brush: xml;">
-&lt;ControlTemplate TargetType=&quot;{x:Type Label}&quot;&gt;
-    &lt;Border BorderBrush=&quot;{TemplateBinding BorderBrush}&quot; BorderThickness=&quot;{TemplateBinding BorderThickness}&quot; Background=&quot;{TemplateBinding Background}&quot; Padding=&quot;{TemplateBinding Padding}&quot; SnapsToDevicePixels=&quot;true&quot;&gt;
-        &lt;ContentPresenter HorizontalAlignment=&quot;{TemplateBinding HorizontalContentAlignment}&quot; RecognizesAccessKey=&quot;True&quot; SnapsToDevicePixels=&quot;{TemplateBinding SnapsToDevicePixels}&quot; VerticalAlignment=&quot;{TemplateBinding VerticalContentAlignment}&quot;/&gt;
-    &lt;/Border&gt;
-    &lt;ControlTemplate.Triggers&gt;
-        &lt;Trigger Property=&quot;IsEnabled&quot; Value=&quot;false&quot;&gt;
-            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}&quot;/&gt;
-        &lt;/Trigger&gt;
-    &lt;/ControlTemplate.Triggers&gt;
-&lt;/ControlTemplate&gt;
-</pre>
-<div style="margin-top: 1em" class="possibly-related"><hr /><p><strong>Possibly related posts: (automatically generated)</strong></p><ul><li><a rel='related' href='2010-08-15-34-contentcontrol.html' style='font-weight:bold'>#34 – ContentControl</a></li><li><a rel='related nofollow' href='http://intersoftpt.wordpress.com/2010/04/14/clientui-part-2-advanced-presentation-model-and-architectures-highlight/'>ClientUI Part 2 – Advanced Presentation Model and Architectures Highlight</a></li><li><a rel='related nofollow' href='http://bartriemens.wordpress.com/2010/05/09/building-flexible-silverlight-controls/'>Building flexible Silverlight controls</a></li><li><a rel='related nofollow' href='http://www.cultivatingcode.com/2010/10/13/generating-word-documents-p2/'>Generating Word Documents – Part 2: Simple Databinding</a></li></ul></div><div class="clear"></div>
+<p>Below is the default control template for a <strong>Label</strong> control as an example.  The control template includes a <strong>ContentPresenter</strong> inside a <strong>Border.</strong></p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"{x:Type Label}"</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Border</span> <span class="xml-attr">BorderBrush</span>=<span class="xml-val">"{TemplateBinding BorderBrush}"</span> <span class="xml-attr">BorderThickness</span>=<span class="xml-val">"{TemplateBinding BorderThickness}"</span> <span class="xml-attr">Background</span>=<span class="xml-val">"{TemplateBinding Background}"</span> <span class="xml-attr">Padding</span>=<span class="xml-val">"{TemplateBinding Padding}"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"true"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ContentPresenter</span> <span class="xml-attr">HorizontalAlignment</span>=<span class="xml-val">"{TemplateBinding HorizontalContentAlignment}"</span> <span class="xml-attr">RecognizesAccessKey</span>=<span class="xml-val">"True"</span> <span class="xml-attr">SnapsToDevicePixels</span>=<span class="xml-val">"{TemplateBinding SnapsToDevicePixels}"</span> <span class="xml-attr">VerticalAlignment</span>=<span class="xml-val">"{TemplateBinding VerticalContentAlignment}"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Border</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsEnabled"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"false"</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Foreground"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate.Triggers</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">ControlTemplate</span><span class="xml-tag">&gt;</span></code></pre><div style="margin-top: 1em" class="possibly-related"><hr /><p><strong>Possibly related posts: (automatically generated)</strong></p><ul><li><a rel='related' href='2010-08-15-34-contentcontrol.html' style='font-weight:bold'>#34 – ContentControl</a></li><li><a rel='related nofollow' href='http://intersoftpt.wordpress.com/2010/04/14/clientui-part-2-advanced-presentation-model-and-architectures-highlight/'>ClientUI Part 2 – Advanced Presentation Model and Architectures Highlight</a></li><li><a rel='related nofollow' href='http://bartriemens.wordpress.com/2010/05/09/building-flexible-silverlight-controls/'>Building flexible Silverlight controls</a></li><li><a rel='related nofollow' href='http://www.cultivatingcode.com/2010/10/13/generating-word-documents-p2/'>Generating Word Documents – Part 2: Simple Databinding</a></li></ul></div><div class="clear"></div>
                                                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

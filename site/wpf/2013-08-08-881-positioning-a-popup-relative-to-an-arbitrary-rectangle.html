@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,37 +57,19 @@
 
 					<p>In addition to positioning a <a href="http://wp.me/pZhye-1Us"><strong>Popup</strong> control</a> relative to <a href="http://wp.me/pZhye-1Vu">another control</a> or <a href="http://wp.me/pZhye-1VJ">the mouse</a>, you can position the <strong>Popup </strong>relative to an arbitrary rectangle.</p>
 <p>You can place a popup relative to an arbitrary rectangle by specifying a value for the <strong>PlacementRectangle</strong> property of the popup.  You specify the <em>left</em> and <em>top</em> position of the rectangle, as well as the <em>width</em> and <em>height</em>.  This describes the target rectangle that the <strong>Popup</strong> should be positioned relative to, in the coordinate space of the parent of the <strong>Popup</strong>.</p>
-<p>In the example below, we specify a rectangle within the <strong>Grid.  </strong>The <strong>Popup </strong>will be positioned below this rectangle.  To make the positioning easier to understand, we also draw the rectangle.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Grid Margin=&quot;15&quot;&gt;
-
-        &lt;Button Content=&quot;Hover to See Popup&quot;
-
-                Width=&quot;150&quot;  Height=&quot;25&quot;
-
-                MouseEnter=&quot;Button_MouseEnter&quot;/&gt;
-
-        &lt;Rectangle Stroke=&quot;Blue&quot; StrokeThickness=&quot;1&quot;
-
-                   Width=&quot;40&quot; Height=&quot;20&quot; Margin=&quot;5,10&quot;
-
-                   HorizontalAlignment=&quot;Left&quot; VerticalAlignment=&quot;Top&quot;/&gt;
-
-        &lt;Popup Name=&quot;popCaesar&quot; StaysOpen=&quot;False&quot;
-
-               PlacementRectangle=&quot;5,10,40,20&quot;&gt;
-
-            &lt;TextBlock Text=&quot;I'm a Popup&quot; Background=&quot;AntiqueWhite&quot;
-
-                       Padding=&quot;5&quot;/&gt;
-
-        &lt;/Popup&gt;
-
-    &lt;/Grid&gt;
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/08/881-001.png"><img class="alignnone size-full wp-image-7442" alt="881-001" src="data:image/png;base64,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"   /></a></p>
+<p>In the example below, we specify a rectangle within the <strong>Grid.  </strong>The <strong>Popup </strong>will be positioned below this rectangle.  To make the positioning easier to understand, we also draw the rectangle.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Grid</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"15"</span><span class="xml-tag">&gt;</span>
+    &lt;Button Content="Hover to See Popup"
+            Width="150"  Height="25"
+            MouseEnter="Button_MouseEnter"/&gt;
+    &lt;Rectangle Stroke="Blue" StrokeThickness="1"
+               Width="40" Height="20" Margin="5,10"
+               HorizontalAlignment="Left" VerticalAlignment="Top"/&gt;
+    &lt;Popup Name="popCaesar" StaysOpen="False"
+           PlacementRectangle="5,10,40,20"&gt;
+        &lt;TextBlock Text="I'm a Popup" Background="AntiqueWhite"
+                   Padding="5"/&gt;
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Popup</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/08/881-001.png"><img class="alignnone size-full wp-image-7442" alt="881-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

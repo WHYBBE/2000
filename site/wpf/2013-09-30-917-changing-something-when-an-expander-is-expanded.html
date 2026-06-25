@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,83 +56,41 @@
 					</div>
 
 					<p>You can use a <a href="2010-11-16-127-reacting-to-a-dependency-property-change-using-triggers.html">trigger</a> to change some property in an <strong>Expander </strong>whenever the <strong>Expander </strong>is expanded.  You set the trigger to react to a change in the <strong>IsExpanded</strong> property.</p>
-<p>In the example below, we define a trigger that changes the border color for any expander that is expanded.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-    &lt;Window.Resources&gt;
-
-        &lt;Style x:Key=&quot;changeColorOnExpanded&quot; TargetType=&quot;Expander&quot;&gt;
-
-            &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;DarkGray&quot;/&gt;
-
-            &lt;Setter Property=&quot;Margin&quot; Value=&quot;10,5&quot;/&gt;
-
-            &lt;Style.Triggers&gt;
-
-                &lt;Trigger Property=&quot;IsExpanded&quot; Value=&quot;True&quot;&gt;
-
-                    &lt;Setter Property=&quot;BorderBrush&quot; Value=&quot;Crimson&quot;/&gt;
-
-                &lt;/Trigger&gt;
-
-            &lt;/Style.Triggers&gt;
-
-        &lt;/Style&gt;
-
-    &lt;/Window.Resources&gt;
-
-
-
-    &lt;StackPanel&gt;
-
-        &lt;Expander Style=&quot;{StaticResource changeColorOnExpanded}&quot;
-
-                  Header=&quot;Great Novels&quot;&gt;
-
-            &lt;ScrollViewer&gt;
-
-                &lt;StackPanel&gt;
-
-                    &lt;TextBlock Text=&quot;Ulysses&quot;/&gt;
-
-                    &lt;TextBlock Text=&quot;The Great Gatsby&quot;/&gt;
-
-                    &lt;TextBlock Text=&quot;A Portrait of the Artist as a Young Man&quot;/&gt;
-
-                    &lt;TextBlock Text=&quot;Lolita&quot;/&gt;
-
-                &lt;/StackPanel&gt;
-
-            &lt;/ScrollViewer&gt;
-
-        &lt;/Expander&gt;
-
-        &lt;Expander Style=&quot;{StaticResource changeColorOnExpanded}&quot;
-
-                  Header=&quot;Funny Guys&quot;&gt;
-
-            &lt;ScrollViewer&gt;
-
-                &lt;StackPanel&gt;
-
-                    &lt;TextBlock Text=&quot;Bill Murray&quot;/&gt;
-
-                    &lt;TextBlock Text=&quot;Eddie Murphy&quot;/&gt;
-
-                    &lt;TextBlock Text=&quot;Will Ferrell&quot;/&gt;
-
-                    &lt;TextBlock Text=&quot;John Cleese&quot;/&gt;
-
-                &lt;/StackPanel&gt;
-
-            &lt;/ScrollViewer&gt;
-
-        &lt;/Expander&gt;
-
-    &lt;/StackPanel&gt;
-
-</pre>
-<p><a href="http://2000thingswpf.files.wordpress.com/2013/09/917-001.png"><img class="alignnone size-full wp-image-7675" alt="917-001" src="data:image/png;base64,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"   /></a></p>
+<p>In the example below, we define a trigger that changes the border color for any expander that is expanded.</p><pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Style</span> <span class="xml-attr">x:Key</span>=<span class="xml-val">"changeColorOnExpanded"</span> <span class="xml-attr">TargetType</span>=<span class="xml-val">"Expander"</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"DarkGray"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"Margin"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"10,5"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">Trigger</span> <span class="xml-attr">Property</span>=<span class="xml-val">"IsExpanded"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"True"</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">Setter</span> <span class="xml-attr">Property</span>=<span class="xml-val">"BorderBrush"</span> <span class="xml-attr">Value</span>=<span class="xml-val">"Crimson"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">Trigger</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">Style.Triggers</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Style</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Window.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+    &lt;Expander Style="{StaticResource changeColorOnExpanded}"
+              Header="Great Novels"&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">ScrollViewer</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Ulysses"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"The Great Gatsby"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"A Portrait of the Artist as a Young Man"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Lolita"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ScrollViewer</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Expander</span><span class="xml-tag">&gt;</span>
+    &lt;Expander Style="{StaticResource changeColorOnExpanded}"
+              Header="Funny Guys"&gt;
+        <span class="xml-tag">&lt;</span><span class="xml-name">ScrollViewer</span><span class="xml-tag">&gt;</span>
+            <span class="xml-tag">&lt;</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Bill Murray"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Eddie Murphy"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Will Ferrell"</span><span class="xml-tag">/&gt;</span>
+                <span class="xml-tag">&lt;</span><span class="xml-name">TextBlock</span> <span class="xml-attr">Text</span>=<span class="xml-val">"John Cleese"</span><span class="xml-tag">/&gt;</span>
+            <span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;/</span><span class="xml-name">ScrollViewer</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Expander</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">StackPanel</span><span class="xml-tag">&gt;</span></code></pre><p><a href="http://2000thingswpf.files.wordpress.com/2013/09/917-001.png"><img class="alignnone size-full wp-image-7675" alt="917-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

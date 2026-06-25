@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,75 +56,34 @@
 					</div>
 
 					<p>When an exception occurs during the invocation of one of the methods a delegate refers to, the delegate <a href="http://wp.me/pXTis-P8">does not continue invoking methods</a> in its invocation list.</p>
-<p>To ensure that all methods in the delegate&#8217;s invocation list are called, even when exceptions occur, you can call <strong>GetInvocationList</strong> and invoke the methods directly, rather than letting the delegate invoke them.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        private delegate void StringHandlerDelegate(string s);
-
-
-
-        static void Main()
-
+<p>To ensure that all methods in the delegate&#8217;s invocation list are called, even when exceptions occur, you can call <strong>GetInvocationList</strong> and invoke the methods directly, rather than letting the delegate invoke them.</p><pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">delegate</span> <span class="kw">void</span> StringHandlerDelegate(<span class="kw">string</span> s);
+<span class="kw">static</span> <span class="kw">void</span> Main()
+{
+    <span class="com">// Add two methods to delegate instance</span>
+    StringHandlerDelegate del = Method1;
+    del += Method2;
+    <span class="com">// Invoke</span>
+    <span class="kw">foreach</span> (StringHandlerDelegate nextDel <span class="kw">in</span> del.GetInvocationList())
+    {
+        <span class="kw">try</span>
         {
-
-            // Add two methods to delegate instance
-
-            StringHandlerDelegate del = Method1;
-
-            del += Method2;
-
-
-
-            // Invoke
-
-            foreach (StringHandlerDelegate nextDel in del.GetInvocationList())
-
-            {
-
-                try
-
-                {
-
-                    nextDel.Invoke(&quot;Yooper&quot;);
-
-                }
-
-                catch (Exception xx)
-
-                {
-
-                    Console.WriteLine(string.Format(&quot;Exception in {0}: {1}&quot;, nextDel.Method.Name, xx.Message));
-
-                }
-
-            }
-
+            nextDel.Invoke(<span class="str">"Yooper"</span>);
         }
-
-
-
-        static void Method1(string text)
-
+        <span class="kw">catch</span> (Exception xx)
         {
-
-            Console.WriteLine(&quot;Method1, {0}&quot;, text);
-
-            throw new Exception(&quot;Problem in Method1&quot;);
-
+            Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Exception in {0}: {1}"</span>, nextDel.Method.Name, xx.Message));
         }
-
-
-
-        static void Method2(string name)
-
-        {
-
-            Console.WriteLine(&quot;Method2, {0}&quot;, name);
-
-        }
-
-</pre>
-<p>When you execute the code, you&#8217;ll see that <strong>Method2</strong> is called, even though <strong>Method1</strong> throws an exception.</p>
+    }
+}
+<span class="kw">static</span> <span class="kw">void</span> Method1(<span class="kw">string</span> text)
+{
+    Console.WriteLine(<span class="str">"Method1, {0}"</span>, text);
+    <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="str">"Problem in Method1"</span>);
+}
+<span class="kw">static</span> <span class="kw">void</span> Method2(<span class="kw">string</span> name)
+{
+    Console.WriteLine(<span class="str">"Method2, {0}"</span>, name);
+}</code></pre><p>When you execute the code, you&#8217;ll see that <strong>Method2</strong> is called, even though <strong>Method1</strong> throws an exception.</p>
 <p><a href="http://2000thingscsharp.files.wordpress.com/2011/07/001-callallmethods.png"><img class="alignnone size-full wp-image-3182" title="001-CallAllMethods" src="data:image/png;base64,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" alt=""   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,51 +56,16 @@
 					</div>
 
 					<p>You can create a <strong>WeakReference</strong> instance that refers to an object and then use the <strong>WeakReference</strong> to determine whether the object <a href="2012-12-11-733-how-to-tell-if-an-object-has-been-garbage-collected.html">has been garbage collected</a>.</p>
-<p>You can also refer back to the original object referenced by the <strong>WeakReference</strong> using its <strong>Target</strong> property.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog dog = new Dog(&quot;Bowser&quot;);
-
-
-
-            WeakReference dogRef = new WeakReference(dog);
-
-
-
-            Dog origDog = (Dog)dogRef.Target;
-
-</pre>
-<p>When you refer to the original object in this way, you add a reference to it, which means that it won&#8217;t get garbage collected.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog dog = new Dog(&quot;Bowser&quot;);
-
-
-
-            WeakReference dogRef = new WeakReference(dog);
-
-
-
-            Dog origDog = (Dog)dogRef.Target;
-
-
-
-            dog = null;
-
-            GC.Collect();
-
-
-
-            // Bowser still alive at this point, since we still have
-
-            // a reference to him.
-
-
-
-            Console.WriteLine(string.Format(&quot;Object still alive: {0}&quot;, dogRef.IsAlive));
-
-</pre>
-<p><a href="http://csharp.2000things.com/2012/12/12/734-accessing-the-original-object-referenced-through-a-weakreference/734-001/" rel="attachment wp-att-6331"><img class="alignnone size-full wp-image-6331" alt="734-001" src="data:image/png;base64,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"   /></a></p>
+<p>You can also refer back to the original object referenced by the <strong>WeakReference</strong> using its <strong>Target</strong> property.</p><pre class="code-block language-csharp"><code>Dog dog = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+WeakReference dogRef = <span class="kw">new</span> WeakReference(dog);
+Dog origDog = (Dog)dogRef.Target;</code></pre><p>When you refer to the original object in this way, you add a reference to it, which means that it won&#8217;t get garbage collected.</p><pre class="code-block language-csharp"><code>Dog dog = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+WeakReference dogRef = <span class="kw">new</span> WeakReference(dog);
+Dog origDog = (Dog)dogRef.Target;
+dog = <span class="kw">null</span>;
+GC.Collect();
+<span class="com">// Bowser still alive at this point, since we still have</span>
+<span class="com">// a reference to him.</span>
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Object still alive: {0}"</span>, dogRef.IsAlive));</code></pre><p><a href="http://csharp.2000things.com/2012/12/12/734-accessing-the-original-object-referenced-through-a-weakreference/734-001/" rel="attachment wp-att-6331"><img class="alignnone size-full wp-image-6331" alt="734-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

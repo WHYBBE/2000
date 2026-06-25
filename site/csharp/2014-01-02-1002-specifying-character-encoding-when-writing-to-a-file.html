@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -44,42 +56,18 @@
 					</div>
 
 					<p>In .NET, string data is stored in memory as <a href="2013-12-12-994-unicode-basics.html">Unicode</a> data encoded as <a href="2013-12-16-996-utf-16-encoding-part-i.html">UTF-16</a> (2 bytes per character, or 4 bytes for surrogate pairs).</p>
-<p>When you persist string data out to a file, however, you must be aware of what encoding is being used.  In the example below, we use a <strong>StreamWriter</strong> to write string data to a file.  <strong>StreamWriter</strong> by default uses <a href="2013-12-18-998-utf-8-encoding.html">UTF-8</a> as  the encoding.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            string s1 = &quot;A&quot;;             // U+0041
-
-            string s2 = &quot;\u00e9&quot;;        // U+00E9 accented e
-
-            string s3 = &quot;\u0100&quot;;        // Capital A with bar
-
-            string s4 = &quot;\U00020213&quot;;    // CJK ideograph (d840, de13 surrogate)
-
-
-
-            using (StreamWriter sw = new StreamWriter(@&quot;C:\Users\Sean\Documents\sometext.txt&quot;))
-
-            {
-
-                sw.WriteLine(s1);
-
-                sw.WriteLine(s2);
-
-                sw.WriteLine(s3);
-
-                sw.WriteLine(s4);
-
-            }
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/12/1002_001.png"><img class="alignnone size-full wp-image-8069" alt="1002_001" src="data:image/png;base64,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"   /></a></p>
-<p>We could also explicitly specify a UTF-16 encoding (<strong>Encoding.Unicode</strong>) when creating the <strong>StreamWriter</strong> object.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            using (StreamWriter sw = new StreamWriter(@&quot;C:\Users\Sean\Documents\sometext.txt&quot;, false, Encoding.Unicode))
-
-</pre>
-<p><a href="http://2000thingscsharp.files.wordpress.com/2013/12/1002_002.png"><img class="alignnone size-full wp-image-8072" alt="1002_002" src="data:image/png;base64,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"   /></a></p>
+<p>When you persist string data out to a file, however, you must be aware of what encoding is being used.  In the example below, we use a <strong>StreamWriter</strong> to write string data to a file.  <strong>StreamWriter</strong> by default uses <a href="2013-12-18-998-utf-8-encoding.html">UTF-8</a> as  the encoding.</p><pre class="code-block language-csharp"><code><span class="kw">string</span> s1 = <span class="str">"A"</span>;             <span class="com">// U+0041</span>
+<span class="kw">string</span> s2 = <span class="str">"\u00e9"</span>;        <span class="com">// U+00E9 accented e</span>
+<span class="kw">string</span> s3 = <span class="str">"\u0100"</span>;        <span class="com">// Capital A with bar</span>
+<span class="kw">string</span> s4 = <span class="str">"\U00020213"</span>;    <span class="com">// CJK ideograph (d840, de13 surrogate)</span>
+<span class="kw">using</span> (StreamWriter sw = <span class="kw">new</span> StreamWriter(<span class="str">@"C:\Users\Sean\Documents\sometext.txt"</span>))
+{
+    sw.WriteLine(s1);
+    sw.WriteLine(s2);
+    sw.WriteLine(s3);
+    sw.WriteLine(s4);
+}</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/12/1002_001.png"><img class="alignnone size-full wp-image-8069" alt="1002_001" src="data:image/png;base64,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"   /></a></p>
+<p>We could also explicitly specify a UTF-16 encoding (<strong>Encoding.Unicode</strong>) when creating the <strong>StreamWriter</strong> object.</p><pre class="code-block language-csharp"><code><span class="kw">using</span> (StreamWriter sw = <span class="kw">new</span> StreamWriter(<span class="str">@"C:\Users\Sean\Documents\sometext.txt"</span>, <span class="kw">false</span>, Encoding.Unicode))</code></pre><p><a href="http://2000thingscsharp.files.wordpress.com/2013/12/1002_002.png"><img class="alignnone size-full wp-image-8072" alt="1002_002" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,24 +55,16 @@
 																				</p>
 					</div>
 
-					<p>Traditional CLR events are basically a wrapper around a private instance of a multicast delegate type.  When you add an event handler using the += operator, your handler gets added to the delegate&#8217;s invocation list.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-// CLR event under the covers
-private EventHandler barked;
-public event EventHandler Barked
-{
-    add { barked += value; }
-    remove { barked -= value; }
-}
-</pre>
-<p>Routed events in WPF look like standard CLR events because they are exposed via a CLR event.  But they are implemented differently.</p>
-<p>When you use += for a routed event, the <strong>UIElement.AddHandler</strong> method is called.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-    // From ButtonBase.cs
-    public static readonly RoutedEvent ClickEvent;
-    public event RoutedEventHandler Click { add { AddHandler(ClickEvent, value); } remove { RemoveHandler(ClickEvent, value); } }
-</pre>
-<p>The <strong>AddHandler</strong> method adds information about both the event and the handler to list of event handlers that is stored within the <strong>UIElement, </strong>used when the event is raised.</p>
+					<p>Traditional CLR events are basically a wrapper around a private instance of a multicast delegate type.  When you add an event handler using the += operator, your handler gets added to the delegate&#8217;s invocation list.</p><pre class="code-block language-csharp"><code><span class="com">// CLR event under the covers</span>
+<span class="kw">private</span> EventHandler barked;
+<span class="kw">public</span> <span class="kw">event</span> EventHandler Barked
+{
+    add { barked += <span class="kw">value</span>; }
+    remove { barked -= <span class="kw">value</span>; }
+}</code></pre><p>Routed events in WPF look like standard CLR events because they are exposed via a CLR event.  But they are implemented differently.</p>
+<p>When you use += for a routed event, the <strong>UIElement.AddHandler</strong> method is called.</p><pre class="code-block language-csharp"><code><span class="com">// From ButtonBase.cs</span>
+<span class="kw">public</span> <span class="kw">static</span> <span class="kw">readonly</span> RoutedEvent ClickEvent;
+<span class="kw">public</span> <span class="kw">event</span> RoutedEventHandler Click { add { AddHandler(ClickEvent, <span class="kw">value</span>); } remove { RemoveHandler(ClickEvent, <span class="kw">value</span>); } }</code></pre><p>The <strong>AddHandler</strong> method adds information about both the event and the handler to list of event handlers that is stored within the <strong>UIElement, </strong>used when the event is raised.</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

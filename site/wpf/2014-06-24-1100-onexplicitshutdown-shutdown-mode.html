@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,53 +57,23 @@
 
 					<p>By default, a WPF application terminates when all of its windows are closed.  This corresponds to a value of <strong>OnLastWindowClose</strong> for the main <strong>Application</strong> object&#8217;s <a href="2010-09-05-55-application-shutdownmode.html"><strong>ShutdownMode</strong> property.</a></p>
 <p>You can also set the <strong>ShutdownMode</strong> property to <strong>OnExplicitShutdown</strong>.  This indicates that the application will not terminate even after the user closes all of its windows.  Instead, you need to explicitly exit the application from within your code.</p>
-<p>Below, we set <strong>ShutdownMode</strong> to <strong>OnExplicitShutdown</strong>.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-
-&lt;Application x:Class=&quot;WpfApplication1.App&quot;
-
-             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-
-             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-
-             StartupUri=&quot;MainWindow.xaml&quot;
-
-             ShutdownMode=&quot;OnExplicitShutdown&quot;&gt;
-
-    &lt;Application.Resources&gt;
-
-
-
-    &lt;/Application.Resources&gt;
-
-&lt;/Application&gt;
-
-</pre>
-<p>If you run this application and then close its main window, you&#8217;ll see the application disappear from the &#8220;Apps&#8221; section of Task Manager, but still show up under &#8220;Background processes&#8221;.</p>
+<p>Below, we set <strong>ShutdownMode</strong> to <strong>OnExplicitShutdown</strong>.</p><pre class="code-block language-xml"><code>&lt;Application x:Class="WpfApplication1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml"
+             ShutdownMode="OnExplicitShutdown"&gt;
+    <span class="xml-tag">&lt;</span><span class="xml-name">Application.Resources</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Application.Resources</span><span class="xml-tag">&gt;</span>
+<span class="xml-tag">&lt;/</span><span class="xml-name">Application</span><span class="xml-tag">&gt;</span></code></pre><p>If you run this application and then close its main window, you&#8217;ll see the application disappear from the &#8220;Apps&#8221; section of Task Manager, but still show up under &#8220;Background processes&#8221;.</p>
 <p><a href="https://2000thingswpf.files.wordpress.com/2014/06/1100-001.png"><img class="alignnone size-full wp-image-8920" src="data:image/png;base64,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" alt="1100-001"   /></a></p>
-<p>Below is sample code that explicitly shuts down the application 10 seconds after the main window closes.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-        protected override void OnClosed(EventArgs e)
-
-        {
-
-            base.OnClosed(e);
-
-
-
-            // Shut things down 10 secs from now
-
-            Timer t = new Timer(
-
-                (state) =&gt; { App.Current.Shutdown(); }, 
-
-                null, 10000, -1);
-
-        }
-
-</pre>
-<p>&nbsp;</p>
+<p>Below is sample code that explicitly shuts down the application 10 seconds after the main window closes.</p><pre class="code-block language-csharp"><code><span class="kw">protected</span> <span class="kw">override</span> <span class="kw">void</span> OnClosed(EventArgs e)
+{
+    <span class="kw">base</span>.OnClosed(e);
+    <span class="com">// Shut things down 10 secs from now</span>
+    Timer t = <span class="kw">new</span> Timer(
+        (state) =&gt; { App.Current.Shutdown(); },
+        <span class="kw">null</span>, <span <span class="kw">class</span>="num">10000</span>, -<span <span class="kw">class</span>="num">1</span>);
+}</code></pre><p>&nbsp;</p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

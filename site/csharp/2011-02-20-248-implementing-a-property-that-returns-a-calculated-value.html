@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,44 +57,33 @@
 
 					<p>When implementing a property, you might sometimes want to define a property that returns a calculated value, rather than just returning the value of an internal field.</p>
 <p>Below is an example.  We have a <strong>Dog</strong> class with <strong>Name</strong> and <strong>Age</strong> that each just wraps an internal field and are both read/write.  We also define an <strong>AgeInDogYears</strong> property, which is read-only and returns the dog&#8217;s age in dog years.</p>
-<p>The <strong>Age </strong>property is defined to encapsulate a private <strong>age</strong> field.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Age in human years
-        private int age;
-        public int Age
-        {
-            get
-            {
-                return age;
-            }
-            set
-            {
-                age = value;
-            }
-        }
-</pre>
-<p>The <strong>AgeInDogYears</strong> property is read-only and returns the calculated dog-year age.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-        // Age in dog years
-        public float AgeInDogYears
-        {
-            get
-            {
-                float dogYearAge;
-
-                if (age &lt; 1)
-                    dogYearAge = 0;
-                else if (age == 1)
-                    dogYearAge = 10.5f;
-                else
-                    dogYearAge = 21 + ((age - 2) * 4);
-
-                return dogYearAge;
-            }
-        }
-</pre>
-
-<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<p>The <strong>Age </strong>property is defined to encapsulate a private <strong>age</strong> field.</p><pre class="code-block language-csharp"><code><span class="com">// Age in human years</span>
+<span class="kw">private</span> <span class="kw">int</span> age;
+<span class="kw">public</span> <span class="kw">int</span> Age
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">return</span> age;
+    }
+    <span class="kw">set</span>
+    {
+        age = <span class="kw">value</span>;
+    }
+}</code></pre><p>The <strong>AgeInDogYears</strong> property is read-only and returns the calculated dog-year age.</p><pre class="code-block language-csharp"><code><span class="com">// Age in dog years</span>
+<span class="kw">public</span> <span class="kw">float</span> AgeInDogYears
+{
+    <span class="kw">get</span>
+    {
+        <span class="kw">float</span> dogYearAge;
+        <span class="kw">if</span> (age &lt; <span <span class="kw">class</span>="num">1</span>)
+            dogYearAge = <span <span class="kw">class</span>="num">0</span>;
+        <span class="kw">else</span> <span class="kw">if</span> (age == <span <span class="kw">class</span>="num">1</span>)
+            dogYearAge = <span <span class="kw">class</span>="num">10</span>.5f;
+        <span class="kw">else</span>
+            dogYearAge = <span <span class="kw">class</span>="num">21</span> + ((age - <span <span class="kw">class</span>="num">2</span>) * <span <span class="kw">class</span>="num">4</span>);
+        <span class="kw">return</span> dogYearAge;
+    }
+}</code></pre><div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
 <script type="text/javascript">
 		var wpcom_adclk_hovering = false;

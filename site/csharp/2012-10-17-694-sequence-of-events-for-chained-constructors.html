@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -46,41 +58,20 @@
 					<p>When you <a href="2011-04-03-290-chaining-constructors.html">chain constructors</a> together using the <strong>this </strong>keyword, one constructor calls another while an object is being created.</p>
 <p>When one constructor chains to another, the constructor being chained to is executed first, followed by the body of the original constructor.</p>
 <p>For example, assume that we have three <strong>Dog</strong> constructors, as shown below.</p>
-<p><pre class="brush: csharp;">
-
-        public Dog(string name, int age, string favToy)
-
-        {
-
-            Console.WriteLine(&amp;quot;name/age/favToy constructor executing&amp;quot;);
-
-        }
-
-
-
-        public Dog(string name, int age)
-
-            : this(name, age, &amp;quot;ball&amp;quot;)
-
-        {
-
-            Console.WriteLine(&amp;quot;name/age constructor executing&amp;quot;);
-
-        }
-
-
-
-        public Dog(string name)
-
-            : this(name, 1)
-
-        {
-
-            Console.WriteLine(&amp;quot;name constructor executing&amp;quot;);
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age, <span class="kw">string</span> favToy)
+{
+    Console.WriteLine(&amp;quot;name/age/favToy constructor executing&amp;quot;);
+}
+<span class="kw">public</span> Dog(<span class="kw">string</span> name, <span class="kw">int</span> age)
+    : <span class="kw">this</span>(name, age, &amp;quot;ball&amp;quot;)
+{
+    Console.WriteLine(&amp;quot;name/age constructor executing&amp;quot;);
+}
+<span class="kw">public</span> Dog(<span class="kw">string</span> name)
+    : <span class="kw">this</span>(name, <span <span class="kw">class</span>="num">1</span>)
+{
+    Console.WriteLine(&amp;quot;name constructor executing&amp;quot;);
+}</code></pre>
 <p>If we create a <strong>Dog</strong> object and pass it only a single argument, of type <strong>string, </strong>the code in the body of each constructor will be executed in the following order:</p>
 <ul>
 <li>name/age/favToy constructor</li>

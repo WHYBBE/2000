@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,143 +57,118 @@
 
 					<p>Here&#8217;s an updated copy of the code that iterates through all .NET assemblies, dumping out type information.  This code iterates through all .NET assemblies and dumps out a master list of all types, organized by namespace.  Information about the type members is dumped out for each type and everything is written to a file.  The code has also been updated to descend into all sub-directories of the .NET runtime directory.</p>
 <p>When I run this against .NET 4.0.30319, I get a total of 50,380 types, in 872 namespaces.</p>
-<p><pre class="brush: csharp;">
-    class Program
-    {
-        static void Main()
-        {
-            int totalNamespaces = 0;
-            int totalTypes = 0;
-
-            AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomain_ReflectionOnlyAssemblyResolve;
-
-            SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; fullList =
-                new SortedList&lt;string, SortedList&lt;string, Type&gt;&gt;();
-
-            DirectoryInfo di = new DirectoryInfo(RuntimeEnvironment.GetRuntimeDirectory());
-            foreach (FileInfo fi in di.GetFiles(&quot;*&quot;,SearchOption.AllDirectories))
-            {
-                Trace.WriteLine(&quot;File: {0}&quot;, fi.FullName);
-                try
-                {
-                    Assembly assem = Assembly.LoadFrom(fi.FullName);
-
-                    if (assem != null)
-                    {
-                        ExtractListOfTypes(assem, ref fullList, ref totalNamespaces, ref totalTypes);
-                    }
-                }
-                catch (Exception xx)
-                {
-                    Trace.WriteLine(string.Format(&quot;EXCEPTION on {0}: {1}&quot;, fi.FullName, xx.ToString()));
-                }
-            }
-
-            DumpTypeList(fullList, totalNamespaces, totalTypes);
-        }
-
-        static Assembly CurrentDomain_ReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            return Assembly.ReflectionOnlyLoad(args.Name);
-        }
-
-        private static void ExtractListOfTypes(Assembly assem, ref SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; theList,
-            ref int totalNamespaces, ref int totalTypes)
-        {
-            if (theList == null)
-                throw new Exception(&quot;Uninitialized list&quot;);
-
-            foreach (Type t in assem.GetTypes())
-            {
-                string theNamespace = t.Namespace != null ? t.Namespace : &quot;(global)&quot;;
-
-                // Add namespace if it's not already in list
-                if (!theList.ContainsKey(theNamespace))
-                {
-                    theList.Add(theNamespace, new SortedList&lt;string, Type&gt;());
-                    totalNamespaces++;
-                }
-
-                // And add type under appropriate namespace
-                if (!theList[theNamespace].ContainsKey(t.FullName))
-                {
-                    theList[theNamespace].Add(t.FullName, t);
-                    totalTypes++;
-                }
-            }
-
-            return;
-        }
-
-        private static void DumpTypeList(SortedList&lt;string, SortedList&lt;string, Type&gt;&gt; theList,
-                                         int totalNamespaces, int totalTypes)
-        {
-            using (StreamWriter writer = new StreamWriter(@&quot;C:\Test\AllTypes.txt&quot;))
-            {
-                writer.WriteLine(string.Format(&quot;Total Namespaces: {0}&quot;, totalNamespaces));
-                writer.WriteLine(string.Format(&quot;Total Types: {0}&quot;, totalTypes));
-
-                foreach (KeyValuePair&lt;string, SortedList&lt;string, Type&gt;&gt; kvp in theList)
-                {
-                    writer.WriteLine(string.Format(&quot;Namespace: [{0}]&quot;, kvp.Key));
-
-                    foreach (KeyValuePair&lt;string, Type&gt; kvpInner in kvp.Value)
-                    {
-                        Type t = (Type)kvpInner.Value;
-                        writer.WriteLine(string.Format(&quot;  Type: [{0}] ({1})&quot;, t.FullName, TypeIndicator(t)));
-                        DumpTypeInfo(t, writer);
-                    }
-
-                    writer.WriteLine();
-                }
-            }
-        }
-
-        private static void DumpTypeInfo(Type t, StreamWriter writer)
-        {
-            writer.WriteLine(string.Format(&quot;    Assembly: {0}&quot;, t.Assembly.FullName));
-            if (t.BaseType != null)
-                writer.WriteLine(string.Format(&quot;    Base Type: {0}&quot;, t.BaseType.FullName));
-
-            MemberInfo[] members = t.GetMembers();
-            if (members.Length &gt; 0)
-            {
-                writer.WriteLine(&quot;    Members:&quot;);
-                foreach (MemberInfo mi in members)
-                {
-                    writer.WriteLine(string.Format(&quot;      {0}  ({1})&quot;, mi.ToString(), mi.MemberType));
-                }
-            }
-        }
-
-        private static string TypeIndicator(Type t)
-        {
-            string typeIndicator = &quot;?&quot;;
-
-            if ((t.BaseType != null) &amp;&amp;
-                (t.BaseType.FullName == &quot;System.MulticastDelegate&quot;))
-                typeIndicator = &quot;delegate&quot;;
-
-            else if (t.IsClass)
-            {
-                if (t.IsNested)
-                    typeIndicator = &quot;Nested class&quot;;
-                else
-                    typeIndicator = &quot;class&quot;;
-            }
-            else if (t.IsInterface)
-                typeIndicator = &quot;interface&quot;;
-
-            else if (t.IsValueType)
-                typeIndicator = &quot;struct&quot;;
-
-            else if (t.IsEnum)
-                typeIndicator = &quot;enum&quot;;
-
-            return typeIndicator;
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">class</span> Program
+{
+    <span class="kw">static</span> <span class="kw">void</span> Main()
+    {
+        <span class="kw">int</span> totalNamespaces = <span <span class="kw">class</span>="num">0</span>;
+        <span class="kw">int</span> totalTypes = <span <span class="kw">class</span>="num">0</span>;
+        AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomain_ReflectionOnlyAssemblyResolve;
+        SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; fullList =
+            <span class="kw">new</span> SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt;();
+        DirectoryInfo di = <span class="kw">new</span> DirectoryInfo(RuntimeEnvironment.GetRuntimeDirectory());
+        <span class="kw">foreach</span> (FileInfo fi <span class="kw">in</span> di.GetFiles(<span class="str">"*"</span>,SearchOption.AllDirectories))
+        {
+            Trace.WriteLine(<span class="str">"File: {0}"</span>, fi.FullName);
+            <span class="kw">try</span>
+            {
+                Assembly assem = Assembly.LoadFrom(fi.FullName);
+                <span class="kw">if</span> (assem != <span class="kw">null</span>)
+                {
+                    ExtractListOfTypes(assem, <span class="kw">ref</span> fullList, <span class="kw">ref</span> totalNamespaces, <span class="kw">ref</span> totalTypes);
+                }
+            }
+            <span class="kw">catch</span> (Exception xx)
+            {
+                Trace.WriteLine(<span class="kw">string</span>.Format(<span class="str">"EXCEPTION on {0}: {1}"</span>, fi.FullName, xx.ToString()));
+            }
+        }
+        DumpTypeList(fullList, totalNamespaces, totalTypes);
+    }
+    <span class="kw">static</span> Assembly CurrentDomain_ReflectionOnlyAssemblyResolve(<span class="kw">object</span> sender, ResolveEventArgs args)
+    {
+        <span class="kw">return</span> Assembly.ReflectionOnlyLoad(args.Name);
+    }
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> ExtractListOfTypes(Assembly assem, <span class="kw">ref</span> SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; theList,
+        <span class="kw">ref</span> <span class="kw">int</span> totalNamespaces, <span class="kw">ref</span> <span class="kw">int</span> totalTypes)
+    {
+        <span class="kw">if</span> (theList == <span class="kw">null</span>)
+            <span class="kw">throw</span> <span class="kw">new</span> Exception(<span class="str">"Uninitialized list"</span>);
+        <span class="kw">foreach</span> (Type t <span class="kw">in</span> assem.GetTypes())
+        {
+            <span class="kw">string</span> theNamespace = t.Namespace != <span class="kw">null</span> ? t.Namespace : <span class="str">"(global)"</span>;
+            <span class="com">// Add namespace if it's not already in list</span>
+            <span class="kw">if</span> (!theList.ContainsKey(theNamespace))
+            {
+                theList.Add(theNamespace, <span class="kw">new</span> SortedList&lt;<span class="kw">string</span>, Type&gt;());
+                totalNamespaces++;
+            }
+            <span class="com">// And add type under appropriate namespace</span>
+            <span class="kw">if</span> (!theList[theNamespace].ContainsKey(t.FullName))
+            {
+                theList[theNamespace].Add(t.FullName, t);
+                totalTypes++;
+            }
+        }
+        <span class="kw">return</span>;
+    }
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> DumpTypeList(SortedList&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; theList,
+                                     <span class="kw">int</span> totalNamespaces, <span class="kw">int</span> totalTypes)
+    {
+        <span class="kw">using</span> (StreamWriter writer = <span class="kw">new</span> StreamWriter(<span class="str">@"C:\Test\AllTypes.txt"</span>))
+        {
+            writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Total Namespaces: {0}"</span>, totalNamespaces));
+            writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Total Types: {0}"</span>, totalTypes));
+            <span class="kw">foreach</span> (KeyValuePair&lt;<span class="kw">string</span>, SortedList&lt;<span class="kw">string</span>, Type&gt;&gt; kvp <span class="kw">in</span> theList)
+            {
+                writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Namespace: [{0}]"</span>, kvp.Key));
+                <span class="kw">foreach</span> (KeyValuePair&lt;<span class="kw">string</span>, Type&gt; kvpInner <span class="kw">in</span> kvp.Value)
+                {
+                    Type t = (Type)kvpInner.Value;
+                    writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"  Type: [{0}] ({1})"</span>, t.FullName, TypeIndicator(t)));
+                    DumpTypeInfo(t, writer);
+                }
+                writer.WriteLine();
+            }
+        }
+    }
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">void</span> DumpTypeInfo(Type t, StreamWriter writer)
+    {
+        writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"    Assembly: {0}"</span>, t.Assembly.FullName));
+        <span class="kw">if</span> (t.BaseType != <span class="kw">null</span>)
+            writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"    Base Type: {0}"</span>, t.BaseType.FullName));
+        MemberInfo[] members = t.GetMembers();
+        <span class="kw">if</span> (members.Length &gt; <span <span class="kw">class</span>="num">0</span>)
+        {
+            writer.WriteLine(<span class="str">"    Members:"</span>);
+            <span class="kw">foreach</span> (MemberInfo mi <span class="kw">in</span> members)
+            {
+                writer.WriteLine(<span class="kw">string</span>.Format(<span class="str">"      {0}  ({1})"</span>, mi.ToString(), mi.MemberType));
+            }
+        }
+    }
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">string</span> TypeIndicator(Type t)
+    {
+        <span class="kw">string</span> typeIndicator = <span class="str">"?"</span>;
+        <span class="kw">if</span> ((t.BaseType != <span class="kw">null</span>) &amp;&amp;
+            (t.BaseType.FullName == <span class="str">"System.MulticastDelegate"</span>))
+            typeIndicator = <span class="str">"delegate"</span>;
+        <span class="kw">else</span> <span class="kw">if</span> (t.IsClass)
+        {
+            <span class="kw">if</span> (t.IsNested)
+                typeIndicator = <span class="str">"Nested class"</span>;
+            <span class="kw">else</span>
+                typeIndicator = <span class="str">"class"</span>;
+        }
+        <span class="kw">else</span> <span class="kw">if</span> (t.IsInterface)
+            typeIndicator = <span class="str">"interface"</span>;
+        <span class="kw">else</span> <span class="kw">if</span> (t.IsValueType)
+            typeIndicator = <span class="str">"struct"</span>;
+        <span class="kw">else</span> <span class="kw">if</span> (t.IsEnum)
+            typeIndicator = <span class="str">"enum"</span>;
+        <span class="kw">return</span> typeIndicator;
+    }
+}</code></pre>
 
 		<div class="wpadvert">
 		

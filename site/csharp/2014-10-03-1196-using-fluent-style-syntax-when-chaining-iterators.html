@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -43,101 +55,47 @@
 																				</p>
 					</div>
 
-					<p>You can chain iterator code together using a fluent-style syntax if you define extension methods for the corresponding <strong>IEnumerable&lt;T&gt;</strong> type that you&#8217;re using.  In the code below, we chain several iterators together, progressively filtering an <strong>IEnumerable&lt;Dog&gt;</strong> collection.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    class Program
-
+					<p>You can chain iterator code together using a fluent-style syntax if you define extension methods for the corresponding <strong>IEnumerable&lt;T&gt;</strong> type that you&#8217;re using.  In the code below, we chain several iterators together, progressively filtering an <strong>IEnumerable&lt;Dog&gt;</strong> collection.</p><pre class="code-block language-csharp"><code><span class="kw">class</span> Program
+{
+    <span class="kw">static</span> <span class="kw">void</span> Main(<span class="kw">string</span>[] args)
     {
-
-        static void Main(string[] args)
-
+        <span class="kw">foreach</span> (Dog d <span class="kw">in</span> AllMyDogs().YoungDogs().HerdingDogs())
         {
-
-            foreach (Dog d in AllMyDogs().YoungDogs().HerdingDogs())
-
-            {
-
-                Console.WriteLine(d);
-
-                if (d.Breed == Breed.JackRussell)
-
-                    break;
-
-            }
-
-
-
-            Console.ReadLine();
-
+            Console.WriteLine(d);
+            <span class="kw">if</span> (d.Breed == Breed.JackRussell)
+                <span class="kw">break</span>;
         }
-
-
-
-        private static IEnumerable&lt;Dog&gt; AllMyDogs()
-
-        {
-
-            yield return new Dog(&quot;Kirby&quot;, Breed.BorderCollie, 14);
-
-            yield return new Dog(&quot;Jack&quot;, Breed.JackRussell, 15);
-
-            yield return new Dog(&quot;Ruby&quot;, Breed.Mutt, 4);
-
-            yield return new Dog(&quot;Lassie&quot;, Breed.Collie, 19);
-
-            yield return new Dog(&quot;Shep&quot;, Breed.Collie, 2);
-
-            yield return new Dog(&quot;Foofoo&quot;, Breed.Sheltie, 8);
-
-            yield return new Dog(&quot;Pongo&quot;, Breed.Dalmatian, 4);
-
-            yield return new Dog(&quot;Rooster&quot;, Breed.WestHighlandTerrier, 1);
-
-        }
-
+        Console.ReadLine();
     }
-
-
-
-    static class DogFilters
-
+    <span class="kw">private</span> <span class="kw">static</span> IEnumerable&lt;Dog&gt; AllMyDogs()
     {
-
-        public static IEnumerable&lt;Dog&gt; YoungDogs(this IEnumerable&lt;Dog&gt; dogs)
-
-        {
-
-            foreach (Dog d in dogs)
-
-                if (d.Age &lt; 10)
-
-                    yield return d;
-
-        }
-
-
-
-        public static IEnumerable&lt;Dog&gt; HerdingDogs(this IEnumerable&lt;Dog&gt; dogs)
-
-        {
-
-            foreach (Dog d in dogs)
-
-                if ((d.Breed == Breed.BorderCollie) ||
-
-                    (d.Breed == Breed.Collie) ||
-
-                    (d.Breed == Breed.Sheltie))
-
-                    yield return d;
-
-        }
-
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Kirby"</span>, Breed.BorderCollie, <span <span class="kw">class</span>="num">14</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Jack"</span>, Breed.JackRussell, <span <span class="kw">class</span>="num">15</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Ruby"</span>, Breed.Mutt, <span <span class="kw">class</span>="num">4</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Lassie"</span>, Breed.Collie, <span <span class="kw">class</span>="num">19</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Shep"</span>, Breed.Collie, <span <span class="kw">class</span>="num">2</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Foofoo"</span>, Breed.Sheltie, <span <span class="kw">class</span>="num">8</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Pongo"</span>, Breed.Dalmatian, <span <span class="kw">class</span>="num">4</span>);
+        <span class="kw">yield</span> <span class="kw">return</span> <span class="kw">new</span> Dog(<span class="str">"Rooster"</span>, Breed.WestHighlandTerrier, <span <span class="kw">class</span>="num">1</span>);
     }
-
-</pre>
-<p>Here&#8217;s the output:<br />
+}
+<span class="kw">static</span> <span class="kw">class</span> DogFilters
+{
+    <span class="kw">public</span> <span class="kw">static</span> IEnumerable&lt;Dog&gt; YoungDogs(<span class="kw">this</span> IEnumerable&lt;Dog&gt; dogs)
+    {
+        <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs)
+            <span class="kw">if</span> (d.Age &lt; <span <span class="kw">class</span>="num">10</span>)
+                <span class="kw">yield</span> <span class="kw">return</span> d;
+    }
+    <span class="kw">public</span> <span class="kw">static</span> IEnumerable&lt;Dog&gt; HerdingDogs(<span class="kw">this</span> IEnumerable&lt;Dog&gt; dogs)
+    {
+        <span class="kw">foreach</span> (Dog d <span class="kw">in</span> dogs)
+            <span class="kw">if</span> ((d.Breed == Breed.BorderCollie) ||
+                (d.Breed == Breed.Collie) ||
+                (d.Breed == Breed.Sheltie))
+                <span class="kw">yield</span> <span class="kw">return</span> d;
+    }
+}</code></pre><p>Here&#8217;s the output:<br />
 <a href="https://2000thingscsharp.files.wordpress.com/2014/10/1196-001.png"><img class="alignnone size-full wp-image-9161" src="data:image/png;base64,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" alt="1196-001"   /></a></p>
 
 <div class="wpcnt">

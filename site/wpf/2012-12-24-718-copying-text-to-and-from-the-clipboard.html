@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,75 +57,35 @@
 
 					<p>You can copy data to or from the Windows clipboard using static methods in the <strong>System.Windows.Clipboard</strong> class.</p>
 <p>Here&#8217;s an example that copies text from a <strong>TextBox</strong> onto the clipboard and pastes text from the clipboard into a <strong>Label</strong>.</p>
-<p><pre class="brush: xml;">
-
-    &lt;Grid&gt;
-
-        &lt;Grid.RowDefinitions&gt;
-
-            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-
-            &lt;RowDefinition Height=&quot;*&quot;/&gt;
-
-        &lt;/Grid.RowDefinitions&gt;
-
-        &lt;Grid.ColumnDefinitions&gt;
-
-            &lt;ColumnDefinition/&gt;
-
-            &lt;ColumnDefinition/&gt;
-
-        &lt;/Grid.ColumnDefinitions&gt;
-
-
-
-        &lt;TextBox Name=&quot;txtFrom&quot; Text=&quot;Twas the Night Before Christmas..&quot; Margin=&quot;10&quot;/&gt;
-
-        &lt;Button Grid.Column=&quot;1&quot; Content=&quot;Copy&quot;
-
-                HorizontalAlignment=&quot;Left&quot; Padding=&quot;10,5&quot; Margin=&quot;10&quot;
-
-                Click=&quot;btnCopy_Click&quot;/&gt;
-
-
-
-        &lt;Label Name=&quot;lblTo&quot; Grid.Row=&quot;1&quot; Content=&quot;Paste something here&quot;
-
-               Margin=&quot;10&quot;/&gt;
-
-        &lt;Button Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Content=&quot;Paste&quot;
-
-                VerticalAlignment=&quot;Top&quot; HorizontalAlignment=&quot;Left&quot;
-
-                Padding=&quot;10,5&quot; Margin=&quot;10&quot;
-
-                Click=&quot;btnPaste_Click&quot;/&gt;
-
-    &lt;/Grid&gt;
-
-</pre></p>
+<pre class="code-block language-xml"><code><span class="xml-tag">&lt;</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"Auto"</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">RowDefinition</span> <span class="xml-attr">Height</span>=<span class="xml-val">"*"</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.RowDefinitions</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span><span class="xml-tag">/&gt;</span>
+        <span class="xml-tag">&lt;</span><span class="xml-name">ColumnDefinition</span><span class="xml-tag">/&gt;</span>
+    <span class="xml-tag">&lt;/</span><span class="xml-name">Grid.ColumnDefinitions</span><span class="xml-tag">&gt;</span>
+    <span class="xml-tag">&lt;</span><span class="xml-name">TextBox</span> <span class="xml-attr">Name</span>=<span class="xml-val">"txtFrom"</span> <span class="xml-attr">Text</span>=<span class="xml-val">"Twas the Night Before Christmas.."</span> <span class="xml-attr">Margin</span>=<span class="xml-val">"10"</span><span class="xml-tag">/&gt;</span>
+    &lt;Button Grid.Column="1" Content="Copy"
+            HorizontalAlignment="Left" Padding="10,5" Margin="10"
+            Click="btnCopy_Click"/&gt;
+    &lt;Label Name="lblTo" Grid.Row="1" Content="Paste something here"
+           Margin="10"/&gt;
+    &lt;Button Grid.Row="1" Grid.Column="1" Content="Paste"
+            VerticalAlignment="Top" HorizontalAlignment="Left"
+            Padding="10,5" Margin="10"
+            Click="btnPaste_Click"/&gt;
+<span class="xml-tag">&lt;/</span><span class="xml-name">Grid</span><span class="xml-tag">&gt;</span></code></pre>
 <p>The <strong>Click</strong> handlers use the <strong>SetText</strong> and <strong>GetText</strong> methods of the <strong>Clipboard</strong> class to interact with the clipboard.  The <strong>SetText</strong> method copies data to the clipboard.  The <strong>GetText</strong> method pastes data from the clipboard.</p>
-<p><pre class="brush: csharp;">
-
-        private void btnCopy_Click(object sender, RoutedEventArgs e)
-
-        {
-
-            Clipboard.SetText(txtFrom.Text);
-
-        }
-
-
-
-        private void btnPaste_Click(object sender, RoutedEventArgs e)
-
-        {
-
-            lblTo.Content = Clipboard.GetText();
-
-        }
-
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">private</span> <span class="kw">void</span> btnCopy_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    Clipboard.SetText(txtFrom.Text);
+}
+<span class="kw">private</span> <span class="kw">void</span> btnPaste_Click(<span class="kw">object</span> sender, RoutedEventArgs e)
+{
+    lblTo.Content = Clipboard.GetText();
+}</code></pre>
 <p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-001/" rel="attachment wp-att-6269"><img class="alignnone size-full wp-image-6269" alt="718-001" src="data:image/png;base64,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"   /></a></p>
 <p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-002/" rel="attachment wp-att-6270"><img class="alignnone size-full wp-image-6270" alt="718-002" src="data:image/png;base64,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"   /></a></p>
 <p><a href="http://wpf.2000things.com/2012/12/24/718-copying-text-to-and-from-the-clipboard/718-003/" rel="attachment wp-att-6271"><img class="alignnone size-full wp-image-6271" alt="718-003" src="data:image/png;base64,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"   /></a></p>

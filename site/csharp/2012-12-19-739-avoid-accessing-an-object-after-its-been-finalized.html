@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,89 +57,34 @@
 
 					<p>A finalizer should not create a new reference to the object being finalized.  Below is an example where doing this leads to the ability to reference the object after it&#8217;s been finalized.</p>
 <p>This is an example of questionable code&#8211;in general, it&#8217;s dangerous to<em> </em>reconstitute an object after it&#8217;s been finalized.</p>
-<p>In the <strong>Dog</strong> class, we save a reference to the object being finalized.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-    public class Dog
-
+<p>In the <strong>Dog</strong> class, we save a reference to the object being finalized.</p><pre class="code-block language-csharp"><code><span class="kw">public</span> <span class="kw">class</span> Dog
+{
+    <span class="kw">public</span> <span class="kw">static</span> Dog KeepDogRef;
+    <span class="kw">public</span> <span class="kw">string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> Dog(<span class="kw">string</span> name)
     {
-
-        public static Dog KeepDogRef;
-
-
-
-        public string Name { get; set; }
-
-
-
-        public Dog(string name)
-
-        {
-
-            Name = name;
-
-        }
-
-
-
-        ~Dog()
-
-        {
-
-            Console.WriteLine(&quot;Dog destructor for &quot; + Name + &quot; called&quot;);
-
-            Dog.KeepDogRef = this;
-
-        }
-
-
-
-        public void Bark()
-
-        {
-
-            Console.WriteLine(Name + &quot; : Woof&quot;);
-
-        }
-
+        Name = name;
     }
-
-</pre>
-<p>In main program, we reconstitute a <strong>Dog</strong> object after it&#8217;s been finalized.</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
-
-            Dog dog = new Dog(&quot;Bowser&quot;);
-
-
-
-            WeakReference dogRef = new WeakReference(dog);
-
-
-
-            // Unref Bowser
-
-            dog = null;
-
-            GC.Collect();
-
-            GC.WaitForPendingFinalizers();
-
-
-
-            // Bowser is gone
-
-            Console.WriteLine(string.Format(&quot;Object still alive: {0}&quot;, dogRef.IsAlive));
-
-
-
-            // Hey, Bowser is alive again!
-
-            Dog newRef = Dog.KeepDogRef;
-
-            newRef.Bark();
-
-</pre>
-<p><a href="http://csharp.2000things.com/2012/12/19/739-avoid-accessing-an-object-after-its-been-finalized/739-001/" rel="attachment wp-att-6368"><img class="alignnone size-full wp-image-6368" alt="739-001" src="data:image/png;base64,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"   /></a></p>
+    ~Dog()
+    {
+        Console.WriteLine(<span class="str">"Dog destructor for "</span> + Name + <span class="str">" called"</span>);
+        Dog.KeepDogRef = <span class="kw">this</span>;
+    }
+    <span class="kw">public</span> <span class="kw">void</span> Bark()
+    {
+        Console.WriteLine(Name + <span class="str">" : Woof"</span>);
+    }
+}</code></pre><p>In main program, we reconstitute a <strong>Dog</strong> object after it&#8217;s been finalized.</p><pre class="code-block language-csharp"><code>Dog dog = <span class="kw">new</span> Dog(<span class="str">"Bowser"</span>);
+WeakReference dogRef = <span class="kw">new</span> WeakReference(dog);
+<span class="com">// Unref Bowser</span>
+dog = <span class="kw">null</span>;
+GC.Collect();
+GC.WaitForPendingFinalizers();
+<span class="com">// Bowser is gone</span>
+Console.WriteLine(<span class="kw">string</span>.Format(<span class="str">"Object still alive: {0}"</span>, dogRef.IsAlive));
+<span class="com">// Hey, Bowser is alive again!</span>
+Dog newRef = Dog.KeepDogRef;
+newRef.Bark();</code></pre><p><a href="http://csharp.2000things.com/2012/12/19/739-avoid-accessing-an-object-after-its-been-finalized/739-001/" rel="attachment wp-att-6368"><img class="alignnone size-full wp-image-6368" alt="739-001" src="data:image/png;base64,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"   /></a></p>
 
 <div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

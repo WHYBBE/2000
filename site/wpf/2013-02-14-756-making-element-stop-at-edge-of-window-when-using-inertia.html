@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -45,118 +57,93 @@
 
 					<p>We saw previously how to <a href="http://wp.me/pZhye-1Gj">stop an object at the edge of a window</a> when using touch manipulation.  You likely also want the object to stop moving when it hits the edge of its container when moving as a result of inertia (i.e. you&#8217;ve already lifted your finger from the screen).</p>
 <p>In the following code fragment, we&#8217;ve enabled positional inertia.  We then check to see if the object is past the container boundary.  If it is and if it&#8217;s moving as a result of inertia, we stop the inertial event by calling <strong>Complete</strong> and we move the object back within the window.</p>
-<p><pre class="brush: csharp;">
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-
-            ImageTransform = new MatrixTransform();
-        }
-
-        private MatrixTransform imageTransform;
-        public MatrixTransform ImageTransform
-        {
-            get { return imageTransform; }
-            set
-            {
-                if (value != imageTransform)
-                {
-                    imageTransform = value;
-                    RaisePropertyChanged(&quot;ImageTransform&quot;);
-                }
-            }
-        }
-
-        private void Image_ManipulationStarting(object sender, ManipulationStartingEventArgs e)
-        {
-            // Ask for manipulations to be reported relative to the canvas
-            e.ManipulationContainer = canvMain;
-
-            // Support translation and scaling
-            e.Mode = ManipulationModes.Translate;
-        }
-
-        private void Image_ManipulationInertiaStarting(object sender, ManipulationInertiaStartingEventArgs e)
-        {
-            // Translation inertia - 10 in/sec^2 deceleration
-            e.TranslationBehavior.DesiredDeceleration = 10.0 * 96.0 / (1000.0 * 1000.0);
-        }
-
-        private void Image_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
-        {
-            Matrix m = imageTransform.Matrix;
-
-            // If element beyond edge, report back to WPF
-            Vector pastEdgeVector;
-            if (ElementPastBoundary(e.Source as FrameworkElement, out pastEdgeVector) &amp;&amp;
-                e.IsInertial)
-            {
-                m.Translate(-1.0 * pastEdgeVector.X, -1.0 * pastEdgeVector.Y);
-                imageTransform.Matrix = m;
-
-                e.Complete();
-                e.Handled = true;
-                return;
-            }
-
-            // Find center of element and then transform to get current location of center
-            FrameworkElement fe = e.Source as FrameworkElement;
-            Point center = new Point(fe.ActualWidth / 2, fe.ActualHeight / 2);
-            center = m.Transform(center);
-
-            // Update matrix to reflect translation and rotation
-            ManipulationDelta md = e.DeltaManipulation;
-            m.Translate(md.Translation.X, md.Translation.Y);
-
-            imageTransform.Matrix = m;
-            RaisePropertyChanged(&quot;ImageTransform&quot;);
-
-            e.Handled = true;
-        }
-
-        private bool ElementPastBoundary(FrameworkElement fe, out Vector pastEdgeVector)
-        {
-            bool pastEdge = false;
-
-            pastEdgeVector = new Vector();
-
-            FrameworkElement feParent = fe.Parent as FrameworkElement;
-            if (feParent != null)
-            {
-                Rect feRect = fe.TransformToAncestor(feParent).TransformBounds(
-                    new Rect(0.0, 0.0, fe.ActualWidth, fe.ActualHeight));
-
-                if (feRect.Right &gt; feParent.ActualWidth)
-                    pastEdgeVector.X = feRect.Right - feParent.ActualWidth;
-
-                if (feRect.Left &lt; 0)
-                    pastEdgeVector.X = feRect.Left;
-
-                if (feRect.Bottom &gt; feParent.ActualHeight)
-                    pastEdgeVector.Y = feRect.Bottom - feParent.ActualHeight;
-
-                if (feRect.Top &lt; 0)
-                    pastEdgeVector.Y = feRect.Top;
-
-                if ((pastEdgeVector.X != 0) || (pastEdgeVector.Y != 0))
-                    pastEdge = true;
-            }
-
-            return pastEdge;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string prop)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-    }
-</pre></p>
+<pre class="code-block language-csharp"><code><span class="kw">public</span> partial <span class="kw">class</span> MainWindow : Window, INotifyPropertyChanged
+{
+    <span class="kw">public</span> MainWindow()
+    {
+        InitializeComponent();
+        <span class="kw">this</span>.DataContext = <span class="kw">this</span>;
+        ImageTransform = <span class="kw">new</span> MatrixTransform();
+    }
+    <span class="kw">private</span> MatrixTransform imageTransform;
+    <span class="kw">public</span> MatrixTransform ImageTransform
+    {
+        <span class="kw">get</span> { <span class="kw">return</span> imageTransform; }
+        <span class="kw">set</span>
+        {
+            <span class="kw">if</span> (<span class="kw">value</span> != imageTransform)
+            {
+                imageTransform = <span class="kw">value</span>;
+                RaisePropertyChanged(<span class="str">"ImageTransform"</span>);
+            }
+        }
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Image_ManipulationStarting(<span class="kw">object</span> sender, ManipulationStartingEventArgs e)
+    {
+        <span class="com">// Ask for manipulations to be reported relative to the canvas</span>
+        e.ManipulationContainer = canvMain;
+        <span class="com">// Support translation and scaling</span>
+        e.Mode = ManipulationModes.Translate;
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Image_ManipulationInertiaStarting(<span class="kw">object</span> sender, ManipulationInertiaStartingEventArgs e)
+    {
+        <span class="com">// Translation inertia - 10 in/sec^2 deceleration</span>
+        e.TranslationBehavior.DesiredDeceleration = <span <span class="kw">class</span>="num">10.0</span> * <span <span class="kw">class</span>="num">96.0</span> / (<span <span class="kw">class</span>="num">1000.0</span> * <span <span class="kw">class</span>="num">1000.0</span>);
+    }
+    <span class="kw">private</span> <span class="kw">void</span> Image_ManipulationDelta(<span class="kw">object</span> sender, ManipulationDeltaEventArgs e)
+    {
+        Matrix m = imageTransform.Matrix;
+        <span class="com">// If element beyond edge, report back to WPF</span>
+        Vector pastEdgeVector;
+        <span class="kw">if</span> (ElementPastBoundary(e.Source <span class="kw">as</span> FrameworkElement, <span class="kw">out</span> pastEdgeVector) &amp;&amp;
+            e.IsInertial)
+        {
+            m.Translate(-<span <span class="kw">class</span>="num">1.0</span> * pastEdgeVector.X, -<span <span class="kw">class</span>="num">1.0</span> * pastEdgeVector.Y);
+            imageTransform.Matrix = m;
+            e.Complete();
+            e.Handled = <span class="kw">true</span>;
+            <span class="kw">return</span>;
+        }
+        <span class="com">// Find center of element and then transform to get current location of center</span>
+        FrameworkElement fe = e.Source <span class="kw">as</span> FrameworkElement;
+        Point center = <span class="kw">new</span> Point(fe.ActualWidth / <span <span class="kw">class</span>="num">2</span>, fe.ActualHeight / <span <span class="kw">class</span>="num">2</span>);
+        center = m.Transform(center);
+        <span class="com">// Update matrix to reflect translation and rotation</span>
+        ManipulationDelta md = e.DeltaManipulation;
+        m.Translate(md.Translation.X, md.Translation.Y);
+        imageTransform.Matrix = m;
+        RaisePropertyChanged(<span class="str">"ImageTransform"</span>);
+        e.Handled = <span class="kw">true</span>;
+    }
+    <span class="kw">private</span> <span class="kw">bool</span> ElementPastBoundary(FrameworkElement fe, <span class="kw">out</span> Vector pastEdgeVector)
+    {
+        <span class="kw">bool</span> pastEdge = <span class="kw">false</span>;
+        pastEdgeVector = <span class="kw">new</span> Vector();
+        FrameworkElement feParent = fe.Parent <span class="kw">as</span> FrameworkElement;
+        <span class="kw">if</span> (feParent != <span class="kw">null</span>)
+        {
+            Rect feRect = fe.TransformToAncestor(feParent).TransformBounds(
+                <span class="kw">new</span> Rect(<span <span class="kw">class</span>="num">0.0</span>, <span <span class="kw">class</span>="num">0.0</span>, fe.ActualWidth, fe.ActualHeight));
+            <span class="kw">if</span> (feRect.Right &gt; feParent.ActualWidth)
+                pastEdgeVector.X = feRect.Right - feParent.ActualWidth;
+            <span class="kw">if</span> (feRect.Left &lt; <span <span class="kw">class</span>="num">0</span>)
+                pastEdgeVector.X = feRect.Left;
+            <span class="kw">if</span> (feRect.Bottom &gt; feParent.ActualHeight)
+                pastEdgeVector.Y = feRect.Bottom - feParent.ActualHeight;
+            <span class="kw">if</span> (feRect.Top &lt; <span <span class="kw">class</span>="num">0</span>)
+                pastEdgeVector.Y = feRect.Top;
+            <span class="kw">if</span> ((pastEdgeVector.X != <span <span class="kw">class</span>="num">0</span>) || (pastEdgeVector.Y != <span <span class="kw">class</span>="num">0</span>))
+                pastEdge = <span class="kw">true</span>;
+        }
+        <span class="kw">return</span> pastEdge;
+    }
+    <span class="kw">public</span> <span class="kw">event</span> PropertyChangedEventHandler PropertyChanged;
+    <span class="kw">private</span> <span class="kw">void</span> RaisePropertyChanged(<span class="kw">string</span> prop)
+    {
+        <span class="kw">if</span> (PropertyChanged != <span class="kw">null</span>)
+            PropertyChanged(<span class="kw">this</span>, <span class="kw">new</span> PropertyChangedEventArgs(prop));
+    }
+}</code></pre>
 
 <div class="wpadvert" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
 <a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>

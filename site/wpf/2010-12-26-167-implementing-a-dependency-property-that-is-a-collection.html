@@ -19,6 +19,18 @@
     ol { padding-left: 1.4rem; }
     li { margin: 0.35rem 0; }
     time { display: inline-block; min-width: 6.5rem; color: #777; font-family: Arial, sans-serif; }
+
+    .code-block { background: #101820; color: #e6edf3; border-radius: 10px; border: 1px solid #263545; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); font-size: .94rem; line-height: 1.48; margin: 1.25rem 0; padding: 0; overflow: auto; tab-size: 4; }
+    .code-block code { display: block; padding: 16px 18px; white-space: pre; font-family: Consolas, 'Cascadia Code', 'Courier New', monospace; }
+    .code-block .kw { color: #ffcb6b; font-weight: 600; }
+    .code-block .type { color: #82aaff; }
+    .code-block .str { color: #c3e88d; }
+    .code-block .num { color: #f78c6c; }
+    .code-block .com { color: #7f8c98; font-style: italic; }
+    .code-block .xml-tag { color: #89ddff; }
+    .code-block .xml-name { color: #ffcb6b; }
+    .code-block .xml-attr { color: #c792ea; }
+    .code-block .xml-val { color: #c3e88d; }
   </style>
 </head>
 <body>
@@ -41,18 +53,10 @@
                     </div>
 
                     <p>When you create a custom dependency property that is based on a collection type, you need to define the default value of the property as a new instance of a collection, rather than as just a static value.</p>
-<p>For example, we defined the <strong>Person.IQ</strong> dependency property, with a default value of 100, as follows:</p>
-<pre class="brush: csharp;">
-internal static readonly DependencyPropertyKey IQPropertyKey =
-    DependencyProperty.RegisterReadOnly(&quot;IQ&quot;, typeof(int), typeof(Person), new PropertyMetadata(100));
-</pre>
-<p>If we define a read-only <strong>Person.Friends </strong>property, whose type is <strong>List&lt;Person&gt;</strong>, the same call would look like this:</p>
-<pre class="brush: csharp;">
-        internal static readonly DependencyPropertyKey FriendsPropertyKey =
-            DependencyProperty.RegisterReadOnly(&quot;Friends&quot;, typeof(List&lt;Person&gt;), typeof(Person),
-              new PropertyMetadata(new List&lt;Person&gt;()));      // Metadata constructor instantiates a new List
-</pre>
-<div class="clear"></div>
+<p>For example, we defined the <strong>Person.IQ</strong> dependency property, with a default value of 100, as follows:</p><pre class="code-block language-csharp"><code><span class="kw">internal</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyPropertyKey IQPropertyKey =
+    DependencyProperty.RegisterReadOnly(<span class="str">"IQ"</span>, <span class="kw">typeof</span>(<span class="kw">int</span>), <span class="kw">typeof</span>(Person), <span class="kw">new</span> PropertyMetadata(<span <span class="kw">class</span>="num">100</span>));</code></pre><p>If we define a read-only <strong>Person.Friends </strong>property, whose type is <strong>List&lt;Person&gt;</strong>, the same call would look like this:</p><pre class="code-block language-csharp"><code><span class="kw">internal</span> <span class="kw">static</span> <span class="kw">readonly</span> DependencyPropertyKey FriendsPropertyKey =
+    DependencyProperty.RegisterReadOnly(<span class="str">"Friends"</span>, <span class="kw">typeof</span>(List&lt;Person&gt;), <span class="kw">typeof</span>(Person),
+      <span class="kw">new</span> PropertyMetadata(<span class="kw">new</span> List&lt;Person&gt;()));      <span class="com">// Metadata constructor instantiates a new List</span></code></pre><div class="clear"></div>
                     
                     <!--
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
