@@ -60,7 +60,7 @@ After regenerating pages, inline images on a best-effort basis:
 python inline_images.py --proxy socks5://127.0.0.1:8123 --site site --cache cache/images --manifest cache/images/manifest.json
 ```
 
-Use `--retry-failed` only when you explicitly want to spend extra time retrying URLs already known to fail. The script intentionally keeps failed images as their original Wayback links instead of embedding broken HTML/error responses.
+Known failed image URLs are recorded in `cache/images/manifest.json` with `ok: false`, `status: "failed"`, and a `skip_reason`. Normal runs do not retry those URLs and report them separately as skipped known failures. Use `--retry-failed` only when you explicitly want to spend extra time retrying URLs already known to fail. The script intentionally keeps failed images as their original Wayback links instead of embedding broken HTML/error responses.
 
 Then normalize archived code blocks and add local syntax highlighting:
 

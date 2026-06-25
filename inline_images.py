@@ -77,13 +77,16 @@ def cache_name(url: str, mime: str) -> str:
     return digest + ext
 
 
-def load_manifest(path: Path) -> dict[str, dict[str, str | int | bool]]:
+Manifest = dict[str, dict[str, str | int | bool | list[str]]]
+
+
+def load_manifest(path: Path) -> Manifest:
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def save_manifest(path: Path, manifest: dict[str, dict[str, str | int | bool]]) -> None:
+def save_manifest(path: Path, manifest: Manifest) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
 
@@ -114,10 +117,28 @@ def image_candidates(url: str) -> list[str]:
     return unique
 
 
+def mark_failed(
+    manifest: dict[str, dict[str, str | int | bool | list[str]]],
+    original_url: str,
+    error: str,
+    candidates: list[str],
+    **extra: str | int | bool,
+) -> None:
+    manifest[original_url] = {
+        "ok": False,
+        "status": "failed",
+        "skip_reason": "previous fetch failed; use --retry-failed to try again",
+        "last_attempted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "error": error[:1000],
+        "candidates": candidates,
+        **extra,
+    }
+
+
 def fetch_image(
     url: str,
     cache_dir: Path,
-    manifest: dict[str, dict[str, str | int | bool]],
+    manifest: dict[str, dict[str, str | int | bool | list[str]]],
     proxy: str,
     delay: float,
     retry_failed: bool,
@@ -125,7 +146,7 @@ def fetch_image(
     connect_timeout: int,
     retries: int,
     retry_delay: int,
-) -> str | None:
+) -> tuple[str | None, str]:
     original_url = html.unescape(url)
     item = manifest.get(original_url)
     if item and item.get("ok") and item.get("file"):
@@ -134,12 +155,15 @@ def fetch_image(
             data = image_path.read_bytes()
             mime = detect_image_mime(data)
             if mime:
-                return "data:" + mime + ";base64," + base64.b64encode(data).decode("ascii")
+                return "data:" + mime + ";base64," + base64.b64encode(data).decode("ascii"), "inlined"
             item["ok"] = False
+            item["status"] = "failed"
             item["error"] = "cached file is not a recognized image"
 
     if item and item.get("ok") is False and not retry_failed:
-        return None
+        item.setdefault("status", "failed")
+        item.setdefault("skip_reason", "previous fetch failed; use --retry-failed to try again")
+        return None, "skipped"
 
     errors = []
     data = None
@@ -159,40 +183,39 @@ def fetch_image(
         except subprocess.CalledProcessError as exc:
             errors.append(candidate + " -> " + exc.output.decode("utf-8", errors="replace")[:220])
     if data is None:
-        manifest[original_url] = {
-            "ok": False,
-            "error": " | ".join(errors)[:1000],
-            "candidates": image_candidates(original_url),
-        }
-        return None
+        mark_failed(manifest, original_url, " | ".join(errors), image_candidates(original_url))
+        return None, "failed"
 
     mime = detect_image_mime(data)
     if not mime:
-        manifest[original_url] = {
-            "ok": False,
-            "error": "not a recognized image",
-            "bytes": len(data),
-            "fetched_url": fetched_url,
-        }
-        return None
+        mark_failed(
+            manifest,
+            original_url,
+            "not a recognized image",
+            image_candidates(original_url),
+            bytes=len(data),
+            fetched_url=fetched_url,
+        )
+        return None, "failed"
 
     name = cache_name(fetched_url, mime)
     cache_dir.mkdir(parents=True, exist_ok=True)
     (cache_dir / name).write_bytes(data)
     manifest[original_url] = {
         "ok": True,
+        "status": "ok",
         "file": name,
         "mime": mime,
         "bytes": len(data),
         "fetched_url": fetched_url,
     }
-    return "data:" + mime + ";base64," + base64.b64encode(data).decode("ascii")
+    return "data:" + mime + ";base64," + base64.b64encode(data).decode("ascii"), "inlined"
 
 
 def inline_file(
     path: Path,
     cache_dir: Path,
-    manifest: dict[str, dict[str, str | int | bool]],
+    manifest: dict[str, dict[str, str | int | bool | list[str]]],
     proxy: str,
     delay: float,
     retry_failed: bool,
@@ -200,17 +223,22 @@ def inline_file(
     connect_timeout: int,
     retries: int,
     retry_delay: int,
-) -> tuple[int, int]:
+) -> tuple[int, int, int]:
     text = path.read_text(encoding="utf-8")
     changed = 0
     failed = 0
+    skipped = 0
 
     def replace(match: re.Match[str]) -> str:
         nonlocal changed, failed
+        nonlocal skipped
         prefix, quote_char, url, end_quote = match.group(1), match.group(2), match.group(3), match.group(4)
-        data_url = fetch_image(url, cache_dir, manifest, proxy, delay, retry_failed, timeout, connect_timeout, retries, retry_delay)
+        data_url, status = fetch_image(url, cache_dir, manifest, proxy, delay, retry_failed, timeout, connect_timeout, retries, retry_delay)
         if data_url is None:
-            failed += 1
+            if status == "skipped":
+                skipped += 1
+            else:
+                failed += 1
             return match.group(0)
         changed += 1
         return prefix + quote_char + data_url + end_quote
@@ -218,7 +246,7 @@ def inline_file(
     new_text = IMG_SRC_RE.sub(replace, text)
     if changed:
         path.write_text(new_text, encoding="utf-8")
-    return changed, failed
+    return changed, failed, skipped
 
 
 def main() -> int:
@@ -241,10 +269,11 @@ def main() -> int:
     manifest = load_manifest(manifest_path)
     total_changed = 0
     total_failed = 0
+    total_skipped = 0
     files_changed = 0
     html_files = sorted(site_dir.rglob("*.html"))
     for index, path in enumerate(html_files, 1):
-        changed, failed = inline_file(
+        changed, failed, skipped = inline_file(
             path,
             cache_dir,
             manifest,
@@ -260,14 +289,20 @@ def main() -> int:
             files_changed += 1
         total_changed += changed
         total_failed += failed
+        total_skipped += skipped
         if index % 100 == 0:
             save_manifest(manifest_path, manifest)
-            print(f"Processed {index}/{len(html_files)} files; inlined {total_changed}, failed {total_failed}", flush=True)
+            print(
+                f"Processed {index}/{len(html_files)} files; "
+                f"inlined {total_changed}, failed {total_failed}, skipped known failures {total_skipped}",
+                flush=True,
+            )
 
     save_manifest(manifest_path, manifest)
     print(f"Files changed: {files_changed}")
     print(f"Images inlined: {total_changed}")
     print(f"Images failed: {total_failed}")
+    print(f"Known failed images skipped: {total_skipped}")
     return 0 if total_failed == 0 else 1
 
 
