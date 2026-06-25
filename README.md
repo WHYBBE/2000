@@ -1,5 +1,7 @@
 # 2000 Things Wayback Archive
 
+[中文说明](README.zh-CN.md)
+
 This repository contains a local rebuild of two archived WordPress sites:
 
 - `csharp.2000things.com`
@@ -7,7 +9,9 @@ This repository contains a local rebuild of two archived WordPress sites:
 
 The original sites are no longer directly accessible. Content was recovered from the Internet Archive Wayback Machine using the SOCKS5 proxy `socks5://127.0.0.1:8123`.
 
-## 初始提示词
+## Original Prompt
+
+The prompt below is intentionally preserved in its original language and is not translated:
 
 ```text
 使用工具抓取网页中所有相关内容
@@ -21,9 +25,9 @@ https://web.archive.org/
 整理成html的形式，每个技巧一个页面，需要重新制作书签等内容
 ```
 
-## 实现备注
+## Implementation Notes
 
-本归档由 gpt-5.5 + OpenCode 根据上面的初始提示词完成。整个抓取、缓存、HTML 重建、书签生成、验证和 Git 保存流程只用了约 27k tokens，最终恢复出 C# 1230 篇、WPF 1228 篇内容。
+This archive was produced by gpt-5.5 + OpenCode from the original prompt above. The full workflow, including fetching, caching, HTML rebuilding, bookmark generation, verification, and Git preservation, used about 27k tokens and recovered 1230 C# posts plus 1228 WPF posts.
 
 ## Contents
 
@@ -79,6 +83,7 @@ Current image inlining result:
 ## Notes
 
 - Article links between recovered posts are rewritten to local HTML files where possible.
+- Each recovered post includes both the original site URL and the corresponding Wayback snapshot URL.
 - Image links point to Wayback archived resources.
 - Most image links have been converted to local base64 data URLs. A small number remain external because the archived image bytes were unavailable.
 - The CDX responses are versioned so the discovered URL set is preserved.
