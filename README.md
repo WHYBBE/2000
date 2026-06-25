@@ -2,6 +2,10 @@
 
 [中文说明](README.zh-CN.md)
 
+## Copyright Notice
+
+I only claim copyright over the scripts and original tooling code in this repository. The original `2,000 Things You Should Know About C#` and `2,000 Things You Should Know About WPF` content is credited in the archived pages to Sean Sexton. I do not own, and do not claim copyright over, the original website content, the archived content provided by the Internet Archive Wayback Machine, or the rebuilt/beautified HTML output derived from that content. Those materials remain subject to their original author, original rights holders, and applicable Internet Archive terms.
+
 This repository contains a local rebuild of two archived WordPress sites:
 
 - `csharp.2000things.com`

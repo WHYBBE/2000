@@ -2,6 +2,10 @@
 
 [English README](README.md)
 
+## 版权说明
+
+我只拥有本仓库中脚本和原创工具代码的版权。归档页面显示，原始 `2,000 Things You Should Know About C#` 和 `2,000 Things You Should Know About WPF` 内容作者为 Sean Sexton。我不拥有、也不主张拥有原始网站内容、Internet Archive Wayback Machine 提供的归档内容，以及基于这些内容重新生成或美化后的 HTML 输出内容的版权。这些内容仍归其原作者、原始权利人所有，并受相关 Internet Archive 条款约束。
+
 本仓库包含两个已归档 WordPress 站点的本地重建版本：
 
 - `csharp.2000things.com`
